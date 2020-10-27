@@ -65,5 +65,83 @@
         </li>
         @endrole
 
+        @role ('developer|administrator|internal')
+        <li class="sidenav-item">
+          <a href="javascript:void(0)" class="sidenav-link sidenav-toggle"><i class="sidenav-icon las la-database"></i>
+            <div>Data Master</div>
+          </a>
+
+          <ul class="sidenav-menu">
+            <li class="sidenav-item">
+              <a href="" class="sidenav-link">
+                <div>Tag</div>
+              </a>
+            </li>
+            <li class="sidenav-item">
+                <a href="" class="sidenav-link">
+                  <div>Komentar</div>
+                </a>
+            </li>
+            <li class="sidenav-item">
+                <a href="" class="sidenav-link">
+                  <div>Lisensi</div>
+                </a>
+            </li>
+            <li class="sidenav-item">
+                <a href="" class="sidenav-link">
+                  <div>Private File</div>
+                </a>
+            </li>
+          </ul>
+        </li>
+        @endrole
+
+        @role ('developer|administrator|internal')
+        <li class="sidenav-item">
+          <a href="javascript:void(0)" class="sidenav-link sidenav-toggle"><i class="sidenav-icon las la-book-open"></i>
+            <div>Manage Courses</div>
+          </a>
+
+          <ul class="sidenav-menu">
+            <li class="sidenav-item">
+              <a href="" class="sidenav-link">
+                <div>Program Kegiatan</div>
+              </a>
+            </li>
+            <li class="sidenav-item">
+                <a href="" class="sidenav-link">
+                  <div>Kalender Diklat</div>
+                </a>
+            </li>
+            <li class="sidenav-item">
+                <a href="" class="sidenav-link">
+                  <div>Evaluasi</div>
+                </a>
+            </li>
+          </ul>
+        </li>
+        @endrole
+
+        @role ('developer|administrator|internal')
+        <li class="sidenav-divider mb-1"></li>
+        <li class="sidenav-header small font-weight-semibold">WEBSITE</li>
+
+        <li class="sidenav-item">
+            <a href="" class="sidenav-link"><i class="sidenav-icon las la-newspaper"></i>
+              <div>Artikel</div>
+            </a>
+        </li>
+        <li class="sidenav-item">
+            <a href="" class="sidenav-link"><i class="sidenav-icon las la-icons"></i>
+              <div>Widget</div>
+            </a>
+        </li>
+        <li class="sidenav-item">
+            <a href="" class="sidenav-link"><i class="sidenav-icon las la-envelope"></i>
+              <div>Inquiry</div>
+            </a>
+        </li>
+        @endrole
+
     </ul>
 </div>
