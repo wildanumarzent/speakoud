@@ -54,7 +54,7 @@ class LoginController extends Controller
             $remember = $request->has('remember') ? true : false;
             if (auth()->attempt($request->forms(), $remember)) {
 
-                if (auth()->user()->hasRole('super|admin')) {
+                if (auth()->user()->hasRole('super|administrator|internal|mitra')) {
                     $redirect = redirect()->route('dashboard');
                 } else {
                     $redirect = redirect()->route('home');

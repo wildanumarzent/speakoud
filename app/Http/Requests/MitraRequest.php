@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserRequest extends FormRequest
+class MitraRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,6 +25,11 @@ class UserRequest extends FormRequest
     {
         if ($this->method() == 'POST') {
             return [
+                'nip' => 'required',
+                'unit_kerja' => 'required',
+                'kedeputian' => 'required',
+                // 'pangkat' => 'required',
+                // 'alamat' => 'required',
                 'name' => 'required',
                 'email' => 'required|email|unique:users,email',
                 'username' => 'required|min:5|unique:users,username',
@@ -33,12 +38,16 @@ class UserRequest extends FormRequest
             ];
         } else {
             return [
+                'nip' => 'required',
+                'unit_kerja' => 'required',
+                'kedeputian' => 'required',
+                // 'pangkat' => 'required',
+                // 'alamat' => 'required',
                 'name' => 'required',
                 'email' => 'required|email|unique:users,email,'.
-                            $this->id,
+                            $this->user_id,
                 'username' => 'required|min:5|unique:users,username,'.
-                            $this->id,
-                'roles' => 'required',
+                            $this->user_id,
                 'password' => 'nullable|confirmed|min:8',
             ];
         }
@@ -48,6 +57,11 @@ class UserRequest extends FormRequest
     public function attributes()
     {
         return [
+            'nip' => 'NIP',
+            'unit_kerja' => 'Unit Kerja',
+            'kedeputian' => 'Kedeputian',
+            'pangkat' => 'Pangkat',
+            'alamat' => 'Alamat',
             'name' => 'Nama',
             'email' => 'Email',
             'username' => 'Username',
@@ -59,6 +73,11 @@ class UserRequest extends FormRequest
     public function messages()
     {
         return [
+            'nip.required' => ':attribute tidak boleh kosong',
+            'unit_kerja.required' => ':attribute tidak boleh kosong',
+            'kedeputian.required' => ':attribute tidak boleh kosong',
+            'pangkat.required' => ':attribute tidak boleh kosong',
+            'alamat.required' => ':attribute tidak boleh kosong',
             'name.required' => ':attribute tidak boleh kosong',
             'email.required' => ':attribute tidak boleh kosong',
             'email.email' => ':attribute harus valid',

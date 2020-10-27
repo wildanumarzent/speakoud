@@ -64,6 +64,86 @@ Route::group(['middleware' => ['auth']], function () {
         ->name('user.destroy')
         ->middleware('role:developer|administrator');
 
+    //internal
+    Route::get('/internal', 'Users\InternalController@index')
+        ->name('internal.index')
+        ->middleware('role:developer|administrator');
+    Route::get('/internal/create', 'Users\InternalController@create')
+        ->name('internal.create')
+        ->middleware('role:developer|administrator');
+    Route::post('/internal', 'Users\InternalController@store')
+        ->name('internal.store')
+        ->middleware('role:developer|administrator');
+    Route::get('/internal/{id}/edit', 'Users\InternalController@edit')
+        ->name('internal.edit')
+        ->middleware('role:developer|administrator');
+    Route::put('/internal/{id}', 'Users\InternalController@update')
+        ->name('internal.update')
+        ->middleware('role:developer|administrator');
+    Route::delete('/internal/{id}', 'Users\InternalController@destroy')
+        ->name('internal.destroy')
+        ->middleware('role:developer|administrator');
+
+    //mitra
+    Route::get('/mitra', 'Users\MitraController@index')
+        ->name('mitra.index')
+        ->middleware('role:developer|administrator|internal');
+    Route::get('/mitra/create', 'Users\MitraController@create')
+        ->name('mitra.create')
+        ->middleware('role:developer|administrator|internal');
+    Route::post('/mitra', 'Users\MitraController@store')
+        ->name('mitra.store')
+        ->middleware('role:developer|administrator|internal');
+    Route::get('/mitra/{id}/edit', 'Users\MitraController@edit')
+        ->name('mitra.edit')
+        ->middleware('role:developer|administrator|internal');
+    Route::put('/mitra/{id}', 'Users\MitraController@update')
+        ->name('mitra.update')
+        ->middleware('role:developer|administrator|internal');
+    Route::delete('/mitra/{id}', 'Users\MitraController@destroy')
+        ->name('mitra.destroy')
+        ->middleware('role:developer|administrator');
+
+    //instruktur
+    Route::get('/instruktur', 'Users\InstrukturController@index')
+        ->name('instruktur.index')
+        ->middleware('role:developer|administrator|internal|mitra');
+    Route::get('/instruktur/create', 'Users\InstrukturController@create')
+        ->name('instruktur.create')
+        ->middleware('role:developer|administrator|internal|mitra');
+    Route::post('/instruktur', 'Users\InstrukturController@store')
+        ->name('instruktur.store')
+        ->middleware('role:developer|administrator|internal|mitra');
+    Route::get('/instruktur/{id}/edit', 'Users\InstrukturController@edit')
+        ->name('instruktur.edit')
+        ->middleware('role:developer|administrator|internal|mitra');
+    Route::put('/instruktur/{id}', 'Users\InstrukturController@update')
+        ->name('instruktur.update')
+        ->middleware('role:developer|administrator|internal|mitra');
+    Route::delete('/instruktur/{id}', 'Users\InstrukturController@destroy')
+        ->name('instruktur.destroy')
+        ->middleware('role:developer|administrator');
+
+    //peserta
+    Route::get('/peserta', 'Users\PesertaController@index')
+        ->name('peserta.index')
+        ->middleware('role:developer|administrator|internal|mitra');
+    Route::get('/peserta/create', 'Users\PesertaController@create')
+        ->name('peserta.create')
+        ->middleware('role:developer|administrator|internal|mitra');
+    Route::post('/peserta', 'Users\PesertaController@store')
+        ->name('peserta.store')
+        ->middleware('role:developer|administrator|internal|mitra');
+    Route::get('/peserta/{id}/edit', 'Users\PesertaController@edit')
+        ->name('peserta.edit')
+        ->middleware('role:developer|administrator|internal|mitra');
+    Route::put('/peserta/{id}', 'Users\PesertaController@update')
+        ->name('peserta.update')
+        ->middleware('role:developer|administrator|internal|mitra');
+    Route::delete('/peserta/{id}', 'Users\PesertaController@destroy')
+        ->name('peserta.destroy')
+        ->middleware('role:developer|administrator');
+
     //logout
     Route::post('/logout', 'Auth\LoginController@logout')
         ->name('logout');

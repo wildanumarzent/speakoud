@@ -49,9 +49,34 @@ class User extends Authenticatable
         return $this->morphTo();
     }
 
+    public function scopeActive($query)
+    {
+        return $query->where('active', 1);
+    }
+
     public function information()
     {
         return $this->hasOne(UserInformation::class, 'user_id');
+    }
+
+    public function internal()
+    {
+        return $this->hasOne(Internal::class, 'user_id');
+    }
+
+    public function mitra()
+    {
+        return $this->hasOne(Mitra::class, 'user_id');
+    }
+
+    public function instruktur()
+    {
+        return $this->hasOne(Instruktur::class, 'user_id');
+    }
+
+    public function peserta()
+    {
+        return $this->hasOne(Peserta::class, 'user_id');
     }
 
     public function getPhoto($value)

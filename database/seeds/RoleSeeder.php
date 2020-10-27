@@ -15,12 +15,12 @@ class RoleSeeder extends Seeder
         $roles = [
             'developer',
             'administrator',
-            'admin_web',
+            'internal',
             'mitra',
-            'guru_internal',
-            'guru_mitra',
-            'murid_internal',
-            'murid_mitra'
+            'instruktur_internal',
+            'instruktur_mitra',
+            'peserta_internal',
+            'peserta_mitra'
         ];
 
         foreach ($roles as $key) {

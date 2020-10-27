@@ -66,10 +66,10 @@ class UserController extends Controller
             ->roles[0]->id);
 
         return view('backend.user_management.users.form', compact('data'), [
-            'title' => 'User - Create',
+            'title' => 'User - Tambah',
             'breadcrumbsBackend' => [
                 'Users' => route('user.index'),
-                'Create' => ''
+                'Tambah' => ''
             ],
         ]);
     }
@@ -92,7 +92,7 @@ class UserController extends Controller
             'title' => 'User - Edit',
             'breadcrumbsBackend' => [
                 'Users' => route('user.index'),
-                'Create' => ''
+                'Edit' => ''
             ],
         ]);
     }

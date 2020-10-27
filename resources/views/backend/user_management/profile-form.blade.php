@@ -81,7 +81,7 @@
                                 </div>
                             </div>
                             <div class="form-group ml-2">
-                                <span class="btn btn-warning"  id="generate"><i class="las la-qrcode"></i> Generate password</span>
+                                <span class="btn btn-warning"  id="generate"><i class="las la-recycle"></i> Generate password</span>
                             </div>
                         </div>
                         <div class="form-group">

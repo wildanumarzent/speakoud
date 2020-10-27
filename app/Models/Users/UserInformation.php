@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class UserInformation extends Model
 {
     protected $table = 'users_information';
-    protected $fillable = ['user_id', 'general', 'additional_name', 'optional'];
+    protected $guarded = [];
 
     protected $casts = [
         'general' => 'array',

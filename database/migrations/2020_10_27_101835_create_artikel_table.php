@@ -30,10 +30,10 @@ class CreateArtikelTable extends Migration
             $table->timestamps();
 
             $table->foreign('created_by')->references('id')->on('users')
-                ->onDelete('cascade')->onUpdate('no action');
+                ->cascadeOnDelete();
 
             $table->foreign('updated_by')->references('id')->on('users')
-                ->onDelete('cascade')->onUpdate('no action');
+                ->cascadeOnDelete();
         });
     }
 

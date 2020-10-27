@@ -17,7 +17,7 @@
                         <option value=" " selected>Semua</option>
                         @foreach ($data['roles'] as $role)
                         <option value="{{ $role->id }}" {{ $role->id == Request::get('r') ? 'selected' : '' }}>
-                            {{ ucfirst($role->name) }}
+                            {{ ucfirst(str_replace('_', ' ', $role->name)) }}
                         </option>
                         @endforeach
                     </select>
@@ -96,9 +96,16 @@
                     <td>{{ $data['number']++ }}</td>
                     <td>{{ $item->name }}</td>
                     <td>{{ $item->username }}</td>
-                    <td>{{ $item->email }}</td>
                     <td>
-                        <span class="badge badge-outline-primary">{{ strtoupper($item->roles[0]->name) }}</span>
+                        <a href="mailto:{{ $item->email }}">{{ $item->email }}</a>
+                        @if ($item->email_verified == 1)
+                        <i class="las la-check-circle text-success" title="sudah di verifikasi"></i>
+                        @else
+                        <i class="las la-times-circle text-danger" title="belum di verifikasi"></i>
+                        @endif
+                    </td>
+                    <td>
+                        <span class="badge badge-outline-primary">{{ strtoupper(str_replace('_', ' ', $item->roles[0]->name)) }}</span>
                     </td>
                     <td class="text-center">
                         @if ($item->id == auth()->user()->id || $item->roles[0]->id <=  auth()->user()->roles[0]->id)

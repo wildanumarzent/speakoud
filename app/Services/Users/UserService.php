@@ -189,12 +189,17 @@ class UserService
     public function deleteUser(int $id)
     {
         $user = $this->findUser($id);
+
         if ($user->information()->count() > 0) {
             $user->information()->delete();
         }
         if (!empty($user->photo['file'])) {
             $this->deletePhotoFromPath($user->photo['file']);
         }
+        if ($user->hasRole('admin_web')) {
+            $user->internal->delete();
+        }
+
         $user->delete();
 
         return $user;

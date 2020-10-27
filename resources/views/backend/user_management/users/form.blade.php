@@ -94,7 +94,7 @@
             <input type="password" id="password-field" class="form-control gen-field @error('password') is-invalid @enderror" name="password" value="{{ old('password') }}" placeholder="masukan password...">
             <div class="input-group-append">
               <span toggle="#password-field" class="input-group-text toggle-password fas fa-eye"></span>
-              <span class="btn btn-outline-warning ml-2" id="generate">Generate</span>
+              <span class="btn btn-warning ml-2" id="generate"><i class="las la-recycle"></i> Generate Password</span>
             </div>
             @include('components.field-error', ['field' => 'password'])
             </div>

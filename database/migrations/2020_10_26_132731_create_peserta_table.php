@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateGuruTable extends Migration
+class CreatePesertaTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateGuruTable extends Migration
      */
     public function up()
     {
-        Schema::create('guru', function (Blueprint $table) {
+        Schema::create('peserta', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('creator_id');
+            $table->unsignedBigInteger('creator_id')->nullable();
+            $table->unsignedBigInteger('mitra_id')->nullable();
             $table->string('nip')->nullable();
             $table->string('unit_kerja')->nullable();
             $table->string('kedeputian')->nullable();
@@ -26,12 +27,15 @@ class CreateGuruTable extends Migration
             $table->text('sk_pengangkatan')->nullable();
             $table->text('sk_golongan')->nullable();
             $table->text('sk_jabatan')->nullable();
+            $table->text('surat_ijin_atasan')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')
                 ->cascadeOnDelete();
             $table->foreign('creator_id')->references('id')->on('users')
                 ->cascadeOnDelete();
+            $table->foreign('mitra_id')->references('id')->on('mitra')
+                ->onDelete('SET NULL');
         });
     }
 
@@ -42,6 +46,6 @@ class CreateGuruTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('guru');
+        Schema::dropIfExists('peserta');
     }
 }
