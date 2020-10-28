@@ -22,74 +22,79 @@
 
         <li class="sidenav-divider mb-1"></li>
         <li class="sidenav-header small font-weight-semibold">MODULE</li>
+
         @role ('developer|administrator|internal|mitra')
-        <!-- Data Master -->
-        <li class="sidenav-item{{ (Request::is('user*') || Request::is('internal*') || Request::is('mitra*') || Request::is('instruktur*') || Request::is('peserta*')) ? ' active open' : '' }}">
-          <a href="javascript:void(0)" class="sidenav-link sidenav-toggle"><i class="sidenav-icon las la-users"></i>
-            <div>User Management</div>
+        <li class="sidenav-item{{ (Request::is('user*') || Request::is('internal*') || Request::is('mitra*') ||
+            Request::is('instruktur*') || Request::is('peserta*')) ? ' active open' : '' }}">
+          <a href="javascript:void(0)" class="sidenav-link sidenav-toggle"><i class="sidenav-icon las la-database"></i>
+            <div>Data Master</div>
           </a>
 
-          <ul class="sidenav-menu">
-            @role ('developer|administrator')
-            <li class="sidenav-item{{ Request::is('user*') ? ' active' : '' }}">
-              <a href="{{ route('user.index') }}" class="sidenav-link">
-                <div>Users</div>
-              </a>
-            </li>
-            <li class="sidenav-item{{ Request::is('internal*') ? ' active' : '' }}">
-                <a href="{{ route('internal.index') }}" class="sidenav-link">
-                    <div>User BPPT</div>
-                </a>
-            </li>
-            @endrole
-            @role ('developer|administrator|internal')
-            <li class="sidenav-item{{ Request::is('mitra*') ? ' active' : '' }}">
-                <a href="{{ route('mitra.index') }}" class="sidenav-link">
-                  <div>Mitra</div>
-                </a>
-            </li>
-            @endrole
-            @role ('developer|administrator|internal|mitra')
-            <li class="sidenav-item{{ Request::is('instruktur*') ? ' active' : '' }}">
-                <a href="{{ route('instruktur.index') }}" class="sidenav-link">
-                  <div>Instruktur</div>
-                </a>
-            </li>
-            <li class="sidenav-item{{ Request::is('peserta*') ? ' active' : '' }}">
-                <a href="{{ route('peserta.index') }}" class="sidenav-link">
-                  <div>Peserta</div>
-                </a>
-            </li>
-            @endrole
-          </ul>
+            <ul class="sidenav-menu">
+                <li class="sidenav-item{{ (Request::is('user*') || Request::is('internal*') || Request::is('mitra*') ||
+                    Request::is('instruktur*') || Request::is('peserta*')) ? ' active open' : '' }}">
+                  <a href="javascript:void(0)" class="sidenav-link sidenav-toggle">
+                    <div>User Management</div>
+                  </a>
+
+                  <ul class="sidenav-menu">
+                    @role ('developer|administrator')
+                    <li class="sidenav-item{{ Request::is('user*') ? ' active' : '' }}">
+                    <a href="{{ route('user.index') }}" class="sidenav-link">
+                        <div>Users</div>
+                    </a>
+                    </li>
+                    <li class="sidenav-item{{ Request::is('internal*') ? ' active' : '' }}">
+                        <a href="{{ route('internal.index') }}" class="sidenav-link">
+                            <div>User BPPT</div>
+                        </a>
+                    </li>
+                    @endrole
+                    @role ('developer|administrator|internal')
+                    <li class="sidenav-item{{ Request::is('mitra*') ? ' active' : '' }}">
+                        <a href="{{ route('mitra.index') }}" class="sidenav-link">
+                        <div>Mitra</div>
+                        </a>
+                    </li>
+                    @endrole
+                    @role ('developer|administrator|internal|mitra')
+                    <li class="sidenav-item{{ Request::is('instruktur*') ? ' active' : '' }}">
+                        <a href="{{ route('instruktur.index') }}" class="sidenav-link">
+                        <div>Instruktur</div>
+                        </a>
+                    </li>
+                    <li class="sidenav-item{{ Request::is('peserta*') ? ' active' : '' }}">
+                        <a href="{{ route('peserta.index') }}" class="sidenav-link">
+                        <div>Peserta</div>
+                        </a>
+                    </li>
+                    @endrole
+                  </ul>
+                  <li class="sidenav-item">
+                    <a href="" class="sidenav-link">
+                      <div>Grades</div>
+                    </a>
+                  </li>
+                </li>
+            </ul>
         </li>
         @endrole
 
-        @role ('developer|administrator|internal')
+        @role ('developer|administrator|internal|mitra')
         <li class="sidenav-item">
-          <a href="javascript:void(0)" class="sidenav-link sidenav-toggle"><i class="sidenav-icon las la-database"></i>
-            <div>Data Master</div>
+          <a href="javascript:void(0)" class="sidenav-link sidenav-toggle"><i class="sidenav-icon las la-server"></i>
+            <div>Bank Data</div>
           </a>
 
           <ul class="sidenav-menu">
             <li class="sidenav-item">
               <a href="" class="sidenav-link">
-                <div>Tag</div>
+                <div>Global</div>
               </a>
             </li>
             <li class="sidenav-item">
                 <a href="" class="sidenav-link">
-                  <div>Komentar</div>
-                </a>
-            </li>
-            <li class="sidenav-item">
-                <a href="" class="sidenav-link">
-                  <div>Lisensi</div>
-                </a>
-            </li>
-            <li class="sidenav-item">
-                <a href="" class="sidenav-link">
-                  <div>Private File</div>
+                  <div>Personal</div>
                 </a>
             </li>
           </ul>
@@ -123,6 +128,17 @@
         @endrole
 
         @role ('developer|administrator|internal')
+        <li class="sidenav-item">
+            <a href="" class="sidenav-link"><i class="sidenav-icon las la-tags"></i>
+              <div>Tags</div>
+            </a>
+        </li>
+        <li class="sidenav-item">
+            <a href="" class="sidenav-link"><i class="sidenav-icon las la-comment"></i>
+              <div>Komentar</div>
+            </a>
+        </li>
+
         <li class="sidenav-divider mb-1"></li>
         <li class="sidenav-header small font-weight-semibold">WEBSITE</li>
 
