@@ -33,7 +33,7 @@
         </div>
 
         <div class="navbar-nav align-items-lg-center ml-lg-auto">
-          <div class="demo-navbar-notifications nav-item dropdown mr-lg-3">
+          {{-- <div class="demo-navbar-notifications nav-item dropdown mr-lg-3">
             <a class="nav-link dropdown-toggle hide-arrow" href="#" data-toggle="dropdown">
               <i class="ion ion-md-notifications-outline navbar-icon align-middle"></i>
               <span class="badge badge-primary badge-dot indicator"></span>
@@ -87,7 +87,7 @@
           </div>
 
           <!-- Divider -->
-          <div class="nav-item d-none d-lg-block text-big font-weight-light line-height-1 opacity-25 mr-3 ml-1">|</div>
+          <div class="nav-item d-none d-lg-block text-big font-weight-light line-height-1 opacity-25 mr-3 ml-1">|</div> --}}
 
           <div class="demo-navbar-user nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">

@@ -28,9 +28,10 @@ class InternalController extends Controller
         $data['internal']->withPath(url()->current().$q);
 
         return view('backend.user_management.internal.index', compact('data'), [
-            'title' => 'User Internal',
+            'title' => 'User BPPT',
             'breadcrumbsBackend' => [
-                'User Internal' => '',
+                'User' => route('user.index'),
+                'BPPT' => ''
             ],
         ]);
     }
@@ -38,10 +39,11 @@ class InternalController extends Controller
     public function create()
     {
         return view('backend.user_management.internal.form', [
-            'title' => 'User Internal - Tambah',
+            'title' => 'User BPPT - Tambah',
             'breadcrumbsBackend' => [
-                'User Internal' => route('internal.index'),
-                'Tambah' => ''
+                'User' => route('user.index'),
+                'BPPT' => route('internal.index'),
+                'Tambah'
             ],
         ]);
     }
@@ -59,10 +61,11 @@ class InternalController extends Controller
         $data['internal'] = $this->service->findInternal($id);
 
         return view('backend.user_management.internal.form', compact('data'), [
-            'title' => 'User Internal - Edit',
+            'title' => 'User BPPT - Edit',
             'breadcrumbsBackend' => [
-                'User Internal' => route('internal.index'),
-                'Edit' => ''
+                'User' => route('user.index'),
+                'BPPT' => route('internal.index'),
+                'Edit'
             ],
         ]);
     }

@@ -41,6 +41,8 @@ Route::group(['middleware' => ['auth']], function () {
         ->name('profile.edit');
     Route::put('/profile/edit', 'users\UserController@updateProfile');
 
+    /**data master */
+    //--- user management
     //users
     Route::get('/user', 'Users\UserController@index')
         ->name('user.index')
@@ -144,8 +146,37 @@ Route::group(['middleware' => ['auth']], function () {
         ->name('peserta.destroy')
         ->middleware('role:developer|administrator');
 
+    /**bank data */
+    Route::get('/bank/data/{type}', 'BankDataController@index')
+        ->name('bank.data')
+        ->middleware('role:developer|administrator|internal|mitra');
+
+    //directory
+    Route::post('/directory', 'BankDataController@storeDirectory')
+        ->name('bank.data.directory.store')
+        ->middleware('role:developer|administrator|internal|mitra');
+    Route::delete('/directory', 'BankDataController@destroyDirectory')
+        ->name('bank.data.directory.destroy')
+        ->middleware('role:developer|administrator|internal|mitra');
+
+    //file
+    Route::post('/files', 'BankDataController@storeFile')
+        ->name('bank.data.files.store')
+        ->middleware('role:developer|administrator|internal|mitra');
+    Route::put('/files/{id}', 'BankDataController@updateFile')
+        ->name('bank.data.files.update')
+        ->middleware('role:developer|administrator|internal|mitra');
+    Route::delete('/files/{id}', 'BankDataController@destroyFile')
+        ->name('bank.data.files.destroy')
+        ->middleware('role:developer|administrator|internal|mitra');
+
     //logout
     Route::post('/logout', 'Auth\LoginController@logout')
         ->name('logout');
-
 });
+
+
+//stream file
+Route::get('/bank/data/view/{path}', 'BankDataController@streamFile')
+        ->where('path', '^.*\.(jpg|JPG|jpeg|JPEG|png|PNG|pdf|PDF|ppt|PPT|pptx|PPTX|mp3|MP3|mp4|MP4|webm|WEBM|doc|DOC|docx|DOCX|xls|XLS|xlsx|XLSX)$')
+        ->name('bank.data.stream');

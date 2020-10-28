@@ -1,3 +1,9 @@
+@php
+    $masterOpen = (Request::is('user*') || Request::is('internal*') || Request::is('mitra*') ||
+                    Request::is('instruktur*') || Request::is('peserta*'));
+    $userOpen = (Request::is('user*') || Request::is('internal*') || Request::is('mitra*') ||
+                    Request::is('instruktur*') || Request::is('peserta*'));
+@endphp
 <div id="layout-sidenav" class="{{ isset($layout_sidenav_horizontal) ? 'layout-sidenav-horizontal sidenav-horizontal container-p-x flex-grow-0' : 'layout-sidenav sidenav-vertical' }} sidenav bg-sidenav-theme">
 
     <!-- Brand demo (see assets/css/demo/demo.css) -->
@@ -24,15 +30,13 @@
         <li class="sidenav-header small font-weight-semibold">MODULE</li>
 
         @role ('developer|administrator|internal|mitra')
-        <li class="sidenav-item{{ (Request::is('user*') || Request::is('internal*') || Request::is('mitra*') ||
-            Request::is('instruktur*') || Request::is('peserta*')) ? ' active open' : '' }}">
+        <li class="sidenav-item{{ $masterOpen ? ' active open' : '' }}">
           <a href="javascript:void(0)" class="sidenav-link sidenav-toggle"><i class="sidenav-icon las la-database"></i>
             <div>Data Master</div>
           </a>
 
             <ul class="sidenav-menu">
-                <li class="sidenav-item{{ (Request::is('user*') || Request::is('internal*') || Request::is('mitra*') ||
-                    Request::is('instruktur*') || Request::is('peserta*')) ? ' active open' : '' }}">
+                <li class="sidenav-item{{ $userOpen ? ' active open' : '' }}">
                   <a href="javascript:void(0)" class="sidenav-link sidenav-toggle">
                     <div>User Management</div>
                   </a>
@@ -72,7 +76,7 @@
                   </ul>
                   <li class="sidenav-item">
                     <a href="" class="sidenav-link">
-                      <div>Grades</div>
+                      <div>Grades Management</div>
                     </a>
                   </li>
                 </li>
@@ -81,22 +85,26 @@
         @endrole
 
         @role ('developer|administrator|internal|mitra')
-        <li class="sidenav-item">
+        <li class="sidenav-item{{ Request::is('bank/data*') ? ' active open' : '' }}">
           <a href="javascript:void(0)" class="sidenav-link sidenav-toggle"><i class="sidenav-icon las la-server"></i>
             <div>Bank Data</div>
           </a>
 
           <ul class="sidenav-menu">
-            <li class="sidenav-item">
-              <a href="" class="sidenav-link">
+            @role ('developer|administrator|internal|mitra')
+            <li class="sidenav-item {{ Request::is('bank/data/global*') ? ' active' : '' }}">
+              <a href="{{ route('bank.data', ['type' => 'global']) }}" class="sidenav-link">
                 <div>Global</div>
               </a>
             </li>
+            @endrole
+            @role ('mitra')
             <li class="sidenav-item">
                 <a href="" class="sidenav-link">
                   <div>Personal</div>
                 </a>
             </li>
+            @endrole
           </ul>
         </li>
         @endrole
