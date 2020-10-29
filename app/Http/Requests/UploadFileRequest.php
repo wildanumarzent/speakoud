@@ -25,7 +25,8 @@ class UploadFileRequest extends FormRequest
     {
         if ($this->method() == 'POST') {
             return [
-                'file_path' => 'required|mimes:'.config('addon.mimes.bank_data.m')
+                'file_path' => 'required|mimes:'.config('addon.mimes.bank_data.m'),
+                'thumbnail' => 'nullable|mimes:'.config('addon.mimes.photo.m'),
             ];
         } else {
             return [
@@ -33,7 +34,6 @@ class UploadFileRequest extends FormRequest
                 'filename' => 'required',
             ];
         }
-
     }
 
     public function attributes()
