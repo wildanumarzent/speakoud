@@ -139,7 +139,7 @@ class BankDataService
 
     public function updateFile($request, int $id)
     {
-        $file = $this->findFile($id);
+        $upload = $this->findFile($id);
 
         if (!empty($request->thumbnail) && $request->hasFile('thumbnail')) {
             $file = $request->file('thumbnail');
@@ -147,17 +147,17 @@ class BankDataService
             $generate = Str::random(5).'-'.$replace;
         }
 
-        $file->thumbnail = !empty($request->thumbnail) ? 'thumbnail/'.$generate : null;
-        $file->filename = $request->filename ?? null;
-        $file->keterangan = $request->keterangan;
-        $file->save();
+        $upload->thumbnail = !empty($request->thumbnail) ? 'thumbnail/'.$generate : null;
+        $upload->filename = $request->filename ?? null;
+        $upload->keterangan = $request->keterangan;
+        $upload->save();
 
         if (!empty($request->thumbnail)) {
             Storage::disk('bank_data')->delete($request->old_thumbnail);
             Storage::disk('bank_data')->put('thumbnail/'.$generate, file_get_contents($file));
         }
 
-        return $file;
+        return $upload;
     }
 
     public function deleteFile(int $id)
