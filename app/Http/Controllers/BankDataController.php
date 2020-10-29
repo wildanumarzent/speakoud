@@ -20,6 +20,12 @@ class BankDataController extends Controller
     {
         $data['directories'] = $this->service->getDirectoryList($request);
         $data['files'] = $this->service->getFileByDirectoryList($request);
+        $data['roles'] = auth()->user()->hasRole('developer|administrator|internal');
+
+        if (auth()->user()->hasRole('developer|administrator|internal') &&
+            $request->segment(3) == 'personal') {
+            return abort(404);
+        }
 
         return view('backend.bank_data.index', compact('data'), [
             'title' => 'Bank Data - '.ucfirst($type),

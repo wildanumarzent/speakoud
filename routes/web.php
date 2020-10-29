@@ -149,7 +149,7 @@ Route::group(['middleware' => ['auth']], function () {
     /**bank data */
     Route::get('/bank/data/{type}', 'BankDataController@index')
         ->name('bank.data')
-        ->middleware('role:developer|administrator|internal|mitra');
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
 
     //directory
     Route::post('/directory', 'BankDataController@storeDirectory')
@@ -168,6 +168,12 @@ Route::group(['middleware' => ['auth']], function () {
         ->middleware('role:developer|administrator|internal|mitra');
     Route::delete('/files/{id}', 'BankDataController@destroyFile')
         ->name('bank.data.files.destroy')
+        ->middleware('role:developer|administrator|internal|mitra');
+
+    /**manage course */
+    //program pelatihan
+    Route::get('/program', 'Course\ProgramController@index')
+        ->name('program.index')
         ->middleware('role:developer|administrator|internal|mitra');
 
     //logout

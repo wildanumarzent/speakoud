@@ -19,9 +19,12 @@ class BankDataService
     //directory
     public function getDirectoryList($request)
     {
-        if (auth()->user()->hasRole('developer|administrator|internal') &&
-            request()->segment(3) == 'global') {
+        if (request()->segment(3) == 'global') {
             $type = 'global';
+        }
+
+        if (request()->segment(3) == 'personal') {
+            $type = 'personal/'.auth()->user()->id;
         }
 
         $directories = Storage::disk('bank_data')->directories($type.'/'.
@@ -60,6 +63,7 @@ class BankDataService
 
         foreach ($files as $key) {
             Storage::disk('bank_data')->delete($key->file_path);
+            Storage::disk('bank_data')->delete($key->thumbnail);
             $key->delete();
         }
 
@@ -71,9 +75,12 @@ class BankDataService
     //files
     public function getFileByDirectoryList($request)
     {
-        if (auth()->user()->hasRole('developer|administrator|internal') &&
-            request()->segment(3) == 'global') {
+        if (request()->segment(3) == 'global') {
             $type = 'global';
+        }
+
+        if (request()->segment(3) == 'personal') {
+            $type = 'personal/'.auth()->user()->id;
         }
 
         $directories = Storage::disk('bank_data')->files($type.'/'.
@@ -118,10 +125,20 @@ class BankDataService
             $generate = Str::random(5).'-'.$replace;
             $extesion = $file->getClientOriginalExtension();
 
+            if (!empty($request->thumbnail) && $request->hasFile('thumbnail')) {
+                $fileThumb = $request->file('thumbnail');
+                $replaceThumb = str_replace(' ', '-', $fileThumb->getClientOriginalName());
+                $generateThumb = Str::random(5).'-'.$replaceThumb;
+                $pathThumb = 'thumbnail/'.auth()->user()->id.'/';
+            }
+
             $upload = new BankData;
             $upload->file_path = $path.$generate;
+            $upload->thumbnail = !empty($request->thumbnail) ? $pathThumb.$generateThumb : null;
             $upload->file_type = $extesion;
             $upload->file_size = $file->getSize();
+            $upload->filename = $upload->filename ?? null;
+            $upload->keterangan = $upload->keterangan ?? null;
             $upload->owner_id = auth()->user()->id;
             if ($extesion == 'webm' || $extesion == 'mp4') {
                 $upload->is_video = 1;
@@ -129,6 +146,9 @@ class BankDataService
             $upload->save();
 
             Storage::disk('bank_data')->put($path.$generate, file_get_contents($file));
+            if (!empty($request->thumbnail)) {
+                Storage::disk('bank_data')->put($pathThumb.$generateThumb, file_get_contents($fileThumb));
+            }
 
             return $upload;
 
@@ -145,16 +165,17 @@ class BankDataService
             $file = $request->file('thumbnail');
             $replace = str_replace(' ', '-', $file->getClientOriginalName());
             $generate = Str::random(5).'-'.$replace;
+            $pathThumb = 'thumbnail/'.auth()->user()->id.'/';
         }
 
-        $upload->thumbnail = !empty($request->thumbnail) ? 'thumbnail/'.$generate : null;
+        $upload->thumbnail = !empty($request->thumbnail) ? $pathThumb.$generate : null;
         $upload->filename = $request->filename ?? null;
         $upload->keterangan = $request->keterangan;
         $upload->save();
 
         if (!empty($request->thumbnail)) {
             Storage::disk('bank_data')->delete($request->old_thumbnail);
-            Storage::disk('bank_data')->put('thumbnail/'.$generate, file_get_contents($file));
+            Storage::disk('bank_data')->put($pathThumb.$generate, file_get_contents($file));
         }
 
         return $upload;
@@ -178,6 +199,8 @@ class BankDataService
     {
         if (auth()->user()->hasRole('developer|administrator|internal')) {
             $directory = 'global/'.$path.'/';
+        } else {
+            $directory = 'personal/'.auth()->user()->id.'/'.$path.'/';
         }
 
         return $directory;
@@ -192,6 +215,8 @@ class BankDataService
 
         if (auth()->user()->hasRole('developer|administrator|internal')) {
             $dir = 'global'.$directory;
+        } else {
+            $dir = 'personal/'.auth()->user()->id.$directory;
         }
 
         return $dir;

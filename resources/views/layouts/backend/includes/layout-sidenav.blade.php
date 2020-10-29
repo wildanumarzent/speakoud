@@ -3,6 +3,7 @@
                     Request::is('instruktur*') || Request::is('peserta*'));
     $userOpen = (Request::is('user*') || Request::is('internal*') || Request::is('mitra*') ||
                     Request::is('instruktur*') || Request::is('peserta*'));
+    $course = (Request::is('program*'));
 @endphp
 <div id="layout-sidenav" class="{{ isset($layout_sidenav_horizontal) ? 'layout-sidenav-horizontal sidenav-horizontal container-p-x flex-grow-0' : 'layout-sidenav sidenav-vertical' }} sidenav bg-sidenav-theme">
 
@@ -92,15 +93,15 @@
 
           <ul class="sidenav-menu">
             @role ('developer|administrator|internal|mitra')
-            <li class="sidenav-item {{ Request::is('bank/data/global*') ? ' active' : '' }}">
+            <li class="sidenav-item{{ Request::is('bank/data/global*') ? ' active' : '' }}">
               <a href="{{ route('bank.data', ['type' => 'global']) }}" class="sidenav-link">
                 <div>Global</div>
               </a>
             </li>
             @endrole
             @role ('mitra')
-            <li class="sidenav-item">
-                <a href="" class="sidenav-link">
+            <li class="sidenav-item{{ Request::is('bank/data/personal*') ? ' active' : '' }}">
+                <a href="{{ route('bank.data', ['type' => 'personal']) }}" class="sidenav-link">
                   <div>Personal</div>
                 </a>
             </li>
@@ -109,16 +110,16 @@
         </li>
         @endrole
 
-        @role ('developer|administrator|internal')
-        <li class="sidenav-item">
+        @role ('developer|administrator|internal|mitra')
+        <li class="sidenav-item{{ $course ? ' active open' : '' }}">
           <a href="javascript:void(0)" class="sidenav-link sidenav-toggle"><i class="sidenav-icon las la-book-open"></i>
             <div>Manage Courses</div>
           </a>
 
           <ul class="sidenav-menu">
-            <li class="sidenav-item">
-              <a href="" class="sidenav-link">
-                <div>Program Kegiatan</div>
+            <li class="sidenav-item{{ Request::is('program*') ? ' active' : '' }}">
+              <a href="{{ route('program.index') }}" class="sidenav-link">
+                <div>Program Pelatihan</div>
               </a>
             </li>
             <li class="sidenav-item">

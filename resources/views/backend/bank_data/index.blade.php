@@ -35,16 +35,27 @@
             </div>
         </div>
         <div class="card-header-elements ml-auto">
+            @if ($data['roles'] && Request::segment(3) == 'global' || !$data['roles'] && Request::segment(3) == 'personal')
             <div class="file-manager-actions">
                 <button type="button" class="btn btn-warning icon-btn-only-sm mr-2" data-toggle="modal" data-target="#modals-form-folder" title="klik untuk membuat folder">
                     <i class="las la-folder-plus"></i>
                     <span>Folder</span>
                 </button>
-                <button type="button" id="upload" class="btn btn-primary icon-btn-only-sm" title="klik untuk mengupload file">
-                    <i class="las la-upload"></i>
-                    <span>Upload</span>
-                </button>
+                <div class="btn-group float-right dropdown ml-2">
+                    <button type="button" class="btn btn-primary dropdown-toggle hide-arrow icon-btn-only-sm" data-toggle="dropdown"><i class="las la-upload"></i><span>Upload</span></button>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a href="javascript:;" class="dropdown-item" data-toggle="modal" data-target="#modals-add-file" title="klik untuk mengupload file">
+                            <i class="las la-file-upload"></i>
+                            <span>Form</span>
+                        </a>
+                        <a href="javascript:;" id="upload" class="dropdown-item" title="klik untuk mengupload file">
+                            <i class="las la-hand-pointer"></i>
+                            <span>Drag / Drop</span>
+                        </a>
+                    </div>
+                </div>
             </div>
+            @endif
         </div>
     </div>
     <div class="card-body">
@@ -70,6 +81,7 @@
                       {{ $value['name'] }}
                     </div>
                 </a>
+                @if ($data['roles'] && Request::segment(3) == 'global' || !$data['roles'] && Request::segment(3) == 'personal')
                 <div class="file-item-actions btn-group dropdown">
                     <button type="button" class="btn btn-sm btn-default icon-btn dropdown-toggle btn-toggle-radius hide-arrow" data-toggle="dropdown"><i class="ion ion-ios-more"></i></button>
                     <div class=" dropdown-menu dropdown-menu-right">
@@ -80,6 +92,7 @@
                         </a>
                     </div>
                 </div>
+                @endif
             </div>
             @endforeach
             @foreach ($data['files'] as $key => $file)
@@ -99,10 +112,10 @@
                         {{ $file->name($file) }}
                     </div>
                 </a>
+                @if ($data['roles'] || $file->owner_id == auth()->user()->id)
                 <div class="file-item-actions btn-group dropdown">
                     <button type="button" class="btn btn-sm btn-default icon-btn dropdown-toggle btn-toggle-radius hide-arrow" data-toggle="dropdown"><i class="ion ion-ios-more"></i></button>
                     <div class="dropdown-menu dropdown-menu-right">
-                      @if ($file->owner_id == auth()->user()->id)
                       <a href="javascript:;" class="dropdown-item modals-edit" data-toggle="modal" data-target="#modals-edit-file" title="klik untuk mengedit file"
                         onclick="edit_file({{ $file->id }})" data-id="{{ $file->id }}" data-thumbnail="{{ $file->thumbnail }}" data-filename="{{ $file->filename }}"
                         data-keterangan="{{ $file->keterangan }}" data-is-video="{{ $file->is_video }}" data-thumb-default="{{ asset(config('addon.images.thumbnail')) }}">
@@ -111,9 +124,9 @@
                       <a class="dropdown-item js-sa2-delete-file" href="javascript:void(0)" data-file-id="{{ $file->id }}" title="klik untuk menghapus file">
                         <i class="las la-trash-alt"></i> Hapus
                       </a>
-                      @endif
                     </div>
-                  </div>
+                </div>
+                @endif
             </div>
             @endforeach
             @if (count($data['directories']) == 0 && count($data['files']) == 0)
@@ -140,6 +153,7 @@
 </div>
 
 @include('backend.bank_data.form-folder')
+@include('backend.bank_data.form-add-file')
 @include('backend.bank_data.form-edit-file')
 @include('backend.bank_data.preview-file')
 @endsection
