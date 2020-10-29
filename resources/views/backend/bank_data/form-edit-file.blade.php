@@ -16,11 +16,19 @@
             <div class="form-row" id="form-thumbnail">
                 <div class="form-group col">
                     <label class="form-label">Thumbnail</label>
-                    <label class="custom-file mt-3">
-                    <label class="custom-file-label mt-1" for="file-1"></label>
-                    <input type="hidden" name="old_thumbnail" id="thumbnail">
-                    <input type="file" class="form-control custom-file-input file @error('thumbnail') is-invalid @enderror" ype="file" id="file-1" lang="en" name="thumbnail" value="browse...">
-                    @include('components.field-error', ['field' => 'thumbnail'])
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label class="custom-file mt-3">
+                            <label class="custom-file-label mt-1" for="file-1"></label>
+                            <input type="hidden" name="old_thumbnail" id="thumbnail">
+                            <input type="file" class="form-control custom-file-input file @error('thumbnail') is-invalid @enderror" ype="file" id="file-1" lang="en" name="thumbnail" value="browse...">
+                            @include('components.field-error', ['field' => 'thumbnail'])
+                        </div>
+                        <div class="col-md-7">
+                            <a href="javascript:;" id="show-thumb"><small class="text-muted">Current thumbnail</small></a><br>
+                            <img id="thumb" class="old-thumb" style="width: 120px;">
+                        </div>
+                    </div>
                     </label>
                 </div>
             </div>
@@ -46,3 +54,10 @@
         </form>
     </div>
 </div>
+
+<script>
+    $('.old-thumb').hide();
+    $('#show-thumb').click(function() {
+        $('.old-thumb').toggle('slow');
+    });
+</script>

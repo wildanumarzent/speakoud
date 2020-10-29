@@ -11,4 +11,5 @@ return [
     'open_graph' => 'assets/tmplts_backend/images/open-graph.jpg',
     'banner_default' => 'assets/tmplts_backend/images/banner.png',
     'photo' => 'assets/tmplts_backend/images/profile.jpg',
+    'thumbnail' => 'assets/tmplts_backend/images/thumbnail.jpg',
 ];

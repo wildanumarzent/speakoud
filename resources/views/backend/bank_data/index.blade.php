@@ -105,7 +105,7 @@
                       @if ($file->owner_id == auth()->user()->id)
                       <a href="javascript:;" class="dropdown-item modals-edit" data-toggle="modal" data-target="#modals-edit-file" title="klik untuk mengedit file"
                         onclick="edit_file({{ $file->id }})" data-id="{{ $file->id }}" data-thumbnail="{{ $file->thumbnail }}" data-filename="{{ $file->filename }}"
-                        data-keterangan="{{ $file->keterangan }}" data-isvideo="{{ $file->is_video }}">
+                        data-keterangan="{{ $file->keterangan }}" data-is-video="{{ $file->is_video }}" data-thumb-default="{{ asset(config('addon.images.thumbnail')) }}">
                         <i class="las la-pen"></i> Edit
                       </a>
                       <a class="dropdown-item js-sa2-delete-file" href="javascript:void(0)" data-file-id="{{ $file->id }}" title="klik untuk menghapus file">
@@ -326,13 +326,21 @@ function submit_form() {
 }
 
 $('.modals-edit').click(function() {
-    var isvideo = $(this).data('isvideo');
+    var is_video = $(this).data('is-video');
     var thumbnail = $(this).data('thumbnail');
+    var thumb_default = $(this).data('thumb-default');
     var filename = $(this).data('filename');
     var keterangan = $(this).data('keterangan');
 
-    if (isvideo == 1) {
+    if (is_video == 1) {
         $('#form-thumbnail').show();
+
+        if (thumbnail != '') {
+            $("#thumb").attr("src", '/bank/data/view/' + thumbnail);
+        } else {
+            $("#thumb").attr("src", thumb_default);
+        }
+
     } else {
         $('#form-thumbnail').hide();
     }
