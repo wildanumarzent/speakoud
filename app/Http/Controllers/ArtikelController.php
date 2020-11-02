@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Artikel;
 use Illuminate\Http\Request;
-
+use App\Services\ArtikelService;
+use App\Services\Component\TagsService;
 class ArtikelController extends Controller
 {
     /**
@@ -12,9 +13,31 @@ class ArtikelController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+
+    private $artikel, $tags;
+
+    public function __construct(ArtikelService $artikel,TagsService $tags)
     {
-        //
+        $this->artikel = $artikel;
+        $this->tags = $tags;
+    }
+
+    public function index(Request $request)
+    {
+        $q = '';
+        if (isset($request->q)) {
+            $q = '?q='.$request->q;
+        }
+
+        $data['artikel'] = $this->artikel->list($request);
+        $data['number'] = $data['artikel']->firstItem();
+        $data['artikel']->withPath(url()->current().$q);
+        return view('backend.artikel.index', compact('data'), [
+            'title' => 'Artikel',
+            'breadcrumbsBackend' => [
+                'Artikel' => '',
+            ],
+        ]);
     }
 
     /**
@@ -35,7 +58,7 @@ class ArtikelController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->artikel->save();
     }
 
     /**
