@@ -138,12 +138,12 @@
 
         @role ('developer|administrator|internal')
         <li class="sidenav-item">
-            <a href="" class="sidenav-link"><i class="sidenav-icon las la-tags"></i>
+            <a href="{{route('tag.index')}}" class="sidenav-link"><i class="sidenav-icon las la-tags"></i>
               <div>Tags</div>
             </a>
         </li>
         <li class="sidenav-item">
-            <a href="" class="sidenav-link"><i class="sidenav-icon las la-comment"></i>
+            <a href="{{route('komentar.index')}}" class="sidenav-link"><i class="sidenav-icon las la-comment"></i>
               <div>Komentar</div>
             </a>
         </li>
@@ -152,7 +152,7 @@
         <li class="sidenav-header small font-weight-semibold">WEBSITE</li>
 
         <li class="sidenav-item">
-            <a href="" class="sidenav-link"><i class="sidenav-icon las la-newspaper"></i>
+            <a href="{{route('artikel.index')}}" class="sidenav-link"><i class="sidenav-icon las la-newspaper"></i>
               <div>Artikel</div>
             </a>
         </li>
@@ -162,7 +162,7 @@
             </a>
         </li>
         <li class="sidenav-item">
-            <a href="" class="sidenav-link"><i class="sidenav-icon las la-envelope"></i>
+            <a href="{{route('inquiry.index')}}" class="sidenav-link"><i class="sidenav-icon las la-envelope"></i>
               <div>Inquiry</div>
             </a>
         </li>

@@ -179,6 +179,41 @@ Route::group(['middleware' => ['auth']], function () {
     //logout
     Route::post('/logout', 'Auth\LoginController@logout')
         ->name('logout');
+
+    /** Artikel dan Component nya */
+    // Artikel
+    Route::get('/artikel','ArtikelController@index')->name('artikel.index');
+    Route::get('/artikel/create','ArtikelController@create')->name('artikel.create');
+    Route::get('/artikel/{id}','ArtikelController@detail')->name('artikel.detail');
+    Route::post('/artikel/{id}','ArtikelController@store')->name('artikel.store');
+    Route::delete('/artikel/{id}','ArtikelController@destroy')->name('artikel.destroy');
+
+    // Komentar
+    Route::get('/komentar','Component\KomentarController@index')->name('komentar.index');
+    Route::get('/komentar/create','Component\KomentarController@create')->name('komentar.create');
+    Route::post('/komentar','Component\KomentarController@store')->name('komentar.store');
+    Route::delete('/komentar/{id}','Component\KomentarController@destroy')->name('komentar.destroy');
+
+     // Tags
+     Route::get('/tag','Component\TagsController@index')->name('tag.index');
+     Route::get('/tag/create','Component\TagsController@index')->name('tag.create');
+     Route::get('/tag/{id}','Component\TagsController@detail')->name('tag.detail');
+     Route::post('/tag/{id}','Component\TagsController@store')->name('tag.store');
+     Route::delete('/tag/{id}','Component\TagsController@destroy')->name('tag.destroy');
+
+    /** Frontend Component */
+    // Inquiry
+    Route::get('/inquiry','InquiryController@index')->name('inquiry.index');
+    Route::get('/inquiry/create','InquiryController@create')->name('inquiry.create');
+    Route::get('/inquiry/{id}','InquiryController@detail')->name('inquiry.detail');
+    Route::post('/inquiry/{id}','InquiryController@store')->name('inquiry.store');
+    Route::delete('/inquiry/{id}','InquiryController@destroy')->name('inquiry.destroy');
+    // Kalender Diklat
+    Route::get('/kalender','KalenderController@index')->name('kalender.index');
+    Route::get('/kalender/create','KalenderController@create')->name('kalender.create');
+    Route::get('/kalender/{id}','KalenderController@detail')->name('kalender.detail');
+    Route::post('/kalender/{id}','KalenderController@store')->name('kalender.store');
+    Route::delete('/kalender/{id}','KalenderController@destroy')->name('kalender.destroy');
 });
 
 
