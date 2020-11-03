@@ -27,6 +27,9 @@ class ArtikelService
                 ->orWhere('alamat', 'like', '%'.$q.'%');
             });
         });
+        if (auth()->user()->hasRole('developer|administrator|internal') == false) {
+            $query->where('created_by',auth()->user()->id);
+        }
 
         $result = $query->orderBy('created_at', 'ASC')->paginate(20);
         return $result;
@@ -67,6 +70,16 @@ class ArtikelService
     $query->find($id);
     $query->increment('viewer');
     return true;
+    }
+
+    public function middleware($id){
+    $artikel = $this->get($id);
+    if($artikel->created_by != auth()->user()->id){
+    return false;
+    }else{
+    return true;
+    }
+
     }
 
 

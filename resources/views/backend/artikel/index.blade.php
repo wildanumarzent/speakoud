@@ -42,33 +42,29 @@
                 <tr>
                     <th style="width: 10px;">No</th>
                     <th>Title</th>
-                    <th>Slug</th>
                     <th>Intro</th>
                     <th>Publish</th>
-                    <th>Viewer</th>
+                    <th>Hits</th>
                     <th style="width: 200px;">Created</th>
                     <th style="width: 200px;">Updated</th>
                     <th style="width: 110px;">Action</th>
                 </tr>
             </thead>
             <tbody>
-                @forelse ($data['artikel'] as $item)
+                @forelse ($data['data'] as $item)
                 <tr>
                     <td>{{ $data['number']++ }}</td>
-                    <td>{{ $item->title ?? '-' }}</td>
-                    <td>{{ $item->slug }}</td>
+                    <td> <a href="">{{ $item->title ?? '-' }}</a> </td>
                     <td>{{ $item->intro ?? '-' }}</td>
-                    <td>{{ $item->publish ?? '-' }}</td>
+                    <td><span class="badge badge-outline-{{$item->publish ==1 ? 'success' : 'secondary'}}">{{$item->publish ==1 ? 'Published' : 'Draft'}}</span></td>
                     <td>{{ $item->viewer ?? '-' }}</td>
-                    <td>{{ $item->alamat ?? '-' }}</td>
                     <td>
-                        <span class="badge badge-outline-primary">{{ strtoupper(str_replace('_', ' ', $item->user->roles[0]->name)) }}</span>
-                    </td>
-                    <td>
-                        {{ $item->created_at->format('d F Y - (H:i)') }}
+                         {{ $item->created_at->format('d F Y - (H:i)') }}
+                        <span class="text-muted">By :{{$item->user->name}}</span>
                     </td>
                     <td>
                         {{ $item->updated_at->format('d F Y - (H:i)') }}
+                        <span class="text-muted">By :{{$item->userUpdate->name}}</span>
                     </td>
                     <td>
                         <a href="{{ route('artikel.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengedit artikel" data-toggle="tooltip">
@@ -81,7 +77,7 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="11" align="center">
+                    <td colspan="8" align="center">
                         <i>
                             <strong style="color:red;">
                             ! Data Artikel Kosong !
@@ -92,7 +88,7 @@
                 @endforelse
             </tbody>
             <tbody class="tbody-responsive">
-                @forelse ($data['artikel'] as $item)
+                @forelse ($data['data'] as $item)
                 <tr>
                     <td>
                         <div class="card">
@@ -138,7 +134,7 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="11" align="center">
+                    <td colspan="8" align="center">
                         <i>
                             <strong style="color:red;">
                             ! Data Artikel Kosong !
@@ -153,11 +149,11 @@
     <div class="card-footer">
         <div class="row align-items-center">
             <div class="col-lg-6 m--valign-middle">
-                Menampilkan : <strong>{{ $data['artikel']->firstItem() }}</strong> - <strong>{{ $data['artikel']->lastItem() }}</strong> dari
-                <strong>{{ $data['artikel']->total() }}</strong>
+                Menampilkan : <strong>{{ $data['data']->firstItem() }}</strong> - <strong>{{ $data['data']->lastItem() }}</strong> dari
+                <strong>{{ $data['data']->total() }}</strong>
             </div>
             <div class="col-lg-6 m--align-right">
-                {{ $data['artikel']->onEachSide(1)->links() }}
+                {{ $data['data']->onEachSide(1)->links() }}
             </div>
         </div>
     </div>
@@ -189,7 +185,7 @@ $(document).ready(function () {
             preConfirm: () => {
                 return $.ajax({
                     url: "/artikel/" + id,
-                    method: 'DELETE',
+                    method: 'POST',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
@@ -210,7 +206,7 @@ $(document).ready(function () {
             if (response.value.success) {
                 Swal.fire({
                     type: 'success',
-                    text: 'User artikel berhasil dihapus'
+                    text: 'Artikel berhasil dihapus'
                 }).then(() => {
                     window.location.reload();
                 })
