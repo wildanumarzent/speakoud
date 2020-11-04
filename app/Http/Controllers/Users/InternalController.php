@@ -4,16 +4,21 @@ namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\InternalRequest;
+use App\Services\Instansi\InstansiInternalService;
 use App\Services\Users\InternalService;
 use Illuminate\Http\Request;
 
 class InternalController extends Controller
 {
-    private $service;
+    private $service, $serviceInstansi;
 
-    public function __construct(InternalService $service)
+    public function __construct(
+        InternalService $service,
+        InstansiInternalService $serviceInstansi
+    )
     {
         $this->service = $service;
+        $this->serviceInstansi = $serviceInstansi;
     }
 
     public function index(Request $request)
@@ -38,7 +43,9 @@ class InternalController extends Controller
 
     public function create()
     {
-        return view('backend.user_management.internal.form', [
+        $data['instansi'] = $this->serviceInstansi->getInstansi();
+
+        return view('backend.user_management.internal.form', compact('data'), [
             'title' => 'User BPPT - Tambah',
             'breadcrumbsBackend' => [
                 'User' => route('user.index'),
@@ -59,6 +66,7 @@ class InternalController extends Controller
     public function edit($id)
     {
         $data['internal'] = $this->service->findInternal($id);
+        $data['instansi'] = $this->serviceInstansi->getInstansi();
 
         return view('backend.user_management.internal.form', compact('data'), [
             'title' => 'User BPPT - Edit',

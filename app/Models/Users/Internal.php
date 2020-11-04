@@ -2,6 +2,7 @@
 
 namespace App\Models\Users;
 
+use App\Models\Instansi\InstansiInternal;
 use Illuminate\Database\Eloquent\Model;
 
 class Internal extends Model
@@ -17,5 +18,10 @@ class Internal extends Model
     public function creator()
     {
         return $this->belongsTo(User::class, 'creator_id');
+    }
+
+    public function instansi()
+    {
+        return $this->belongsTo(InstansiInternal::class, 'instansi_id');
     }
 }

@@ -18,7 +18,6 @@ class CreateMitraTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('creator_id');
             $table->string('nip')->nullable();
-            $table->string('unit_kerja')->nullable();
             $table->string('kedeputian')->nullable();
             $table->string('pangkat')->nullable();
             $table->text('alamat')->nullable();

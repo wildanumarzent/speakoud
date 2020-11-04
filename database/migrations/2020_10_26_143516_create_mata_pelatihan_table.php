@@ -24,6 +24,7 @@ class CreateMataPelatihanTable extends Migration
             $table->boolean('publish')->default(0);
             $table->timestamp('publish_start')->nullable();
             $table->timestamp('publish_end')->nullable();
+            $table->integer('urutan')->default(0);
             $table->timestamps();
 
             $table->foreign('program_id')->references('id')

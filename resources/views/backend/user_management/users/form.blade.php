@@ -13,6 +13,7 @@
     @csrf
     @if (isset($data['user']))
         @method('PUT')
+        <input type="hidden" name="old_email" value="{{ $data['user']->email }}">
     @endif
       <div class="card-body">
         <div class="form-group row">
@@ -52,7 +53,7 @@
                 <select class="selectpicker show-tick @error('roles') is-invalid @enderror" name="roles" data-style="btn-default">
                     <option value="" disabled selected>Pilih</option>
                     @foreach ($data['roles'] as $item)
-                        <option value="{{ $item->name }}" {{ isset($data['user']) ? old('roles', $data['user']->roles[0]->name) == $item->name ? 'selected' : '' : old('roles') == $item->name ? 'selected' : '' }}>
+                        <option value="{{ $item->name }}" {{ isset($data['user']) ? (old('roles', $data['user']->roles[0]->name) == $item->name ? 'selected' : '') : (old('roles') == $item->name ? 'selected' : '') }}>
                           {{ strtoupper($item->name) }}
                         </option>
                     @endforeach
@@ -74,7 +75,7 @@
               <select class="selectpicker show-tick @error('roles') is-invalid @enderror" name="roles" data-style="btn-default">
                   <option value="" disabled selected>Pilih</option>
                   @foreach ($data['roles'] as $item)
-                      <option value="{{ $item->name }}" {{ isset($data['user']) ? old('roles', $data['user']->roles[0]->name) == $item->name ? 'selected' : '' : old('roles') == $item->name ? 'selected' : '' }}>
+                      <option value="{{ $item->name }}" {{ isset($data['user']) ? (old('roles', $data['user']->roles[0]->name) == $item->name ? 'selected' : '') : (old('roles') == $item->name ? 'selected' : '') }}>
                         {{ strtoupper($item->name) }}
                       </option>
                   @endforeach
@@ -94,7 +95,7 @@
             <input type="password" id="password-field" class="form-control gen-field @error('password') is-invalid @enderror" name="password" value="{{ old('password') }}" placeholder="masukan password...">
             <div class="input-group-append">
               <span toggle="#password-field" class="input-group-text toggle-password fas fa-eye"></span>
-              <span class="btn btn-warning ml-2" id="generate"><i class="las la-recycle"></i> Generate Password</span>
+              <span class="btn btn-warning ml-2" id="generate"> Generate Password</span>
             </div>
             @include('components.field-error', ['field' => 'password'])
             </div>
@@ -133,30 +134,30 @@
 
 @section('jsbody')
 <script>
-//show & hide password
-$(".toggle-password, .toggle-password-confirm").click(function() {
-    $(this).toggleClass("fa-eye fa-eye-slash");
-    var input = $($(this).attr("toggle"));
-    if (input.attr("type") == "password") {
-      input.attr("type", "text");
-    } else {
-      input.attr("type", "password");
-    }
-});
-//generate password
-function makeid(length) {
-    var result           = '';
-    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    var charactersLength = characters.length;
-    for ( var i = 0; i < length; i++ ) {
-        result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
+    //show & hide password
+    $(".toggle-password, .toggle-password-confirm").click(function() {
+        $(this).toggleClass("fa-eye fa-eye-slash");
+        var input = $($(this).attr("toggle"));
+        if (input.attr("type") == "password") {
+        input.attr("type", "text");
+        } else {
+        input.attr("type", "password");
+        }
+    });
+    //generate password
+    function makeid(length) {
+        var result           = '';
+        var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        var charactersLength = characters.length;
+        for ( var i = 0; i < length; i++ ) {
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
 
-    return result;
-}
-$("#generate").click(function(){
-    $(".gen-field").val(makeid(8));
-});
+        return result;
+    }
+    $("#generate").click(function(){
+        $(".gen-field").val(makeid(8));
+    });
 </script>
 
 @include('components.toastr')

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateInternalTable extends Migration
+class CreateInstansiInternalTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +13,18 @@ class CreateInternalTable extends Migration
      */
     public function up()
     {
-        Schema::create('internal', function (Blueprint $table) {
+        Schema::create('instansi_internal', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('creator_id');
-            $table->string('nip')->nullable();
-            $table->string('kedeputian')->nullable();
-            $table->string('pangkat')->nullable();
-            $table->text('alamat')->nullable();
+            $table->string('nip_pimpinan');
+            $table->string('nama_pimpinan');
+            $table->string('nama_instansi');
+            $table->string('jabatan');
+            $table->string('telpon')->nullable();
+            $table->string('fax')->nullable();
+            $table->string('logo')->nullable();
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users')
-                ->cascadeOnDelete();
             $table->foreign('creator_id')->references('id')->on('users')
                 ->cascadeOnDelete();
         });
@@ -37,6 +37,6 @@ class CreateInternalTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('internal');
+        Schema::dropIfExists('instansi_internal');
     }
 }

@@ -2,21 +2,25 @@
 
 namespace App\Services\Users;
 
+use App\Models\BankData;
 use App\Models\Users\User;
 use App\Models\Users\UserInformation;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class UserService
 {
-    private $model, $modelInformation;
+    private $model, $modelBankData, $modelInformation;
 
     public function __construct(
         User $model,
+        BankData $modelBankData,
         UserInformation $modelInformation
     )
     {
         $this->model = $model;
+        $this->modelBankData = $modelBankData;
         $this->modelInformation = $modelInformation;
     }
 
@@ -57,6 +61,10 @@ class UserService
         $user->password = Hash::make($request->password);
         $user->active = 1;
         $user->active_at = now();
+        $user->photo = [
+            'filename' => null,
+            'description' => null,
+        ];
         $user->assignRole($request->roles);
         $user->save();
 
@@ -105,7 +113,7 @@ class UserService
         if ($request->filled('password')) {
             $user->password = Hash::make($request->password);
         }
-        if ($request->email != $request->oldemail) {
+        if ($request->email != $request->old_email) {
             $user->email_verified = 0;
             $user->email_verified_at = null;
         }
@@ -176,7 +184,7 @@ class UserService
             $request->file('file')->move(public_path('userfile/photo'), $fileName);
         }
         $user->photo = [
-            'file' => ($request->file != null) ? $fileName : $user->photo['file'],
+            'filename' => ($request->file != null) ? $fileName : $user->photo['filename'],
             'description' => $request->photo_description ?? null,
         ];
         $user->save();
@@ -189,15 +197,29 @@ class UserService
     public function deleteUser(int $id)
     {
         $user = $this->findUser($id);
+        $bankData = $this->modelBankData->where('owner_id', $id);
 
         if ($user->information()->count() > 0) {
             $user->information()->delete();
         }
-        if (!empty($user->photo['file'])) {
-            $this->deletePhotoFromPath($user->photo['file']);
+
+        if (!empty($user->photo['filename'])) {
+            $this->deletePhotoFromPath($user->photo['filename']);
         }
-        if ($user->hasRole('admin_web')) {
-            $user->internal->delete();
+
+        // if ($bankData->count() > 0) {
+        //     foreach ($bankData->get() as $value) {
+        //         Storage::disk('bank_data')->delete($value->file_path);
+        //         if ($value->thumbnail != null) {
+        //             Storage::disk('bank_data')->delete($value->thumbnail);
+        //         }
+        //         $value->delete();
+        //     }
+        // }
+
+        if ($user->hasRole('internal')) {
+            $user->internal()->instansi()->delete();
+            $user->internal()->delete();
         }
 
         $user->delete();

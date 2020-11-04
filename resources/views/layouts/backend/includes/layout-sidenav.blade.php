@@ -1,5 +1,5 @@
 @php
-    $masterOpen = (Request::is('user*') || Request::is('internal*') || Request::is('mitra*') ||
+    $masterOpen = (Request::is('instansi/internal*') || Request::is('instansi/mitra*') || Request::is('user*') || Request::is('internal*') || Request::is('mitra*') ||
                     Request::is('instruktur*') || Request::is('peserta*'));
     $userOpen = (Request::is('user*') || Request::is('internal*') || Request::is('mitra*') ||
                     Request::is('instruktur*') || Request::is('peserta*'));
@@ -35,8 +35,27 @@
           <a href="javascript:void(0)" class="sidenav-link sidenav-toggle"><i class="sidenav-icon las la-database"></i>
             <div>Data Master</div>
           </a>
-
             <ul class="sidenav-menu">
+                @role ('developer|administrator')
+                <li class="sidenav-item{{ (Request::is('instansi/internal*') || Request::is('instansi/mitra*')) ? ' active open' : '' }}">
+                    <a href="javascript:void(0)" class="sidenav-link sidenav-toggle">
+                      <div>Instansi</div>
+                    </a>
+
+                    <ul class="sidenav-menu">
+                        <li class="sidenav-item{{ Request::is('instansi/internal*') ? ' active' : '' }}">
+                            <a href="{{ route('instansi.internal.index') }}" class="sidenav-link">
+                              <div>BPPT</div>
+                            </a>
+                        </li>
+                        <li class="sidenav-item{{ Request::is('instansi/mitra*') ? ' active' : '' }}">
+                            <a href="{{ route('instansi.mitra.index') }}" class="sidenav-link">
+                              <div>Mitra</div>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                @endrole
                 <li class="sidenav-item{{ $userOpen ? ' active open' : '' }}">
                   <a href="javascript:void(0)" class="sidenav-link sidenav-toggle">
                     <div>User Management</div>
@@ -75,11 +94,11 @@
                     </li>
                     @endrole
                   </ul>
-                  <li class="sidenav-item">
+                </li>
+                <li class="sidenav-item">
                     <a href="" class="sidenav-link">
-                      <div>Grades Management</div>
+                        <div>Grades Management</div>
                     </a>
-                  </li>
                 </li>
             </ul>
         </li>

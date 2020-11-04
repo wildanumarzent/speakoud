@@ -16,6 +16,74 @@ class BankDataService
         $this->model = $model;
     }
 
+    public function filemanDirectory($request)
+    {
+        $global = Storage::disk('bank_data')->directories('global/'.$request->path);
+        $personal = Storage::disk('bank_data')->directories('personal/'.
+            auth()->user()->id.'/'.$request->path);
+        $type = ['global/'.$request->path, 'personal/'.auth()->user()->id.'/'.$request->path];
+
+        $directories = array_merge($global, $personal);
+
+        $data = [];
+        foreach ($directories as $key => $value) {
+            $explode = explode("/", $value);
+            $folderName = end($explode);
+            $folderPath = str_replace($type, '', $value);
+
+            $data[$key] = [
+                'full_path' => $value,
+                'path' => $folderPath,
+                'name' => $folderName,
+            ];
+        }
+
+        return $data;
+    }
+
+    public function filemanFile($request, $type = null)
+    {
+        $global = Storage::disk('bank_data')->files('global/'.$request->path);
+        $personal = Storage::disk('bank_data')->files('personal/'.
+            auth()->user()->id.'/'.$request->path);
+
+        $directories = array_merge($global, $personal);
+
+        $files = [];
+        $data = [];
+        foreach ($directories as $key => $value) {
+            $query = $this->model->query();
+            $query->when($request->q, function ($query, $q) {
+                $query->where(function ($query) use ($q) {
+                    $query->where('filename', 'like', '%'.$q.'%');
+                    $query->orWhere('file_path', 'like', '%'.$q.'%');
+                });
+            });
+
+            //link
+            if ($request->get('type') == 'link') {
+                $query->where('is_video', 0);
+            }
+            //audio
+            if ($request->get('type') == 'audio') {
+                $query->where('file_type', 'mp3');
+            }
+            //video
+            if ($request->get('type') == 'video') {
+                $query->where('is_video', 1);
+            }
+            //pdf
+            if ($request->get('type') == 'pdf') {
+                $query->where('file_type', 'pdf');
+            }
+
+            $files[$key] = $value;
+            $data = $query->whereIn('file_path', $files)->get();
+        }
+
+        return $data;
+    }
+
     //directory
     public function getDirectoryList($request)
     {
