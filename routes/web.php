@@ -37,9 +37,9 @@ Route::group(['middleware' => ['auth']], function () {
         ->name('dashboard');
 
     //profile
-    Route::get('/profile/edit', 'users\UserController@profileForm')
+    Route::get('/profile/edit', 'Users\UserController@profileForm')
         ->name('profile.edit');
-    Route::put('/profile/edit', 'users\UserController@updateProfile');
+    Route::put('/profile/edit', 'Users\UserController@updateProfile');
 
     /**data master */
     //--- user management
