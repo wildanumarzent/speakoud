@@ -35,6 +35,7 @@ class ProgramController extends Controller
         $data['program'] = $this->service->getProgramList($request);
         $data['number'] = $data['program']->firstItem();
         $data['program']->withPath(url()->current().$p.$t.$q);
+        $data['check_role'] = auth()->user()->hasRole('developer|administrator|internal|mitra');
 
         return view('backend.course_management.program.index', compact('data'), [
             'title' => 'Program Pelatihan',

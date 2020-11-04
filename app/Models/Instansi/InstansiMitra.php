@@ -2,12 +2,18 @@
 
 namespace App\Models\Instansi;
 
+use App\Models\Users\Mitra;
 use Illuminate\Database\Eloquent\Model;
 
 class InstansiMitra extends Model
 {
     protected $table = 'instansi_mitra';
     protected $guarded = [];
+
+    public function mitra()
+    {
+        return $this->hasMany(Mitra::class, 'instansi_id');
+    }
 
     public function getLogo($value)
     {

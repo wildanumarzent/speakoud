@@ -80,7 +80,7 @@ class MataService
         $mata->intro = $request->intro ?? null;
         $mata->content = $request->content ?? null;
         $mata->cover = [
-            'filename' => $fileName ?? null,
+            'filename' => $fileName ?? $mata->cover['filename'],
             'title' => $request->cover_title ?? null,
             'alt' => $request->cover_alt ?? null,
         ];

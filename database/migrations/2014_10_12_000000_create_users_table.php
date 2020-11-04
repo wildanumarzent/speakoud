@@ -34,6 +34,7 @@ class CreateUsersTable extends Migration
             $table->timestamp('lats_login')->nullable();
             $table->timestamp('last_access')->nullable();
             $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
         });
     }
 

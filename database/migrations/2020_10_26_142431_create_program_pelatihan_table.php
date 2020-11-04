@@ -23,6 +23,7 @@ class CreateProgramPelatihanTable extends Migration
             $table->integer('urutan')->default(0);
             $table->boolean('tipe')->default(0)->comment('0 = internal, 1 = mitra');
             $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
 
             $table->foreign('creator_id')->references('id')->on('users')
                 ->cascadeOnDelete();

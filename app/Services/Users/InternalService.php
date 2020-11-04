@@ -30,15 +30,9 @@ class InternalService
         $query->when($request->q, function ($query, $q) {
             $query->where(function ($query) use ($q) {
                 $query->where('nip', 'like', '%'.$q.'%')
-                ->orWhere('unit_kerja', 'like', '%'.$q.'%')
                 ->orWhere('kedeputian', 'like', '%'.$q.'%')
                 ->orWhere('pangkat', 'like', '%'.$q.'%')
                 ->orWhere('alamat', 'like', '%'.$q.'%');
-            });
-        });
-        $query->when($request->q, function ($query, $q) {
-            $query->whereHas('instansi', function ($query) use ($q) {
-                $query->where('nama_instansi', 'like', '%'.$q.'%');
             });
         });
 

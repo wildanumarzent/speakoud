@@ -222,6 +222,11 @@ class UserService
             $user->internal()->delete();
         }
 
+        if ($user->hasRole('mitra')) {
+            $user->internal()->mitra()->delete();
+            $user->internal()->delete();
+        }
+
         $user->delete();
 
         return $user;

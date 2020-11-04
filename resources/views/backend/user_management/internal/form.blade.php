@@ -48,16 +48,23 @@
                         <div class="col-md-2 text-md-right">
                           <label class="col-form-label text-sm-right">Unit kerja / Instansi / Perusahaan</label>
                         </div>
-                        <div class="col-md-10">
-                            <select class="select2 show-tick @error('instansi_id') is-invalid @enderror" name="instansi_id" data-style="btn-default">
-                                <option value=" " selected disabled>Pilih</option>
-                                @foreach ($data['instansi'] as $instansi)
-                                <option value="{{ $instansi->id }}">{{ $instansi->nama_instansi }}</option>
-                                @endforeach
-                            </select>
-                            @error('instansi_id')
-                                <label class="error jquery-validation-error small form-text invalid-feedback" style="display: inline-block; color:red;">{!! $message !!}</label>
-                            @enderror
+                        <div class="col-md-9">
+                            <div class="input-group">
+                                <select class="select2 show-tick @error('instansi_id') is-invalid @enderror" name="instansi_id" data-style="btn-default">
+                                    <option value=" " selected disabled>Pilih</option>
+                                    @foreach ($data['instansi'] as $instansi)
+                                    <option value="{{ $instansi->id }}" {{ isset($data['internal']) ? (old('instansi_id', $data['internal']->instansi_id) == $instansi->id ? 'selected' : '') : (old('instansi_id') == $instansi->id ? 'selected' : '') }}>
+                                        {{ $instansi->nama_instansi }}
+                                    </option>
+                                    @endforeach
+                                </select>
+                                @error('instansi_id')
+                                    <label class="error jquery-validation-error small form-text invalid-feedback" style="display: inline-block; color:red;">{!! $message !!}</label>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <a href="{{ route('instansi.internal.create') }}" class="btn btn-primary" title="klik untuk menambah instansi"><i class="las la-plus"></i> Tambah</a>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -121,7 +128,7 @@
                             value="{{ old('password') }}" placeholder="masukan password...">
                           <div class="input-group-append">
                             <span toggle="#password-field" class="input-group-text toggle-password fas fa-eye"></span>
-                            <span class="btn btn-warning ml-2" id="generate"><i class="las la-recycle"></i> Generate Password</span>
+                            <span class="btn btn-warning ml-2" id="generate">Generate Password</span>
                           </div>
                           @include('components.field-error', ['field' => 'password'])
                           </div>
@@ -164,7 +171,7 @@
 @section('jsbody')
 <script src="{{ asset('assets/tmplts_backend/js/pages_account-settings.js') }}"></script>
 <script>
-     //select mitra
+     //select
      $('.select2').select2();
     //show & hide password
     $(".toggle-password, .toggle-password-confirm").click(function() {

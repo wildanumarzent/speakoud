@@ -20,7 +20,10 @@ class CreateMateriPelatihanTable extends Migration
             $table->unsignedBigInteger('creator_id');
             $table->string('judul');
             $table->text('keterangan')->nullable();
+            $table->boolean('publish')->default(0);
+            $table->integer('urutan')->default(0);
             $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
 
             $table->foreign('program_id')->references('id')
                 ->on('program_pelatihan')

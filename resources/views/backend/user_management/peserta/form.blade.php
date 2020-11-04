@@ -167,16 +167,19 @@
                         <div class="col-md-2 text-md-right">
                           <label class="col-form-label text-sm-right">Mitra</label>
                         </div>
-                        <div class="col-md-10">
+                        <div class="col-md-9">
                           <select class="select2 show-tick @error('mitra_id') is-invalid @enderror" name="mitra_id" data-style="btn-default">
                               <option value="" disabled selected>Pilih</option>
                               @foreach ($data['mitra'] as $mitra)
-                              <option value="{{ $mitra->id }}" {{ old('mitra_id') == $mitra->id ? 'selected' : '' }}>{{ $mitra->unit_kerja }}</option>
+                              <option value="{{ $mitra->id }}" {{ old('mitra_id') == $mitra->id ? 'selected' : '' }}>{{ $mitra->instansi['nama_instansi'] }}</option>
                               @endforeach
                           </select>
                           @error('mitra_id')
                           <label class="error jquery-validation-error small form-text invalid-feedback" style="display: inline-block; color:red;">{!! $message !!}</label>
                           @enderror
+                        </div>
+                        <div class="col-md-1">
+                            <a href="{{ route('mitra.create') }}" class="btn btn-primary" title="klik untuk menambah mitra"><i class="las la-plus"></i> Tambah</a>
                         </div>
                     </div>
                     @endif
@@ -193,7 +196,7 @@
                             value="{{ old('password') }}" placeholder="masukan password...">
                           <div class="input-group-append">
                             <span toggle="#password-field" class="input-group-text toggle-password fas fa-eye"></span>
-                            <span class="btn btn-warning ml-2" id="generate"><i class="las la-recycle"></i> Generate Password</span>
+                            <span class="btn btn-warning ml-2" id="generate"> Generate Password</span>
                           </div>
                           @include('components.field-error', ['field' => 'password'])
                           </div>
@@ -236,40 +239,40 @@
 @section('jsbody')
 <script src="{{ asset('assets/tmplts_backend/js/pages_account-settings.js') }}"></script>
 <script>
-//select mitra
-$('.select2').select2();
-$('#mitra').hide();
-$('#select-role').change(function(){
-    if($('#select-role').val() == 'peserta_mitra') {
-        $('#mitra').show();
-    } else {
-        $('#mitra').hide();
-    }
-});
-//show & hide password
-$(".toggle-password, .toggle-password-confirm").click(function() {
-    $(this).toggleClass("fa-eye fa-eye-slash");
-    var input = $($(this).attr("toggle"));
-    if (input.attr("type") == "password") {
-      input.attr("type", "text");
-    } else {
-      input.attr("type", "password");
-    }
-});
-//generate password
-function makeid(length) {
-    var result           = '';
-    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    var charactersLength = characters.length;
-    for ( var i = 0; i < length; i++ ) {
-        result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
+    //select mitra
+    $('.select2').select2();
+    $('#mitra').hide();
+    $('#select-role').change(function(){
+        if($('#select-role').val() == 'peserta_mitra') {
+            $('#mitra').show();
+        } else {
+            $('#mitra').hide();
+        }
+    });
+    //show & hide password
+    $(".toggle-password, .toggle-password-confirm").click(function() {
+        $(this).toggleClass("fa-eye fa-eye-slash");
+        var input = $($(this).attr("toggle"));
+        if (input.attr("type") == "password") {
+        input.attr("type", "text");
+        } else {
+        input.attr("type", "password");
+        }
+    });
+    //generate password
+    function makeid(length) {
+        var result           = '';
+        var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        var charactersLength = characters.length;
+        for ( var i = 0; i < length; i++ ) {
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
 
-    return result;
-}
-$("#generate").click(function(){
-    $(".gen-field").val(makeid(8));
-});
+        return result;
+    }
+    $("#generate").click(function(){
+        $(".gen-field").val(makeid(8));
+    });
 </script>
 
 @include('components.toastr')

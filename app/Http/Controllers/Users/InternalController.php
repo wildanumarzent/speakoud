@@ -50,7 +50,7 @@ class InternalController extends Controller
             'breadcrumbsBackend' => [
                 'User' => route('user.index'),
                 'BPPT' => route('internal.index'),
-                'Tambah'
+                'Tambah' => ''
             ],
         ]);
     }
@@ -73,7 +73,7 @@ class InternalController extends Controller
             'breadcrumbsBackend' => [
                 'User' => route('user.index'),
                 'BPPT' => route('internal.index'),
-                'Edit'
+                'Edit' => ''
             ],
         ]);
     }

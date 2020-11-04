@@ -22,6 +22,7 @@ class CreateInternalTable extends Migration
             $table->string('pangkat')->nullable();
             $table->text('alamat')->nullable();
             $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
 
             $table->foreign('user_id')->references('id')->on('users')
                 ->cascadeOnDelete();

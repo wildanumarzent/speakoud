@@ -52,9 +52,11 @@
     <div class="card-header with-elements">
         <h5 class="card-header-title mt-1 mb-0">Program Pelatihan List</h5>
         <div class="card-header-elements ml-auto">
+            @if ($data['check_role'])
             <a href="{{ route('program.create') }}" class="btn btn-primary icon-btn-only-sm" title="klik untuk menambah program pelatihan" data-toggle="tooltip">
                 <i class="las la-plus"></i><span>Tambah</span>
             </a>
+            @endif
         </div>
     </div>
     <div class="table-responsive table-mobile-responsive">
@@ -72,7 +74,7 @@
                     <th style="width: 140px;">Action</th>
                 </tr>
             </thead>
-            <tbody class="drag">
+            <tbody @if ($data['check_role']) class="drag" @endif>
                 @if ($data['program']->total() == 0)
                 <tr>
                     <td colspan="9" align="center">
@@ -89,10 +91,14 @@
                 </tr>
                 @endif
                 @foreach ($data['program'] as $item)
-                <tr style="cursor: move;" id="{{ $item->id }}" title="geser untuk merubah urutan">
+                <tr @if ($data['check_role']) style="cursor: move;" id="{{ $item->id }}" title="geser untuk merubah urutan" @endif>
                     <td>{{ $data['number']++ }}</td>
                     <td class="text-center" style="font-size:1.4em;">
+                        @if ($data['check_role'])
                         <i class="las la-arrows-alt"></i>
+                        @else
+                        <i class="las la-ban text-danger"></i>
+                        @endif
                     </td>
                     <td><strong>{!! $item->judul !!}</strong></td>
                     <td>
@@ -102,7 +108,7 @@
                     <td>{{ $item->created_at->format('d F Y - (H:i)') }}</td>
                     <td>{{ $item->updated_at->format('d F Y - (H:i)') }}</td>
                     <td>
-                        @if ($item->min('urutan') != $item->urutan)
+                        @if ($item->min('urutan') != $item->urutan && $data['check_role'])
                             <a href="javascript:;" onclick="$(this).find('form').submit();" class="btn icon-btn btn-sm btn-secondary" title="klik untuk mengatur posisi">
                                 <i class="las la-long-arrow-alt-up"></i>
                                 <form action="{{ route('program.position', ['id' => $item->id, 'position' => ($item->urutan - 1)]) }}" method="POST">
@@ -113,7 +119,7 @@
                         @else
                             <button type="button" class="btn icon-btn btn-default btn-sm" disabled><i class="las la-long-arrow-alt-up"></i></button>
                         @endif
-                        @if ($item->max('urutan') != $item->urutan)
+                        @if ($item->max('urutan') != $item->urutan && $data['check_role'])
                             <a href="javascript:;" onclick="$(this).find('form').submit();" class="btn icon-btn btn-sm btn-secondary" title="klik untuk mengatur posisi">
                                 <i class="las la-long-arrow-alt-down"></i>
                                 <form action="{{ route('program.position', ['id' => $item->id, 'position' => ($item->urutan + 1)]) }}" method="POST">
@@ -129,12 +135,17 @@
                         <a href="{{ route('mata.index', ['id' => $item->id]) }}" class="btn icon-btn btn-success btn-sm" title="klik untuk melihat mata pelatihan" data-toggle="tooltip">
                             <i class="las la-book"></i>
                         </a>
-                        <a href="{{ route('program.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengedit program" data-toggle="tooltip">
-                                <i class="las la-pen"></i>
-                        </a>
-                        <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus program" data-toggle="tooltip">
-                            <i class="las la-trash-alt"></i>
-                        </a>
+                        @if ($data['check_role'])
+                            <a href="{{ route('program.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengedit program" data-toggle="tooltip">
+                                    <i class="las la-pen"></i>
+                            </a>
+                            <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus program" data-toggle="tooltip">
+                                <i class="las la-trash-alt"></i>
+                            </a>
+                        @else
+                            <button type="button" class="btn icon-btn btn-default btn-sm" disabled><i class="las la-pen"></i></button>
+                            <button type="button" class="btn icon-btn btn-default btn-sm" disabled><i class="las la-trash-alt"></i></button>
+                        @endif
                     </td>
                 </tr>
                 @endforeach
@@ -183,7 +194,7 @@
 
                                 <div class="item-table m-0">
                                     <div class="desc-table text-right">
-                                        @if ($item->min('urutan') != $item->urutan)
+                                        @if ($item->min('urutan') != $item->urutan && $data['check_role'])
                                             <a href="javascript:;" onclick="$(this).find('form').submit();" class="btn icon-btn btn-sm btn-secondary" title="klik untuk mengatur posisi">
                                                 <i class="las la-long-arrow-alt-up"></i>
                                                 <form action="{{ route('program.position', ['id' => $item->id, 'position' => ($item->urutan - 1)]) }}" method="POST">
@@ -194,7 +205,7 @@
                                         @else
                                             <button type="button" class="btn icon-btn btn-default btn-sm" disabled><i class="las la-long-arrow-alt-up"></i></button>
                                         @endif
-                                        @if ($item->max('urutan') != $item->urutan)
+                                        @if ($item->max('urutan') != $item->urutan && $data['check_role'])
                                             <a href="javascript:;" onclick="$(this).find('form').submit();" class="btn icon-btn btn-sm btn-secondary" title="klik untuk mengatur posisi">
                                                 <i class="las la-long-arrow-alt-down"></i>
                                                 <form action="{{ route('program.position', ['id' => $item->id, 'position' => ($item->urutan + 1)]) }}" method="POST">
@@ -208,12 +219,17 @@
                                         <a href="{{ route('mata.index', ['id' => $item->id]) }}" class="btn icon-btn btn-success btn-sm" title="klik untuk melihat mata pelatihan" data-toggle="tooltip">
                                             <i class="las la-book"></i>
                                         </a>
-                                        <a href="{{ route('program.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengedit program" data-toggle="tooltip">
-                                                <i class="las la-pen"></i>
-                                        </a>
-                                        <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus program" data-toggle="tooltip">
-                                            <i class="las la-trash-alt"></i>
-                                        </a>
+                                        @if ($data['check_role'])
+                                            <a href="{{ route('program.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengedit program" data-toggle="tooltip">
+                                                    <i class="las la-pen"></i>
+                                            </a>
+                                            <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus program" data-toggle="tooltip">
+                                                <i class="las la-trash-alt"></i>
+                                            </a>
+                                        @else
+                                            <button type="button" class="btn icon-btn btn-default btn-sm" disabled><i class="las la-pen"></i></button>
+                                            <button type="button" class="btn icon-btn btn-default btn-sm" disabled><i class="las la-trash-alt"></i></button>
+                                        @endif
                                     </div>
                                 </div>
                             </div>

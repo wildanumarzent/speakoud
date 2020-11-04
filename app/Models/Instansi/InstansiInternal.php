@@ -10,6 +10,10 @@ class InstansiInternal extends Model
     protected $table = 'instansi_internal';
     protected $guarded = [];
 
+    protected $casts = [
+        'deleted_at' => 'datetime'
+    ];
+
     public function internal()
     {
         return $this->hasMany(Internal::class, 'instansi_id');

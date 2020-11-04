@@ -158,16 +158,19 @@
                         <div class="col-md-2 text-md-right">
                           <label class="col-form-label text-sm-right">Mitra</label>
                         </div>
-                        <div class="col-md-10">
+                        <div class="col-md-9">
                           <select class="select2 show-tick @error('mitra_id') is-invalid @enderror" name="mitra_id" data-style="btn-default">
                               <option value="" disabled selected>Pilih</option>
                               @foreach ($data['mitra'] as $mitra)
-                              <option value="{{ $mitra->id }}" {{ old('mitra_id') == $mitra->id ? 'selected' : '' }}>{{ $mitra->unit_kerja }}</option>
+                              <option value="{{ $mitra->id }}" {{ old('mitra_id') == $mitra->id ? 'selected' : '' }}>{{ $mitra->instansi['nama_instansi'] }}</option>
                               @endforeach
                           </select>
                           @error('mitra_id')
                           <label class="error jquery-validation-error small form-text invalid-feedback" style="display: inline-block; color:red;">{!! $message !!}</label>
                           @enderror
+                        </div>
+                        <div class="col-md-1">
+                            <a href="{{ route('mitra.create') }}" class="btn btn-primary" title="klik untuk menambah mitra"><i class="las la-plus"></i> Tambah</a>
                         </div>
                     </div>
                     @endif

@@ -104,21 +104,21 @@
         </li>
         @endrole
 
-        @role ('developer|administrator|internal|mitra')
+        @role ('developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra')
         <li class="sidenav-item{{ Request::is('bank/data*') ? ' active open' : '' }}">
           <a href="javascript:void(0)" class="sidenav-link sidenav-toggle"><i class="sidenav-icon las la-server"></i>
             <div>Bank Data</div>
           </a>
 
           <ul class="sidenav-menu">
-            @role ('developer|administrator|internal|mitra')
+            @role ('developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra')
             <li class="sidenav-item{{ Request::is('bank/data/global*') ? ' active' : '' }}">
               <a href="{{ route('bank.data', ['type' => 'global']) }}" class="sidenav-link">
                 <div>Global</div>
               </a>
             </li>
             @endrole
-            @role ('mitra')
+            @role ('mitra|instruktur_internal|instruktur_mitra')
             <li class="sidenav-item{{ Request::is('bank/data/personal*') ? ' active' : '' }}">
                 <a href="{{ route('bank.data', ['type' => 'personal']) }}" class="sidenav-link">
                   <div>Personal</div>
@@ -129,7 +129,7 @@
         </li>
         @endrole
 
-        @role ('developer|administrator|internal|mitra')
+        @role ('developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra')
         <li class="sidenav-item{{ $course ? ' active open' : '' }}">
           <a href="javascript:void(0)" class="sidenav-link sidenav-toggle"><i class="sidenav-icon las la-book-open"></i>
             <div>Manage Courses</div>

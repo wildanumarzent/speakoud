@@ -59,6 +59,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::put('/instansi/internal/{id}', 'Instansi\InstansiInternalController@update')
         ->name('instansi.internal.update')
         ->middleware('role:developer|administrator');
+    Route::put('/instansi/internal/{id}/soft', 'Instansi\InstansiInternalController@destroySoft')
+        ->name('instansi.internal.destroy.soft')
+        ->middleware('role:developer|administrator');
     Route::delete('/instansi/internal/{id}', 'Instansi\InstansiInternalController@destroy')
         ->name('instansi.internal.destroy')
         ->middleware('role:developer|administrator');
@@ -268,6 +271,35 @@ Route::group(['middleware' => ['auth']], function () {
     Route::delete('/program/{id}/mata/{mataId}', 'Course\MataController@destroy')
         ->name('mata.destroy')
         ->middleware('role:developer|administrator|internal|mitra');
+
+    //materi pelatihan
+    Route::get('/program/{id}/mata/{mataId}/materi', 'Course\MateriController@index')
+        ->name('materi.index')
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
+    Route::get('/program/{id}/mata/{mataId}/materi/create', 'Course\MateriController@create')
+        ->name('materi.create')
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
+    Route::post('/program/{id}/mata/{mataId}/materi', 'Course\MateriController@store')
+        ->name('materi.store')
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
+     Route::get('/program/{id}/mata/{mataId}/materi/{materiId}/edit', 'Course\MateriController@edit')
+        ->name('materi.edit')
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
+    Route::put('/program/{id}/mata/{mataId}/materi/{materiId}', 'Course\MateriController@update')
+        ->name('materi.update')
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
+    Route::put('/program/{id}/mata/{mataId}/materi/{materiId}/publish', 'Course\MateriController@publish')
+        ->name('materi.publish')
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
+    Route::put('/program/{id}/mata/{mataId}/materi/{materiId}/position/{position}', 'Course\MateriController@position')
+        ->name('materi.position')
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
+    Route::post('/program/{id}/mata/{mataId}/materi/sort', 'Course\MateriController@sort')
+        ->name('materi.sort')
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
+    Route::delete('/program/{id}/mata/{mataId}/materi/{materiId}', 'Course\MateriController@destroy')
+        ->name('materi.destroy')
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
 
     //logout
     Route::post('/logout', 'Auth\LoginController@logout')

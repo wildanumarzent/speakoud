@@ -3,6 +3,7 @@
 @section('styles')
 <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/css/pages/account.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-select/bootstrap-select.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/select2/select2.css') }}">
 @endsection
 
 @section('content')
@@ -17,6 +18,7 @@
             @if (isset($data['mitra']))
                 @method('PUT')
                 <input type="hidden" name="user_id" value="{{ $data['mitra']->user_id }}">
+                <input type="hidden" name="old_email" value="{{ $data['mitra']->user->email }}">
             @else
                 <input type="hidden" name="roles" value="mitra">
             @endif
@@ -46,10 +48,23 @@
                         <div class="col-md-2 text-md-right">
                           <label class="col-form-label text-sm-right">Unit kerja / Instansi / Perusahaan</label>
                         </div>
-                        <div class="col-md-10">
-                          <input type="text" class="form-control @error('unit_kerja') is-invalid @enderror" name="unit_kerja"
-                            value="{{ (isset($data['mitra'])) ? old('unit_kerja', $data['mitra']->unit_kerja) : old('unit_kerja') }}" placeholder="masukan unit kerja...">
-                          @include('components.field-error', ['field' => 'unit_kerja'])
+                        <div class="col-md-9">
+                            <div class="input-group">
+                                <select class="select2 show-tick @error('instansi_id') is-invalid @enderror" name="instansi_id" data-style="btn-default">
+                                    <option value=" " selected disabled>Pilih</option>
+                                    @foreach ($data['instansi'] as $instansi)
+                                    <option value="{{ $instansi->id }}" {{ isset($data['mitra']) ? (old('instansi_id', $data['mitra']->instansi_id) == $instansi->id ? 'selected' : '') : (old('instansi_id') == $instansi->id ? 'selected' : '') }}>
+                                        {{ $instansi->nama_instansi }}
+                                    </option>
+                                    @endforeach
+                                </select>
+                                @error('instansi_id')
+                                    <label class="error jquery-validation-error small form-text invalid-feedback" style="display: inline-block; color:red;">{!! $message !!}</label>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <a href="{{ route('instansi.mitra.create') }}" class="btn btn-primary" title="klik untuk menambah instansi"><i class="las la-plus"></i> Tambah</a>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -149,7 +164,7 @@
                             value="{{ old('password') }}" placeholder="masukan password...">
                           <div class="input-group-append">
                             <span toggle="#password-field" class="input-group-text toggle-password fas fa-eye"></span>
-                            <span class="btn btn-warning ml-2" id="generate"><i class="las la-recycle"></i> Generate Password</span>
+                            <span class="btn btn-warning ml-2" id="generate"> Generate Password</span>
                           </div>
                           @include('components.field-error', ['field' => 'password'])
                           </div>
@@ -186,35 +201,38 @@
 
 @section('scripts')
 <script src="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-select/bootstrap-select.js') }}"></script>
+<script src="{{ asset('assets/tmplts_backend/vendor/libs/select2/select2.js') }}"></script>
 @endsection
 
 @section('jsbody')
 <script src="{{ asset('assets/tmplts_backend/js/pages_account-settings.js') }}"></script>
 <script>
-//show & hide password
-$(".toggle-password, .toggle-password-confirm").click(function() {
-    $(this).toggleClass("fa-eye fa-eye-slash");
-    var input = $($(this).attr("toggle"));
-    if (input.attr("type") == "password") {
-      input.attr("type", "text");
-    } else {
-      input.attr("type", "password");
-    }
-});
-//generate password
-function makeid(length) {
-    var result           = '';
-    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    var charactersLength = characters.length;
-    for ( var i = 0; i < length; i++ ) {
-        result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
+    //select
+    $('.select2').select2();
+    //show & hide password
+    $(".toggle-password, .toggle-password-confirm").click(function() {
+        $(this).toggleClass("fa-eye fa-eye-slash");
+        var input = $($(this).attr("toggle"));
+        if (input.attr("type") == "password") {
+        input.attr("type", "text");
+        } else {
+        input.attr("type", "password");
+        }
+    });
+    //generate password
+    function makeid(length) {
+        var result           = '';
+        var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        var charactersLength = characters.length;
+        for ( var i = 0; i < length; i++ ) {
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
 
-    return result;
-}
-$("#generate").click(function(){
-    $(".gen-field").val(makeid(8));
-});
+        return result;
+    }
+    $("#generate").click(function(){
+        $(".gen-field").val(makeid(8));
+    });
 </script>
 
 @include('components.toastr')
