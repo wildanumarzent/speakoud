@@ -26,6 +26,11 @@ class MataPelatihan extends Model
         return $this->belongsTo(ProgramPelatihan::class, 'program_id');
     }
 
+    public function materi()
+    {
+        return $this->hasMany(MateriPelatihan::class, 'mata_id');
+    }
+
     public function getCover($value)
     {
         if (!empty($value)) {

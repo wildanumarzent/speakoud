@@ -189,6 +189,8 @@ Route::group(['middleware' => ['auth']], function () {
         ->name('peserta.destroy')
         ->middleware('role:developer|administrator');
 
+    //--- grades management
+
     /**bank data */
     Route::get('/bank/data/{type}', 'BankDataController@index')
         ->name('bank.data')
@@ -273,32 +275,37 @@ Route::group(['middleware' => ['auth']], function () {
         ->middleware('role:developer|administrator|internal|mitra');
 
     //materi pelatihan
-    Route::get('/program/{id}/mata/{mataId}/materi', 'Course\MateriController@index')
+    Route::get('/mata/{id}/materi', 'Course\MateriController@index')
         ->name('materi.index')
         ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
-    Route::get('/program/{id}/mata/{mataId}/materi/create', 'Course\MateriController@create')
+    Route::get('/mata/{id}/materi/create', 'Course\MateriController@create')
         ->name('materi.create')
         ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
-    Route::post('/program/{id}/mata/{mataId}/materi', 'Course\MateriController@store')
+    Route::post('/mata/{id}/materi', 'Course\MateriController@store')
         ->name('materi.store')
         ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
-     Route::get('/program/{id}/mata/{mataId}/materi/{materiId}/edit', 'Course\MateriController@edit')
+     Route::get('/mata/{id}/materi/{materiId}/edit', 'Course\MateriController@edit')
         ->name('materi.edit')
         ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
-    Route::put('/program/{id}/mata/{mataId}/materi/{materiId}', 'Course\MateriController@update')
+    Route::put('/mata/{id}/materi/{materiId}', 'Course\MateriController@update')
         ->name('materi.update')
         ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
-    Route::put('/program/{id}/mata/{mataId}/materi/{materiId}/publish', 'Course\MateriController@publish')
+    Route::put('/mata/{id}/materi/{materiId}/publish', 'Course\MateriController@publish')
         ->name('materi.publish')
         ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
-    Route::put('/program/{id}/mata/{mataId}/materi/{materiId}/position/{position}', 'Course\MateriController@position')
+    Route::put('/mata/{id}/materi/{materiId}/position/{position}', 'Course\MateriController@position')
         ->name('materi.position')
         ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
-    Route::post('/program/{id}/mata/{mataId}/materi/sort', 'Course\MateriController@sort')
+    Route::post('/mata/{id}/materi/sort', 'Course\MateriController@sort')
         ->name('materi.sort')
         ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
-    Route::delete('/program/{id}/mata/{mataId}/materi/{materiId}', 'Course\MateriController@destroy')
+    Route::delete('/mata/{id}/materi/{materiId}', 'Course\MateriController@destroy')
         ->name('materi.destroy')
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
+
+    //bahan pelatihan
+    Route::get('/materi/{id}/bahan', 'Course\Bahan\BahanController@index')
+        ->name('bahan.index')
         ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
 
     //logout

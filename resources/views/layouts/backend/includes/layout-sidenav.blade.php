@@ -3,7 +3,7 @@
                     Request::is('instruktur*') || Request::is('peserta*'));
     $userOpen = (Request::is('user*') || Request::is('internal*') || Request::is('mitra*') ||
                     Request::is('instruktur*') || Request::is('peserta*'));
-    $course = (Request::is('program*'));
+    $course = (Request::is('program*') || Request::is('mata*') || Request::is('materi*'));
 @endphp
 <div id="layout-sidenav" class="{{ isset($layout_sidenav_horizontal) ? 'layout-sidenav-horizontal sidenav-horizontal container-p-x flex-grow-0' : 'layout-sidenav sidenav-vertical' }} sidenav bg-sidenav-theme">
 
@@ -136,7 +136,7 @@
           </a>
 
           <ul class="sidenav-menu">
-            <li class="sidenav-item{{ Request::is('program*') ? ' active' : '' }}">
+            <li class="sidenav-item{{ (Request::is('program*') || Request::is('mata*') || Request::is('materi*')) ? ' active' : '' }}">
               <a href="{{ route('program.index') }}" class="sidenav-link">
                 <div>Program Pelatihan</div>
               </a>
@@ -184,6 +184,24 @@
             <a href="" class="sidenav-link"><i class="sidenav-icon las la-envelope"></i>
               <div>Inquiry</div>
             </a>
+        </li>
+        <li class="sidenav-item">
+            <a href="javascript:void(0)" class="sidenav-link sidenav-toggle"><i class="sidenav-icon las la-cog"></i>
+              <div>Konfigurasi</div>
+            </a>
+
+            <ul class="sidenav-menu">
+              <li class="sidenav-item">
+                  <a href="" class="sidenav-link">
+                    <div>Konten</div>
+                  </a>
+              </li>
+              <li class="sidenav-item">
+                  <a href="" class="sidenav-link">
+                    <div>Strip Text</div>
+                  </a>
+              </li>
+            </ul>
         </li>
         @endrole
 

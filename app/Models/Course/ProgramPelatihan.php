@@ -25,4 +25,9 @@ class ProgramPelatihan extends Model
     {
         return $this->hasMany(MataPelatihan::class, 'program_id');
     }
+
+    public function materi()
+    {
+        return $this->hasMany(MateriPelatihan::class, 'program_id');
+    }
 }

@@ -48,67 +48,51 @@
     </div>
 </div>
 <!-- / Filters -->
-<div class="card">
-    <div class="card-header with-elements">
-        <h5 class="card-header-title mt-1 mb-0">Program Pelatihan List</h5>
-        <div class="card-header-elements ml-auto">
-            @if ($data['check_role'])
-            <a href="{{ route('program.create') }}" class="btn btn-primary icon-btn-only-sm" title="klik untuk menambah program pelatihan" data-toggle="tooltip">
-                <i class="las la-plus"></i><span>Tambah</span>
-            </a>
-            @endif
+
+<div class="d-flex justify-content-between">
+    <a href="{{ route('program.create') }}" class="btn btn-primary rounded-pill" title="klik untuk menambah program pelatihan"><i class="las la-plus"></i>Tambah</a>
+</div>
+<br>
+
+<div class="row drag">
+    @foreach ($data['program'] as $item)
+    <div class="col-sm-6 col-xl-4" id="{{ $item->id }}" style="cursor: move;" title="geser untuk merubah urutan">
+      <div class="card card-list">
+        <div class="card-body d-flex justify-content-between align-items-start pb-1">
+          <div>
+            <a href="{{ route('mata.index', ['id' => $item->id]) }}" class="text-body text-big font-weight-semibold" title="{!! $item->judul !!}">{!! Str::limit($item->judul, 80) !!}</a>
+          </div>
+          <div class="btn-group project-actions dropdown">
+            <button type="button" class="btn btn-sm btn-default icon-btn dropdown-toggle hide-arrow  btn-toggle-radius" data-toggle="dropdown" aria-expanded="false">
+              <i class="ion ion-ios-more"></i>
+            </button>
+            <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; will-change: top, left; top: 26px; left: 26px;">
+              <a class="dropdown-item" href="{{ route('mata.index', ['id' => $item->id]) }}" title="klik untuk melihat mata pelatihan">
+                <i class="las la-book"></i> Mata Pelatihan
+              </a>
+              <a class="dropdown-item" href="{{ route('program.edit', ['id' => $item->id]) }}" title="klik untuk mengedit program pelatihan">
+                <i class="las la-pen"></i> Edit
+              </a>
+              <a class="dropdown-item js-sa2-delete" href="javascript:void(0);" data-id="{{ $item->id }}" title="klik untuk menghapus program pelatihan">
+                <i class="las la-trash-alt"></i> Hapus
+              </a>
+            </div>
+          </div>
         </div>
-    </div>
-    <div class="table-responsive table-mobile-responsive">
-        <table id="user-list" class="table card-table table-striped table-bordered table-hover">
-            <thead>
+        <div class="card-body pb-3">
+          <table class="table table-bordered mb-0">
                 <tr>
-                    <th style="width: 10px;">No</th>
-                    <th style="width: 10px;">Sort</th>
-                    <th>Judul</th>
-                    <th style="width: 100px;">Status</th>
-                    <th style="width: 180px;">Creator</th>
-                    <th style="width: 200px;">Created</th>
-                    <th style="width: 200px;">Updated</th>
-                    <th style="width: 100px;">Urutan</th>
-                    <th style="width: 140px;">Action</th>
+                    <th>Creator</th>
+                    <td>{{ $item->creator['name'] }}</td>
                 </tr>
-            </thead>
-            <tbody @if ($data['check_role']) class="drag" @endif>
-                @if ($data['program']->total() == 0)
                 <tr>
-                    <td colspan="9" align="center">
-                        <i>
-                            <strong style="color:red;">
-                            @if (Request::get('p') || Request::get('q'))
-                            ! Program Pelatihan tidak ditemukan !
-                            @else
-                            ! Data Program Pelatihan kosong !
-                            @endif
-                            </strong>
-                        </i>
-                    </td>
+                    <th>Status</th>
+                    <td><span class="badge badge-outline-{{ $item->publish == 1 ? 'primary' : 'warning' }}">{{ $item->publish == 1 ? 'Publish' : 'Draft' }}</span></td>
                 </tr>
-                @endif
-                @foreach ($data['program'] as $item)
-                <tr @if ($data['check_role']) style="cursor: move;" id="{{ $item->id }}" title="geser untuk merubah urutan" @endif>
-                    <td>{{ $data['number']++ }}</td>
-                    <td class="text-center" style="font-size:1.4em;">
-                        @if ($data['check_role'])
-                        <i class="las la-arrows-alt"></i>
-                        @else
-                        <i class="las la-ban text-danger"></i>
-                        @endif
-                    </td>
-                    <td><strong>{!! $item->judul !!}</strong></td>
+                <tr>
+                    <th>Urutan</th>
                     <td>
-                        <span class="badge badge-outline-{{ $item->publish == 1 ? 'primary' : 'warning' }}">{{ $item->publish == 1 ? 'PUBLISH' : 'DRAFT' }}</span>
-                    </td>
-                    <td><i class="las la-user"></i> {{ $item->creator['name'] }}</td>
-                    <td>{{ $item->created_at->format('d F Y - (H:i)') }}</td>
-                    <td>{{ $item->updated_at->format('d F Y - (H:i)') }}</td>
-                    <td>
-                        @if ($item->min('urutan') != $item->urutan && $data['check_role'])
+                        @if ($item->min('urutan') != $item->urutan)
                             <a href="javascript:;" onclick="$(this).find('form').submit();" class="btn icon-btn btn-sm btn-secondary" title="klik untuk mengatur posisi">
                                 <i class="las la-long-arrow-alt-up"></i>
                                 <form action="{{ route('program.position', ['id' => $item->id, 'position' => ($item->urutan - 1)]) }}" method="POST">
@@ -119,7 +103,7 @@
                         @else
                             <button type="button" class="btn icon-btn btn-default btn-sm" disabled><i class="las la-long-arrow-alt-up"></i></button>
                         @endif
-                        @if ($item->max('urutan') != $item->urutan && $data['check_role'])
+                        @if ($item->max('urutan') != $item->urutan)
                             <a href="javascript:;" onclick="$(this).find('form').submit();" class="btn icon-btn btn-sm btn-secondary" title="klik untuk mengatur posisi">
                                 <i class="las la-long-arrow-alt-down"></i>
                                 <form action="{{ route('program.position', ['id' => $item->id, 'position' => ($item->urutan + 1)]) }}" method="POST">
@@ -131,127 +115,56 @@
                             <button type="button" class="btn icon-btn btn-default btn-sm" disabled><i class="las la-long-arrow-alt-down"></i></button>
                         @endif
                     </td>
-                    <td>
-                        <a href="{{ route('mata.index', ['id' => $item->id]) }}" class="btn icon-btn btn-success btn-sm" title="klik untuk melihat mata pelatihan" data-toggle="tooltip">
-                            <i class="las la-book"></i>
-                        </a>
-                        @if ($data['check_role'])
-                            <a href="{{ route('program.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengedit program" data-toggle="tooltip">
-                                    <i class="las la-pen"></i>
-                            </a>
-                            <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus program" data-toggle="tooltip">
-                                <i class="las la-trash-alt"></i>
-                            </a>
-                        @else
-                            <button type="button" class="btn icon-btn btn-default btn-sm" disabled><i class="las la-pen"></i></button>
-                            <button type="button" class="btn icon-btn btn-default btn-sm" disabled><i class="las la-trash-alt"></i></button>
-                        @endif
-                    </td>
                 </tr>
-                @endforeach
-            </tbody>
-            <tbody class="tbody-responsive">
-                @if ($data['program']->total() == 0)
-                <tr>
-                    <td colspan="10" align="center">
-                        <i>
-                            <strong style="color:red;">
-                            @if (Request::get('p') || Request::get('q'))
-                            ! Program Pelatihan tidak ditemukan !
-                            @else
-                            ! Data Program Pelatihan kosong !
-                            @endif
-                            </strong>
-                        </i>
-                    </td>
-                </tr>
-                @endif
-                @foreach ($data['program'] as $item)
-                <tr>
-                    <td>
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="item-table">
-                                    <div class="data-table">Judul</div>
-                                    <div class="desc-table">{!! $item->judul !!}</div>
-                                </div>
-                                <div class="item-table">
-                                    <div class="data-table">Status</div>
-                                    <div class="desc-table"><span class="badge badge-outline-{{ $item->publish == 1 ? 'primary' : 'warning' }}">{{ $item->publish == 1 ? 'PUBLISH' : 'DRAFT' }}</span></div>
-                                </div>
-                                <div class="item-table">
-                                    <div class="data-table">Creator</div>
-                                    <div class="desc-table"><i class="las la-user"></i> {{ $item->creator['name'] }}</div>
-                                </div>
-                                <div class="item-table">
-                                    <div class="data-table">Created</div>
-                                    <div class="desc-table">{{ $item->created_at->format('d F Y - (H:i)') }}</div>
-                                </div>
-                                <div class="item-table">
-                                    <div class="data-table">Updated</div>
-                                    <div class="desc-table">{{ $item->updated_at->format('d F Y - (H:i)') }}</div>
-                                </div>
-
-                                <div class="item-table m-0">
-                                    <div class="desc-table text-right">
-                                        @if ($item->min('urutan') != $item->urutan && $data['check_role'])
-                                            <a href="javascript:;" onclick="$(this).find('form').submit();" class="btn icon-btn btn-sm btn-secondary" title="klik untuk mengatur posisi">
-                                                <i class="las la-long-arrow-alt-up"></i>
-                                                <form action="{{ route('program.position', ['id' => $item->id, 'position' => ($item->urutan - 1)]) }}" method="POST">
-                                                    @csrf
-                                                    @method('PUT')
-                                                </form>
-                                            </a>
-                                        @else
-                                            <button type="button" class="btn icon-btn btn-default btn-sm" disabled><i class="las la-long-arrow-alt-up"></i></button>
-                                        @endif
-                                        @if ($item->max('urutan') != $item->urutan && $data['check_role'])
-                                            <a href="javascript:;" onclick="$(this).find('form').submit();" class="btn icon-btn btn-sm btn-secondary" title="klik untuk mengatur posisi">
-                                                <i class="las la-long-arrow-alt-down"></i>
-                                                <form action="{{ route('program.position', ['id' => $item->id, 'position' => ($item->urutan + 1)]) }}" method="POST">
-                                                    @csrf
-                                                    @method('PUT')
-                                                </form>
-                                            </a>
-                                        @else
-                                            <button type="button" class="btn icon-btn btn-default btn-sm" disabled><i class="las la-long-arrow-alt-down"></i></button>
-                                        @endif
-                                        <a href="{{ route('mata.index', ['id' => $item->id]) }}" class="btn icon-btn btn-success btn-sm" title="klik untuk melihat mata pelatihan" data-toggle="tooltip">
-                                            <i class="las la-book"></i>
-                                        </a>
-                                        @if ($data['check_role'])
-                                            <a href="{{ route('program.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengedit program" data-toggle="tooltip">
-                                                    <i class="las la-pen"></i>
-                                            </a>
-                                            <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus program" data-toggle="tooltip">
-                                                <i class="las la-trash-alt"></i>
-                                            </a>
-                                        @else
-                                            <button type="button" class="btn icon-btn btn-default btn-sm" disabled><i class="las la-pen"></i></button>
-                                            <button type="button" class="btn icon-btn btn-default btn-sm" disabled><i class="las la-trash-alt"></i></button>
-                                        @endif
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-                @endforeach
-            <tbody>
-        </table>
+          </table>
+        </div>
+        <hr class="m-0 mb-2">
+        <div class="card-body pt-0">
+          <div class="row">
+            <div class="col">
+              <div class="text-muted small">Created</div>
+              <div class="font-weight-bold">{{ $item->created_at->format('d/m/Y H:i') }}</div>
+            </div>
+            <div class="col">
+              <div class="text-muted small">Updated</div>
+              <div class="font-weight-bold">{{ $item->updated_at->format('d/m/Y H:i') }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="card-footer">
+    @endforeach
+</div>
+
+@if ($data['program']->total() == 0)
+<div class="card">
+    <div class="card-body text-center">
+        <strong style="color: red;">
+            @if (Request::get('p') || Request::get('q'))
+            ! Program Pelatihan tidak ditemukan !
+            @else
+            ! Data Program Pelatihan kosong !
+            @endif
+        </strong>
+    </div>
+</div>
+@endif
+
+@if ($data['program']->total() > 0)
+<div class="card">
+    <div class="card-body">
         <div class="row align-items-center">
             <div class="col-lg-6 m--valign-middle">
                 Menampilkan : <strong>{{ $data['program']->firstItem() }}</strong> - <strong>{{ $data['program']->lastItem() }}</strong> dari
                 <strong>{{ $data['program']->total() }}</strong>
             </div>
             <div class="col-lg-6 m--align-right">
-                {{ $data['program']->onEachSide(1)->links() }}
+                {{ $data['program']->onEachSide(3)->links() }}
             </div>
         </div>
     </div>
 </div>
+@endif
 @endsection
 
 @section('scripts')

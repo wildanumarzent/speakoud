@@ -51,7 +51,7 @@
                     <select class="select2 show-tick @error('mitra_id') is-invalid @enderror" name="mitra_id" data-style="btn-default">
                         <option value=" " selected disabled>Pilih</option>
                         @foreach ($data['mitra'] as $mitra)
-                        <option value="{{ $mitra->id }}">{{ $mitra->unit_kerja }}</option>
+                        <option value="{{ $mitra->id }}">{{ $mitra->instansi['nama_instansi'] }}</option>
                         @endforeach
                     </select>
                     @error('mitra_id')
