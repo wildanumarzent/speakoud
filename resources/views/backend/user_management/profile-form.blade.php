@@ -81,7 +81,7 @@
                                 </div>
                             </div>
                             <div class="form-group ml-2">
-                                <span class="btn btn-warning"  id="generate"><i class="las la-recycle"></i> Generate password</span>
+                                <span class="btn btn-warning"  id="generate"> Generate password</span>
                             </div>
                         </div>
                         <div class="form-group">
@@ -108,7 +108,7 @@
                 <div id="user-picture" class="text-muted collapse show">
                     <div class="card-body pb-2">
                         <div class="form-group media" style="min-height:1px">
-                            <div class="ui-bg-cover" style="width: 100px;height: 100px;background-image: url('{{ $data['user']->getPhoto($data['user']->photo['file']) }}');"></div>
+                            <div class="ui-bg-cover" style="width: 100px;height: 100px;background-image: url('{{ $data['user']->getPhoto($data['user']->photo['filename']) }}');"></div>
                             <div class="media-body ml-3">
                                 <label class="form-label">
                                     Change picture :
@@ -116,7 +116,7 @@
                                 <small class="text-muted">Allowed : <strong>{{ strtoupper(config('addon.mimes.photo.m')) }}</strong></small>
                                 <label class="custom-file mt-3">
                                     <label class="custom-file-label mt-1" for="file-1"></label>
-                                    <input type="hidden" name="old_photo" value="{{ $data['user']->photo['file'] }}">
+                                    <input type="hidden" name="old_photo" value="{{ $data['user']->photo['filename'] }}">
                                     <input class="form-control custom-file-input file @error('file') is-invalid @enderror" type="file" id="file-1" lang="en" name="file">
                                     @include('components.field-error', ['field' => 'file'])
                                 </label>
@@ -248,8 +248,8 @@
             </div>
         </div>
         <div class="card-footer d-flex justify-content-center">
-            <button type="submit" class="btn btn-primary">Save changes</button>&nbsp;&nbsp;
-            <a href="" class="btn btn-secondary">Cancel</a>
+            <a href="" class="btn btn-danger mr-2">Kembali</a>
+            <button type="submit" class="btn btn-primary">Simpan perubahan</button>
         </div>
     </form>
 </div>

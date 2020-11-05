@@ -14,7 +14,13 @@ class KalenderController extends Controller
      */
     public function index()
     {
-        //
+        $data = [];
+        return view('frontend.kalender.index', compact('data'), [
+            'title' => 'Kalender Diklat',
+            'breadcrumbsBackend' => [
+                'Kalender Diklat' => '',
+            ],
+        ]);
     }
 
     /**

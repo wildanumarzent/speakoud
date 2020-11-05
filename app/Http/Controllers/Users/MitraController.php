@@ -4,16 +4,21 @@ namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MitraRequest;
+use App\Services\Instansi\InstansiMitraService;
 use App\Services\Users\MitraService;
 use Illuminate\Http\Request;
 
 class MitraController extends Controller
 {
-    private $service;
+    private $service, $serviceInstansi;
 
-    public function __construct(MitraService $service)
+    public function __construct(
+        MitraService $service,
+        InstansiMitraService $serviceInstansi
+    )
     {
         $this->service = $service;
+        $this->serviceInstansi = $serviceInstansi;
     }
 
     public function index(Request $request)
@@ -37,7 +42,9 @@ class MitraController extends Controller
 
     public function create()
     {
-        return view('backend.user_management.mitra.form', [
+        $data['instansi'] = $this->serviceInstansi->getInstansi();
+
+        return view('backend.user_management.mitra.form', compact('data'), [
             'title' => 'Mitra - Tambah',
             'breadcrumbsBackend' => [
                 'Mitra' => route('mitra.index'),
@@ -57,6 +64,7 @@ class MitraController extends Controller
     public function edit($id)
     {
         $data['mitra'] = $this->service->findMitra($id);
+        $data['instansi'] = $this->serviceInstansi->getInstansi();
 
         return view('backend.user_management.mitra.form', compact('data'), [
             'title' => 'Mitra - Edit',

@@ -178,61 +178,62 @@
 
 @section('jsbody')
 <script>
-$(document).ready(function () {
-    $('.js-sa2-delete').on('click', function () {
-        var id = $(this).attr('data-id');
-        Swal.fire({
-            title: "Apakah anda yakin?",
-            text: "Anda akan menghapus instruktur ini, data yang bersangkutan dengan instruktur ini akan terhapus. Data yang sudah dihapus tidak dapat dikembalikan!",
-            type: "warning",
-            confirmButtonText: "Ya, hapus!",
-            customClass: {
-                confirmButton: "btn btn-danger btn-lg",
-                cancelButton: "btn btn-info btn-lg"
-            },
-            showLoaderOnConfirm: true,
-            showCancelButton: true,
-            allowOutsideClick: () => !Swal.isLoading(),
-            cancelButtonText: "Tidak, terima kasih",
-            preConfirm: () => {
-                return $.ajax({
-                    url: "/instruktur/" + id,
-                    method: 'DELETE',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    dataType: 'json'
-                }).then(response => {
-                    if (!response.success) {
-                        return new Error(response.message);
-                    }
-                    return response;
-                }).catch(error => {
-                    swal({
-                        type: 'error',
-                        text: 'Error while deleting data. Error Message: ' + error
+    //delete
+    $(document).ready(function () {
+        $('.js-sa2-delete').on('click', function () {
+            var id = $(this).attr('data-id');
+            Swal.fire({
+                title: "Apakah anda yakin?",
+                text: "Anda akan menghapus instruktur ini, data yang bersangkutan dengan instruktur ini akan terhapus. Data yang sudah dihapus tidak dapat dikembalikan!",
+                type: "warning",
+                confirmButtonText: "Ya, hapus!",
+                customClass: {
+                    confirmButton: "btn btn-danger btn-lg",
+                    cancelButton: "btn btn-info btn-lg"
+                },
+                showLoaderOnConfirm: true,
+                showCancelButton: true,
+                allowOutsideClick: () => !Swal.isLoading(),
+                cancelButtonText: "Tidak, terima kasih",
+                preConfirm: () => {
+                    return $.ajax({
+                        url: "/instruktur/" + id,
+                        method: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        dataType: 'json'
+                    }).then(response => {
+                        if (!response.success) {
+                            return new Error(response.message);
+                        }
+                        return response;
+                    }).catch(error => {
+                        swal({
+                            type: 'error',
+                            text: 'Error while deleting data. Error Message: ' + error
+                        })
+                    });
+                }
+            }).then(response => {
+                if (response.value.success) {
+                    Swal.fire({
+                        type: 'success',
+                        text: 'User instruktur berhasil dihapus'
+                    }).then(() => {
+                        window.location.reload();
                     })
-                });
-            }
-        }).then(response => {
-            if (response.value.success) {
-                Swal.fire({
-                    type: 'success',
-                    text: 'User instruktur berhasil dihapus'
-                }).then(() => {
-                    window.location.reload();
-                })
-            } else {
-                Swal.fire({
-                    type: 'error',
-                    text: response.value.message
-                }).then(() => {
-                    window.location.reload();
-                })
-            }
-        });
-    })
-});
+                } else {
+                    Swal.fire({
+                        type: 'error',
+                        text: response.value.message
+                    }).then(() => {
+                        window.location.reload();
+                    })
+                }
+            });
+        })
+    });
 </script>
 
 @include('components.toastr')

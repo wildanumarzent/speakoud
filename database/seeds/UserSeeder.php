@@ -49,12 +49,40 @@ class UserSeeder extends Seeder
                 'password' => $key['password'],
                 'active' => $key['active'],
                 'active_at' => $key['active_at'],
+                'photo' => [
+                    'filename' => null,
+                    'description' => null,
+                ],
             ]);
 
             $user->assignRole($key['roles']);
 
             $information = UserInformation::create([
                 'user_id' => $user->id,
+                'general' => [
+                    'city' => null,
+                    'description' => null,
+                ],
+                'additional_name' => [
+                    'first_name' => null,
+                    'sur_name' => null,
+                    'middle_name' => null,
+                    'alternate_name' => null,
+                ],
+                'optional' => [
+                    'web_page' => null,
+                    'icq_number' => null,
+                    'skype_id' => null,
+                    'aim_id' => null,
+                    'yahoo_id' => null,
+                    'msn_id' => null,
+                    'id_number' => null,
+                    'institution' => null,
+                    'departement' => null,
+                    'phone' => null,
+                    'mobile_phone' => null,
+                    'address' => null,
+                ],
             ]);
         }
     }

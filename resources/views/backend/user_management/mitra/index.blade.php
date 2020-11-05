@@ -73,7 +73,7 @@
                     <td>{{ $data['number']++ }}</td>
                     <td>{{ $item->nip ?? '-' }}</td>
                     <td>{{ $item->user->name }}</td>
-                    <td>{{ $item->unit_kerja ?? '-' }}</td>
+                    <td>{{ $item->instansi['nama_instansi'] ?? '-' }}</td>
                     <td>{{ $item->kedeputian ?? '-' }}</td>
                     <td>{{ $item->pangkat ?? '-' }}</td>
                     <td>{{ $item->alamat ?? '-' }}</td>
@@ -121,7 +121,7 @@
                                 </div>
                                 <div class="item-table">
                                     <div class="data-table">Unit Kerja</div>
-                                    <div class="desc-table">{{ $item->unit_kerja ?? '-' }}</div>
+                                    <div class="desc-table">{{ $item->instansi['nama_instansi'] ?? '-' }}</div>
                                 </div>
                                 <div class="item-table">
                                     <div class="data-table">Kedeputian</div>
@@ -174,61 +174,62 @@
 
 @section('jsbody')
 <script>
-$(document).ready(function () {
-    $('.js-sa2-delete').on('click', function () {
-        var id = $(this).attr('data-id');
-        Swal.fire({
-            title: "Apakah anda yakin?",
-            text: "Anda akan menghapus mitra ini, data yang bersangkutan dengan mitra ini akan terhapus. Data yang sudah dihapus tidak dapat dikembalikan!",
-            type: "warning",
-            confirmButtonText: "Ya, hapus!",
-            customClass: {
-                confirmButton: "btn btn-danger btn-lg",
-                cancelButton: "btn btn-info btn-lg"
-            },
-            showLoaderOnConfirm: true,
-            showCancelButton: true,
-            allowOutsideClick: () => !Swal.isLoading(),
-            cancelButtonText: "Tidak, terima kasih",
-            preConfirm: () => {
-                return $.ajax({
-                    url: "/mitra/" + id,
-                    method: 'DELETE',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    dataType: 'json'
-                }).then(response => {
-                    if (!response.success) {
-                        return new Error(response.message);
-                    }
-                    return response;
-                }).catch(error => {
-                    swal({
-                        type: 'error',
-                        text: 'Error while deleting data. Error Message: ' + error
+    //delete
+    $(document).ready(function () {
+        $('.js-sa2-delete').on('click', function () {
+            var id = $(this).attr('data-id');
+            Swal.fire({
+                title: "Apakah anda yakin?",
+                text: "Anda akan menghapus mitra ini, data yang bersangkutan dengan mitra ini akan terhapus. Data yang sudah dihapus tidak dapat dikembalikan!",
+                type: "warning",
+                confirmButtonText: "Ya, hapus!",
+                customClass: {
+                    confirmButton: "btn btn-danger btn-lg",
+                    cancelButton: "btn btn-info btn-lg"
+                },
+                showLoaderOnConfirm: true,
+                showCancelButton: true,
+                allowOutsideClick: () => !Swal.isLoading(),
+                cancelButtonText: "Tidak, terima kasih",
+                preConfirm: () => {
+                    return $.ajax({
+                        url: "/mitra/" + id,
+                        method: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        dataType: 'json'
+                    }).then(response => {
+                        if (!response.success) {
+                            return new Error(response.message);
+                        }
+                        return response;
+                    }).catch(error => {
+                        swal({
+                            type: 'error',
+                            text: 'Error while deleting data. Error Message: ' + error
+                        })
+                    });
+                }
+            }).then(response => {
+                if (response.value.success) {
+                    Swal.fire({
+                        type: 'success',
+                        text: 'User mitra berhasil dihapus'
+                    }).then(() => {
+                        window.location.reload();
                     })
-                });
-            }
-        }).then(response => {
-            if (response.value.success) {
-                Swal.fire({
-                    type: 'success',
-                    text: 'User mitra berhasil dihapus'
-                }).then(() => {
-                    window.location.reload();
-                })
-            } else {
-                Swal.fire({
-                    type: 'error',
-                    text: response.value.message
-                }).then(() => {
-                    window.location.reload();
-                })
-            }
-        });
-    })
-});
+                } else {
+                    Swal.fire({
+                        type: 'error',
+                        text: response.value.message
+                    }).then(() => {
+                        window.location.reload();
+                    })
+                }
+            });
+        })
+    });
 </script>
 
 @include('components.toastr')

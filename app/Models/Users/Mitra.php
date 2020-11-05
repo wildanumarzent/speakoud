@@ -2,6 +2,7 @@
 
 namespace App\Models\Users;
 
+use App\Models\Instansi\InstansiMitra;
 use Illuminate\Database\Eloquent\Model;
 
 class Mitra extends Model
@@ -17,5 +18,10 @@ class Mitra extends Model
     public function creator()
     {
         return $this->belongsTo(User::class, 'creator_id');
+    }
+
+    public function instansi()
+    {
+        return $this->belongsTo(InstansiMitra::class, 'instansi_id');
     }
 }

@@ -35,6 +35,16 @@ class BankDataController extends Controller
         ]);
     }
 
+    public function filemanager(Request $request)
+    {
+        $data['directories'] = $this->service->filemanDirectory($request);
+        $data['files'] = $this->service->filemanFile($request, $request->get('type'));
+
+        return view('backend.bank_data.filemanager', compact('data'), [
+            'title' => 'Bank Data - Filemanager',
+        ]);
+    }
+
     //directory
     public function storeDirectory(Request $request)
     {

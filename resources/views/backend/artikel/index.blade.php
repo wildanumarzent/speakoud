@@ -51,7 +51,7 @@
                 </tr>
             </thead>
             <tbody>
-                @forelse ($data['data'] as $item)
+                @forelse ($data['artikel'] as $item)
                 <tr>
                     <td>{{ $data['number']++ }}</td>
                     <td> <a href="">{{ $item->title ?? '-' }}</a> </td>
@@ -88,7 +88,7 @@
                 @endforelse
             </tbody>
             <tbody class="tbody-responsive">
-                @forelse ($data['data'] as $item)
+                @forelse ($data['artikel'] as $item)
                 <tr>
                     <td>
                         <div class="card">
@@ -149,11 +149,11 @@
     <div class="card-footer">
         <div class="row align-items-center">
             <div class="col-lg-6 m--valign-middle">
-                Menampilkan : <strong>{{ $data['data']->firstItem() }}</strong> - <strong>{{ $data['data']->lastItem() }}</strong> dari
-                <strong>{{ $data['data']->total() }}</strong>
+                Menampilkan : <strong>{{ $data['artikel']->firstItem() }}</strong> - <strong>{{ $data['artikel']->lastItem() }}</strong> dari
+                <strong>{{ $data['artikel']->total() }}</strong>
             </div>
             <div class="col-lg-6 m--align-right">
-                {{ $data['data']->onEachSide(1)->links() }}
+                {{ $data['artikel']->onEachSide(1)->links() }}
             </div>
         </div>
     </div>

@@ -18,7 +18,6 @@ class CreateMitraTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('creator_id');
             $table->string('nip')->nullable();
-            $table->string('unit_kerja')->nullable();
             $table->string('kedeputian')->nullable();
             $table->string('pangkat')->nullable();
             $table->text('alamat')->nullable();
@@ -27,6 +26,7 @@ class CreateMitraTable extends Migration
             $table->text('sk_golongan')->nullable();
             $table->text('sk_jabatan')->nullable();
             $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
 
             $table->foreign('user_id')->references('id')->on('users')
                 ->cascadeOnDelete();

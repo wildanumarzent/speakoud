@@ -29,6 +29,7 @@ class CreatePesertaTable extends Migration
             $table->text('sk_jabatan')->nullable();
             $table->text('surat_ijin_atasan')->nullable();
             $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
 
             $table->foreign('user_id')->references('id')->on('users')
                 ->cascadeOnDelete();

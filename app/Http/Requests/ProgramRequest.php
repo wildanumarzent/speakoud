@@ -23,9 +23,32 @@ class ProgramRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'judul' => 'required'
-        ];
+        if ($this->method() == 'POST') {
+            if (auth()->user()->hasRole('developer|administrator')) {
+                if ($this->tipe == 1) {
+                    return [
+                        'judul' => 'required',
+                        'tipe' => 'required',
+                        'mitra_id' => 'required'
+                    ];
+                } else {
+                    return [
+                        'judul' => 'required',
+                        'tipe' => 'required'
+                    ];
+                }
+
+            } else {
+                return [
+                    'judul' => 'required',
+                ];
+            }
+
+        } else {
+            return [
+                'judul' => 'required',
+            ];
+        }
 
     }
 
@@ -33,6 +56,8 @@ class ProgramRequest extends FormRequest
     {
         return [
             'judul' => 'Judul',
+            'tipe' => 'Tipe',
+            'mitra_id' => 'Mitra'
         ];
     }
 
@@ -40,6 +65,8 @@ class ProgramRequest extends FormRequest
     {
         return [
             'judul.required' => ':attribute tidak boleh kosong',
+            'tipe.required' => ':attribute tidak boleh kosong',
+            'mitra_id.required' => ':attribute tidak boleh kosong',
         ];
     }
 }

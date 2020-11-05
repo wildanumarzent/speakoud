@@ -37,12 +37,55 @@ Route::group(['middleware' => ['auth']], function () {
         ->name('dashboard');
 
     //profile
-    Route::get('/profile/edit', 'users\UserController@profileForm')
+    Route::get('/profile/edit', 'Users\UserController@profileForm')
         ->name('profile.edit');
-    Route::put('/profile/edit', 'users\UserController@updateProfile');
+    Route::put('/profile/edit', 'Users\UserController@updateProfile');
 
     /**data master */
     //--- user management
+    //instansi internal
+    Route::get('/instansi/internal', 'Instansi\InstansiInternalController@index')
+        ->name('instansi.internal.index')
+        ->middleware('role:developer|administrator');
+    Route::get('/instansi/internal/create', 'Instansi\InstansiInternalController@create')
+        ->name('instansi.internal.create')
+        ->middleware('role:developer|administrator');
+    Route::post('/instansi/internal', 'Instansi\InstansiInternalController@store')
+        ->name('instansi.internal.store')
+        ->middleware('role:developer|administrator');
+    Route::get('/instansi/internal/{id}/edit', 'Instansi\InstansiInternalController@edit')
+        ->name('instansi.internal.edit')
+        ->middleware('role:developer|administrator');
+    Route::put('/instansi/internal/{id}', 'Instansi\InstansiInternalController@update')
+        ->name('instansi.internal.update')
+        ->middleware('role:developer|administrator');
+    Route::put('/instansi/internal/{id}/soft', 'Instansi\InstansiInternalController@destroySoft')
+        ->name('instansi.internal.destroy.soft')
+        ->middleware('role:developer|administrator');
+    Route::delete('/instansi/internal/{id}', 'Instansi\InstansiInternalController@destroy')
+        ->name('instansi.internal.destroy')
+        ->middleware('role:developer|administrator');
+
+    //instansi mitra
+    Route::get('/instansi/mitra', 'Instansi\InstansiMitraController@index')
+        ->name('instansi.mitra.index')
+        ->middleware('role:developer|administrator');
+    Route::get('/instansi/mitra/create', 'Instansi\InstansiMitraController@create')
+        ->name('instansi.mitra.create')
+        ->middleware('role:developer|administrator');
+    Route::post('/instansi/mitra', 'Instansi\InstansiMitraController@store')
+        ->name('instansi.mitra.store')
+        ->middleware('role:developer|administrator');
+    Route::get('/instansi/mitra/{id}/edit', 'Instansi\InstansiMitraController@edit')
+        ->name('instansi.mitra.edit')
+        ->middleware('role:developer|administrator');
+    Route::put('/instansi/mitra/{id}', 'Instansi\InstansiMitraController@update')
+        ->name('instansi.mitra.update')
+        ->middleware('role:developer|administrator');
+    Route::delete('/instansi/mitra/{id}', 'Instansi\InstansiMitraController@destroy')
+        ->name('instansi.mitra.destroy')
+        ->middleware('role:developer|administrator');
+
     //users
     Route::get('/user', 'Users\UserController@index')
         ->name('user.index')
@@ -146,35 +189,124 @@ Route::group(['middleware' => ['auth']], function () {
         ->name('peserta.destroy')
         ->middleware('role:developer|administrator');
 
+    //--- grades management
+
     /**bank data */
     Route::get('/bank/data/{type}', 'BankDataController@index')
         ->name('bank.data')
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
+    Route::get('/bank/data/filemanager/view', 'BankDataController@filemanager')
+        ->name('bank.data.filemanager')
         ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
 
     //directory
     Route::post('/directory', 'BankDataController@storeDirectory')
         ->name('bank.data.directory.store')
-        ->middleware('role:developer|administrator|internal|mitra');
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
     Route::delete('/directory', 'BankDataController@destroyDirectory')
         ->name('bank.data.directory.destroy')
-        ->middleware('role:developer|administrator|internal|mitra');
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
 
     //file
     Route::post('/files', 'BankDataController@storeFile')
         ->name('bank.data.files.store')
-        ->middleware('role:developer|administrator|internal|mitra');
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
     Route::put('/files/{id}', 'BankDataController@updateFile')
         ->name('bank.data.files.update')
-        ->middleware('role:developer|administrator|internal|mitra');
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
     Route::delete('/files/{id}', 'BankDataController@destroyFile')
         ->name('bank.data.files.destroy')
-        ->middleware('role:developer|administrator|internal|mitra');
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
 
     /**manage course */
     //program pelatihan
     Route::get('/program', 'Course\ProgramController@index')
         ->name('program.index')
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
+    Route::get('/program/create', 'Course\ProgramController@create')
+        ->name('program.create')
         ->middleware('role:developer|administrator|internal|mitra');
+    Route::post('/program', 'Course\ProgramController@store')
+        ->name('program.store')
+        ->middleware('role:developer|administrator|internal|mitra');
+    Route::get('/program/{id}/edit', 'Course\ProgramController@edit')
+        ->name('program.edit')
+        ->middleware('role:developer|administrator|internal|mitra');
+    Route::put('/program/{id}', 'Course\ProgramController@update')
+        ->name('program.update')
+        ->middleware('role:developer|administrator|internal|mitra');
+    Route::put('/program/{id}/position/{position}', 'Course\ProgramController@position')
+        ->name('program.position')
+        ->middleware('role:developer|administrator|internal|mitra');
+    Route::post('/program/sort', 'Course\ProgramController@sort')
+        ->name('program.sort')
+        ->middleware('role:developer|administrator|internal|mitra');
+    Route::delete('/program/{id}', 'Course\ProgramController@destroy')
+        ->name('program.destroy')
+        ->middleware('role:developer|administrator|internal|mitra');
+
+    //mata pelatihan
+    Route::get('/program/{id}/mata', 'Course\MataController@index')
+        ->name('mata.index')
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
+    Route::get('/program/{id}/mata/create', 'Course\MataController@create')
+        ->name('mata.create')
+        ->middleware('role:developer|administrator|internal|mitra');
+    Route::post('/program/{id}/mata', 'Course\MataController@store')
+        ->name('mata.store')
+        ->middleware('role:developer|administrator|internal|mitra');
+    Route::get('/program/{id}/mata/{mataId}/edit', 'Course\MataController@edit')
+        ->name('mata.edit')
+        ->middleware('role:developer|administrator|internal|mitra');
+    Route::put('/program/{id}/mata/{mataId}', 'Course\MataController@update')
+        ->name('mata.update')
+        ->middleware('role:developer|administrator|internal|mitra');
+    Route::put('/program/{id}/mata/{mataId}/publish', 'Course\MataController@publish')
+        ->name('mata.publish')
+        ->middleware('role:developer|administrator|internal|mitra');
+    Route::put('/program/{id}/mata/{mataId}/position/{position}', 'Course\MataController@position')
+        ->name('mata.position')
+        ->middleware('role:developer|administrator|internal|mitra');
+    Route::post('/program/{id}/mata/sort', 'Course\MataController@sort')
+        ->name('mata.sort')
+        ->middleware('role:developer|administrator|internal|mitra');
+    Route::delete('/program/{id}/mata/{mataId}', 'Course\MataController@destroy')
+        ->name('mata.destroy')
+        ->middleware('role:developer|administrator|internal|mitra');
+
+    //materi pelatihan
+    Route::get('/mata/{id}/materi', 'Course\MateriController@index')
+        ->name('materi.index')
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
+    Route::get('/mata/{id}/materi/create', 'Course\MateriController@create')
+        ->name('materi.create')
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
+    Route::post('/mata/{id}/materi', 'Course\MateriController@store')
+        ->name('materi.store')
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
+     Route::get('/mata/{id}/materi/{materiId}/edit', 'Course\MateriController@edit')
+        ->name('materi.edit')
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
+    Route::put('/mata/{id}/materi/{materiId}', 'Course\MateriController@update')
+        ->name('materi.update')
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
+    Route::put('/mata/{id}/materi/{materiId}/publish', 'Course\MateriController@publish')
+        ->name('materi.publish')
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
+    Route::put('/mata/{id}/materi/{materiId}/position/{position}', 'Course\MateriController@position')
+        ->name('materi.position')
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
+    Route::post('/mata/{id}/materi/sort', 'Course\MateriController@sort')
+        ->name('materi.sort')
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
+    Route::delete('/mata/{id}/materi/{materiId}', 'Course\MateriController@destroy')
+        ->name('materi.destroy')
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
+
+    //bahan pelatihan
+    Route::get('/materi/{id}/bahan', 'Course\Bahan\BahanController@index')
+        ->name('bahan.index')
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
 
     //logout
     Route::post('/logout', 'Auth\LoginController@logout')

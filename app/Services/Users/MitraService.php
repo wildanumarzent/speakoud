@@ -39,7 +39,6 @@ class MitraService
         $query->when($request->q, function ($query, $q) {
             $query->where(function ($query) use ($q) {
                 $query->where('nip', 'like', '%'.$q.'%')
-                ->orWhere('unit_kerja', 'like', '%'.$q.'%')
                 ->orWhere('kedeputian', 'like', '%'.$q.'%')
                 ->orWhere('pangkat', 'like', '%'.$q.'%')
                 ->orWhere('alamat', 'like', '%'.$q.'%');
@@ -86,7 +85,7 @@ class MitraService
         if ($request->filled('password')) {
             $user->password = Hash::make($request->password);
         }
-        if ($request->email != $request->oldemail) {
+        if ($request->email != $request->old_email) {
             $user->email_verified = 0;
             $user->email_verified_at = null;
         }
@@ -101,7 +100,7 @@ class MitraService
     public function setField($request, $mitra)
     {
         $mitra->nip = $request->nip ?? null;
-        $mitra->unit_kerja = $request->unit_kerja ?? null;
+        $mitra->instansi_id = $request->instansi_id ?? null;
         $mitra->kedeputian = $request->kedeputian ?? null;
         $mitra->pangkat = $request->pangkat ?? null;
         $mitra->alamat = $request->alamat ?? null;

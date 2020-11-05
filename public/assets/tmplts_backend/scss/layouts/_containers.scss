@@ -1,4 +1,5 @@
 .alsen {
+    overflow-x: hidden;
     .page-loader div {
         background-color: $secondary-color !important;
     }
@@ -685,6 +686,9 @@
 
     }
 
+    .bootstrap-select .dropdown-menu.inner a[aria-selected="true"] {
+        background: #687182 !important;
+    }
 
 }
 

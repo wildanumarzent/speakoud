@@ -47,7 +47,14 @@ class ArtikelController extends Controller
      */
     public function create()
     {
-        //
+        $data['mode'] = 'create';
+        return view('backend.artikel.form', compact('data'), [
+            'title' => 'Artikel',
+            'breadcrumbsBackend' => [
+                'Artikel' => route('artikel.index'),
+                'Create' => '',
+            ],
+        ]);
     }
 
     /**
