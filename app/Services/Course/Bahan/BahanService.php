@@ -7,14 +7,15 @@ use App\Services\Course\MateriService;
 
 class BahanService
 {
-    private $model, $materi, $forum, $file, $link;
+    private $model, $materi, $forum, $file, $link, $quiz;
 
     public function __construct(
         BahanPelatihan $model,
         MateriService $materi,
         BahanForumService $forum,
         BahanFileService $file,
-        BahanLinkService $link
+        BahanLinkService $link,
+        BahanQuizService $quiz
     )
     {
         $this->model = $model;
@@ -22,6 +23,7 @@ class BahanService
         $this->forum = $forum;
         $this->file = $file;
         $this->link = $link;
+        $this->quiz = $quiz;
     }
 
     public function getBahanList($request, int $materiId)
@@ -72,6 +74,9 @@ class BahanService
         if ($request->type == 'link') {
             $segmen = $this->link->storeLink($request, $materi, $bahan);
         }
+        if ($request->type == 'quiz') {
+            $segmen = $this->quiz->storeQuiz($request, $materi, $bahan);
+        }
 
         $bahan->segmenable()->associate($segmen);
         $bahan->save();
@@ -95,6 +100,9 @@ class BahanService
         }
         if ($request->type == 'link') {
             $this->link->updateLink($request, $bahan);
+        }
+        if ($request->type == 'quiz') {
+            $segmen = $this->quiz->updateQuiz($request, $bahan);
         }
 
         return $bahan;

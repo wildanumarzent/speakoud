@@ -53,6 +53,11 @@ class BahanPelatihan extends Model
         return $this->hasOne(BahanLink::class, 'bahan_id');
     }
 
+    public function quiz()
+    {
+        return $this->hasOne(BahanQuiz::class, 'bahan_id');
+    }
+
     public function type($bahan)
     {
         if ($bahan->forum()->count() == 1) {
@@ -76,6 +81,14 @@ class BahanPelatihan extends Model
                 'tipe' => 'link',
                 'title' => 'Video Conference',
                 'icon' => 'video'
+            ];
+        }
+
+        if ($bahan->quiz()->count() == 1) {
+            $segmen = [
+                'tipe' => 'quiz',
+                'title' => 'Quiz',
+                'icon' => 'spell-check'
             ];
         }
 
