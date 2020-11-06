@@ -2,6 +2,7 @@
 
 namespace App\Models\Course;
 
+use App\Models\Course\Bahan\BahanPelatihan;
 use App\Models\Users\Mitra;
 use App\Models\Users\User;
 use Illuminate\Database\Eloquent\Model;
@@ -29,5 +30,10 @@ class ProgramPelatihan extends Model
     public function materi()
     {
         return $this->hasMany(MateriPelatihan::class, 'program_id');
+    }
+
+    public function bahan()
+    {
+        return $this->hasMany(BahanPelatihan::class, 'program_id');
     }
 }

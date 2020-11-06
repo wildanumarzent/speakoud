@@ -2,6 +2,7 @@
 
 namespace App\Models\Course;
 
+use App\Models\Course\Bahan\BahanPelatihan;
 use App\Models\Users\User;
 use Illuminate\Database\Eloquent\Model;
 
@@ -40,5 +41,10 @@ class MataPelatihan extends Model
         }
 
         return $photo;
+    }
+
+    public function bahan()
+    {
+        return $this->hasMany(BahanPelatihan::class, 'mata_id');
     }
 }

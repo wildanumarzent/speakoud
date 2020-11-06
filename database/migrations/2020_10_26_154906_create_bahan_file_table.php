@@ -20,9 +20,7 @@ class CreateBahanFileTable extends Migration
             $table->unsignedBigInteger('materi_id');
             $table->unsignedBigInteger('bahan_id');
             $table->unsignedBigInteger('creator_id');
-            $table->text('file_path');
-            $table->string('file_type')->comment('Mime Type');
-            $table->unsignedBigInteger('file_size')->comment('Byte');
+            $table->unsignedBigInteger('bank_data_id');
             $table->timestamps();
 
             $table->foreign('program_id')->references('id')
@@ -38,6 +36,8 @@ class CreateBahanFileTable extends Migration
                 ->on('bahan_pelatihan')
                 ->cascadeOnDelete();
             $table->foreign('creator_id')->references('id')->on('users')
+                ->cascadeOnDelete();
+            $table->foreign('bank_data_id')->references('id')->on('bank_data')
                 ->cascadeOnDelete();
         });
     }

@@ -48,15 +48,16 @@
     </div>
 </div>
 <!-- / Filters -->
-
+@if ($data['check_role'])
 <div class="d-flex justify-content-between">
     <a href="{{ route('program.create') }}" class="btn btn-primary rounded-pill" title="klik untuk menambah program pelatihan"><i class="las la-plus"></i>Tambah</a>
 </div>
 <br>
+@endif
 
 <div class="row drag">
     @foreach ($data['program'] as $item)
-    <div class="col-sm-6 col-xl-4" id="{{ $item->id }}" style="cursor: move;" title="geser untuk merubah urutan">
+    <div class="col-sm-6 col-xl-4" @if ($data['check_role']) id="{{ $item->id }}" style="cursor: move;" title="geser untuk merubah urutan" @endif>
       <div class="card card-list">
         <div class="card-body d-flex justify-content-between align-items-start pb-1">
           <div>
@@ -70,12 +71,16 @@
               <a class="dropdown-item" href="{{ route('mata.index', ['id' => $item->id]) }}" title="klik untuk melihat mata pelatihan">
                 <i class="las la-book"></i> Mata Pelatihan
               </a>
+              @if ($data['check_role'])
               <a class="dropdown-item" href="{{ route('program.edit', ['id' => $item->id]) }}" title="klik untuk mengedit program pelatihan">
                 <i class="las la-pen"></i> Edit
               </a>
+              @endif
+              @if (auth()->user()->hasRole('developer|administrator') || $item->creator_id == auth()->user()->id)
               <a class="dropdown-item js-sa2-delete" href="javascript:void(0);" data-id="{{ $item->id }}" title="klik untuk menghapus program pelatihan">
                 <i class="las la-trash-alt"></i> Hapus
               </a>
+              @endif
             </div>
           </div>
         </div>
@@ -89,6 +94,7 @@
                     <th>Status</th>
                     <td><span class="badge badge-outline-{{ $item->publish == 1 ? 'primary' : 'warning' }}">{{ $item->publish == 1 ? 'Publish' : 'Draft' }}</span></td>
                 </tr>
+                @if ($data['check_role'])
                 <tr>
                     <th>Urutan</th>
                     <td>
@@ -116,6 +122,7 @@
                         @endif
                     </td>
                 </tr>
+                @endif
           </table>
         </div>
         <hr class="m-0 mb-2">

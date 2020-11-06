@@ -32,7 +32,7 @@ class UserSeeder extends Seeder
                 'email_verified' => 1,
                 'email_verified_at' => now(),
                 'username' => 'administrator',
-                'password' => Hash::make('adMin2020#'),
+                'password' => Hash::make('admin123'),
                 'active' => 1,
                 'active_at' => now(),
                 'roles' => 'administrator',

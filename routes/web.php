@@ -307,6 +307,33 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/materi/{id}/bahan', 'Course\Bahan\BahanController@index')
         ->name('bahan.index')
         ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
+    Route::get('/materi/{id}/bahan/create', 'Course\Bahan\BahanController@create')
+        ->name('bahan.create')
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
+    Route::post('/materi/{id}/bahan', 'Course\Bahan\BahanController@store')
+        ->name('bahan.store')
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
+    Route::get('/materi/{id}/bahan/{bahanId}/edit', 'Course\Bahan\BahanController@edit')
+        ->name('bahan.edit')
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
+    Route::put('/materi/{id}/bahan/{bahanId}', 'Course\Bahan\BahanController@update')
+        ->name('bahan.update')
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
+    Route::put('/materi/{id}/bahan/{bahanId}/publish', 'Course\Bahan\BahanController@publish')
+        ->name('bahan.publish')
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
+    Route::put('/materi/{id}/bahan/{bahanId}/position/{position}', 'Course\Bahan\BahanController@position')
+        ->name('bahan.position')
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
+    Route::post('/materi/{id}/bahan/sort', 'Course\Bahan\BahanController@sort')
+        ->name('bahan.sort')
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
+    Route::delete('/materi/{id}/bahan/{bahanId}', 'Course\Bahan\BahanController@destroy')
+        ->name('bahan.destroy')
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
+
+    /**Website module */
+    //konfigurasi
 
     //logout
     Route::post('/logout', 'Auth\LoginController@logout')

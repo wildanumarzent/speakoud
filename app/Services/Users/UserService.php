@@ -207,24 +207,30 @@ class UserService
             $this->deletePhotoFromPath($user->photo['filename']);
         }
 
-        // if ($bankData->count() > 0) {
-        //     foreach ($bankData->get() as $value) {
-        //         Storage::disk('bank_data')->delete($value->file_path);
-        //         if ($value->thumbnail != null) {
-        //             Storage::disk('bank_data')->delete($value->thumbnail);
-        //         }
-        //         $value->delete();
-        //     }
-        // }
+        if ($bankData->count() > 0) {
+            foreach ($bankData->get() as $value) {
+                Storage::disk('bank_data')->delete($value->file_path);
+                if ($value->thumbnail != null) {
+                    Storage::disk('bank_data')->delete($value->thumbnail);
+                }
+                $value->delete();
+            }
+        }
 
         if ($user->hasRole('internal')) {
-            $user->internal()->instansi()->delete();
             $user->internal()->delete();
         }
 
         if ($user->hasRole('mitra')) {
-            $user->internal()->mitra()->delete();
-            $user->internal()->delete();
+            $user->mitra()->delete();
+        }
+
+        if ($user->hasRole('instruktur_internal|instruktur_mitra')) {
+            $user->instruktur()->delete();
+        }
+
+        if ($user->hasRole('peserta_internal|peserta_mitra')) {
+            $user->peserta()->delete();
         }
 
         $user->delete();

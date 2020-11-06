@@ -2,20 +2,24 @@
 
 namespace App\Services\Users;
 
+use App\Models\BankData;
 use App\Models\Users\Instruktur;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class InstrukturService
 {
-    private $model, $user;
+    private $model, $modelBankData, $user;
 
     public function __construct(
         Instruktur $model,
+        BankData $modelBankData,
         UserService $user
     )
     {
         $this->model = $model;
+        $this->modelBankData = $modelBankData;
         $this->user = $user;
     }
 
@@ -122,6 +126,7 @@ class InstrukturService
     {
         $instruktur = $this->findInstruktur($id);
         $user = $instruktur->user;
+        $bankData = $this->modelBankData->where('owner_id', $user->id);
 
         if ($user->information()->count() > 0) {
             $user->information()->delete();
@@ -129,6 +134,16 @@ class InstrukturService
         if (!empty($user->photo['file'])) {
             $path = public_path('userfile/photo/'.$user->photo['file']) ;
             File::delete($path);
+        }
+
+        if ($bankData->count() > 0) {
+            foreach ($bankData->get() as $value) {
+                Storage::disk('bank_data')->delete($value->file_path);
+                if ($value->thumbnail != null) {
+                    Storage::disk('bank_data')->delete($value->thumbnail);
+                }
+                $value->delete();
+            }
         }
 
         $instruktur->delete();

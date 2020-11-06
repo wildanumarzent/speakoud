@@ -23,8 +23,8 @@ class CreateBahanPelatihanTable extends Migration
             $table->text('keterangan')->nullable();
             $table->boolean('publish')->default(0);
             $table->integer('urutan')->default(0);
-            $table->string('ingredientable_type')->nullable();
-            $table->unsignedBigInteger('ingredientable_id')->nullable();
+            $table->string('segmenable_type')->nullable();
+            $table->unsignedBigInteger('segmenable_id')->nullable();
             $table->timestamps();
 
             $table->foreign('program_id')->references('id')

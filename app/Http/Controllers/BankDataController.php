@@ -38,7 +38,7 @@ class BankDataController extends Controller
     public function filemanager(Request $request)
     {
         $data['directories'] = $this->service->filemanDirectory($request);
-        $data['files'] = $this->service->filemanFile($request, $request->get('type'));
+        $data['files'] = $this->service->filemanFile($request, $request->get('type-file'));
 
         return view('backend.bank_data.filemanager', compact('data'), [
             'title' => 'Bank Data - Filemanager',
