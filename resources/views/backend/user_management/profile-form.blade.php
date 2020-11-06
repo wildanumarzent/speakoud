@@ -130,7 +130,7 @@
                     </div>
                 </div>
             </div>
-            <div class="bg-white ui-bordered mb-2">
+            <div class="bg-white ui-bordered mb-2 hide-collapse">
                 <a href="#additional-name" class="d-flex justify-content-between text-body py-3 px-4 collapsed" data-toggle="collapse" aria-expanded="true">
                     <strong>Additional name</strong>
                     <span class="collapse-icon"></span>
@@ -164,7 +164,7 @@
                     </div>
                 </div>
             </div>
-            <div class="bg-white ui-bordered mb-2">
+            <div class="bg-white ui-bordered mb-2 hide-collapse">
                 <a href="#optional" class="d-flex justify-content-between text-body py-3 px-4 collapsed" data-toggle="collapse" aria-expanded="true">
                     <strong>Optional</strong>
                     <span class="collapse-icon"></span>
@@ -265,6 +265,8 @@
 <script src="{{ asset('assets/tmplts_backend/js/pages_account-settings.js') }}"></script>
 
 <script>
+$(".hide-collapse").hide();
+
 $(".toggle-password-current, .toggle-password, .toggle-password-confirm").click(function() {
     $(this).toggleClass("fa-eye fa-eye-slash");
     var input = $($(this).attr("toggle"));

@@ -21,6 +21,8 @@ class CreateBahanLinkTable extends Migration
             $table->unsignedBigInteger('bahan_id');
             $table->unsignedBigInteger('creator_id');
             $table->text('meeting_link');
+            $table->boolean('tipe')->default(0);
+            $table->tinyInteger('status')->default(0);
             $table->timestamps();
 
             $table->foreign('program_id')->references('id')

@@ -13,7 +13,9 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        if (request()->segment(1) != null) {
+            $this->middleware('auth');
+        }
     }
 
     /**

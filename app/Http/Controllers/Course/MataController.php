@@ -34,6 +34,7 @@ class MataController extends Controller
         $data['number'] = $data['mata']->firstItem();
         $data['mata']->withPath(url()->current().$p.$q);
         $data['program'] = $this->serviceProgram->findProgram($programId);
+        $data['check_role'] = auth()->user()->hasRole('developer|administrator|internal|mitra');
 
         $this->checkTypeRole($data['program']);
 
@@ -77,6 +78,10 @@ class MataController extends Controller
         $data['mata'] = $this->service->findMata($id);
         $data['program'] = $this->serviceProgram->findProgram($programId);
 
+        if (auth()->user()->hasRole('mitra')) {
+            $this->checkCreatorMitra($data['mata']->creator_id);
+        }
+
         return view('backend.course_management.mata.form', compact('data'), [
             'title' => 'Mata Pelatihan - Edit',
             'breadcrumbsBackend' => [
@@ -89,6 +94,11 @@ class MataController extends Controller
 
     public function update(MataRequest $request, $programId, $id)
     {
+        if (auth()->user()->hasRole('mitra')) {
+            $mata = $this->service->findMata($id);
+            $this->checkCreatorMitra($mata->creator_id);
+        }
+
         $this->service->updateMata($request, $id);
 
         return redirect()->route('mata.index', ['id' => $programId])
@@ -97,6 +107,11 @@ class MataController extends Controller
 
     public function publish($programId, $id)
     {
+        if (auth()->user()->hasRole('mitra')) {
+            $mata = $this->service->findMata($id);
+            $this->checkCreatorMitra($mata->creator_id);
+        }
+
         $this->service->publishMata($id);
 
         return back()->with('success', 'Status berhasil diubah');
@@ -104,6 +119,11 @@ class MataController extends Controller
 
     public function position($programId, $id, $urutan)
     {
+        if (auth()->user()->hasRole('mitra')) {
+            $mata = $this->service->findMata($id);
+            $this->checkCreatorMitra($mata->creator_id);
+        }
+
         $this->service->positionMata($id, $urutan);
 
         return back()->with('success', 'Posisi berhasil diubah');
@@ -111,6 +131,11 @@ class MataController extends Controller
 
     public function sort($programId)
     {
+        if (auth()->user()->hasRole('mitra')) {
+            $mata = $this->service->findMata($id);
+            $this->checkCreatorMitra($mata->creator_id);
+        }
+
         $i = 0;
 
         foreach ($_POST['datas'] as $value) {
@@ -121,6 +146,11 @@ class MataController extends Controller
 
     public function destroy($programId, $id)
     {
+        if (auth()->user()->hasRole('mitra')) {
+            $mata = $this->service->findMata($id);
+            $this->checkCreatorMitra($mata->creator_id);
+        }
+
         $this->service->deleteMata($id);
 
         return response()->json([
@@ -141,6 +171,13 @@ class MataController extends Controller
                 && $tipe->mitra_id != auth()->user()->instruktur->mitra_id) {
                 return abort(404);
             }
+        }
+    }
+
+    public function checkCreatorMitra($creatorId)
+    {
+        if ($creatorId != auth()->user()->id) {
+            return abort(404);
         }
     }
 }

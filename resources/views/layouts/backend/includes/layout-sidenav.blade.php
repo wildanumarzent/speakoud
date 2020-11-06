@@ -36,18 +36,20 @@
             <div>Data Master</div>
           </a>
             <ul class="sidenav-menu">
-                @role ('developer|administrator')
+                @role ('developer|administrator|internal')
                 <li class="sidenav-item{{ (Request::is('instansi/internal*') || Request::is('instansi/mitra*')) ? ' active open' : '' }}">
                     <a href="javascript:void(0)" class="sidenav-link sidenav-toggle">
                       <div>Instansi</div>
                     </a>
 
                     <ul class="sidenav-menu">
+                        @role ('developer|administrator')
                         <li class="sidenav-item{{ Request::is('instansi/internal*') ? ' active' : '' }}">
                             <a href="{{ route('instansi.internal.index') }}" class="sidenav-link">
                               <div>BPPT</div>
                             </a>
                         </li>
+                        @endrole
                         <li class="sidenav-item{{ Request::is('instansi/mitra*') ? ' active' : '' }}">
                             <a href="{{ route('instansi.mitra.index') }}" class="sidenav-link">
                               <div>Mitra</div>

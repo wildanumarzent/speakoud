@@ -103,7 +103,7 @@ class InternalService
     {
         $internal = $this->findInternal($id);
         $user = $internal->user;
-        $bankData = $this->modelBankData->where('owner_id', $id);
+        $bankData = $this->modelBankData->where('owner_id', $user->id);
 
         if ($user->information()->count() > 0) {
             $user->information()->delete();
@@ -114,17 +114,16 @@ class InternalService
             File::delete($path);
         }
 
-        // if ($bankData->count() > 0) {
-        //     foreach ($bankData->get() as $value) {
-        //         Storage::disk('bank_data')->delete($value->file_path);
-        //         if ($value->thumbnail != null) {
-        //             Storage::disk('bank_data')->delete($value->thumbnail);
-        //         }
-        //         $value->delete();
-        //     }
-        // }
+        if ($bankData->count() > 0) {
+            foreach ($bankData->get() as $value) {
+                Storage::disk('bank_data')->delete($value->file_path);
+                if ($value->thumbnail != null) {
+                    Storage::disk('bank_data')->delete($value->thumbnail);
+                }
+                $value->delete();
+            }
+        }
 
-        $internal->instansi()->delete();
         $internal->delete();
         $internal->user()->delete();
 

@@ -60,21 +60,8 @@ class BankDataService
                 });
             });
 
-            //link
-            if ($request->get('type') == 'link') {
-                $query->where('is_video', 0);
-            }
-            //audio
-            if ($request->get('type') == 'audio') {
-                $query->where('file_type', 'mp3');
-            }
-            //video
-            if ($request->get('type') == 'video') {
-                $query->where('is_video', 1);
-            }
-            //pdf
-            if ($request->get('type') == 'pdf') {
-                $query->where('file_type', 'pdf');
+            if ($type != null) {
+                $this->typeOfFile($type, $query);
             }
 
             $files[$key] = $value;
@@ -82,6 +69,49 @@ class BankDataService
         }
 
         return $data;
+    }
+
+    public function typeOfFile($type, $query)
+    {
+        //link
+        if ($type == 'link') {
+            $query->where('is_video', 0);
+        }
+        //audio
+        if ($type == 'audio') {
+            $query->where('file_type', 'mp3');
+        }
+        //video
+        if ($type == 'video') {
+            $query->where('is_video', 1);
+        }
+        //file
+        if ($type == 'pdf') {
+            $query->where('file_type', 'pdf');
+        }
+        if ($type == 'ppt') {
+            $query->where('file_type', 'ppt');
+        }
+        if ($type == 'pptx') {
+            $query->where('file_type', 'pptx');
+        }
+        if ($type == 'doc') {
+            $query->where('file_type', 'doc');
+        }
+        if ($type == 'docx') {
+            $query->where('file_type', 'docx');
+        }
+
+        //all file
+        if ($type == 'dokumen') {
+            $query->where('file_type', 'pdf')
+                ->orWhere('file_type', 'ppt')
+                ->orWhere('file_type', 'pptx')
+                ->orWhere('file_type', 'doc')
+                ->orWhere('file_type', 'docx');
+        }
+
+        return $query;
     }
 
     //directory

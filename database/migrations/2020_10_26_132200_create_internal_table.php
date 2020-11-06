@@ -17,6 +17,7 @@ class CreateInternalTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('creator_id');
+            $table->unsignedBigInteger('instansi_id');
             $table->string('nip')->nullable();
             $table->string('kedeputian')->nullable();
             $table->string('pangkat')->nullable();
@@ -27,6 +28,8 @@ class CreateInternalTable extends Migration
             $table->foreign('user_id')->references('id')->on('users')
                 ->cascadeOnDelete();
             $table->foreign('creator_id')->references('id')->on('users')
+                ->cascadeOnDelete();
+            $table->foreign('instansi_id')->references('id')->on('instansi_internal')
                 ->cascadeOnDelete();
         });
     }

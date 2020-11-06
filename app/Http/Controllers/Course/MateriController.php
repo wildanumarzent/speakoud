@@ -34,6 +34,7 @@ class MateriController extends Controller
         $data['number'] = $data['materi']->firstItem();
         $data['materi']->withPath(url()->current().$p.$q);
         $data['mata'] = $this->serviceMata->findMata($mataId);
+        $data['check_role'] = auth()->user()->hasRole('developer|administrator|internal|mitra');
 
         return view('backend.course_management.materi.index', compact('data'), [
             'title' => 'Mata - Materi Pelatihan',
