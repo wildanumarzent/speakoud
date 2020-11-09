@@ -343,7 +343,7 @@ Route::group(['middleware' => ['auth']], function () {
     // Artikel
     Route::get('/artikel','ArtikelController@index')->name('artikel.index');
     Route::get('/artikel/create','ArtikelController@create')->name('artikel.create');
-    Route::get('/artikel/{id}','ArtikelController@detail')->name('artikel.detail');
+    Route::get('/artikel/{id}/{slug}','ArtikelController@show')->name('artikel.show');
     Route::get('/artikel/{id}','ArtikelController@edit')->name('artikel.edit');
     Route::post('/artikel','ArtikelController@store')->name('artikel.store');
     Route::delete('/artikel/{id}','ArtikelController@destroy')->name('artikel.destroy');

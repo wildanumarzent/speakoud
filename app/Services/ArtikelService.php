@@ -8,23 +8,21 @@ use Illuminate\Support\Facades\Hash;
 
 class ArtikelService
 {
-    private $model;
+    private $artikel;
 
-    public function __construct(Artikel $model)
+    public function __construct(Artikel $artikel)
     {
-        $this->model = $model;
+        $this->artikel = $artikel;
     }
 
-    public function list($data){
-        $query = $this->model->query();
+    public function list($request){
+        $query = $this->artikel->query();
 
-        $query->when($data->q, function ($query, $q) {
+        $query->when($request->q, function ($query, $q) {
             $query->where(function ($query) use ($q) {
-                $query->where('nip', 'like', '%'.$q.'%')
-                ->orWhere('unit_kerja', 'like', '%'.$q.'%')
-                ->orWhere('kedeputian', 'like', '%'.$q.'%')
-                ->orWhere('pangkat', 'like', '%'.$q.'%')
-                ->orWhere('alamat', 'like', '%'.$q.'%');
+                $query->where('content', 'like', '%'.$q.'%')
+                ->orWhere('title', 'like', '%'.$q.'%')
+                ->orWhere('intro', 'like', '%'.$q.'%');
             });
         });
         if (auth()->user()->hasRole('developer|administrator|internal') == false) {
@@ -37,36 +35,85 @@ class ArtikelService
     }
 
     public function get($id){
-      $query = $this->model->query();
-      $query->where('id', $id)->first();
-      $result = $query;
-      $this->viewer($id);
+      $query = $this->artikel->query();
+      $query->find($id);
+      $result = $query->first();
       return $result;
     }
 
-    public function save($data){
-        $this->model->create([
-        'title' => 'Mengisi field created_by dan updated_by otomatis',
-        'slug' => 'Implementasi blameable behaviour pada eloquent model',
-        'publish' => 1,
-        ]);
-        return true;
+    public function save($request){
+        $artikel = new Artikel($request->only(['title','intro','content','publish']));
+       $artikel->meta_data = [
+        'title' => $request['m_title'] ?? null,
+        'description' => $request['m_description'] ?? null,
+        'keywords' => $request['m_keywords'] ?? null,
+        ];
+        $slug = str_replace(" ", "-", strtolower($request->title));
+       $artikel->slug = $slug;
+
+       if ($request->hasFile('cover')) {
+        $fileName = str_replace(' ', '-', $request->file('cover')
+            ->getClientOriginalName());
+        $request->file('cover')->move(public_path('userfile/'.auth()->user()->id.'/artikel'), $fileName);
+        $artikel->cover = '"'.'userfile/'.auth()->user()->id.'/artikel'.'/'.$fileName.'"';
     }
 
-    public function update($id,$data){
+    switch ($request->input('action')) {
+        case 'save':
+            $artikel->publish = 1;
+            break;
 
+        case 'draft':
+            $artikel->publish = 0;
+            break;
+    }
+        
+       $artikel->save();
+        return $artikel;
     }
 
-    public function delete(){
+    public function update($request){
+        $artikel = $this->get($request->id);
+        $artikel->fill($request->only(['title','intro','content','cover','publish']));
+        $artikel->meta_data = [
+            'title' => $request['m_title'] ?? null,
+            'description' => $request['m_description'] ?? null,
+            'keywords' => $request['m_keywords'] ?? null,
+            ];
+        $slug = str_replace(" ", "-", strtolower($request->title));
+       $artikel->slug = $slug;
 
+       if ($request->hasFile('cover')) {
+        $fileName = str_replace(' ', '-', $request->file('cover')
+            ->getClientOriginalName());
+        $this->deletePhotoFromPath($request->old_photo);
+        $request->file('cover')->move(public_path('userfile/'.auth()->user()->id.'/artikel'), $fileName);
+        $artikel->cover = '"'.'userfile/'.auth()->user()->id.'/artikel'.'/'.$fileName.'"';
+    }
+    switch ($request->input('action')) {
+        case 'save':
+            $artikel->publish = 1;
+            break;
+
+        case 'draft':
+            $artikel->publish = 0;
+            break;
+    }
+        $artikel->save();
+        return $artikel;
     }
 
-    public function draft(){
-
+    public function delete($id){
+        $artikel = $this->get($id);
+        if (!empty($artikel->cover)) {
+        $this->deletePhotoFromPath($artikel->cover);
+        }
+        $artikel->delete();
+        return $artikel;
     }
 
     public function viewer($id){
-    $query = $this->model->query;
+    $query = $this->artikel->query();
     $query->find($id);
     $query->increment('viewer');
     return true;
@@ -79,7 +126,6 @@ class ArtikelService
     }else{
     return true;
     }
-
     }
 
 

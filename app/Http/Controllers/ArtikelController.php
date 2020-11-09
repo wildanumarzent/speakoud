@@ -56,6 +56,19 @@ class ArtikelController extends Controller
             ],
         ]);
     }
+    public function edit(Artikel $id)
+    {
+        $data['mode'] = 'edit';
+        $data['artikel'] = $this->artikel->get($id['id']);
+        return view('backend.artikel.form', compact('data'), [
+            'title' => 'Artikel',
+            'breadcrumbsBackend' => [
+                'Artikel' => route('artikel.index'),
+                'Edit' => '',
+            ],
+        ]);
+       
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -65,7 +78,13 @@ class ArtikelController extends Controller
      */
     public function store(Request $request)
     {
-        $this->artikel->save();
+        if($request->mode == 'edit'){
+            $this->artikel->update($request);
+        }else{
+            $this->artikel->save($request);
+        }
+        return redirect()->route('artikel.index')
+        ->with('success', 'Artikel Telah Disimpan');
     }
 
     /**
@@ -74,9 +93,17 @@ class ArtikelController extends Controller
      * @param  \App\Models\Artikel  $artikel
      * @return \Illuminate\Http\Response
      */
-    public function show(Artikel $artikel)
+    public function show(Artikel $id)
     {
-        //
+        $this->artikel->viewer($id['id']);  
+        $data['artikel'] = $this->artikel->get($id['id']);
+        return view('backend.artikel.detail', compact('data'), [
+            'title' => 'Artikel',
+            'breadcrumbsBackend' => [
+                'Artikel' => route('artikel.index'),
+                $id['title'] => '',
+            ],
+        ]);
     }
 
     /**
@@ -85,10 +112,7 @@ class ArtikelController extends Controller
      * @param  \App\Models\Artikel  $artikel
      * @return \Illuminate\Http\Response
      */
-    public function edit(Artikel $artikel)
-    {
-        //
-    }
+ 
 
     /**
      * Update the specified resource in storage.
@@ -108,8 +132,10 @@ class ArtikelController extends Controller
      * @param  \App\Models\Artikel  $artikel
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Artikel $artikel)
+    public function destroy($id)
     {
-        //
+        $this->artikel->delete($id);
+        return redirect()->route('artikel.index')
+        ->with('success', 'Artikel Telah Dihapus');
     }
 }

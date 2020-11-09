@@ -11,10 +11,11 @@
 <div class="card">
     <div class="card-body">
 
-        <form action="{{route('artikel.store')}}" method="POST">
+        <form action="{{route('artikel.store')}}" method="POST" enctype="multipart/form-data">
             @csrf
+             <input type="hidden" name="mode" value="{{$data['mode']}}">
            @if($data['mode'] == 'edit')
-           <input type="hidden" name="id" value="{{$data['data']->id}}">
+           <input type="hidden" name="id" value="{{$data['artikel']->id}}">
            @endif
                     <div class="form-group row">
                         <div class="col-md-2 text-md-right">
@@ -22,7 +23,7 @@
                         </div>
                         <div class="col-md-10">
                           <input type="text" class="form-control @error('title') is-invalid @enderror" name="title"
-                            value="{{ (isset($data['data'])) ? old('title', $data['data']->title) : old('title') }}" placeholder="masukan title..." autofocus>
+                            value="{{ (isset($data['artikel'])) ? old('title', $data['artikel']->title) : old('title') }}" placeholder="masukan title..." autofocus>
                           @include('components.field-error', ['field' => 'title'])
                         </div>
                     </div>
@@ -31,7 +32,7 @@
                           <label class="col-form-label text-sm-right">Intro</label>
                         </div>
                         <div class="col-md-10">
-                          <textarea name="intro" id="RTE-M"></textarea>
+                          <textarea name="intro" id="RTE-M">{{old('intro')  ?? @$data['artikel']['intro']}}</textarea>
                           @include('components.field-error', ['field' => 'intro'])
                         </div>
                     </div>
@@ -40,8 +41,8 @@
                           <label class="col-form-label text-sm-right">Content</label>
                         </div>
                         <div class="col-md-10">
-                          <textarea name="intro" id="RTE-IMG"></textarea>
-                          @include('components.field-error', ['field' => 'intro'])
+                          <textarea name="content" id="RTE-IMG">{{old('content')  ?? @$data['artikel']['content']}}</textarea>
+                          @include('components.field-error', ['field' => 'content'])
                         </div>
                     </div>
                     <div class="form-group row">
@@ -49,8 +50,8 @@
                           <label class="col-form-label text-sm-right">Cover</label>
                         </div>
                         <div class="col-md-10">
-                            <input type="text" class="form-control @error('title') is-invalid @enderror" name="title"
-                            value="{{ (isset($data['data'])) ? old('title', $data['data']->title) : old('title') }}" placeholder="masukan title..." autofocus>
+                            <input type="file" class="form-control @error('cover') is-invalid @enderror" name="cover"
+                            placeholder="masukan foto..." autofocus>
                           @include('components.field-error', ['field' => 'intro'])
                         </div>
                     </div>
@@ -60,8 +61,7 @@
                         </div>
                         <div class="col-md-10">
 
-                          <input type="text" class="form-control @error('title') is-invalid @enderror" name="tags" class="form-control" id="bs-tagsinput-2"
-                          value="{{ (isset($data['data'])) ? old('title', $data['data']->title) : old('title') }}" autofocus>
+                          <input type="text" class="form-control @error('tags') is-invalid @enderror" name="tags" class="form-control" id="bs-tagsinput-2" autofocus>
                           @include('components.field-error', ['field' => 'tags'])
                         </div>
                     </div>
@@ -73,8 +73,8 @@
                         </div>
                         <div class="col-md-10">
                           <input type="text" class="form-control @error('title') is-invalid @enderror" name="m_title"
-                          value="{{ (isset($data['data'])) ? old('title', $data['data']->title) : old('title') }}" placeholder="masukan title..." autofocus>
-                          @include('components.field-error', ['field' => 'intro'])
+                          value="{{ old('m_title', @$data['artikel']->meta_data['title']) }}" placeholder="masukan meta title..." autofocus>
+                          @include('components.field-error', ['field' => 'm_title'])
                         </div>
                     </div>
                     <div class="form-group row">
@@ -83,8 +83,8 @@
                         </div>
                         <div class="col-md-10">
                           <input type="text" class="form-control @error('title') is-invalid @enderror" name="m_description"
-                          value="{{ (isset($data['data'])) ? old('title', $data['data']->title) : old('title') }}" placeholder="masukan title..." autofocus>
-                          @include('components.field-error', ['field' => 'intro'])
+                          value="{{ old('m_description', @$data['artikel']->meta_data['description']) }}" placeholder="masukan meta description..." autofocus>
+                          @include('components.field-error', ['field' => 'm_description'])
                         </div>
                     </div>
                     <div class="form-group row">
@@ -93,8 +93,8 @@
                         </div>
                         <div class="col-md-10">
                           <input type="text" class="form-control @error('title') is-invalid @enderror" name="m_keywords"
-                          value="{{ (isset($data['data'])) ? old('title', $data['data']->title) : old('title') }}" placeholder="masukan title..." autofocus>
-                          @include('components.field-error', ['field' => 'intro'])
+                          value="{{ old('m_keywords', @$data['artikel']->meta_data['keywords']) }}" placeholder="masukan meta keywords..." autofocus>
+                          @include('components.field-error', ['field' => 'm_keywords'])
                         </div>
                     </div>
 
@@ -102,7 +102,8 @@
                 <div class="row">
                     <div class="col-md-10 ml-sm-auto text-md-left text-right">
                         <a href="{{ route('artikel.index') }}" class="btn btn-danger" title="klik untuk kembali ke list" data-toggle="tooltip">Kembali</a>
-                        <button type="submit" class="btn btn-primary" name="action" value="save" title="klik untuk menyimpan" data-toggle="tooltip">{{ isset($data['data']) ? 'Simpan perubahan' : 'Simpan' }}</button>
+                        <button type="submit" class="btn btn-primary" name="action" value="save" title="klik untuk menyimpan" data-toggle="tooltip">{{ isset($data['artikel']) ? 'Simpan perubahan' : 'Simpan' }}</button>
+                         <button type="submit" class="btn btn-secondary" name="action" value="draft" title="Draft" data-toggle="tooltip">Draft</button>
                     </div>
                 </div>
             </div>

@@ -54,8 +54,8 @@
                 @forelse ($data['artikel'] as $item)
                 <tr>
                     <td>{{ $data['number']++ }}</td>
-                    <td> <a href="">{{ $item->title ?? '-' }}</a> </td>
-                    <td>{{ $item->intro ?? '-' }}</td>
+                    <td> <a href="{{route('artikel.show',['id' => $item->id,'slug' => $item->slug])}}">{{ $item->title ?? '-' }}</a> </td>
+                    <td>{!! $item->intro ?? '-' !!}</td>
                     <td><span class="badge badge-outline-{{$item->publish ==1 ? 'success' : 'secondary'}}">{{$item->publish ==1 ? 'Published' : 'Draft'}}</span></td>
                     <td>{{ $item->viewer ?? '-' }}</td>
                     <td>
@@ -70,6 +70,11 @@
                         <a href="{{ route('artikel.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengedit artikel" data-toggle="tooltip">
                                 <i class="las la-pen"></i>
                         </a>
+                        {{-- <form action="{{route('artikel.destroy',['id' => $item->id])}}" method="delete">
+                         <button type="submit" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk delete artikel">
+                                <i class="las la-trash-alt"></i>
+                        </button>
+                        </form> --}}
                         <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus artikel" data-toggle="tooltip">
                             <i class="las la-trash-alt"></i>
                         </a>
@@ -185,7 +190,7 @@ $(document).ready(function () {
             preConfirm: () => {
                 return $.ajax({
                     url: "/artikel/" + id,
-                    method: 'POST',
+                    method: 'DELETE',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
