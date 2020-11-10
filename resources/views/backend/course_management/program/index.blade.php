@@ -55,7 +55,7 @@
 <br>
 @endif
 
-<div class="row drag">
+<div class="row @if ($data['check_role']) drag @endif">
     @foreach ($data['program'] as $item)
     <div class="col-sm-6 col-xl-4" @if ($data['check_role']) id="{{ $item->id }}" style="cursor: move;" title="geser untuk merubah urutan" @endif>
       <div class="card card-list">

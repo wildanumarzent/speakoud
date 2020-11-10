@@ -47,6 +47,11 @@ class BahanRequest extends FormRequest
                 ];
             }
         }
+        if ($this->type == 'quiz') {
+            return [
+                'judul' => 'required',
+            ];
+        }
     }
 
     public function attributes()

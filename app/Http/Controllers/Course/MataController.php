@@ -6,19 +6,22 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\MataRequest;
 use App\Services\Course\MataService;
 use App\Services\Course\ProgramService;
+use App\Services\Users\InstrukturService;
 use Illuminate\Http\Request;
 
 class MataController extends Controller
 {
-    private $service, $serviceProgram;
+    private $service, $serviceProgram, $serviceInstruktur;
 
     public function __construct(
         MataService $service,
-        ProgramService $serviceProgram
+        ProgramService $serviceProgram,
+        InstrukturService $serviceInstruktur
     )
     {
         $this->service = $service;
         $this->serviceProgram = $serviceProgram;
+        $this->serviceInstruktur = $serviceInstruktur;
     }
 
     public function index(Request $request, $programId)
@@ -50,6 +53,8 @@ class MataController extends Controller
     public function create($programId)
     {
         $data['program'] = $this->serviceProgram->findProgram($programId);
+        $data['instruktur'] = $this->serviceInstruktur->getInstrukturForMata($data['program']->tipe);
+
         $this->checkTypeRole($data['program']);
 
         return view('backend.course_management.mata.form', compact('data'), [
@@ -77,6 +82,12 @@ class MataController extends Controller
     {
         $data['mata'] = $this->service->findMata($id);
         $data['program'] = $this->serviceProgram->findProgram($programId);
+        $data['instruktur'] = $this->serviceInstruktur->getInstrukturForMata($data['program']->tipe);
+
+        $collectInstruktur = collect($data['mata']->instruktur);
+        $data['instruktur_id'] = $collectInstruktur->map(function($item, $key) {
+            return $item->instruktur_id;
+        })->all();
 
         if (auth()->user()->hasRole('mitra')) {
             $this->checkCreatorMitra($data['mata']->creator_id);

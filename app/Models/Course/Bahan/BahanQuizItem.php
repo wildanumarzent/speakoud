@@ -13,6 +13,11 @@ class BahanQuizItem extends Model
     protected $table = 'bahan_quiz_item';
     protected $guarded = [];
 
+    protected $casts = [
+        'pilihan' => 'array',
+        'jawaban' => 'array',
+    ];
+
     public function creator()
     {
         return $this->belongsTo(User::class, 'creator_id');

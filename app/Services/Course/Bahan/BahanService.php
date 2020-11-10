@@ -159,6 +159,10 @@ class BahanService
         if ($bahan->link()->count() == 1) {
             $bahan->link()->delete();
         }
+        if ($bahan->quiz()->count() == 1) {
+            $bahan->quiz()->delete();
+            $bahan->quiz->item()->delete();
+        }
 
         $bahan->delete();
 

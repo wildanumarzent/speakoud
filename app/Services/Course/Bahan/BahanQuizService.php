@@ -21,6 +21,8 @@ class BahanQuizService
         $quiz->materi_id = $materi->id;
         $quiz->bahan_id = $bahan->id;
         $quiz->creator_id = auth()->user()->id;
+        $quiz->durasi = $request->durasi ?? null;
+        $quiz->tipe = $request->tipe;
         $quiz->save();
 
         return $quiz;
@@ -29,6 +31,8 @@ class BahanQuizService
     public function updateQuiz($request, $bahan)
     {
         $quiz = $bahan->quiz;
+        $quiz->durasi = $request->durasi ?? null;
+        $quiz->tipe = $request->tipe;
         $quiz->save();
 
         return $quiz;

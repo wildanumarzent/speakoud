@@ -34,6 +34,13 @@ class BahanController extends Controller
         $data['number'] = $data['bahan']->firstItem();
         $data['bahan']->withPath(url()->current().$p.$q);
         $data['materi'] = $this->serviceMateri->findMateri($materiId);
+        $data['check_role'] = auth()->user()->hasRole('instruktur_internal|instruktur_mitra');
+
+        if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra') &&
+            $data['materi']->mata->instruktur()->where('instruktur_id', auth()->user()->instruktur->id)
+                ->count() == 0) {
+            return abort(404);
+        }
 
         return view('backend.course_management.bahan.index', compact('data'), [
             'title' => 'Materi - Bahan Pelatihan',
