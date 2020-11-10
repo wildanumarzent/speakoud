@@ -81,7 +81,6 @@
     <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/toastr/toastr.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/spinkit/spinkit.css') }}">
-    @livewireStyles
     @yield('styles')
 
 </head>
@@ -170,56 +169,6 @@
 			$('#main').delay(1000).fadeIn();
 		});
     </script>
-
-        {{-- tiny mce --}}
-        <script src="https://cdn.tiny.cloud/1/6qed0blc4b73g5p5uwh7acq07ay1sli0skekw9shc6wz2sbc/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
-        <script>
-        tinymce.init({
-      selector: 'textarea#RTE',
-      height: 300,
-      menubar: false,
-      plugins: [
-        'advlist autolink lists link image charmap print preview anchor',
-        'searchreplace visualblocks code fullscreen',
-        'insertdatetime media table paste code help wordcount'
-      ],
-      toolbar: 'undo redo | formatselect | ' +
-      'bold italic backcolor | alignleft aligncenter ' +
-      'alignright alignjustify | bullist numlist outdent indent | ' +
-      'removeformat | help',
-      content_css: '//www.tiny.cloud/css/codepen.min.css'
-    });
-
-    tinymce.init({
-      selector: 'textarea#RTE-M',
-      height: 200,
-      menubar: false,
-      plugins: [
-        'advlist autolink lists link image charmap print preview anchor',
-        'searchreplace visualblocks code fullscreen',
-        'insertdatetime media table paste code help wordcount'
-      ],
-      toolbar: 'undo redo | formatselect | ' +
-      'bold italic backcolor | alignleft aligncenter ' +
-      'alignright alignjustify | bullist numlist outdent indent | ' +
-      'removeformat | help',
-      content_css: '//www.tiny.cloud/css/codepen.min.css'
-    });
-
-    tinymce.init({
-      selector: 'textarea#RTE-IMG',
-      height: 500,
-      plugins: [
-        "advlist autolink lists link image charmap print preview anchor",
-        "searchreplace visualblocks code fullscreen",
-        "insertdatetime media table paste imagetools wordcount"
-      ],
-      toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
-      content_css: '//www.tiny.cloud/css/codepen.min.css'
-    });
-        </script>
-    {{-- / tiny mce --}}
-    @livewireScripts
     @yield('jsbody')
 
 </body>

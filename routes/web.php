@@ -373,10 +373,6 @@ Route::group(['middleware' => ['auth']], function () {
     /**Website module */
     //konfigurasi
 
-    //logout
-    Route::post('/logout', 'Auth\LoginController@logout')
-        ->name('logout');
-
     /** Artikel dan Component nya */
     // Artikel
     Route::get('/artikel','ArtikelController@index')->name('artikel.index');
@@ -412,6 +408,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/kalender/{id}','KalenderController@detail')->name('kalender.detail');
     Route::post('/kalender','KalenderController@store')->name('kalender.store');
     Route::delete('/kalender/{id}','KalenderController@destroy')->name('kalender.destroy');
+
+    //logout
+    Route::post('/logout', 'Auth\LoginController@logout')
+        ->name('logout');
 });
 
 
