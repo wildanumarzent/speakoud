@@ -26,6 +26,7 @@ class MataRequest extends FormRequest
         return [
             'judul' => 'required',
             'publish_start' => 'required',
+            'instruktur_id' => 'required',
             'cover' => 'nullable|mimes:'.config('addon.mimes.cover.m'),
         ];
 
@@ -36,6 +37,7 @@ class MataRequest extends FormRequest
         return [
             'judul' => 'Judul',
             'publish_start' => 'Publish Start',
+            'instruktur_id' => 'Instruktur',
             'cover' => 'Cover'
         ];
     }
@@ -45,6 +47,7 @@ class MataRequest extends FormRequest
         return [
             'judul.required' => ':attribute tidak boleh kosong',
             'publish_start.required' => ':attribute tidak boleh kosong',
+            'instruktur_id.required' => ':attribute harus dipilih',
             'cover.mimes' => 'Tipe :attribute harus :values.',
         ];
     }

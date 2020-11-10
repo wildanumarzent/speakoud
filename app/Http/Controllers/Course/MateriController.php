@@ -36,6 +36,12 @@ class MateriController extends Controller
         $data['mata'] = $this->serviceMata->findMata($mataId);
         $data['check_role'] = auth()->user()->hasRole('developer|administrator|internal|mitra');
 
+        if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra') &&
+            $data['mata']->instruktur()->where('instruktur_id', auth()->user()->instruktur->id)
+                ->count() == 0) {
+            return abort(404);
+        }
+
         return view('backend.course_management.materi.index', compact('data'), [
             'title' => 'Mata - Materi Pelatihan',
             'breadcrumbsBackend' => [

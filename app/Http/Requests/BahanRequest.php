@@ -51,8 +51,13 @@ class BahanRequest extends FormRequest
             return [
                 'package' => 'required',
             ];
+            }
+            if ($this->type == 'quiz') {
+                return [
+                    'judul' => 'required',
+                ];
+            }
         }
-    }
 
     public function attributes()
     {

@@ -59,4 +59,22 @@ return [
             'description' => 'displayed in a blog-like format',
         ],
     ],
+    'quiz_tipe' => [
+        0 => 'Bisa diulang',
+        1 => 'Tidak bisa diulang'
+    ],
+    'quiz_item_tipe' => [
+        0 => [
+            'code' => 'multipel_choice',
+            'title' => 'Multiple Choice',
+        ],
+        1 => [
+            'code' => 'exact',
+            'title' => 'Exact',
+        ],
+        2 => [
+            'code' => 'essay',
+            'title' => 'Essay',
+        ],
+    ],
 ];

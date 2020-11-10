@@ -44,18 +44,24 @@
 <div class="row drag">
 
     @foreach ($data['bahan'] as $item)
-    <div class="col-sm-6 col-xl-4" id="{{ $item->id }}" style="cursor: move;" title="geser untuk merubah urutan">
+    <div class="col-sm-6 col-xl-4" @if (!$data['check_role'] || $data['check_role'] && $item->creator_id == auth()->user()->id) id="{{ $item->id }}" style="cursor: move;" title="geser untuk merubah urutan" @endif>
       <div class="card card-list">
         <div class="card-body d-flex justify-content-between align-items-start pb-1">
           <div>
             <a href="javascript:;" class="text-body text-big font-weight-semibold" title="{!! $item->judul !!}">{!! Str::limit($item->judul, 80) !!}</a>
           </div>
 
+          @if (!$data['check_role'] || $data['check_role'] && $item->creator_id == auth()->user()->id)
           <div class="btn-group project-actions dropdown">
             <button type="button" class="btn btn-sm btn-default icon-btn dropdown-toggle hide-arrow  btn-toggle-radius" data-toggle="dropdown" aria-expanded="false">
               <i class="ion ion-ios-more"></i>
             </button>
             <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; will-change: top, left; top: 26px; left: 26px;">
+              @if ($item->type($item)['tipe'] == 'quiz' && !$data['check_role'] || $data['check_role'] && $item->creator_id == auth()->user()->id)
+              <a class="dropdown-item" href="{{ route('quiz.item', ['id' => $item->quiz->id]) }}" title="klik untuk melihat soal">
+                <i class="las la-list-ol"></i> Soal
+              </a>
+              @endif
               <a class="dropdown-item" href="{{ route('bahan.edit', ['id' => $item->materi_id, 'bahanId' => $item->id, 'type' => $item->type($item)['tipe']]) }}" title="klik untuk mengedit bahan pelatihan">
                 <i class="las la-pen"></i> Edit
               </a>
@@ -71,6 +77,7 @@
               </a>
             </div>
           </div>
+          @endif
         </div>
         <div class="card-body pb-3">
           <table class="table table-bordered mb-0">
@@ -104,6 +111,14 @@
                     </td>
                 </tr>
                 @endif
+                @if ($item->type($item)['tipe'] == 'quiz')
+                <tr>
+                    <th>Tipe Quiz</th>
+                    <td>
+                        {{ config('addon.label.quiz_tipe.'.$item->quiz->tipe) }}
+                    </td>
+                </tr>
+                @endif
                 <tr>
                     <th>Creator</th>
                     <td>{{ $item->creator['name'] }}</td>
@@ -112,6 +127,7 @@
                     <th>Status</th>
                     <td><span class="badge badge-outline-{{ $item->publish == 1 ? 'primary' : 'warning' }}">{{ $item->publish == 1 ? 'Publish' : 'Draft' }}</span></td>
                 </tr>
+                @if (!$data['check_role'] || $data['check_role'] && $item->creator_id == auth()->user()->id)
                 <tr>
                     <th>Urutan</th>
                     <td>
@@ -139,6 +155,7 @@
                         @endif
                     </td>
                 </tr>
+                @endif
           </table>
         </div>
         <hr class="m-0 mb-2">

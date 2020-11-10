@@ -332,6 +332,26 @@ Route::group(['middleware' => ['auth']], function () {
         ->name('bahan.destroy')
         ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
 
+    //bahan quiz item
+    Route::get('/quiz/{id}/item', 'Course\Bahan\BahanQuizItemController@index')
+        ->name('quiz.item')
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
+    Route::get('/quiz/{id}/item/create', 'Course\Bahan\BahanQuizItemController@create')
+        ->name('quiz.item.create')
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
+    Route::post('/quiz/{id}/item/store', 'Course\Bahan\BahanQuizItemController@store')
+        ->name('quiz.item.store')
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
+    Route::get('/quiz/{id}/item/{itemId}/edit', 'Course\Bahan\BahanQuizItemController@edit')
+        ->name('quiz.item.edit')
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
+    Route::put('/quiz/{id}/item/{itemId}', 'Course\Bahan\BahanQuizItemController@update')
+        ->name('quiz.item.update')
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
+    Route::delete('/quiz/{id}/item/{itemId}', 'Course\Bahan\BahanQuizItemController@destroy')
+        ->name('quiz.item.destroy')
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
+
     /**Website module */
     //konfigurasi
 

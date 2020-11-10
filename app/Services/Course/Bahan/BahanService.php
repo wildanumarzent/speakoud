@@ -167,8 +167,14 @@ class BahanService
         if ($bahan->link()->count() == 1) {
             $bahan->link()->delete();
         }
+<<<<<<< HEAD
         if ($bahan->scorm()->count() == 1) {
             $bahan->scorm()->delete();
+=======
+        if ($bahan->quiz()->count() == 1) {
+            $bahan->quiz()->delete();
+            $bahan->quiz->item()->delete();
+>>>>>>> 701c70e632442f5f8b89e53a30f809c6671e5b2c
         }
 
         $bahan->delete();
