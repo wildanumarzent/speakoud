@@ -81,9 +81,9 @@
     <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/toastr/toastr.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/spinkit/spinkit.css') }}">
-
-    @yield('styles')
     @livewireStyles
+    @yield('styles')
+
 </head>
 <body class="alsen">
 

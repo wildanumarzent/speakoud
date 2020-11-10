@@ -15,7 +15,8 @@ class BahanService
         BahanForumService $forum,
         BahanFileService $file,
         BahanLinkService $link,
-        BahanQuizService $quiz
+        BahanQuizService $quiz,
+        BahanScormService $scorm
     )
     {
         $this->model = $model;
@@ -24,6 +25,7 @@ class BahanService
         $this->file = $file;
         $this->link = $link;
         $this->quiz = $quiz;
+        $this->scorm = $scorm;
     }
 
     public function getBahanList($request, int $materiId)
@@ -77,6 +79,9 @@ class BahanService
         if ($request->type == 'quiz') {
             $segmen = $this->quiz->storeQuiz($request, $materi, $bahan);
         }
+        if ($request->type == 'scorm') {
+            $segmen = $this->scorm->storeScorm($request, $materi, $bahan);
+        }
 
         $bahan->segmenable()->associate($segmen);
         $bahan->save();
@@ -103,6 +108,9 @@ class BahanService
         }
         if ($request->type == 'quiz') {
             $segmen = $this->quiz->updateQuiz($request, $bahan);
+        }
+        if ($request->type == 'scorm') {
+            $segmen = $this->scorm->updateScorm($request, $bahan);
         }
 
         return $bahan;
@@ -158,6 +166,9 @@ class BahanService
         }
         if ($bahan->link()->count() == 1) {
             $bahan->link()->delete();
+        }
+        if ($bahan->scorm()->count() == 1) {
+            $bahan->scorm()->delete();
         }
 
         $bahan->delete();

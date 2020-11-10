@@ -55,7 +55,7 @@ class ArtikelService
         $fileName = str_replace(' ', '-', $request->file('cover')
             ->getClientOriginalName());
         $request->file('cover')->move(public_path('userfile/'.auth()->user()->id.'/artikel'), $fileName);
-        $artikel->cover = '"'.'userfile/'.auth()->user()->id.'/artikel'.'/'.$fileName.'"';
+        $artikel->cover = 'userfile/'.auth()->user()->id.'/artikel'.'/'.$fileName;
     }
 
     switch ($request->input('action')) {
@@ -67,7 +67,7 @@ class ArtikelService
             $artikel->publish = 0;
             break;
     }
-        
+
        $artikel->save();
         return $artikel;
     }
@@ -86,9 +86,9 @@ class ArtikelService
        if ($request->hasFile('cover')) {
         $fileName = str_replace(' ', '-', $request->file('cover')
             ->getClientOriginalName());
-        $this->deletePhotoFromPath($request->old_photo);
+        $this->deleteCoverFromPath($request->old_cover);
         $request->file('cover')->move(public_path('userfile/'.auth()->user()->id.'/artikel'), $fileName);
-        $artikel->cover = '"'.'userfile/'.auth()->user()->id.'/artikel'.'/'.$fileName.'"';
+        $artikel->cover = 'userfile/'.auth()->user()->id.'/artikel'.'/'.$fileName;
     }
     switch ($request->input('action')) {
         case 'save':
@@ -106,7 +106,7 @@ class ArtikelService
     public function delete($id){
         $artikel = $this->get($id);
         if (!empty($artikel->cover)) {
-        $this->deletePhotoFromPath($artikel->cover);
+        $this->deleteCoverFormPath($artikel->cover);
         }
         $artikel->delete();
         return $artikel;
@@ -123,10 +123,17 @@ class ArtikelService
     $artikel = $this->get($id);
     if($artikel->created_by != auth()->user()->id){
     return false;
-    }else{
+    }
     return true;
     }
+
+    public function deleteCoverFormPath($path){
+        if(File::exists($path)) {
+        File::delete($path);
+        }
     }
+
+
 
 
 

@@ -98,30 +98,16 @@
                     <td>
                         <div class="card">
                             <div class="card-body">
-                                <div class="item-table">
-                                    <div class="data-table">NIP</div>
-                                    <div class="desc-table">{{ $item->nip ?? '-' }}</div>
-                                </div>
-                                <div class="item-table">
-                                    <div class="data-table">Nama</div>
-                                    <div class="desc-table">{{ $item->user->name }}</div>
-                                </div>
-                                <div class="item-table">
-                                    <div class="data-table">Unit Kerja</div>
-                                    <div class="desc-table">{{ $item->unit_kerja ?? '-' }}</div>
-                                </div>
-                                <div class="item-table">
-                                    <div class="data-table">Kedeputian</div>
-                                    <div class="desc-table">{{ $item->kedeputian ?? '-' }}</div>
-                                </div>
-                                <div class="item-table">
-                                    <div class="data-table">Pangkat</div>
-                                    <div class="desc-table">{{ $item->pangkat ?? '-' }}</div>
-                                </div>
-                                <div class="item-table">
-                                    <div class="data-table">Alamat</div>
-                                    <div class="desc-table">{{ $item->alamat ?? '-' }}</div>
-                                </div>
+                                <div class="p-4 p-md-5">
+                                    <a href="{{route('artikel.show',['id' => $item->id,'slug' => $item->slug])}}" class="text-body text-large font-weight-semibold">{{$item->title ?? 'Null'}}</a>
+                                    <div class="d-flex flex-wrap mt-3">
+                                      <div class="mr-3"><i class="vacancy-tooltip ion ion-ios-flash text-light" title="Department"></i>&nbsp; {{$item->viewer ?? 0}} Hits</div>
+                                      <div class="mr-3"><i class="vacancy-tooltip ion ion-md-time text-primary" title="Employment"></i>&nbsp; {{ $item->created_at->format('Y-m-d:H:i') }}</div>
+                                    </div>
+                                    <div class="mt-3 mb-4">
+                                     {!!$item->intro ?? 'Lorem Ipsum'!!}
+                                    </div>
+                                  </div>
 
                                 <div class="item-table m-0">
                                     <div class="desc-table text-right">

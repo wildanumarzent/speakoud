@@ -16,6 +16,7 @@
              <input type="hidden" name="mode" value="{{$data['mode']}}">
            @if($data['mode'] == 'edit')
            <input type="hidden" name="id" value="{{$data['artikel']->id}}">
+           <input type="hidden" name="old_cover" value="{{$data['artikel']->cover}}">
            @endif
                     <div class="form-group row">
                         <div class="col-md-2 text-md-right">
