@@ -21,7 +21,7 @@ class CreateArtikelTable extends Migration
             $table->text('content')->nullable();
             $table->json('cover')->nullable();
             $table->boolean('publish')->default(true);
-            $table->bigInteger('viewer')->nullable();
+            $table->bigInteger('viewer')->default(0);
             $table->json('meta_data')->nullable()->comment('{
                 "title":"", "description":"", "keywords":"",
             }');

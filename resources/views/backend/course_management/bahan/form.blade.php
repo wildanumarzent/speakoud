@@ -9,7 +9,7 @@
     <h6 class="card-header">
       Form Bahan Pelatihan <strong>---> "{{ strtoupper(Request::get('type')) }}"</strong>
     </h6>
-    <form action="{{ !isset($data['bahan']) ? route('bahan.store', ['id' => $data['materi']->id, 'type' => Request::get('type')]) : route('bahan.update', ['id' => $data['bahan']->materi_id, 'bahanId' => $data['bahan']->id, 'type' => Request::get('type')]) }}" method="POST">
+    <form action="{{ !isset($data['bahan']) ? route('bahan.store', ['id' => $data['materi']->id, 'type' => Request::get('type')]) : route('bahan.update', ['id' => $data['bahan']->materi_id, 'bahanId' => $data['bahan']->id, 'type' => Request::get('type')]) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @if (isset($data['bahan']))
             @method('PUT')

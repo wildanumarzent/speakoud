@@ -24,7 +24,7 @@ class CreateUsersTable extends Migration
             $table->boolean('active')->default(false)->comment('0 = inactive, 1 = active');
             $table->timestamp('active_at')->nullable();
             $table->json('photo')->nullable()->comment('{
-                "filename": "name of file", "description": "picture description",
+                "file": "name of file", "description": "picture description",
             }');
             $table->bigInteger('userable_id')->nullable();
             $table->string('userable_type')->nullable();

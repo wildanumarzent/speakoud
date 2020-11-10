@@ -57,6 +57,10 @@ class BahanPelatihan extends Model
     {
         return $this->hasOne(BahanQuiz::class, 'bahan_id');
     }
+    public function scorm()
+    {
+        return $this->hasOne(BahanScorm::class, 'bahan_id');
+    }
 
     public function type($bahan)
     {
@@ -89,6 +93,13 @@ class BahanPelatihan extends Model
                 'tipe' => 'quiz',
                 'title' => 'Quiz',
                 'icon' => 'spell-check'
+            ];
+        }
+        if ($bahan->scorm()->count() == 1) {
+            $segmen = [
+                'tipe' => 'scorm',
+                'title' => 'Scorm',
+                'icon' => 'package'
             ];
         }
 

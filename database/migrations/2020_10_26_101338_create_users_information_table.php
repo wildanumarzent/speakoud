@@ -25,7 +25,7 @@ class CreateUsersInformationTable extends Migration
             }');
             $table->json('optional')->nullable()->comment('{
                 "web_page":"-", "icq_number":"-", "skype_id":"-", "aim_id":"-",
-                "yahoo_id":"-", "msn_id":"-", "id_number":"-", "instution":"-",
+                "yahoo_id":"-", "msn_id":"-", "id_number":"-", "Institution":"-",
                 "departement":"-", "phone":"-", "mobile_phone":"-", "address":"-",
             }');
             $table->timestamps();

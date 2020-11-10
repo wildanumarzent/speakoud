@@ -47,12 +47,17 @@ class BahanRequest extends FormRequest
                 ];
             }
         }
-        if ($this->type == 'quiz') {
+        if ($this->type == 'scorm') {
             return [
-                'judul' => 'required',
+                'package' => 'required',
             ];
+            }
+            if ($this->type == 'quiz') {
+                return [
+                    'judul' => 'required',
+                ];
+            }
         }
-    }
 
     public function attributes()
     {
