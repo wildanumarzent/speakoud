@@ -47,6 +47,11 @@ class BahanRequest extends FormRequest
                 ];
             }
         }
+        if ($this->type == 'scorm') {
+            return [
+                'package' => 'required',
+            ];
+        }
     }
 
     public function attributes()
