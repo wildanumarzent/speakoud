@@ -190,6 +190,24 @@ Route::group(['middleware' => ['auth']], function () {
         ->middleware('role:developer|administrator');
 
     //--- grades management
+    Route::get('/grades/letter', 'Grades\GradesLetterController@index')
+        ->name('grades.letter')
+        ->middleware('role:developer|administrator');
+    Route::get('/grades/letter/create', 'Grades\GradesLetterController@create')
+        ->name('grades.letter.create')
+        ->middleware('role:developer|administrator');
+    Route::post('/grades/letter', 'Grades\GradesLetterController@store')
+        ->name('grades.letter.store')
+        ->middleware('role:developer|administrator');
+    Route::get('/grades/letter/{id}/edit', 'Grades\GradesLetterController@edit')
+        ->name('grades.letter.edit')
+        ->middleware('role:developer|administrator');
+    Route::put('/grades/letter/{id}', 'Grades\GradesLetterController@update')
+        ->name('grades.letter.update')
+        ->middleware('role:developer|administrator');
+    Route::delete('/grades/letter/{id}', 'Grades\GradesLetterController@destroy')
+        ->name('grades.letter.destroy')
+        ->middleware('role:developer|administrator');
 
     /**bank data */
     Route::get('/bank/data/{type}', 'BankDataController@index')

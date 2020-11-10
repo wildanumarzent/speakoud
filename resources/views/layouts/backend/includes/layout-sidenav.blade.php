@@ -1,6 +1,6 @@
 @php
     $masterOpen = (Request::is('instansi/internal*') || Request::is('instansi/mitra*') || Request::is('user*') || Request::is('internal*') || Request::is('mitra*') ||
-                    Request::is('instruktur*') || Request::is('peserta*'));
+                    Request::is('instruktur*') || Request::is('peserta*') || Request::is('grades*'));
     $userOpen = (Request::is('user*') || Request::is('internal*') || Request::is('mitra*') ||
                     Request::is('instruktur*') || Request::is('peserta*'));
     $course = (Request::is('program*') || Request::is('mata*') || Request::is('materi*'));
@@ -97,11 +97,21 @@
                     @endrole
                   </ul>
                 </li>
-                <li class="sidenav-item">
-                    <a href="" class="sidenav-link">
-                        <div>Grades Management</div>
+                @role ('developer|administrator')
+                <li class="sidenav-item{{ (Request::is('grades*')) ? ' active open' : '' }}">
+                    <a href="javascript:void(0)" class="sidenav-link sidenav-toggle">
+                      <div>Grades Management</div>
                     </a>
+
+                    <ul class="sidenav-menu">
+                        <li class="sidenav-item{{ Request::is('grades/letter*') ? ' active' : '' }}">
+                            <a href="{{ route('grades.letter') }}" class="sidenav-link">
+                              <div>Letter</div>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
+                @endrole
             </ul>
         </li>
         @endrole

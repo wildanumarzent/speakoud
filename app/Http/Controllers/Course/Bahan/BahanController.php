@@ -48,7 +48,7 @@ class BahanController extends Controller
                 'Program' => route('program.index'),
                 'Mata' => route('mata.index', ['id' => $data['materi']->program_id]),
                 'Materi' => route('materi.index', ['id' => $data['materi']->mata_id]),
-                'Bahan' => ''
+                'Bahan Pelatihan' => ''
             ],
         ]);
     }
