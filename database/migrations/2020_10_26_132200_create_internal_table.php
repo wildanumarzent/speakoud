@@ -22,6 +22,10 @@ class CreateInternalTable extends Migration
             $table->string('kedeputian')->nullable();
             $table->string('pangkat')->nullable();
             $table->text('alamat')->nullable();
+            $table->json('sk_cpns')->nullable();
+            $table->json('sk_pengangkatan')->nullable();
+            $table->json('sk_golongan')->nullable();
+            $table->json('sk_jabatan')->nullable();
             $table->timestamps();
             $table->timestamp('deleted_at')->nullable();
 

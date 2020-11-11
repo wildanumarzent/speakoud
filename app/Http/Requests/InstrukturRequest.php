@@ -37,6 +37,10 @@ class InstrukturRequest extends FormRequest
                     'roles' => 'required',
                     'mitra_id' => 'required',
                     'password' => 'required|confirmed|min:8',
+                    'sk_cpns' => 'nullable|mimes:'.config('addon.mimes.surat_keterangan.m'),
+                    'sk_pengangkatan' => 'nullable|mimes:'.config('addon.mimes.surat_keterangan.m'),
+                    'sk_golongan' => 'nullable|mimes:'.config('addon.mimes.surat_keterangan.m'),
+                    'sk_jabatan' => 'nullable|mimes:'.config('addon.mimes.surat_keterangan.m'),
                 ];
             } else {
                 return [
@@ -50,6 +54,10 @@ class InstrukturRequest extends FormRequest
                     'username' => 'required|min:5|unique:users,username',
                     'roles' => 'required',
                     'password' => 'required|confirmed|min:8',
+                    'sk_cpns' => 'nullable|mimes:'.config('addon.mimes.surat_keterangan.m'),
+                    'sk_pengangkatan' => 'nullable|mimes:'.config('addon.mimes.surat_keterangan.m'),
+                    'sk_golongan' => 'nullable|mimes:'.config('addon.mimes.surat_keterangan.m'),
+                    'sk_jabatan' => 'nullable|mimes:'.config('addon.mimes.surat_keterangan.m'),
                 ];
             }
         } else {
@@ -65,6 +73,10 @@ class InstrukturRequest extends FormRequest
                 'username' => 'required|min:5|unique:users,username,'.
                             $this->user_id,
                 'password' => 'nullable|confirmed|min:8',
+                'sk_cpns' => 'nullable|mimes:'.config('addon.mimes.surat_keterangan.m'),
+                'sk_pengangkatan' => 'nullable|mimes:'.config('addon.mimes.surat_keterangan.m'),
+                'sk_golongan' => 'nullable|mimes:'.config('addon.mimes.surat_keterangan.m'),
+                'sk_jabatan' => 'nullable|mimes:'.config('addon.mimes.surat_keterangan.m'),
             ];
         }
 
@@ -84,6 +96,10 @@ class InstrukturRequest extends FormRequest
             'roles' => 'Roles',
             'mitra_id' => 'Mitra',
             'password' => 'Password',
+            'sk_cpns' => 'Surat Keterangan CPNS',
+            'sk_pengankatan' => 'Surat Keterangan Pengangkatan',
+            'sk_golongan' => 'Surat Keterangan Golongan',
+            'sk_jabatan' => 'Surat Keterangan Jabatan',
         ];
     }
 
@@ -108,6 +124,10 @@ class InstrukturRequest extends FormRequest
             'password.confirmed' => 'Konfirmasi password tidak sama dengan '.
                                     'password',
             'password.min' => ':attribute minimal :min karakter',
+            'sk_cpns.mimes' => 'Tipe :attribute harus :values.',
+            'sk_pengankatan.mimes' => 'Tipe :attribute harus :values.',
+            'sk_golongan.mimes' => 'Tipe :attribute harus :values.',
+            'sk_jabatan.mimes' => 'Tipe :attribute harus :values.',
         ];
     }
 }

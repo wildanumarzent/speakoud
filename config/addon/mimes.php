@@ -5,6 +5,9 @@ return [
         'm' => 'jpg,jpeg,png,svg',
         'p' => '500x500 px'
     ],
+    'surat_keterangan' => [
+        'm' => 'jpg,jpeg,png,pdf,doc,docx'
+    ],
     'bank_data' => [
         'm' => 'jpg,jpeg,png,svg,webm,mp4,mp3,pdf,ppt,pptx,doc,docx'
     ],

@@ -13,7 +13,7 @@
         <a class="list-group-item list-group-item-action" data-toggle="list" href="#akun">Akun</a>
     </div>
     <div class="card-body">
-        <form action="{{ !isset($data['internal']) ? route('internal.store') : route('internal.update', ['id' => $data['internal']->id]) }}" method="POST">
+        <form action="{{ !isset($data['internal']) ? route('internal.store') : route('internal.update', ['id' => $data['internal']->id]) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @if (isset($data['internal']))
                 @method('PUT')
@@ -94,6 +94,89 @@
                         <div class="col-md-10">
                           <textarea class="form-control @error('alamat') is-invalid @enderror" name="alamat" placeholder="masukan alamat...">{{ (isset($data['internal'])) ? old('alamat', $data['internal']->alamat) : old('alamat') }}</textarea>
                           @include('components.field-error', ['field' => 'alamat'])
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-2 text-md-right">
+                          <label class="col-form-label text-sm-right">Surat Keterangan CPNS</label>
+                        </div>
+                        <div class="col-md-10">
+                            <label class="custom-file-label mt-1" for="file-1"></label>
+                            @if (isset($data['internal']))
+                                <input type="hidden" name="old_sk_cpns" value="{{ $data['internal']->sk_cpns['file'] }}">
+                                @if (!empty($data['internal']->sk_cpns['file']))
+                                <small class="text-muted">File Sebelumnya : <a href="{{ route('bank.data.stream', ['path' => $data['internal']->sk_cpns['file']]) }}">Download</a></small>
+                                @endif
+                            @endif
+                            <input type="file" class="form-control custom-file-input file @error('sk_cpns') is-invalid @enderror" type="file" id="file-1" lang="en" name="sk_cpns" value="browse...">
+                            @include('components.field-error', ['field' => 'sk_cpns'])
+                            <textarea class="form-control @error('keterangan_cpns') is-invalid @enderror" name="keterangan_cpns" placeholder="masukan surat keterangan cpns...">{{ (isset($data['internal'])) ? old('keterangan_cpns', $data['internal']->sk_cpns['keterangan']) : old('keterangan_cpns') }}</textarea>
+                            @include('components.field-error', ['field' => 'keterangan_cpns'])
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-2 text-md-right">
+                          <label class="col-form-label text-sm-right">Surat Keterangan Pengangkatan</label>
+                        </div>
+                        <div class="col-md-10">
+                            <label class="custom-file-label mt-1" for="file-2"></label>
+                            @if (isset($data['internal']))
+                                <input type="hidden" name="old_sk_pengangkatan" value="{{ $data['internal']->sk_pengangkatan['file'] }}">
+                                @if (!empty($data['internal']->sk_pengangkatan['file']))
+                                <small class="text-muted">File Sebelumnya : <a href="{{ route('bank.data.stream', ['path' => $data['internal']->sk_pengangkatan['file']]) }}">Download</a></small>
+                                @endif
+                            @endif
+                            <input type="file" class="form-control custom-file-input file @error('sk_pengangkatan') is-invalid @enderror" type="file" id="file-2" lang="en" name="sk_pengangkatan" value="browse...">
+                            @include('components.field-error', ['field' => 'sk_pengangkatan'])
+                            <textarea class="form-control @error('keterangan_pengangkatan') is-invalid @enderror" name="keterangan_pengangkatan" placeholder="masukan surat keterangan pengangkatan...">{{ (isset($data['internal'])) ? old('keterangan_pengangkatan', $data['internal']->sk_pengangkatan['keterangan']) : old('keterangan_pengangkatan') }}</textarea>
+                            @include('components.field-error', ['field' => 'keterangan_pengangkatan'])
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-2 text-md-right">
+                          <label class="col-form-label text-sm-right">Surat Keterangan Golongan</label>
+                        </div>
+                        <div class="col-md-10">
+                            <label class="custom-file-label mt-1" for="file-3"></label>
+                            @if (isset($data['internal']))
+                                <input type="hidden" name="old_sk_golongan" value="{{ $data['internal']->sk_golongan['file'] }}">
+                                @if (!empty($data['internal']->sk_golongan['file']))
+                                <small class="text-muted">File Sebelumnya : <a href="{{ route('bank.data.stream', ['path' => $data['internal']->sk_golongan['file']]) }}">Download</a></small>
+                                @endif
+                            @endif
+                            <input type="file" class="form-control custom-file-input file @error('sk_golongan') is-invalid @enderror" type="file" id="file-3" lang="en" name="sk_golongan" value="browse...">
+                            @include('components.field-error', ['field' => 'sk_golongan'])
+                            <textarea class="form-control @error('keterangan_golongan') is-invalid @enderror" name="keterangan_golongan" placeholder="masukan surat keterangan golongan...">{{ (isset($data['internal'])) ? old('keterangan_golongan', $data['internal']->sk_golongan['keterangan']) : old('keterangan_golongan') }}</textarea>
+                            @include('components.field-error', ['field' => 'keterangan_golongan'])
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-2 text-md-right">
+                          <label class="col-form-label text-sm-right">Surat Keterangan Jabatan</label>
+                        </div>
+                        <div class="col-md-10">
+                            <label class="custom-file-label mt-1" for="file-4"></label>
+                            @if (isset($data['internal']))
+                                <input type="hidden" name="old_sk_jabatan" value="{{ $data['internal']->sk_jabatan['file'] }}">
+                                @if (!empty($data['internal']->sk_jabatan['file']))
+                                <small class="text-muted">File Sebelumnya : <a href="{{ route('bank.data.stream', ['path' => $data['internal']->sk_jabatan['file']]) }}">Download</a></small>
+                                @endif
+                            @endif
+                            <input type="file" class="form-control custom-file-input file @error('sk_jabatan') is-invalid @enderror" type="file" id="file-4" lang="en" name="sk_jabatan" value="browse...">
+                            @include('components.field-error', ['field' => 'sk_jabatan'])
+                          <textarea class="form-control @error('keterangan_jabatan') is-invalid @enderror" name="keterangan_jabatan" placeholder="masukan surat keterangan jabatan...">{{ (isset($data['internal'])) ? old('keterangan_jabatan', $data['internal']->sk_jabatan['keterangan']) : old('keterangan_jabatan') }}</textarea>
+                          @include('components.field-error', ['field' => 'keterangan_jabatan'])
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-2 text-md-right">
+
+                        </div>
+                        <div class="col-md-10">
+                            <div class="alert alert-warning alert-dismissible">
+                                <i class="las la-file"></i>
+                                <small class="text-muted">Tipe File Surat Keterangan : <strong>{{ strtoupper(config('addon.mimes.surat_keterangan.m')) }}</strong></small>
+                            </div>
                         </div>
                     </div>
                 </div>

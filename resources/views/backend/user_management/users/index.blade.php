@@ -135,9 +135,15 @@
                         <a href="{{ route('user.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengedit user" data-toggle="tooltip">
                                 <i class="las la-pen"></i>
                         </a>
-                        <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus user" data-toggle="tooltip">
+                        @if ($item->hasRole('internal|mitra|instruktur_internal|instruktur_mitra|peserta_internal|peserta_mitra'))
+                        <button class="btn icon-btn btn-secondary btn-sm" disabled>
                             <i class="las la-trash-alt"></i>
-                        </a>
+                        </button>
+                        @else
+                            <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus user" data-toggle="tooltip">
+                                <i class="las la-trash-alt"></i>
+                            </a>
+                        @endif
                         @endif
                     </td>
                 </tr>
@@ -193,9 +199,15 @@
                                         <a href="{{ route('user.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengedit user" data-toggle="tooltip">
                                                 <i class="las la-pen"></i>
                                         </a>
-                                        <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus user" data-toggle="tooltip">
+                                        @if ($item->hasRole('internal|mitra|instruktur_internal|instruktur_mitra|peserta_internal|peserta_mitra'))
+                                        <button class="btn icon-btn btn-secondary btn-sm" disabled>
                                             <i class="las la-trash-alt"></i>
-                                        </a>
+                                        </button>
+                                        @else
+                                            <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus user" data-toggle="tooltip">
+                                                <i class="las la-trash-alt"></i>
+                                            </a>
+                                        @endif
                                         @endif
                                     </div>
                                 </div>
