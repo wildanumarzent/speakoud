@@ -45,14 +45,14 @@ class KonfigurasiSeeder extends Seeder
                 'group' => 2,
                 'name' => 'address',
                 'label' => 'Address',
-                'value' => null,
+                'value' => 'Gedung BPPT II, Lt. 6 Jl. M.H. Thamrin No. 8, Jakarta Pusat - 10340',
                 'is_upload' => false,
             ],
             5 => [
                 'group' => 2,
                 'name' => 'email',
                 'label' => 'Email',
-                'value' => null,
+                'value' => 'sekr-pusbindiklat@bppt.go.id',
                 'is_upload' => false,
             ],
             6 => [
@@ -73,7 +73,7 @@ class KonfigurasiSeeder extends Seeder
                 'group' => 2,
                 'name' => 'phone',
                 'label' => 'Phone',
-                'value' => null,
+                'value' => '(021) 316 91 82',
                 'is_upload' => false,
             ],
             9 => [

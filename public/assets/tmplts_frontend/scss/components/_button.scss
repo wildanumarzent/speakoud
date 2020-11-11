@@ -1,0 +1,129 @@
+.btn {
+    position: relative;
+    transform: translateZ(0);
+    display: inline-block;
+    overflow: hidden;
+    padding: 20px 35px;
+    border-radius: 50px;
+    line-height: 0;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    border: 2px solid #eee;
+    color: #333;
+    box-shadow: none !important;
+    
+    transition: .3s cubic-bezier(0.2, 0.4, 0.1, 1);
+    &:before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #eee;
+        transform: scaleX(0);
+        transform-origin: center;
+        z-index: -1;
+        transition: transform .3s cubic-bezier(0.2, 0.4, 0.1, 1),
+                    opacity .3s cubic-bezier(0.2, 0.4, 0.1, 1);
+    }
+    &:hover,
+    &:focus,
+    &:focus:active {
+        &:before {
+            transform: scaleX(1);
+            opacity: 1;
+        }
+    }
+    &.btn-primary {
+        background-color: transparent;
+        border-color: $main-color !important;
+        color: $main-color;
+        &:before {
+            background-color: $main-color;
+        }
+        &:hover,
+        &:focus,
+        &:focus:active {
+            color: #fff;
+        }
+
+        &.white {
+            border-color: #fff !important;
+            color: #fff;
+
+            &:before {
+                background-color: #fff;
+            }
+            &:hover,
+            &:focus,
+            &:focus:active {
+                color: $main-color;
+            }
+        }
+    }
+}
+
+.box-btn {
+    display: block;
+    margin-top: 30px;
+}
+
+.link-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+    color: $primary-text-color !important;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    font-size: 12px;
+    text-transform: uppercase;
+    z-index: 2;
+
+    span {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 40px;
+        width: 40px;
+        border-radius: 100%;
+        border: 2px solid $main-color;
+        margin-left: 10px;
+
+        &:after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background-color: $main-color;
+            transform-origin: center;
+            transform: scale(0);
+            z-index: -1;
+            transition: transform .3s cubic-bezier(.4,0,0,1), color .3s cubic-bezier(.4,0,0,1);
+        }
+
+        i {
+            font-size: 16px;
+            transition: transform .3s cubic-bezier(.6,.01,0,1.38), color .3s cubic-bezier(.4,0,0,1);
+        }
+    }
+
+    &:hover {
+        span {
+            &::after {
+                transform: scale(1.2);
+                transition: transform .3s cubic-bezier(.6,.01,0,1.38), color .3s cubic-bezier(.4,0,0,1);
+            }
+
+            i {
+                color: #fff;
+            }
+        }
+    }
+}

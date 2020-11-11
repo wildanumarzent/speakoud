@@ -1,0 +1,39 @@
+@font-face {
+  font-family: "product sans";
+  font-style: normal;
+  font-weight: 800;
+  src: url("product-sans-800.eot?#iefix") format("embedded-opentype"),
+	   url("product-sans-800.woff") format("woff"),
+	   url("product-sans-800.ttf") format("truetype"),
+	   url("product-sans-800.svg") format("svg")
+}
+
+@font-face {
+  font-family: "product sans";
+  font-style: normal;
+  font-weight: 700;
+  src: url("product-sans-700.eot?#iefix") format("embedded-opentype"),
+	   url("product-sans-700.woff") format("woff"),
+	   url("product-sans-700.ttf") format("truetype"),
+	   url("product-sans-700.svg") format("svg")
+}
+
+@font-face {
+  font-family: "product sans";
+  font-style: normal;
+  font-weight: 500;
+  src: url("product-sans-500.eot?#iefix") format("embedded-opentype"),
+	   url("product-sans-500.woff") format("woff"),
+	   url("product-sans-500.ttf") format("truetype"),
+	   url("product-sans-500.svg") format("svg")
+}
+
+@font-face {
+  font-family: "product sans";
+  font-style: normal;
+  font-weight: 400;
+  src: url("product-sans-400.eot?#iefix") format("embedded-opentype"),
+	   url("product-sans-400.woff") format("woff"),
+	   url("product-sans-400.ttf") format("truetype"),
+	   url("product-sans-400.svg") format("svg")
+}

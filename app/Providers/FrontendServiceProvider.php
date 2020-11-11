@@ -27,12 +27,22 @@ class FrontendServiceProvider extends ServiceProvider
         View::share([
             'configuration' => [
                 //group 1
-                'website_name' => 'BPPT E-Learning System',
                 'banner_default' => '',
                 //group 2
+                'website_name' => 'BPPT E-Learning System',
+                'address' => '',
+                'email' => '',
+                'email_2' => '',
+                'fax' => '',
+                'phone' => '',
+                'phone_2' => '',
+                //group 3
                 'meta_title' => 'BPPT E-Learning System',
                 'meta_description' => '',
                 'meta_keywords' => '',
+                'google_analytics' => '',
+                'google_verification' => '',
+                'domain_verification' => ''
             ],
         ]);
     }
