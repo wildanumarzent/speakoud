@@ -6,6 +6,8 @@
 @section('content')
     <div class="scorm-course">
       <iframe class="scorm-iframe" id="scorm-content" src="{{$data['path1']}}">
+        {{-- path1 = odading
+        path2 = scorm sample (golf) --}}
       </iframe>
     </div>
 
