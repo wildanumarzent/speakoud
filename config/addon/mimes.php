@@ -16,4 +16,7 @@ return [
         'm' => 'jpg,jpeg,png,svg',
         'p' => '500x500 px'
     ],
+    'package_scorm' => [
+        'm' => 'zip'
+    ],
 ];

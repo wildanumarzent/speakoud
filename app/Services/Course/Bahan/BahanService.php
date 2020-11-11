@@ -107,10 +107,10 @@ class BahanService
             $this->link->updateLink($request, $bahan);
         }
         if ($request->type == 'quiz') {
-            $segmen = $this->quiz->updateQuiz($request, $bahan);
+            $this->quiz->updateQuiz($request, $bahan);
         }
         if ($request->type == 'scorm') {
-            $segmen = $this->scorm->updateScorm($request, $bahan);
+            $this->scorm->updateScorm($request, $bahan);
         }
 
         return $bahan;
@@ -166,6 +166,10 @@ class BahanService
         }
         if ($bahan->link()->count() == 1) {
             $bahan->link()->delete();
+        }
+        if ($bahan->quiz()->count() == 1) {
+            $bahan->quiz()->delete();
+            $bahan->quiz->item()->delete();
         }
         if ($bahan->scorm()->count() == 1) {
             $bahan->scorm()->delete();

@@ -47,10 +47,24 @@ class BahanRequest extends FormRequest
                 ];
             }
         }
-        if ($this->type == 'scorm') {
+        if ($this->type == 'quiz') {
             return [
-                'package' => 'required',
+                'judul' => 'required',
             ];
+        }
+        if ($this->type == 'scorm') {
+            if ($this->method() == 'POST') {
+                return [
+                    'judul' => 'required',
+                    'package' => 'required|mimes:'.config('addon.mimes.package_scorm.m'),
+                ];
+            } else {
+                return [
+                    'judul' => 'required',
+                    'package' => 'nullable|mimes:'.config('addon.mimes.package_scorm.m'),
+                ];
+            }
+
         }
     }
 
@@ -61,6 +75,7 @@ class BahanRequest extends FormRequest
             'tipe' => 'Tipe',
             'file_path' => 'File Path',
             'meeting_link' => 'Meeting Link',
+            'package' => 'Package'
         ];
     }
 
@@ -71,6 +86,8 @@ class BahanRequest extends FormRequest
             'tipe.required' => ':attribute tidak boleh kosong',
             'file_path.required' => ':attribute tidak boleh kosong',
             'meeting_link.required' => ':attribute tidak boleh kosong',
+            'package.required' => ':attribute tidak boleh kosong',
+            'package.mimes' => 'Tipe :attribute harus :values.',
         ];
     }
 }

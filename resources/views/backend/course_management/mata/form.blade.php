@@ -3,6 +3,7 @@
 @section('styles')
 <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-material-datetimepicker/bootstrap-material-datetimepicker.css') }}">
 <script src="{{ asset('assets/tmplts_backend/wysiwyg/tinymce.min.js') }}"></script>
+<link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/select2/select2.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/fancybox/fancybox.min.css') }}">
 @endsection
 
@@ -74,6 +75,21 @@
                     </div>
                 </div>
             </div>
+            <div class="form-group row">
+                <div class="col-md-2 text-md-right">
+                    <label class="col-form-label">Instruktur</label>
+                </div>
+                <div class="col-md-10">
+                  <select class="select2 show-tick @error('instruktur_id') is-invalid @enderror" name="instruktur_id[]" data-style="btn-default" multiple="multiple">
+                      @foreach ($data['instruktur'] as $instruktur)
+                          <option value="{{ $instruktur->id }}" {{ isset($data['mata']) ? (in_array($instruktur->id, $data['instruktur_id']) ? 'selected' : '') : '' }}> {{ strtoupper($instruktur->user['name']) }}</option>
+                      @endforeach
+                  </select>
+                  @error('instruktur_id')
+                  <label class="error jquery-validation-error small form-text invalid-feedback" style="display: inline-block;color:red;">{!! $message !!}</label>
+                  @enderror
+                </div>
+            </div>
             <hr>
             <div class="form-group row">
                 <div class="col-md-2 text-md-right">
@@ -136,11 +152,13 @@
 @section('scripts')
 <script src="{{ asset('assets/tmplts_backend/vendor/libs/moment/moment.js') }}"></script>
 <script src="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-material-datetimepicker/bootstrap-material-datetimepicker.js') }}"></script>
+<script src="{{ asset('assets/tmplts_backend/vendor/libs/select2/select2.js') }}"></script>
 <script src="{{ asset('assets/tmplts_backend/fancybox/fancybox.min.js') }}"></script>
 @endsection
 
 @section('jsbody')
 <script>
+    $('.select2').select2();
     //datetime
     $('.datetime-picker').bootstrapMaterialDatePicker({
         date: true,

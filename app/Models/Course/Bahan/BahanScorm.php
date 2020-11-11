@@ -7,10 +7,8 @@ use App\Models\Course\MateriPelatihan;
 use App\Models\Course\ProgramPelatihan;
 use App\Models\Users\User;
 use Illuminate\Database\Eloquent\Model;
-use App\Traits\Creator;
 class BahanScorm extends Model
 {
-    use Creator;
     protected $table = 'bahan_scorm';
     protected $guarded = [];
 

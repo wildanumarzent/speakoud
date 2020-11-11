@@ -190,6 +190,24 @@ Route::group(['middleware' => ['auth']], function () {
         ->middleware('role:developer|administrator');
 
     //--- grades management
+    Route::get('/grades/letter', 'Grades\GradesLetterController@index')
+        ->name('grades.letter')
+        ->middleware('role:developer|administrator');
+    Route::get('/grades/letter/create', 'Grades\GradesLetterController@create')
+        ->name('grades.letter.create')
+        ->middleware('role:developer|administrator');
+    Route::post('/grades/letter', 'Grades\GradesLetterController@store')
+        ->name('grades.letter.store')
+        ->middleware('role:developer|administrator');
+    Route::get('/grades/letter/{id}/edit', 'Grades\GradesLetterController@edit')
+        ->name('grades.letter.edit')
+        ->middleware('role:developer|administrator');
+    Route::put('/grades/letter/{id}', 'Grades\GradesLetterController@update')
+        ->name('grades.letter.update')
+        ->middleware('role:developer|administrator');
+    Route::delete('/grades/letter/{id}', 'Grades\GradesLetterController@destroy')
+        ->name('grades.letter.destroy')
+        ->middleware('role:developer|administrator');
 
     /**bank data */
     Route::get('/bank/data/{type}', 'BankDataController@index')
@@ -332,12 +350,31 @@ Route::group(['middleware' => ['auth']], function () {
         ->name('bahan.destroy')
         ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
 
+    //bahan quiz item
+    Route::get('/quiz/{id}/item', 'Course\Bahan\BahanQuizItemController@index')
+        ->name('quiz.item')
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
+    Route::get('/quiz/{id}/item/create', 'Course\Bahan\BahanQuizItemController@create')
+        ->name('quiz.item.create')
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
+    Route::post('/quiz/{id}/item/store', 'Course\Bahan\BahanQuizItemController@store')
+        ->name('quiz.item.store')
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
+    Route::get('/quiz/{id}/item/{itemId}/edit', 'Course\Bahan\BahanQuizItemController@edit')
+        ->name('quiz.item.edit')
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
+    Route::put('/quiz/{id}/item/{itemId}', 'Course\Bahan\BahanQuizItemController@update')
+        ->name('quiz.item.update')
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
+    Route::delete('/quiz/{id}/item/{itemId}', 'Course\Bahan\BahanQuizItemController@destroy')
+        ->name('quiz.item.destroy')
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
+
+    // Bahan Scorm
+    Route::get('/scorm/{id}','Course\Bahan\BahanScormController@show')->name('scorm.detail');
+
     /**Website module */
     //konfigurasi
-
-    //logout
-    Route::post('/logout', 'Auth\LoginController@logout')
-        ->name('logout');
 
     /** Artikel dan Component nya */
     // Artikel
@@ -374,6 +411,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/kalender/{id}','KalenderController@detail')->name('kalender.detail');
     Route::post('/kalender','KalenderController@store')->name('kalender.store');
     Route::delete('/kalender/{id}','KalenderController@destroy')->name('kalender.destroy');
+
+
+    //logout
+    Route::post('/logout', 'Auth\LoginController@logout')
+        ->name('logout');
 });
 
 

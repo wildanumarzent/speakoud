@@ -1,0 +1,9 @@
+  .scorm-course{
+    width: 100%;
+    height: 90%;
+  }
+  .scorm-iframe {
+    width: 100%;
+    height: 100%;
+    background-color: Snow;
+  }

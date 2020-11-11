@@ -99,7 +99,7 @@ class BahanPelatihan extends Model
             $segmen = [
                 'tipe' => 'scorm',
                 'title' => 'Scorm',
-                'icon' => 'package'
+                'icon' => 'archive'
             ];
         }
 

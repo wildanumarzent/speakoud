@@ -2,6 +2,7 @@
 
 namespace App\Services\Course;
 
+use App\Models\Course\MataInstruktur;
 use App\Models\Course\MataPelatihan;
 use Illuminate\Support\Facades\File;
 
@@ -27,6 +28,12 @@ class MataService
         });
         if (isset($request->p)) {
             $query->where('publish', $request->p);
+        }
+
+        if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra')) {
+            $query->whereHas('instruktur', function ($query) {
+                $query->where('instruktur_id', auth()->user()->instruktur->id);
+            });
         }
 
         $result = $query->orderBy('urutan', 'ASC')->paginate(9);
@@ -63,6 +70,15 @@ class MataService
         $mata->urutan = ($this->model->where('program_id', $programId)->max('urutan') + 1);
         $mata->save();
 
+        $collectInstruktur = $this->collectInstruktur($request);
+
+        foreach ($collectInstruktur->all() as $key => $value) {
+            $instruktur = new MataInstruktur();
+            $instruktur->mata_id = $mata->id;
+            $instruktur->instruktur_id = $value;
+            $instruktur->save();
+        }
+
         return $mata;
     }
 
@@ -89,7 +105,25 @@ class MataService
         $mata->publish_end = $request->publish_end ?? null;
         $mata->save();
 
+        $deleteInstruktur = $mata->instruktur()->delete();
+
+        $collectInstruktur = $this->collectInstruktur($request);
+
+        foreach ($collectInstruktur->all() as $key => $value) {
+            $instruktur = new MataInstruktur();
+            $instruktur->mata_id = $id;
+            $instruktur->instruktur_id = $value;
+            $instruktur->save();
+        }
+
         return $mata;
+    }
+
+    public function collectInstruktur($request)
+    {
+        $collectInstruktur = collect($request->instruktur_id);
+
+        return $collectInstruktur;
     }
 
     public function positionMata(int $id, $urutan)
@@ -137,6 +171,7 @@ class MataService
         if (!empty($mata->cover['filename'])) {
             $this->deleteCoverFromPath($mata->cover['filename']);
         }
+        $mata->instruktur()->delete();
         $mata->delete();
 
         return $mata;
