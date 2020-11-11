@@ -53,7 +53,12 @@ class InternalService
         $internal = new Internal;
         $internal->user_id = $user->id;
         $internal->creator_id = auth()->user()->id;
-        $this->setField($request, $internal);
+        $internal->nip = $request->nip ?? null;
+        $internal->instansi_id = $request->instansi_id;
+        $internal->kedeputian = $request->kedeputian ?? null;
+        $internal->pangkat = $request->pangkat ?? null;
+        $internal->alamat = $request->alamat ?? null;
+        $this->uploadFile($request, $internal, $user->id, 'store');
         $internal->save();
 
         $user->userable()->associate($internal);
@@ -65,10 +70,15 @@ class InternalService
         ];
     }
 
-    public function updateInternal($request, int $userId)
+    public function updateInternal($request, int $id)
     {
-        $internal = $this->findInternal($userId);
-        $this->setField($request, $internal);
+        $internal = $this->findInternal($id);
+        $internal->nip = $request->nip ?? null;
+        $internal->instansi_id = $request->instansi_id;
+        $internal->kedeputian = $request->kedeputian ?? null;
+        $internal->pangkat = $request->pangkat ?? null;
+        $internal->alamat = $request->alamat ?? null;
+        $this->uploadFile($request, $internal, $internal->user_id, 'update', $id);
         $internal->save();
 
         $user = $internal->user;
@@ -88,13 +98,59 @@ class InternalService
         ];
     }
 
-    public function setField($request, $internal)
+    public function uploadFile($request, $internal, $userId, $type, $id = null)
     {
-        $internal->nip = $request->nip ?? null;
-        $internal->instansi_id = $request->instansi_id;
-        $internal->kedeputian = $request->kedeputian ?? null;
-        $internal->pangkat = $request->pangkat ?? null;
-        $internal->alamat = $request->alamat ?? null;
+        if ($id != null) {
+            $find = $this->findInternal($id);
+        }
+
+        $path = 'surat_keterangan/'.$userId.'/';
+        if ($request->hasFile('sk_cpns')) {
+            $file = $request->file('sk_cpns');
+            $cpns = str_replace(' ', '-', $file->getClientOriginalName());
+
+            Storage::disk('bank_data')->delete($request->old_sk_cpns);
+            Storage::disk('bank_data')->put($path.$cpns, file_get_contents($file));
+        }
+        if ($request->hasFile('sk_pengangkatan')) {
+            $file = $request->file('sk_pengangkatan');
+            $pengangkatan = str_replace(' ', '-', $file->getClientOriginalName());
+
+            Storage::disk('bank_data')->delete($request->old_sk_pengangkatan);
+            Storage::disk('bank_data')->put($path.$pengangkatan, file_get_contents($file));
+        }
+        if ($request->hasFile('sk_golongan')) {
+            $file = $request->file('sk_golongan');
+            $golongan = str_replace(' ', '-', $file->getClientOriginalName());
+
+            Storage::disk('bank_data')->delete($request->old_sk_golongan);
+            Storage::disk('bank_data')->put($path.$golongan, file_get_contents($file));
+        }
+
+        if ($request->hasFile('sk_jabatan')) {
+            $file = $request->file('sk_jabatan');
+            $jabatan = str_replace(' ', '-', $file->getClientOriginalName());
+
+            Storage::disk('bank_data')->delete($request->old_sk_jabatan);
+            Storage::disk('bank_data')->put($path.$jabatan, file_get_contents($file));
+        }
+
+        $internal->sk_cpns = [
+            'file' => !empty($request->sk_cpns) ? $path.$cpns : ($type == 'store' ? null : $find->sk_cpns['file']),
+            'keterangan' => $request->keterangan_cpns ?? ($type == 'store' ? null : $find->sk_cpns['keterangan']),
+        ];
+        $internal->sk_pengangkatan = [
+            'file' => !empty($request->sk_pengangkatan) ? $path.$pengangkatan : ($type == 'store' ? null : $find->sk_pengangkatan['file']),
+            'keterangan' => $request->keterangan_pengangkatan ?? ($type == 'store' ? null : $find->sk_pengangkatan['keterangan']),
+        ];
+        $internal->sk_golongan = [
+            'file' => !empty($request->sk_golongan) ? $path.$golongan : ($type == 'store' ? null : $find->sk_golongan['file']),
+            'keterangan' => $request->keterangan_golongan ?? ($type == 'store' ? null : $find->sk_golongan['keterangan']),
+        ];
+        $internal->sk_jabatan = [
+            'file' => !empty($request->sk_jabatan) ? $path.$jabatan : ($type == 'store' ? null : $find->sk_jabatan['file']),
+            'keterangan' => $request->keterangan_jabatan ?? ($type == 'store' ? null : $find->sk_jabatan['keterangan']),
+        ];
 
         return $internal;
     }
@@ -112,6 +168,22 @@ class InternalService
         if (!empty($user->photo['file'])) {
             $path = public_path('userfile/photo/'.$user->photo['file']) ;
             File::delete($path);
+        }
+
+        if (!empty($internal->sk_cpns['file'])) {
+            Storage::disk('bank_data')->delete($internal->sk_cpns['file']);
+        }
+
+        if (!empty($internal->sk_pengangkatan['file'])) {
+            Storage::disk('bank_data')->delete($internal->sk_pengangkatan['file']);
+        }
+
+        if (!empty($internal->golongan['file'])) {
+            Storage::disk('bank_data')->delete($internal->golongan['file']);
+        }
+
+        if (!empty($internal->sk_jabatan['file'])) {
+            Storage::disk('bank_data')->delete($internal->sk_jabatan['file']);
         }
 
         if ($bankData->count() > 0) {

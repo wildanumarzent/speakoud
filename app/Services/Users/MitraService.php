@@ -66,7 +66,12 @@ class MitraService
         $mitra = new Mitra;
         $mitra->user_id = $user->id;
         $mitra->creator_id = auth()->user()->id;
-        $this->setField($request, $mitra);
+        $mitra->nip = $request->nip ?? null;
+        $mitra->instansi_id = $request->instansi_id ?? null;
+        $mitra->kedeputian = $request->kedeputian ?? null;
+        $mitra->pangkat = $request->pangkat ?? null;
+        $mitra->alamat = $request->alamat ?? null;
+        $this->uploadFile($request, $mitra, $user->id, 'store');
         $mitra->save();
 
         $user->userable()->associate($mitra);
@@ -78,10 +83,15 @@ class MitraService
         ];
     }
 
-    public function updateMitra($request, int $userId)
+    public function updateMitra($request, int $id)
     {
-        $mitra = $this->findMitra($userId);
-        $this->setField($request, $mitra);
+        $mitra = $this->findMitra($id);
+        $mitra->nip = $request->nip ?? null;
+        $mitra->instansi_id = $request->instansi_id ?? null;
+        $mitra->kedeputian = $request->kedeputian ?? null;
+        $mitra->pangkat = $request->pangkat ?? null;
+        $mitra->alamat = $request->alamat ?? null;
+        $this->uploadFile($request, $mitra, $mitra->user_id, 'update', $id);
         $mitra->save();
 
         $user = $mitra->user;
@@ -101,17 +111,59 @@ class MitraService
         ];
     }
 
-    public function setField($request, $mitra)
+    public function uploadFile($request, $mitra, $userId, $type, $id = null)
     {
-        $mitra->nip = $request->nip ?? null;
-        $mitra->instansi_id = $request->instansi_id ?? null;
-        $mitra->kedeputian = $request->kedeputian ?? null;
-        $mitra->pangkat = $request->pangkat ?? null;
-        $mitra->alamat = $request->alamat ?? null;
-        $mitra->sk_cpns = $request->sk_cpns ?? null;
-        $mitra->sk_pengangkatan = $request->sk_pengangkatan ?? null;
-        $mitra->sk_golongan = $request->sk_golongan ?? null;
-        $mitra->sk_jabatan = $request->sk_jabatan ?? null;
+        if ($id != null) {
+            $find = $this->findMitra($id);
+        }
+
+        $path = 'surat_keterangan/'.$userId.'/';
+        if ($request->hasFile('sk_cpns')) {
+            $file = $request->file('sk_cpns');
+            $cpns = str_replace(' ', '-', $file->getClientOriginalName());
+
+            Storage::disk('bank_data')->delete($request->old_sk_cpns);
+            Storage::disk('bank_data')->put($path.$cpns, file_get_contents($file));
+        }
+        if ($request->hasFile('sk_pengangkatan')) {
+            $file = $request->file('sk_pengangkatan');
+            $pengangkatan = str_replace(' ', '-', $file->getClientOriginalName());
+
+            Storage::disk('bank_data')->delete($request->old_sk_pengangkatan);
+            Storage::disk('bank_data')->put($path.$pengangkatan, file_get_contents($file));
+        }
+        if ($request->hasFile('sk_golongan')) {
+            $file = $request->file('sk_golongan');
+            $golongan = str_replace(' ', '-', $file->getClientOriginalName());
+
+            Storage::disk('bank_data')->delete($request->old_sk_golongan);
+            Storage::disk('bank_data')->put($path.$golongan, file_get_contents($file));
+        }
+
+        if ($request->hasFile('sk_jabatan')) {
+            $file = $request->file('sk_jabatan');
+            $jabatan = str_replace(' ', '-', $file->getClientOriginalName());
+
+            Storage::disk('bank_data')->delete($request->old_sk_jabatan);
+            Storage::disk('bank_data')->put($path.$jabatan, file_get_contents($file));
+        }
+
+        $mitra->sk_cpns = [
+            'file' => !empty($request->sk_cpns) ? $path.$cpns : ($type == 'store' ? null : $find->sk_cpns['file']),
+            'keterangan' => $request->keterangan_cpns ?? ($type == 'store' ? null : $find->sk_cpns['keterangan']),
+        ];
+        $mitra->sk_pengangkatan = [
+            'file' => !empty($request->sk_pengangkatan) ? $path.$pengangkatan : ($type == 'store' ? null : $find->sk_pengangkatan['file']),
+            'keterangan' => $request->keterangan_pengangkatan ?? ($type == 'store' ? null : $find->sk_pengangkatan['keterangan']),
+        ];
+        $mitra->sk_golongan = [
+            'file' => !empty($request->sk_golongan) ? $path.$golongan : ($type == 'store' ? null : $find->sk_golongan['file']),
+            'keterangan' => $request->keterangan_golongan ?? ($type == 'store' ? null : $find->sk_golongan['keterangan']),
+        ];
+        $mitra->sk_jabatan = [
+            'file' => !empty($request->sk_jabatan) ? $path.$jabatan : ($type == 'store' ? null : $find->sk_jabatan['file']),
+            'keterangan' => $request->keterangan_jabatan ?? ($type == 'store' ? null : $find->sk_jabatan['keterangan']),
+        ];
 
         return $mitra;
     }
@@ -128,6 +180,22 @@ class MitraService
         if (!empty($user->photo['file'])) {
             $path = public_path('userfile/photo/'.$user->photo['file']) ;
             File::delete($path);
+        }
+
+        if (!empty($materi->sk_cpns['file'])) {
+            Storage::disk('bank_data')->delete($materi->sk_cpns['file']);
+        }
+
+        if (!empty($materi->sk_pengangkatan['file'])) {
+            Storage::disk('bank_data')->delete($materi->sk_pengangkatan['file']);
+        }
+
+        if (!empty($materi->golongan['file'])) {
+            Storage::disk('bank_data')->delete($materi->golongan['file']);
+        }
+
+        if (!empty($materi->sk_jabatan['file'])) {
+            Storage::disk('bank_data')->delete($materi->sk_jabatan['file']);
         }
 
         if ($bankData->count() > 0) {
