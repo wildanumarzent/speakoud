@@ -5,7 +5,7 @@
 @endsection
 @section('content')
     <div class="scorm-course">
-      <iframe class="scorm-iframe" id="scorm-content" src="{{$data['path2']}}">
+      <iframe class="scorm-iframe" id="scorm-content" src="{{$data['path1']}}">
       </iframe>
     </div>
 
