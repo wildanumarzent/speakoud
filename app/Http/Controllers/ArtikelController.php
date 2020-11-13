@@ -67,7 +67,7 @@ class ArtikelController extends Controller
                 'Edit' => '',
             ],
         ]);
-       
+
     }
 
     /**
@@ -83,6 +83,7 @@ class ArtikelController extends Controller
         }else{
             $this->artikel->save($request);
         }
+
         return redirect()->route('artikel.index')
         ->with('success', 'Artikel Telah Disimpan');
     }
@@ -95,7 +96,7 @@ class ArtikelController extends Controller
      */
     public function show(Artikel $id)
     {
-        $this->artikel->viewer($id['id']);  
+        $this->artikel->viewer($id['id']);
         $data['artikel'] = $this->artikel->get($id['id']);
         return view('backend.artikel.detail', compact('data'), [
             'title' => 'Artikel',
@@ -112,7 +113,7 @@ class ArtikelController extends Controller
      * @param  \App\Models\Artikel  $artikel
      * @return \Illuminate\Http\Response
      */
- 
+
 
     /**
      * Update the specified resource in storage.

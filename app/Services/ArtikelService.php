@@ -5,14 +5,15 @@ namespace App\Services;
 use App\Models\Artikel;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
-
+use App\Services\Component\TagsService;
 class ArtikelService
 {
-    private $artikel;
+    private $artikel,$tags;
 
-    public function __construct(Artikel $artikel)
+    public function __construct(Artikel $artikel,TagsService $tags)
     {
         $this->artikel = $artikel;
+        $this->tags = $tags;
     }
 
     public function list($request){
@@ -67,8 +68,10 @@ class ArtikelService
             $artikel->publish = 0;
             break;
     }
-
        $artikel->save();
+       if (isset($request->tags)) {
+        $this->tags->store($request,$artikel);
+     }
         return $artikel;
     }
 

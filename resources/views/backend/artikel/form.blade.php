@@ -5,6 +5,7 @@
 <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-select/bootstrap-select.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/select2/select2.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-tagsinput/bootstrap-tagsinput.css') }}">
+<script src="{{ asset('assets/tmplts_backend/wysiwyg/tinymce.min.js') }}"></script>
 @endsection
 
 @section('content')
@@ -33,7 +34,7 @@
                           <label class="col-form-label text-sm-right">Intro</label>
                         </div>
                         <div class="col-md-10">
-                          <textarea name="intro" id="RTE-M">{{old('intro')  ?? @$data['artikel']['intro']}}</textarea>
+                          <textarea name="intro" class="tiny">{{old('intro')  ?? @$data['artikel']['intro']}}</textarea>
                           @include('components.field-error', ['field' => 'intro'])
                         </div>
                     </div>
@@ -42,7 +43,7 @@
                           <label class="col-form-label text-sm-right">Content</label>
                         </div>
                         <div class="col-md-10">
-                          <textarea name="content" id="RTE-IMG">{{old('content')  ?? @$data['artikel']['content']}}</textarea>
+                          <textarea name="content" class="tiny">{{old('content')  ?? @$data['artikel']['content']}}</textarea>
                           @include('components.field-error', ['field' => 'content'])
                         </div>
                     </div>
@@ -119,6 +120,8 @@
 <script src="{{ asset('assets/tmplts_backend/vendor/libs/select2/select2.js') }}"></script>
 <script src="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-tagsinput/bootstrap-tagsinput.js') }}"></script>
 <script src="{{ asset('assets/tmplts_backend/js/forms_selects.js') }}"></script>
+
 @endsection
+@include('includes.tiny-mce')
 
 @endsection

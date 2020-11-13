@@ -2,57 +2,57 @@
 
 namespace App\Services\Component;
 
-use App\Models\Artikel;
+use App\Models\Component\Tags;
+use App\Models\Component\TagsTipe;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
-
 class TagsService
 {
-    private $model;
 
-    public function __construct(Artikel $model)
+    private $tagsTipe,$tags;
+
+    public function __construct(TagsTipe $tagsTipe,Tags $tags)
     {
-        $this->model = $model;
+        $this->tagsTipe = $tagsTipe;
+        $this->tags = $tags;
     }
 
-    public function get($data){
-        $query = $this->model->query();
-
-        $query->when($data->q, function ($query, $q) {
-            $query->where(function ($query) use ($q) {
-                $query->where('nip', 'like', '%'.$q.'%')
-                ->orWhere('unit_kerja', 'like', '%'.$q.'%')
-                ->orWhere('kedeputian', 'like', '%'.$q.'%')
-                ->orWhere('pangkat', 'like', '%'.$q.'%')
-                ->orWhere('alamat', 'like', '%'.$q.'%');
-            });
-        });
-
-        $result = $query->orderBy('created_at', 'ASC')->paginate(20);
-        return $result;
-
-    }
-
-    public function save(){
-        $this->model->create([
-        'title' => 'Mengisi field created_by dan updated_by otomatis',
-        'slug' => 'Implementasi blameable behaviour pada eloquent model',
-        'publish' => 1,
-        ]);
+    public function store($request,$data){
+        $tagsName = explode(',',$request['tags']);
+        $tagsName = array_map('strtolower', $tagsName);
+        $tagsName = array_map('ucwords', $tagsName);
+        $tags = new Tags;
+        $tagsTipe = new TagsTipe;
+        foreach($tagsName as $name){
+        $tags->updateOrCreate(
+            ['nama' => $name],
+            ['nama' => $name]
+        );
+        $tagsTipe->tag_id = $this->tags->latest()->first()->id;
+        $tagsTipe->tagable()->associate($data);
+        $tagsTipe->save();
+        }
         return true;
     }
 
-    public function delete(){
-
+    public function update($request,$data){
+        $tagsName = explode(',',$request['tags']);
+        $tagsName = array_map('strtolower', $tagsName);
+        $tagsName = array_map('ucwords', $tagsName);
+        $tags = new Tags;
+        $tagsTipe = new TagsTipe;
+        foreach($tagsName as $name){
+        $tags->updateOrCreate(
+            ['nama' => $name],
+            ['nama' => $name]
+        );
+        $tagsTipe->tag_id = Tags::latest()->first()->id;
+        $tagsTipe->tagable()->associate($data)->save();
+        }
+        return true;
     }
 
-    public function draft(){
 
-    }
-
-    public function viewAdd(){
-
-    }
 
 
 

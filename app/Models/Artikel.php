@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Users\User;
 use App\Traits\Blameable;
+use App\Models\Component\TagsTipe;
 class Artikel extends Model
 {
     use Blameable; // auto created_by & updated_by
@@ -30,5 +31,9 @@ class Artikel extends Model
         }
 
         return $photo;
+    }
+    public function tag()
+    {
+        return $this->morphMany(TagsTipe::class, 'tagable');
     }
 }
