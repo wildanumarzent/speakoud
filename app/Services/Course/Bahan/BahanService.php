@@ -4,6 +4,7 @@ namespace App\Services\Course\Bahan;
 
 use App\Models\Course\Bahan\BahanPelatihan;
 use App\Services\Course\MateriService;
+use Illuminate\Support\Facades\Storage;
 
 class BahanService
 {
@@ -172,6 +173,7 @@ class BahanService
             $bahan->quiz->item()->delete();
         }
         if ($bahan->scorm()->count() == 1) {
+            Storage::disk('bank_data')->delete($bahan->scorm->package);
             $bahan->scorm()->delete();
         }
 

@@ -12,3 +12,14 @@
     </ol>
 </h4>
 @endisset
+
+@isset($breadcrumbsFrontend)
+<div class="breadcrumb">
+    <ul>
+        <li><a href="{{ route('home') }}" title="Beranda">Home</a></li>
+        @foreach ($breadcrumbsFrontend as $key => $val)
+        <li class="{{ empty($val) ? 'current' : '' }}" title="{{ $key }}"><a href="{{ $val }}">{{ $key }}</a></li>
+        @endforeach
+    </ul>
+</div>
+@endisset

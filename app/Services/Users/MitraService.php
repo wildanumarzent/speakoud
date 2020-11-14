@@ -182,20 +182,20 @@ class MitraService
             File::delete($path);
         }
 
-        if (!empty($materi->sk_cpns['file'])) {
-            Storage::disk('bank_data')->delete($materi->sk_cpns['file']);
+        if (!empty($mitra->sk_cpns['file'])) {
+            Storage::disk('bank_data')->delete($mitra->sk_cpns['file']);
         }
 
-        if (!empty($materi->sk_pengangkatan['file'])) {
-            Storage::disk('bank_data')->delete($materi->sk_pengangkatan['file']);
+        if (!empty($mitra->sk_pengangkatan['file'])) {
+            Storage::disk('bank_data')->delete($mitra->sk_pengangkatan['file']);
         }
 
-        if (!empty($materi->golongan['file'])) {
-            Storage::disk('bank_data')->delete($materi->golongan['file']);
+        if (!empty($mitra->golongan['file'])) {
+            Storage::disk('bank_data')->delete($mitra->golongan['file']);
         }
 
-        if (!empty($materi->sk_jabatan['file'])) {
-            Storage::disk('bank_data')->delete($materi->sk_jabatan['file']);
+        if (!empty($mitra->sk_jabatan['file'])) {
+            Storage::disk('bank_data')->delete($mitra->sk_jabatan['file']);
         }
 
         if ($bankData->count() > 0) {

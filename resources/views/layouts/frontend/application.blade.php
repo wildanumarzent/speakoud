@@ -40,9 +40,9 @@
         <meta name="twitter:creator" content="{!! isset($data['creator']) ? $data['creator'] : 'administrator' !!}">
         <meta name="twitter:description" content="{!! isset($data['meta_description']) ? Str::limit(strip_tags($data['meta_description']), 155) : $configuration['meta_description'] !!}">
         <meta name="twitter:image" content="{!! isset($data['cover']) ? $data['cover'] : asset('assets/tmplts_backend/images/open-graph.jpg') !!}">
-        
-        <!-- Fonts --> 
-        <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700" rel="stylesheet"> 
+
+        <!-- Fonts -->
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700" rel="stylesheet">
 
 		<!-- Css Global -->
 		<link rel="stylesheet" href="{{ asset('assets/tmplts_frontend/css/bootstrap.min.css') }}">
@@ -98,14 +98,14 @@
 		<div id="page">
 			@yield('layout-content')
 		</div>
-    </body>	
-    
+    </body>
+
 	<!-- jQuery.min.js -->
 	<script src="{{ asset('assets/tmplts_frontend/js/jquery.min.js') }}"></script>
 
 	<!-- jQuery Global-->
     <script src="{{ asset('assets/tmplts_frontend/js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('assets/tmplts_frontend/js/main.js') }}"></script>  
+    <script src="{{ asset('assets/tmplts_frontend/js/main.js') }}"></script>
 	@yield('scripts')
 
     <script>
@@ -114,12 +114,17 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-        
+
         //PRE-LOAD
         $(document).ready(function(){
 			$('.preloader').delay(1000).fadeOut();
 			$('#main').delay(1000).fadeIn();
 		});
+
+        var str = $(".account").find(".name").text();
+        var match = str.match(/\b(\w)/g);
+        var txt = match.join('');
+        $(".user-profile").text(txt);
     </script>
     @yield('jsbody')
 

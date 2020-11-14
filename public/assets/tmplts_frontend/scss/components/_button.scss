@@ -71,6 +71,25 @@
     margin-top: 30px;
 }
 
+.btn-back {
+    a {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 40px;
+        width: 40px !important;
+        border-radius: 100%;
+        border: 2px solid $main-color;
+    }
+}
+
+@media screen and (max-width: $breakpoint-sm) {
+    .box-btn {
+        margin-top: 10px;
+    }
+}
+
 .link-icon {
     position: relative;
     display: flex;

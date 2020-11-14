@@ -98,7 +98,7 @@
             </a>
             <div class="dropdown-menu dropdown-menu-right">
               <span class="dropdown-item name-user d-block d-lg-none">{{ auth()->user()->name }}</span>
-              <a href="{{ route('profile.edit') }}" class="dropdown-item">
+              <a href="{{ route('profile') }}" class="dropdown-item">
                   <i class="las la-user-circle"></i>
                   &nbsp; My profile</a>
               <div class="dropdown-divider"></div>

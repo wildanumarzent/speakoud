@@ -4,13 +4,17 @@ namespace App\Services\Course;
 
 use App\Models\Course\MataInstruktur;
 use App\Models\Course\MataPelatihan;
+use App\Models\Course\MataRating;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 
 class MataService
 {
     private $model;
 
-    public function __construct(MataPelatihan $model)
+    public function __construct(
+        MataPelatihan $model
+    )
     {
         $this->model = $model;
     }
@@ -41,6 +45,17 @@ class MataService
         return $result;
     }
 
+    public function getMata($order, $by, int $limit)
+    {
+        $query = $this->model->query();
+
+        $query->where('publish', 1);
+
+        $result = $query->orderBy($order, $by)->paginate($limit);
+
+        return $result;
+    }
+
     public function findMata(int $id)
     {
         return $this->model->findOrFail($id);
@@ -49,7 +64,7 @@ class MataService
     public function storeMata($request, int $programId)
     {
         if ($request->hasFile('cover_file')) {
-            $fileName = str_replace(' ', '-', $request->file('cover_file')
+            $fileName = str_replace(' ', '-', Str::random(5).'-'.$request->file('cover_file')
                 ->getClientOriginalName());
             $request->file('cover_file')->move(public_path('userfile/cover'), $fileName);
         }
@@ -85,7 +100,7 @@ class MataService
     public function updateMata($request, int $id)
     {
         if ($request->hasFile('cover_file')) {
-            $fileName = str_replace(' ', '-', $request->file('cover_file')
+            $fileName = str_replace(' ', '-', Str::random(5).'-'.$request->file('cover_file')
                 ->getClientOriginalName());
             $this->deleteCoverFromPath($request->old_cover_file);
             $request->file('cover_file')->move(public_path('userfile/cover'), $fileName);
@@ -164,6 +179,18 @@ class MataService
         return $mata;
     }
 
+    public function rating($request, int $mataId)
+    {
+        $rating = MataRating::updateOrCreate([
+            'mata_id' => $mataId,
+            'user_id' => auth()->user()->id,
+        ], [
+            'mata_id' => $mataId,
+            'user_id' => auth()->user()->id,
+            'rating' => $request->rating,
+        ]);
+    }
+
     public function deleteMata(int $id)
     {
         $mata = $this->findMata($id);
@@ -174,7 +201,11 @@ class MataService
         $mata->instruktur()->delete();
         $mata->delete();
 
-        return $mata;
+        if ($mata->bahan()->count() == 0) {
+            return $mata;
+        } else {
+            return false;
+        }
     }
 
     public function deleteCoverFromPath($fileName)

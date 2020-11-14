@@ -235,7 +235,11 @@ class UserService
 
         $user->delete();
 
-        return $user;
+        if ($user->hasRole('developer|administrator')) {
+            return $user;
+        } else {
+            return false;
+        }
     }
 
     public function deletePhotoFromPath($fileName)

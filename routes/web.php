@@ -13,20 +13,40 @@ use Illuminate\Support\Facades\Route;
 |
 */
 /**
- * home
+ * frontend
  */
+//home
 Route::get('/', 'HomeController@index')
     ->name('home');
+
+//pages
+Route::get('/page/{id}/{slug}', 'PageController@read')
+    ->name('page.read');
+
+//course
+Route::get('/course/list', 'Course\MataController@courseList')
+    ->name('course.list');
+Route::get('/course/{id}/detail', 'Course\MataController@courseDetail')
+    ->name('course.detail')
+    ->middleware('auth');
+Route::post('/course/{id}/rating', 'Course\MataController@giveRating')
+    ->name('course.rating')
+    ->middleware('auth');
 
 /**
  * authentication
  */
+//login
 Route::get('/login', 'Auth\LoginController@showLoginForm')
     ->name('login')
     ->middleware('guest');
 Route::post('/login', 'Auth\LoginController@login')
     ->middleware('guest');
 
+//register
+Route::get('/register', 'Auth\RegisterController@showRegisterForm')
+    ->name('register')
+    ->middleware('guest');
 /**
  * panel
  */
@@ -37,6 +57,8 @@ Route::group(['middleware' => ['auth']], function () {
         ->name('dashboard');
 
     //profile
+    Route::get('/profile', 'Users\UserController@profile')
+        ->name('profile');
     Route::get('/profile/edit', 'Users\UserController@profileForm')
         ->name('profile.edit');
     Route::put('/profile/edit', 'Users\UserController@updateProfile');
@@ -253,6 +275,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::put('/program/{id}', 'Course\ProgramController@update')
         ->name('program.update')
         ->middleware('role:developer|administrator|internal|mitra');
+    Route::put('/program/{id}/publish', 'Course\ProgramController@publish')
+        ->name('program.publish')
+        ->middleware('role:developer|administrator|internal|mitra');
     Route::put('/program/{id}/position/{position}', 'Course\ProgramController@position')
         ->name('program.position')
         ->middleware('role:developer|administrator|internal|mitra');
@@ -374,7 +399,91 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/scorm/{id}','Course\Bahan\BahanScormController@show')->name('scorm.detail');
 
     /**Website module */
+    //page
+    Route::get('/page', 'PageController@index')
+        ->name('page.index')
+        ->middleware('role:developer|administrator');
+    Route::get('/page/create', 'PageController@create')
+        ->name('page.create')
+        ->middleware('role:developer|administrator');
+    Route::post('/page', 'PageController@store')
+        ->name('page.store')
+        ->middleware('role:developer|administrator');
+    Route::get('/page/{id}/edit', 'PageController@edit')
+        ->name('page.edit')
+        ->middleware('role:developer|administrator');
+    Route::put('/page/{id}', 'PageController@update')
+        ->name('page.update')
+        ->middleware('role:developer|administrator');
+    Route::put('/page/{id}/publish', 'PageController@publish')
+        ->name('page.publish')
+        ->middleware('role:developer|administrator');
+    Route::put('/page/{id}/position/{position}/{parent}', 'PageController@position')
+        ->name('page.position')
+        ->middleware('role:developer|administrator');
+    Route::delete('/page/{id}', 'PageController@destroy')
+        ->name('page.destroy')
+        ->middleware('role:developer|administrator');
+
+    //banner kategori
+    Route::get('/banner', 'Banner\BannerKategoriController@index')
+        ->name('banner.index')
+        ->middleware('role:developer|administrator');
+    Route::get('/banner/create', 'Banner\BannerKategoriController@create')
+        ->name('banner.create')
+        ->middleware('role:developer');
+    Route::post('/banner', 'Banner\BannerKategoriController@store')
+        ->name('banner.store')
+        ->middleware('role:developer');
+    Route::get('/banner/{id}/edit', 'Banner\BannerKategoriController@edit')
+        ->name('banner.edit')
+        ->middleware('role:developer|administrator');
+    Route::put('/banner/{id}', 'Banner\BannerKategoriController@update')
+        ->name('banner.update')
+        ->middleware('role:developer|administrator');
+    Route::delete('/banner/{id}', 'Banner\BannerKategoriController@destroy')
+        ->name('banner.destroy')
+        ->middleware('role:developer');
+
+    //banner media
+    Route::get('/banner/{id}/media', 'Banner\BannerController@index')
+        ->name('banner.media')
+        ->middleware('role:developer|administrator');
+    Route::get('/banner/{id}/media/create', 'Banner\BannerController@create')
+        ->name('banner.media.create')
+        ->middleware('role:developer|administrator');
+    Route::post('/banner/{id}/media', 'Banner\BannerController@store')
+        ->name('banner.media.store')
+        ->middleware('role:developer|administrator');
+    Route::get('/banner/{id}/media/{bannerId}/edit', 'Banner\BannerController@edit')
+        ->name('banner.media.edit')
+        ->middleware('role:developer|administrator');
+    Route::put('/banner/{id}/media/{bannerId}', 'Banner\BannerController@update')
+        ->name('banner.media.update')
+        ->middleware('role:developer|administrator');
+    Route::put('/banner/{id}/media/{bannerId}/publish', 'Banner\BannerController@publish')
+        ->name('banner.media.publish')
+        ->middleware('role:developer|administrator');
+    Route::post('/banner/{id}/media/sort', 'Banner\BannerController@sort')
+        ->name('banner.media.sort')
+        ->middleware('role:developer|administrator');
+    Route::delete('/banner/{id}/media/{bannerId}', 'Banner\BannerController@destroy')
+        ->name('banner.media.destroy')
+        ->middleware('role:developer|administrator');
+
     //konfigurasi
+    Route::get('/konfigurasi/konten', 'KonfigurasiController@index')
+        ->name('config.index')
+        ->middleware('role:developer|administrator');
+    Route::put('/konfigurasi/update', 'KonfigurasiController@update')
+        ->name('config.update')
+        ->middleware('role:developer|administrator');
+    Route::put('/konfigurasi/upload/{name}', 'KonfigurasiController@upload')
+        ->name('config.upload')
+        ->middleware('role:developer|administrator');
+    Route::get('/konfigurasi/strip', 'KonfigurasiController@strip')
+        ->name('config.strip')
+        ->middleware('role:developer|administrator');
 
     /** Artikel dan Component nya */
     // Artikel

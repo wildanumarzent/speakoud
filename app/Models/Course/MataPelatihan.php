@@ -5,6 +5,7 @@ namespace App\Models\Course;
 use App\Models\Course\Bahan\BahanPelatihan;
 use App\Models\Users\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class MataPelatihan extends Model
 {
@@ -37,19 +38,54 @@ class MataPelatihan extends Model
         return $this->hasMany(MateriPelatihan::class, 'mata_id');
     }
 
-    public function getCover($value)
+    public function materiPublish()
     {
-        if (!empty($value)) {
-            $photo = asset(config('addon.images.path.cover').$value);
-        } else {
-            $photo = asset(config('addon.images.cover'));
-        }
-
-        return $photo;
+        return $this->hasMany(MateriPelatihan::class, 'mata_id')->where('publish', 1)
+            ->orderBy('urutan', 'ASC');
     }
 
     public function bahan()
     {
         return $this->hasMany(BahanPelatihan::class, 'mata_id');
+    }
+
+    public function getCover($value)
+    {
+        if (!empty($value)) {
+            $cover = asset(config('addon.images.path.cover').$value);
+        } else {
+            $cover = asset(config('addon.images.cover'));
+        }
+
+        return $cover;
+    }
+
+    public function rating()
+    {
+        return $this->hasMany(MataRating::class, 'mata_id');
+    }
+
+    public function ratingByUser()
+    {
+        return $this->hasOne(MataRating::class, 'mata_id')->where('user_id', auth()->user()->id);
+    }
+
+    public function getRating($type, $rate = null)
+    {
+        $mata = $this->hasMany(MataRating::class, 'mata_id');
+
+        if ($type == 'review') {
+            $rating = $mata->where('rating', '>', 0)->avg('rating');
+        }
+
+        if ($type == 'student_rating') {
+            $rating = $mata->count();
+        }
+
+        if ($type == 'per_rating') {
+            $rating = $mata->where('rating', $rate)->count();
+        }
+
+        return $rating;
     }
 }

@@ -31,10 +31,9 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->ipAddress('ip_address')->nullable();
             $table->timestamp('first_access')->nullable();
-            $table->timestamp('lats_login')->nullable();
+            $table->timestamp('last_login')->nullable();
             $table->timestamp('last_access')->nullable();
             $table->timestamps();
-            $table->timestamp('deleted_at')->nullable();
         });
     }
 

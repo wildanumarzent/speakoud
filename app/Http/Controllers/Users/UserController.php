@@ -46,13 +46,26 @@ class UserController extends Controller
         ]);
     }
 
+    public function profile()
+    {
+        $data['user'] = auth()->user();
+        $data['information'] = $data['user']->information;
+
+        return view('backend.user_management.profile', compact('data'), [
+            'title' => 'Profile',
+            'breadcrumbsFrontend' => [
+                'Profile' => '',
+            ],
+        ]);
+    }
+
     public function profileForm()
     {
         $data['user'] = auth()->user();
         $data['information'] = $data['user']->information;
 
         return view('backend.user_management.profile-form', compact('data'), [
-            'title' => 'Profile',
+            'title' => 'Profile - Edit',
             'breadcrumbsBackend' => [
                 'Profile' => '',
                 'Edit' => ''

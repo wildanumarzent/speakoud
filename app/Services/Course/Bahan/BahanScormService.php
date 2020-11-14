@@ -35,6 +35,7 @@ class BahanScormService
             $scorm->mata_id = $materi->mata_id;
             $scorm->materi_id = $materi->id;
             $scorm->bahan_id = $bahan->id;
+            $scorm->creator_id = auth()->user()->id;
             $scorm->package = 'scorm/'.$materi->id.'/'.$generate;
             $scorm->save();
 

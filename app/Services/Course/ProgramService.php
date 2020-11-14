@@ -126,9 +126,14 @@ class ProgramService
     {
         $program = $this->findProgram($id);
 
+        $program->materi()->delete();
         $program->mata()->delete();
         $program->delete();
 
-        return $program;
+        if ($program->bahan()->count() == 0) {
+            return $program;
+        } else {
+            return false;
+        }
     }
 }

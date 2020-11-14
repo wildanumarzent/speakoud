@@ -4,6 +4,7 @@ namespace App\Services\Instansi;
 
 use App\Models\Instansi\InstansiInternal;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 
 class InstansiInternalService
 {
@@ -51,7 +52,7 @@ class InstansiInternalService
     public function storeInstansi($request)
     {
         if ($request->hasFile('logo')) {
-            $fileName = str_replace(' ', '-', $request->file('logo')
+            $fileName = str_replace(' ', '-', Str::random(5).'-'.$request->file('logo')
                 ->getClientOriginalName());
             $request->file('logo')->move(public_path('userfile/logo_instansi'), $fileName);
         }
@@ -73,7 +74,7 @@ class InstansiInternalService
     public function updateInstansi($request, int $id)
     {
         if ($request->hasFile('logo')) {
-            $fileName = str_replace(' ', '-', $request->file('logo')
+            $fileName = str_replace(' ', '-', Str::random(5).'-'.$request->file('logo')
                 ->getClientOriginalName());
             $this->deleteLogoFromPath($request->old_logo);
             $request->file('logo')->move(public_path('userfile/logo_instansi'), $fileName);
