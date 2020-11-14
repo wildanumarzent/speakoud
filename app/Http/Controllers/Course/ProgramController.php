@@ -98,6 +98,16 @@ class ProgramController extends Controller
         $program = $this->service->findProgram($id);
         $this->checkRole($program);
 
+        $materi = $program->materi;
+        $bahan = [];
+        foreach ($materi as $key) {
+            $bahan = $key->bahan->count();
+        }
+
+        if ($bahan == 0) {
+            return back()->with('warning', 'Sebelum di publish, Tiap materi harus memiliki bahan.');
+        }
+
         $this->service->publishProgram($id);
 
         return back()->with('success', 'Status berhasil diubah');

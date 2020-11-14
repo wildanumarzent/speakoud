@@ -30,4 +30,10 @@ class MateriPelatihan extends Model
     {
         return $this->hasMany(BahanPelatihan::class, 'materi_id');
     }
+
+    public function bahanPublish()
+    {
+        return $this->hasMany(BahanPelatihan::class, 'materi_id')->where('publish', 1)
+            ->orderBy('urutan', 'ASC');
+    }
 }

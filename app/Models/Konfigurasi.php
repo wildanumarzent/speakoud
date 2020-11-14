@@ -20,6 +20,26 @@ class Konfigurasi extends Model
 
     static function value($name)
     {
-        return Konfigurasi::select('value')->where('name', $name)->first()['value'];
+        $value = Konfigurasi::select('value')->where('name', $name)->first();
+        if (!empty($value->value)) {
+            $val = $value->value;
+        } else {
+            $val = '';
+        }
+
+        return $val;
+    }
+
+    static function banner()
+    {
+        $file = Konfigurasi::select('value')->where('name', 'banner_default')->first();
+
+        if (!empty($file->value)) {
+            $banner = asset(config('addon.images.path.banner').$file->value);
+        } else {
+            $banner = asset(config('addon.images.banner_default'));
+        }
+
+        return $banner;
     }
 }

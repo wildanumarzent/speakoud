@@ -29,7 +29,6 @@ class CreateUsersInformationTable extends Migration
                 "departement":"-", "phone":"-", "mobile_phone":"-", "address":"-",
             }');
             $table->timestamps();
-            $table->timestamp('deleted_at')->nullable();
 
             $table->foreign('user_id')->references('id')->on('users')
                 ->cascadeOnDelete();

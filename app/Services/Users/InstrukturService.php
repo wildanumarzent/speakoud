@@ -99,7 +99,7 @@ class InstrukturService
         $instruktur->kedeputian = $request->kedeputian ?? null;
         $instruktur->pangkat = $request->pangkat ?? null;
         $instruktur->alamat = $request->alamat ?? null;
-        $this->uploadFile($request, $internal, $user->id, 'store');
+        $this->uploadFile($request, $instruktur, $user->id, 'store');
         $instruktur->save();
 
         $user->userable()->associate($instruktur);

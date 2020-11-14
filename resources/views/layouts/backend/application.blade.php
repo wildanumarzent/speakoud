@@ -108,7 +108,7 @@
         </div>
     </div>
 
-    @livewireStyles
+    {{-- @livewireStyles --}}
     @yield('layout-content')
 
     <!-- Core scripts -->
@@ -170,7 +170,7 @@
 		});
     </script>
 
-    @livewireScripts
+    {{-- @livewireScripts --}}
     @yield('jsbody')
 
 </body>

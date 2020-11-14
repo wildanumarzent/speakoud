@@ -5,6 +5,10 @@ return [
         'm' => 'jpg,jpeg,png,svg',
         'p' => '500x500 px'
     ],
+    'banner_default' => [
+        'm' => 'jpg,jpeg,png,svg',
+        'p' => '500x500 px'
+    ],
     'surat_keterangan' => [
         'm' => 'jpg,jpeg,png,pdf,doc,docx'
     ],

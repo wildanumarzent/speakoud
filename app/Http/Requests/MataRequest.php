@@ -27,7 +27,7 @@ class MataRequest extends FormRequest
             'judul' => 'required',
             'publish_start' => 'required',
             'instruktur_id' => 'required',
-            'cover' => 'nullable|mimes:'.config('addon.mimes.cover.m'),
+            'cover_file' => 'nullable|mimes:'.config('addon.mimes.cover.m'),
         ];
 
     }
@@ -38,7 +38,7 @@ class MataRequest extends FormRequest
             'judul' => 'Judul',
             'publish_start' => 'Publish Start',
             'instruktur_id' => 'Instruktur',
-            'cover' => 'Cover'
+            'cover_file' => 'Cover'
         ];
     }
 
@@ -48,7 +48,7 @@ class MataRequest extends FormRequest
             'judul.required' => ':attribute tidak boleh kosong',
             'publish_start.required' => ':attribute tidak boleh kosong',
             'instruktur_id.required' => ':attribute harus dipilih',
-            'cover.mimes' => 'Tipe :attribute harus :values.',
+            'cover_file.mimes' => 'Tipe :attribute harus :values.',
         ];
     }
 }

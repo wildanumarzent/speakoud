@@ -23,7 +23,6 @@ class CreateInstansiMitraTable extends Migration
             $table->string('fax')->nullable();
             $table->string('logo')->nullable();
             $table->timestamps();
-            $table->timestamp('deleted_at')->nullable();
 
             $table->foreign('creator_id')->references('id')->on('users')
                 ->cascadeOnDelete();

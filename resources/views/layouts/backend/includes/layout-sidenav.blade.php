@@ -3,7 +3,7 @@
                     Request::is('instruktur*') || Request::is('peserta*') || Request::is('grades*'));
     $userOpen = (Request::is('user*') || Request::is('internal*') || Request::is('mitra*') ||
                     Request::is('instruktur*') || Request::is('peserta*'));
-    $course = (Request::is('program*') || Request::is('mata*') || Request::is('materi*'));
+    $course = (Request::is('program*') || Request::is('mata*') || Request::is('materi*') || Request::is('course*'));
 @endphp
 <div id="layout-sidenav" class="{{ isset($layout_sidenav_horizontal) ? 'layout-sidenav-horizontal sidenav-horizontal container-p-x flex-grow-0' : 'layout-sidenav sidenav-vertical' }} sidenav bg-sidenav-theme">
 
@@ -148,7 +148,7 @@
           </a>
 
           <ul class="sidenav-menu">
-            <li class="sidenav-item{{ (Request::is('program*') || Request::is('mata*') || Request::is('materi*')) ? ' active' : '' }}">
+            <li class="sidenav-item{{ (Request::is('program*') || Request::is('mata*') || Request::is('materi*') || Request::is('course*')) ? ' active' : '' }}">
               <a href="{{ route('program.index') }}" class="sidenav-link">
                 <div>Program Pelatihan</div>
               </a>
@@ -167,7 +167,7 @@
         </li>
         @endrole
 
-        @role ('developer|administrator|internal')
+        @role ('developer|administrator')
         <li class="sidenav-item">
             <a href="{{route('tag.index')}}" class="sidenav-link"><i class="sidenav-icon las la-tags"></i>
               <div>Tags</div>
@@ -182,14 +182,19 @@
         <li class="sidenav-divider mb-1"></li>
         <li class="sidenav-header small font-weight-semibold">WEBSITE</li>
 
+        <li class="sidenav-item{{ (Request::is('page*')) ? ' active' : '' }}">
+            <a href="{{ route('page.index') }}" class="sidenav-link"><i class="sidenav-icon las la-list"></i>
+              <div>Pages</div>
+            </a>
+        </li>
         <li class="sidenav-item">
             <a href="{{route('artikel.index')}}" class="sidenav-link"><i class="sidenav-icon las la-newspaper"></i>
               <div>Artikel</div>
             </a>
         </li>
-        <li class="sidenav-item">
-            <a href="" class="sidenav-link"><i class="sidenav-icon las la-icons"></i>
-              <div>Widget</div>
+        <li class="sidenav-item{{ (Request::is('banner*')) ? ' active' : '' }}">
+            <a href="{{ route('banner.index') }}" class="sidenav-link"><i class="sidenav-icon las la-images"></i>
+              <div>Banner</div>
             </a>
         </li>
         <li class="sidenav-item">
@@ -197,19 +202,19 @@
               <div>Inquiry</div>
             </a>
         </li>
-        <li class="sidenav-item">
+        <li class="sidenav-item{{ Request::is('konfigurasi*') ? ' open active' : '' }}">
             <a href="javascript:void(0)" class="sidenav-link sidenav-toggle"><i class="sidenav-icon las la-cog"></i>
               <div>Konfigurasi</div>
             </a>
 
             <ul class="sidenav-menu">
-              <li class="sidenav-item">
-                  <a href="" class="sidenav-link">
+              <li class="sidenav-item{{ (Request::is('konfigurasi/konten')) ? ' active' : '' }}">
+                  <a href="{{ route('config.index') }}" class="sidenav-link">
                     <div>Konten</div>
                   </a>
               </li>
-              <li class="sidenav-item">
-                  <a href="" class="sidenav-link">
+              <li class="sidenav-item{{ Request::is('konfigurasi/strip') ? ' active' : '' }}">
+                  <a href="{{ route('config.strip') }}" class="sidenav-link">
                     <div>Strip Text</div>
                   </a>
               </li>

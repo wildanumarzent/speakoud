@@ -27,6 +27,12 @@ class ProgramPelatihan extends Model
         return $this->hasMany(MataPelatihan::class, 'program_id');
     }
 
+    public function mataPublish()
+    {
+        return $this->hasMany(MataPelatihan::class, 'program_id')->where('publish', 1)
+            ->orderBy('urutan', 'ASC');
+    }
+
     public function materi()
     {
         return $this->hasMany(MateriPelatihan::class, 'program_id');

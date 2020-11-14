@@ -107,6 +107,12 @@ header {
                         }
                     }
 
+                    @media screen and (max-width: $breakpoint-sm) {
+                        h5 {
+                            font-size: 1.1em;
+                        }
+                    }
+
                 }
             }
             
@@ -255,7 +261,22 @@ header {
                                     @extend %menu-dropdown;
                                     li {
                                         
-                                        
+                                        &.btn-back {
+                                            display: flex;
+                                            justify-content: center;
+                                            margin-bottom: 20px;
+                                            a {
+                                                position: relative;
+                                                display: flex;
+                                                align-items: center;
+                                                justify-content: center;
+                                                height: 40px;
+                                                width: 40px !important;
+                                                border-radius: 100%;
+                                                border: 2px solid $main-color;
+                                                color: $primary-text-color;
+                                            }
+                                        }
                                     
                                         a {
                                             padding: 0;
@@ -530,6 +551,8 @@ header {
                             height: 35px;
                             border: 2px solid $main-color;
                             border-radius: 100%;
+                            font-weight: 600;
+                            font-size: 12px;
 
                             i {
                                 font-size: 1.5em;
@@ -540,6 +563,12 @@ header {
     
                     }
                 }
+            }
+        }
+
+        @media screen and (max-width: $breakpoint-xl) {
+            .menubar-flex {
+                height: 80px;
             }
         }
 
@@ -577,6 +606,11 @@ header {
     }
 }
 
+.scroll-lock {
+    .main-logo h5 {
+        color: #000 !important;
+    }
+}
 
 .bannerless {
     main {
@@ -706,6 +740,8 @@ header {
                     text-align: center;
                     /*display: none;*/
 
+                   
+
 
                     h6 {
                         color: #fff;
@@ -734,6 +770,22 @@ header {
 
                     h3 {
                         font-weight: 300;
+                    }
+                }
+
+                @media screen and (max-width: $breakpoint-sm) {
+                    .slide-inner-info {
+                        max-width: 100%;
+                        padding: 0 30px;
+
+                        h1 {
+                            font-size: 2em;
+                        }
+
+                        h5 {
+                            font-size: 1em;
+                            line-height: 1.7;
+                        }
                     }
                 }
             }
@@ -789,6 +841,12 @@ header {
             padding-bottom: 10px;
         }
 
+        @media screen and (max-width: $breakpoint-sm) {
+            %swiper-button {
+                display: none
+            }
+        }
+
         .swiper-button-next {
             @extend %swiper-button; 
             right: 0;
@@ -820,6 +878,8 @@ header {
         }
 
         
+
+        
     }
 }
 
@@ -830,7 +890,9 @@ header {
 
 .swiper-container {
 
-    
+    .swiper-pagination-bullets {
+        bottom: 40px !important;
+    }
 
     .swiper-btn-wrapper {
         position: relative;
@@ -862,6 +924,19 @@ header {
         }
 
     }
+
+    .swiper-pagination-bullet {
+        background-color: transparent;
+        width: 10px;
+        height: 10px;
+        border: 2px solid #fff;
+        opacity: .5;
+
+        &.swiper-pagination-bullet-active {
+            border-color: $main-color;
+            opacity: 1;
+        }
+    }
 }
 
 .swiper-2 {
@@ -872,8 +947,17 @@ header {
 
 .video-intro {
     position: relative;
-    display: block;
+    width: 100%;
     height: 500px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+@media screen and (max-width: $breakpoint-sm) {
+    .video-intro {
+        height: 350px;
+        margin-bottom: 30px;
+    }
 }
 
 .post-date {
@@ -904,17 +988,20 @@ header {
         padding-top: 70%;
     }
 
-    &.details {
-        &::after {
-            padding-top: 85%;
+    @media screen and (min-width: $breakpoint-xl) {
+        &.details {
+            &::after {
+                padding-top: 85%;
+            }
+        }
+    
+        &.article {
+            &::after {
+                padding-top: 120%;
+            }
         }
     }
 
-    &.article {
-        &::after {
-            padding-top: 120%;
-        }
-    }
 
    
 
@@ -1036,6 +1123,18 @@ header {
         }
     }
 
+    @media screen and (max-width: $breakpoint-sm) {
+        .box-post:not(.boxless) {
+            margin-left: 10px;
+            margin-right: 10px;
+
+            .post-title {
+                height: 50px;
+                max-height: 50px;
+            }
+        }
+    }
+
     .box-img {
         .thumbnail-img {
             img {
@@ -1095,16 +1194,6 @@ header {
     
 }
 
-@media screen and (max-width: $breakpoint-xl) {
-    .subs-box {
-        flex-direction: column;
-
-        .form-control {
-            margin-bottom: 10px;
-            margin-right: 0;
-        }
-    }
-}
 
 .banner-breadcrumb {
     min-height: 60vmin;
@@ -1159,6 +1248,22 @@ header {
         }
     }
 }
+
+@media screen and (max-width: $breakpoint-xl) {
+    .subs-box {
+        flex-direction: column;
+
+        .form-control {
+            margin-bottom: 10px;
+            margin-right: 0;
+        }
+    }
+
+    .banner-breadcrumb {
+        padding: calc(3em + 80px) 0 3em;
+    }
+}
+
 
 .breadcrumb {
     background-color: transparent;
@@ -1313,7 +1418,7 @@ header {
         .footer-logo {
             position: relative;
             height: auto;
-            z-index: 1040;
+            margin-bottom: 40px;
             display: flex;
             align-items: center;
 
@@ -1338,12 +1443,13 @@ header {
 
         .f-widget {
             position: relative;
+            
 
             h5 {
                 position: relative;
                 font-family: $font-title;
                 color: #fff;
-                margin-bottom: 40px;
+                margin-bottom: 30px;
 
                
             }
@@ -1366,9 +1472,14 @@ header {
             }
         }
     }
+    
 
     .footer-bottom {
         padding-bottom: 5em;
+
+        .d-flex {
+            justify-content: space-between;
+        }
 
         .developer {
             position: relative;
@@ -1383,6 +1494,33 @@ header {
             img {
                 width: 100%;
                 height: auto;
+            }
+        }
+    }
+
+    @media screen and (max-width: $breakpoint-xl) {
+        .footer-top {
+            padding: 3em 0;
+            text-align: center;
+
+            .footer-logo {
+                justify-content: center;
+            }
+
+            .f-widget {
+                margin-bottom: 40px;
+            }
+        }
+
+        .footer-bottom {
+            .d-flex {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+
+                .copyright {
+                    margin-bottom: 10px;
+                }
             }
         }
     }

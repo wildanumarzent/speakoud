@@ -85,7 +85,7 @@
           </div>
         </div>
         <div class="card-body pb-3">
-          <table class="table table-bordered mb-0">
+          <table class="table table-bordered mb-2">
                 <tr>
                     <th>Creator</th>
                     <td>{{ $item->creator['name'] }}</td>
@@ -124,6 +124,15 @@
                 </tr>
                 @endif
           </table>
+          @if ($item->publish == 0 && $item->mata()->count() > 0 && $item->materi()->count() > 0 && $item->bahan()->count() > 0)
+          <a href="javascript:;" class="btn btn-success btn-block publish" title="klik untuk publish">
+            PUBLISH
+            <form action="{{ route('program.publish', ['id' => $item->id])}}" method="POST" id="form-publish">
+                @csrf
+                @method('PUT')
+            </form>
+          </a>
+          @endif
         </div>
         <hr class="m-0 mb-2">
         <div class="card-body pt-0">
@@ -254,6 +263,26 @@
                     })
                 }
             });
+        })
+    });
+    //publish
+    $('.publish').click(function(e)
+    {
+        e.preventDefault();
+        var url = $(this).attr('href');
+        Swal.fire({
+        title: "Apakah anda yakin akan publish program ini ?",
+        text: "Data Mata, Materi, Bahan Pelatihan tidak boleh kosong",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Ya, publish!',
+        cancelButtonText: "Tidak, terima kasih",
+        }).then((result) => {
+        if (result.value) {
+            $("#form-publish").submit();
+        }
         })
     });
 </script>

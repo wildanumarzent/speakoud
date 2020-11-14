@@ -6,22 +6,25 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\MataRequest;
 use App\Services\Course\MataService;
 use App\Services\Course\ProgramService;
+use App\Services\KonfigurasiService;
 use App\Services\Users\InstrukturService;
 use Illuminate\Http\Request;
 
 class MataController extends Controller
 {
-    private $service, $serviceProgram, $serviceInstruktur;
+    private $service, $serviceProgram, $serviceInstruktur, $serviceKonfig;
 
     public function __construct(
         MataService $service,
         ProgramService $serviceProgram,
-        InstrukturService $serviceInstruktur
+        InstrukturService $serviceInstruktur,
+        KonfigurasiService $serviceKonfig
     )
     {
         $this->service = $service;
         $this->serviceProgram = $serviceProgram;
         $this->serviceInstruktur = $serviceInstruktur;
+        $this->serviceKonfig = $serviceKonfig;
     }
 
     public function index(Request $request, $programId)
@@ -46,6 +49,38 @@ class MataController extends Controller
             'breadcrumbsBackend' => [
                 'Program' => route('program.index'),
                 'Mata Pelatihan' => ''
+            ],
+        ]);
+    }
+
+    public function courseList()
+    {
+        $limit = $this->serviceKonfig->getValue('content_limit');
+
+        $data['mata'] = $this->service->getMata('urutan', 'ASC', $limit);
+
+        return view('frontend.course.index', compact('data'), [
+            'title' => 'Program Pelatihan',
+            'breadcrumbsFrontend' => [
+                'List Program' => '',
+            ],
+        ]);
+    }
+
+    public function courseDetail($id)
+    {
+        $data['read'] = $this->service->findMata($id);
+
+        if ($data['read']->publish == 0) {
+            return abort(404);
+        }
+
+        return view('frontend.course.detail', compact('data'), [
+            'title' => $data['read']->judul,
+            'breadcrumbsBackend' => [
+                'Program Pelatihan' => route('course.list'),
+                'Course' => '',
+                'Detail' => '',
             ],
         ]);
     }
@@ -153,6 +188,16 @@ class MataController extends Controller
             $i++;
             $this->service->sortMata($value, $i);
         }
+    }
+
+    public function giveRating(Request $request, $id)
+    {
+        $this->service->rating($request, $id);
+
+        return response()->json([
+            'success' => 1,
+            'message' => ''
+        ], 200);
     }
 
     public function destroy($programId, $id)

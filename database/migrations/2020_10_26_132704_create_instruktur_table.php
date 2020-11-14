@@ -28,7 +28,6 @@ class CreateInstrukturTable extends Migration
             $table->json('sk_golongan')->nullable();
             $table->json('sk_jabatan')->nullable();
             $table->timestamps();
-            $table->timestamp('deleted_at')->nullable();
 
             $table->foreign('user_id')->references('id')->on('users')
                 ->cascadeOnDelete();

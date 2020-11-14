@@ -265,7 +265,7 @@
 <script src="{{ asset('assets/tmplts_backend/js/pages_account-settings.js') }}"></script>
 
 <script>
-$(".hide-collapse").hide();
+$(".hide-collapse").show();
 
 $(".toggle-password-current, .toggle-password, .toggle-password-confirm").click(function() {
     $(this).toggleClass("fa-eye fa-eye-slash");

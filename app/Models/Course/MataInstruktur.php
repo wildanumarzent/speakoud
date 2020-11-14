@@ -2,7 +2,7 @@
 
 namespace App\Models\Course;
 
-use App\Models\Users\User;
+use App\Models\Users\Instruktur;
 use Illuminate\Database\Eloquent\Model;
 
 class MataInstruktur extends Model
@@ -17,6 +17,6 @@ class MataInstruktur extends Model
 
     public function instruktur()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(Instruktur::class, 'instruktur_id');
     }
 }
