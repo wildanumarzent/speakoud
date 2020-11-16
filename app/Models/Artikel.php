@@ -32,7 +32,7 @@ class Artikel extends Model
 
         return $photo;
     }
-    public function tag()
+    public function tags()
     {
         return $this->morphMany(TagsTipe::class, 'tagable');
     }

@@ -33,7 +33,7 @@
                                 </ul>
                             </li>
                             <li><a href="list-jadwal.html">Jadwal</a></li>
-                            <li><a href="list-artikel.html">Artikel</a></li>
+                            <li class="{{ Request::is('artikel*') ? 'current-nav' : '' }}"><a href="{{route('artikel.list')}}">Artikel</a></li>
                             <li><a href="kontak.html">Kontak</a></li>
                         </ul>
                     </nav>

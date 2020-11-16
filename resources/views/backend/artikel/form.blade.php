@@ -63,12 +63,19 @@
                         </div>
                         <div class="col-md-10">
 
-                          <input type="text" class="form-control @error('tags') is-invalid @enderror" name="tags" class="form-control" id="bs-tagsinput-2" autofocus>
+                          <input type="text" value="
+                          @if(isset($data['artikel']))
+                          @forelse($data['artikel']->tags as $tag)
+                          {{$tag->parent->nama}},
+                          @empty
+                          @endforelse
+                          @endif
+                          " class="form-control @error('tags') is-invalid @enderror" name="tags" class="form-control" id="bs-tagsinput-2" autofocus>
                           @include('components.field-error', ['field' => 'tags'])
                         </div>
                     </div>
                     <hr>
-                    <span class="text-muted text-bold">Meta</span>
+                    <span class="text-muted text-bold ml-5">Meta</span>
                     <div class="form-group row">
                         <div class="col-md-2 text-md-right">
                           <label class="col-form-label text-sm-right">Title</label>

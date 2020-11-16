@@ -19,7 +19,7 @@ class CreateArtikelTable extends Migration
             $table->string('slug', 50);
             $table->text('intro')->nullable();
             $table->text('content')->nullable();
-            $table->json('cover')->nullable();
+            $table->text('cover')->nullable();
             $table->boolean('publish')->default(true);
             $table->bigInteger('viewer')->default(0);
             $table->json('meta_data')->nullable()->comment('{

@@ -40,6 +40,16 @@ class ArtikelController extends Controller
         ]);
     }
 
+    public function list(Request $request){
+        $data['artikel'] = $this->artikel->listAll();
+        return view('frontend.artikel.index', compact('data'), [
+            'title' => 'Artikel',
+            'breadcrumbsFrontend' => [
+                'List Artikel' => '',
+            ],
+        ]);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -83,7 +93,6 @@ class ArtikelController extends Controller
         }else{
             $this->artikel->save($request);
         }
-
         return redirect()->route('artikel.index')
         ->with('success', 'Artikel Telah Disimpan');
     }
@@ -98,12 +107,9 @@ class ArtikelController extends Controller
     {
         $this->artikel->viewer($id['id']);
         $data['artikel'] = $this->artikel->get($id['id']);
-        return view('backend.artikel.detail', compact('data'), [
-            'title' => 'Artikel',
-            'breadcrumbsBackend' => [
-                'Artikel' => route('artikel.index'),
-                $id['title'] => '',
-            ],
+        $data['bannerless'] = true;
+        return view('frontend.artikel.detail', compact('data'), [
+            'title' => 'Artikel - '.$id['title'],
         ]);
     }
 

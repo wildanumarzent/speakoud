@@ -495,7 +495,8 @@ Route::group(['middleware' => ['auth']], function () {
 
     /** Artikel dan Component nya */
     // Artikel
-    Route::get('/artikel','ArtikelController@index')->name('artikel.index');
+    Route::get('/artikel','ArtikelController@list')->name('artikel.list');
+    Route::get('/artikel/manage','ArtikelController@index')->name('artikel.index');
     Route::get('/artikel/create','ArtikelController@create')->name('artikel.create');
     Route::get('/artikel/{id}/{slug}','ArtikelController@show')->name('artikel.show');
     Route::get('/artikel/{id}','ArtikelController@edit')->name('artikel.edit');
@@ -509,11 +510,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::delete('/komentar/{id}','Component\KomentarController@destroy')->name('komentar.destroy');
 
      // Tags
-     Route::get('/tag','Component\TagsController@index')->name('tag.index');
-     Route::get('/tag/create','Component\TagsController@index')->name('tag.create');
-     Route::get('/tag/{id}','Component\TagsController@detail')->name('tag.detail');
-     Route::post('/tag','Component\TagsController@store')->name('tag.store');
-     Route::delete('/tag/{id}','Component\TagsController@destroy')->name('tag.destroy');
+     Route::get('/tags','Component\TagsController@index')->name('tags.index');
+     Route::get('/tags/create','Component\TagsController@index')->name('tags.create');
+     Route::get('/tags/{id}','Component\TagsController@detail')->name('tags.edit');
+     Route::post('/tags','Component\TagsController@store')->name('tags.store');
+     Route::delete('/tags/{id}','Component\TagsController@destroy')->name('tags.destroy');
 
     /** Frontend Component */
     // Inquiry

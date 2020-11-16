@@ -15,6 +15,6 @@ class TagsTipe extends Model
     }
     public function parent()
     {
-        return $this->belongsTo(Tags::class);
+        return $this->belongsTo(Tags::class,'tag_id');
     }
 }

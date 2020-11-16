@@ -17,39 +17,54 @@ class TagsService
         $this->tags = $tags;
     }
 
-    public function store($request,$data){
+    public function list($request){
+        $query = $this->tags->query();
+
+        $query->when($request->q, function ($query, $q) {
+            $query->where(function ($query) use ($q) {
+                $query->where('nama', 'like', '%'.$q.'%')
+                ->orWhere('keterangan', 'like', '%'.$q.'%')
+                ->orWhere('related', 'like', '%'.$q.'%');
+            });
+        });
+        $result = $query->orderBy('created_at', 'ASC')->paginate(20);
+        return $result;
+    }
+
+    public function store($request,$model){
         $tagsName = explode(',',$request['tags']);
         $tagsName = array_map('strtolower', $tagsName);
-        $tagsName = array_map('ucwords', $tagsName);
         $tags = new Tags;
-        $tagsTipe = new TagsTipe;
         foreach($tagsName as $name){
         $tags->updateOrCreate(
             ['nama' => $name],
             ['nama' => $name]
         );
-        $tagsTipe->tag_id = $this->tags->latest()->first()->id;
-        $tagsTipe->tagable()->associate($data);
-        $tagsTipe->save();
         }
+        $this->wipeAndUpdate($model,$tagsName);
+
         return true;
     }
 
-    public function update($request,$data){
-        $tagsName = explode(',',$request['tags']);
-        $tagsName = array_map('strtolower', $tagsName);
-        $tagsName = array_map('ucwords', $tagsName);
-        $tags = new Tags;
+    public function wipeAndUpdate($model,$tags = null){
         $tagsTipe = new TagsTipe;
-        foreach($tagsName as $name){
-        $tags->updateOrCreate(
-            ['nama' => $name],
-            ['nama' => $name]
+        $model = $tagsTipe->tagable()->associate($model);
+        $this->wipe($model);
+        if($tags != NULL){
+        foreach($tags as $name){
+        $tagID = $this->tags->where('nama',$name)->first()->id;
+        $tagsTipe->updateOrCreate(
+            ["tag_id" => $tagID,"tagable_id" => $model->tagable_id,"tagable_type" => $model->tagable_type],
+            ["tag_id" => $tagID,"tagable_id" => $model->tagable_id,"tagable_type" => $model->tagable_type]
         );
-        $tagsTipe->tag_id = Tags::latest()->first()->id;
-        $tagsTipe->tagable()->associate($data)->save();
+        }
         }
         return true;
+    }
+    public function wipe($model){
+        $query = $this->tagsTipe->query();
+        $query->where('tagable_id',$model->tagable_id)->where('tagable_type',$model->tagable_type)->get();
+        $query->delete();
     }
 
 

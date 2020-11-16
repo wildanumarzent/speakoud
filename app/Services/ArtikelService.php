@@ -35,6 +35,13 @@ class ArtikelService
 
     }
 
+    public function listAll(){
+        $query = $this->artikel->query();
+        $result = $query->orderBy('created_at', 'ASC')->paginate(20);
+        return $result;
+
+    }
+
     public function get($id){
       $query = $this->artikel->query();
       $query->find($id);
@@ -103,13 +110,18 @@ class ArtikelService
             break;
     }
         $artikel->save();
+        if (isset($request->tags)) {
+            $this->tags->store($request,$artikel);
+         }else{
+             $this->tags->wipeAndUpdate($artikel);
+         }
         return $artikel;
     }
 
     public function delete($id){
         $artikel = $this->get($id);
         if (!empty($artikel->cover)) {
-        $this->deleteCoverFormPath($artikel->cover);
+        $this->deleteCoverFromPath($artikel->cover);
         }
         $artikel->delete();
         return $artikel;
@@ -130,7 +142,7 @@ class ArtikelService
     return true;
     }
 
-    public function deleteCoverFormPath($path){
+    public function deleteCoverFromPath($path){
         if(File::exists($path)) {
         File::delete($path);
         }

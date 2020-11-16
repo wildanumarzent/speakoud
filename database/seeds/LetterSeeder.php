@@ -1,8 +1,7 @@
 <?php
 
-use App\Models\Grades\PersenNilai;
 use Illuminate\Database\Seeder;
-
+use App\Models\Grades\PersenNilai;
 class LetterSeeder extends Seeder
 {
     /**
