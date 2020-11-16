@@ -31,9 +31,15 @@ class MateriPelatihan extends Model
         return $this->hasMany(BahanPelatihan::class, 'materi_id');
     }
 
-    public function bahanPublish()
+    public function bahanPublish($tipe = null)
     {
-        return $this->hasMany(BahanPelatihan::class, 'materi_id')->where('publish', 1)
-            ->orderBy('urutan', 'ASC');
+        $query = $this->hasMany(BahanPelatihan::class, 'materi_id');
+
+        if ($tipe == 'jump') {
+            $query->whereNotIn('id', [request()->segment(4)]);
+        }
+        $query->where('publish', 1)->orderBy('urutan', 'ASC');
+
+        return $query;
     }
 }

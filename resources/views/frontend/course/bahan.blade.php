@@ -35,13 +35,17 @@
     <div class="col-md-4 col-xl-3">
         <div class="card mb-4">
             <h6 class="card-header with-elements">
-                <span class="card-header-title"><i class="las la-book-open"></i> Materi Lainnya</span>
+                <span class="card-header-title"><i class="las la-book-open"></i> Bahan Lainnya</span>
             </h6>
             <div class="card-body">
                 <select class="jump select2 show-tick" data-mataid="{{ $data['bahan']->mata_id }}" data-style="btn-default">
                     <option value="" selected disabled>Jump to</option>
-                    @foreach ($data['jump'] as $bahan)
-                    <option value="{{ $bahan->id }}" data-tipe="{{ $bahan->type($bahan)['tipe']  }}">{!! $bahan->judul !!}</option>
+                    @foreach ($data['mata']->materiPublish as $materi)
+                    <optgroup label="{!! $materi->judul !!}">
+                        @foreach ($materi->bahanPublish('jump')->get() as $bahan)
+                        <option value="{{ $bahan->id }}" data-tipe="{{ $bahan->type($bahan)['tipe']  }}">{!! $bahan->judul !!}</option>
+                        @endforeach
+                    </optgroup>
                     @endforeach
                 </select>
             </div>
