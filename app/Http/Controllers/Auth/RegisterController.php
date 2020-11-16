@@ -3,14 +3,20 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\RegisterRequest;
 use App\Providers\RouteServiceProvider;
+use App\Services\Users\PesertaService;
+use App\Services\Users\UserService;
 use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
 {
+    private $user, $peserta;
     /*
     |--------------------------------------------------------------------------
     | Register Controller
@@ -36,8 +42,11 @@ class RegisterController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(UserService $user, PesertaService $peserta)
     {
+        $this->user = $user;
+        $this->peserta = $peserta;
+
         $this->middleware('guest');
     }
 
@@ -46,6 +55,29 @@ class RegisterController extends Controller
         return view('auth.register', [
             'title' => 'Register New Account'
         ]);
+    }
+
+    public function register(RegisterRequest $request)
+    {
+        $encrypt = Crypt::encrypt($request->email);
+
+        $data = [
+            'email' => $request->email,
+            'link' => route('register.activate', ['email' => $encrypt]),
+        ];
+
+        Mail::to($request->email)->send(new \App\Mail\ActivateAccountMail($data));
+
+        $this->peserta->registerPeserta($request);
+
+        return redirect()->route('login')->with('success', 'Register berhasil, silahkan cek email untuk aktivasi & verifikasi akun');
+    }
+
+    public function activate($email)
+    {
+        $this->user->activateAccount($email);
+
+        return redirect()->route('login')->with('success', 'Akun berhasil diaktivasi, silahkan login');
     }
 
     /**

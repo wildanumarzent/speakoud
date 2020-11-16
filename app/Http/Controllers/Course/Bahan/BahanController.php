@@ -5,20 +5,23 @@ namespace App\Http\Controllers\Course\Bahan;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BahanRequest;
 use App\Services\Course\Bahan\BahanService;
+use App\Services\Course\MataService;
 use App\Services\Course\MateriService;
 use Illuminate\Http\Request;
 
 class BahanController extends Controller
 {
-    private $service, $serviceMateri;
+    private $service, $serviceMateri, $serviceMata;
 
     public function __construct(
         BahanService $service,
-        MateriService $serviceMateri
+        MateriService $serviceMateri,
+        MataService $serviceMata
     )
     {
         $this->service = $service;
         $this->serviceMateri = $serviceMateri;
+        $this->serviceMata = $serviceMata;
     }
 
     public function index(Request $request, $materiId)
@@ -49,6 +52,22 @@ class BahanController extends Controller
                 'Mata' => route('mata.index', ['id' => $data['materi']->program_id]),
                 'Materi' => route('materi.index', ['id' => $data['materi']->mata_id]),
                 'Bahan Pelatihan' => ''
+            ],
+        ]);
+    }
+
+    public function view($mataId, $id, $tipe)
+    {
+        $data['mata'] = $this->serviceMata->findMata($mataId);
+        $data['bahan'] = $this->service->findBahan($id);
+
+        return view('frontend.course.bahan.'.$tipe, compact('data'), [
+            'title' => 'Course - Bahan',
+            'breadcrumbsBackend' => [
+                'Program Pelatihan' => route('course.list'),
+                'Course' => route('course.detail', ['id' => $mataId]),
+                'Detail' => '',
+                'Bahan Pelatihan' => '',
             ],
         ]);
     }

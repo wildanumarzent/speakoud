@@ -71,7 +71,7 @@ class MataController extends Controller
     {
         $data['read'] = $this->service->findMata($id);
 
-        if ($data['read']->publish == 0) {
+        if ($data['read']->program->publish == 0 || $data['read']->publish == 0) {
             return abort(404);
         }
 

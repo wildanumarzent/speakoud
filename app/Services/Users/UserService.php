@@ -5,6 +5,7 @@ namespace App\Services\Users;
 use App\Models\BankData;
 use App\Models\Users\User;
 use App\Models\Users\UserInformation;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -55,12 +56,20 @@ class UserService
         return $this->model->findOrFail($id);
     }
 
-    public function storeUser($request)
+    public function storeUser($request, $isRegister = null)
     {
         $user = new User($request->only(['name', 'email', 'username']));
         $user->password = Hash::make($request->password);
-        $user->active = 1;
-        $user->active_at = now();
+        if (!empty($isRegister)) {
+            $user->email_verified = 0;
+            $user->email_verified_at = null;
+            $user->active = 0;
+            $user->active_at = null;
+        } else {
+            $user->active = 1;
+            $user->active_at = now();
+        }
+
         $user->photo = [
             'filename' => null,
             'description' => null,
@@ -160,6 +169,20 @@ class UserService
         $user = $this->findUser($id);
         $user->active = !$user->active;
         $user->active_at = $user->active == 1 ? now() : null;
+        $user->save();
+
+        return $user;
+    }
+
+    public function activateAccount($email)
+    {
+        $decrypt = Crypt::decrypt($email);
+
+        $user = $this->model->where('email', $decrypt)->first();
+        $user->email_verified = 1;
+        $user->email_verified_at = now();
+        $user->active = 1;
+        $user->active_at = now();
         $user->save();
 
         return $user;

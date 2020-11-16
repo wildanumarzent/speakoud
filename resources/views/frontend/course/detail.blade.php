@@ -72,7 +72,7 @@
                                 @endif
                                 @if ($bahan->type($bahan)['tipe'] == 'dokumen')
                                 <i class="las la-file-{{ $bahan->dokumen->bankData->icon($bahan->dokumen->bankData->file_type) }} mr-2" style="font-size: 1.5em;"></i>
-                                <a href=""><strong>{!! $bahan->judul !!}</strong></a>
+                                <a href="{{ route('course.bahan', ['id' => $data['read']->id, 'bahanId' => $bahan->id, 'tipe' => 'dokumen']) }}"><strong>{!! $bahan->judul !!}</strong></a>
                                 @endif
                                 @if ($bahan->type($bahan)['tipe'] == 'link')
                                 <i class="las la-{{ $bahan->type($bahan)['icon'] }} mr-2" style="font-size: 1.5em;"></i>
@@ -136,24 +136,20 @@
                 </div>
                 @endfor
                 <div class="text-center text-muted">
+                    <h3 class="badge badge-primary" style="font-size: 20px;">
+                        {{ $data['read']->rating->count() > 0 ? round($data['read']->getRating('review'), 2) : 0 }}
+                    </h3><br>
                     {{ $data['read']->getRating('student_rating') }} Student Ratings
                 </div>
             </div>
             <div class="card-footer">
-                <div class="row">
-                    <div class="col-md-9">
-                        <div class="small">
-                            <select id="rating" name="rating" class="mb-2">
-                                <option value="" ></option>
-                                @for ($i = 1; $i < 6; $i++)
-                                <option value="{{ $i }}" {{ $data['read']->ratingByUser()->count() > 0 ? ($data['read']->ratingByUser->rating == $i ? 'selected' : '') : 0 }}>1</option>
-                                @endfor
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <h6 class="text-muted">{{ $data['read']->rating->count() > 0 ? round($data['read']->getRating('review'), 2) : 0 }}</h6>
-                    </div>
+                <div class="small text-center">
+                    <select id="rating" name="rating" class="mb-2">
+                        <option value="" ></option>
+                        @for ($i = 1; $i < 6; $i++)
+                        <option value="{{ $i }}" {{ $data['read']->ratingByUser()->count() > 0 ? ($data['read']->ratingByUser->rating == $i ? 'selected' : '') : 0 }}>1</option>
+                        @endfor
+                    </select>
                 </div>
             </div>
         </div>
