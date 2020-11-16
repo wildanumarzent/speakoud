@@ -106,9 +106,7 @@ class BankDataService
         if ($type == 'dokumen') {
             $query->where('file_type', 'pdf')
                 ->orWhere('file_type', 'ppt')
-                ->orWhere('file_type', 'pptx')
-                ->orWhere('file_type', 'doc')
-                ->orWhere('file_type', 'docx');
+                ->orWhere('file_type', 'pptx');
         }
 
         return $query;

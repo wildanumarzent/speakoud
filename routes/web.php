@@ -32,6 +32,9 @@ Route::get('/course/{id}/detail', 'Course\MataController@courseDetail')
 Route::post('/course/{id}/rating', 'Course\MataController@giveRating')
     ->name('course.rating')
     ->middleware('auth');
+Route::get('course/{id}/bahan/{bahanId}/{tipe}', 'Course\Bahan\BahanController@view')
+    ->name('course.bahan')
+    ->middleware('auth');
 
 /**
  * authentication
@@ -46,6 +49,11 @@ Route::post('/login', 'Auth\LoginController@login')
 //register
 Route::get('/register', 'Auth\RegisterController@showRegisterForm')
     ->name('register')
+    ->middleware('guest');
+Route::post('/register', 'Auth\RegisterController@register')
+    ->middleware('guest');
+Route::get('/register/activate/{email}', 'Auth\RegisterController@activate')
+    ->name('register.activate')
     ->middleware('guest');
 /**
  * panel

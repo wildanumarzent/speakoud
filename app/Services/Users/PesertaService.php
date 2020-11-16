@@ -89,6 +89,48 @@ class PesertaService
         ];
     }
 
+    public function registerPeserta($request)
+    {
+        $user = $this->user->storeUser($request, 'register');
+
+        $peserta = new Peserta;
+        $peserta->user_id = $user->id;
+        $peserta->nip = $request->nip ?? null;
+        $peserta->unit_kerja = $request->unit_kerja ?? null;
+        $peserta->kedeputian = $request->kedeputian ?? null;
+        $peserta->pangkat = $request->pangkat ?? null;
+        $peserta->alamat = $request->alamat ?? null;
+        $peserta->sk_cpns = [
+            'file' => null,
+            'keterangan' => null,
+        ];
+        $peserta->sk_pengangkatan = [
+            'file' => null,
+            'keterangan' => null,
+        ];
+        $peserta->sk_golongan = [
+            'file' => null,
+            'keterangan' => null,
+        ];
+        $peserta->sk_jabatan = [
+            'file' => null,
+            'keterangan' => null,
+        ];
+        $peserta->surat_ijin_atasan = [
+            'file' => null,
+            'keterangan' => null,
+        ];
+        $peserta->save();
+
+        $user->userable()->associate($peserta);
+        $user->save();
+
+        return [
+            'user' => $user,
+            'peserta' => $peserta
+        ];
+    }
+
     public function updatePeserta($request, int $id)
     {
         $peserta = $this->findPeserta($id);

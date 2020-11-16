@@ -73,8 +73,8 @@
             <a href="javascript:void();" data-link="{{ route('bank.data.stream', ['path' => $file->file_path]) }}" class="js-select-file">
             @endif
             @if (Request::get('view') == 'button')
-            <a href="#" data-link="{{ route('bank.data.stream', ['path' => $file->file_path]) }}" class="js-select-file" onclick="sendPath()">
-            <input type="hidden" value="{{ $file->file_path }}" id="path">
+            <a href="#" data-link="{{ route('bank.data.stream', ['path' => $file->file_path]) }}" class="js-select-file" onclick="sendPath(this.getAttribute('data-id'))" data-id="{{ $file->id }}">
+            <input type="hidden" value="{{ $file->file_path }}" id="path-{{ $file->id }}">
             @endif
                 <div class="file-item-name">
                     @if ($file->file_type == 'jpg' || $file->file_type == 'jpeg' || $file->file_type == 'png')
@@ -121,11 +121,11 @@
 @endif
 @if (Request::get('view') == 'button')
 <script>
-    function sendPath() {
-       if (window.opener != null && !window.opener.closed) {
-                var pathName = window.opener.document.getElementById("file_path");
-                pathName.value = document.getElementById("path").value;
-            }
+    function sendPath(data_id) {
+        if (window.opener != null && !window.opener.closed) {
+            var pathName = window.opener.document.getElementById("file_path");
+            pathName.value = document.getElementById("path-" + data_id).value;
+        }
         window.close();
     }
 </script>
