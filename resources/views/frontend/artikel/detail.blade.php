@@ -79,7 +79,7 @@
                 </div>
             </div>
             @empty
-
+                <h3 class="text-center text-bold">Tidak Ada Post Lain...</h3>
             @endforelse
 
         </div>
