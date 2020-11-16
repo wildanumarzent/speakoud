@@ -60,6 +60,7 @@ class BahanController extends Controller
     {
         $data['mata'] = $this->serviceMata->findMata($mataId);
         $data['bahan'] = $this->service->findBahan($id);
+        $data['jump'] = $this->service->bahanJump($id);
 
         return view('frontend.course.bahan.'.$tipe, compact('data'), [
             'title' => 'Course - Bahan',

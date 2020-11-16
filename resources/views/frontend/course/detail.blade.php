@@ -68,7 +68,7 @@
                             <div class="form-group mt-2">
                                 @if ($bahan->type($bahan)['tipe'] == 'forum')
                                 <i class="las la-{{ $bahan->type($bahan)['icon'] }} mr-2" style="font-size: 1.5em;"></i>
-                                <a href=""><strong>{!! $bahan->judul !!}</strong></a>
+                                <a href="{{ route('course.bahan', ['id' => $data['read']->id, 'bahanId' => $bahan->id, 'tipe' => 'forum']) }}"><strong>{!! $bahan->judul !!}</strong></a>
                                 @endif
                                 @if ($bahan->type($bahan)['tipe'] == 'dokumen')
                                 <i class="las la-file-{{ $bahan->dokumen->bankData->icon($bahan->dokumen->bankData->file_type) }} mr-2" style="font-size: 1.5em;"></i>
@@ -76,15 +76,15 @@
                                 @endif
                                 @if ($bahan->type($bahan)['tipe'] == 'link')
                                 <i class="las la-{{ $bahan->type($bahan)['icon'] }} mr-2" style="font-size: 1.5em;"></i>
-                                <a href=""><strong>{!! $bahan->judul !!}</strong></a>
+                                <a href="{{ route('course.bahan', ['id' => $data['read']->id, 'bahanId' => $bahan->id, 'tipe' => 'link']) }}"><strong>{!! $bahan->judul !!}</strong></a>
                                 @endif
                                 @if ($bahan->type($bahan)['tipe'] == 'quiz')
                                 <i class="las la-{{ $bahan->type($bahan)['icon'] }} mr-2" style="font-size: 1.5em;"></i>
-                                <a href=""><strong>{!! $bahan->judul !!}</strong></a>
+                                <a href="{{ route('course.bahan', ['id' => $data['read']->id, 'bahanId' => $bahan->id, 'tipe' => 'quiz']) }}"><strong>{!! $bahan->judul !!}</strong></a>
                                 @endif
                                 @if ($bahan->type($bahan)['tipe'] == 'scorm')
                                 <i class="las la-{{ $bahan->type($bahan)['icon'] }} mr-2" style="font-size: 1.5em;"></i>
-                                <a href=""><strong>{!! $bahan->judul !!}</strong></a>
+                                <a href="{{ route('course.bahan', ['id' => $data['read']->id, 'bahanId' => $bahan->id, 'tipe' => 'scorm']) }}"><strong>{!! $bahan->judul !!}</strong></a>
                                 @endif
                             </div>
                             @endforeach
