@@ -107,6 +107,7 @@ class ArtikelController extends Controller
     {
         $this->artikel->viewer($id['id']);
         $data['artikel'] = $this->artikel->get($id['id']);
+        $data['recent'] = $this->artikel->recent($id);
         $data['bannerless'] = true;
         return view('frontend.artikel.detail', compact('data'), [
             'title' => 'Artikel - '.$id['title'],

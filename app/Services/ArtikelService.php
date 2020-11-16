@@ -35,6 +35,13 @@ class ArtikelService
 
     }
 
+    public function recent($data){
+        $query = $this->artikel->query();
+        $query->where('id','!=',$data['id']);
+        $result = $query->orderBy('created_at', 'ASC')->paginate(20);
+        return $result;
+    }
+
     public function listAll(){
         $query = $this->artikel->query();
         $result = $query->orderBy('created_at', 'ASC')->paginate(20);
