@@ -1,6 +1,7 @@
 @extends('layouts.backend.layout')
 
 @section('styles')
+<link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/select2/select2.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/fancybox/fancybox.min.css') }}">
 @endsection
 
@@ -34,6 +35,19 @@
     <div class="col-md-4 col-xl-3">
         <div class="card mb-4">
             <h6 class="card-header with-elements">
+                <span class="card-header-title"><i class="las la-book-open"></i> Materi Lainnya</span>
+            </h6>
+            <div class="card-body">
+                <select class="jump select2 show-tick" data-mataid="{{ $data['bahan']->mata_id }}" data-style="btn-default">
+                    <option value="" selected disabled>Jump to</option>
+                    @foreach ($data['jump'] as $bahan)
+                    <option value="{{ $bahan->id }}" data-tipe="{{ $bahan->type($bahan)['tipe']  }}">{!! $bahan->judul !!}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+        <div class="card mb-4">
+            <h6 class="card-header with-elements">
                 <span class="card-header-title"><i class="las la-users"></i> Creator</span>
             </h6>
             <ul class="list-group list-group-flush">
@@ -62,15 +76,37 @@
                 </div>
                 @endif
             </div>
+            @if (Request::segment(5) == 'forum')
+            <div class="card-footer">
+                <i class="las la-comment"></i> {{ config('addon.label.forum_tipe.'.$data['bahan']->forum->tipe)['title'] }}
+            </div>
+            @endif
         </div>
     </div>
 </div>
 @endsection
 
 @section('scripts')
+<script src="{{ asset('assets/tmplts_backend/vendor/libs/select2/select2.js') }}"></script>
 <script src="{{ asset('assets/tmplts_backend/fancybox/fancybox.min.js') }}"></script>
 @endsection
 
 @section('jsbody')
+<script>
+    $('.select2').select2();
+
+    $('.jump').on('change', function () {
+
+        var id = $(this).attr('data-mataid');
+        var bahanId = $(this).val();
+        var tipe = $('option:selected', this).attr('data-tipe');
+
+        if (id) {
+            window.location = '/course/' + id + '/bahan/' + bahanId + '/' + tipe;
+        }
+        return false;
+    });
+</script>
+
 @include('components.toastr')
 @endsection

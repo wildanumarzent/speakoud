@@ -167,6 +167,14 @@
         </li>
         @endrole
 
+        @role ('peserta_internal|peserta_mitra')
+        <li class="sidenav-item {{ Request::is('course*') ? 'active' : '' }}">
+            <a href="{{route('course.list')}}" class="sidenav-link"><i class="sidenav-icon las la-book-open"></i>
+              <div>Program Pelatihan</div>
+            </a>
+        </li>
+        @endrole
+
         @role ('developer|administrator')
         <li class="sidenav-item">
             <a href="{{route('tag.index')}}" class="sidenav-link"><i class="sidenav-icon las la-tags"></i>

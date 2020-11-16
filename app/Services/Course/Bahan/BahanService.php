@@ -49,6 +49,18 @@ class BahanService
         return $result;
     }
 
+    public function bahanJump($id)
+    {
+        $query = $this->model->query();
+
+        $query->where('publish', 1);
+        $query->whereNotIn('id', [$id]);
+
+        $result = $query->orderBy('urutan', 'ASC')->get();
+
+        return $result;
+    }
+
     public function findBahan(int $id)
     {
         return $this->model->findOrFail($id);
