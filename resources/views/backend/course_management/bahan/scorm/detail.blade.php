@@ -5,7 +5,7 @@
 @endsection
 @section('content')
     <div class="scorm-course">
-      <iframe class="scorm-iframe" id="scorm-content" src="{{$data['path1']}}">
+      <iframe class="scorm-iframe" id="scorm-content" src="{{$data['path2']}}">
         {{-- path1 = odading
         path2 = scorm sample (golf) --}}
       </iframe>
@@ -19,7 +19,6 @@
 window.API.on("LMSInitialize", function() {
     document.getElementById("scorm-content").setAttribute("src", "");
 });
-
 </script>
 
 @endsection

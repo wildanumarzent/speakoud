@@ -177,7 +177,7 @@
 
         @role ('developer|administrator')
         <li class="sidenav-item">
-            <a href="{{route('tag.index')}}" class="sidenav-link"><i class="sidenav-icon las la-tags"></i>
+            <a href="{{route('tags.index')}}" class="sidenav-link"><i class="sidenav-icon las la-tags"></i>
               <div>Tags</div>
             </a>
         </li>
