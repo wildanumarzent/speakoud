@@ -85,7 +85,7 @@ class PageController extends Controller
             return abort(404);
         }
 
-        if (request()->segment(3) != $data['read']->slug) {
+        if (request()->segment(4) != $data['read']->slug) {
             return redirect()->route('page.read', ['id' => $id, 'slug' => $data['read']->slug]);
         }
 

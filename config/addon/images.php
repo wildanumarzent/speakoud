@@ -16,5 +16,5 @@ return [
     'thumbnail' => 'assets/tmplts_backend/images/thumbnail.jpg',
     'logo_instansi' => 'assets/tmplts_backend/images/logo-instansi.png',
     'cover' => 'assets/tmplts_backend/images/cover.jpg',
-    'artikel_default_cover' => 'assets/tmplts_backend/images/default-cover.jpg',
+    'cover_article' => 'assets/tmplts_backend/images/default-cover.jpg',
 ];

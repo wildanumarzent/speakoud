@@ -3,6 +3,7 @@
 namespace App\Services\Course\Bahan;
 
 use App\Models\Course\Bahan\BahanScorm;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -26,9 +27,9 @@ class BahanScormService
     {
         if ($request->hasFile('package')) {
 
-            $file = $request->file('package');
-            $replace = str_replace(' ', '-', $file->getClientOriginalName());
-            $generate = Str::random(5).'-'.$replace;
+            $fileName = str_replace(' ', '-', Str::random(5).'-'.$request->file('package')
+                ->getClientOriginalName());
+            $request->file('package')->move(public_path('userfile/scorm/'.$materi->id), $fileName);
 
             $scorm = new BahanScorm;
             $scorm->program_id = $materi->program_id;
@@ -36,10 +37,8 @@ class BahanScormService
             $scorm->materi_id = $materi->id;
             $scorm->bahan_id = $bahan->id;
             $scorm->creator_id = auth()->user()->id;
-            $scorm->package = 'scorm/'.$materi->id.'/'.$generate;
+            $scorm->package = $fileName;
             $scorm->save();
-
-            Storage::disk('bank_data')->put('scorm/'.$materi->id.'/'.$generate, file_get_contents($file));
 
             return $scorm;
         } else {
@@ -51,16 +50,20 @@ class BahanScormService
     {
         $scorm = $bahan->scorm;
         if ($request->hasFile('package')) {
-            $file = $request->file('package');
-            $replace = str_replace(' ', '-', $file->getClientOriginalName());
-            $generate = Str::random(5).'-'.$replace;
+            $fileName = str_replace(' ', '-', Str::random(5).'-'.$request->file('package')
+                ->getClientOriginalName());
 
-            $scorm->package = 'scorm/'.$scorm->materi_id.'/'.$generate;
+            $path = public_path('userfile/scorm/'.$scorm->materi_id.'/'.$request->old_package) ;
+            File::delete($path);
 
-            Storage::disk('bank_data')->delete($request->old_package);
-            Storage::disk('bank_data')->put('scorm/'.$scorm->materi_id.'/'.$generate, file_get_contents($file));
+            $request->file('package')->move(public_path('userfile/scorm/'.$scorm->materi_id), $fileName);
+
+            $scorm->package = $fileName;
+            $scorm->save();
+
+            return $scorm;
+        } else {
+            return false;
         }
-        $scorm->save();
-        return $scorm;
     }
 }

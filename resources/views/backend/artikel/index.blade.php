@@ -2,7 +2,6 @@
 
 @section('styles')
 <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/sweetalert2/sweetalert2.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-sortable/bootstrap-sortable.css') }}">
 @endsection
 
 @section('content')
@@ -12,15 +11,25 @@
         <div class="form-row align-items-center">
             <div class="col-md">
                 <form action="" method="GET">
-                    <div class="form-group">
-                        <label class="form-label">Cari</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control" name="q" value="{{ Request::get('q') }}" placeholder="Kata kunci...">
-                            <div class="input-group-append">
-                                <button type="submit" class="btn btn-warning" title="klik untuk mencari"><i class="las la-search"></i></button>
-                            </div>
+                <div class="form-group">
+                    <label class="form-label">Status</label>
+                    <select class="status custom-select form-control" name="p">
+                        <option value=" " selected>Semua</option>
+                        <option value="1" {{ Request::get('p') == '1' ? 'selected' : '' }}>PUBLISH</option>
+                        <option value="0" {{ Request::get('p') == '0' ? 'selected' : '' }}>DRAFT</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="form-group">
+                    <label class="form-label">Cari</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="q" value="{{ Request::get('q') }}" placeholder="Kata kunci...">
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-warning" title="klik untuk mencari"><i class="las la-search"></i></button>
                         </div>
                     </div>
+                </div>
                 </form>
             </div>
         </div>
@@ -32,118 +41,72 @@
     <div class="card-header with-elements">
         <h5 class="card-header-title mt-1 mb-0">Artikel List</h5>
         <div class="card-header-elements ml-auto">
-            <a href="{{ route('artikel.create') }}" class="btn btn-primary icon-btn-only-sm" title="klik untuk menambah artikel" data-toggle="tooltip">
+            <a href="{{ route('artikel.create') }}" class="btn btn-primary icon-btn-only-sm" title="klik untuk menambah artikel">
                 <i class="las la-plus"></i><span>Tambah</span>
             </a>
         </div>
     </div>
-    <div class="table-responsive table-mobile-responsive">
-        <table id="user-list" class="table card-table table-striped table-bordered table-hover">
+    <div class="card-datatable table-responsive">
+        <table class="table table-striped table-bordered mb-0">
             <thead>
                 <tr>
                     <th style="width: 10px;">No</th>
-                    <th>Title</th>
-                    <th>Intro</th>
-                    <th>Publish</th>
-                    <th>Hits</th>
-                    <th style="width: 200px;">Created</th>
-                    <th style="width: 200px;">Updated</th>
-                    <th style="width: 110px;">Action</th>
+                    <th>Judul</th>
+                    <th style="width: 40px;">Viewer</th>
+                    <th style="width: 70px;">Status</th>
+                    <th style="width: 210px;">Created</th>
+                    <th style="width: 210px;">Updated</th>
+                    <th style="width: 120px;">Action</th>
                 </tr>
             </thead>
             <tbody>
-                @forelse ($data['artikel'] as $item)
+                @if ($data['artikel']->total() == 0)
+                <tr>
+                    <td colspan="7" align="center">
+                        <i><strong style="color:red;">
+                        @if (Request::get('s') || Request::get('p') || Request::get('q'))
+                        ! Artikel tidak ditemukan !
+                        @else
+                        ! Data Artikel kosong !
+                        @endif
+                        </strong></i>
+                    </td>
+                </tr>
+                @endif
+                @foreach ($data['artikel'] as $item)
                 <tr>
                     <td>{{ $data['number']++ }}</td>
-                    <td> <a href="{{route('artikel.show',['id' => $item->id,'slug' => $item->slug])}}">{{ $item->title ?? '-' }}</a> </td>
-                    <td>{!! $item->intro ?? '-' !!}</td>
-                    <td><span class="badge badge-outline-{{$item->publish ==1 ? 'success' : 'secondary'}}">{{$item->publish ==1 ? 'Published' : 'Draft'}}</span></td>
-                    <td>{{ $item->viewer ?? '-' }}</td>
+                    <td><strong>{!! Str::limit($item->judul, 90) !!}</strong> <a href="{{ route('artikel.read', ['id' => $item->id, 'slug' => $item->slug]) }}" title="view website" target="_blank"><i class="las la-external-link-alt"></i></a></td>
+                    <td><span class="badge badge-info">{!! $item->viewer ?? 0 !!}</span></td>
                     <td>
-                         {{ $item->created_at->format('d F Y - (H:i)') }}
-                        <span class="text-muted">By :{{$item->user->name}}</span>
-                    </td>
-                    <td>
-                        {{ $item->updated_at->format('d F Y - (H:i)') }}
-                        <span class="text-muted">By :{{$item->userUpdate->name}}</span>
-                    </td>
-                    <td>
-                        <a href="{{ route('artikel.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengedit artikel" data-toggle="tooltip">
-                                <i class="las la-pen"></i>
+                        <a href="javascript:void(0);" onclick="$(this).find('form').submit();" class="badge badge-{{ $item->publish == 1 ? 'primary' : 'warning' }}"
+                            title="Click to publish artikel">
+                            {{ config('addon.label.publish.'.$item->publish) }}
+                            <form action="{{ route('artikel.publish', ['id' => $item->id]) }}" method="POST">
+                                @csrf
+                                @method('PUT')
+                            </form>
                         </a>
-                        {{-- <form action="{{route('artikel.destroy',['id' => $item->id])}}" method="delete">
-                         <button type="submit" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk delete artikel">
-                                <i class="las la-trash-alt"></i>
-                        </button>
-                        </form> --}}
-                        <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus artikel" data-toggle="tooltip">
-                            <i class="las la-trash-alt"></i>
+                    </td>
+                    <td>{{ $item->created_at->format('d F Y (H:i)') }}</td>
+                    <td>{{ $item->updated_at->format('d F Y (H:i)') }}</td>
+                    <td>
+                        <a href="{{ route('artikel.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-sm btn-primary" title="klik untuk mengedit artikel">
+                            <i class="las la-pen"></i>
+                        </a>
+                        <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-sm btn-danger js-sa2-delete" title="klik untuk menghapus artikel">
+                            <i class="las la-trash"></i>
                         </a>
                     </td>
                 </tr>
-                @empty
-                <tr>
-                    <td colspan="8" align="center">
-                        <i>
-                            <strong style="color:red;">
-                            ! Data Artikel Kosong !
-                            </strong>
-                        </i>
-                    </td>
-                </tr>
-                @endforelse
+                @endforeach
             </tbody>
-            <tbody class="tbody-responsive">
-                @forelse ($data['artikel'] as $item)
-                <tr>
-                    <td>
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="p-4 p-md-5">
-                                    <a href="{{route('artikel.show',['id' => $item->id,'slug' => $item->slug])}}" class="mr-4 text-body text-large font-weight-semibold">{{$item->title ?? 'Null'}}</a></span>
-                                     @foreach($item->tags as $tag)<span class="badge badge-secondary">{{$tag->parent->nama}}</span>@endforeach
-                                    <div class="d-flex flex-wrap mt-3">
-                                      <div class="mr-3"><i class="vacancy-tooltip ion ion-ios-flash text-light" title="Department"></i>&nbsp; {{$item->viewer ?? 0}} Hits</div>
-                                      <div class="mr-3"><i class="vacancy-tooltip ion ion-md-time text-primary" title="Employment"></i>&nbsp; {{ $item->created_at->format('Y-m-d:H:i') }}</div>
-                                    </div>
-                                    <div class="mt-3 mb-4">
-                                     {!!$item->intro ?? 'Lorem Ipsum'!!}
-                                    </div>
-                                  </div>
-
-                                <div class="item-table m-0">
-                                    <div class="desc-table text-right">
-                                        <span class="badge badge-outline-{{$item->publish ==1 ? 'success' : 'secondary'}}">{{$item->publish ==1 ? 'Published' : 'Draft'}}</span>
-                                        <a href="{{ route('artikel.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengedit artikel" data-toggle="tooltip">
-                                                <i class="las la-pen"></i>
-                                        </a>
-                                        <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus artikel" data-toggle="tooltip">
-                                            <i class="las la-trash-alt"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-                @empty
-                <tr>
-                    <td colspan="8" align="center">
-                        <i>
-                            <strong style="color:red;">
-                            ! Data Artikel Kosong !
-                            </strong>
-                        </i>
-                    </td>
-                </tr>
-                @endforelse
-            <tbody>
         </table>
     </div>
     <div class="card-footer">
         <div class="row align-items-center">
             <div class="col-lg-6 m--valign-middle">
-                Menampilkan : <strong>{{ $data['artikel']->firstItem() }}</strong> - <strong>{{ $data['artikel']->lastItem() }}</strong> dari
+                Showing : <strong>{{ $data['artikel']->firstItem() }}</strong> - <strong>{{ $data['artikel']->lastItem() }}</strong> of
                 <strong>{{ $data['artikel']->total() }}</strong>
             </div>
             <div class="col-lg-6 m--align-right">
@@ -156,7 +119,6 @@
 
 @section('scripts')
 <script src="{{ asset('assets/tmplts_backend/vendor/libs/sweetalert2/sweetalert2.js') }}"></script>
-<script src="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-sortable/bootstrap-sortable.js') }}"></script>
 @endsection
 
 @section('jsbody')
@@ -201,7 +163,7 @@ $(document).ready(function () {
             if (response.value.success) {
                 Swal.fire({
                     type: 'success',
-                    text: 'Artikel berhasil dihapus'
+                    text: 'artikel berhasil dihapus'
                 }).then(() => {
                     window.location.reload();
                 })
@@ -217,5 +179,6 @@ $(document).ready(function () {
     })
 });
 </script>
+
 @include('components.toastr')
 @endsection

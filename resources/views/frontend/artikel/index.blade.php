@@ -6,7 +6,8 @@
         <div class="banner-content">
             <div class="banner-text">
                 <div class="title-heading text-center">
-                    <h1>Artikel</h1>
+                    <h1>@lang('strip.article_title')</h1>
+
                 </div>
             </div>
             @include('components.breadcrumbs')
@@ -16,47 +17,43 @@
         <img src="{{ $configuration['banner_default'] }}" title="banner default" alt="banner learning">
     </div>
 </div>
-
 <div class="box-wrap bg-grey-alt">
     <div class="container">
         <div class="row">
-            @forelse($data['artikel'] as $artikel)
+            @foreach ($data['artikel'] as $item)
             <div class="col-md-3">
                 <div class="item-post">
                     <div class="box-img article">
                         <div class="post-date">
-                            {{$artikel->created_at->format('Y M d')}}
+                            {{ $item->created_at->format('d F Y') }}
                         </div>
                         <div class="thumbnail-img">
-                            <img src="{{$artikel->getCover($artikel->cover)}}" alt="">
+                            <img src="{{ $item->getCover($item->cover['filename']) }}" title="{{ $item->cover['title'] }}" alt="{{ $item->cover['alt'] }}">
                         </div>
                     </div>
                     <div class="box-post boxless">
                         <div class="post-cat">
-                            @forelse($artikel->tags as $tag) {{$tag->parent->nama.","}} @empty  @endforelse
+                            {{-- Marketing --}}
                         </div>
-                        <a href="{{route('artikel.show',['id' => $artikel->id,'slug'=>$artikel->slug])}}">
+                        <a href="{{ route('artikel.read', ['id' => $item->id, 'slug' => $item->slug]) }}">
                             <h6 class="post-title">
-                                {{$artikel->title}}
+                                {!! $item->judul !!}
                             </h6>
                         </a>
                     </div>
                 </div>
             </div>
+            @endforeach
 
-            @empty
-            <h1 class="text-center">Data Artikel Kosong</h1>
-            @endforelse
+            @if ($data['artikel']->count() == 0)
+            <div class="d-flex justify-content-center">
+                <h5 style="color: red;">! Tidak ada artikel !</h5>
+            </div>
+            @endif
         </div>
-        {{-- <div class="box-btn d-flex justify-content-center">
-            <a href="" class="link-icon">
-                Lihat lainnya
-                <span>
-                    <i class="las la-arrow-right"></i>
-                </span>
-            </a>
-        </div> --}}
+        <div class="box-btn d-flex justify-content-center">
+            {{ $data['artikel']->onEachSide(3)->links() }}
+        </div>
     </div>
 </div>
-
 @endsection

@@ -95,7 +95,7 @@
             </div>
         </div>
 
-		<div id="page" class="{{ @$data['bannerless'] == true ? 'bannerless' : '' }}">
+		<div id="page" class="@yield('classes')">
 			@yield('layout-content')
 		</div>
     </body>
