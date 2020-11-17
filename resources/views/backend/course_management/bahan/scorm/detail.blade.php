@@ -5,7 +5,7 @@
 @endsection
 @section('content')
     <div class="scorm-course">
-      <iframe class="scorm-iframe" id="scorm-content" src="{{$data['path2']}}">
+      <iframe class="scorm-iframe" id="scorm-content" src="{{route('bank.data.stream',['path' => 'bank_data/scorm/sample/odading/scormcontent/index.html'])}}">
         {{-- path1 = odading
         path2 = scorm sample (golf) --}}
       </iframe>

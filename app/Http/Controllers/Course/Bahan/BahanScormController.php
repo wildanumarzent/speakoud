@@ -56,7 +56,7 @@ class BahanScormController extends Controller
     {
         $data['scorm'] = $this->scorm->get($id);
         // $data['path'] = storage_path($data['scorm']->package);
-        // $data['path'] = storage_path('bank_data/scorm/sample/odading/scormcontent/index.html');
+        $data['path'] = storage_path('bank_data/scorm/sample/odading/scormcontent/index.html');
         $data['path1'] = asset('scorm-sample/odading/scormdriver/indexAPI.html');
         $data['path2'] = asset('scorm-sample/golf/shared/launchpage.html');
         return view('backend.course_management.bahan.scorm.detail', compact('data'), [
