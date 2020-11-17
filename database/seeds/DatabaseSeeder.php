@@ -17,5 +17,6 @@ class DatabaseSeeder extends Seeder
         $this->call(KonfigurasiSeeder::class);
         $this->call(PageSeeder::class);
         $this->call(BannerSeeder::class);
+        $this->call(InquirySeeder::class);
     }
 }

@@ -39,7 +39,7 @@
                 </div>
                 <div class="col-md-10">
                   <input type="text" class="form-control slug_spot @error('slug') is-invalid @enderror" name="slug" lang="id"
-                    value="{{ (isset($data['page'])) ? old('slug', $data['page']->judul) : old('slug') }}">
+                    value="{{ (isset($data['page'])) ? old('slug', $data['page']->slug) : old('slug') }}">
                   @include('components.field-error', ['field' => 'slug'])
                 </div>
             </div>

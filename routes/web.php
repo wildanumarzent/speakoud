@@ -23,6 +23,12 @@ Route::get('/', 'HomeController@index')
 Route::get('/page/{id}/{slug}', 'PageController@read')
     ->name('page.read');
 
+//inquiry
+Route::get('inquiry/{slug}', 'InquiryController@read')
+    ->name('inquiry.read');
+Route::post('inquiry/{id}/send', 'InquiryController@send')
+    ->name('inquiry.send');
+
 //course
 Route::get('/course/list', 'Course\MataController@courseList')
     ->name('course.list');
@@ -479,6 +485,23 @@ Route::group(['middleware' => ['auth']], function () {
         ->name('banner.media.destroy')
         ->middleware('role:developer|administrator');
 
+    //inquiry
+    Route::get('/inquiry', 'InquiryController@index')
+        ->name('inquiry.index')
+        ->middleware('role:developer|administrator');
+    Route::get('/inquiry/{id}/edit', 'InquiryController@edit')
+        ->name('inquiry.edit')
+        ->middleware('role:developer|administrator');
+    Route::put('/inquiry/{id}', 'InquiryController@update')
+        ->name('inquiry.update')
+        ->middleware('role:developer|administrator');
+    Route::put('/inquiry/contact/{id}/read', 'InquiryController@readContact')
+        ->name('inquiry.contact.read')
+        ->middleware('role:developer|administrator');
+    Route::delete('/inquiry/contact/{id}', 'InquiryController@destroy')
+        ->name('inquiry.contact.destroy')
+        ->middleware('role:developer|administrator');
+
     //konfigurasi
     Route::get('/konfigurasi/konten', 'KonfigurasiController@index')
         ->name('config.index')
@@ -517,11 +540,11 @@ Route::group(['middleware' => ['auth']], function () {
 
     /** Frontend Component */
     // Inquiry
-    Route::get('/inquiry','InquiryController@index')->name('inquiry.index');
-    Route::get('/inquiry/create','InquiryController@create')->name('inquiry.create');
-    Route::get('/inquiry/{id}','InquiryController@detail')->name('inquiry.detail');
-    Route::post('/inquiry','InquiryController@store')->name('inquiry.store');
-    Route::delete('/inquiry/{id}','InquiryController@destroy')->name('inquiry.destroy');
+    // Route::get('/inquiry','InquiryController@index')->name('inquiry.index');
+    // Route::get('/inquiry/create','InquiryController@create')->name('inquiry.create');
+    // Route::get('/inquiry/{id}','InquiryController@detail')->name('inquiry.detail');
+    // Route::post('/inquiry','InquiryController@store')->name('inquiry.store');
+    // Route::delete('/inquiry/{id}','InquiryController@destroy')->name('inquiry.destroy');
     // Kalender Diklat
     Route::get('/kalender','KalenderController@index')->name('kalender.index');
     Route::get('/kalender/create','KalenderController@create')->name('kalender.create');

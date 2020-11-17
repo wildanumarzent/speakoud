@@ -205,9 +205,14 @@
               <div>Banner</div>
             </a>
         </li>
-        <li class="sidenav-item">
+        <li class="sidenav-item{{ (Request::is('inquiry*')) ? ' active' : '' }}">
             <a href="{{route('inquiry.index')}}" class="sidenav-link"><i class="sidenav-icon las la-envelope"></i>
               <div>Inquiry</div>
+              @if ($inquiry['total_contact'] > 0)
+              <div class="pl-1 ml-auto">
+                  <div class="badge badge-danger">{{ $inquiry['total_contact'] }}</div>
+              </div>
+              @endif
             </a>
         </li>
         <li class="sidenav-item{{ Request::is('konfigurasi*') ? ' open active' : '' }}">

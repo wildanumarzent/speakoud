@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Models\Banner\BannerKategori;
 use App\Models\Course\ProgramPelatihan;
+use App\Models\Inquiry\Inquiry;
+use App\Models\Inquiry\InquiryContact;
 use App\Models\Konfigurasi;
 use App\Models\Page;
 use Illuminate\Support\Facades\View;
@@ -48,6 +50,7 @@ class FrontendServiceProvider extends ServiceProvider
                 'google_verification' => Konfigurasi::value('google_verification'),
                 'domain_verification' => Konfigurasi::value('domain_verification'),
                 //group 4
+                'website' => Konfigurasi::value('webisite'),
                 'twitter' => Konfigurasi::value('twitter'),
                 'youtube' => Konfigurasi::value('youtube'),
                 'facebook' => Konfigurasi::value('facebook'),
@@ -62,6 +65,7 @@ class FrontendServiceProvider extends ServiceProvider
             'menu' => [
                 'program_pelatihan' => ProgramPelatihan::where('publish', 1)
                     ->orderBy('urutan', 'ASC')->get(),
+                'inquiry' => Inquiry::where('id', 1)->where('publish', 1)->get(),
             ],
             'pages' => [
                 'quick_link' => Page::where('publish', 1)->whereIn('id', [2,3,4])->get(),
@@ -69,6 +73,9 @@ class FrontendServiceProvider extends ServiceProvider
             ],
             'banner' => [
                 'login' => BannerKategori::where('id', 2)->get(),
+            ],
+            'inquiry' => [
+                'total_contact' => InquiryContact::where('status', 0)->count(),
             ],
         ]);
     }

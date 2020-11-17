@@ -34,7 +34,9 @@
                             </li>
                             <li><a href="list-jadwal.html">Jadwal</a></li>
                             <li><a href="list-artikel.html">Artikel</a></li>
-                            <li><a href="kontak.html">Kontak</a></li>
+                            @foreach ($menu['inquiry'] as $inquiry)
+                            <li class="{{ Request::is('inquiry*') ? 'current-nav' : '' }}"><a href="{{ route('inquiry.read', ['slug' => $inquiry->slug]) }}">{!! $inquiry->name !!}</a></li>
+                            @endforeach
                         </ul>
                     </nav>
                     <div class="navigation-burger">

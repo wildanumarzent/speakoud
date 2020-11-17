@@ -209,6 +209,13 @@ class KonfigurasiSeeder extends Seeder
                 'value' => null,
                 'is_upload' => false,
             ],
+            27 => [
+                'group' => 4,
+                'name' => 'website',
+                'label' => 'Website URL',
+                'value' => 'https://e-learning.bppt.go.id/',
+                'is_upload' => false,
+            ],
         ];
 
         foreach ($konfigurasi as $value) {

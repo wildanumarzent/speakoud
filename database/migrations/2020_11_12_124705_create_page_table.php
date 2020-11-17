@@ -18,7 +18,7 @@ class CreatePageTable extends Migration
             $table->unsignedBigInteger('creator_id')->nullable();
             $table->integer('parent')->default(0);
             $table->string('judul');
-            $table->string('slug')->unique();
+            $table->string('slug');
             $table->text('intro')->nullable();
             $table->text('content')->nullable();
             $table->json('cover')->nullable();

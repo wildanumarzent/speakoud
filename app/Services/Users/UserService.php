@@ -51,6 +51,22 @@ class UserService
         return $result;
     }
 
+    public function getEmailByRole(array $byRole = null)
+    {
+        $query = $this->model->query();
+
+        if (!empty($byRole)) {
+            $query->whereHas('roles', function ($query) use ($byRole) {
+                $query->whereIn('id', $byRole);
+            });
+        }
+        $query->active();
+        $plucked = $query->pluck('email');
+        $plucked->all();
+
+        return $plucked;
+    }
+
     public function findUser(int $id)
     {
         return $this->model->findOrFail($id);

@@ -15,6 +15,8 @@ return [
     'login_title' => 'Login to your account',
     'register_title' => 'Register new account',
     'button_selengkapnya' => 'Selengkapnya',
+    'inquiry_website' => 'www.e-learning.bppt.go.id',
+    'inquiry_button' => 'Send Message',
 	'footer_title_1' => 'Layanan E-Learning',
 	'footer_title_2' => 'Quick Links',
     'footer_title_3' => 'Contact',
