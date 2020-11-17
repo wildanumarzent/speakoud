@@ -2,6 +2,7 @@
 
 @section('styles')
 <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/sweetalert2/sweetalert2.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-sortable/bootstrap-sortable.css') }}">
 @endsection
 
 @section('content')
@@ -99,7 +100,8 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="p-4 p-md-5">
-                                    <a href="{{route('artikel.show',['id' => $item->id,'slug' => $item->slug])}}" class="text-body text-large font-weight-semibold">{{$item->title ?? 'Null'}}</a>
+                                    <a href="{{route('artikel.show',['id' => $item->id,'slug' => $item->slug])}}" class="mr-4 text-body text-large font-weight-semibold">{{$item->title ?? 'Null'}}</a></span>
+                                     @foreach($item->tags as $tag)<span class="badge badge-secondary">{{$tag->parent->nama}}</span>@endforeach
                                     <div class="d-flex flex-wrap mt-3">
                                       <div class="mr-3"><i class="vacancy-tooltip ion ion-ios-flash text-light" title="Department"></i>&nbsp; {{$item->viewer ?? 0}} Hits</div>
                                       <div class="mr-3"><i class="vacancy-tooltip ion ion-md-time text-primary" title="Employment"></i>&nbsp; {{ $item->created_at->format('Y-m-d:H:i') }}</div>
@@ -111,6 +113,7 @@
 
                                 <div class="item-table m-0">
                                     <div class="desc-table text-right">
+                                        <span class="badge badge-outline-{{$item->publish ==1 ? 'success' : 'secondary'}}">{{$item->publish ==1 ? 'Published' : 'Draft'}}</span>
                                         <a href="{{ route('artikel.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengedit artikel" data-toggle="tooltip">
                                                 <i class="las la-pen"></i>
                                         </a>
@@ -153,6 +156,7 @@
 
 @section('scripts')
 <script src="{{ asset('assets/tmplts_backend/vendor/libs/sweetalert2/sweetalert2.js') }}"></script>
+<script src="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-sortable/bootstrap-sortable.js') }}"></script>
 @endsection
 
 @section('jsbody')

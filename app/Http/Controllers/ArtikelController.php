@@ -40,6 +40,16 @@ class ArtikelController extends Controller
         ]);
     }
 
+    public function list(Request $request){
+        $data['artikel'] = $this->artikel->listAll();
+        return view('frontend.artikel.index', compact('data'), [
+            'title' => 'Artikel',
+            'breadcrumbsFrontend' => [
+                'List Artikel' => '',
+            ],
+        ]);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -67,7 +77,7 @@ class ArtikelController extends Controller
                 'Edit' => '',
             ],
         ]);
-       
+
     }
 
     /**
@@ -95,14 +105,12 @@ class ArtikelController extends Controller
      */
     public function show(Artikel $id)
     {
-        $this->artikel->viewer($id['id']);  
+        $this->artikel->viewer($id['id']);
         $data['artikel'] = $this->artikel->get($id['id']);
-        return view('backend.artikel.detail', compact('data'), [
-            'title' => 'Artikel',
-            'breadcrumbsBackend' => [
-                'Artikel' => route('artikel.index'),
-                $id['title'] => '',
-            ],
+        $data['recent'] = $this->artikel->recent($id);
+        $data['bannerless'] = true;
+        return view('frontend.artikel.detail', compact('data'), [
+            'title' => 'Artikel - '.$id['title'],
         ]);
     }
 
@@ -112,7 +120,7 @@ class ArtikelController extends Controller
      * @param  \App\Models\Artikel  $artikel
      * @return \Illuminate\Http\Response
      */
- 
+
 
     /**
      * Update the specified resource in storage.

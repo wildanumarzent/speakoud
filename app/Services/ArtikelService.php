@@ -5,14 +5,15 @@ namespace App\Services;
 use App\Models\Artikel;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
-
+use App\Services\Component\TagsService;
 class ArtikelService
 {
-    private $artikel;
+    private $artikel,$tags;
 
-    public function __construct(Artikel $artikel)
+    public function __construct(Artikel $artikel,TagsService $tags)
     {
         $this->artikel = $artikel;
+        $this->tags = $tags;
     }
 
     public function list($request){
@@ -29,6 +30,20 @@ class ArtikelService
             $query->where('created_by',auth()->user()->id);
         }
 
+        $result = $query->orderBy('created_at', 'ASC')->paginate(20);
+        return $result;
+
+    }
+
+    public function recent($data){
+        $query = $this->artikel->query();
+        $query->where('id','!=',$data['id']);
+        $result = $query->orderBy('created_at', 'ASC')->paginate(20);
+        return $result;
+    }
+
+    public function listAll(){
+        $query = $this->artikel->query();
         $result = $query->orderBy('created_at', 'ASC')->paginate(20);
         return $result;
 
@@ -67,8 +82,10 @@ class ArtikelService
             $artikel->publish = 0;
             break;
     }
-
        $artikel->save();
+       if (isset($request->tags)) {
+        $this->tags->store($request,$artikel);
+     }
         return $artikel;
     }
 
@@ -100,13 +117,18 @@ class ArtikelService
             break;
     }
         $artikel->save();
+        if (isset($request->tags)) {
+            $this->tags->store($request,$artikel);
+         }else{
+             $this->tags->wipeAndUpdate($artikel);
+         }
         return $artikel;
     }
 
     public function delete($id){
         $artikel = $this->get($id);
         if (!empty($artikel->cover)) {
-        $this->deleteCoverFormPath($artikel->cover);
+        $this->deleteCoverFromPath($artikel->cover);
         }
         $artikel->delete();
         return $artikel;
@@ -127,7 +149,7 @@ class ArtikelService
     return true;
     }
 
-    public function deleteCoverFormPath($path){
+    public function deleteCoverFromPath($path){
         if(File::exists($path)) {
         File::delete($path);
         }

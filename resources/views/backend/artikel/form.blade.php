@@ -5,6 +5,7 @@
 <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-select/bootstrap-select.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/select2/select2.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-tagsinput/bootstrap-tagsinput.css') }}">
+<script src="{{ asset('assets/tmplts_backend/wysiwyg/tinymce.min.js') }}"></script>
 @endsection
 
 @section('content')
@@ -33,7 +34,7 @@
                           <label class="col-form-label text-sm-right">Intro</label>
                         </div>
                         <div class="col-md-10">
-                          <textarea name="intro" id="RTE-M">{{old('intro')  ?? @$data['artikel']['intro']}}</textarea>
+                          <textarea name="intro" class="tiny">{{old('intro')  ?? @$data['artikel']['intro']}}</textarea>
                           @include('components.field-error', ['field' => 'intro'])
                         </div>
                     </div>
@@ -42,7 +43,7 @@
                           <label class="col-form-label text-sm-right">Content</label>
                         </div>
                         <div class="col-md-10">
-                          <textarea name="content" id="RTE-IMG">{{old('content')  ?? @$data['artikel']['content']}}</textarea>
+                          <textarea name="content" class="tiny">{{old('content')  ?? @$data['artikel']['content']}}</textarea>
                           @include('components.field-error', ['field' => 'content'])
                         </div>
                     </div>
@@ -62,12 +63,19 @@
                         </div>
                         <div class="col-md-10">
 
-                          <input type="text" class="form-control @error('tags') is-invalid @enderror" name="tags" class="form-control" id="bs-tagsinput-2" autofocus>
+                          <input type="text" value="
+                          @if(isset($data['artikel']))
+                          @forelse($data['artikel']->tags as $tag)
+                          {{$tag->parent->nama}},
+                          @empty
+                          @endforelse
+                          @endif
+                          " class="form-control @error('tags') is-invalid @enderror" name="tags" class="form-control" id="bs-tagsinput-2" autofocus>
                           @include('components.field-error', ['field' => 'tags'])
                         </div>
                     </div>
                     <hr>
-                    <span class="text-muted text-bold">Meta</span>
+                    <span class="text-muted text-bold ml-5">Meta</span>
                     <div class="form-group row">
                         <div class="col-md-2 text-md-right">
                           <label class="col-form-label text-sm-right">Title</label>
@@ -119,6 +127,8 @@
 <script src="{{ asset('assets/tmplts_backend/vendor/libs/select2/select2.js') }}"></script>
 <script src="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-tagsinput/bootstrap-tagsinput.js') }}"></script>
 <script src="{{ asset('assets/tmplts_backend/js/forms_selects.js') }}"></script>
+
 @endsection
+@include('includes.tiny-mce')
 
 @endsection
