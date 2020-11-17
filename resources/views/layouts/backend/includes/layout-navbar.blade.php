@@ -28,7 +28,7 @@
           <!-- Search -->
           <label class="nav-item navbar-text navbar-search-box p-0 active">
             E-LEARNING BPPT &nbsp;
-            <a href="{{ route('home') }}" data-toggle="tooltip" target="_blank" title="Website"><i class="las la-external-link-alt"></i></a>
+            <a href="{{ route('home') }}" target="_blank" title="Website"><i class="las la-external-link-alt"></i></a>
           </label>
         </div>
 

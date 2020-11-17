@@ -19,6 +19,9 @@ return [
         'm' => 'jpg,jpeg,png,svg',
         'p' => '500x500 px'
     ],
+    'attachment' => [
+        'm' => 'jpg,jpeg,png,pdf,ppt,pptx,doc,docx'
+    ],
     'cover' => [
         'm' => 'jpg,jpeg,png,svg',
         'p' => '500x500 px'

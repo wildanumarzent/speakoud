@@ -39,7 +39,7 @@
             </h6>
             <div class="card-body">
                 <select class="jump select2 show-tick" data-mataid="{{ $data['bahan']->mata_id }}" data-style="btn-default">
-                    <option value="" selected disabled>Jump to</option>
+                    <option value="" selected disabled>Pilih Bahan</option>
                     @foreach ($data['mata']->materiPublish as $materi)
                     <optgroup label="{!! $materi->judul !!}">
                         @foreach ($materi->bahanPublish('jump')->get() as $bahan)
@@ -80,11 +80,6 @@
                 </div>
                 @endif
             </div>
-            @if (Request::segment(5) == 'forum')
-            <div class="card-footer">
-                <i class="las la-comment"></i> {{ config('addon.label.forum_tipe.'.$data['bahan']->forum->tipe)['title'] }}
-            </div>
-            @endif
         </div>
     </div>
 </div>
@@ -96,6 +91,7 @@
 @endsection
 
 @section('jsbody')
+<script src="{{ asset('assets/tmplts_backend/js/ui_tooltips.js') }}"></script>
 <script>
     $('.select2').select2();
 

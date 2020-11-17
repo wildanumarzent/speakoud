@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Course\Bahan;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BahanRequest;
+use App\Services\Course\Bahan\BahanForumService;
 use App\Services\Course\Bahan\BahanService;
 use App\Services\Course\MataService;
 use App\Services\Course\MateriService;
@@ -11,17 +12,19 @@ use Illuminate\Http\Request;
 
 class BahanController extends Controller
 {
-    private $service, $serviceMateri, $serviceMata;
+    private $service, $serviceMateri, $serviceMata, $serviceBahanForum;
 
     public function __construct(
         BahanService $service,
         MateriService $serviceMateri,
-        MataService $serviceMata
+        MataService $serviceMata,
+        BahanForumService $serviceBahanForum
     )
     {
         $this->service = $service;
         $this->serviceMateri = $serviceMateri;
         $this->serviceMata = $serviceMata;
+        $this->serviceBahanForum = $serviceBahanForum;
     }
 
     public function index(Request $request, $materiId)
@@ -61,6 +64,10 @@ class BahanController extends Controller
         $data['mata'] = $this->serviceMata->findMata($mataId);
         $data['bahan'] = $this->service->findBahan($id);
         $data['jump'] = $this->service->bahanJump($id);
+
+        if ($tipe == 'forum') {
+            $data['topik'] = $this->serviceBahanForum->getTopikList($data['bahan']->forum->id);
+        }
 
         return view('frontend.course.bahan.'.$tipe, compact('data'), [
             'title' => 'Course - Bahan',

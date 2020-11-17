@@ -37,9 +37,23 @@ Route::get('/course/{id}/detail', 'Course\MataController@courseDetail')
     ->middleware('auth');
 Route::post('/course/{id}/rating', 'Course\MataController@giveRating')
     ->name('course.rating')
-    ->middleware('auth');
+    ->middleware('role:peserta_internal|peserta_mitra');
 Route::get('course/{id}/bahan/{bahanId}/{tipe}', 'Course\Bahan\BahanController@view')
     ->name('course.bahan')
+    ->middleware('auth');
+
+//forum
+Route::get('forum/{id}/topik/create', 'Course\Bahan\BahanForumController@createTopik')
+    ->name('forum.topik.create')
+    ->middleware('auth');
+Route::post('forum/{id}/topik', 'Course\Bahan\BahanForumController@storeTopik')
+    ->name('forum.topik.store')
+    ->middleware('auth');
+Route::put('/forum/{id}/topik/{topikId}/pin', 'Course\Bahan\BahanForumController@pinTopik')
+    ->name('forum.topik.pin')
+    ->middleware('auth');
+Route::put('/forum/{id}/topik/{topikId}/lock', 'Course\Bahan\BahanForumController@lockTopik')
+    ->name('forum.topik.lock')
     ->middleware('auth');
 
 /**

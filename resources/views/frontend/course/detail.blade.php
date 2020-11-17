@@ -125,7 +125,10 @@
                 // dd($data['read']->rating('per_rating', 5))
             @endphp
             <div class="card-body">
-                @for ($i = 1; $i < 6; $i++)
+                @php
+                    $number = [1, 2, 3, 4, 5];
+                @endphp
+                @foreach ($number as $i)
                 <div class="progress-course mb-4">
                     <div class="progress">
                         <span class="badge badge-warning mr-3">{{ $i }}</span>
@@ -134,7 +137,7 @@
                         </div>
                     </div>
                 </div>
-                @endfor
+                @endforeach
                 <div class="text-center text-muted">
                     <h3 class="badge badge-primary" style="font-size: 20px;">
                         {{ $data['read']->rating->count() > 0 ? round($data['read']->getRating('review'), 2) : 0 }}
@@ -144,12 +147,20 @@
             </div>
             <div class="card-footer">
                 <div class="small text-center">
+                    @role ('peserta_internal|peserta_mitra')
                     <select id="rating" name="rating" class="mb-2">
                         <option value="" ></option>
                         @for ($i = 1; $i < 6; $i++)
                         <option value="{{ $i }}" {{ $data['read']->ratingByUser()->count() > 0 ? ($data['read']->ratingByUser->rating == $i ? 'selected' : '') : 0 }}>1</option>
                         @endfor
                     </select>
+                    @else
+                    @if ($data['read']->rating->count() > 0)
+                    @foreach ($number as $i)
+                        <i class="fa{{ (floor($data['read']->rating->where('rating', '>', 0)->avg('rating')) >= $i)? 's' : 'r' }} fa-star text-warning" style="font-size: 1.8em;"></i>
+                    @endforeach
+                    @endif
+                    @endrole
                 </div>
             </div>
         </div>

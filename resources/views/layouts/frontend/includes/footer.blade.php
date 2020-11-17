@@ -68,16 +68,16 @@
         </div>
         <div class="footer-bottom">
             <div class="container-fluid">
-                <div class="d-flex align-items-center justify-content-xl-between">
+                <div class="d-flex align-items-center justify-content-xl-center">
                     <div class="f-widget copyright">
                         Copyright © {{ now()->format('Y') }} @lang('strip.copyright')
                     </div>
-                    <div class="f-widget developer">
+                    {{-- <div class="f-widget developer">
                         Developed By
                         <a href="https://www.4visionmedia.com/" target="_blank" class="logo-4vm" title="Perusahaan Jasa Pembuatan Website Software Aplikasi Desain Video & Konsultan IT">
                             <img src="{{ asset('assets/tmplts_frontend/images/logo-4vm.svg') }}" alt="Logo 4 Vision Media">
                         </a>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>

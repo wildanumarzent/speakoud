@@ -152,7 +152,7 @@
                     <div class="swiper-button-prev swiper-btn sbp-2"><i class="la la-angle-left"></i></div>
                     <div class="swiper-button-next swiper-btn sbn-2"><i class="la la-angle-right"></i></div>
                 </div>
-                <a href="{{ route('course.list') }}" class="link-icon ml-xl-auto" title="@lang('strip.widget_1_button')">
+                <a href="{{ route('course.list') }}" class="link-icon ml-auto" title="@lang('strip.widget_1_button')">
                     @lang('strip.widget_1_button')
                     <span>
                         <i class="las la-arrow-right"></i>
@@ -270,13 +270,26 @@
             delay: 5000,
         },
         parallax: true,
-        draggable: false,
-        simulateTouch: false,
+        // draggable: false,
+        // simulateTouch: false,
         loop: 'true',
         navigation: {
             nextEl: '.sbn-1',
             prevEl: '.sbp-1',
+        },
+        breakpoints: {
+            // when window width is <= 575.98px
+            575.98: {
+                draggable: true,
+                simulateTouch: true,
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true
+                },
+
             }
+
+        }
     });
 
     var swiper = new Swiper('.swiper-2', {
@@ -290,7 +303,19 @@
         navigation: {
             nextEl: '.sbn-2',
             prevEl: '.sbp-2',
+        },
+        breakpoints: {
+            // when window width is <= 575.98px
+            767.98: {
+                slidesPerView: 1,
+
+            },
+            1199.98: {
+                slidesPerView: 2,
+
             }
+
+        }
     });
 </script>
 @endsection

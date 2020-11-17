@@ -3,14 +3,28 @@
 namespace App\Services\Course\Bahan;
 
 use App\Models\Course\Bahan\BahanForum;
+use App\Models\Course\Bahan\BahanForumTopik;
+use App\Models\Course\Bahan\BahanForumTopikDiskusi;
+use Illuminate\Support\Str;
 
 class BahanForumService
 {
-    private $model;
+    private $model, $modelTopik, $modelDiskusi;
 
-    public function __construct(BahanForum $model)
+    public function __construct(
+        BahanForum $model,
+        BahanForumTopik $modelTopik,
+        BahanForumTopikDiskusi $modelDiskusi
+    )
     {
         $this->model = $model;
+        $this->modelTopik = $modelTopik;
+        $this->modelDiskusi = $modelDiskusi;
+    }
+
+    public function findForum(int $id)
+    {
+        return $this->model->findOrFail($id);
     }
 
     public function storeForum($request, $materi, $bahan)
@@ -34,5 +48,66 @@ class BahanForumService
         $forum->save();
 
         return $forum;
+    }
+
+    //topik
+    public function getTopikList($forumId)
+    {
+        $query = $this->modelTopik->query();
+
+        $query->where('forum_id', $forumId);
+
+        $result = $query->orderBy('pin', 'DESC')->get();
+
+        return $result;
+    }
+
+    public function findTopik(int $id)
+    {
+        return $this->modelTopik->findOrFail($id);
+    }
+
+    public function storeTopik($request, int $forumId)
+    {
+        $forum = $this->findForum($forumId);
+
+        if ($request->hasFile('attachment')) {
+            $fileName = str_replace(' ', '-', Str::random(5).'-'.$request->file('attachment')
+                ->getClientOriginalName());
+            $request->file('attachment')->move(public_path('userfile/attachment/forum/'.$forumId), $fileName);
+        }
+
+        $topik = new BahanForumTopik($request->only(['subject', 'message']));
+        $topik->program_id = $forum->program_id;
+        $topik->mata_id = $forum->mata_id;
+        $topik->materi_id = $forum->materi_id;
+        $topik->bahan_id = $forum->bahan_id;
+        $topik->forum_id = $forumId;
+        $topik->creator_id = auth()->user()->id;
+        $topik->pin = (bool)$request->pin;
+        $topik->attachment = !empty($request->attachment) ? $fileName : null;
+        $topik->publish_start = (bool)$request->enable_start == 1 ? $request->publish_start : null;
+        $topik->publish_end = (bool)$request->enable_end == 1 ? $request->publish_end : null;
+        $topik->save();
+
+        return $topik;
+    }
+
+    public function pinTopik(int $id)
+    {
+        $topik = $this->findTopik($id);
+        $topik->pin = !$topik->pin;
+        $topik->save();
+
+        return $topik;
+    }
+
+    public function lockTopik(int $id)
+    {
+        $topik = $this->findTopik($id);
+        $topik->lock = !$topik->lock;
+        $topik->save();
+
+        return $topik;
     }
 }

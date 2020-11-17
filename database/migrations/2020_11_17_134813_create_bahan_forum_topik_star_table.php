@@ -1,0 +1,44 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreateBahanForumTopikStarTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('bahan_forum_topik_star', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('forum_id');
+            $table->unsignedBigInteger('topik_id');
+            $table->unsignedBigInteger('user_id');
+            $table->timestamps();
+
+            $table->foreign('forum_id')->references('id')
+                ->on('bahan_forum')
+                ->cascadeOnDelete();
+            $table->foreign('topik_id')->references('id')
+                ->on('bahan_forum_topik')
+                ->cascadeOnDelete();
+            $table->foreign('user_id')->references('id')
+                ->on('users')
+                ->cascadeOnDelete();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('bahan_forum_topik_star');
+    }
+}
