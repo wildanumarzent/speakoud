@@ -1,6 +1,10 @@
 /node_modules
 /public/hot
 /public/storage
+/public/userfile/attachment
+/public/userfile/logo_instansi
+/public/userfile/photo
+/public/userfile/scorm
 /storage/app
 /storage/logs
 /vendor
