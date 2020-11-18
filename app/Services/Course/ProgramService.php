@@ -136,4 +136,38 @@ class ProgramService
             return false;
         }
     }
+
+    public function checkInstruktur(int $id)
+    {
+        $program = $this->findProgram($id);
+
+        if (auth()->user()->hasRole('mitra|instruktur_mitra')) {
+            if ($program->tipe == 0) {
+                return abort(403);
+            }
+
+            if (auth()->user()->hasRole('mitra') && $program->mitra_id
+                != auth()->user()->mitra->id || auth()->user()->hasRole('instruktur_mitra')
+                && $program->mitra_id != auth()->user()->instruktur->mitra_id) {
+                return abort(403);
+            }
+        }
+    }
+
+    public function checkPeserta(int $id)
+    {
+        $program = $this->findProgram($id);
+
+        if (auth()->user()->hasRole('peserta_internal')) {
+            if ($program->tipe == 1) {
+                return abort(403);
+            }
+        }
+
+        if (auth()->user()->hasRole('peserta_mitra')) {
+            if ($program->tipe == 0 || $program->mitra_id != auth()->user()->peserta->mitra_id) {
+                return abort(403);
+            }
+        }
+    }
 }

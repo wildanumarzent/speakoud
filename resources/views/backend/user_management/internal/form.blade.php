@@ -64,7 +64,7 @@
                             </div>
                         </div>
                         <div class="col-md-1">
-                            <a href="{{ route('instansi.internal.create') }}" class="btn btn-primary" title="klik untuk menambah instansi"><i class="las la-plus"></i> Tambah</a>
+                            <a href="{{ route('instansi.internal.create') }}" class="btn btn-primary icon-btn" title="klik untuk menambah instansi"><i class="las la-plus"></i></a>
                         </div>
                     </div>
                     <div class="form-group row">

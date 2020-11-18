@@ -10,7 +10,7 @@
     <div class="col">
         <div class="card mb-4">
             <div class="card-header with-elements">
-                <h5 class="card-header-title mt-1 mb-0">Preview Bahan <strong>---> "{{ strtoupper(Request::segment(5)) }}"</strong></h5>
+                <h5 class="card-header-title mt-1 mb-0">Materi <strong>"{{ $data['bahan']->materi['judul'] }}"</strong></h5>
                 <div class="card-header-elements ml-auto">
                 </div>
             </div>
@@ -26,7 +26,7 @@
                         <a href="{{ route('course.detail', ['id' => $data['bahan']->mata_id]) }}" class="btn btn-danger" title="klik untuk kembali ke detail">Kembali</a>
                     </div>
                     <div class="col-md-4 text-right">
-                        <a href="" class="btn btn-secondary" title="klik untuk ke bahan selanjutnya" data-toggle="tooltip">Selanjutnya <i class="las la-arrow-right" style="margin-left: 7px; margin-right: 0"></i></a>
+                        <a href="" class="btn btn-secondary" title="klik untuk ke bahan selanjutnya">Selanjutnya <i class="las la-arrow-right" style="margin-left: 7px; margin-right: 0"></i></a>
                     </div>
                 </div>
             </div>

@@ -48,13 +48,22 @@
       <div class="card card-list">
         <div class="card-body d-flex justify-content-between align-items-start pb-1">
           <div>
-            <a href="
-            @if ($item->type($item)['tipe'] == 'scorm')
-            {{route('scorm.detail',['id' => $item->scorm->id])}}
-            @else
-            javascript:;
-            @endif
-            " class="text-body text-big font-weight-semibold" title="{!! $item->judul !!}">{!! Str::limit($item->judul, 80) !!}</a>
+            @php
+                if ($item->type($item)['tipe'] == 'forum') {
+                    $route = route('course.bahan', ['id' => $item->mata_id, 'bahanId' => $item->id, 'tipe' => 'forum']);
+                } elseif ($item->type($item)['tipe'] == 'dokumen') {
+                    $route = route('course.bahan', ['id' => $item->mata_id, 'bahanId' => $item->id, 'tipe' => 'dokumen']);
+                } elseif ($item->type($item)['tipe'] == 'link') {
+                    $route = route('course.bahan', ['id' => $item->mata_id, 'bahanId' => $item->id, 'tipe' => 'link']);
+                } elseif ($item->type($item)['tipe'] == 'quiz') {
+                    $route = route('course.bahan', ['id' => $item->mata_id, 'bahanId' => $item->id, 'tipe' => 'quiz']);
+                } elseif ($item->type($item)['tipe'] == 'scorm') {
+                    $route = route('course.bahan', ['id' => $item->mata_id, 'bahanId' => $item->id, 'tipe' => 'scorm']);
+                } else {
+                    $route = 'javascript:;';
+                }
+            @endphp
+            <a href="{{ $route }}" class="text-body text-big font-weight-semibold" title="{!! $item->judul !!}">{!! Str::limit($item->judul, 80) !!}</a>
           </div>
 
           @if (!$data['check_role'] || $data['check_role'] && $item->creator_id == auth()->user()->id)
@@ -63,10 +72,12 @@
               <i class="ion ion-ios-more"></i>
             </button>
             <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; will-change: top, left; top: 26px; left: 26px;">
-              @if ($item->type($item)['tipe'] == 'quiz' && !$data['check_role'] || $data['check_role'] && $item->creator_id == auth()->user()->id)
+              @if ($item->type($item)['tipe'] == 'quiz')
+              @if (!$data['check_role'] || $data['check_role'] && $item->creator_id == auth()->user()->id)
               <a class="dropdown-item" href="{{ route('quiz.item', ['id' => $item->quiz->id]) }}" title="klik untuk melihat soal">
                 <i class="las la-list-ol"></i> Soal
               </a>
+              @endif
               @endif
               <a class="dropdown-item" href="{{ route('bahan.edit', ['id' => $item->materi_id, 'bahanId' => $item->id, 'type' => $item->type($item)['tipe']]) }}" title="klik untuk mengedit bahan pelatihan">
                 <i class="las la-pen"></i> Edit

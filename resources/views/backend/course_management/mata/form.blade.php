@@ -61,9 +61,9 @@
                 </div>
                 <div class="col-md-10">
                     <div class="input-group">
-                        <input type="hidden" id="get_val" value="{{ isset($data['mata']) ? old('publish_end', (!empty($data['mata']->publish_end) ? $data['mata']->publish_end->format('Y-m-d H:i') : now()->addYears(1)->format('Y-m-d 00:00'))) : old('publish_end', now()->addYears(1)->format('Y-m-d 00:00')) }}">
+                        <input type="hidden" id="get_val" value="{{ isset($data['mata']) ? old('publish_end', (!empty($data['mata']->publish_end) ? $data['mata']->publish_end->format('Y-m-d H:i') : now()->addDays(1)->addYears(1)->format('Y-m-d 00:00'))) : old('publish_end', now()->addDays(1)->addYears(1)->format('Y-m-d 00:00')) }}">
                         <input id="publish_end" type="text" class="datetime-picker form-control @error('publish_end') is-invalid @enderror" name="publish_end"
-                            value="{{ isset($data['mata']) ? old('publish_end', (!empty($data['mata']->publish_end) ? $data['mata']->publish_end->format('Y-m-d H:i') : '')) : old('publish_end', now()->addYears(1)->format('Y-m-d 00:00')) }}" placeholder="masukan tanggal selesai...">
+                            value="{{ isset($data['mata']) ? old('publish_end', (!empty($data['mata']->publish_end) ? $data['mata']->publish_end->format('Y-m-d H:i') : '')) : old('publish_end', now()->addDays(1)->addYears(1)->format('Y-m-d 00:00')) }}" placeholder="masukan tanggal selesai...">
                         <div class="input-group-append">
                             <span class="input-group-text"><i class="las la-calendar"></i></span>
                             <span class="input-group-text">
