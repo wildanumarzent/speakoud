@@ -33,12 +33,10 @@
                                 </ul>
                             </li>
                             <li><a href="list-jadwal.html">Jadwal</a></li>
-                            <li><a href="list-artikel.html">Artikel</a></li>
+                            <li class="{{ Request::is('content/artikel*') ? 'current-nav' : '' }}"><a href="{{ route('artikel.list') }}">Artikel</a></li>
                             @foreach ($menu['inquiry'] as $inquiry)
                             <li class="{{ Request::is('inquiry*') ? 'current-nav' : '' }}"><a href="{{ route('inquiry.read', ['slug' => $inquiry->slug]) }}">{!! $inquiry->name !!}</a></li>
                             @endforeach
-                            <li class="{{ Request::is('artikel*') ? 'current-nav' : '' }}"><a href="{{route('artikel.list')}}">Artikel</a></li>
-                            <li><a href="kontak.html">Kontak</a></li>
                         </ul>
                     </nav>
                     <div class="navigation-burger">

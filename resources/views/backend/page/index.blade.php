@@ -123,7 +123,7 @@
                         <a href="{{ route('page.create', ['parent' => $item->id]) }}" class="btn icon-btn btn-sm btn-success" title="klik untuk menambah page">
                             <i class="las la-plus"></i>
                         </a>
-                        <a href="{{ route('page.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-sm btn-primary" title="klik untuk mengedit page page">
+                        <a href="{{ route('page.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-sm btn-primary" title="klik untuk mengedit page">
                             <i class="las la-pen"></i>
                         </a>
                         <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-sm btn-danger js-sa2-delete" title="klik untuk menghapus page">

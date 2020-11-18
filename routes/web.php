@@ -20,8 +20,14 @@ Route::get('/', 'HomeController@index')
     ->name('home');
 
 //pages
-Route::get('/page/{id}/{slug}', 'PageController@read')
+Route::get('/content/page/{id}/{slug}', 'PageController@read')
     ->name('page.read');
+
+//artikel
+Route::get('/content/artikel/list', 'ArtikelController@list')
+    ->name('artikel.list');
+Route::get('/content/artikel/{id}/{slug}', 'ArtikelController@read')
+    ->name('artikel.read');
 
 //inquiry
 Route::get('inquiry/{slug}', 'InquiryController@read')
@@ -532,13 +538,34 @@ Route::group(['middleware' => ['auth']], function () {
 
     /** Artikel dan Component nya */
     // Artikel
-    Route::get('/artikel','ArtikelController@list')->name('artikel.list');
-    Route::get('/artikel/manage','ArtikelController@index')->name('artikel.index');
-    Route::get('/artikel/create','ArtikelController@create')->name('artikel.create');
-    Route::get('/artikel/{id}/{slug}','ArtikelController@show')->name('artikel.show');
-    Route::get('/artikel/{id}','ArtikelController@edit')->name('artikel.edit');
-    Route::post('/artikel','ArtikelController@store')->name('artikel.store');
-    Route::delete('/artikel/{id}','ArtikelController@destroy')->name('artikel.destroy');
+    Route::get('/artikel', 'ArtikelController@index')
+        ->name('artikel.index')
+        ->middleware('role:developer|administrator');
+    Route::get('/artikel/create', 'ArtikelController@create')
+        ->name('artikel.create')
+        ->middleware('role:developer|administrator');
+    Route::post('/artikel', 'ArtikelController@store')
+        ->name('artikel.store')
+        ->middleware('role:developer|administrator');
+    Route::get('/artikel/{id}/edit', 'ArtikelController@edit')
+        ->name('artikel.edit')
+        ->middleware('role:developer|administrator');
+    Route::put('/artikel/{id}', 'ArtikelController@update')
+        ->name('artikel.update')
+        ->middleware('role:developer|administrator');
+    Route::put('/artikel/{id}/publish', 'ArtikelController@publish')
+        ->name('artikel.publish')
+        ->middleware('role:developer|administrator');
+    Route::delete('/artikel/{id}', 'ArtikelController@destroy')
+        ->name('artikel.destroy')
+        ->middleware('role:developer|administrator');
+    // Route::get('/artikel','ArtikelController@list')->name('artikel.list');
+    // Route::get('/artikel/manage','ArtikelController@index')->name('artikel.index');
+    // Route::get('/artikel/create','ArtikelController@create')->name('artikel.create');
+    // Route::get('/artikel/{id}/{slug}','ArtikelController@show')->name('artikel.show');
+    // Route::get('/artikel/{id}','ArtikelController@edit')->name('artikel.edit');
+    // Route::post('/artikel','ArtikelController@store')->name('artikel.store');
+    // Route::delete('/artikel/{id}','ArtikelController@destroy')->name('artikel.destroy');
 
     // Komentar
     Route::get('/komentar','Component\KomentarController@index')->name('komentar.index');

@@ -13,25 +13,31 @@ class Artikel extends Model
     protected $guarded = [];
 
     protected $casts = [
+        'cover' => 'array',
         'meta_data' => 'array',
     ];
 
-    public function user(){
-        return $this->belongsTo(User::class,'created_by');
+    public function userCreated()
+    {
+        return $this->belongsTo(User::class, 'created_by');
     }
-    public function userUpdate(){
-        return $this->belongsTo(User::class,'updated_by');
+
+    public function userUpdated()
+    {
+        return $this->belongsTo(User::class, 'updated_by');
     }
+
     public function getCover($value)
     {
         if (!empty($value)) {
-            $photo = asset($value);
+            $photo = asset(config('addon.images.path.cover').$value);
         } else {
-            $photo = asset(config('addon.images.artikel_default_cover'));
+            $photo = asset(config('addon.images.cover_article'));
         }
 
         return $photo;
     }
+
     public function tags()
     {
         return $this->morphMany(TagsTipe::class, 'tagable');

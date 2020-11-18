@@ -1,6 +1,6 @@
 @php
     $masterOpen = (Request::is('instansi/internal*') || Request::is('instansi/mitra*') || Request::is('user*') || Request::is('internal*') || Request::is('mitra*') ||
-                    Request::is('instruktur*') || Request::is('peserta*') || Request::is('grades*'));
+                    Request::is('instruktur*') || Request::is('peserta*') || Request::is('grades*') || Request::is('tags*') || Request::is('kometar*'));
     $userOpen = (Request::is('user*') || Request::is('internal*') || Request::is('mitra*') ||
                     Request::is('instruktur*') || Request::is('peserta*'));
     $course = (Request::is('program*') || Request::is('mata*') || Request::is('materi*') || Request::is('course*'));
@@ -111,6 +111,16 @@
                         </li>
                     </ul>
                 </li>
+                <li class="sidenav-item{{ Request::is('tags*') ? ' active' : '' }}">
+                    <a href="{{ route('tags.index') }}" class="sidenav-link">
+                      <div>Tags</div>
+                    </a>
+                </li>
+                <li class="sidenav-item{{ Request::is('komentar*') ? ' active' : '' }}">
+                    <a href="{{ route('komentar.index') }}" class="sidenav-link">
+                      <div>Komentar</div>
+                    </a>
+                </li>
                 @endrole
             </ul>
         </li>
@@ -175,18 +185,46 @@
         </li>
         @endrole
 
-        @role ('developer|administrator')
         <li class="sidenav-item">
-            <a href="{{route('tags.index')}}" class="sidenav-link"><i class="sidenav-icon las la-tags"></i>
-              <div>Tags</div>
+            <a href="" class="sidenav-link"><i class="sidenav-icon las la-handshake"></i>
+              <div>Kemitraan</div>
             </a>
         </li>
         <li class="sidenav-item">
-            <a href="{{route('komentar.index')}}" class="sidenav-link"><i class="sidenav-icon las la-comment"></i>
-              <div>Komentar</div>
+            <a href="" class="sidenav-link"><i class="sidenav-icon las la-certificate"></i>
+              <div>Sertifikasi</div>
+            </a>
+        </li>
+        <li class="sidenav-item">
+            <a href="" class="sidenav-link"><i class="sidenav-icon las la-bullhorn"></i>
+              <div>Announcement</div>
+            </a>
+        </li>
+        <li class="sidenav-item">
+            <a href="javascript:void(0)" class="sidenav-link sidenav-toggle"><i class="sidenav-icon las la-street-view"></i>
+              <div>Aktivitas</div>
+            </a>
+
+            <ul class="sidenav-menu">
+              <li class="sidenav-item">
+                  <a href="" class="sidenav-link">
+                    <div>Statistik</div>
+                  </a>
+              </li>
+              <li class="sidenav-item">
+                  <a href="" class="sidenav-link">
+                    <div>Log</div>
+                  </a>
+              </li>
+            </ul>
+        </li>
+        <li class="sidenav-item">
+            <a href="" class="sidenav-link"><i class="sidenav-icon las la-calendar-day"></i>
+              <div>Report</div>
             </a>
         </li>
 
+        @role ('developer|administrator')
         <li class="sidenav-divider mb-1"></li>
         <li class="sidenav-header small font-weight-semibold">WEBSITE</li>
 
@@ -195,8 +233,8 @@
               <div>Pages</div>
             </a>
         </li>
-        <li class="sidenav-item">
-            <a href="{{route('artikel.index')}}" class="sidenav-link"><i class="sidenav-icon las la-newspaper"></i>
+        <li class="sidenav-item{{ (Request::is('artikel*')) ? ' active' : '' }}">
+            <a href="{{ route('artikel.index') }}" class="sidenav-link"><i class="sidenav-icon las la-newspaper"></i>
               <div>Artikel</div>
             </a>
         </li>

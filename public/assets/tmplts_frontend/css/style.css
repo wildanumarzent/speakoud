@@ -697,7 +697,7 @@ article img[style="float: left;"] {
 }
 .logo-signbox h5 {
   position: relative;
-  font-family: "product sans";
+  font-family: "Open Sans Condensed", sans-serif;
   color: #fff;
 }
 .logo-signbox h5:after {
