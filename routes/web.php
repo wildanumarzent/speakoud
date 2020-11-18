@@ -52,6 +52,9 @@ Route::get('course/{id}/bahan/{bahanId}/{tipe}', 'Course\Bahan\BahanController@v
 Route::get('forum/{id}/topik/create', 'Course\Bahan\BahanForumController@createTopik')
     ->name('forum.topik.create')
     ->middleware('auth');
+Route::get('forum/{id}/topik/{topikId}/room', 'Course\Bahan\BahanForumController@room')
+    ->name('forum.topik.room')
+    ->middleware('auth');
 Route::post('forum/{id}/topik', 'Course\Bahan\BahanForumController@storeTopik')
     ->name('forum.topik.store')
     ->middleware('auth');
@@ -61,6 +64,9 @@ Route::put('/forum/{id}/topik/{topikId}/pin', 'Course\Bahan\BahanForumController
 Route::put('/forum/{id}/topik/{topikId}/lock', 'Course\Bahan\BahanForumController@lockTopik')
     ->name('forum.topik.lock')
     ->middleware('auth');
+Route::get('/forum/{id}/topik/{topikId}/star', 'Course\Bahan\BahanForumController@starTopik')
+    ->name('forum.topik.star')
+    ->middleware('role:peserta_internal|peserta_mitra');
 
 /**
  * authentication
@@ -125,22 +131,22 @@ Route::group(['middleware' => ['auth']], function () {
     //instansi mitra
     Route::get('/instansi/mitra', 'Instansi\InstansiMitraController@index')
         ->name('instansi.mitra.index')
-        ->middleware('role:developer|administrator');
+        ->middleware('role:developer|administrator|internal');
     Route::get('/instansi/mitra/create', 'Instansi\InstansiMitraController@create')
         ->name('instansi.mitra.create')
-        ->middleware('role:developer|administrator');
+        ->middleware('role:developer|administrator|internal');
     Route::post('/instansi/mitra', 'Instansi\InstansiMitraController@store')
         ->name('instansi.mitra.store')
-        ->middleware('role:developer|administrator');
+        ->middleware('role:developer|administrator|internal');
     Route::get('/instansi/mitra/{id}/edit', 'Instansi\InstansiMitraController@edit')
         ->name('instansi.mitra.edit')
-        ->middleware('role:developer|administrator');
+        ->middleware('role:developer|administrator|internal');
     Route::put('/instansi/mitra/{id}', 'Instansi\InstansiMitraController@update')
         ->name('instansi.mitra.update')
-        ->middleware('role:developer|administrator');
+        ->middleware('role:developer|administrator|internal');
     Route::delete('/instansi/mitra/{id}', 'Instansi\InstansiMitraController@destroy')
         ->name('instansi.mitra.destroy')
-        ->middleware('role:developer|administrator');
+        ->middleware('role:developer|administrator|internal');
 
     //users
     Route::get('/user', 'Users\UserController@index')
@@ -203,7 +209,7 @@ Route::group(['middleware' => ['auth']], function () {
         ->middleware('role:developer|administrator|internal');
     Route::delete('/mitra/{id}', 'Users\MitraController@destroy')
         ->name('mitra.destroy')
-        ->middleware('role:developer|administrator');
+        ->middleware('role:developer|administrator|internal');
 
     //instruktur
     Route::get('/instruktur', 'Users\InstrukturController@index')

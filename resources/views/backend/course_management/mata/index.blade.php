@@ -51,6 +51,7 @@
         <div class="card-body d-flex justify-content-between align-items-start pb-1">
           <div>
             <a href="{{ route('materi.index', ['id' => $item->id]) }}" class="text-body text-big font-weight-semibold" title="{!! $item->judul !!}">{!! Str::limit($item->judul, 80) !!}</a>
+            <a href="{{ route('course.detail', ['id' => $item->id]) }}" title="detail course"><i class="las la-external-link-alt"></i></a>
           </div>
           <div class="btn-group project-actions dropdown">
             <button type="button" class="btn btn-sm btn-default icon-btn dropdown-toggle hide-arrow  btn-toggle-radius" data-toggle="dropdown" aria-expanded="false">

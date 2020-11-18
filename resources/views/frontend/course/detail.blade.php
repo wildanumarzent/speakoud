@@ -159,6 +159,10 @@
                     @foreach ($number as $i)
                         <i class="fa{{ (floor($data['read']->rating->where('rating', '>', 0)->avg('rating')) >= $i)? 's' : 'r' }} fa-star text-warning" style="font-size: 1.8em;"></i>
                     @endforeach
+                    @else
+                    @foreach ($number as $i)
+                        <i class="far fa-star text-warning" style="font-size: 1.8em;"></i>
+                    @endforeach
                     @endif
                     @endrole
                 </div>

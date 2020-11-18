@@ -217,7 +217,7 @@
                           @enderror
                         </div>
                         <div class="col-md-1">
-                            <a href="{{ route('mitra.create') }}" class="btn btn-primary" title="klik untuk menambah mitra"><i class="las la-plus"></i> Tambah</a>
+                            <a href="{{ route('mitra.create') }}" class="btn btn-primary icon-btn" title="klik untuk menambah mitra"><i class="las la-plus"></i></a>
                         </div>
                     </div>
                     @endif
@@ -234,7 +234,7 @@
                             value="{{ old('password') }}" placeholder="masukan password...">
                           <div class="input-group-append">
                             <span toggle="#password-field" class="input-group-text toggle-password fas fa-eye"></span>
-                            <span class="btn btn-warning ml-2" id="generate"><i class="las la-recycle"></i> Generate Password</span>
+                            <span class="btn btn-warning ml-2" id="generate">Generate Password</span>
                           </div>
                           @include('components.field-error', ['field' => 'password'])
                           </div>

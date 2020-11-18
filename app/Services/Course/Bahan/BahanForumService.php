@@ -5,21 +5,24 @@ namespace App\Services\Course\Bahan;
 use App\Models\Course\Bahan\BahanForum;
 use App\Models\Course\Bahan\BahanForumTopik;
 use App\Models\Course\Bahan\BahanForumTopikDiskusi;
+use App\Models\Course\Bahan\BahanForumTopikStar;
 use Illuminate\Support\Str;
 
 class BahanForumService
 {
-    private $model, $modelTopik, $modelDiskusi;
+    private $model, $modelTopik, $modelDiskusi, $modelStar;
 
     public function __construct(
         BahanForum $model,
         BahanForumTopik $modelTopik,
-        BahanForumTopikDiskusi $modelDiskusi
+        BahanForumTopikDiskusi $modelDiskusi,
+        BahanForumTopikStar $modelStar
     )
     {
         $this->model = $model;
         $this->modelTopik = $modelTopik;
         $this->modelDiskusi = $modelDiskusi;
+        $this->modelStar = $modelStar;
     }
 
     public function findForum(int $id)
@@ -109,5 +112,30 @@ class BahanForumService
         $topik->save();
 
         return $topik;
+    }
+
+    public function starTopik(int $forumId, int $id)
+    {
+        $check = $this->modelStar->where('forum_id', $forumId)->where('topik_id', $id)
+            ->where('user_id', auth()->user()->id);
+
+        if ($check->count() == 0) {
+
+            $star = new BahanForumTopikStar;
+            $star->forum_id = $forumId;
+            $star->topik_id = $id;
+            $star->user_id = auth()->user()->id;
+            $star->save();
+
+            return $star;
+
+        } else {
+
+            $star = $check->first();
+            $star->delete();
+
+            return $star;
+        }
+
     }
 }

@@ -8,22 +8,25 @@ use App\Services\Course\Bahan\BahanForumService;
 use App\Services\Course\Bahan\BahanService;
 use App\Services\Course\MataService;
 use App\Services\Course\MateriService;
+use App\Services\Course\ProgramService;
 use Illuminate\Http\Request;
 
 class BahanController extends Controller
 {
-    private $service, $serviceMateri, $serviceMata, $serviceBahanForum;
+    private $service, $serviceMateri, $serviceMata, $serviceProgram, $serviceBahanForum;
 
     public function __construct(
         BahanService $service,
         MateriService $serviceMateri,
         MataService $serviceMata,
+        ProgramService $serviceProgram,
         BahanForumService $serviceBahanForum
     )
     {
         $this->service = $service;
         $this->serviceMateri = $serviceMateri;
         $this->serviceMata = $serviceMata;
+        $this->serviceProgram = $serviceProgram;
         $this->serviceBahanForum = $serviceBahanForum;
     }
 
@@ -68,6 +71,9 @@ class BahanController extends Controller
         if ($tipe == 'forum') {
             $data['topik'] = $this->serviceBahanForum->getTopikList($data['bahan']->forum->id);
         }
+
+        $this->serviceProgram->checkInstruktur($data['mata']->program_id);
+        $this->serviceProgram->checkPeserta($data['mata']->program_id);
 
         return view('frontend.course.bahan.'.$tipe, compact('data'), [
             'title' => 'Course - Bahan',
@@ -117,6 +123,8 @@ class BahanController extends Controller
         $data['bahan'] = $this->service->findBahan($id);
         $data['materi'] = $this->serviceMateri->findMateri($materiId);
 
+        $this->checkCreator($data['bahan']->creator_id);
+
         return view('backend.course_management.bahan.tipe.'.$request->type, compact('data'), [
             'title' => 'Bahan Pelatihan - Edit',
             'breadcrumbsBackend' => [
@@ -131,6 +139,9 @@ class BahanController extends Controller
 
     public function update(BahanRequest $request, $materiId, $id)
     {
+        $bahan = $this->service->findBahan($id);
+        $this->checkCreator($bahan->creator_id);
+
         $this->service->updateBahan($request, $id);
 
         return redirect()->route('bahan.index', ['id' => $materiId])
@@ -139,6 +150,9 @@ class BahanController extends Controller
 
     public function publish($materiId, $id)
     {
+        $bahan = $this->service->findBahan($id);
+        $this->checkCreator($bahan->creator_id);
+
         $this->service->publishBahan($id);
 
         return redirect()->back()->with('success', 'Status berhasil diubah');
@@ -163,11 +177,23 @@ class BahanController extends Controller
 
     public function destroy($materiId, $id)
     {
+        $bahan = $this->service->findBahan($id);
+        $this->checkCreator($bahan->creator_id);
+
         $this->service->deleteBahan($id);
 
         return response()->json([
             'success' => 1,
             'message' => ''
         ], 200);
+    }
+
+    public function checkCreator($creatorId)
+    {
+        if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra')) {
+            if ($creatorId != auth()->user()->id) {
+                return abort(404);
+            }
+        }
     }
 }

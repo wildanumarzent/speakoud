@@ -42,7 +42,7 @@ class MataController extends Controller
         $data['program'] = $this->serviceProgram->findProgram($programId);
         $data['check_role'] = auth()->user()->hasRole('developer|administrator|internal|mitra');
 
-        $this->checkTypeRole($data['program']);
+        $this->serviceProgram->checkInstruktur($programId);
 
         return view('backend.course_management.mata.index', compact('data'), [
             'title' => 'Program - Mata Pelatihan',
@@ -75,6 +75,9 @@ class MataController extends Controller
             return abort(404);
         }
 
+        $this->serviceProgram->checkInstruktur($data['read']->program->id);
+        $this->serviceProgram->checkPeserta($data['read']->program->id);
+
         return view('frontend.course.detail', compact('data'), [
             'title' => $data['read']->judul,
             'breadcrumbsBackend' => [
@@ -90,7 +93,7 @@ class MataController extends Controller
         $data['program'] = $this->serviceProgram->findProgram($programId);
         $data['instruktur'] = $this->serviceInstruktur->getInstrukturForMata($data['program']->tipe);
 
-        $this->checkTypeRole($data['program']);
+        $this->serviceProgram->checkInstruktur($programId);
 
         return view('backend.course_management.mata.form', compact('data'), [
             'title' => 'Mata Pelatihan - Tambah',
@@ -104,8 +107,7 @@ class MataController extends Controller
 
     public function store(MataRequest $request, $programId)
     {
-        $program = $this->serviceProgram->findProgram($programId);
-        $this->checkTypeRole($program);
+        $this->serviceProgram->checkInstruktur($programId);
 
         $this->service->storeMata($request, $programId);
 
@@ -125,7 +127,7 @@ class MataController extends Controller
         })->all();
 
         if (auth()->user()->hasRole('mitra')) {
-            $this->checkCreatorMitra($data['mata']->creator_id);
+            $this->checkCreator($data['mata']->creator_id);
         }
 
         return view('backend.course_management.mata.form', compact('data'), [
@@ -142,7 +144,7 @@ class MataController extends Controller
     {
         if (auth()->user()->hasRole('mitra')) {
             $mata = $this->service->findMata($id);
-            $this->checkCreatorMitra($mata->creator_id);
+            $this->checkCreator($mata->creator_id);
         }
 
         $this->service->updateMata($request, $id);
@@ -155,7 +157,7 @@ class MataController extends Controller
     {
         if (auth()->user()->hasRole('mitra')) {
             $mata = $this->service->findMata($id);
-            $this->checkCreatorMitra($mata->creator_id);
+            $this->checkCreator($mata->creator_id);
         }
 
         $this->service->publishMata($id);
@@ -167,7 +169,7 @@ class MataController extends Controller
     {
         if (auth()->user()->hasRole('mitra')) {
             $mata = $this->service->findMata($id);
-            $this->checkCreatorMitra($mata->creator_id);
+            $this->checkCreator($mata->creator_id);
         }
 
         $this->service->positionMata($id, $urutan);
@@ -179,7 +181,7 @@ class MataController extends Controller
     {
         if (auth()->user()->hasRole('mitra')) {
             $mata = $this->service->findMata($id);
-            $this->checkCreatorMitra($mata->creator_id);
+            $this->checkCreator($mata->creator_id);
         }
 
         $i = 0;
@@ -204,7 +206,7 @@ class MataController extends Controller
     {
         if (auth()->user()->hasRole('mitra')) {
             $mata = $this->service->findMata($id);
-            $this->checkCreatorMitra($mata->creator_id);
+            $this->checkCreator($mata->creator_id);
         }
 
         $this->service->deleteMata($id);
@@ -215,22 +217,7 @@ class MataController extends Controller
         ], 200);
     }
 
-    public function checkTypeRole($tipe)
-    {
-        if (auth()->user()->hasRole('mitra|instruktur_mitra')) {
-            if ($tipe->tipe == 0) {
-                return abort(404);
-            }
-
-            if (auth()->user()->hasRole('mitra') && $tipe->mitra_id
-                != auth()->user()->mitra->id || auth()->user()->hasRole('instruktur_mitra')
-                && $tipe->mitra_id != auth()->user()->instruktur->mitra_id) {
-                return abort(404);
-            }
-        }
-    }
-
-    public function checkCreatorMitra($creatorId)
+    public function checkCreator($creatorId)
     {
         if ($creatorId != auth()->user()->id) {
             return abort(404);

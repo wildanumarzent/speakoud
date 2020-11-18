@@ -19,7 +19,7 @@
     <div class="card-header with-elements">
         <div class="card-header-elements">
             <div class="file-manager-container file-manager-col-view" style="background-color: #fff !important">
-                <form action="{{ route('bank.data.filemanager', ['path' => Request::get('path')]) }}" method="GET">
+                <form action="{{ route('bank.data.filemanager', ['type' => Request::get('type-file'), 'view' => Request::get('view'), 'path' => Request::get('path')]) }}" method="GET">
                     <div class="input-group">
                         @if (Request::get('path') != null)
                             <input type="hidden" name="path" value="{{ Request::get('path') }}">
@@ -59,7 +59,7 @@
         @endif
         @foreach ($data['directories'] as $key => $value)
         <div class="file-item">
-            <a href="{{ route('bank.data', ['type' => Request::segment(3), 'path' => $value['path']]) }}">
+            <a href="{{ route('bank.data.filemanager', ['type' => Request::get('type-file'), 'view' => Request::get('view'), 'path' => $value['path']]) }}">
                 <div class="file-item-icon las la-folder-open text-secondary"></div>
                 <div class="file-item-name">
                     {{ $value['name'] }}
