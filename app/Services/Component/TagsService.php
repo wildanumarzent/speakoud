@@ -4,8 +4,6 @@ namespace App\Services\Component;
 
 use App\Models\Component\Tags;
 use App\Models\Component\TagsTipe;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Hash;
 class TagsService
 {
 
@@ -65,6 +63,20 @@ class TagsService
         $query = $this->tagsTipe->query();
         $query->where('tagable_id',$model->tagable_id)->where('tagable_type',$model->tagable_type)->get();
         $query->delete();
+    }
+
+    public function update($request)
+    {
+        $tags = $this->tags->query();
+        $tags->findorFail($request->id);
+        $tags->update($request->only(['keterangan','standar','pantas','related']));
+        return true;
+    }
+
+    public function destroy($id){
+        $tags = $this->tags->findorFail($id);
+        $tags->delete();
+        return $tags;
     }
 
 

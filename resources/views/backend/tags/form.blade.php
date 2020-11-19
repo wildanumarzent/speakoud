@@ -1,9 +1,22 @@
+@extends('layouts.backend.layout')
 
-<div class="modal fade" id="modals-tags">
-    <div class="modal-dialog">
-      <form class="modal-content" action="{{ route('tags.store') }}" method="POST">
+@section('styles')
+<script src="{{ asset('assets/tmplts_backend/wysiwyg/tinymce.min.js') }}"></script>
+<script src="{{ asset('assets/tmplts_backend/admin.js') }}"></script>
+<link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-tagsinput/bootstrap-tagsinput.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/tmplts_backend/fancybox/fancybox.min.css') }}">
+@endsection
+
+@section('content')
+<div class="card">
+    <h6 class="card-header">
+      Form Tags
+    </h6>
+    <form class="modal-content" action="{{ route('tags.update') }}" method="post">
+        @method('PUT')
         @csrf
-        <input type="hidden" name="id" value="" id="id">
+        <input type="hidden" name="id" value="{{$data['tags']->id}}">
+
         <div class="modal-header">
           <h5 class="modal-title">
             Tags
@@ -16,7 +29,7 @@
           <div class="form-row">
             <div class="form-group col">
               <label class="form-label">Keterangan</label>
-              <textarea class="form-control @error('keterangan') is-invalid @enderror tiny" rows="3" name="keterangan" id="keterangan">{{ old('keterangan') }}</textarea>
+              <textarea class="form-control @error('keterangan') is-invalid @enderror" rows="3" name="keterangan" id="keterangan">{!!$data['tags']->keterangan!!}</textarea>
               @include('components.field-error', ['field' => 'keterangan'])
             </div>
             </div>
@@ -27,11 +40,11 @@
                       <div class="col-sm-5">
                         <div class="custom-controls-stacked">
                           <label class="custom-control custom-radio">
-                            <input name="standar" type="radio" class="custom-control-input" checked="">
+                            <input name="standar" type="radio" class="custom-control-input" value="1" @if($data['tags']->standar == 1) checked="true" @endif>
                             <span class="custom-control-label">Ya</span>
                           </label>
                           <label class="custom-control custom-radio">
-                            <input name="standar" type="radio" class="custom-control-input">
+                            <input name="standar" type="radio" class="custom-control-input" value="0" @if($data['tags']->standar == 0) checked="true" @endif>
                             <span class="custom-control-label">Tidak</span>
                           </label>
                         </div>
@@ -46,11 +59,11 @@
                   <div class="col-sm-5">
                     <div class="custom-controls-stacked">
                       <label class="custom-control custom-radio">
-                        <input name="pantas" type="radio" class="custom-control-input" checked="">
+                        <input name="pantas" type="radio" class="custom-control-input" value="1" @if($data['tags']->pantas == 1) checked="true" @endif>
                         <span class="custom-control-label">Ya</span>
                       </label>
                       <label class="custom-control custom-radio">
-                        <input name="pantas" type="radio" class="custom-control-input">
+                        <input name="pantas" type="radio" class="custom-control-input" value="0" @if($data['tags']->pantas == 0) checked="true" @endif>
                         <span class="custom-control-label">Tidak</span>
                       </label>
                     </div>
@@ -63,7 +76,7 @@
             <div class="form-row">
             <div class="form-group col">
                 <label class="form-label">Related</label>
-                <textarea class="form-control @error('related') is-invalid @enderror" rows="3" name="related">{{ old('related') }}</textarea>
+                <textarea class=" form-control @error('related') is-invalid @enderror" rows="3" name="related">{{ $data['tags']->related }}</textarea>
                 @include('components.field-error', ['field' => 'related'])
               </div>
             </div>
@@ -74,5 +87,22 @@
           <button type="submit" class="btn btn-primary">Simpan</button>
         </div>
       </form>
-    </div>
 </div>
+@endsection
+
+@section('scripts')
+<script src="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-tagsinput/bootstrap-tagsinput.js') }}"></script>
+<script src="{{ asset('assets/tmplts_backend/fancybox/fancybox.min.js') }}"></script>
+@endsection
+
+@section('jsbody')
+<script>
+// Bootstrap Tagsinput
+$(function() {
+
+  $('#tags').tagsinput({ tagClass: 'badge badge-primary' });
+});
+</script>
+@include('includes.tiny-mce-with-fileman')
+@include('components.toastr')
+@endsection

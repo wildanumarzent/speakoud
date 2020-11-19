@@ -616,9 +616,9 @@ Route::group(['middleware' => ['auth']], function () {
 
      // Tags
      Route::get('/tags','Component\TagsController@index')->name('tags.index');
-     Route::get('/tags/create','Component\TagsController@index')->name('tags.create');
-     Route::get('/tags/{id}','Component\TagsController@detail')->name('tags.edit');
+     Route::get('/tags/{tags}','Component\TagsController@edit')->name('tags.edit');
      Route::post('/tags','Component\TagsController@store')->name('tags.store');
+     Route::put('/tags','Component\TagsController@update')->name('tags.update');
      Route::delete('/tags/{id}','Component\TagsController@destroy')->name('tags.destroy');
 
     /** Frontend Component */

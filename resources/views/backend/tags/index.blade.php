@@ -34,7 +34,7 @@
 
     </div>
     <div class="table-responsive table-mobile-responsive">
-        <table id="user-list" class="table card-table table-striped table-bordered table-hover">
+        <table class="table card-table table-striped table-bordered table-hover">
             <thead>
                 <tr>
                     <th style="width: 10px;">No</th>
@@ -231,7 +231,7 @@
                 if (response.value.success) {
                     Swal.fire({
                         type: 'success',
-                        text: 'User tags berhasil dihapus'
+                        text: 'Tags berhasil dihapus'
                     }).then(() => {
                         window.location.reload();
                     })
