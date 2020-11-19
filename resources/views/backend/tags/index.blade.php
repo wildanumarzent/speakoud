@@ -72,7 +72,7 @@
                     <td >{{ $item->created_at->format('d F Y - (H:i)') }}</td>
                     <td >{{ $item->updated_at->format('d F Y - (H:i)') }}</td>
                     <td >
-                        <a href="javascript:;" class="btn icon-btn btn-info btn-sm" title="klik untuk mengedit tags" data-toggle="modal" data-target="#modals-tags">
+                        <a href="{{route('tags.edit',['tags' => $item->id])}}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengedit tags">
                                 <i class="las la-pen"></i>
                         </a>
                         <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus tags" data-toggle="tooltip">

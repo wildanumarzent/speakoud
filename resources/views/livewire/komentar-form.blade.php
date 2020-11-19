@@ -11,7 +11,6 @@
             <div class="card">
                 <div class="card-body">
                 <div class="row">
-
                     <div class="col-md-2">
                         <img src="https://i.pinimg.com/originals/20/4a/c2/204ac2d176b028b2a40638fb7f61039b.jpg" alt="userfoto" style="border-radius: 15px; width:70px;height:70px;object-fit:cover">
                         <label>{{$komentar->user->name}}</label>
