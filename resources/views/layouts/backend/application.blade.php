@@ -82,7 +82,7 @@
     <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/toastr/toastr.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/spinkit/spinkit.css') }}">
     @yield('styles')
-
+    @livewireStyles
 </head>
 <body class="alsen">
 
@@ -107,8 +107,6 @@
             </div>
         </div>
     </div>
-
-    {{-- @livewireStyles --}}
     @yield('layout-content')
 
     <!-- Core scripts -->
@@ -170,8 +168,9 @@
 		});
     </script>
 
-    {{-- @livewireScripts --}}
+
     @yield('jsbody')
+    @livewireScripts
 
 </body>
 </html>
