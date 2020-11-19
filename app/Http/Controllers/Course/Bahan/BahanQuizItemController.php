@@ -11,11 +11,15 @@ use Illuminate\Http\Request;
 
 class BahanQuizItemController extends Controller
 {
-    private $service;
+    private $service, $serviceQuiz;
 
-    public function __construct(BahanQuizItemService $service)
+    public function __construct(
+        BahanQuizItemService $service,
+        BahanQuizService $serviceQuiz
+    )
     {
         $this->service = $service;
+        $this->serviceQuiz = $serviceQuiz;
     }
 
     public function index(Request $request, $quizId)
@@ -46,6 +50,50 @@ class BahanQuizItemController extends Controller
                 'Materi' => route('materi.index', ['id' => $data['quiz']->mata_id]),
                 'Bahan' => route('bahan.index', ['id' => $data['quiz']->materi_id]),
                 'Soal Quiz' => '',
+            ],
+        ]);
+    }
+
+    public function room($quizId)
+    {
+        $data['quiz'] = $this->service->findQuiz($quizId);
+
+        if ($data['quiz']->trackUserIn()->count() == 0) {
+            $this->serviceQuiz->trackUserIn($quizId);
+            return redirect()->route('quiz.room', ['id' => $quizId]);
+        }
+        if (!empty($data['quiz']->trackUserIn) && !empty($data['quiz']->durasi)) {
+            $start = $data['quiz']->trackUserIn->start_time->addMinutes($data['quiz']->durasi);
+            $now = now()->format('is');
+            $kurang = $start->diffInSeconds(now());
+            $menit = floor($kurang/60);
+            $detik = $kurang-($menit*60);
+            $data['countdown'] = $menit.':'.$detik;
+
+            if (now()->format('Y-m-d H:i:s') > $data['quiz']->trackUserIn->start_time->addMinutes($data['quiz']->durasi)->format('Y-m-d H:i:s')) {
+                return redirect()->route('course.bahan', ['id' => $data['quiz']->mata_id, 'bahanId' => $data['quiz']->bahan_id, 'tipe' => 'quiz'])
+                    ->with('warning', 'Durasi sudah habis');
+            }
+        }
+
+        $collectSoal = collect($data['quiz']->trackItem);
+        $soalId = $collectSoal->map(function($item, $key) {
+            return $item->quiz_item_id;
+        })->all();
+
+        $data['quiz_tracker'] = $this->service->getSoalQuizTracker($quizId);
+        $data['soal'] = $this->service->soalQuiz($quizId, $soalId);
+
+        return view('frontend.course.quiz.room-'.$data['quiz']->view, compact('data'), [
+            'title' => 'Quiz - Test',
+            'breadcrumbsBackend' => [
+                'Forum' => route('course.bahan', [
+                    'id' => $data['quiz']->mata_id,
+                    'bahanId' => $data['quiz']->bahan_id,
+                    'tipe' => 'quiz'
+                ]),
+                'Quiz' => '',
+                'Test' => ''
             ],
         ]);
     }
@@ -111,6 +159,16 @@ class BahanQuizItemController extends Controller
 
         return redirect()->route('quiz.item', ['id' => $quizId])
             ->with('success', 'Soal Quiz berhasil diedit');
+    }
+
+    public function trackJawaban(Request $request, $quizId)
+    {
+        $this->service->trackJawaban($request, $quizId);
+
+        return response()->json([
+            'success' => 1,
+            'message' => ''
+        ], 200);
     }
 
     public function destroy($quizId, $id)

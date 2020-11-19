@@ -1,9 +1,13 @@
 @extends('frontend.course.bahan')
 
+@section('style')
+<script src="{{ asset('assets/tmplts_backend/wysiwyg/tinymce.min.js') }}"></script>
+@endsection
+
 @section('content-view')
-<a href="{{ route('forum.topik.create', ['id' => $data['bahan']->forum->id]) }}" class="btn btn-primary icon-btn-only-sm" title="klik untuk menambah topik">
+<button type="button" class="btn btn-primary icon-btn-only-sm" data-toggle="modal" data-target="#form-topik" title="klik untuk menambah topik">
     <i class="las la-plus"></i><span>Topik</span>
-</a>
+</button>
 
 <div class="card mb-1">
     <div class="card-header d-none d-md-block">
@@ -33,7 +37,7 @@
           </a>
           @else
           @if ($item->pin == 1)
-          <i class="las la-thumbtack" style="font-size: 1.2em;"></i>
+          <i class="las la-thumbtack" style="font-size: 1.2em;" title="Topik di pin"></i>
           @endif
           @endrole
           <a href="{{ route('forum.topik.room', ['id' => $item->forum_id, 'topikId' => $item->id]) }}" class="text-big">{!! $item->subject !!}</a>
@@ -80,4 +84,13 @@
     <hr class="m-0">
     @endif
 </div>
+
+@include('frontend.course.forum.modal-topik')
+@endsection
+
+@section('body')
+<script src="{{ asset('assets/tmplts_backend/js/ui_modals.js') }}"></script>
+<script src="{{ asset('assets/tmplts_backend/js/ui_tooltips.js') }}"></script>
+
+@include('includes.tiny-mce-with-fileman')
 @endsection

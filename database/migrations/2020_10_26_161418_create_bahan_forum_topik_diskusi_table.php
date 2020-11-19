@@ -22,6 +22,7 @@ class CreateBahanForumTopikDiskusiTable extends Migration
             $table->unsignedBigInteger('forum_id');
             $table->unsignedBigInteger('forum_topik_id');
             $table->unsignedBigInteger('user_id');
+            $table->integer('parent')->default(0);
             $table->text('message');
             $table->text('attachment')->nullable();
             $table->timestamps();

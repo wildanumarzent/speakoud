@@ -4,15 +4,21 @@ namespace App\Services\Course\Bahan;
 
 use App\Models\Course\Bahan\BahanQuiz;
 use App\Models\Course\Bahan\BahanQuizItem;
+use App\Models\Course\Bahan\BahanQuizItemTracker;
 
 class BahanQuizItemService
 {
-    private $model, $modelQuiz;
+    private $model, $modelQuiz, $modelTracker;
 
-    public function __construct(BahanQuizItem $model, BahanQuiz $modelQuiz)
+    public function __construct(
+        BahanQuizItem $model,
+        BahanQuiz $modelQuiz,
+        BahanQuizItemTracker $modelTracker
+        )
     {
         $this->model = $model;
         $this->modelQuiz = $modelQuiz;
+        $this->modelTracker = $modelTracker;
     }
 
     public function getItemList($request, int $quizId)
@@ -30,6 +36,31 @@ class BahanQuizItemService
         }
 
         $result = $query->paginate(20);
+
+        return $result;
+    }
+
+    public function getSoalQuizTracker(int $quizId)
+    {
+        $query = $this->modelTracker->query();
+
+        $query->where('quiz_id', $quizId)->where('user_id', auth()->user()->id);
+
+        $result = $query->orderBy('posisi', 'ASC')->get();
+
+        return $result;
+    }
+
+    public function soalQuiz(int $quizId, array $notIn = null)
+    {
+        $query = $this->model->query();
+
+        $query->where('quiz_id', $quizId);
+        if ($notIn != null) {
+            $query->whereNotIn('id', $notIn);
+        }
+
+        $result = $query->inRandomOrder()->get();
 
         return $result;
     }
@@ -86,9 +117,44 @@ class BahanQuizItemService
 
     public function deleteItem(int $id)
     {
-        $data = $this->findItem($id);
-        $data->delete();
+        $item = $this->findItem($id);
+        $item->delete();
 
-        return $data;
+        return $item;
+    }
+
+    public function trackJawaban($request, int $quizId)
+    {
+        $item = $this->findItem($request->id);
+
+        $benar = null;
+        if ($item->tipe_jawaban == 0) {
+            $benar = ($request->jawaban == $item->jawaban) ? 1 : 0;
+        }
+        if ($item->tipe_jawaban == 1) {
+            $jawaban = array_map('strtolower', $item->jawaban);
+            if (in_array(strtolower(str_replace(' ', '', $request->jawaban)),
+                str_replace(' ', '', $jawaban), true) == true) {
+                $benar = 1;
+            } else {
+                $benar = 0;
+            }
+        }
+
+        $tracker = $this->modelTracker->updateOrCreate([
+            'quiz_id' => $quizId,
+            'quiz_item_id' => $request->id,
+            'user_id' => auth()->user()->id,
+        ], [
+            'quiz_id' => $quizId,
+            'quiz_item_id' => $request->id,
+            'user_id' => auth()->user()->id,
+            'posisi' => $request->posisi,
+            'jawaban' => $request->jawaban ?? ' ',
+            'benar' => $benar ?? null,
+        ]);
+        $tracker->save();
+
+        return $tracker;
     }
 }

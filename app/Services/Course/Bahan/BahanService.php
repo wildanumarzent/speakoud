@@ -62,6 +62,27 @@ class BahanService
         return $result;
     }
 
+    public function bahanPrevNext(int $materiId, int $urutan, $type)
+    {
+        $query = $this->model->query();
+
+        $query->where('materi_id', $materiId);
+        $query->where('publish', 1);
+        if ($type == 'prev') {
+            $query->where('urutan', '<', $urutan);
+            $query->orderBy('urutan', 'DESC');
+        }
+
+        if ($type == 'next') {
+            $query->where('urutan', '>', $urutan);
+            $query->orderBy('urutan', 'ASC');
+        }
+
+        $result = $query->limit(1)->get();
+
+        return $result;
+    }
+
     public function findBahan(int $id)
     {
         return $this->model->findOrFail($id);

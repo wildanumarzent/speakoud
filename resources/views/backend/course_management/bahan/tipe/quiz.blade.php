@@ -28,4 +28,16 @@
         </select>
     </div>
 </div>
+<div class="form-group row">
+    <div class="col-md-2 text-md-right">
+      <label class="col-form-label text-sm-right">Tampilan</label>
+    </div>
+    <div class="col-md-10">
+        <select class="status custom-select form-control" name="view">
+            @foreach (config('addon.label.quiz_view') as $key => $value)
+            <option value="{{ $key }}" {{ isset($data['bahan']) ? (old('view', $data['bahan']->quiz->view) == ''.$key.'' ? 'selected' : '') : (old('view') == ''.$key.'' ? 'selected' : '') }}>{{ $value }}</option>
+            @endforeach
+        </select>
+    </div>
+</div>
 @endsection

@@ -42,4 +42,14 @@ class BahanQuiz extends Model
     {
         return $this->hasMany(BahanQuizItem::class, 'quiz_id');
     }
+
+    public function trackUserIn()
+    {
+        return $this->hasOne(BahanQuizUserTracker::class, 'quiz_id')->where('user_id', auth()->user()->id);
+    }
+
+    public function trackItem()
+    {
+        return $this->hasMany(BahanQuizItemTracker::class, 'quiz_id');
+    }
 }

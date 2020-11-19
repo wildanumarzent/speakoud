@@ -60,7 +60,7 @@
                 </div>
                 <div class="col-md-1">
                     <div class="col-md-1">
-                        <a href="{{ route('mitra.create') }}" class="btn btn-primary" title="klik untuk menambah mitra"><i class="las la-plus"></i> Tambah</a>
+                        <a href="{{ route('mitra.create') }}" class="btn btn-primary icon-btn" title="klik untuk menambah mitra"><i class="las la-plus"></i></a>
                     </div>
                 </div>
             </div>

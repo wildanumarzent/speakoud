@@ -66,7 +66,10 @@ class BahanController extends Controller
     {
         $data['mata'] = $this->serviceMata->findMata($mataId);
         $data['bahan'] = $this->service->findBahan($id);
+        $data['materi'] = $this->serviceMateri->findMateri($data['bahan']->materi_id);
         $data['jump'] = $this->service->bahanJump($id);
+        $data['prev'] = $this->service->bahanPrevNext($data['materi']->id, $data['bahan']->urutan, 'prev');
+        $data['next'] = $this->service->bahanPrevNext($data['materi']->id, $data['bahan']->urutan, 'next');
 
         if ($tipe == 'forum') {
             $data['topik'] = $this->serviceBahanForum->getTopikList($data['bahan']->forum->id);
