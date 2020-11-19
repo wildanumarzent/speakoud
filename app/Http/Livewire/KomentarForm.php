@@ -14,10 +14,20 @@ class KomentarForm extends Component
 
     public $comentdata,$model,$list;
 
-    public function mount(KomentarService $komentar,$model)
+    protected $listeners = [
+        'stored',
+    ];
+
+    public function stored(){
+        $this->comentdata = '';
+    }
+
+    public function mount(KomentarService $komentarService,$model)
     {
-        $this->komentar = $komentar;
+        $this->komentarService = $komentarService;
         $this->model = $model;
+
+
     }
 
 
@@ -39,9 +49,12 @@ class KomentarForm extends Component
             'commentable_type'=>$model['commentable_type'],
             'commentable_id'=>$model['commentable_id']
             ]);
-        $this->comentdata = '';
+            $this->emit('stored');
+
 
     }
+
+
 
 
 }
