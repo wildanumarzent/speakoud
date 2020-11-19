@@ -4,6 +4,7 @@ namespace App\Models\Component;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\Creator;
+use App\Models\Users\User;
 use App\Models\Component\TagsTipe;
 class Tags extends Model
 {
@@ -13,5 +14,9 @@ class Tags extends Model
 
     public function tagsTipe(){
         return $this->hasMany(TagsTipe::class,'tag_id');
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'creator_id');
     }
 }

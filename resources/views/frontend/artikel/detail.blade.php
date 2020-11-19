@@ -49,6 +49,10 @@
                 {!! $data['read']->content !!}
             </article>
         </div>
+
+        @livewire('komentar-form',['model' => $data['read']])
+
+
     </div>
 </div>
 <div class="box-wrap bg-grey">
@@ -83,6 +87,8 @@
                 </div>
             </div>
             @endforeach
+
+
 
             @if ($data['recent']->count() == 0)
             <div class="d-flex justify-content-center">

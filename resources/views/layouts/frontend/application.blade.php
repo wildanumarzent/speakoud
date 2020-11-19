@@ -72,7 +72,7 @@
         @yield('styles')
 
         {!! $configuration['google_analytics'] !!}
-
+        @livewireStyles
     </head>
 
 	<body>
@@ -97,7 +97,8 @@
 
 		<div id="page" class="@yield('classes')">
 			@yield('layout-content')
-		</div>
+        </div>
+        @livewireScripts
     </body>
 
 	<!-- jQuery.min.js -->

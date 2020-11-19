@@ -16,13 +16,13 @@ class CreateKomentarBalasanTable extends Migration
         Schema::create('komentar_balasan', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('komentar_id');
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('creator_id');
             $table->text('komentar');
             $table->timestamps();
 
             $table->foreign('komentar_id')->references('id')->on('komentar')
                 ->cascadeOnDelete();
-            $table->foreign('user_id')->references('id')->on('users')
+            $table->foreign('creator_id')->references('id')->on('users')
                 ->cascadeOnDelete();
         });
     }
