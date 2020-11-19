@@ -13,11 +13,6 @@ class KomentarForm extends Component
 
 
     public $comentdata,$model,$list;
-    protected $komentar;
-
-    protected $listeners = [
-        'stored',
-    ];
 
     public function mount(KomentarService $komentar,$model)
     {
@@ -28,8 +23,24 @@ class KomentarForm extends Component
 
     public function render()
     {
-        $this->list =  $this->komentar->getKomentar($this->model);
+        $komentar = new Komentar;
+        $model = $komentar->commentable()->associate($this->model);
+        $list = Komentar::where('commentable_id',$model['commentable_id'])->where('commentable_type',$model['commentable_type'])->orderby('created_at','desc')->get();
+        $this->list = $list;
         return view('livewire.komentar-form');
+    }
+
+    public function store()
+    {
+        $komentar = new Komentar;
+        $model = $komentar->commentable()->associate($this->model);
+        $query = Komentar::create([
+            'komentar' => $this->comentdata,
+            'commentable_type'=>$model['commentable_type'],
+            'commentable_id'=>$model['commentable_id']
+            ]);
+        $this->comentdata = '';
+
     }
 
 
