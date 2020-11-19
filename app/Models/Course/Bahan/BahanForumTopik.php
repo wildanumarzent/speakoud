@@ -64,4 +64,9 @@ class BahanForumTopik extends Model
         return $this->hasMany(BahanForumTopikStar::class, 'topik_id')
             ->where('user_id', auth()->user()->id);
     }
+
+    public function starUser()
+    {
+        return $this->hasMany(BahanForumTopikStar::class, 'topik_id');
+    }
 }

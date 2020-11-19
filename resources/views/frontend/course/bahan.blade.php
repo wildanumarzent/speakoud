@@ -3,6 +3,7 @@
 @section('styles')
 <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/select2/select2.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/fancybox/fancybox.min.css') }}">
+@yield('style')
 @endsection
 
 @section('content')
@@ -20,13 +21,25 @@
             <div class="card-footer">
                 <div class="row">
                     <div class="col-md-4">
-                        <a href="" class="btn btn-secondary" title="klik untuk kembali ke detail"><i class="las la-arrow-left"></i> Sebelumnya</a>
+                        @if ($data['bahan']->urutan > 1)
+                        @foreach ($data['prev'] as $prev)
+                        <a href="{{ route('course.bahan', ['id' => $prev->mata_id, 'bahanId' => $prev->id, 'tipe' => $prev->type($prev)['tipe']]) }}" class="btn btn-secondary" title="klik untuk ke materi sebelumnya"><i class="las la-arrow-left"></i> Sebelumnya</a>
+                        @endforeach
+                        @else
+                        <button type="button" class="btn btn-secondary" disabled><i class="las la-arrow-left"></i> Sebelumnya</button>
+                        @endif
                     </div>
                     <div class="col-md-4 text-center">
                         <a href="{{ route('course.detail', ['id' => $data['bahan']->mata_id]) }}" class="btn btn-danger" title="klik untuk kembali ke detail">Kembali</a>
                     </div>
                     <div class="col-md-4 text-right">
-                        <a href="" class="btn btn-secondary" title="klik untuk ke bahan selanjutnya">Selanjutnya <i class="las la-arrow-right" style="margin-left: 7px; margin-right: 0"></i></a>
+                        @if ($data['bahan']->urutan < $data['materi']->bahan()->count())
+                        @foreach ($data['next'] as $next)
+                        <a href="{{ route('course.bahan', ['id' => $next->mata_id, 'bahanId' => $next->id, 'tipe' => $next->type($next)['tipe']]) }}" class="btn btn-secondary" title="klik untuk ke bahan selanjutnya">Selanjutnya <i class="las la-arrow-right" style="margin-left: 7px; margin-right: 0"></i></a>
+                        @endforeach
+                        @else
+                        <button type="button" class="btn btn-secondary" disabled>Selanjutnya <i class="las la-arrow-right" style="margin-left: 7px; margin-right: 0"></i></button>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -88,10 +101,11 @@
 @section('scripts')
 <script src="{{ asset('assets/tmplts_backend/vendor/libs/select2/select2.js') }}"></script>
 <script src="{{ asset('assets/tmplts_backend/fancybox/fancybox.min.js') }}"></script>
+@yield('script')
 @endsection
 
 @section('jsbody')
-<script src="{{ asset('assets/tmplts_backend/js/ui_tooltips.js') }}"></script>
+@yield('body')
 <script>
     $('.select2').select2();
 

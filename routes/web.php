@@ -49,14 +49,21 @@ Route::get('course/{id}/bahan/{bahanId}/{tipe}', 'Course\Bahan\BahanController@v
     ->middleware('auth');
 
 //forum
-Route::get('forum/{id}/topik/create', 'Course\Bahan\BahanForumController@createTopik')
-    ->name('forum.topik.create')
-    ->middleware('auth');
+#--topik
 Route::get('forum/{id}/topik/{topikId}/room', 'Course\Bahan\BahanForumController@room')
     ->name('forum.topik.room')
     ->middleware('auth');
+Route::get('forum/{id}/topik/create', 'Course\Bahan\BahanForumController@createTopik')
+    ->name('forum.topik.create')
+    ->middleware('auth');
 Route::post('forum/{id}/topik', 'Course\Bahan\BahanForumController@storeTopik')
     ->name('forum.topik.store')
+    ->middleware('auth');
+Route::get('forum/{id}/topik/{topikId}/edit', 'Course\Bahan\BahanForumController@editTopik')
+    ->name('forum.topik.edit')
+    ->middleware('auth');
+Route::put('forum/{id}/topik/{topikId}', 'Course\Bahan\BahanForumController@updateTopik')
+    ->name('forum.topik.update')
     ->middleware('auth');
 Route::put('/forum/{id}/topik/{topikId}/pin', 'Course\Bahan\BahanForumController@pinTopik')
     ->name('forum.topik.pin')
@@ -66,6 +73,34 @@ Route::put('/forum/{id}/topik/{topikId}/lock', 'Course\Bahan\BahanForumControlle
     ->middleware('auth');
 Route::get('/forum/{id}/topik/{topikId}/star', 'Course\Bahan\BahanForumController@starTopik')
     ->name('forum.topik.star')
+    ->middleware('role:peserta_internal|peserta_mitra');
+Route::delete('forum/{id}/topik/{topikId}', 'Course\Bahan\BahanForumController@destroyTopik')
+    ->name('forum.topik.destroy')
+    ->middleware('auth');
+
+#--reply
+Route::get('forum/{id}/topik/{topikId}/reply/create', 'Course\Bahan\BahanForumController@createReply')
+    ->name('forum.topik.reply.create')
+    ->middleware('auth');
+Route::post('forum/{id}/topik/{topikId}/reply', 'Course\Bahan\BahanForumController@storeReply')
+    ->name('forum.topik.reply.store')
+    ->middleware('auth');
+Route::get('forum/{id}/topik/{topikId}/reply/{replyId}/edit', 'Course\Bahan\BahanForumController@editReply')
+    ->name('forum.topik.reply.edit')
+    ->middleware('auth');
+Route::put('forum/{id}/topik/{topikId}/reply/{replyId}', 'Course\Bahan\BahanForumController@updateReply')
+    ->name('forum.topik.reply.update')
+    ->middleware('auth');
+Route::delete('forum/{id}/topik/{topikId}/reply/{replyId}', 'Course\Bahan\BahanForumController@destroyReply')
+    ->name('forum.topik.reply.destroy')
+    ->middleware('auth');
+
+//quiz
+Route::get('/quiz/{id}/test', 'Course\Bahan\BahanQuizItemController@room')
+    ->name('quiz.room')
+    ->middleware('role:peserta_internal|peserta_mitra');
+Route::post('/quiz/{id}/track/jawaban', 'Course\Bahan\BahanQuizItemController@trackJawaban')
+    ->name('quiz.track.jawaban')
     ->middleware('role:peserta_internal|peserta_mitra');
 
 /**

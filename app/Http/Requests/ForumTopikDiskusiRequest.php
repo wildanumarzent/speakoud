@@ -13,7 +13,7 @@ class ForumTopikDiskusiRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,24 @@ class ForumTopikDiskusiRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'message' => 'required',
+            'attachment' => 'nullable|mimes:'.config('addon.mimes.attachment.m')
+        ];
+    }
+
+    public function attributes()
+    {
+        return [
+            'message' => 'Message',
+            'attachment' => 'Attachement'
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'message.required' => ':attribute tidak boleh kosong',
+            'attachment.mimes' => 'Tipe :attribute harus :values.',
         ];
     }
 }

@@ -10,7 +10,7 @@
     <h6 class="card-header">
       Form Topik
     </h6>
-    <form action="{{ !isset($data['topik']) ? route('forum.topik.store', ['id' => $data['forum']->id]) : '' }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ !isset($data['topik']) ? route('forum.topik.store', ['id' => $data['forum']->id]) : route('forum.topik.update', ['id' => $data['topik']->forum_id, 'topikId' => $data['topik']->id]) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @if (isset($data['topik']))
             @method('PUT')
@@ -52,7 +52,7 @@
                     @if (isset($data['topik']))
                         <input type="hidden" name="old_attachment" value="{{ $data['topik']->attachment }}">
                         @if (!empty($data['topik']->attachment))
-                        <small class="text-muted">File Sebelumnya : <a href="{{ route('bank.data.stream', ['path' => $data['topik']->attachment]) }}">Download</a></small>
+                        <small class="text-muted">File Sebelumnya : <a href="{{ asset('userfile/attachment/forum/'.$data['topik']->forum_id.'/'.$data['topik']->attachment) }}">Download</a></small>
                         @endif
                     @endif
                     <label class="custom-file-label" for="upload-1"></label>

@@ -2,6 +2,7 @@
 
 namespace App\Models\Course\Bahan;
 
+use App\Models\Users\User;
 use Illuminate\Database\Eloquent\Model;
 
 class BahanForumTopikDiskusi extends Model
@@ -42,5 +43,10 @@ class BahanForumTopikDiskusi extends Model
     public function topik()
     {
         return $this->belongsTo(BahanForumTopik::class, 'topik_id');
+    }
+
+    public function parent()
+    {
+        return $this->belongsTo(BahanForumTopikDiskusi::class, 'parent');
     }
 }

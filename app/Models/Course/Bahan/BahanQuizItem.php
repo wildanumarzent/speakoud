@@ -47,4 +47,21 @@ class BahanQuizItem extends Model
     {
         return $this->belongsTo(BahanQuiz::class, 'quiz_id');
     }
+
+    public function shufflePilihan($item)
+    {
+        $array = $item;
+
+        $keys = array_keys($array);
+
+        shuffle($keys);
+
+        foreach($keys as $key) {
+            $new[$key] = $array[$key];
+        }
+
+        $output = $new;
+
+        return $output;
+    }
 }

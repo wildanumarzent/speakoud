@@ -77,4 +77,8 @@ return [
             'title' => 'Essay',
         ],
     ],
+    'quiz_view' => [
+        0 => 'Tampilkan semua soal',
+        1 => 'Tampilkan soal satu per satu'
+    ],
 ];
