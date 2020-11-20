@@ -610,7 +610,6 @@ Route::group(['middleware' => ['auth']], function () {
 
     // Komentar
     Route::get('/komentar','Component\KomentarController@index')->name('komentar.index');
-    Route::get('/komentar/create','Component\KomentarController@create')->name('komentar.create');
     Route::post('/komentar','Component\KomentarController@store')->name('komentar.store');
     Route::delete('/komentar/{id}','Component\KomentarController@destroy')->name('komentar.destroy');
 
@@ -620,6 +619,19 @@ Route::group(['middleware' => ['auth']], function () {
      Route::post('/tags','Component\TagsController@store')->name('tags.store');
      Route::put('/tags','Component\TagsController@update')->name('tags.update');
      Route::delete('/tags/{id}','Component\TagsController@destroy')->name('tags.destroy');
+
+     // Announcement
+     Route::get('/announcement','Component\AnnouncementController@index')->name('announcement.index');
+     Route::get('/announcement/create','Component\AnnouncementController@create')->name('announcement.create');
+     Route::get('/announcement/{announcement}','Component\AnnouncementController@edit')->name('announcement.edit');
+     Route::post('/announcement','Component\AnnouncementController@store')->name('announcement.store');
+     Route::put('/announcement','Component\AnnouncementController@update')->name('announcement.update');
+     Route::delete('/announcement/{id}','Component\AnnouncementController@destroy')->name('announcement.destroy');
+
+
+
+      // Statistic
+    Route::get('/statistic','Component\StatisticController@index')->name('statistic.index');
 
     /** Frontend Component */
     // Inquiry

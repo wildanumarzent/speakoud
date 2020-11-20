@@ -13,9 +13,6 @@
 @endsection
 
 @section('content')
-    <h4 class="font-weight-bold py-3 mb-4">
-        <span class="text-muted font-weight-light">UI elements /</span> Fullcalendar
-    </h4>
 
     <hr class="container-m-nx border-light mt-0 mb-4">
      <!-- Event modal -->

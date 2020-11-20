@@ -12,7 +12,7 @@
                 <div class="card-body">
                 <div class="row">
                     <div class="col-md-2">
-                        <img src="https://i.pinimg.com/originals/20/4a/c2/204ac2d176b028b2a40638fb7f61039b.jpg" alt="userfoto" style="border-radius: 15px; width:70px;height:70px;object-fit:cover">
+                        <img src="{{ $komentar->user->getPhoto($komentar->user->photo['filename']) }}" alt="userfoto" style="border-radius: 15px; width:70px;height:70px;object-fit:cover">
                         <label>{{$komentar->user->name}}</label>
                     </div>
                     <div class="col-md-10">
@@ -26,10 +26,13 @@
                 </div>
 
                 <div class="collapse" id="reply-{{$komentar->id}}">
-                    {{-- <form>
+                    <form>
                     <input type="text" name="reply" id="" class="form-control" placeholder="Tulis Tanggapan...">
-                    </form> --}}
+                    </form>
                     <div class="card card-body">
+                     <p> Cool !</p>
+                     <small class="text-muted">Bot,2019-08-12</small>
+                     <hr>
                      <p> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.</p>
                      <small class="text-muted">Bot,2019-08-12</small>
                     </div>

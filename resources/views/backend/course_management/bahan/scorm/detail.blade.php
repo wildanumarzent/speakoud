@@ -5,20 +5,17 @@
 @endsection
 @section('content')
     <div class="scorm-course">
-      <iframe class="scorm-iframe" id="scorm-content" src="{{route('bank.data.stream',['path' => 'bank_data/scorm/sample/odading/scormcontent/index.html'])}}">
-        {{-- path1 = odading
-        path2 = scorm sample (golf) --}}
-      </iframe>
+      <iframe class="scorm-iframe" id="scorm-content" src="{{$data['path2']}}"></iframe>
     </div>
 
 @section('scripts')
 <script type="text/javascript" src="{{ asset('assets/scorm/js/scorm-api/scormAPI.js') }}"></script>
 @endsection
 
-<script>
+{{-- <script>
 window.API.on("LMSInitialize", function() {
     document.getElementById("scorm-content").setAttribute("src", "");
 });
-</script>
+</script> --}}
 
 @endsection

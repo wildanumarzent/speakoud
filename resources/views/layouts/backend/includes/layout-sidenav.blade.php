@@ -164,7 +164,7 @@
               </a>
             </li>
             <li class="sidenav-item">
-                <a href="" class="sidenav-link">
+                <a href="{{route('kalender.index')}}" class="sidenav-link">
                   <div>Kalender Diklat</div>
                 </a>
             </li>
@@ -195,8 +195,8 @@
               <div>Sertifikasi</div>
             </a>
         </li>
-        <li class="sidenav-item">
-            <a href="" class="sidenav-link"><i class="sidenav-icon las la-bullhorn"></i>
+        <li class="sidenav-item {{ Request::is('announcement*') ? ' active' : '' }}">
+            <a href="{{route('announcement.index')}}" class="sidenav-link"><i class="sidenav-icon las la-bullhorn"></i>
               <div>Announcement</div>
             </a>
         </li>
@@ -206,8 +206,8 @@
             </a>
 
             <ul class="sidenav-menu">
-              <li class="sidenav-item">
-                  <a href="" class="sidenav-link">
+              <li class="sidenav-item {{ Request::is('statistic*') ? ' active' : '' }}">
+                  <a href="{{route('statistic.index')}}" class="sidenav-link">
                     <div>Statistik</div>
                   </a>
               </li>

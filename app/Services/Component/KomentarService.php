@@ -19,7 +19,7 @@ class KomentarService
             });
         });
 
-        $result = $comment->get();
+        $result = $comment->orderby('created_at','asc')->paginate(20);
         return $result;
 
     }
@@ -44,11 +44,10 @@ class KomentarService
     return true;
    }
 
-   public function delete($id){
-       $komen = new Komentar;
-       $komen->find($id);
-       $komen->delete();
-       return true;
-   }
+   public function destroy($id){
+    $komentar = $this->komentar->findorFail($id);
+    $komentar->delete();
+    return $komentar;
+    }
 
 }
