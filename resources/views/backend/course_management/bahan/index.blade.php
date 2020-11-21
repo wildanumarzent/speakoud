@@ -5,6 +5,8 @@
 @endsection
 
 @section('content')
+@include('backend.course_management.breadcrumbs')
+
 <!-- Filters -->
 <div class="card">
     <div class="card-body">
@@ -44,7 +46,7 @@
 <div class="row drag">
 
     @foreach ($data['bahan'] as $item)
-    <div class="col-sm-6 col-xl-4" @if (!$data['check_role'] || $data['check_role'] && $item->creator_id == auth()->user()->id) id="{{ $item->id }}" style="cursor: move;" title="geser untuk merubah urutan" @endif>
+    <div class="col-sm-6 col-xl-4" @if (!$data['hasRole'] || $data['hasRole'] && $item->creator_id == auth()->user()->id) id="{{ $item->id }}" style="cursor: move;" title="geser untuk merubah urutan" @endif>
       <div class="card card-list">
         <div class="card-body d-flex justify-content-between align-items-start pb-1">
           <div>
@@ -66,14 +68,14 @@
             <a href="{{ $route }}" class="text-body text-big font-weight-semibold" title="{!! $item->judul !!}">{!! Str::limit($item->judul, 80) !!}</a>
           </div>
 
-          @if (!$data['check_role'] || $data['check_role'] && $item->creator_id == auth()->user()->id)
+          @if (!$data['hasRole'] || $data['hasRole'] && $item->creator_id == auth()->user()->id)
           <div class="btn-group project-actions dropdown">
             <button type="button" class="btn btn-sm btn-default icon-btn dropdown-toggle hide-arrow  btn-toggle-radius" data-toggle="dropdown" aria-expanded="false">
               <i class="ion ion-ios-more"></i>
             </button>
             <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; will-change: top, left; top: 26px; left: 26px;">
               @if ($item->type($item)['tipe'] == 'quiz')
-              @if (!$data['check_role'] || $data['check_role'] && $item->creator_id == auth()->user()->id)
+              @if (!$data['hasRole'] || $data['hasRole'] && $item->creator_id == auth()->user()->id)
               <a class="dropdown-item" href="{{ route('quiz.item', ['id' => $item->quiz->id]) }}" title="klik untuk melihat soal">
                 <i class="las la-list-ol"></i> Soal
               </a>
@@ -144,7 +146,7 @@
                     <th>Status</th>
                     <td><span class="badge badge-outline-{{ $item->publish == 1 ? 'primary' : 'warning' }}">{{ $item->publish == 1 ? 'Publish' : 'Draft' }}</span></td>
                 </tr>
-                @if (!$data['check_role'] || $data['check_role'] && $item->creator_id == auth()->user()->id)
+                @if (!$data['hasRole'] || $data['hasRole'] && $item->creator_id == auth()->user()->id)
                 <tr>
                     <th>Urutan</th>
                     <td>

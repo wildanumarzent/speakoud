@@ -17,7 +17,9 @@ class CreateQuizUserTrackerTable extends Migration
             $table->id();
             $table->unsignedBigInteger('quiz_id');
             $table->unsignedBigInteger('user_id');
+            $table->tinyInteger('status')->default(0);
             $table->timestamp('start_time')->nullable();
+            $table->timestamp('end_time')->nullable();
             $table->timestamps();
 
             $table->foreign('quiz_id')->references('id')

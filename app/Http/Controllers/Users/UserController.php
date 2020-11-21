@@ -8,6 +8,8 @@ use App\Http\Requests\UserRequest;
 use App\Services\Users\RoleService;
 use App\Services\Users\UserService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
@@ -130,6 +132,27 @@ class UserController extends Controller
         $this->service->activateUser($id);
 
         return back()->with('success', 'User berhasil di aktivasi');
+    }
+
+    public function sendVerification()
+    {
+        $encrypt = Crypt::encrypt(auth()->user()->email);
+
+        $data = [
+            'email' => auth()->user()->email,
+            'link' => route('profile.email.verification', ['email' => $encrypt]),
+        ];
+
+        Mail::to(auth()->user()->email)->send(new \App\Mail\VerificationMail($data));
+
+        return back()->with('success', 'Berhasil mengirim link. Cek email untuk verifikasi email');
+    }
+
+    public function verification($email)
+    {
+        $this->service->verificationEmail($email);
+
+        return redirect()->route('profile')->with('success', 'Email berhasil diverifikasi');
     }
 
     public function destroy($id)

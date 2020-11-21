@@ -267,7 +267,7 @@
 <script>
 $(".hide-collapse").show();
 
-$(".toggle-password-current, .toggle-password, .toggle-password-confirm").click(function() {
+$(".toggle-current-password, .toggle-password, .toggle-password-confirm").click(function() {
     $(this).toggleClass("fa-eye fa-eye-slash");
     var input = $($(this).attr("toggle"));
     if (input.attr("type") == "password") {

@@ -58,6 +58,10 @@ class BahanQuizItemController extends Controller
     {
         $data['quiz'] = $this->service->findQuiz($quizId);
 
+        if ($data['quiz']->item()->count() == 0) {
+            return back()->with('warning', 'Tidak ada soal');
+        }
+
         if ($data['quiz']->trackUserIn()->count() == 0) {
             $this->serviceQuiz->trackUserIn($quizId);
             return redirect()->route('quiz.room', ['id' => $quizId]);
@@ -76,7 +80,7 @@ class BahanQuizItemController extends Controller
             }
         }
 
-        $collectSoal = collect($data['quiz']->trackItem);
+        $collectSoal = collect($data['quiz']->trackUserItem);
         $soalId = $collectSoal->map(function($item, $key) {
             return $item->quiz_item_id;
         })->all();
@@ -87,7 +91,7 @@ class BahanQuizItemController extends Controller
         return view('frontend.course.quiz.room-'.$data['quiz']->view, compact('data'), [
             'title' => 'Quiz - Test',
             'breadcrumbsBackend' => [
-                'Forum' => route('course.bahan', [
+                'Bahan' => route('course.bahan', [
                     'id' => $data['quiz']->mata_id,
                     'bahanId' => $data['quiz']->bahan_id,
                     'tipe' => 'quiz'
@@ -169,6 +173,24 @@ class BahanQuizItemController extends Controller
             'success' => 1,
             'message' => ''
         ], 200);
+    }
+
+    public function finishQuiz($quizId)
+    {
+        $quiz = $this->service->findQuiz($quizId);
+
+        $this->serviceQuiz->trackUserOut($quizId);
+
+        if ($quiz->view == 0) {
+            return redirect()->route('course.bahan', [
+                'id' => $quiz->mata_id, 'bahanId' => $quiz->bahan_id, 'tipe' => 'quiz'
+                ])->with('success', 'Quiz telah selesai');
+        } else {
+            return response()->json([
+                'success' => 1,
+                'message' => ''
+            ], 200);
+        }
     }
 
     public function destroy($quizId, $id)

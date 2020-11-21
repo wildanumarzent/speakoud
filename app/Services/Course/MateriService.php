@@ -113,10 +113,6 @@ class MateriService
 
         $materi->delete();
 
-        if ($materi->bahan()->count() == 0) {
-            return $materi;
-        } else {
-            return false;
-        }
+        return $materi;
     }
 }

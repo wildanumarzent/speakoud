@@ -95,12 +95,20 @@ Route::delete('forum/{id}/topik/{topikId}/reply/{replyId}', 'Course\Bahan\BahanF
     ->name('forum.topik.reply.destroy')
     ->middleware('auth');
 
+//video conference
+Route::get('/conference/{id}/leave', 'Course\Bahan\BahanLinkController@leave')
+    ->name('conference.leave');
+Route::put('/conference/{id}/leave', 'Course\Bahan\BahanLinkController@leaveConfirm');
+
 //quiz
 Route::get('/quiz/{id}/test', 'Course\Bahan\BahanQuizItemController@room')
     ->name('quiz.room')
     ->middleware('role:peserta_internal|peserta_mitra');
 Route::post('/quiz/{id}/track/jawaban', 'Course\Bahan\BahanQuizItemController@trackJawaban')
     ->name('quiz.track.jawaban')
+    ->middleware('role:peserta_internal|peserta_mitra');
+Route::post('/quiz/{id}/finish', 'Course\Bahan\BahanQuizItemController@finishQuiz')
+    ->name('quiz.finish')
     ->middleware('role:peserta_internal|peserta_mitra');
 
 /**
@@ -122,6 +130,17 @@ Route::post('/register', 'Auth\RegisterController@register')
 Route::get('/register/activate/{email}', 'Auth\RegisterController@activate')
     ->name('register.activate')
     ->middleware('guest');
+
+//forgot password
+Route::get('/forgot-password', 'Auth\ForgotPasswordController@showLinkRequestForm')
+    ->name('password.email')->middleware('guest');
+Route::post('/forgot-password', 'Auth\ForgotPasswordController@sendResetLinkEmail')
+    ->middleware('guest');
+Route::get('/reset-password/{token}', 'Auth\ResetPasswordController@showResetForm')
+    ->name('password.reset')->middleware('guest');
+Route::post('/reset-password/send', 'Auth\ResetPasswordController@reset')
+    ->name('password.update')->middleware('guest');
+
 /**
  * panel
  */
@@ -137,6 +156,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/profile/edit', 'Users\UserController@profileForm')
         ->name('profile.edit');
     Route::put('/profile/edit', 'Users\UserController@updateProfile');
+    //verifikasi email
+    Route::get('/profile/email/verification/send', 'Users\UserController@sendVerification')
+        ->name('profile.email.verification.send');
+    Route::get('/profile/email/verification/{email}', 'Users\UserController@verification')
+        ->name('profile.email.verification');
 
     /**data master */
     //--- user management

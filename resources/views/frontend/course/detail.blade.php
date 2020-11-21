@@ -9,6 +9,15 @@
 
 @section('content')
 <div class="row">
+    <div class="col-md-12">
+      <div class="alert alert-primary alert-dismissible fade show text-muted">
+        <i class="las la-map-pin"></i>
+        <strong>{!! $data['read']->program->judul !!}</strong>
+      </div>
+    </div>
+</div>
+
+<div class="row">
     <div class="col">
         <div class="card mb-4">
             <div class="card-header with-elements">
@@ -52,7 +61,7 @@
         </div>
         <div class="card mb-4">
             <h6 class="card-header with-elements">
-                <span class="card-header-title"><i class="las la-book-open"></i> Course Content</span>
+                <span class="card-header-title"> Course Content</span>
             </h6>
             <div class="card-body">
                 @foreach ($data['read']->materiPublish as $materi)
@@ -99,7 +108,7 @@
          <!-- Leaders -->
          <div class="card mb-4">
             <h6 class="card-header with-elements">
-              <span class="card-header-title"><i class="las la-users"></i> Pengajar</span>
+              <span class="card-header-title"> Pengajar</span>
             </h6>
             <ul class="list-group list-group-flush">
                 @foreach ($data['read']->instruktur as $ins)
@@ -119,7 +128,7 @@
         <!-- / Leaders -->
         <div class="card mb-4">
             <h6 class="card-header with-elements">
-                <span class="card-header-title"><i class="las la-star"></i> Student Feedback</span>
+                <span class="card-header-title"> Student Feedback</span>
             </h6>
             @php
                 // dd($data['read']->rating('per_rating', 5))

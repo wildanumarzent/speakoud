@@ -8,8 +8,13 @@
 
 @section('content')
 @if (isset($data['parent']))
-<div class="alert alert-dark-primary alert-dismissible fade show">
-    <i class="las la-thumbtack"></i> Under "<strong>{{ $data['parent']->judul }}</strong>"
+<div class="row">
+    <div class="col-md-12">
+      <div class="alert alert-primary alert-dismissible fade show text-muted">
+        <i class="las la-map-pin"></i>
+        Under "<strong>{{ $data['parent']->judul }}</strong>"
+      </div>
+    </div>
 </div>
 @endif
 

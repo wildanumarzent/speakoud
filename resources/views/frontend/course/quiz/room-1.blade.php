@@ -69,7 +69,7 @@
                     <div id="smartwizard-6-step-{{ $key1 }}" class="card animated fadeIn" data-itemid="{{ $soal1->quiz_item_id }}">
                     <div class="card-body" style="border: 1px solid #e8e8e9; border-radius: .75rem;">
                         <div class="form-group mb-0">
-                            <span class="text-muted mb-2 d-inline-block">Soal no : <span id="soal-number">1</span></span>
+                            <span class="text-muted mb-2 d-inline-block">Soal no : <span id="soal-number">{{ $soal1->posisi }}</span></span>
                         <h5>{!! $soal1->item->pertanyaan !!}</h5>
                         <hr style="border-color: #d1a340;">
                         <span class="text-muted mb-2 d-inline-block">Jawab :</span>
@@ -121,7 +121,7 @@
                 <div id="smartwizard-6-step-{{ !isset($data['quiz_tracker']) ? (count($data['soal'])+1) : (count($data['soal'])+1+count($data['quiz_tracker'])) }}" class="card animated fadeIn">
                     <h6>Apakah anda yakin sudah mengisi semua jawaban ?</h6><br>
                     <div class="d-flex justify-content-center">
-                        <button type="button" class="btn btn-success btn-block">
+                        <button type="button" class="btn btn-success btn-block finish-quiz" data-id="{{ $data['quiz']->id }}" title="klik untuk selesai">
                             SELESAI
                         </button>
                     </div>
@@ -162,32 +162,31 @@
             },
             showLoaderOnConfirm: false,
             allowOutsideClick: false,
-            // preConfirm: () => {
-            //     return $.ajax({
-            //         url: "/",
-            //         method: 'GET',
-            //         headers: {
-            //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            //         },
-            //         dataType: 'json'
-            //     }).then(response => {
-            //         if (!response.success) {
-            //             return new Error(response.message);
-            //         }
-            //         return response;
-            //     }).catch(error => {
-            //         swal({
-            //             type: 'error',
-            //             text: 'Error while deleting data. Error Message: ' + error
-            //         })
-            //     });
-            // }
+            preConfirm: () => {
+                return $.ajax({
+                    url: "/quiz/{{ $data['quiz']->id }}/finish",
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    dataType: 'json'
+                }).then(response => {
+                    if (!response.success) {
+                        return new Error(response.message);
+                    }
+                    return response;
+                }).catch(error => {
+                    swal({
+                        type: 'error',
+                        text: 'Error while deleting data. Error Message: ' + error
+                    })
+                });
+            }
+            }).then(response => {
+                if (response.value.success) {
+                    window.location.href = '/course/{{ $data['quiz']->mata_id }}/bahan/{{ $data['quiz']->bahan_id }}/quiz';
+                }
             });
-            // }).then(response => {
-            //     if (response.value.success) {
-            //         window.location.href = '/course/{{ $data['quiz']->mata_id }}/bahan/{{ $data['quiz']->bahan_id }}/quiz';
-            //     }
-            // });
 
             clearInterval(interval);
         };
@@ -282,6 +281,62 @@
                 $('#btn-finish').addClass('hidden');
             }
         });
+    });
+    //finish
+    $(document).ready(function () {
+        $('.finish-quiz').on('click', function () {
+            var id = $(this).attr('data-id');
+            Swal.fire({
+                title: "Apakah anda yakin?",
+                text: "",
+                type: "warning",
+                confirmButtonText: "Ya, Selesai!",
+                customClass: {
+                    confirmButton: "btn btn-danger btn-lg",
+                    cancelButton: "btn btn-info btn-lg"
+                },
+                showLoaderOnConfirm: true,
+                showCancelButton: true,
+                allowOutsideClick: () => !Swal.isLoading(),
+                cancelButtonText: "Tidak, terima kasih",
+                preConfirm: () => {
+                    return $.ajax({
+                        url: "/quiz/"+id+"/finish",
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        dataType: 'json'
+                    }).then(response => {
+                        if (!response.success) {
+                            return new Error(response.message);
+                        }
+                        return response;
+                    }).catch(error => {
+                        swal({
+                            type: 'error',
+                            text: 'Error while deleting data. Error Message: ' + error
+                        })
+                    });
+                }
+            }).then(response => {
+                if (response.value.success) {
+                    Swal.fire({
+                        type: 'success',
+                        text: 'Quiz selesai'
+                    }).then(() => {
+                        window.location.href = '/course/{{ $data['quiz']->mata_id }}/bahan/{{ $data['quiz']->bahan_id }}/quiz';
+                    })
+                } else {
+                    Swal.fire({
+                        type: 'error',
+                        text: response.value.message
+                    }).then(() => {
+                        window.location.reload();
+                    })
+                }
+            });
+        })
     });
 </script>
 @endsection

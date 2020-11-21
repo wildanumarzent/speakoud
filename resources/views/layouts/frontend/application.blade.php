@@ -122,10 +122,10 @@
 			$('#main').delay(1000).fadeIn();
 		});
 
-        var str = $(".account").find(".name").text();
-        var match = str.match(/\b(\w)/g);
-        var txt = match.join('');
-        $(".user-profile").text(txt);
+        // var str = $(".account").find(".name").text();
+        // var match = str.match(/\b(\w)/g);
+        // var txt = match.join('');
+        // $(".user-profile").text(txt);
     </script>
     @yield('jsbody')
 

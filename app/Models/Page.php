@@ -41,4 +41,9 @@ class Page extends Model
 
         return $cover;
     }
+
+    public function isPublish($query)
+    {
+        return $query->where('publish', 1);
+    }
 }

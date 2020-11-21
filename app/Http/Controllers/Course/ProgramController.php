@@ -35,7 +35,7 @@ class ProgramController extends Controller
         $data['program'] = $this->service->getProgramList($request);
         $data['number'] = $data['program']->firstItem();
         $data['program']->withPath(url()->current().$p.$t.$q);
-        $data['check_role'] = auth()->user()->hasRole('developer|administrator|internal|mitra');
+        $data['hasRole'] = auth()->user()->hasRole('developer|administrator|internal|mitra');
 
         return view('backend.course_management.program.index', compact('data'), [
             'title' => 'Program Pelatihan',
@@ -138,12 +138,21 @@ class ProgramController extends Controller
         $program = $this->service->findProgram($id);
         $this->checkRole($program);
 
-        $this->service->deleteProgram($id);
+        if ($program->bahan()->count() > 0) {
+            return response()->json([
+                'success' => 0,
+                'message' => 'Program kegiatan gagal dihapus dikarenakan'.
+                            ' masih ada bahan pelatihan didalamnya'
+            ], 200);
+        } else {
+            $this->service->deleteProgram($id);
 
-        return response()->json([
-            'success' => 1,
-            'message' => ''
-        ], 200);
+            return response()->json([
+                'success' => 1,
+                'message' => ''
+            ], 200);
+        }
+
     }
 
     public function checkRole($program)

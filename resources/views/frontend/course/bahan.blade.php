@@ -8,6 +8,16 @@
 
 @section('content')
 <div class="row">
+    <div class="col-md-12">
+      <div class="alert alert-primary alert-dismissible fade show text-muted">
+        <i class="las la-map-pin"></i>
+        {!! $data['bahan']->program->judul !!} <i class="las la-arrow-right"></i>
+        <strong>{!! $data['bahan']->mata->judul !!}</strong>
+      </div>
+    </div>
+</div>
+
+<div class="row">
     <div class="col">
         <div class="card mb-4">
             <div class="card-header with-elements">
@@ -48,7 +58,7 @@
     <div class="col-md-4 col-xl-3">
         <div class="card mb-4">
             <h6 class="card-header with-elements">
-                <span class="card-header-title"><i class="las la-book-open"></i> Bahan Lainnya</span>
+                <span class="card-header-title"> Bahan Lainnya</span>
             </h6>
             <div class="card-body">
                 <select class="jump select2 show-tick" data-mataid="{{ $data['bahan']->mata_id }}" data-style="btn-default">
@@ -65,7 +75,7 @@
         </div>
         <div class="card mb-4">
             <h6 class="card-header with-elements">
-                <span class="card-header-title"><i class="las la-users"></i> Creator</span>
+                <span class="card-header-title">Creator</span>
             </h6>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">

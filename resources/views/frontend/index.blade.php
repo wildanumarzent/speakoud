@@ -114,7 +114,7 @@
                                 {{ $mata->publish_start->format('d F Y') }}
                             </div>
                             <h5 class="post-title">
-                                {!! $mata->judul !!}
+                                <a href="{{ route('course.detail', ['id' => $mata->id]) }}">{!! $mata->judul !!}</a>
                             </h5>
                             <div class="post-info">
                                 <a href="" class="btn btn-primary mr-auto">Daftar</a>

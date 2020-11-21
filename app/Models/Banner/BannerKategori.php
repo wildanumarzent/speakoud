@@ -12,7 +12,7 @@ class BannerKategori extends Model
 
     public function banner()
     {
-        return $this->hasMany(Banner::class, 'banner_kategori_id')->where('publish', 1)
+        return $this->hasMany(Banner::class, 'banner_kategori_id')->publish()
             ->orderBy('urutan', 'ASC')->limit(Konfigurasi::value('banner_limit'));
     }
 }

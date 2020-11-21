@@ -40,7 +40,7 @@ class MataController extends Controller
         $data['number'] = $data['mata']->firstItem();
         $data['mata']->withPath(url()->current().$p.$q);
         $data['program'] = $this->serviceProgram->findProgram($programId);
-        $data['check_role'] = auth()->user()->hasRole('developer|administrator|internal|mitra');
+        $data['hasRole'] = auth()->user()->hasRole('developer|administrator|internal|mitra');
 
         $this->serviceProgram->checkInstruktur($programId);
 
@@ -71,12 +71,14 @@ class MataController extends Controller
     {
         $data['read'] = $this->service->findMata($id);
 
-        if ($data['read']->program->publish == 0 || $data['read']->publish == 0) {
-            return abort(404);
+        if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
+            if ($data['read']->program->publish == 0 || $data['read']->publish == 0) {
+                return abort(404);
+            }
         }
 
-        $this->serviceProgram->checkInstruktur($data['read']->program->id);
-        $this->serviceProgram->checkPeserta($data['read']->program->id);
+        $this->serviceProgram->checkInstruktur($data['read']->program_id);
+        $this->serviceProgram->checkPeserta($data['read']->program_id);
 
         return view('frontend.course.detail', compact('data'), [
             'title' => $data['read']->judul,
@@ -126,9 +128,7 @@ class MataController extends Controller
             return $item->instruktur_id;
         })->all();
 
-        if (auth()->user()->hasRole('mitra')) {
-            $this->checkCreator($data['mata']->creator_id);
-        }
+        $this->checkCreator($id);
 
         return view('backend.course_management.mata.form', compact('data'), [
             'title' => 'Mata Pelatihan - Edit',
@@ -142,10 +142,7 @@ class MataController extends Controller
 
     public function update(MataRequest $request, $programId, $id)
     {
-        if (auth()->user()->hasRole('mitra')) {
-            $mata = $this->service->findMata($id);
-            $this->checkCreator($mata->creator_id);
-        }
+        $this->checkCreator($id);
 
         $this->service->updateMata($request, $id);
 
@@ -155,10 +152,7 @@ class MataController extends Controller
 
     public function publish($programId, $id)
     {
-        if (auth()->user()->hasRole('mitra')) {
-            $mata = $this->service->findMata($id);
-            $this->checkCreator($mata->creator_id);
-        }
+        $this->checkCreator($id);
 
         $this->service->publishMata($id);
 
@@ -167,10 +161,7 @@ class MataController extends Controller
 
     public function position($programId, $id, $urutan)
     {
-        if (auth()->user()->hasRole('mitra')) {
-            $mata = $this->service->findMata($id);
-            $this->checkCreator($mata->creator_id);
-        }
+        $this->checkCreator($id);
 
         $this->service->positionMata($id, $urutan);
 
@@ -204,23 +195,33 @@ class MataController extends Controller
 
     public function destroy($programId, $id)
     {
-        if (auth()->user()->hasRole('mitra')) {
-            $mata = $this->service->findMata($id);
-            $this->checkCreator($mata->creator_id);
+        $mata = $this->service->findMata($id);
+        $this->checkCreator($id);
+
+        if ($mata->bahan()->count() > 0) {
+            return response()->json([
+                'success' => 0,
+                'message' => 'Mata pelatihan gagal dihapus dikarenakan'.
+                            ' masih ada bahan pelatihan didalamnya'
+            ], 200);
+        } else {
+            $this->service->deleteMata($id);
+
+            return response()->json([
+                'success' => 1,
+                'message' => ''
+            ], 200);
         }
-
-        $this->service->deleteMata($id);
-
-        return response()->json([
-            'success' => 1,
-            'message' => ''
-        ], 200);
     }
 
-    public function checkCreator($creatorId)
+    public function checkCreator($id)
     {
-        if ($creatorId != auth()->user()->id) {
-            return abort(404);
+        $mata = $this->service->findMata($id);
+
+        if (auth()->user()->hasRole('mitra')) {
+            if ($mata->creator_id != auth()->user()->id) {
+                return abort(404);
+            }
         }
     }
 }
