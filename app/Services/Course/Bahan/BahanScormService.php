@@ -54,6 +54,7 @@ class BahanScormService
             $scorm->bahan_id = $bahan->id;
             $scorm->creator_id = auth()->user()->id;
             $scorm->package = $xmlPath;
+            $scorm->package_name = basename($fileName,".zip");
             $scorm->save();
 
             return $scorm;
@@ -64,18 +65,31 @@ class BahanScormService
 
     public function updateScorm($request, $bahan)
     {
+
         $scorm = $bahan->scorm;
         if ($request->hasFile('package')) {
-            $fileName = str_replace(' ', '-', Str::random(5).'-'.$request->file('package')
-                ->getClientOriginalName());
+            $fileName = str_replace(' ', '-', Carbon::now()->format('ymd-His').'-'.$request->file('package')->getClientOriginalName());
+            $filePath = 'userfile/scorm/'.$bahan->materi_id;
+            $scormPath = $filePath.'/'.basename($fileName, ".zip");
+            $oldFile = public_path('userfile/scorm/'.$scorm->materi_id.'/zip/'.$request->old_package.'.zip') ;
+            $oldDir =  public_path('userfile/scorm/'.$scorm->materi_id.'/'.$request->old_package) ;
+            File::delete($oldFile);
+            File::deleteDirectory($oldDir);
+            $request->file('package')->move(public_path('userfile/scorm/'.$scorm->materi_id.'/zip'), $fileName);
+              //extract
+              $zip = new Madzipper;
+              $zip->make($filePath.'/zip/'.$fileName)->extractTo($scormPath);
 
-            $path = public_path('userfile/scorm/'.$scorm->materi_id.'/'.$request->old_package) ;
-            File::delete($path);
+              //parsing
+              $xml = XmlParser::load($scormPath.'/imsmanifest.xml');
+              $resource = $xml->parse([
+                  'resource' => ['uses' => 'resources.resource::href'],
+              ]);
 
-            $request->file('package')->move(public_path('userfile/scorm/'.$scorm->materi_id), $fileName);
-
-            $scorm->package = $fileName;
-            $scorm->save();
+              $xmlPath =  $scormPath.'/'.$resource['resource'];
+              $scorm->package = $xmlPath;
+              $scorm->package_name = basename($fileName,".zip");
+             $scorm->save();
 
             return $scorm;
         } else {

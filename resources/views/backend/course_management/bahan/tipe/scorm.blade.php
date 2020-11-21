@@ -9,7 +9,7 @@
         <label class="custom-file mt-2">
             <label class="custom-file-label mt-1" for="file-1"></label>
             @if (isset($data['bahan']))
-                <input type="hidden" name="old_package" value="{{ $data['bahan']->scorm->package }}">
+                <input type="hidden" name="old_package" value="{{ $data['bahan']->scorm->package_name }}">
             @endif
             <input type="file" class="form-control custom-file-input file @error('package') is-invalid @enderror" type="file" id="file-1" lang="en" name="package" value="browse...">
             @error('package')

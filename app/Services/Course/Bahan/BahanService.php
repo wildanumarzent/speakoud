@@ -207,8 +207,10 @@ class BahanService
             $bahan->quiz->item()->delete();
         }
         if ($bahan->scorm()->count() == 1) {
-            $path = public_path('userfile/scorm/'.$bahan->scorm->materi_id.'/'.$bahan->scorm->package) ;
-            File::delete($path);
+            $oldFile = public_path('userfile/scorm/'.$bahan->scorm->materi_id.'/zip/'.$bahan->scorm->package_name.'.zip') ;
+            $oldDir =  public_path('userfile/scorm/'.$bahan->scorm->materi_id.'/'.$bahan->scorm->package_name);
+            File::delete($oldFile);
+            File::deleteDirectory($oldDir);
             $bahan->scorm()->delete();
         }
 
