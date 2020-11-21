@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Course\Bahan;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BahanRequest;
 use App\Services\Course\Bahan\BahanForumService;
+use App\Services\Course\Bahan\BahanLinkService;
 use App\Services\Course\Bahan\BahanService;
 use App\Services\Course\MataService;
 use App\Services\Course\MateriService;
@@ -13,14 +14,16 @@ use Illuminate\Http\Request;
 
 class BahanController extends Controller
 {
-    private $service, $serviceMateri, $serviceMata, $serviceProgram, $serviceBahanForum;
+    private $service, $serviceMateri, $serviceMata, $serviceProgram, $serviceBahanForum,
+        $serviceLink;
 
     public function __construct(
         BahanService $service,
         MateriService $serviceMateri,
         MataService $serviceMata,
         ProgramService $serviceProgram,
-        BahanForumService $serviceBahanForum
+        BahanForumService $serviceBahanForum,
+        BahanLinkService $serviceLink
     )
     {
         $this->service = $service;
@@ -28,6 +31,7 @@ class BahanController extends Controller
         $this->serviceMata = $serviceMata;
         $this->serviceProgram = $serviceProgram;
         $this->serviceBahanForum = $serviceBahanForum;
+        $this->serviceLink = $serviceLink;
     }
 
     public function index(Request $request, $materiId)
@@ -43,13 +47,15 @@ class BahanController extends Controller
         $data['number'] = $data['bahan']->firstItem();
         $data['bahan']->withPath(url()->current().$p.$q);
         $data['materi'] = $this->serviceMateri->findMateri($materiId);
-        $data['check_role'] = auth()->user()->hasRole('instruktur_internal|instruktur_mitra');
+        $data['hasRole'] = auth()->user()->hasRole('instruktur_internal|instruktur_mitra');
 
         if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra') &&
             $data['materi']->mata->instruktur()->where('instruktur_id', auth()->user()->instruktur->id)
                 ->count() == 0) {
             return abort(404);
         }
+
+        $this->serviceProgram->checkInstruktur($data['materi']->program_id);
 
         return view('backend.course_management.bahan.index', compact('data'), [
             'title' => 'Materi - Bahan Pelatihan',
@@ -75,6 +81,20 @@ class BahanController extends Controller
             $data['topik'] = $this->serviceBahanForum->getTopikList($data['bahan']->forum->id);
         }
 
+        if ($tipe == 'quiz') {
+
+            if (!empty($data['bahan']->quiz->trackUserIn)) {
+                $data['start_time'] = $data['bahan']->quiz->trackUserIn->start_time->format('l, j F Y H:i A');
+                $startTime = $data['bahan']->quiz->trackUserIn->start_time;
+                if (!empty($data['bahan']->quiz->trackUserIn->end_time)) {
+                    $data['finish_time'] = $data['bahan']->quiz->trackUserIn->end_time->format('l, j F Y H:i A');
+                    $finishTime = $data['bahan']->quiz->trackUserIn->end_time;
+                    $totalDuration = $finishTime->diffInSeconds($startTime);
+                    $data['total_duration'] = gmdate('i:s', $totalDuration);
+                }
+            }
+        }
+
         $this->serviceProgram->checkInstruktur($data['mata']->program_id);
         $this->serviceProgram->checkPeserta($data['mata']->program_id);
 
@@ -96,6 +116,8 @@ class BahanController extends Controller
         }
 
         $data['materi'] = $this->serviceMateri->findMateri($materiId);
+
+        $this->serviceProgram->checkInstruktur($data['materi']->program_id);
 
         return view('backend.course_management.bahan.tipe.'.$request->type, compact('data'), [
             'title' => 'Bahan Pelatihan - Tambah',
@@ -126,7 +148,7 @@ class BahanController extends Controller
         $data['bahan'] = $this->service->findBahan($id);
         $data['materi'] = $this->serviceMateri->findMateri($materiId);
 
-        $this->checkCreator($data['bahan']->creator_id);
+        $this->checkCreator($id);
 
         return view('backend.course_management.bahan.tipe.'.$request->type, compact('data'), [
             'title' => 'Bahan Pelatihan - Edit',
@@ -142,8 +164,7 @@ class BahanController extends Controller
 
     public function update(BahanRequest $request, $materiId, $id)
     {
-        $bahan = $this->service->findBahan($id);
-        $this->checkCreator($bahan->creator_id);
+        $this->checkCreator($id);
 
         $this->service->updateBahan($request, $id);
 
@@ -153,8 +174,7 @@ class BahanController extends Controller
 
     public function publish($materiId, $id)
     {
-        $bahan = $this->service->findBahan($id);
-        $this->checkCreator($bahan->creator_id);
+        $this->checkCreator($id);
 
         $this->service->publishBahan($id);
 
@@ -163,6 +183,8 @@ class BahanController extends Controller
 
     public function position($materiId, $id, $urutan)
     {
+        $this->checkCreator($id);
+
         $this->service->positionBahan($id, $urutan);
 
         return back()->with('success', 'Posisi berhasil diubah');
@@ -180,8 +202,7 @@ class BahanController extends Controller
 
     public function destroy($materiId, $id)
     {
-        $bahan = $this->service->findBahan($id);
-        $this->checkCreator($bahan->creator_id);
+        $this->checkCreator($id);
 
         $this->service->deleteBahan($id);
 
@@ -191,10 +212,12 @@ class BahanController extends Controller
         ], 200);
     }
 
-    public function checkCreator($creatorId)
+    public function checkCreator($id)
     {
-        if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra')) {
-            if ($creatorId != auth()->user()->id) {
+        $bahan = $this->service->findBahan($id);
+
+        if (auth()->user()->hasRole('mitra|instruktur_internal|instruktur_mitra')) {
+            if ($bahan->creator_id != auth()->user()->id) {
                 return abort(404);
             }
         }

@@ -204,6 +204,18 @@ class UserService
         return $user;
     }
 
+    public function verificationEmail($email)
+    {
+        $decrypt = Crypt::decrypt($email);
+
+        $user = $this->model->where('email', $decrypt)->first();
+        $user->email_verified = 1;
+        $user->email_verified_at = now();
+        $user->save();
+
+        return $user;
+    }
+
     public function updateProfile($request, int $id)
     {
         $user = $this->findUser($id);

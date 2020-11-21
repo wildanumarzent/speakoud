@@ -15,6 +15,7 @@ class BahanQuizService
     )
     {
         $this->model = $model;
+        $this->modelTrackUser = $modelTrackUser;
     }
 
     public function storeQuiz($request, $materi, $bahan)
@@ -49,7 +50,19 @@ class BahanQuizService
         $track = new BahanQuizUserTracker;
         $track->quiz_id = $quizId;
         $track->user_id = auth()->user()->id;
+        $track->status = 1;
         $track->start_time = now();
+        $track->save();
+
+        return $track;
+    }
+
+    public function trackUserOut(int $quizId)
+    {
+        $track = $this->modelTrackUser->where('quiz_id', $quizId)
+            ->where('user_id', auth()->user()->id)->first();
+        $track->status = 2;
+        $track->end_time = now();
         $track->save();
 
         return $track;

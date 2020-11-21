@@ -5,6 +5,8 @@
 @endsection
 
 @section('content')
+@include('backend.course_management.breadcrumbs')
+
 <!-- Filters -->
 <div class="card">
     <div class="card-body">
@@ -36,17 +38,17 @@
     </div>
 </div>
 <!-- / Filters -->
-@if ($data['check_role'])
+@if ($data['hasRole'])
 <div class="d-flex justify-content-between">
     <a href="{{ route('materi.create', ['id' => $data['mata']->id]) }}" class="btn btn-primary rounded-pill" title="klik untuk menambah materi pelatihan"><i class="las la-plus"></i>Tambah</a>
 </div>
 <br>
 @endif
 
-<div class="row @if ($data['check_role']) drag @endif">
+<div class="row @if ($data['hasRole']) drag @endif">
 
     @foreach ($data['materi'] as $item)
-    <div class="col-sm-6 col-xl-4" @if ($data['check_role']) id="{{ $item->id }}" style="cursor: move;" title="geser untuk merubah urutan" @endif>
+    <div class="col-sm-6 col-xl-4" @if ($data['hasRole']) id="{{ $item->id }}" style="cursor: move;" title="geser untuk merubah urutan" @endif>
       <div class="card card-list">
         <div class="card-body d-flex justify-content-between align-items-start pb-1">
           <div>
@@ -61,7 +63,7 @@
               <a class="dropdown-item" href="{{ route('bahan.index', ['id' => $item->id]) }}" title="klik untuk melihat bahan pelatihan">
                 <i class="las la-tasks"></i> Bahan Pelatihan
               </a>
-              @if ($data['check_role'])
+              @if ($data['hasRole'])
               <a class="dropdown-item" href="{{ route('materi.edit', ['id' => $item->mata_id, 'materiId' => $item->id]) }}" title="klik untuk mengedit materi pelatihan">
                 <i class="las la-pen"></i> Edit
               </a>
@@ -71,7 +73,7 @@
                 <i class="las la-trash-alt"></i> Hapus
               </a>
               @endif
-              @if ($data['check_role'])
+              @if ($data['hasRole'])
               <a class="dropdown-item" href="javascript:void(0);" onclick="$(this).find('form').submit();" title="klik untuk {{ $item->publish == 0 ? 'publish' : 'draft' }} mata pelatihan">
                   <i class="las la-{{ $item->publish == 0 ? 'eye' : 'eye-slash' }} "></i> {{ $item->publish == 1 ? 'Draft' : 'Publish' }}
                   <form action="{{ route('materi.publish', ['id' => $item->mata_id, 'materiId' => $item->id]) }}" method="POST">
@@ -93,7 +95,7 @@
                     <th>Status</th>
                     <td><span class="badge badge-outline-{{ $item->publish == 1 ? 'primary' : 'warning' }}">{{ $item->publish == 1 ? 'Publish' : 'Draft' }}</span></td>
                 </tr>
-                @if ($data['check_role'])
+                @if ($data['hasRole'])
                 <tr>
                     <th>Urutan</th>
                     <td>

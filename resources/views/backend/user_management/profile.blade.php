@@ -27,6 +27,7 @@
             <div class="title-heading mb-4">
                 <h3>Account Detail</h3>
             </div>
+            @include('components.alert')
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
@@ -57,7 +58,7 @@
                         @if ($data['user']->email_verified == 0)
                         <div class="alert alert-warning" role="alert">
                             Email anda belum <em>diverifikasi</em>, anda tidak akan mendapatkan <em>notifikasi</em>. <br>
-                            <a href=""><strong>Verifikasi Sekarang</strong></a>
+                            <a href="{{ route('profile.email.verification.send') }}"><i class="las la-envelope"></i> <strong>Verifikasi Sekarang</strong></a>
                         </div>
                         @endif
                     </div>

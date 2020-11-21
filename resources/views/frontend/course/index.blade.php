@@ -34,7 +34,7 @@
                             {{ $item->publish_start->format('d F Y') }}
                         </div>
                         <h5 class="post-title">
-                            {!! $item->judul !!}
+                            <a href="{{ route('course.detail', ['id' => $item->id]) }}">{!! $item->judul !!}</a>
                         </h5>
                         <div class="post-info">
                             <a href="" class="btn btn-primary mr-auto">Daftar</a>

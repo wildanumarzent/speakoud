@@ -27,7 +27,7 @@
         </div>
         <div class="box-btn text-center">
             <button class="btn btn-primary" type="submit"><span>Login</span></button>
-            <a class="link-forgot" href="javascript:;">Forgot Password?</a>
+            <a class="link-forgot" href="{{ route('password.email') }}">Forgot Password?</a>
         </div>
     </form>
 </div>

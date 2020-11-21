@@ -5,9 +5,11 @@
 @endsection
 
 @section('content')
+@include('backend.course_management.breadcrumbs')
+
 <div class="card">
     <h6 class="card-header">
-      Form Bahan Pelatihan <strong>---> "{{ strtoupper(Request::get('type')) }}"</strong>
+      Form Bahan Pelatihan : <strong>"{{ strtoupper(Request::get('type')) }}"</strong>
     </h6>
     <form action="{{ !isset($data['bahan']) ? route('bahan.store', ['id' => $data['materi']->id, 'type' => Request::get('type')]) : route('bahan.update', ['id' => $data['bahan']->materi_id, 'bahanId' => $data['bahan']->id, 'type' => Request::get('type')]) }}" method="POST" enctype="multipart/form-data">
         @csrf

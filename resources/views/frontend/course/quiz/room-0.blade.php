@@ -85,8 +85,13 @@
     <div class="card-footer">
         <div class="row">
           <div class="col-md-12 text-right">
-            <a href="{{ route('course.bahan', [ 'id' => $data['quiz']->mata_id, 'bahanId' => $data['quiz']->bahan_id, 'tipe' => 'quiz']) }}" class="btn btn-danger mr-4" title="klik untuk kembali">Kembali</a>
-            <button type="submit" class="btn btn-primary" name="action" value="save" title="klik untuk mengkonfirmasi">Selesai</button>
+            <a href="{{ route('course.bahan', [ 'id' => $data['quiz']->mata_id, 'bahanId' => $data['quiz']->bahan_id, 'tipe' => 'quiz']) }}" class="btn btn-danger mr-2" title="klik untuk kembali">Kembali</a>
+            <a href="javascript:;" class="btn btn-primary finish" title="klik untuk selesai">
+                Selesai
+                <form action="{{ route('quiz.finish', ['id' => $data['quiz']->id])}}" method="POST" id="form-finish">
+                    @csrf
+                </form>
+            </a>
           </div>
         </div>
     </div>
@@ -119,32 +124,31 @@
             },
             showLoaderOnConfirm: false,
             allowOutsideClick: false,
-            // preConfirm: () => {
-            //     return $.ajax({
-            //         url: "/",
-            //         method: 'GET',
-            //         headers: {
-            //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            //         },
-            //         dataType: 'json'
-            //     }).then(response => {
-            //         if (!response.success) {
-            //             return new Error(response.message);
-            //         }
-            //         return response;
-            //     }).catch(error => {
-            //         swal({
-            //             type: 'error',
-            //             text: 'Error while deleting data. Error Message: ' + error
-            //         })
-            //     });
-            // }
+            preConfirm: () => {
+                return $.ajax({
+                    url: "/quiz/{{ $data['quiz']->id }}/finish",
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    dataType: 'json'
+                }).then(response => {
+                    if (!response.success) {
+                        return new Error(response.message);
+                    }
+                    return response;
+                }).catch(error => {
+                    swal({
+                        type: 'error',
+                        text: 'Error while deleting data. Error Message: ' + error
+                    })
+                });
+            }
+            }).then(response => {
+                if (response.value.success) {
+                    window.location.href = '/course/{{ $data['quiz']->mata_id }}/bahan/{{ $data['quiz']->bahan_id }}/quiz';
+                }
             });
-            // }).then(response => {
-            //     if (response.value.success) {
-            //         window.location.href = '/course/{{ $data['quiz']->mata_id }}/bahan/{{ $data['quiz']->bahan_id }}/quiz';
-            //     }
-            // });
 
             clearInterval(interval);
         };
@@ -187,5 +191,26 @@
             });
         });
     }
+
+    //finish
+    $('.finish').click(function(e)
+    {
+        e.preventDefault();
+        var url = $(this).attr('href');
+        Swal.fire({
+        title: "Apakah anda yakin ?",
+        text: "",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Ya, selesai!',
+        cancelButtonText: "Tidak, terima kasih",
+        }).then((result) => {
+            if (result.value) {
+                $("#form-finish").submit();
+            }
+        })
+    });
 </script>
 @endsection

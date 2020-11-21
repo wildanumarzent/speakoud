@@ -34,7 +34,7 @@ class MateriController extends Controller
         $data['number'] = $data['materi']->firstItem();
         $data['materi']->withPath(url()->current().$p.$q);
         $data['mata'] = $this->serviceMata->findMata($mataId);
-        $data['check_role'] = auth()->user()->hasRole('developer|administrator|internal|mitra');
+        $data['hasRole'] = auth()->user()->hasRole('developer|administrator|internal|mitra');
 
         if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra') &&
             $data['mata']->instruktur()->where('instruktur_id', auth()->user()->instruktur->id)
@@ -82,6 +82,8 @@ class MateriController extends Controller
         $data['materi'] = $this->service->findMateri($id);
         $data['mata'] = $this->serviceMata->findMata($mataId);
 
+        $this->checkCreator($id);
+
         return view('backend.course_management.materi.form', compact('data'), [
             'title' => 'Materi Pelatihan - Edit',
             'breadcrumbsBackend' => [
@@ -95,6 +97,8 @@ class MateriController extends Controller
 
     public function update(MateriRequest $request, $mataId, $id)
     {
+        $this->checkCreator($id);
+
         $this->service->updateMateri($request, $id);
 
         return redirect()->route('materi.index', ['id' => $mataId])
@@ -103,6 +107,8 @@ class MateriController extends Controller
 
     public function publish($mataId, $id)
     {
+        $this->checkCreator($id);
+
         $this->service->publishMateri($id);
 
         return back()->with('success', 'Status berhasil diubah');
@@ -110,6 +116,8 @@ class MateriController extends Controller
 
     public function position($mataId, $id, $urutan)
     {
+        $this->checkCreator($id);
+
         $this->service->positionMateri($id, $urutan);
 
         return back()->with('success', 'Posisi berhasil diubah');
@@ -127,11 +135,33 @@ class MateriController extends Controller
 
     public function destroy($mataId, $id)
     {
-        $this->service->deleteMateri($id);
+        $materi = $this->service->findMateri($id);
+        $this->checkCreator($id);
 
-        return response()->json([
-            'success' => 1,
-            'message' => ''
-        ], 200);
+        if ($materi->bahan()->count() > 0) {
+            return response()->json([
+                'success' => 0,
+                'message' => 'Materi pelatihan gagal dihapus dikarenakan'.
+                            ' masih ada bahan pelatihan didalamnya'
+            ], 200);
+        } else {
+            $this->service->deleteMateri($id);
+
+            return response()->json([
+                'success' => 1,
+                'message' => ''
+            ], 200);
+        }
+    }
+
+    public function checkCreator($id)
+    {
+        $materi = $this->service->findMateri($id);
+
+        if (auth()->user()->hasRole('mitra')) {
+            if ($materi->creator_id != auth()->user()->id) {
+                return abort(404);
+            }
+        }
     }
 }

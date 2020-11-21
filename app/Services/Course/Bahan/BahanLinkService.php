@@ -13,6 +13,11 @@ class BahanLinkService
         $this->model = $model;
     }
 
+    public function findLink(int $id)
+    {
+        return $this->model->findOrFail($id);
+    }
+
     public function storeLink($request, $materi, $bahan)
     {
         $link = new BahanLink;
@@ -51,5 +56,14 @@ class BahanLinkService
         }
 
         return $randomString;
+    }
+
+    public function statusMeet(int $id, $status)
+    {
+        $link = $this->findLink($id);
+        $link->status = $status;
+        $link->save();
+
+        return $link;
     }
 }

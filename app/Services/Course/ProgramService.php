@@ -3,6 +3,7 @@
 namespace App\Services\Course;
 
 use App\Models\Course\ProgramPelatihan;
+use Illuminate\Support\Facades\File;
 
 class ProgramService
 {
@@ -127,14 +128,16 @@ class ProgramService
         $program = $this->findProgram($id);
 
         $program->materi()->delete();
+        if ($program->mata()->count() > 0) {
+            foreach ($program->mata as $value) {
+                $path = public_path('userfile/cover/'.$value->cover['filename']) ;
+                File::delete($path);
+            }
+        }
         $program->mata()->delete();
         $program->delete();
 
-        if ($program->bahan()->count() == 0) {
-            return $program;
-        } else {
-            return false;
-        }
+        return $program;
     }
 
     public function checkInstruktur(int $id)
@@ -149,6 +152,12 @@ class ProgramService
             if (auth()->user()->hasRole('mitra') && $program->mitra_id
                 != auth()->user()->mitra->id || auth()->user()->hasRole('instruktur_mitra')
                 && $program->mitra_id != auth()->user()->instruktur->mitra_id) {
+                return abort(403);
+            }
+        }
+
+        if (auth()->user()->hasRole('internal|instruktur_internal')) {
+            if ($program->tipe == 1) {
                 return abort(403);
             }
         }

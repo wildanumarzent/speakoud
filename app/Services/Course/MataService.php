@@ -189,6 +189,8 @@ class MataService
             'user_id' => auth()->user()->id,
             'rating' => $request->rating,
         ]);
+
+        return $rating;
     }
 
     public function deleteMata(int $id)
@@ -199,13 +201,10 @@ class MataService
             $this->deleteCoverFromPath($mata->cover['filename']);
         }
         $mata->instruktur()->delete();
+        $mata->materi()->delete();
         $mata->delete();
 
-        if ($mata->bahan()->count() == 0) {
-            return $mata;
-        } else {
-            return false;
-        }
+        return $mata;
     }
 
     public function deleteCoverFromPath($fileName)

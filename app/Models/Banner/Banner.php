@@ -19,4 +19,9 @@ class Banner extends Model
     {
         return $this->belongsTo(BannerKategori::class, 'banner_kategori_id');
     }
+
+    public function scopePublish($query)
+    {
+        return $query->where('publish', 1);
+    }
 }

@@ -5,6 +5,8 @@
 @endsection
 
 @section('content')
+@include('backend.course_management.breadcrumbs')
+
 <div class="card">
     <h6 class="card-header">
       Form Materi Pelatihan

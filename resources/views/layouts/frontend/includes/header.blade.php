@@ -47,7 +47,16 @@
                     @if (Auth::guard()->check())
                     <div class="nav-item account has-dropdwon">
                         <a href="#!" class="user">
-                            <div class="box-user user-profile" id="user-id">AM</div>
+                            @php
+                                $name = auth()->user()->name;
+                                $match = preg_split('/([\s\n\r]+)/u', $name, null, PREG_SPLIT_DELIM_CAPTURE);
+                                if (count($match) == 1) {
+                                    $join = substr($match[0], 0, 1);
+                                } else {
+                                    $join = substr($match[0], 0, 1).substr($match[2], 0, 1);
+                                }
+                            @endphp
+                            <div class="box-user user-profile" id="user-id">{!! $join !!}</div>
                         </a>
                         <ul class="dropdown">
                             <li>
