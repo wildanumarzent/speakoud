@@ -25,9 +25,9 @@ class AnnouncementController extends Controller
            $q = '?q='.$request->q;
        }
 
-       $data['anno'] = $this->announcement->annoList($request);
-       $data['number'] = $data['anno']->firstItem();
-       $data['anno']->withPath(url()->current().$q);
+       $data['announcement'] = $this->announcement->annoList($request);
+       $data['number'] = $data['announcement']->firstItem();
+       $data['announcement']->withPath(url()->current().$q);
 
        return view('backend.announcement.index', compact('data'), [
            'title' => 'Announcement',
@@ -62,7 +62,7 @@ class AnnouncementController extends Controller
      */
     public function store(Request $request)
     {
-        $this->announcement->store($request);
+        $this->announcement->annoStore($request);
         return redirect()->route('announcement.index')->with('success', 'Announcement berhasil ditambahkan');
     }
 
@@ -74,7 +74,14 @@ class AnnouncementController extends Controller
      */
     public function show(Announcement $announcement)
     {
-        //
+        $data['announcement'] = $announcement;
+        return view('backend.announcement.detail', compact('data'), [
+            'title' => 'Announcement',
+            'breadcrumbsBackend' => [
+                'Announcement' => route('announcement.index'),
+                'Edit' => '',
+            ],
+        ]);
     }
 
     /**
@@ -85,7 +92,7 @@ class AnnouncementController extends Controller
      */
     public function edit(Announcement $announcement)
     {
-        $data = $announcement;
+        $data['announcement'] = $announcement;
         return view('backend.announcement.form', compact('data'), [
             'title' => 'Announcement',
             'breadcrumbsBackend' => [
@@ -93,6 +100,11 @@ class AnnouncementController extends Controller
                 'Edit' => '',
             ],
         ]);
+    }
+
+    public function publish($id){
+        $this->announcement->publish($id);
+        return back()->with('success', 'Status berhasil diubah');
     }
 
     /**
@@ -104,8 +116,8 @@ class AnnouncementController extends Controller
      */
     public function update(Request $request, Announcement $announcement)
     {
-        $this->announcement->update($request,$announcement['id']);
-        return redirect()->route('announcement.index')->with('success', 'Announcement berhasil ditambahkan');
+        $this->announcement->annoUpdate($request,$request['id']);
+        return redirect()->route('announcement.index')->with('success', 'Announcement berhasil diupdate');
     }
 
     /**
@@ -116,7 +128,10 @@ class AnnouncementController extends Controller
      */
     public function destroy($id)
     {
-        $this->announcement->delete($id);
-        return redirect()->route('announcement.index')->with('success', 'Announcement berhasil dihapus');
+        $this->announcement->annoDestroy($id);
+        return response()->json([
+            'success' => 1,
+            'message' => ''
+        ], 200);
     }
 }

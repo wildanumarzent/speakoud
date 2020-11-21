@@ -16,7 +16,7 @@ class Announcements extends Migration
         Schema::create('announcements', function (Blueprint $table) {
             $table->id();
             $table->string('creator_id',255);
-            $table->longtext('receiver');
+            $table->longtext('receiver')->nullable();
             $table->string('title',255);
             $table->string('content',255);
             $table->string('sub_content',255);

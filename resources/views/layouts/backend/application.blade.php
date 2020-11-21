@@ -82,6 +82,7 @@
     <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/toastr/toastr.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/spinkit/spinkit.css') }}">
     @yield('styles')
+    {{-- Livewire --}}
     @livewireStyles
 </head>
 <body class="alsen">
@@ -170,6 +171,9 @@
 
 
     @yield('jsbody')
+    {{-- // Livewire --}}
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     @livewireScripts
 
 </body>

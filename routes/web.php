@@ -624,9 +624,11 @@ Route::group(['middleware' => ['auth']], function () {
      Route::get('/announcement','Component\AnnouncementController@index')->name('announcement.index');
      Route::get('/announcement/create','Component\AnnouncementController@create')->name('announcement.create');
      Route::get('/announcement/{announcement}','Component\AnnouncementController@edit')->name('announcement.edit');
+     Route::get('/announcement/{announcement}/show','Component\AnnouncementController@show')->name('announcement.show');
      Route::post('/announcement','Component\AnnouncementController@store')->name('announcement.store');
      Route::put('/announcement','Component\AnnouncementController@update')->name('announcement.update');
-     Route::delete('/announcement/{id}','Component\AnnouncementController@destroy')->name('announcement.destroy');
+     Route::put('/announcement/{id}','Component\AnnouncementController@publish')->name('announcement.publish');
+     Route::delete('/announcement/delete/{id}','Component\AnnouncementController@destroy')->name('announcement.destroy');
 
 
 

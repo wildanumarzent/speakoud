@@ -6,8 +6,14 @@ use App\Models\Component\Announcement;
 use App\Model\Project;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
-
+use App\Services\Component\NotificationService;
+use Illuminate\Support\Str;
 class AnnouncementService{
+
+    public function __construct(NotificationService $notifikasi)
+    {
+        $this->notifikasi = $notifikasi;
+    }
 
     public function annoList($request){
 
@@ -28,20 +34,82 @@ class AnnouncementService{
         return $result;
     }
 
-    public function annoSave($request){
-        $query = Announcement::create($requset->only(['title','content','summary','attachment']));
+    public function annoStore($request){
+        $filePath = null;
+        if ($request->hasFile('attachment')) {
+            $fileName = str_replace(' ', '-', Str::random(5).'-'.$request->file('attachment')
+                ->getClientOriginalName());
+            $request->file('attachment')->move(public_path('userfile/announcement/attachment'), $fileName);
+            $filePath = 'userfile/announcement/attachment/'.$fileName;
+        }
+
+        $query = Announcement::create(
+            [
+                'title' => $request['title'],
+                'content' => $request['content'],
+                'sub_content' => $request['sub_content'],
+                'status' => $request['status'],
+                'attachment' => $filePath,
+            ]
+        );
+        if($request['status'] == 1){
+        $this->notifikasi->make($model = $query,
+        $title = 'New Announcement - '.$query['title'],
+        $description = $query->sub_content,
+        $type = '',
+        $to = '');
+        }
         return true;
     }
 
     public function annoUpdate($request,$id){
+        $filePath = null;
+        if ($request->hasFile('attachment')) {
+            $fileName = str_replace(' ', '-', Str::random(5).'-'.$request->file('attachment')
+                ->getClientOriginalName());
+            $this->deleteAttachment($request->old_attachment);
+            $request->file('attachment')->move(public_path('userfile/announcement/attachment'), $fileName);
+            $request['attachment'] = $fileName;
+            $filePath = 'userfile/announcement/attachment/'.$fileName;
+        }
+
         $anno = $this->annoGet($id);
-        $anno->update($request->only(['title','content','summary','attachment']));
+        $anno->update([
+            'title' => $request['title'],
+            'content' => $request['content'],
+            'sub_content' => $request['sub_content'],
+            'status' => $request['status'],
+            'attachment' => $filePath,
+
+        ]);
         return true;
     }
 
-    public function annoDelete($id){
+    public function annoDestroy($id){
         $anno = $this->annoGet($id);
+        $this->deleteAttachment($anno->attachment);
         $anno->delete();
-        return true;
+        return $anno;
+    }
+
+    public function publish($id){
+        $anno = $this->annoGet($id);
+        if($anno->status == 0){
+            $this->notifikasi->make($model = $anno,
+            $title = 'New Announcement - '.$anno['title'],
+            $description = $anno->sub_content,
+            $type = '',
+            $to = '');
+            }
+        $anno->status = !$anno->status;
+        $anno->save();
+    }
+
+
+    public function deleteAttachment($fileName)
+    {
+        $path = public_path('userfile/announcement/attachment/'.$fileName) ;
+        File::delete($path);
+        return $path;
     }
 }

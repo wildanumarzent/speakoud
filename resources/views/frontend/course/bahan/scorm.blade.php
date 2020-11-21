@@ -15,7 +15,6 @@
 
 @section('script')
 {{-- <script type="text/javascript" src="{{ asset('assets/scorm/js/scorm-api/scormAPI.js') }}"></script> --}}
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script>
     var API = {};
 

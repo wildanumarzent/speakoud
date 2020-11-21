@@ -14,7 +14,7 @@
         Selamat datang, <strong><em>{{ auth()->user()->name }}</em></strong> di aplikasi Learning Management System !
       </div>
     </div>
-  </div>
+</div>
 @endsection
 
 @section('scripts')
