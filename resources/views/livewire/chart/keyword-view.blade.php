@@ -27,11 +27,11 @@
         <div class="row">
           <div class="col">
             <div class="text-muted small">View Terbesar</div>
-            <strong class="text-big">{{$max}}</strong>
+            <strong class="text-big">{{$max ?? 0}}</strong>
           </div>
           <div class="col">
             <div class="text-muted small">View Terendah</div>
-            <strong class="text-big">{{$min}}</strong>
+            <strong class="text-big">{{$min ?? 0}}</strong>
           </div>
         </div>
       </div>

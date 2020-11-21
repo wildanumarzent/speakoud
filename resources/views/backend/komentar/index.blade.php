@@ -119,7 +119,7 @@
                 cancelButtonText: "Tidak, terima kasih",
                 preConfirm: () => {
                     return $.ajax({
-                        url: "/komentar/" + id,
+                        url: "/komentar/delete/" + id,
                         method: 'DELETE',
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

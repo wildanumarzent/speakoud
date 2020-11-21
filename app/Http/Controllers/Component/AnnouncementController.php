@@ -62,7 +62,8 @@ class AnnouncementController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->announcement->store($request);
+        return redirect()->route('announcement.index')->with('success', 'Announcement berhasil ditambahkan');
     }
 
     /**
@@ -84,7 +85,14 @@ class AnnouncementController extends Controller
      */
     public function edit(Announcement $announcement)
     {
-        //
+        $data = $announcement;
+        return view('backend.announcement.form', compact('data'), [
+            'title' => 'Announcement',
+            'breadcrumbsBackend' => [
+                'Announcement' => route('announcement.index'),
+                'Edit' => '',
+            ],
+        ]);
     }
 
     /**
@@ -96,7 +104,8 @@ class AnnouncementController extends Controller
      */
     public function update(Request $request, Announcement $announcement)
     {
-        //
+        $this->announcement->update($request,$announcement['id']);
+        return redirect()->route('announcement.index')->with('success', 'Announcement berhasil ditambahkan');
     }
 
     /**
@@ -105,8 +114,9 @@ class AnnouncementController extends Controller
      * @param  \App\Announcement  $cr
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Announcement $announcement)
+    public function destroy($id)
     {
-        //
+        $this->announcement->delete($id);
+        return redirect()->route('announcement.index')->with('success', 'Announcement berhasil dihapus');
     }
 }

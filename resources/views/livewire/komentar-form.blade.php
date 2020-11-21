@@ -22,21 +22,10 @@
                 </div>
                 <div class="card-footer">
                     <span class="text-muted">{{$komentar->created_at->diffForhumans()}}</span>
-                    <a data-toggle="collapse" href="#reply-{{$komentar->id}}" role="button" aria-expanded="false" aria-controls="reply-1" class="text-right" style="float:right">Reply</a>
+                    <a data-toggle="collapse" href="#reply-{{$komentar->id}}" role="button" aria-expanded="false" aria-controls="reply-1" class="text-right" style="float:right">Lihat Tanggapan</a>
                 </div>
 
-                <div class="collapse" id="reply-{{$komentar->id}}">
-                    <form>
-                    <input type="text" name="reply" id="" class="form-control" placeholder="Tulis Tanggapan...">
-                    </form>
-                    <div class="card card-body">
-                     <p> Cool !</p>
-                     <small class="text-muted">Bot,2019-08-12</small>
-                     <hr>
-                     <p> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.</p>
-                     <small class="text-muted">Bot,2019-08-12</small>
-                    </div>
-                  </div>
+                @livewire('komentar-reply',['komentarID' => $komentar->id])
             </div>
             <br>
             @empty

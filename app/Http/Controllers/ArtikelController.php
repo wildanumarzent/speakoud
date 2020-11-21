@@ -131,7 +131,6 @@ class ArtikelController extends Controller
     public function store(ArtikelRequest $request)
     {
         $this->service->storeArtikel($request);
-
         return redirect()->route('artikel.index')->with('success', 'Artikel berhasil ditambahkan');
     }
 

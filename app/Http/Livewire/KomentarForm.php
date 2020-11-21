@@ -6,13 +6,11 @@ use Livewire\Component;
 use Illuminate\Http\Request;
 use App\Services\Component\KomentarService;
 use App\Models\Component\Komentar;
+
+
 class KomentarForm extends Component
 {
-
-
-
-
-    public $comentdata,$model,$list;
+    public $comentdata,$model,$list,$reply,$commentID;
 
     protected $listeners = [
         'stored',
@@ -26,8 +24,6 @@ class KomentarForm extends Component
     {
         $this->komentarService = $komentarService;
         $this->model = $model;
-
-
     }
 
 

@@ -12,8 +12,8 @@ class KeywordView extends Component
     public $artikel,$data,$max,$min;
     public function mount(Artikel $artikel){
         $this->artikel = $artikel;
-        $this->max = $this->artikel->query()->orderby('viewer','desc')->first()->viewer;
-        $this->min = $this->artikel->query()->orderby('viewer','asc')->first()->viewer;
+        $this->max = $this->artikel->query()->orderby('viewer','desc')->first();
+        $this->min = $this->artikel->query()->orderby('viewer','asc')->first();
     }
     public function render()
     {

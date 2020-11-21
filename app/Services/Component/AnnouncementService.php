@@ -23,22 +23,19 @@ class AnnouncementService{
 
     public function annoGet($data){
         $query = Announcement::query();
-        $query->where('receiver','like','%,'.Auth::id().',%');
         $query->where('id',$data);
-
-
         $result = $query->first();
         return $result;
     }
 
-    public function annoSave($data){
-        $query = Announcement::create($data);
+    public function annoSave($request){
+        $query = Announcement::create($requset->only(['title','content','summary','attachment']));
         return true;
     }
 
-    public function annoUpdate($id,$data){
+    public function annoUpdate($request,$id){
         $anno = $this->annoGet($id);
-        $anno->update($data);
+        $anno->update($request->only(['title','content','summary','attachment']));
         return true;
     }
 

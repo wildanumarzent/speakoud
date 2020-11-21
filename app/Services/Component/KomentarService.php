@@ -45,9 +45,9 @@ class KomentarService
    }
 
    public function destroy($id){
-    $komentar = $this->komentar->findorFail($id);
-    $komentar->delete();
-    return $komentar;
+    $comment = $this->comment->findorFail($id);
+    $comment->delete();
+    return $comment;
     }
 
 }

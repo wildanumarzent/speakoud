@@ -6,6 +6,9 @@ use App\Models\Course\Bahan\BahanScorm;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
+use Madnest\Madzipper\Madzipper;
+use Orchestra\Parser\Xml\Facade as XmlParser;
 
 class BahanScormService
 {
@@ -27,9 +30,22 @@ class BahanScormService
     {
         if ($request->hasFile('package')) {
 
-            $fileName = str_replace(' ', '-', Str::random(5).'-'.$request->file('package')
-                ->getClientOriginalName());
-            $request->file('package')->move(public_path('userfile/scorm/'.$materi->id), $fileName);
+            $fileName = str_replace(' ', '-', Carbon::now()->format('ymd-His').'-'.$request->file('package')->getClientOriginalName());
+            $filePath = 'userfile/scorm/'.$materi->id;
+            $scormPath = $filePath.'/'.basename($fileName, ".zip");
+            $request->file('package')->move(public_path($filePath).'/zip', $fileName);
+            //extract
+            $zip = new Madzipper;
+            $zip->make($filePath.'/zip/'.$fileName)->extractTo($scormPath);
+
+            //parsing
+            $xml = XmlParser::load($scormPath.'/imsmanifest.xml');
+            $resource = $xml->parse([
+                'resource' => ['uses' => 'resources.resource::href'],
+            ]);
+
+            $xmlPath =  $scormPath.'/'.$resource['resource'];
+
 
             $scorm = new BahanScorm;
             $scorm->program_id = $materi->program_id;
@@ -37,7 +53,7 @@ class BahanScormService
             $scorm->materi_id = $materi->id;
             $scorm->bahan_id = $bahan->id;
             $scorm->creator_id = auth()->user()->id;
-            $scorm->package = $fileName;
+            $scorm->package = $xmlPath;
             $scorm->save();
 
             return $scorm;

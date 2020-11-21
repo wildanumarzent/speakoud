@@ -611,7 +611,7 @@ Route::group(['middleware' => ['auth']], function () {
     // Komentar
     Route::get('/komentar','Component\KomentarController@index')->name('komentar.index');
     Route::post('/komentar','Component\KomentarController@store')->name('komentar.store');
-    Route::delete('/komentar/{id}','Component\KomentarController@destroy')->name('komentar.destroy');
+    Route::delete('/komentar/delete/{id}','Component\KomentarController@destroy')->name('komentar.destroy');
 
      // Tags
      Route::get('/tags','Component\TagsController@index')->name('tags.index');
