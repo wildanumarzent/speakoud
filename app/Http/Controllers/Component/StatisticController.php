@@ -1,28 +1,26 @@
 <?php
 
-namespace App\Http\Controllers\Course\Bahan;
+namespace App\Http\Controllers\Component;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Services\Course\Bahan\BahanScormService;
-use App\Models\Course\Bahan\BahanScorm;
-class BahanScormController extends Controller
+
+class StatisticController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    private $scorm;
-
-    public function __construct(BahanScormService $scorm)
-    {
-        $this->scorm = $scorm;
-    }
-
     public function index()
     {
-
+        $data = [];
+        return view('backend.statistic.index', compact('data'), [
+            'title' => 'Statistik',
+            'breadcrumbsBackend' => [
+                'Statistik' => '',
+            ],
+        ]);
     }
 
     /**
@@ -54,22 +52,7 @@ class BahanScormController extends Controller
      */
     public function show($id)
     {
-        $data['scorm'] = $this->scorm->get($id);
-        // $data['path'] = storage_path($data['scorm']->package);
-        $data['path'] = asset($data['scorm']->package);
-        $data['path1'] = asset('scorm-sample/odading/scormdriver/indexAPI.html');
-        $data['path2'] = asset('scorm-sample/golf/shared/launchpage.html');
-        $data['path3'] = asset('scorm-sample/onetwo/shared/launchpage.html');
-        return view('backend.course_management.bahan.scorm.detail', compact('data'), [
-            'title' => 'Bahan Pelatihan - Scorm',
-            'breadcrumbsBackend' => [
-                'Program' => route('program.index'),
-                'Mata' => route('mata.index', ['id' => $data['scorm']->program_id]),
-                'Materi' => route('materi.index', ['id' => $data['scorm']->mata_id]),
-                'Bahan' => route('bahan.index', ['id' => $data['scorm']->materi_id]),
-                'Scorm - '. $data['scorm']->bahan->judul => '',
-            ],
-        ]);
+        //
     }
 
     /**

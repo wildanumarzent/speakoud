@@ -13,9 +13,9 @@
             <div class="col-md">
                 <form action="" method="GET">
                     <div class="form-group">
-                        <label class="form-label">Filter</label>
+                        <label class="form-label">Cari</label>
                         <div class="input-group">
-                            <input type="text" class="form-control" name="q" value="{{ Request::get('q') }}" placeholder="Komentar...">
+                            <input type="text" class="form-control" name="q" value="{{ Request::get('q') }}" placeholder="Nama Announcement...">
                             <div class="input-group-append">
                                 <button type="submit" class="btn btn-warning" title="klik untuk filter"><i class="las la-search"></i></button>
                             </div>
@@ -30,8 +30,12 @@
 
 <div class="card">
     <div class="card-header with-elements">
-        <h5 class="card-header-title mt-1 mb-0">Komentar List</h5>
-
+        <h5 class="card-header-title mt-1 mb-0">Announcement List</h5>
+        <div class="card-header-elements ml-auto">
+            <a href="{{ route('announcement.create') }}" class="btn btn-primary icon-btn-only-sm" title="klik untuk menambah artikel">
+                <i class="las la-plus"></i><span>Tambah</span>
+            </a>
+        </div>
     </div>
     <div class="table-responsive">
         <table class="table card-table table-striped table-bordered table-hover table-sm">
@@ -39,37 +43,40 @@
                 <tr>
                     <th style="width: 10px;">No</th>
                     <th>Creator</th>
-                    <th  style="width: 500px;">Komentar</th>
-                    <th>Model</th>
-                    <th>Model Item</th>
+                    <th>Title</th>
+                    <th>Attachment</th>
                     <th style="width: 200px;">Created</th>
+                    <th style="width: 200px;">Updated</th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tbody>
-                @forelse ($data['komentar'] as $item)
+                @forelse ($data['anno'] as $item)
                 <tr>
                     <td>{{ $data['number']++ }}</td>
                     <td >{{ $item->user->name ?? '-' }}</td>
-                    <td >{{ $item->komentar}}</td>
-                    <td >{{ $item->commentable_type ?? '-' }}</td>
-                    <td >{{ $item->commentable_id ?? '-' }}</td>
+                    <td >{{ $item->title}}</td>
+                    <td >@if(!empty($item->attachment))<a href="{{$item->attachment}}" download>download</a>@endif</td>
                     <td >{{ $item->created_at->format('d F Y - (H:i)') }}</td>
-                    <td >
-                        <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus komentar" data-toggle="tooltip">
+                    <td >{{ $item->updated_at->format('d F Y - (H:i)') }}</td>
+                    <td>
+                        <a href="{{ route('announcement.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-sm btn-primary" title="klik untuk mengedit announcement">
+                            <i class="las la-pen"></i>
+                        </a>
+                        <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus anno" data-toggle="tooltip">
                             <i class="las la-trash-alt"></i>
                         </a>
                     </td>
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="10" align="center">
+                    <td colspan="7" align="center">
                         <i>
                             <strong style="color:red;">
                             @if (Request::get('q'))
-                            ! Komentar tidak ditemukan !
+                            ! Announcement tidak ditemukan !
                             @else
-                            ! Data Komentar kosong !
+                            ! Data Announcement kosong !
                             @endif
                             </strong>
                         </i>
@@ -82,11 +89,11 @@
     <div class="card-footer">
         <div class="row align-items-center">
             <div class="col-lg-6 m--valign-middle">
-                Menampilkan : <strong>{{ $data['komentar']->firstItem() }}</strong> - <strong>{{ $data['komentar']->lastItem() }}</strong> dari
-                <strong>{{ $data['komentar']->total() }}</strong>
+                Menampilkan : <strong>{{ $data['anno']->firstItem() }}</strong> - <strong>{{ $data['anno']->lastItem() }}</strong> dari
+                <strong>{{ $data['anno']->total() }}</strong>
             </div>
             <div class="col-lg-6 m--align-right">
-                {{ $data['komentar']->onEachSide(1)->links() }}
+                {{ $data['anno']->onEachSide(1)->links() }}
             </div>
         </div>
     </div>
@@ -106,7 +113,7 @@
             var id = $(this).attr('data-id');
             Swal.fire({
                 title: "Apakah anda yakin?",
-                text: "Anda akan menghapus komentar ini ?, Data yang sudah dihapus tidak dapat dikembalikan!",
+                text: "Anda akan menghapus anno ini ?, Data yang sudah dihapus tidak dapat dikembalikan!",
                 type: "warning",
                 confirmButtonText: "Ya, hapus!",
                 customClass: {
@@ -119,7 +126,7 @@
                 cancelButtonText: "Tidak, terima kasih",
                 preConfirm: () => {
                     return $.ajax({
-                        url: "/komentar/delete/" + id,
+                        url: "/announcement/" + id,
                         method: 'DELETE',
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -141,7 +148,7 @@
                 if (response.value.success) {
                     Swal.fire({
                         type: 'success',
-                        text: 'Komentar berhasil dihapus'
+                        text: 'Announcement berhasil dihapus'
                     }).then(() => {
                         window.location.reload();
                     })

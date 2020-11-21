@@ -81,7 +81,14 @@ class TagsController extends Controller
      */
     public function edit(Tags $tags)
     {
-        //
+        $data['tags'] = $tags;
+        return view('backend.tags.form', compact('data'), [
+            'title' => 'Tags',
+            'breadcrumbsBackend' => [
+                'Tags' => route('tags.index'),
+                'Edit' => ''
+            ],
+        ]);
     }
 
     /**
@@ -91,9 +98,10 @@ class TagsController extends Controller
      * @param  \App\Models\Component\Tags  $tags
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Tags $tags)
+    public function update(Request $request)
     {
-        //
+       $this->tags->update($request);
+        return redirect()->route('tags.index')->with('success', 'Tags Diupdate');
     }
 
     /**
@@ -102,8 +110,12 @@ class TagsController extends Controller
      * @param  \App\Models\Component\Tags  $tags
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Tags $tags)
+    public function destroy($id)
     {
-        //
+        $this->tags->destroy($id);
+        return response()->json([
+            'success' => 1,
+            'message' => ''
+        ], 200);
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Component;
 use App\Models\Component\Komentar;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Services\Component\KomentarService;
 
 class KomentarController extends Controller
 {
@@ -13,9 +14,28 @@ class KomentarController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+
+     public function __construct(KomentarService $komentar)
+     {
+        $this->komentar = $komentar;
+     }
+    public function index(Request $request)
     {
-        //
+        $q = '';
+        if (isset($request->q)) {
+            $q = '?q='.$request->q;
+        }
+
+        $data['komentar'] = $this->komentar->list($request);
+        $data['number'] = $data['komentar']->firstItem();
+        $data['komentar']->withPath(url()->current().$q);
+
+        return view('backend.komentar.index', compact('data'), [
+            'title' => 'Komentar',
+            'breadcrumbsBackend' => [
+                'Komentar' => '',
+            ],
+        ]);
     }
 
     /**
@@ -79,8 +99,12 @@ class KomentarController extends Controller
      * @param  \App\Models\Component\Komentar  $komentar
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Komentar $komentar)
+    public function destroy($id)
     {
-        //
+        $this->komentar->destroy($id);
+        return response()->json([
+            'success' => 1,
+            'message' => ''
+        ], 200);
     }
 }
