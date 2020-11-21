@@ -7,7 +7,9 @@
                 <input type="text" name="comments" wire:model="comentdata" class="form-control" placeholder="Tulis Komentar...">
             </form>
             <br>
+            <div class="scrollable" style="height:400px; overflow-y: scroll; scrollbar-width: none;">
             @forelse($list as $komentar)
+
             <div class="card">
                 <div class="card-body">
                 <div class="row">
@@ -27,8 +29,10 @@
                 </div>
 
             </div>
+
             <br>
             @empty
             <h4>Tidak Ada Komentar</h4>
            @endforelse
+        </div>
         </div>
