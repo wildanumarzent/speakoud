@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Artikel;
+use App\Services\Component\NotificationService;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use App\Services\Component\TagsService;
@@ -11,10 +12,11 @@ class ArtikelService
 {
     private $model, $tags;
 
-    public function __construct(Artikel $model,TagsService $tags)
+    public function __construct(Artikel $model,TagsService $tags,NotificationService $notifikasi)
     {
         $this->model = $model;
         $this->tags = $tags;
+        $this->notifikasi = $notifikasi;
     }
 
     public function getArtikelList($request)
@@ -86,7 +88,13 @@ class ArtikelService
         $artikel->save();
 
         $this->tags->store($request, $artikel);
-
+        if($request->publish == 1){
+        $this->notifikasi->make($model = $artikel,
+                                $title = 'New Article - '.$artikel['judul'],
+                                $description = $artikel->intro,
+                                $type = '',
+                                $to = '');
+        }
         return $artikel;
 
     }
@@ -131,6 +139,13 @@ class ArtikelService
     public function statusArtikel(int $id)
     {
         $artikel = $this->findArtikel($id);
+        if($artikel->status == 0){
+            $this->notifikasi->make($model = $artikel,
+            $title = 'New Announcement - '.$artikel['title'],
+            $description = $artikel->sub_content,
+            $type = '',
+            $to = '');
+            }
         $artikel->publish = !$artikel->publish;
         $artikel->save();
 
@@ -159,7 +174,7 @@ class ArtikelService
         }
 
         $artikel->delete();
-
+        $this->notifikasi->delete($artikel);
         return $artikel;
     }
 

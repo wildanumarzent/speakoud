@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Livewire\Notification;
 use App\Http\Requests\ArtikelRequest;
 use Illuminate\Http\Request;
 use App\Services\ArtikelService;
+use App\Services\Component\NotificationService;
 use App\Services\Component\TagsService;
 use App\Services\KonfigurasiService;
 
@@ -20,6 +22,7 @@ class ArtikelController extends Controller
 
     public function __construct(
         ArtikelService $service,
+        NotificationService $notifikasi,
         TagsService $serviceTags,
         KonfigurasiService $serviceKonfig
     )
@@ -157,7 +160,6 @@ class ArtikelController extends Controller
     public function publish($id)
     {
         $this->service->statusArtikel($id);
-
         return back()->with('success', 'Status berhasil diubah');
     }
 

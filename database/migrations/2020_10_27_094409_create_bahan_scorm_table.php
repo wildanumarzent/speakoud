@@ -21,6 +21,7 @@ class CreateBahanScormTable extends Migration
             $table->unsignedBigInteger('bahan_id');
             $table->unsignedBigInteger('creator_id');
             $table->text('package')->nullable();
+            $table->text('package_name')->nullable();
             $table->timestamps();
 
             $table->foreign('program_id')->references('id')

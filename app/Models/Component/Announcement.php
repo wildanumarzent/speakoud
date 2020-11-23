@@ -4,6 +4,7 @@ namespace App\Models\Component;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\Creator;
+use App\Models\Users\User;
 class Announcement extends Model
 {
     protected $table = 'announcements';

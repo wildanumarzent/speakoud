@@ -42,25 +42,37 @@
             <thead>
                 <tr>
                     <th style="width: 10px;">No</th>
-                    <th>Creator</th>
                     <th>Title</th>
+                    <th>Creator</th>
                     <th>Attachment</th>
+                    <th>Status</th>
                     <th style="width: 200px;">Created</th>
                     <th style="width: 200px;">Updated</th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tbody>
-                @forelse ($data['anno'] as $item)
+                @forelse ($data['announcement'] as $item)
                 <tr>
                     <td>{{ $data['number']++ }}</td>
+                    <td><strong>{!! Str::limit($item->title, 90) !!}</strong> <a href="{{ route('announcement.show', ['announcement' => $item->id]) }}" title="view announcement" target="_blank"><i class="las la-external-link-alt"></i></a></td>
                     <td >{{ $item->user->name ?? '-' }}</td>
-                    <td >{{ $item->title}}</td>
+
                     <td >@if(!empty($item->attachment))<a href="{{$item->attachment}}" download>download</a>@endif</td>
+                    <td>
+                        <a href="javascript:void(0);" onclick="$(this).find('form').submit();" class="badge badge-{{ $item->status == 1 ? 'primary' : 'warning' }}"
+                            title="Click to publish Announcement">
+                            {{ config('addon.label.publish.'.$item->status) }}
+                            <form action="{{ route('announcement.publish', ['id' => $item->id]) }}" method="POST">
+                                @csrf
+                                @method('PUT')
+                            </form>
+                        </a>
+                    </td>
                     <td >{{ $item->created_at->format('d F Y - (H:i)') }}</td>
                     <td >{{ $item->updated_at->format('d F Y - (H:i)') }}</td>
                     <td>
-                        <a href="{{ route('announcement.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-sm btn-primary" title="klik untuk mengedit announcement">
+                        <a href="{{ route('announcement.edit', ['announcement' => $item->id]) }}" class="btn icon-btn btn-sm btn-primary" title="klik untuk mengedit announcement">
                             <i class="las la-pen"></i>
                         </a>
                         <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus anno" data-toggle="tooltip">
@@ -89,11 +101,11 @@
     <div class="card-footer">
         <div class="row align-items-center">
             <div class="col-lg-6 m--valign-middle">
-                Menampilkan : <strong>{{ $data['anno']->firstItem() }}</strong> - <strong>{{ $data['anno']->lastItem() }}</strong> dari
-                <strong>{{ $data['anno']->total() }}</strong>
+                Menampilkan : <strong>{{ $data['announcement']->firstItem() }}</strong> - <strong>{{ $data['announcement']->lastItem() }}</strong> dari
+                <strong>{{ $data['announcement']->total() }}</strong>
             </div>
             <div class="col-lg-6 m--align-right">
-                {{ $data['anno']->onEachSide(1)->links() }}
+                {{ $data['announcement']->onEachSide(1)->links() }}
             </div>
         </div>
     </div>
@@ -126,8 +138,8 @@
                 cancelButtonText: "Tidak, terima kasih",
                 preConfirm: () => {
                     return $.ajax({
-                        url: "/announcement/" + id,
-                        method: 'DELETE',
+                        url: "/announcement/delete/" + id,
+                        method: 'delete',
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },

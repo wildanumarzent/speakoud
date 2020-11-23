@@ -1,4 +1,3 @@
-<div class="col-sm-6 col-xl-4">
     <div class="card mb-4">
       <h6 class="card-header with-elements border-0 pr-0 pb-0">
         <div class="card-header-title">Most Viewed Keywords</div>
@@ -27,14 +26,12 @@
         <div class="row">
           <div class="col">
             <div class="text-muted small">View Terbesar</div>
-            <strong class="text-big">{{$max ?? 0}}</strong>
+            <strong class="text-big">{{$max->viewer ?? 0}}</strong>
           </div>
           <div class="col">
             <div class="text-muted small">View Terendah</div>
-            <strong class="text-big">{{$min ?? 0}}</strong>
+            <strong class="text-big">{{$min->viewer ?? 0}}</strong>
           </div>
         </div>
       </div>
     </div>
-
-  </div>
