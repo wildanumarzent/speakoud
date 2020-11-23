@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\Creator;
-class Kalender extends Model
+class Event extends Model
 {
     protected $table = 'event';
     protected $guarded = [];

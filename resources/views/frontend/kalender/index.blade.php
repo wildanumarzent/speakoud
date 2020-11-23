@@ -6,170 +6,106 @@
 
 @section('scripts')
     <!-- Dependencies -->
-    <script src="{{ asset('assets/tmplts_backend/vendor/libs/moment/moment.js') }}"></script>
-    <script src="{{ asset('assets/tmplts_backend/vendor/libs/fullcalendar/fullcalendar.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
 
-    <script src="{{ asset('assets/tmplts_backend/js/ui_fullcalendar.js') }}"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@3.9.0/dist/fullcalendar.min.css" />
+
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.27.0/moment.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@3.9.0/dist/fullcalendar.min.js"></script>
+
 @endsection
 
 @section('content')
 
     <hr class="container-m-nx border-light mt-0 mb-4">
-     <!-- Event modal -->
-     <form class="modal modal-top fade" id="fullcalendar-default-view-modal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Add an event</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">×</button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label class="form-label">Title</label>
-                        <input type="text" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Type</label>
-                        <select class="custom-select">
-                            <option value="" selected>Default</option>
-                            <option value="fc-event-success">Success</option>
-                            <option value="fc-event-info">Info</option>
-                            <option value="fc-event-warning">Warning</option>
-                            <option value="fc-event-danger">Danger</option>
-                            <option value="fc-event-dark">Dark</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default md-btn-flat" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary md-btn-flat">Save</button>
-                </div>
-            </div>
-        </div>
-    </form>
-    <!-- / Event modal -->
-    <!-- Detail modal -->
-    <form  class="modal modal-top fade" id="fullcalendar-detail-modal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Detail</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">×</button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label class="form-label">Title</label>
-                        <input type="text" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Type</label>
-                        <select class="custom-select">
-                            <option value="" selected>Default</option>
-                            <option value="fc-event-success">Success</option>
-                            <option value="fc-event-info">Info</option>
-                            <option value="fc-event-warning">Warning</option>
-                            <option value="fc-event-danger">Danger</option>
-                            <option value="fc-event-dark">Dark</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default md-btn-flat" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary md-btn-flat">Save</button>
-                </div>
-            </div>
-        </div>
-    </form>
-    <!-- / Detail modal -->
 
     <div class="card mb-4">
         <div class="card-body">
-            <div id='fullcalendar-default-view'></div>
+            <div id='kalenderDiklat'></div>
         </div>
     </div>
 
-
-<script>
-var today = new Date();
-var y = today.getFullYear();
-var m = today.getMonth();
-var d = today.getDate();
-
-var eventList = [
-  {
-    title: 'All Day Event',
-    start: new Date(y, m, d - 12)
-  },
-  {
-    title: 'Long Event',
-    start: new Date(y, m, d - 8),
-    end: new Date(y, m, d - 5),
-    description: 'lorem',
-    className: 'fc-event-warning'
-  },
-  {
-    id: 999,
-    title: 'Repeating Event',
-    start: new Date(y, m, d - 6, 16, 0)
-  },
-  {
-    id: 999,
-    title: 'Repeating Event',
-    start: new Date(y, m, d + 1, 16, 0),
-    className: 'fc-event-success',
-  },
-  {
-    title: 'Conference',
-    start: new Date(y, m, d - 4),
-    end: new Date(y, m, d - 2),
-  },
-  {
-    title: 'Meeting',
-    start: new Date(y, m, d - 3, 10, 30),
-    end: new Date(y, m, d - 3, 12, 30),
-    className: 'fc-event-danger'
-  },
-  {
-    title: 'Lunch',
-    start: new Date(y, m, d  - 3, 12, 0),
-    className: 'fc-event-info'
-  },
-  {
-    title: 'Meeting',
-    start: new Date(y, m, d - 3, 14, 30),
-    className: 'fc-event-dark'
-  },
-  {
-    title: 'Happy Hour',
-    start: new Date(y, m, d - 3, 17, 30)
-  },
-  {
-    title: 'Dinner',
-    start: new Date(y, m, d - 3, 20, 0)
-  },
-  {
-    title: 'Birthday Party',
-    start: new Date(y, m, d - 2, 7, 0)
-  },
-  {
-    title: 'Background event',
-    start: new Date(y, m, d + 5),
-    end: new Date(y, m, d + 7),
-    rendering: 'background'
-  },
-  {
-    title: 'Click for Google',
-    url: 'http://google.com/',
-    start: new Date(y, m, d + 13)
-  }];
+    <script>
+$(document).ready(function () {
+var SITEURL = "{{url('/')}}";
+$.ajaxSetup({
+headers: {
+'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+}
+});
+var calendar = $('#kalenderDiklat').fullCalendar({
+editable: true,
+events: SITEURL + "event",
+displayEventTime: true,
+editable: true,
+eventRender: function (event, element, view) {
+if (event.allDay === 'true') {
+event.allDay = true;
+} else {
+event.allDay = false;
+}
+},
+selectable: true,
+selectHelper: true,
+select: function (start, end, allDay) {
+var title = prompt('Event Title:');
+if (title) {
+var start = $.fullCalendar.formatDate(start, "Y-MM-DD HH:mm:ss");
+var end = $.fullCalendar.formatDate(end, "Y-MM-DD HH:mm:ss");
+$.ajax({
+url: SITEURL + "event/store",
+data: 'title=' + title + '&amp;start=' + start + '&amp;end=' + end,
+type: "POST",
+success: function (data) {
+displayMessage("Added Successfully");
+}
+});
+calendar.fullCalendar('renderEvent',
+{
+title: title,
+start: start,
+end: end,
+allDay: allDay
+},
+true
+);
+}
+calendar.fullCalendar('unselect');
+},
+eventDrop: function (event, delta) {
+var start = $.fullCalendar.formatDate(event.start, "Y-MM-DD HH:mm:ss");
+var end = $.fullCalendar.formatDate(event.end, "Y-MM-DD HH:mm:ss");
+$.ajax({
+url: SITEURL + 'event/update',
+data: 'title=' + event.title + '&amp;start=' + start + '&amp;end=' + end + '&amp;id=' + event.id,
+type: "POST",
+success: function (response) {
+displayMessage("Updated Successfully");
+}
+});
+},
+eventClick: function (event) {
+var deleteMsg = confirm("Do you really want to delete?");
+if (deleteMsg) {
+$.ajax({
+type: "POST",
+url: SITEURL + 'event/delete',
+data: "&amp;id=" + event.id,
+success: function (response) {
+if(parseInt(response) > 0) {
+$('#kalenderDiklat').fullCalendar('removeEvents', event.id);
+displayMessage("Deleted Successfully");
+}
+}
+});
+}
+}
+});
+});
+function displayMessage(message) {
+$(".response").html("<div class='success'>"+message+"</div>");
+setInterval(function() { $(".success").fadeOut(); }, 1000);
+}
 </script>
-
-@section('jsbody')
-<script type="text/javascript">
-    window.livewire.on('eventStore', () => {
-        $('#fullcalendar-detail-modal').modal('hide');
-    });
-</script>
-@endsection
-
 @endsection
