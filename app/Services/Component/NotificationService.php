@@ -25,7 +25,7 @@ class NotificationService{
         return $query;
     }
 
-    public function make($model,$title,$description,$to = null,$special = null){
+    public function make($model,$title,$description,$special = null,$to = null){
 
         if(is_array($to)){
             $to = implode(';',$to);
@@ -33,7 +33,8 @@ class NotificationService{
 
         $notif = new Notification;
         $model = $notif->notifable()->associate($model);
-        $notif->create([
+        $notif->updateOrCreate([ 'notifable_id' => $model['notifable_id'],
+        'notifable_type' => $model['notifable_type']],[
             'title' => $title,
             'description' => $description,
             'to' => $to,
@@ -53,8 +54,7 @@ class NotificationService{
         $notif = new Notification;
         $model = $notif->notifable()->associate($model);
         $query = $this->notif->where('notifable_id',$notif['notifable_id'])
-                             ->where('notifable_type',$notif['notifable_type'])
-                             ->get();
+                             ->where('notifable_type',$notif['notifable_type']);
         $query->delete();
     }
     public function wipe(){

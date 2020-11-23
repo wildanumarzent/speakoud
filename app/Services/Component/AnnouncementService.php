@@ -56,7 +56,7 @@ class AnnouncementService{
         $this->notifikasi->make($model = $query,
         $title = 'New Announcement - '.$query['title'],
         $description = $query->sub_content,
-        $type = '',
+        $special = '',
         $to = '');
         }
         return true;
@@ -74,6 +74,7 @@ class AnnouncementService{
         }
 
         $anno = $this->annoGet($id);
+
         $anno->update([
             'title' => $request['title'],
             'content' => $request['content'],
@@ -82,11 +83,21 @@ class AnnouncementService{
             'attachment' => $filePath,
 
         ]);
+        if($anno->status == 0){
+            $this->notifikasi->destroy($anno);
+            }else{
+                $this->notifikasi->make($model = $anno,
+                $title = 'New Announcement - '.$anno['title'],
+                $description = $anno->sub_content,
+                $special = '',
+                $to = '');
+                }
         return true;
     }
 
     public function annoDestroy($id){
         $anno = $this->annoGet($id);
+        $this->notifikasi->destroy($anno);
         $this->deleteAttachment($anno->attachment);
         $anno->delete();
         return $anno;
@@ -98,8 +109,10 @@ class AnnouncementService{
             $this->notifikasi->make($model = $anno,
             $title = 'New Announcement - '.$anno['title'],
             $description = $anno->sub_content,
-            $type = '',
+            $special = '',
             $to = '');
+            }else{
+                $this->notifikasi->destroy($anno);
             }
         $anno->status = !$anno->status;
         $anno->save();

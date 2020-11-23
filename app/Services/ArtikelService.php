@@ -92,7 +92,7 @@ class ArtikelService
         $this->notifikasi->make($model = $artikel,
                                 $title = 'New Article - '.$artikel['judul'],
                                 $description = $artikel->intro,
-                                $type = '',
+                                $special = '',
                                 $to = '');
         }
         return $artikel;
@@ -143,8 +143,10 @@ class ArtikelService
             $this->notifikasi->make($model = $artikel,
             $title = 'New Announcement - '.$artikel['title'],
             $description = $artikel->sub_content,
-            $type = '',
+            $special = '',
             $to = '');
+            }else{
+                 $this->notifikasi->destroy($artikel);
             }
         $artikel->publish = !$artikel->publish;
         $artikel->save();
@@ -172,9 +174,8 @@ class ArtikelService
         if ($artikel->tags()->count() > 0) {
             $artikel->tags()->delete();
         }
-
+         $this->notifikasi->destroy($artikel);
         $artikel->delete();
-        $this->notifikasi->delete($artikel);
         return $artikel;
     }
 
