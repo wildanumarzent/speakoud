@@ -105,4 +105,9 @@ class BahanPelatihan extends Model
 
         return $segmen;
     }
+
+    public function scopePublish($query)
+    {
+        return $query->where('publish', 1);
+    }
 }

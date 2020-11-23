@@ -18,6 +18,26 @@ class BahanQuizService
         $this->modelTrackUser = $modelTrackUser;
     }
 
+    public function quizPesertaList($request, int $quizId)
+    {
+        $query = $this->modelTrackUser->query();
+
+        $query->where('quiz_id', $quizId);
+        $query->when($request->q, function ($query, $q) {
+            return $query->whereHas('user', function ($query) use ($q) {
+                $query->where('name', $q);
+            });
+        });
+
+        if (isset($request->s)) {
+            $query->where('status', $request->s);
+        }
+
+        $result = $query->orderBy('end_time', 'DESC')->paginate(20);
+
+        return $result;
+    }
+
     public function storeQuiz($request, $materi, $bahan)
     {
         $quiz = new BahanQuiz;

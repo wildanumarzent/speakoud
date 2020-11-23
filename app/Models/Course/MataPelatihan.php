@@ -40,7 +40,7 @@ class MataPelatihan extends Model
 
     public function materiPublish()
     {
-        return $this->hasMany(MateriPelatihan::class, 'mata_id')->where('publish', 1)
+        return $this->hasMany(MateriPelatihan::class, 'mata_id')->publish()
             ->orderBy('urutan', 'ASC');
     }
 
@@ -87,5 +87,10 @@ class MataPelatihan extends Model
         }
 
         return $rating;
+    }
+
+    public function scopePublish($query)
+    {
+        return $query->where('publish', 1);
     }
 }

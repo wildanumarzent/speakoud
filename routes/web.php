@@ -38,12 +38,15 @@ Route::post('inquiry/{id}/send', 'InquiryController@send')
 //course
 Route::get('/course/list', 'Course\MataController@courseList')
     ->name('course.list');
+Route::get('/course/{id}/register', 'Course\MataController@courseRegister')
+    ->name('course.register')
+    ->middleware(['auth', 'role:peserta_internal|peserta_mitra']);
 Route::get('/course/{id}/detail', 'Course\MataController@courseDetail')
     ->name('course.detail')
     ->middleware('auth');
 Route::post('/course/{id}/rating', 'Course\MataController@giveRating')
     ->name('course.rating')
-    ->middleware('role:peserta_internal|peserta_mitra');
+    ->middleware(['auth', 'role:peserta_internal|peserta_mitra']);
 Route::get('course/{id}/bahan/{bahanId}/{tipe}', 'Course\Bahan\BahanController@view')
     ->name('course.bahan')
     ->middleware('auth');
@@ -73,7 +76,7 @@ Route::put('/forum/{id}/topik/{topikId}/lock', 'Course\Bahan\BahanForumControlle
     ->middleware('auth');
 Route::get('/forum/{id}/topik/{topikId}/star', 'Course\Bahan\BahanForumController@starTopik')
     ->name('forum.topik.star')
-    ->middleware('role:peserta_internal|peserta_mitra');
+    ->middleware(['auth', 'role:peserta_internal|peserta_mitra']);
 Route::delete('forum/{id}/topik/{topikId}', 'Course\Bahan\BahanForumController@destroyTopik')
     ->name('forum.topik.destroy')
     ->middleware('auth');
@@ -96,20 +99,30 @@ Route::delete('forum/{id}/topik/{topikId}/reply/{replyId}', 'Course\Bahan\BahanF
     ->middleware('auth');
 
 //video conference
+Route::get('/conference/{id}/room', 'Course\Bahan\BahanLinkController@room')
+    ->name('conference.room');
 Route::get('/conference/{id}/leave', 'Course\Bahan\BahanLinkController@leave')
     ->name('conference.leave');
 Route::put('/conference/{id}/leave', 'Course\Bahan\BahanLinkController@leaveConfirm');
+Route::get('/conference/{id}/platform/start', 'Course\Bahan\BahanLinkController@startMeet')
+    ->name('conference.platform.start');
 
 //quiz
 Route::get('/quiz/{id}/test', 'Course\Bahan\BahanQuizItemController@room')
     ->name('quiz.room')
-    ->middleware('role:peserta_internal|peserta_mitra');
+    ->middleware(['auth', 'role:peserta_internal|peserta_mitra']);
 Route::post('/quiz/{id}/track/jawaban', 'Course\Bahan\BahanQuizItemController@trackJawaban')
     ->name('quiz.track.jawaban')
-    ->middleware('role:peserta_internal|peserta_mitra');
+    ->middleware(['auth', 'role:peserta_internal|peserta_mitra']);
 Route::post('/quiz/{id}/finish', 'Course\Bahan\BahanQuizItemController@finishQuiz')
     ->name('quiz.finish')
-    ->middleware('role:peserta_internal|peserta_mitra');
+    ->middleware(['auth', 'role:peserta_internal|peserta_mitra']);
+Route::get('/quiz/{id}/peserta', 'Course\Bahan\BahanQuizItemController@peserta')
+    ->name('quiz.peserta')
+    ->middleware(['auth', 'role:administrator|internal|mitra|instruktur_internal|instruktur_mitra']);
+Route::get('/quiz/{id}/peserta/{pesertaId}/jawaban', 'Course\Bahan\BahanQuizItemController@jawabanPeserta')
+    ->name('quiz.peserta.jawaban')
+    ->middleware(['auth', 'role:administrator|internal|mitra|instruktur_internal|instruktur_mitra']);
 
 /**
  * authentication

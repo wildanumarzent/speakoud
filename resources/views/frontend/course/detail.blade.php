@@ -26,7 +26,7 @@
                     <div class="media-body ml-3">
                       <h5 class="mb-1"><a href="javascript:void(0)" class="text-body">{!! $data['read']->judul !!}</a></h5>
                       {{-- <div class="text-muted small">Last Updated {{ $data['read']->updated_at->format('d F Y') }}</div> --}}
-                      <div class="text-muted small"><i class="las la-user"></i> <strong>0</strong> students enrolled <i class="las la-comment ml-3"></i> <strong>0</strong> topics</div>
+                      <div class="text-muted small"><i class="las la-user"></i> <strong>0</strong> students enrolled <i class="las la-comment ml-3"></i> <strong>{{ $data['read']->materi->count() }}</strong> topics</div>
                     </div>
                 </div>
                 <div class="card-header-elements ml-auto">

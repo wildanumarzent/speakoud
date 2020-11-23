@@ -2,7 +2,7 @@
 
 @section('content-view')
 @if (!auth()->user()->hasRole('peserta_internal|peserta_mitra'))
-<a href="" class="btn btn-info icon-btn-only-sm mb-4" title="klik untuk melihat peserta">
+<a href="{{ route('quiz.peserta', ['id' => $data['bahan']->quiz->id]) }}" class="btn btn-info icon-btn-only-sm mb-4" title="klik untuk melihat peserta">
     <i class="las la-users"></i><span> Peserta</span>
 </a>
 @endif
@@ -42,7 +42,7 @@
             <th style="width: 150px;">Waktu Mengerjakan</th>
             <td>
                 @if (!empty($data['bahan']->quiz->trackUserIn) && !empty($data['bahan']->quiz->trackUserIn->end_time))
-                {{ $data['total_duration'].' Menit' }}
+                {{ $data['total_duration'] }}
                 @else
                 -
                 @endif

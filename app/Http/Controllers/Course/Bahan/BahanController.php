@@ -76,7 +76,6 @@ class BahanController extends Controller
         $data['jump'] = $this->service->bahanJump($id);
         $data['prev'] = $this->service->bahanPrevNext($data['materi']->id, $data['bahan']->urutan, 'prev');
         $data['next'] = $this->service->bahanPrevNext($data['materi']->id, $data['bahan']->urutan, 'next');
-        $data['path'] = asset($data['bahan']->scorm->package);
         if ($tipe == 'forum') {
             $data['topik'] = $this->serviceBahanForum->getTopikList($data['bahan']->forum->id);
         }
@@ -90,7 +89,9 @@ class BahanController extends Controller
                     $data['finish_time'] = $data['bahan']->quiz->trackUserIn->end_time->format('l, j F Y H:i A');
                     $finishTime = $data['bahan']->quiz->trackUserIn->end_time;
                     $totalDuration = $finishTime->diffInSeconds($startTime);
-                    $data['total_duration'] = gmdate('i:s', $totalDuration);
+                    $menit = gmdate('i', $totalDuration);
+                    $detik = gmdate('s', $totalDuration);
+                    $data['total_duration'] = $menit.' Menit '.$detik.' Detik';
                 }
             }
         }

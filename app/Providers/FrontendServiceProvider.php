@@ -63,7 +63,7 @@ class FrontendServiceProvider extends ServiceProvider
                 'google_play_store' => Konfigurasi::value('google_play_store'),
             ],
             'menu' => [
-                'program_pelatihan' => ProgramPelatihan::where('publish', 1)
+                'program_pelatihan' => ProgramPelatihan::publish()
                     ->orderBy('urutan', 'ASC')->get(),
                 'inquiry' => Inquiry::where('id', 1)->where('publish', 1)->get(),
             ],

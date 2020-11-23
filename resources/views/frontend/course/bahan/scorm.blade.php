@@ -1,7 +1,5 @@
 @extends('frontend.course.bahan')
 
-
-
 @section('content-view')
 <iframe class="scorm-iframe" id="scorm-content" style="width:100%;height:500px;" src=""></iframe>
 <a href="javascript:;" data-src="{{ url($data['bahan']->scorm->package) }}" class="btn btn-sm btn-primary scorm-play" title="klik untuk mulai">
@@ -10,12 +8,9 @@
 <div id="logDisplay"></div>
 @endsection
 
-
-
-
 @section('script')
 {{-- <script type="text/javascript" src="{{ asset('assets/scorm/js/scorm-api/scormAPI.js') }}"></script> --}}
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+{{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script> --}}
 <script>
     var API = {};
 

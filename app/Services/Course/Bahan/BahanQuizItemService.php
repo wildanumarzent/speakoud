@@ -65,6 +65,17 @@ class BahanQuizItemService
         return $result;
     }
 
+    public function jawabanPeserta(int $quizId, int $pesertaId)
+    {
+        $query = $this->modelTracker->query();
+
+        $query->where('quiz_id', $quizId)->where('user_id', $pesertaId);
+
+        $result = $query->orderBy('posisi', 'ASC')->get();
+
+        return $result;
+    }
+
     public function findItem(int $id)
     {
         return $this->model->findOrFail($id);

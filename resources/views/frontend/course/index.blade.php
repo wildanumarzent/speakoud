@@ -37,7 +37,7 @@
                             <a href="{{ route('course.detail', ['id' => $item->id]) }}">{!! $item->judul !!}</a>
                         </h5>
                         <div class="post-info">
-                            <a href="" class="btn btn-primary mr-auto">Daftar</a>
+                            <a href="{{ route('course.register', ['id' => $item->id]) }}" class="btn btn-primary mr-auto">Daftar</a>
                             <div class="box-info">
                                 <div class="item-info">
                                     <div class="data-info">
@@ -49,7 +49,7 @@
                                 <div class="item-info">
                                     <div class="data-info">
                                         <i class="las la-comment"></i>
-                                        <span>15</span>
+                                        <span>{{ $item->materi->count() }}</span>
                                     </div>
                                     <span>Topics</span>
                                 </div>

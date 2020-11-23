@@ -5,6 +5,18 @@
 @endsection
 
 @section('content')
+<div class="row">
+    <div class="col-md-12">
+      <div class="alert alert-primary alert-dismissible fade show text-muted">
+        <i class="las la-map-pin"></i>
+        {!! $data['topik']->program->judul !!} <i class="las la-arrow-right"></i>
+        {!! $data['topik']->mata->judul !!} <i class="las la-arrow-right"></i>
+        {!! $data['topik']->materi->judul !!} <i class="las la-arrow-right"></i>
+        <strong>{!! $data['topik']->bahan->judul !!}</strong>
+      </div>
+    </div>
+</div>
+
 <div class="card">
     <h6 class="card-header">
       Form Reply

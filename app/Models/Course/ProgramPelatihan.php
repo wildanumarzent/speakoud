@@ -29,7 +29,7 @@ class ProgramPelatihan extends Model
 
     public function mataPublish()
     {
-        return $this->hasMany(MataPelatihan::class, 'program_id')->where('publish', 1)
+        return $this->hasMany(MataPelatihan::class, 'program_id')->publish()
             ->orderBy('urutan', 'ASC');
     }
 
@@ -41,5 +41,10 @@ class ProgramPelatihan extends Model
     public function bahan()
     {
         return $this->hasMany(BahanPelatihan::class, 'program_id');
+    }
+
+    public function scopePublish($query)
+    {
+        return $query->where('publish', 1);
     }
 }

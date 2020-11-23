@@ -38,8 +38,13 @@ class MateriPelatihan extends Model
         if ($tipe == 'jump') {
             $query->whereNotIn('id', [request()->segment(4)]);
         }
-        $query->where('publish', 1)->orderBy('urutan', 'ASC');
+        $query->publish()->orderBy('urutan', 'ASC');
 
         return $query;
+    }
+
+    public function scopePublish($query)
+    {
+        return $query->where('publish', 1);
     }
 }

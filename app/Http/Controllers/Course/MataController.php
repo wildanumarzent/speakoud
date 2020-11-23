@@ -67,6 +67,20 @@ class MataController extends Controller
         ]);
     }
 
+    public function courseRegister($id)
+    {
+        $data['mata'] = $this->service->findMata($id);
+
+        return view('frontend.course.register', compact('data'), [
+            'title' => 'Course - Register',
+            'breadcrumbsFrontend' => [
+                $data['mata']->program->judul => '',
+                $data['mata']->judul => '',
+                'Register' => '',
+            ],
+        ]);
+    }
+
     public function courseDetail($id)
     {
         $data['read'] = $this->service->findMata($id);

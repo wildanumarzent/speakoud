@@ -6,6 +6,18 @@
 @endsection
 
 @section('content')
+<div class="row">
+    <div class="col-md-12">
+      <div class="alert alert-primary alert-dismissible fade show text-muted">
+        <i class="las la-map-pin"></i>
+        {!! $data['forum']->program->judul !!} <i class="las la-arrow-right"></i>
+        {!! $data['forum']->mata->judul !!} <i class="las la-arrow-right"></i>
+        {!! $data['forum']->materi->judul !!} <i class="las la-arrow-right"></i>
+        <strong>{!! $data['forum']->bahan->judul !!}</strong>
+      </div>
+    </div>
+</div>
+
 {{-- topik --}}
 <div class="card mb-4">
     <div class="card-header">

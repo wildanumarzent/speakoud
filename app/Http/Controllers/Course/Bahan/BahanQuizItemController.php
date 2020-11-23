@@ -58,6 +58,10 @@ class BahanQuizItemController extends Controller
     {
         $data['quiz'] = $this->service->findQuiz($quizId);
 
+        if ($data['quiz']->bahan->publish == 0) {
+            return abort(404);
+        }
+
         if ($data['quiz']->item()->count() == 0) {
             return back()->with('warning', 'Tidak ada soal');
         }
@@ -98,6 +102,54 @@ class BahanQuizItemController extends Controller
                 ]),
                 'Quiz' => '',
                 'Test' => ''
+            ],
+        ]);
+    }
+
+    public function peserta(Request $request, $quizId)
+    {
+        $s = '';
+        $q = '';
+        if (isset($request->s) || isset($request->q)) {
+            $s = '?s='.$request->s;
+            $q = '&q='.$request->q;
+        }
+
+        $data['peserta'] = $this->serviceQuiz->quizPesertaList($request, $quizId);
+        $data['number'] = $data['peserta']->firstItem();
+        $data['peserta']->withPath(url()->current().$s.$q);
+        $data['quiz'] = $this->service->findQuiz($quizId);
+
+        return view('frontend.course.quiz.peserta', compact('data'), [
+            'title' => 'Quiz - Peserta',
+            'breadcrumbsBackend' => [
+                'Bahan' => route('course.bahan', [
+                    'id' => $data['quiz']->mata_id,
+                    'bahanId' => $data['quiz']->bahan_id,
+                    'tipe' => 'quiz'
+                ]),
+                'Quiz' => '',
+                'Peserta' => ''
+            ],
+        ]);
+    }
+
+    public function jawabanPeserta($quizId, $pesertaId)
+    {
+        $data['peserta'] = $this->service->jawabanPeserta($quizId, $pesertaId);
+        $data['quiz'] = $this->service->findQuiz($quizId);
+
+        return view('frontend.course.quiz.jawaban', compact('data'), [
+            'title' => 'Quiz - Jawaban',
+            'breadcrumbsBackend' => [
+                'Bahan' => route('course.bahan', [
+                    'id' => $data['quiz']->mata_id,
+                    'bahanId' => $data['quiz']->bahan_id,
+                    'tipe' => 'quiz'
+                ]),
+                'Quiz' => '',
+                'Peserta' => route('quiz.peserta', ['id' => $quizId]),
+                'Jawaban' => ''
             ],
         ]);
     }

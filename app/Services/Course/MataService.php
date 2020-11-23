@@ -49,7 +49,10 @@ class MataService
     {
         $query = $this->model->query();
 
-        $query->where('publish', 1);
+        $query->whereHas('program', function ($query) {
+            $query->publish();
+        });
+        $query->publish();
 
         $result = $query->orderBy($order, $by)->paginate($limit);
 

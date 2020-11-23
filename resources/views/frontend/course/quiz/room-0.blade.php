@@ -13,6 +13,18 @@
 @endsection
 
 @section('content')
+<div class="row">
+    <div class="col-md-12">
+      <div class="alert alert-primary alert-dismissible fade show text-muted">
+        <i class="las la-map-pin"></i>
+        {!! $data['quiz']->program->judul !!} <i class="las la-arrow-right"></i>
+        {!! $data['quiz']->mata->judul !!} <i class="las la-arrow-right"></i>
+        {!! $data['quiz']->materi->judul !!} <i class="las la-arrow-right"></i>
+        <strong>{!! $data['quiz']->bahan->judul !!}</strong>
+      </div>
+    </div>
+</div>
+
 <div class="card">
     <div class="card-header with-elements">
         <h5 class="card-header-title mt-1 mb-0">{{ $data['quiz']->materi->judul }} : "{{ $data['quiz']->bahan->judul }}"</h5>
