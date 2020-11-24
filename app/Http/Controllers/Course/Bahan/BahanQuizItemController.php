@@ -234,13 +234,13 @@ class BahanQuizItemController extends Controller
         ], 200);
     }
 
-    public function finishQuiz($quizId)
+    public function finishQuiz(Request $request, $quizId)
     {
         $quiz = $this->service->findQuiz($quizId);
 
         $this->serviceQuiz->trackUserOut($quizId);
 
-        if ($quiz->view == 0) {
+        if ($request->button == 'yes') {
             return redirect()->route('course.bahan', [
                 'id' => $quiz->mata_id, 'bahanId' => $quiz->bahan_id, 'tipe' => 'quiz'
                 ])->with('success', 'Quiz telah selesai');

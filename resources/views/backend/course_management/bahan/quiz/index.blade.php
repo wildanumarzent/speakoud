@@ -38,6 +38,11 @@
 </div>
 <!-- / Filters -->
 
+<div class="text-left">
+    <a href="{{ route('bahan.index', ['id' => $data['quiz']->bahan_id]) }}" class="btn btn-secondary rounded-pill" title="kembali ke list materi"><i class="las la-arrow-left"></i>Kembali</a>
+</div>
+<br>
+
 <div class="card">
     <div class="card-header with-elements">
         <h5 class="card-header-title mt-1 mb-0">Soal List</h5>

@@ -100,7 +100,7 @@
             <a href="{{ route('course.bahan', [ 'id' => $data['quiz']->mata_id, 'bahanId' => $data['quiz']->bahan_id, 'tipe' => 'quiz']) }}" class="btn btn-danger mr-2" title="klik untuk kembali">Kembali</a>
             <a href="javascript:;" class="btn btn-primary finish" title="klik untuk selesai">
                 Selesai
-                <form action="{{ route('quiz.finish', ['id' => $data['quiz']->id])}}" method="POST" id="form-finish">
+                <form action="{{ route('quiz.finish', ['id' => $data['quiz']->id, 'button' => 'yes'])}}" method="POST" id="form-finish">
                     @csrf
                 </form>
             </a>
