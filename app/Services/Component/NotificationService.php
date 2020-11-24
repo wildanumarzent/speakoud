@@ -25,7 +25,9 @@ class NotificationService{
         return $query;
     }
 
-    public function make($model,$title,$description,$special = null,$to = null){
+    public function make($model,$title,
+    $description = 'Intro Not Found,lorem ipsum dolor sit amet, consectetur adipiscing elit, sed diam nonummy nibh euismod tincidunt',
+    $special = null,$to = null){
 
         if(is_array($to)){
             $to = implode(';',$to);
