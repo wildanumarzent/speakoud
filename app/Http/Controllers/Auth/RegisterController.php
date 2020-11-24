@@ -66,7 +66,7 @@ class RegisterController extends Controller
             'link' => route('register.activate', ['email' => $encrypt]),
         ];
 
-        Mail::to($request->email)->send(new \App\Mail\ActivateAccountMail($data));
+        // Mail::to($request->email)->send(new \App\Mail\ActivateAccountMail($data));
 
         $this->peserta->registerPeserta($request);
 

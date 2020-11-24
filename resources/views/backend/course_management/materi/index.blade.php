@@ -39,7 +39,7 @@
 </div>
 <!-- / Filters -->
 <div class="text-left">
-    <a href="{{ route('mata.index', ['id' => $data['mata']->id]) }}" class="btn btn-secondary rounded-pill" title="kembali ke list mata"><i class="las la-arrow-left"></i>Kembali</a>
+    <a href="{{ route('mata.index', ['id' => $data['mata']->program_id]) }}" class="btn btn-secondary rounded-pill" title="kembali ke list mata"><i class="las la-arrow-left"></i>Kembali</a>
     @if ($data['hasRole'])
     <a href="{{ route('materi.create', ['id' => $data['mata']->id]) }}" class="btn btn-primary rounded-pill" title="klik untuk menambah materi pelatihan"><i class="las la-plus"></i>Tambah</a>
     @endif

@@ -143,7 +143,7 @@ class UserController extends Controller
             'link' => route('profile.email.verification', ['email' => $encrypt]),
         ];
 
-        Mail::to(auth()->user()->email)->send(new \App\Mail\VerificationMail($data));
+        // Mail::to(auth()->user()->email)->send(new \App\Mail\VerificationMail($data));
 
         return back()->with('success', 'Berhasil mengirim link. Cek email untuk verifikasi email');
     }
