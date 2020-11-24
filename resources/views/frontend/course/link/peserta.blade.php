@@ -38,6 +38,11 @@
     </div>
 </div>
 
+<div class="text-left">
+    <a href="{{ route('course.bahan', ['id' => $data['link']->mata_id, 'bahanId' => $data['link']->bahan_id,  'tipe' => 'link']) }}" class="btn btn-secondary rounded-pill" title="kembali ke link"><i class="las la-arrow-left"></i>Kembali</a>
+</div>
+<br>
+
 <div class="card">
     <div class="card-header with-elements">
         <h5 class="card-header-title mt-1 mb-0">Peserta List</h5>

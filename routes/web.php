@@ -108,7 +108,7 @@ Route::get('/conference/{id}/room', 'Course\Bahan\BahanLinkController@room')
     ->middleware('auth');
 Route::get('/conference/{id}/leave', 'Course\Bahan\BahanLinkController@leave')
     ->name('conference.leave')
-    ->middleware(['auth', 'role:administrator|internal|mitra|instruktur_internal|instruktur_mitra']);
+    ->middleware('auth');
 Route::put('/conference/{id}/leave', 'Course\Bahan\BahanLinkController@leaveConfirm')
     ->middleware(['auth', 'role:administrator|internal|mitra|instruktur_internal|instruktur_mitra']);;
 Route::get('/conference/{id}/platform/start', 'Course\Bahan\BahanLinkController@startMeet')
