@@ -725,12 +725,12 @@ Route::group(['middleware' => ['auth']], function () {
     // Route::get('/inquiry/{id}','InquiryController@detail')->name('inquiry.detail');
     // Route::post('/inquiry','InquiryController@store')->name('inquiry.store');
     // Route::delete('/inquiry/{id}','InquiryController@destroy')->name('inquiry.destroy');
-    // Kalender Diklat
-    Route::get('/kalender','KalenderController@index')->name('kalender.index');
-    Route::get('/kalender/create','KalenderController@create')->name('kalender.create');
-    Route::get('/kalender/{id}','KalenderController@detail')->name('kalender.detail');
-    Route::post('/kalender','KalenderController@store')->name('kalender.store');
-    Route::delete('/kalender/{id}','KalenderController@destroy')->name('kalender.destroy');
+
+    //fullcalender
+    Route::get('kalender','EventController@index')->name('kalender.index');
+    Route::post('event/store','EventController@store');
+    Route::post('event/update','EventController@update');
+    Route::post('event/delete','EventController@destroy');
 
 
     //logout
