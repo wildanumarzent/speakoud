@@ -18,9 +18,9 @@ class CreateEventTable extends Migration
             $table->unsignedBigInteger('creator_id');
             $table->string('judul');
             $table->text('keterangan')->nullable();
-            $table->timestamp('tanggal')->nullable();
+            $table->timestamp('start')->nullable();
             $table->text('alamat')->nullable();
-            $table->timestamp('durasi_tanggal')->nullable();
+            $table->timestamp('end')->nullable();
             $table->integer('durasi_menit')->nullable();
             $table->boolean('repeatable')->default(false)->nullable();
             $table->timestamps();
