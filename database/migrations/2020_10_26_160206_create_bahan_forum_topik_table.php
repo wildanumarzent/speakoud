@@ -24,8 +24,8 @@ class CreateBahanForumTopikTable extends Migration
             $table->string('subject');
             $table->text('message');
             $table->text('attachment')->nullable();
-            $table->boolean('pin')->default(0);
-            $table->boolean('lock')->default(0);
+            $table->boolean('pin')->default(false);
+            $table->boolean('lock')->default(false);
             $table->timestamp('publish_start')->nullable();
             $table->timestamp('publish_end')->nullable();
             $table->timestamps();

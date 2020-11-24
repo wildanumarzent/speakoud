@@ -18,7 +18,7 @@ class CreateRencanaPembelajaranTable extends Migration
             $table->unsignedBigInteger('creator_id');
             $table->string('judul');
             $table->text('keterangan')->nullable();
-            $table->boolean('punlish')->default(1);
+            $table->boolean('publish')->default(true);
             $table->timestamp('publish_end')->nullable();
             $table->timestamps();
 

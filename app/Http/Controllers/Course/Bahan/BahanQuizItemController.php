@@ -94,7 +94,13 @@ class BahanQuizItemController extends Controller
         $data['quiz_tracker'] = $this->service->getSoalQuizTracker($quizId);
         $data['soal'] = $this->service->soalQuiz($quizId, $soalId);
 
-        return view('frontend.course.quiz.room-'.$data['quiz']->view, compact('data'), [
+        if ($data['quiz']->view == true) {
+            $view = 1;
+        } else {
+            $view = 0;
+        }
+
+        return view('frontend.course.quiz.room-'.$view, compact('data'), [
             'title' => 'Quiz - Test',
             'breadcrumbsBackend' => [
                 'Bahan' => route('course.bahan', [

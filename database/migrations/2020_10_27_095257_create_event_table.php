@@ -22,7 +22,7 @@ class CreateEventTable extends Migration
             $table->text('alamat')->nullable();
             $table->timestamp('durasi_tanggal')->nullable();
             $table->integer('durasi_menit')->nullable();
-            $table->boolean('repeatable')->default(0)->nullable();
+            $table->boolean('repeatable')->default(false)->nullable();
             $table->timestamps();
 
             $table->foreign('creator_id')->references('id')->on('users')

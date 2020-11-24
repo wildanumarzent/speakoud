@@ -18,8 +18,8 @@ class CreateTagsTable extends Migration
             $table->unsignedBigInteger('creator_id');
             $table->string('nama');
             $table->text('keterangan')->nullable();
-            $table->boolean('standar')->default(0);
-            $table->boolean('pantas')->default(1);
+            $table->boolean('standar')->default(false);
+            $table->boolean('pantas')->default(true);
             $table->json('related')->nullable();
             $table->timestamps();
 

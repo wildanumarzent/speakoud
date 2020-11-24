@@ -19,9 +19,9 @@ class CreateInquiryTable extends Migration
             $table->string('slug');
             $table->text('body')->nullable();
             $table->text('after_body')->nullable();
-            $table->boolean('publish')->default(1);
-            $table->boolean('show_form')->default(1);
-            $table->boolean('show_map')->default(1);
+            $table->boolean('publish')->default(true);
+            $table->boolean('show_form')->default(true);
+            $table->boolean('show_map')->default(true);
             $table->string('longitude')->nullable();
             $table->string('latitude')->nullable();
             $table->timestamps();

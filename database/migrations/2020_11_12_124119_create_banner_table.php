@@ -21,7 +21,7 @@ class CreateBannerTable extends Migration
             $table->string('judul');
             $table->text('keterangan')->nullable();
             $table->text('link')->nullable();
-            $table->boolean('publish')->default(1);
+            $table->boolean('publish')->default(true);
             $table->integer('urutan');
             $table->timestamps();
 

@@ -20,7 +20,7 @@ class CreateMateriPelatihanTable extends Migration
             $table->unsignedBigInteger('creator_id');
             $table->string('judul');
             $table->text('keterangan')->nullable();
-            $table->boolean('publish')->default(0);
+            $table->boolean('publish')->default(false);
             $table->integer('urutan')->default(0);
             $table->timestamps();
 

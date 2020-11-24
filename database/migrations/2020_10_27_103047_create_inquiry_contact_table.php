@@ -19,7 +19,7 @@ class CreateInquiryContactTable extends Migration
             $table->ipAddress('ip_address');
             $table->json('content');
             $table->timestamp('submit_time')->nullable();
-            $table->boolean('status')->default(0);
+            $table->boolean('status')->default(false);
             $table->timestamps();
 
             $table->foreign('inquiry_id')->references('id')->on('inquiry')

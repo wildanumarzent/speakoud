@@ -22,7 +22,7 @@ class CreateBankDataTable extends Migration
             $table->text('thumbnail')->nullable();
             $table->string('filename')->nullable();
             $table->text('keterangan')->nullable();
-            $table->boolean('is_video')->default(0);
+            $table->boolean('is_video')->default(false);
             $table->timestamps();
 
             $table->foreign('owner_id')->references('id')->on('users')

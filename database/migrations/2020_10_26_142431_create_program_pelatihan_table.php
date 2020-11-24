@@ -19,9 +19,9 @@ class CreateProgramPelatihanTable extends Migration
             $table->unsignedBigInteger('mitra_id')->nullable();
             $table->string('judul');
             $table->text('keterangan')->nullable();
-            $table->boolean('publish')->default(0);
+            $table->boolean('publish')->default(false);
             $table->integer('urutan')->default(0);
-            $table->boolean('tipe')->default(0)->comment('0 = internal, 1 = mitra');
+            $table->boolean('tipe')->default(false)->comment('0 = internal, 1 = mitra');
             $table->timestamps();
 
             $table->foreign('creator_id')->references('id')->on('users')

@@ -21,7 +21,7 @@ class CreateMataPelatihanTable extends Migration
             $table->text('intro')->nullable();
             $table->text('content')->nullable();
             $table->json('cover')->nullable();
-            $table->boolean('publish')->default(0);
+            $table->boolean('publish')->default(false);
             $table->timestamp('publish_start')->nullable();
             $table->timestamp('publish_end')->nullable();
             $table->integer('urutan')->default(0);

@@ -25,7 +25,7 @@ class CreateJadwalPelatihanTable extends Migration
             $table->time('end_time')->nullable();
             $table->text('lokasi')->nullable();
             $table->json('cover')->nullable();
-            $table->boolean('publish')->default(0);
+            $table->boolean('publish')->default(false);
             $table->timestamps();
 
             $table->foreign('mata_id')->references('id')
