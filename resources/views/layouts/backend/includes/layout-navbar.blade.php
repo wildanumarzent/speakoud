@@ -6,7 +6,7 @@
         <span class="app-brand-logo demo bg-white">
             <img src="{{ asset(config('addon.images.logo')) }}" style="width:50px;height:50px;object-fit:cover">
         </span>
-        <span class="app-brand-text demo font-weight-normal ml-2">E-LEARNING BPPT</span>
+        <span class="app-brand-text demo font-weight-normal ml-2">BPPT E-LEARNING SYSTEM</span>
     </a>
 
 
@@ -27,7 +27,7 @@
         <div class="navbar-nav align-items-lg-center d-none d-lg-block">
           <!-- Search -->
           <label class="nav-item navbar-text navbar-search-box p-0 active">
-            E-LEARNING BPPT &nbsp;
+            BPPT E-LEARNING SYSTEM &nbsp;
             <a href="{{ route('home') }}" target="_blank" title="Website"><i class="las la-external-link-alt"></i></a>
           </label>
         </div>

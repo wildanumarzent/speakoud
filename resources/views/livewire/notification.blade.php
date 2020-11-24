@@ -1,6 +1,6 @@
 <div class="demo-navbar-notifications nav-item dropdown mr-lg-3">
     <a class="nav-link dropdown-toggle hide-arrow" href="#" data-toggle="dropdown">
-      <i class="ion ion-md-notifications-outline navbar-icon align-middle"></i>
+      <i class="las la-bell navbar-icon align-middle"></i>
       <span class="badge badge-primary badge-dot indicator"></span>
       <span class="d-lg-none align-middle">&nbsp; Notifications</span>
     </a>

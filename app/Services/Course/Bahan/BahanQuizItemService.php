@@ -81,6 +81,11 @@ class BahanQuizItemService
         return $this->model->findOrFail($id);
     }
 
+    public function findItemTracker(int $id)
+    {
+        return $this->modelTracker->findOrFail($id);
+    }
+
     public function findQuiz(int $id)
     {
         return $this->modelQuiz->findOrFail($id);
@@ -167,5 +172,14 @@ class BahanQuizItemService
         $tracker->save();
 
         return $tracker;
+    }
+
+    public function cekEssay(int $id, int $status)
+    {
+        $essay = $this->findItemTracker($id);
+        $essay->benar = $status;
+        $essay->save();
+
+        return $essay;
     }
 }

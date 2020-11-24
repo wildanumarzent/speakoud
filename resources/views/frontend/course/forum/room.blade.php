@@ -18,6 +18,11 @@
     </div>
 </div>
 
+<div class="text-left">
+    <a href="{{ route('course.bahan', ['id' => $data['forum']->mata_id, 'bahanId' => $data['forum']->bahan_id,  'tipe' => 'forum']) }}" class="btn btn-secondary rounded-pill" title="kembali ke forum"><i class="las la-arrow-left"></i>Kembali</a>
+</div>
+<br>
+
 {{-- topik --}}
 <div class="card mb-4">
     <div class="card-header">

@@ -27,6 +27,12 @@ class BahanForumController extends Controller
         $data['forum'] = $this->service->findForum($forumId);
         $data['topik'] = $this->service->findTopik($id);
 
+        if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
+            if ($data['forum']->program->publish == 0 || $data['forum']->bahan->publish == 0) {
+                return abort(404);
+            }
+        }
+
         $this->serviceProgram->checkInstruktur($data['topik']->program_id);
         $this->serviceProgram->checkPeserta($data['topik']->program_id);
 

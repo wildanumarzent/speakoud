@@ -1,12 +1,6 @@
 @extends('frontend.course.bahan')
 
 @section('content-view')
-@if (!auth()->user()->hasRole('peserta_internal|peserta_mitra'))
-<a href="{{ route('quiz.peserta', ['id' => $data['bahan']->quiz->id]) }}" class="btn btn-info icon-btn-only-sm mb-4" title="klik untuk melihat peserta">
-    <i class="las la-users"></i><span> Peserta</span>
-</a>
-@endif
-
 <div class="card-datatable table-responsive d-flex justify-content-center mb-2">
     <table class="table table-striped table-bordered mb-0">
        <tr>
@@ -27,6 +21,16 @@
                @endif
            </td>
         </tr>
+        @if (!auth()->user()->hasRole('peserta_internal|peserta_mitra'))
+        <tr>
+            <th style="width: 150px;">Peserta</th>
+            <td>
+                <a href="{{ route('quiz.peserta', ['id' => $data['bahan']->quiz->id]) }}" class="btn btn-info icon-btn-only-sm btn-sm" title="klik untuk melihat peserta">
+                    <i class="las la-users"></i><span> Lihat</span>
+                </a>
+            </td>
+        </tr>
+        @endif
         @role ('peserta_internal|peserta_mitra')
         <tr>
             <th style="width: 150px;">Tanggal Mulai</th>

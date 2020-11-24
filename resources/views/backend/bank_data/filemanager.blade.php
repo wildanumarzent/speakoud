@@ -19,11 +19,11 @@
     <div class="card-header with-elements">
         <div class="card-header-elements">
             <div class="file-manager-container file-manager-col-view" style="background-color: #fff !important">
-                <form action="{{ route('bank.data.filemanager', ['type' => Request::get('type-file'), 'view' => Request::get('view'), 'path' => Request::get('path')]) }}" method="GET">
+                <form action="" method="GET">
                     <div class="input-group">
-                        @if (Request::get('path') != null)
-                            <input type="hidden" name="path" value="{{ Request::get('path') }}">
-                        @endif
+                        <input type="hidden" name="type-file" value="{{ Request::get('type-file') }}">
+                        <input type="hidden" name="view" value="{{ Request::get('view') }}">
+                        <input type="hidden" name="path" value="{{ Request::get('path') }}">
                         <input type="text" class="form-control" name="q" value="{{ Request::get('q') }}" placeholder="Filename...">
                         <div class="input-group-append">
                             <button type="submit" class="btn btn-warning" title="klik untuk mencari"><i class="las la-search"></i></button>

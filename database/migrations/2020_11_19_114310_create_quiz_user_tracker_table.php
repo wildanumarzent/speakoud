@@ -20,6 +20,7 @@ class CreateQuizUserTrackerTable extends Migration
             $table->tinyInteger('status')->default(0);
             $table->timestamp('start_time')->nullable();
             $table->timestamp('end_time')->nullable();
+            $table->boolean('cek')->default(0);
             $table->timestamps();
 
             $table->foreign('quiz_id')->references('id')

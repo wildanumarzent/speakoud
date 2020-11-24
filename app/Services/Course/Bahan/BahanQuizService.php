@@ -38,6 +38,18 @@ class BahanQuizService
         return $result;
     }
 
+    public function findQuizPeserta(int $quizId, int $pesertaId)
+    {
+        $query = $this->modelTrackUser->query();
+
+        $query->where('quiz_id', $quizId)
+            ->where('user_id', $pesertaId);
+
+        $result = $query->first();
+
+        return $result;
+    }
+
     public function storeQuiz($request, $materi, $bahan)
     {
         $quiz = new BahanQuiz;
@@ -83,6 +95,15 @@ class BahanQuizService
             ->where('user_id', auth()->user()->id)->first();
         $track->status = 2;
         $track->end_time = now();
+        $track->save();
+
+        return $track;
+    }
+
+    public function cekPeserta(int $id)
+    {
+        $track = $this->modelTrackUser->findOrFail($id);
+        $track->cek = 1;
         $track->save();
 
         return $track;

@@ -39,7 +39,7 @@
     </div>
     <div class="col-xl-4">
         <div class="row">
-            @role ('developer|administrator|internal|mitra|instruktu_internal|instruktur_mitra')
+            @if (!auth()->user()->hasRole('peserta_internal|peserta_mitra'))
             <div class="col-md-12">
                 <div class="card">
                     <h6 class="card-header with-elements">
@@ -51,7 +51,7 @@
                                 <thead>
                                     <tr>
                                         <th>Nama</th>
-                                        <th>Verifikasi Kehadiran</th>
+                                        <th style="width: 90px;">Verifikasi</th>
                                     </tr>
                                 </thead>
                                 <tbody id="list-peserta">
@@ -66,7 +66,7 @@
                     </div>
                 </div>
             </div>
-            @endrole
+            @endif
         </div>
     </div>
 </div>
@@ -97,6 +97,63 @@
     });
     api.executeCommand('subject', '{{ $data['link']->bahan->judul }}');
     // api.executeCommand('avatarUrl', '{{ auth()->user()->getPhoto(auth()->user()->photo['filename']) }}');
+
+    $(document).ready(function () {
+        //list peserta
+        setInterval (function () {
+            $.ajax({
+                url : '/conference/{{ $data['link']->id }}/peserta',
+                type : "POST",
+                dataType : "json",
+                data : {},
+                success : function(data) {
+                    $('#list-peserta').html(' ');
+                    if (data.peserta.length > 0) {
+                        $.each(data.peserta ,function(index, value) {
+                            var btn_disable = '';
+                            var btn_color = 'success';
+                            if (value.check_in_verified == 1) {
+                                btn_disable = 'disabled';
+                                var btn_color = 'secondary';
+                            }
+                            $('#list-peserta').append(`
+                                <tr>
+                                    <td>`+value.name+`</td>
+                                    <td>
+                                        <button id="verifikasi" class="btn btn-`+btn_color+` btn-sm icon-btn" `+btn_disable+` data-id="`+value.id+`" title="klik untuk verifikasi">
+                                            <span><i class="las la-check"></i></span>
+                                        </button>
+                                    </td>
+                                </tr>
+                            `);
+                        });
+                    } else {
+                        $('#list-peserta').append(`
+                            <tr>
+                                <td colspan="2" align="center">
+                                    <i><strong style="color:red;">! Data Peserta Kosong !</strong></i>
+                                </td>
+                            </tr>
+                        `);
+                    }
+                },
+            });
+        }, 5000);
+
+        $(document).on('click', '#verifikasi', function() {
+            var id = $(this).attr("data-id");
+            $.ajax({
+                url : '/conference/{{ $data['link']->id }}/join/'+ id +'/verification',
+                method: 'PUT',
+                success:function() {
+                    // console.log('success');
+                },
+                error: function() {
+                    // console.log('gagal');
+                }
+            })
+        });
+    });
 </script>
 
 @include('components.toastr')

@@ -38,7 +38,8 @@
     </div>
 </div>
 <!-- / Filters -->
-<div class="d-flex justify-content-between">
+<div class="text-left">
+    <a href="{{ route('materi.index', ['id' => $data['materi']->id]) }}" class="btn btn-secondary rounded-pill" title="kembali ke list materi"><i class="las la-arrow-left"></i>Kembali</a>
     <button type="button" class="btn btn-primary rounded-pill" data-toggle="modal" data-target="#modals-tipe-bahan" title="klik untuk menambah bahan pelatihan"><i class="las la-plus"></i>Tambah</button>
 </div>
 <br>

@@ -47,6 +47,10 @@
         </div>
     </div>
 </div>
+<div class="text-left">
+    <a href="{{ route('course.bahan', ['id' => $data['quiz']->mata_id, 'bahanId' => $data['quiz']->bahan_id,  'tipe' => 'quiz']) }}" class="btn btn-secondary rounded-pill" title="kembali ke quiz"><i class="las la-arrow-left"></i>Kembali</a>
+</div>
+<br>
 <!-- / Filters -->
 <div class="card">
     <div class="card-header with-elements">
@@ -110,9 +114,17 @@
                     </td>
                     <td class="text-center"><strong>{{ $item->quiz->trackItem()->where('user_id', $item->user_id)->count() }}</strong></td>
                     <td>
-                        <a href="" class="btn btn-success icon-btn btn-sm" title="Klik untuk mengkonfirmasi jawaban peserta">
+                        @if ($item->cek == 0)
+                        <a href="javascript:;" class="btn btn-success icon-btn btn-sm peserta" title="Klik untuk mengkonfirmasi jawaban peserta">
                             <i class="las la-check"></i>
+                            <form action="{{ route('quiz.peserta.cek', ['id' => $item->id])}}" method="POST" id="form-peserta">
+                                @csrf
+                                @method('PUT')
+                            </form>
                         </a>
+                        @else
+                        <button type="button" class="btn btn-secondary icon-btn btn-sm" disabled><i class="las la-check"></i></button>
+                        @endif
                         <a href="{{ route('quiz.peserta.jawaban', ['id' => $item->quiz_id, 'pesertaId' => $item->user_id]) }}" class="btn btn-info icon-btn btn-sm" title="Klik untuk melihat jawaban peserta">
                             <i class="las la-eye"></i>
                         </a>
@@ -141,6 +153,28 @@
 @endsection
 
 @section('jsbody')
+<script>
+    //peserta
+    $('.peserta').click(function(e)
+    {
+        e.preventDefault();
+        var url = $(this).attr('href');
+        Swal.fire({
+        title: "Apakah anda yakin sudah cek semua jawaban peserta ini ?",
+        text: "",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Ya!',
+        cancelButtonText: "Tidak, belum",
+        }).then((result) => {
+        if (result.value) {
+            $("#form-peserta").submit();
+        }
+        })
+    });
+</script>
 @include('components.toastr')
 @endsection
 

@@ -3,14 +3,49 @@
 namespace App\Services\Course\Bahan;
 
 use App\Models\Course\Bahan\BahanLink;
+use App\Models\Course\Bahan\BahanLinkPeserta;
 
 class BahanLinkService
 {
-    private $model;
+    private $model, $modelPeserta;
 
-    public function __construct(BahanLink $model)
+    public function __construct(
+        BahanLink $model,
+        BahanLinkPeserta $modelPeserta
+    )
     {
         $this->model = $model;
+        $this->modelPeserta = $modelPeserta;
+    }
+
+    public function getPesertaList($request, int $id)
+    {
+        $query = $this->modelPeserta->query();
+
+        $query->where('link_id', $id);
+        $query->when($request->q, function ($query, $q) {
+            return $query->whereHas('user', function ($query) use ($q) {
+                $query->where('name', $q);
+            });
+        });
+
+        $result = $query->paginate(20);
+
+        return $result;
+    }
+
+    public function getPesertaCheckIn(int $id)
+    {
+        $query = $this->modelPeserta->join('users', 'link_user_tracker.user_id',
+             '=', 'users.id')->select('link_user_tracker.id as id',
+                'link_user_tracker.check_in_verified', 'link_user_tracker.join',
+                'link_user_tracker.check_in', 'link_user_tracker.check_in_verified',
+                'users.name');
+
+        $query->where('link_id', $id);
+        $result = $query->orderBy('join', 'ASC')->get();
+
+        return $result;
     }
 
     public function findLink(int $id)
@@ -65,5 +100,37 @@ class BahanLinkService
         $link->save();
 
         return $link;
+    }
+
+    public function checkPesertaJoin(int $id)
+    {
+        $query = $this->modelPeserta->query();
+
+        $query->where('link_id', $id)->where('user_id', auth()->user()->id);
+
+        $result = $query->count();
+
+        return $result;
+    }
+
+    public function trackPesertaJoin(int $id)
+    {
+        $peserta = new BahanLinkPeserta;
+        $peserta->link_id = $id;
+        $peserta->user_id = auth()->user()->id;
+        $peserta->join = now();
+        $peserta->save();
+
+        return $peserta;
+    }
+
+    public function checkInVerified(int $id)
+    {
+        $peserta = $this->modelPeserta->findOrFail($id);
+        $peserta->check_in = now();
+        $peserta->check_in_verified = 1;
+        $peserta->save();
+
+        return $peserta;
     }
 }

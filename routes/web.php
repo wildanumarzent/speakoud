@@ -36,6 +36,10 @@ Route::post('inquiry/{id}/send', 'InquiryController@send')
     ->name('inquiry.send');
 
 //course
+Route::get('/course/jadwal/list', 'Course\JadwalController@jadwalList')
+    ->name('course.jadwal');
+Route::get('/course/jadwal/{id}/detail', 'Course\JadwalController@jadwalDetail')
+    ->name('course.jadwal.detail');
 Route::get('/course/list', 'Course\MataController@courseList')
     ->name('course.list');
 Route::get('/course/{id}/register', 'Course\MataController@courseRegister')
@@ -100,12 +104,25 @@ Route::delete('forum/{id}/topik/{topikId}/reply/{replyId}', 'Course\Bahan\BahanF
 
 //video conference
 Route::get('/conference/{id}/room', 'Course\Bahan\BahanLinkController@room')
-    ->name('conference.room');
+    ->name('conference.room')
+    ->middleware('auth');
 Route::get('/conference/{id}/leave', 'Course\Bahan\BahanLinkController@leave')
-    ->name('conference.leave');
-Route::put('/conference/{id}/leave', 'Course\Bahan\BahanLinkController@leaveConfirm');
+    ->name('conference.leave')
+    ->middleware(['auth', 'role:administrator|internal|mitra|instruktur_internal|instruktur_mitra']);
+Route::put('/conference/{id}/leave', 'Course\Bahan\BahanLinkController@leaveConfirm')
+    ->middleware(['auth', 'role:administrator|internal|mitra|instruktur_internal|instruktur_mitra']);;
 Route::get('/conference/{id}/platform/start', 'Course\Bahan\BahanLinkController@startMeet')
-    ->name('conference.platform.start');
+    ->name('conference.platform.start')
+    ->middleware('auth');
+Route::get('/conference/{id}/peserta/list', 'Course\Bahan\BahanLinkController@peserta')
+    ->name('conference.peserta.list')
+    ->middleware(['auth', 'role:administrator|internal|mitra|instruktur_internal|instruktur_mitra']);
+Route::post('/conference/{id}/peserta', 'Course\Bahan\BahanLinkController@pesertaCheck')
+    ->name('conference.peserta')
+    ->middleware(['auth', 'role:administrator|internal|mitra|instruktur_internal|instruktur_mitra']);
+Route::put('/conference/{id}/join/{trackId}/verification', 'Course\Bahan\BahanLinkController@checkInVerified')
+    ->name('conference.peserta.check')
+    ->middleware(['auth', 'role:administrator|internal|mitra|instruktur_internal|instruktur_mitra']);
 
 //quiz
 Route::get('/quiz/{id}/test', 'Course\Bahan\BahanQuizItemController@room')
@@ -122,6 +139,12 @@ Route::get('/quiz/{id}/peserta', 'Course\Bahan\BahanQuizItemController@peserta')
     ->middleware(['auth', 'role:administrator|internal|mitra|instruktur_internal|instruktur_mitra']);
 Route::get('/quiz/{id}/peserta/{pesertaId}/jawaban', 'Course\Bahan\BahanQuizItemController@jawabanPeserta')
     ->name('quiz.peserta.jawaban')
+    ->middleware(['auth', 'role:administrator|internal|mitra|instruktur_internal|instruktur_mitra']);
+Route::put('/item/{id}/essay/{status}', 'Course\Bahan\BahanQuizItemController@checkEssay')
+    ->name('quiz.item.essay')
+    ->middleware(['auth', 'role:administrator|internal|mitra|instruktur_internal|instruktur_mitra']);
+Route::put('/peserta/{id}/cek', 'Course\Bahan\BahanQuizItemController@checkPeserta')
+    ->name('quiz.peserta.cek')
     ->middleware(['auth', 'role:administrator|internal|mitra|instruktur_internal|instruktur_mitra']);
 
 /**
@@ -509,6 +532,29 @@ Route::group(['middleware' => ['auth']], function () {
 
     // Bahan Scorm
     Route::get('/scorm/{id}','Course\Bahan\BahanScormController@show')->name('scorm.detail');
+
+    //jadwal pelatihan
+    Route::get('/jadwal', 'Course\JadwalController@index')
+        ->name('jadwal.index')
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
+    Route::get('/jadwal/create', 'Course\JadwalController@create')
+        ->name('jadwal.create')
+        ->middleware('role:developer|administrator|internal|mitra');
+    Route::post('/jadwal', 'Course\JadwalController@store')
+        ->name('jadwal.store')
+        ->middleware('role:developer|administrator|internal|mitra');
+    Route::get('/jadwal/{id}/edit', 'Course\JadwalController@edit')
+        ->name('jadwal.edit')
+        ->middleware('role:developer|administrator|internal|mitra');
+    Route::put('/jadwal/{id}', 'Course\JadwalController@update')
+        ->name('jadwal.update')
+        ->middleware('role:developer|administrator|internal|mitra');
+    Route::put('/jadwal/{id}/publish', 'Course\JadwalController@publish')
+        ->name('jadwal.publish')
+        ->middleware('role:developer|administrator|internal|mitra');
+    Route::delete('/jadwal/{id}', 'Course\JadwalController@destroy')
+        ->name('jadwal.destroy')
+        ->middleware('role:developer|administrator|internal|mitra');
 
     /**Website module */
     //page

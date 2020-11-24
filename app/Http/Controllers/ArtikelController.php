@@ -112,7 +112,7 @@ class ArtikelController extends Controller
         }
 
         return view('frontend.artikel.detail', compact('data'), [
-            'title' => $data['read']->judul,
+            'title' => 'Artikel - '.$data['read']->judul,
             'breadcrumbsFrontend' => [
                 'Artikel' => 'javascript:;',
                 $data['read']->judul => '',

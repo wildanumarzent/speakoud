@@ -78,9 +78,11 @@ class BahanQuizItemController extends Controller
             $detik = $kurang-($menit*60);
             $data['countdown'] = $menit.':'.$detik;
 
-            if (now()->format('Y-m-d H:i:s') > $data['quiz']->trackUserIn->start_time->addMinutes($data['quiz']->durasi)->format('Y-m-d H:i:s')) {
-                return redirect()->route('course.bahan', ['id' => $data['quiz']->mata_id, 'bahanId' => $data['quiz']->bahan_id, 'tipe' => 'quiz'])
-                    ->with('warning', 'Durasi sudah habis');
+            if ($data['quiz']->tipe == 1) {
+                if (now()->format('Y-m-d H:i:s') > $data['quiz']->trackUserIn->start_time->addMinutes($data['quiz']->durasi)->format('Y-m-d H:i:s')) {
+                    return redirect()->route('course.bahan', ['id' => $data['quiz']->mata_id, 'bahanId' => $data['quiz']->bahan_id, 'tipe' => 'quiz'])
+                        ->with('warning', 'Durasi sudah habis');
+                }
             }
         }
 
@@ -123,12 +125,11 @@ class BahanQuizItemController extends Controller
         return view('frontend.course.quiz.peserta', compact('data'), [
             'title' => 'Quiz - Peserta',
             'breadcrumbsBackend' => [
-                'Bahan' => route('course.bahan', [
+                'Quiz' => route('course.bahan', [
                     'id' => $data['quiz']->mata_id,
                     'bahanId' => $data['quiz']->bahan_id,
                     'tipe' => 'quiz'
                 ]),
-                'Quiz' => '',
                 'Peserta' => ''
             ],
         ]);
@@ -136,18 +137,18 @@ class BahanQuizItemController extends Controller
 
     public function jawabanPeserta($quizId, $pesertaId)
     {
-        $data['peserta'] = $this->service->jawabanPeserta($quizId, $pesertaId);
+        $data['peserta'] = $this->serviceQuiz->findQuizPeserta($quizId, $pesertaId);
+        $data['item'] = $this->service->jawabanPeserta($quizId, $pesertaId);
         $data['quiz'] = $this->service->findQuiz($quizId);
 
         return view('frontend.course.quiz.jawaban', compact('data'), [
             'title' => 'Quiz - Jawaban',
             'breadcrumbsBackend' => [
-                'Bahan' => route('course.bahan', [
+                'Quiz' => route('course.bahan', [
                     'id' => $data['quiz']->mata_id,
                     'bahanId' => $data['quiz']->bahan_id,
                     'tipe' => 'quiz'
                 ]),
-                'Quiz' => '',
                 'Peserta' => route('quiz.peserta', ['id' => $quizId]),
                 'Jawaban' => ''
             ],
@@ -243,6 +244,20 @@ class BahanQuizItemController extends Controller
                 'message' => ''
             ], 200);
         }
+    }
+
+    public function checkEssay($itemId, $status)
+    {
+        $this->service->cekEssay($itemId, $status);
+
+        return back();
+    }
+
+    public function checkPeserta($id)
+    {
+        $this->serviceQuiz->cekPeserta($id);
+
+        return back();
     }
 
     public function destroy($quizId, $id)

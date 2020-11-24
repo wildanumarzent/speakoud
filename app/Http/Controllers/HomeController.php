@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\Banner\BannerKategoriService;
+use App\Services\Course\JadwalService;
 use App\Services\Course\MataService;
 use App\Services\PageService;
 use Illuminate\Http\Request;
@@ -10,7 +11,7 @@ use Illuminate\Http\Request;
 class HomeController extends Controller
 {
 
-    private $banner, $page, $mata;
+    private $banner, $page, $mata, $jadwal;
 
     /**
      * Create a new controller instance.
@@ -20,12 +21,14 @@ class HomeController extends Controller
     public function __construct(
         BannerKategoriService $banner,
         PageService $page,
-        MataService $mata
+        MataService $mata,
+        JadwalService $jadwal
     )
     {
         $this->banner = $banner;
         $this->page = $page;
         $this->mata = $mata;
+        $this->jadwal = $jadwal;
 
         if (request()->segment(1) != null) {
             $this->middleware('auth');
@@ -43,13 +46,14 @@ class HomeController extends Controller
         $data['pageOne'] = $this->page->findPage(1);
         $data['pageSix'] = $this->page->findPage(6);
         $data['mata'] = $this->mata->getMata('urutan', 'ASC', 8);
+        $data['jadwal'] = $this->jadwal->getJadwal(6);
 
         return view('frontend.index', compact('data'));
     }
 
     public function dashboard(Request $request)
     {
-        return view('backend.dashboard', [
+        return view('backend.dashboard.index', [
             'title' => 'Dashboard',
         ]);
     }

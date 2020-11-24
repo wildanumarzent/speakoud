@@ -15,13 +15,13 @@
                         <ul class="list-nav">
                             <li class="{{ empty(Request::segment(1)) ? 'current-nav' : '' }}"><a href="{{ route('home') }}" title="Home">Home</a></li>
 
-                            <li class="has-dropdown {{ Request::is('course*') ? 'current-nav' : '' }}">
-                                <a href="#!">Program Pelatihan</a>
+                            <li class="has-dropdown {{ Request::is('course/list*') ? 'current-nav' : '' }}">
+                                <a href="#!" title="Program Pelatihan">Program Pelatihan</a>
                                 <ul class="dropdown">
-                                    <li class="btn-back"><a href="#!">back</a></li>
+                                    <li class="btn-back"><a href="#!" title="kembali">back</a></li>
                                     @foreach ($menu['program_pelatihan'] as $program)
                                     <li class="has-sub-dropdown is-hidden">
-                                        <a href="#!">{!! $program->judul !!}</a>
+                                        <a href="#!" title="{!! $program->judul !!}">{!! $program->judul !!}</a>
                                         <ul class="sub-dropdown">
                                             <li class="btn-back"><a href="#!">back</a></li>
                                             @foreach ($program->mataPublish as $mata)
@@ -32,10 +32,10 @@
                                     @endforeach
                                 </ul>
                             </li>
-                            <li><a href="list-jadwal.html">Jadwal</a></li>
-                            <li class="{{ Request::is('content/artikel*') ? 'current-nav' : '' }}"><a href="{{ route('artikel.list') }}">Artikel</a></li>
+                            <li class="{{ Request::is('course/jadwal*') ? 'current-nav' : '' }}"><a href="{{ route('course.jadwal') }}" title="Jadwal Pelatihan">Jadwal</a></li>
+                            <li class="{{ Request::is('content/artikel*') ? 'current-nav' : '' }}"><a href="{{ route('artikel.list') }}" title="Artikel">Artikel</a></li>
                             @foreach ($menu['inquiry'] as $inquiry)
-                            <li class="{{ Request::is('inquiry*') ? 'current-nav' : '' }}"><a href="{{ route('inquiry.read', ['slug' => $inquiry->slug]) }}">{!! $inquiry->name !!}</a></li>
+                            <li class="{{ Request::is('inquiry*') ? 'current-nav' : '' }}"><a href="{{ route('inquiry.read', ['slug' => $inquiry->slug]) }}" title="{!! $inquiry->name !!}">{!! $inquiry->name !!}</a></li>
                             @endforeach
                         </ul>
                     </nav>
@@ -46,7 +46,7 @@
                 <div class="menubar-right">
                     @if (Auth::guard()->check())
                     <div class="nav-item account has-dropdwon">
-                        <a href="#!" class="user">
+                        <a href="#!" class="user" title="{{ auth()->user()->name }}">
                             @php
                                 $name = auth()->user()->name;
                                 $match = preg_split('/([\s\n\r]+)/u', $name, null, PREG_SPLIT_DELIM_CAPTURE);

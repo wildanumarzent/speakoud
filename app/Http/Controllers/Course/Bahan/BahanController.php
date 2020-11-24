@@ -76,6 +76,13 @@ class BahanController extends Controller
         $data['jump'] = $this->service->bahanJump($id);
         $data['prev'] = $this->service->bahanPrevNext($data['materi']->id, $data['bahan']->urutan, 'prev');
         $data['next'] = $this->service->bahanPrevNext($data['materi']->id, $data['bahan']->urutan, 'next');
+
+        if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
+            if ($data['bahan']->program->publish == 0 || $data['bahan']->publish == 0) {
+                return abort(404);
+            }
+        }
+
         if ($tipe == 'forum') {
             $data['topik'] = $this->serviceBahanForum->getTopikList($data['bahan']->forum->id);
         }

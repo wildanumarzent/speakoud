@@ -19,6 +19,32 @@ class MataService
         $this->model = $model;
     }
 
+    public function getAllMata()
+    {
+        $query = $this->model->query();
+
+        $query->whereHas('program', function ($query) {
+            $query->publish();
+        });
+        $query->publish();
+
+        if (auth()->user()->hasRole('internal')) {
+            $query->whereHas('program', function ($queryC) {
+                $queryC->where('tipe', 0);
+            });
+        }
+        if (auth()->user()->hasRole('mitra')) {
+            $query->whereHas('program', function ($queryC) {
+                $queryC->where('mitra_id', auth()->user()->id)
+                    ->where('tipe', 1);
+            });
+        }
+
+        $result = $query->get();
+
+        return $result;
+    }
+
     public function getMataList($request, int $programId)
     {
         $query = $this->model->query();

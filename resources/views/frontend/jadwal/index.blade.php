@@ -6,7 +6,7 @@
         <div class="banner-content">
             <div class="banner-text">
                 <div class="title-heading text-center">
-                    <h1>@lang('strip.widget_1_title')</h1>
+                    <h1>@lang('strip.widget_2_title_2')</h1>
 
                 </div>
             </div>
@@ -21,10 +21,11 @@
     <div class="container">
         <div class="row">
 
-            @foreach ($data['mata'] as $item)
-            <div class="col-md-4">
-                <div class="item-post">
+            @foreach ($data['jadwal'] as $item)
+            <div class="col-md-6">
+                <div class="item-post row-box">
                     <div class="box-img">
+
                         <div class="thumbnail-img">
                             <img src="{{ $item->getCover($item->cover['filename']) }}" title="{{ $item->cover['title'] }}" alt="{{ $item->cover['alt'] }}">
                         </div>
@@ -33,25 +34,26 @@
                         <div class="post-date">
                             {{ $item->created_at->format('d F Y') }}
                         </div>
-                        <h5 class="post-title">
-                            <a href="{{ route('course.detail', ['id' => $item->id]) }}">{!! $item->judul !!}</a>
-                        </h5>
-                        <div class="post-info">
-                            <a href="{{ route('course.register', ['id' => $item->id]) }}" class="btn btn-primary mr-auto">Daftar</a>
+                        <a href="{{ route('course.jadwal.detail', ['id' => $item->id]) }}">
+                            <h5 class="post-title">
+                                {!! $item->judul !!}
+                            </h5>
+                        </a>
+                        <div class="post-info flex-column">
                             <div class="box-info">
-                                <div class="item-info">
+                                <div class="item-info text-left">
+                                    <span class="ml-4">Jam Mulai</span>
                                     <div class="data-info">
-                                        <i class="las la-user"></i>
-                                        <span>50</span>
+                                        <i class="las la-clock"></i>
+                                        <span>{{ \Carbon\Carbon::parse($item->start_time)->format('H:i A') }}</span>
                                     </div>
-                                    <span>Enrolled</span>
                                 </div>
-                                <div class="item-info">
+                                <div class="item-info text-left">
+                                    <span class="ml-4">Jam Selesai</span>
                                     <div class="data-info">
-                                        <i class="las la-comment"></i>
-                                        <span>{{ $item->materi->count() }}</span>
+                                        <i class="las la-clock"></i>
+                                        <span>{{ \Carbon\Carbon::parse($item->end_time)->format('H:i A') }}</span>
                                     </div>
-                                    <span>Topics</span>
                                 </div>
                             </div>
                         </div>
@@ -63,14 +65,14 @@
 
         </div>
 
-        @if ($data['mata']->count() == 0)
+        @if ($data['jadwal']->count() == 0)
         <div class="text-center">
-            <h5 style="color: red;">! Tidak ada program pelatihan !</h5>
+            <h5 style="color: red;">! Tidak ada jadwal pelatihan !</h5>
         </div>
         @endif
 
         <div class="box-btn d-flex justify-content-center">
-            {{ $data['mata']->onEachSide(3)->links() }}
+            {{ $data['jadwal']->onEachSide(3)->links() }}
         </div>
     </div>
 </div>

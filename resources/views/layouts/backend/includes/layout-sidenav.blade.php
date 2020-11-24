@@ -1,9 +1,9 @@
 @php
     $masterOpen = (Request::is('instansi/internal*') || Request::is('instansi/mitra*') || Request::is('user*') || Request::is('internal*') || Request::is('mitra*') ||
-                    Request::is('instruktur*') || Request::is('peserta*') || Request::is('grades*') || Request::is('tags*') || Request::is('kometar*'));
+                    Request::is('instruktur*') || Request::is('peserta*') || Request::is('grades*') || Request::is('tags*') || Request::is('komentar*'));
     $userOpen = (Request::is('user*') || Request::is('internal*') || Request::is('mitra*') ||
                     Request::is('instruktur*') || Request::is('peserta*'));
-    $course = (Request::is('program*') || Request::is('mata*') || Request::is('materi*') || Request::is('course*'));
+    $course = (Request::is('program*') || Request::is('mata*') || Request::is('materi*') || Request::is('course*') || Request::is('jadwal*') || Request::is('kalender*'));
 @endphp
 <div id="layout-sidenav" class="{{ isset($layout_sidenav_horizontal) ? 'layout-sidenav-horizontal sidenav-horizontal container-p-x flex-grow-0' : 'layout-sidenav sidenav-vertical' }} sidenav bg-sidenav-theme">
 
@@ -163,7 +163,14 @@
                 <div>Program Pelatihan</div>
               </a>
             </li>
-            <li class="sidenav-item">
+            @role ('developer|administrator|internal|mitra')
+            <li class="sidenav-item{{ (Request::is('jadwal*')) ? ' active' : '' }}">
+                <a href="{{ route('jadwal.index') }}" class="sidenav-link">
+                  <div>Jadwal Diklat</div>
+                </a>
+            </li>
+            @endrole
+            <li class="sidenav-item{{ (Request::is('kalender*')) ? ' active' : '' }}">
                 <a href="{{route('kalender.index')}}" class="sidenav-link">
                   <div>Kalender Diklat</div>
                 </a>
@@ -185,11 +192,6 @@
         </li>
         @endrole
 
-        <li class="sidenav-item">
-            <a href="" class="sidenav-link"><i class="sidenav-icon las la-handshake"></i>
-              <div>Kemitraan</div>
-            </a>
-        </li>
         <li class="sidenav-item">
             <a href="" class="sidenav-link"><i class="sidenav-icon las la-certificate"></i>
               <div>Sertifikasi</div>

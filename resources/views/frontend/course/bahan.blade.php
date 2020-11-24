@@ -12,7 +12,8 @@
       <div class="alert alert-primary alert-dismissible fade show text-muted">
         <i class="las la-map-pin"></i>
         {!! $data['bahan']->program->judul !!} <i class="las la-arrow-right"></i>
-        <strong>{!! $data['bahan']->mata->judul !!}</strong>
+        {!! $data['bahan']->mata->judul !!} <i class="las la-arrow-right"></i>
+        <strong>{!! $data['bahan']->materi->judul !!}</strong>
       </div>
     </div>
 </div>
@@ -21,11 +22,12 @@
     <div class="col">
         <div class="card mb-4">
             <div class="card-header with-elements">
-                <h5 class="card-header-title mt-1 mb-0">Materi <strong>"{{ $data['bahan']->materi['judul'] }}"</strong></h5>
+                <h5 class="card-header-title mt-1 mb-0">{!! $data['bahan']->judul !!}</h5>
                 <div class="card-header-elements ml-auto">
                 </div>
             </div>
             <div class="card-body">
+                {!! $data['bahan']->keterangan !!}
                 @yield('content-view')
             </div>
             <div class="card-footer">
@@ -90,7 +92,7 @@
                 </li>
             </ul>
         </div>
-        <div class="card mb-4">
+        {{-- <div class="card mb-4">
             <h6 class="card-header with-elements">
                 <span class="card-header-title">{!! $data['bahan']->judul !!}</span>
             </h6>
@@ -103,7 +105,7 @@
                 </div>
                 @endif
             </div>
-        </div>
+        </div> --}}
     </div>
 </div>
 @endsection

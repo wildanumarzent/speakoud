@@ -31,11 +31,11 @@ class ProgramService
         }
         if (auth()->user()->hasRole('mitra')) {
             $query->where('mitra_id', auth()->user()->id)
-                ->orWhere('tipe', 1);
+                ->where('tipe', 1);
         }
         if (auth()->user()->hasRole('instruktur_mitra')) {
             $query->where('mitra_id', auth()->user()->instruktur->mitra_id)
-                ->orWhere('tipe', 1);
+                ->where('tipe', 1);
         }
 
         if (isset($request->p)) {

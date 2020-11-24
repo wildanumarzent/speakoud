@@ -38,12 +38,13 @@
     </div>
 </div>
 <!-- / Filters -->
-@if ($data['hasRole'])
-<div class="d-flex justify-content-between">
+<div class="text-left">
+    <a href="{{ route('mata.index', ['id' => $data['mata']->id]) }}" class="btn btn-secondary rounded-pill" title="kembali ke list mata"><i class="las la-arrow-left"></i>Kembali</a>
+    @if ($data['hasRole'])
     <a href="{{ route('materi.create', ['id' => $data['mata']->id]) }}" class="btn btn-primary rounded-pill" title="klik untuk menambah materi pelatihan"><i class="las la-plus"></i>Tambah</a>
+    @endif
 </div>
 <br>
-@endif
 
 <div class="row @if ($data['hasRole']) drag @endif">
 

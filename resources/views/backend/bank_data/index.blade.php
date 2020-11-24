@@ -116,8 +116,7 @@
                 <div class="file-item-actions btn-group dropdown">
                     <button type="button" class="btn btn-sm btn-default icon-btn dropdown-toggle btn-toggle-radius hide-arrow" data-toggle="dropdown"><i class="ion ion-ios-more"></i></button>
                     <div class="dropdown-menu dropdown-menu-right">
-                      <a href="javascript:;" class="dropdown-item modals-edit" data-toggle="modal" data-target="#modals-edit-file" title="klik untuk mengedit file"
-                        onclick="edit_file({{ $file->id }})" data-id="{{ $file->id }}" data-thumbnail="{{ $file->thumbnail }}" data-filename="{{ $file->filename }}"
+                      <a href="javascript:;" class="dropdown-item modals-edit" data-toggle="modal" data-target="#modals-edit-file" title="klik untuk mengedit file" data-id="{{ $file->id }}" data-thumbnail="{{ $file->thumbnail }}" data-filename="{{ $file->filename }}"
                         data-keterangan="{{ $file->keterangan }}" data-is-video="{{ $file->is_video }}" data-thumb-default="{{ asset(config('addon.images.thumbnail')) }}">
                         <i class="las la-pen"></i> Edit
                       </a>
@@ -328,41 +327,32 @@ $(document).ready(function () {
     });
 });
 
-//modal edit file
-function edit_file(id) {
-    var id = id;
-    var url = '/files/' + id;
-    $("#form-edit-file").attr('action', url);
-}
-
-function submit_form() {
-    $("#form-edit-file").submit();
-}
-
 $('.modals-edit').click(function() {
+    var id = $(this).data('id');
     var is_video = $(this).data('is-video');
     var thumbnail = $(this).data('thumbnail');
     var thumb_default = $(this).data('thumb-default');
     var filename = $(this).data('filename');
     var keterangan = $(this).data('keterangan');
+    var url = '/files/' + id;
 
     if (is_video == 1) {
         $('#form-thumbnail').show();
 
         if (thumbnail != '') {
-            $("#thumb").attr("src", '/bank/data/view/' + thumbnail);
+            $(".modal-body #old-thumb").attr("src", '/bank/data/view/' + thumbnail);
         } else {
-            $("#thumb").attr("src", thumb_default);
+            $(".modal-body #old-thumb").attr("src", thumb_default);
         }
 
     } else {
         $('#form-thumbnail').hide();
     }
 
+    $(".modal-dialog #form-edit-file").attr('action', url);
     $('.modal-body #thumbnail').val(thumbnail);
     $('.modal-body #filename').val(filename);
     $('.modal-body #keterangan').val(keterangan);
-
 });
 
 //modal preview file

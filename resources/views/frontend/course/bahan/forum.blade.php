@@ -5,14 +5,14 @@
 @endsection
 
 @section('content-view')
-<button type="button" class="btn btn-primary icon-btn-only-sm" data-toggle="modal" data-target="#form-topik" title="klik untuk menambah topik">
-    <i class="las la-plus"></i><span>Topik</span>
-</button>
-
 <div class="card mb-1">
     <div class="card-header d-none d-md-block">
       <div class="row no-gutters align-items-center">
-        <div class="col"></div>
+        <div class="col">
+            <button type="button" class="btn btn-primary icon-btn-only-sm" data-toggle="modal" data-target="#form-topik" title="klik untuk menambah topik">
+                <i class="las la-plus"></i><span>Topik</span>
+            </button>
+        </div>
         <div class="col-4 text-muted">
           <div class="row no-gutters align-items-center">
             <div class="col-4">Replies</div>

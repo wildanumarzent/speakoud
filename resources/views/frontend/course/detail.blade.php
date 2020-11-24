@@ -8,14 +8,20 @@
 @endsection
 
 @section('content')
-<div class="row">
-    <div class="col-md-12">
-      <div class="alert alert-primary alert-dismissible fade show text-muted">
-        <i class="las la-map-pin"></i>
-        <strong>{!! $data['read']->program->judul !!}</strong>
-      </div>
-    </div>
-</div>
+<div class="row no-gutters row-bordered ui-bordered text-center mb-4">
+    <a href="javascript:void(0)" class="d-flex col flex-column text-body py-3">
+      <div class="font-weight-bold">{!! $data['read']->program->judul !!}</div>
+      <div class="text-muted small">Kategori</div>
+    </a>
+    <a href="javascript:void(0)" class="d-flex col flex-column text-body py-3">
+      <div class="font-weight-bold">{!! $data['read']->publish_start->format('d F Y (H:i A)') !!}</div>
+      <div class="text-muted small">Tanggal Mulai</div>
+    </a>
+    <a href="javascript:void(0)" class="d-flex col flex-column text-body py-3">
+      <div class="font-weight-bold">{!! !empty($data['read']->publish_end) ? $data['read']->publish_end->format('d F Y (H:i A)') : '-' !!}</div>
+      <div class="text-muted small">Tanggal Selesai</div>
+    </a>
+  </div>
 
 <div class="row">
     <div class="col">

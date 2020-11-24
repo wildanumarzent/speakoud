@@ -45,12 +45,14 @@
             </div>
             @endforeach
 
-            @if ($data['artikel']->count() == 0)
-            <div class="d-flex justify-content-center">
-                <h5 style="color: red;">! Tidak ada artikel !</h5>
-            </div>
-            @endif
         </div>
+
+        @if ($data['artikel']->count() == 0)
+        <div class="text-center">
+            <h5 style="color: red;">! Tidak ada artikel !</h5>
+        </div>
+        @endif
+
         <div class="box-btn d-flex justify-content-center">
             {{ $data['artikel']->onEachSide(3)->links() }}
         </div>

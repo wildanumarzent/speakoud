@@ -52,7 +52,7 @@
             </div>
             <div class="col-md-6">
                 <div class="title-heading">
-                    <h6>BPPT @lang('strip.title_header')</h6>
+                    <h6>{{ $configuration['website_name'] }}</h6>
                     <h1>{!! $data['pageOne']->judul !!}</h2>
                 </div>
                 <article class="summary-text">
@@ -71,7 +71,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="title-heading text-white text-center">
-                    <h6>BPPT @lang('strip.title_header')</h6>
+                    <h6>{{ $configuration['website_name'] }}</h6>
                     <h1>{!! $data['pageSix']->judul !!}</h2>
                     <div class="box-btn">
                         <a href="{{ route('page.read', ['id' => $data['pageSix']->id, 'slug' => $data['pageSix']->slug]) }}" class="btn btn-primary white" title="{!! $data['pageSix']->judul !!}">
@@ -90,7 +90,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="title-heading">
-                    <h6>BPPT @lang('strip.title_header')</h6>
+                    <h6>{{ $configuration['website_name'] }}</h6>
                     <h1>@lang('strip.widget_1_title')</h2>
                 </div>
                 <div class="summary-text m-0">
@@ -111,7 +111,7 @@
                         </div>
                         <div class="box-post">
                             <div class="post-date">
-                                {{ $mata->publish_start->format('d F Y') }}
+                                {{ $mata->created_at->format('d F Y') }}
                             </div>
                             <h5 class="post-title">
                                 <a href="{{ route('course.detail', ['id' => $mata->id]) }}">{!! $mata->judul !!}</a>
@@ -169,7 +169,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="title-heading text-center">
-                    <h6>BPPT @lang('strip.title_header')</h6>
+                    <h6>{{ $configuration['website_name'] }}</h6>
                     <h1>@lang('strip.widget_2_title')</h2>
                     <div class="summary-text m-0">
                         <p>@lang('strip.widget_2_description')</p>
@@ -178,38 +178,38 @@
             </div>
         </div>
         <div class="row mt-5">
-            @for ($i = 0; $i < 6; $i++)
+            @foreach ($data['jadwal'] as $jadwal)
             <div class="col-md-6">
                 <div class="item-post row-box">
                     <div class="box-img">
 
                         <div class="thumbnail-img">
-                            <img src="{{ asset('assets/tmplts_frontend/images/study-3.jpg') }}" alt="">
+                            <img src="{{ $jadwal->getCover($jadwal->cover['filename']) }}" title="{{ $jadwal->cover['title'] }}" alt="{{ $jadwal->cover['alt'] }}">
                         </div>
                     </div>
                     <div class="box-post">
                         <div class="post-date">
-                            13 March 2019
+                            {{ $jadwal->created_at->format('d F Y') }}
                         </div>
-                        <a href="detail-jadwal.html">
+                        <a href="{{ route('course.jadwal.detail', ['id' => $jadwal->id]) }}">
                             <h5 class="post-title">
-                                Pendaftaran Diklat JF Perekayasa Batch 1
+                                {!! $jadwal->judul !!}
                             </h5>
                         </a>
                         <div class="post-info flex-column">
                             <div class="box-info">
                                 <div class="item-info text-left">
-                                    <span class="ml-4">Start</span>
+                                    <span class="ml-4">Jam Mulai</span>
                                     <div class="data-info">
                                         <i class="las la-clock"></i>
-                                        <span>08:00 AM</span>
+                                        <span>{{ \Carbon\Carbon::parse($jadwal->start_time)->format('H:i A') }}</span>
                                     </div>
                                 </div>
                                 <div class="item-info text-left">
-                                    <span class="ml-4">End</span>
+                                    <span class="ml-4">Jam Selesai</span>
                                     <div class="data-info">
                                         <i class="las la-clock"></i>
-                                        <span>17:00 PM</span>
+                                        <span>{{ \Carbon\Carbon::parse($jadwal->end_time)->format('H:i A') }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -218,11 +218,18 @@
                     </div>
                 </div>
             </div>
-            @endfor
+            @endforeach
 
         </div>
+
+        @if ($data['jadwal']->count() == 0)
+        <div class="text-center">
+            <h5 style="color: red;">! Tidak ada Jadwal pelatihan !</h5>
+        </div>
+        @endif
+
         <div class="box-btn d-flex justify-content-center">
-            <a href="" class="link-icon">
+            <a href="{{ route('course.jadwal') }}" class="link-icon" title="@lang('strip.widget_2_button')">
                 @lang('strip.widget_2_button')
                 <span>
                     <i class="las la-arrow-right"></i>
@@ -237,7 +244,7 @@
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="title-heading text-center text-white">
-                    <h6>BPPT @lang('strip.title_header')</h6>
+                    <h6>{{ $configuration['website_name'] }}</h6>
                     <h1>@lang('strip.widget_3_title')</h2>
                     <div class="summary-text m-0">
                         <p>@lang('strip.widget_3_description')</p>
