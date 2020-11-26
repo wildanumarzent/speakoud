@@ -57,10 +57,9 @@ class BahanForumController extends Controller
         return view('frontend.course.forum.form', compact('data'), [
             'title' => 'Forum - Topik - Tambah',
             'breadcrumbsBackend' => [
-                'Program Pelatihan' => route('course.list'),
-                'Course' => route('course.detail', ['id' => $data['forum']->mata_id]),
-                'Detail' => '',
-                'Bahan Pelatihan' => route('course.bahan', [
+                'Course' => route('course.list'),
+                'Detail' => route('course.detail', ['id' => $data['forum']->mata_id]),
+                'Forum' => route('course.bahan', [
                     'id' => $data['forum']->mata_id,
                     'bahanId' => $data['forum']->bahan_id,
                     'tipe' => 'forum'
@@ -89,10 +88,9 @@ class BahanForumController extends Controller
         return view('frontend.course.forum.form', compact('data'), [
             'title' => 'Forum - Topik - Edit',
             'breadcrumbsBackend' => [
-                'Program Pelatihan' => route('course.list'),
-                'Course' => route('course.detail', ['id' => $data['forum']->mata_id]),
-                'Detail' => '',
-                'Bahan Pelatihan' => route('course.bahan', [
+                'Course' => route('course.list'),
+                'Detail' => route('course.detail', ['id' => $data['forum']->mata_id]),
+                'Forum' => route('course.bahan', [
                     'id' => $data['forum']->mata_id,
                     'bahanId' => $data['forum']->bahan_id,
                     'tipe' => 'forum'

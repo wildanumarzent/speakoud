@@ -6,7 +6,7 @@
     <td>
         <a href="javascript:void(0);" onclick="$(this).find('form').submit();" class="badge badge-{{ $child->publish == 1 ? 'primary' : 'warning' }}"
             title="Click to publish page">
-            {{ config('addon.label.publish.'.$child->publish) }}
+            {{ $child->publish == 1 ? 'Publish' : 'Draft' }}
             <form action="{{ route('page.publish', ['id' => $child->id]) }}" method="POST">
                 @csrf
                 @method('PUT')

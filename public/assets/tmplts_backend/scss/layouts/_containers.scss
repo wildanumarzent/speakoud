@@ -195,7 +195,7 @@
                 border-radius: .75rem;
                 margin-bottom: $dt-1;
                 border: none;
-                overflow: hidden;
+                overflow: none;
 
                 &.card-list {
                     height: calc(100% - 30px);

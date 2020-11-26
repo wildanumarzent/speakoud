@@ -12,7 +12,7 @@
 
 <div class="card">
     <h6 class="card-header">
-      Form Mata Pelatihan
+      Form Program Pelatihan
     </h6>
     <form action="{{ !isset($data['mata']) ? route('mata.store', ['id' => $data['program']->id]) : route('mata.update', ['id' => $data['mata']->program_id, 'mataId' => $data['mata']->id]) }}" method="POST" enctype="multipart/form-data">
         @csrf
@@ -44,7 +44,7 @@
             </div>
             <div class="form-group row">
                 <div class="col-md-2 text-md-right">
-                  <label class="col-form-label text-sm-right">Publish Start</label>
+                  <label class="col-form-label text-sm-right">Tanggal Mulai</label>
                 </div>
                 <div class="col-md-10">
                     <div class="input-group">
@@ -59,7 +59,7 @@
             </div>
             <div class="form-group row">
                 <div class="col-md-2 text-md-right">
-                  <label class="col-form-label text-sm-right">Publish End</label>
+                  <label class="col-form-label text-sm-right">Tanggal Selesai</label>
                 </div>
                 <div class="col-md-10">
                     <div class="input-group">
@@ -136,6 +136,15 @@
                             <input type="text" class="form-control" name="cover_alt" value="{{ isset($data['mata']) ? old('cover_alt', $data['mata']->cover['alt']) : old('cover_alt') }}" placeholder="alt cover...">
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-sm-2 text-sm-right">Tampilkan Feedback Peserta</label>
+                <div class="col-sm-10">
+                  <label class="custom-control custom-checkbox m-0">
+                    <input type="checkbox" class="custom-control-input" name="show_feedback" value="1" {{ isset($data['mata']) ? (old('show_feedback', $data['mata']->show_feedback) == 1 ? 'checked' : '') : (old('show_feedback') ? 'checked' : '') }}>
+                    <span class="custom-control-label ml-4">Ya</span>
+                  </label>
                 </div>
             </div>
         </div>

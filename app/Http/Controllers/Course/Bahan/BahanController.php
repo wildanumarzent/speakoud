@@ -58,12 +58,12 @@ class BahanController extends Controller
         $this->serviceProgram->checkInstruktur($data['materi']->program_id);
 
         return view('backend.course_management.bahan.index', compact('data'), [
-            'title' => 'Materi - Bahan Pelatihan',
+            'title' => 'Mata - Materi Pelatihan',
             'breadcrumbsBackend' => [
-                'Program' => route('program.index'),
-                'Mata' => route('mata.index', ['id' => $data['materi']->program_id]),
-                'Materi' => route('materi.index', ['id' => $data['materi']->mata_id]),
-                'Bahan Pelatihan' => ''
+                'Kategori' => route('program.index'),
+                'Program' => route('mata.index', ['id' => $data['materi']->program_id]),
+                'Mata' => route('materi.index', ['id' => $data['materi']->mata_id]),
+                'Materi Pelatihan' => ''
             ],
         ]);
     }
@@ -109,10 +109,9 @@ class BahanController extends Controller
         return view('frontend.course.bahan.'.$tipe, compact('data'), [
             'title' => 'Course - Bahan',
             'breadcrumbsBackend' => [
-                'Program Pelatihan' => route('course.list'),
-                'Course' => route('course.detail', ['id' => $mataId]),
-                'Detail' => '',
-                'Bahan Pelatihan' => '',
+                'Course' => route('course.list'),
+                'Detail' => route('course.detail', ['id' => $mataId]),
+                'Preview' => '',
             ],
         ]);
     }
@@ -128,12 +127,12 @@ class BahanController extends Controller
         $this->serviceProgram->checkInstruktur($data['materi']->program_id);
 
         return view('backend.course_management.bahan.tipe.'.$request->type, compact('data'), [
-            'title' => 'Bahan Pelatihan - Tambah',
+            'title' => 'Materi Pelatihan - Tambah',
             'breadcrumbsBackend' => [
-                'Program' => route('program.index'),
-                'Mata' => route('mata.index', ['id' => $data['materi']->program_id]),
-                'Materi' => route('materi.index', ['id' => $data['materi']->mata_id]),
-                'Bahan' => route('bahan.index', ['id' => $data['materi']->id]),
+                'Kategori' => route('program.index'),
+                'Program' => route('mata.index', ['id' => $data['materi']->program_id]),
+                'Mata' => route('materi.index', ['id' => $data['materi']->mata_id]),
+                'Materi' => route('bahan.index', ['id' => $data['materi']->id]),
                 'Tambah' => '',
             ],
         ]);
@@ -144,7 +143,7 @@ class BahanController extends Controller
         $this->service->storeBahan($request, $materiId);
 
         return redirect()->route('bahan.index', ['id' => $materiId])
-            ->with('success', 'Bahan pelatihan berhasil ditambahkan');
+            ->with('success', 'Materi pelatihan berhasil ditambahkan');
     }
 
     public function edit(Request $request, $materiId, $id)
@@ -159,12 +158,12 @@ class BahanController extends Controller
         $this->checkCreator($id);
 
         return view('backend.course_management.bahan.tipe.'.$request->type, compact('data'), [
-            'title' => 'Bahan Pelatihan - Edit',
+            'title' => 'Materi Pelatihan - Edit',
             'breadcrumbsBackend' => [
-                'Program' => route('program.index'),
-                'Mata' => route('mata.index', ['id' => $data['materi']->program_id]),
-                'Materi' => route('materi.index', ['id' => $data['materi']->mata_id]),
-                'Bahan' => route('bahan.index', ['id' => $data['materi']->id]),
+                'Kategori' => route('program.index'),
+                'Program' => route('mata.index', ['id' => $data['materi']->program_id]),
+                'Mata' => route('materi.index', ['id' => $data['materi']->mata_id]),
+                'Materi' => route('bahan.index', ['id' => $data['materi']->id]),
                 'Edit' => '',
             ],
         ]);
@@ -177,7 +176,7 @@ class BahanController extends Controller
         $this->service->updateBahan($request, $id);
 
         return redirect()->route('bahan.index', ['id' => $materiId])
-            ->with('success', 'Bahan pelatihan berhasil diedit');
+            ->with('success', 'Materi pelatihan berhasil diedit');
     }
 
     public function publish($materiId, $id)

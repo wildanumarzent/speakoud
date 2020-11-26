@@ -36,7 +36,7 @@ class InquiryService
 
     public function findInquiryBySlug($slug)
     {
-        $query = $this->model->where('slug', $slug);
+        $query = $this->model->where('slug', $slug)->publish();
 
         $return = $query->first();
 

@@ -41,7 +41,8 @@ class User extends Authenticatable
         'first_access' => 'datetime',
         'last_login' => 'datetime',
         'last_access' => 'datetime',
-        'photo' => 'array'
+        'active' => 'boolean',
+        'photo' => 'array',
     ];
 
     public function userable()

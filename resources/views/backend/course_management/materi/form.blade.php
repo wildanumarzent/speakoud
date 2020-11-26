@@ -9,7 +9,7 @@
 
 <div class="card">
     <h6 class="card-header">
-      Form Materi Pelatihan
+      Form Mata Pelatihan
     </h6>
     <form action="{{ !isset($data['materi']) ? route('materi.store', ['id' => $data['mata']->id]) : route('materi.update', ['id' => $data['materi']->mata_id, 'materiId' => $data['materi']->id]) }}" method="POST">
         @csrf

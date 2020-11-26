@@ -43,11 +43,11 @@ class MateriController extends Controller
         }
 
         return view('backend.course_management.materi.index', compact('data'), [
-            'title' => 'Mata - Materi Pelatihan',
+            'title' => 'Program - Materi Pelatihan',
             'breadcrumbsBackend' => [
-                'Program' => route('program.index'),
-                'Mata' => route('mata.index', ['id' => $data['mata']->program_id]),
-                'Materi Pelatihan' => ''
+                'Kategori' => route('program.index'),
+                'Program' => route('mata.index', ['id' => $data['mata']->program_id]),
+                'Mata Pelatihan' => ''
             ],
         ]);
     }
@@ -57,11 +57,11 @@ class MateriController extends Controller
         $data['mata'] = $this->serviceMata->findMata($mataId);
 
         return view('backend.course_management.materi.form', compact('data'), [
-            'title' => 'Materi Pelatihan - Tambah',
+            'title' => 'Mata Pelatihan - Tambah',
             'breadcrumbsBackend' => [
-                'Program' => route('program.index'),
-                'Mata' => route('mata.index', ['id' => $data['mata']->program_id]),
-                'Materi Pelatihan' => route('materi.index', ['id' => $data['mata']->id]),
+                'Kategori' => route('program.index'),
+                'Program' => route('mata.index', ['id' => $data['mata']->program_id]),
+                'Mata Pelatihan' => route('materi.index', ['id' => $data['mata']->id]),
                 'Tambah' => ''
             ],
         ]);
@@ -74,7 +74,7 @@ class MateriController extends Controller
         $this->service->storeMateri($request, $mataId);
 
         return redirect()->route('materi.index', ['id' => $mata->id])
-            ->with('success', 'Materi pelatihan berhasil ditambahkan');
+            ->with('success', 'Mata pelatihan berhasil ditambahkan');
     }
 
     public function edit($mataId, $id)
@@ -85,11 +85,11 @@ class MateriController extends Controller
         $this->checkCreator($id);
 
         return view('backend.course_management.materi.form', compact('data'), [
-            'title' => 'Materi Pelatihan - Edit',
+            'title' => 'Mata Pelatihan - Edit',
             'breadcrumbsBackend' => [
-                'Program' => route('program.index'),
-                'Mata' => route('mata.index', ['id' => $data['mata']->program_id]),
-                'Materi Pelatihan' => route('materi.index', ['id' => $data['mata']->id]),
+                'Kategori' => route('program.index'),
+                'Program' => route('mata.index', ['id' => $data['mata']->program_id]),
+                'Mata Pelatihan' => route('materi.index', ['id' => $data['mata']->id]),
                 'Edit' => ''
             ],
         ]);
@@ -102,7 +102,7 @@ class MateriController extends Controller
         $this->service->updateMateri($request, $id);
 
         return redirect()->route('materi.index', ['id' => $mataId])
-            ->with('success', 'Materi pelatihan berhasil diedit');
+            ->with('success', 'Mata pelatihan berhasil diedit');
     }
 
     public function publish($mataId, $id)
@@ -141,7 +141,7 @@ class MateriController extends Controller
         if ($materi->bahan()->count() > 0) {
             return response()->json([
                 'success' => 0,
-                'message' => 'Materi pelatihan gagal dihapus dikarenakan'.
+                'message' => 'Mata pelatihan gagal dihapus dikarenakan'.
                             ' masih ada bahan pelatihan didalamnya'
             ], 200);
         } else {

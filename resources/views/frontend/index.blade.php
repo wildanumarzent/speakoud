@@ -65,7 +65,7 @@
 </div>
 @endif
 {{-- page six --}}
-@if (!empty($data['pageSix']))
+{{-- @if (!empty($data['pageSix']))
 <div class="box-wrap bg-blue">
     <div class="container">
         <div class="row">
@@ -83,7 +83,7 @@
         </div>
     </div>
 </div>
-@endif
+@endif --}}
 {{-- program pelatihan --}}
 <div class="box-wrap bg-grey">
     <div class="container">
@@ -239,7 +239,7 @@
     </div>
 </div>
 {{-- langganan --}}
-<div class="box-wrap bg-blue">
+{{-- <div class="box-wrap bg-blue">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-12">
@@ -259,7 +259,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> --}}
 @endsection
 
 @section('scripts')

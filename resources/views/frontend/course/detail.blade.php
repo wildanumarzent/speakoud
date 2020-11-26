@@ -21,7 +21,7 @@
       <div class="font-weight-bold">{!! !empty($data['read']->publish_end) ? $data['read']->publish_end->format('d F Y (H:i A)') : '-' !!}</div>
       <div class="text-muted small">Tanggal Selesai</div>
     </a>
-  </div>
+</div>
 
 <div class="row">
     <div class="col">
@@ -65,49 +65,72 @@
                 {!! $data['read']->content !!}
             </div>
         </div>
-        <div class="card mb-4">
+        <div class="card mb-1">
             <h6 class="card-header with-elements">
                 <span class="card-header-title"> Course Content</span>
             </h6>
-            <div class="card-body">
-                @foreach ($data['read']->materiPublish as $materi)
-                <div class="bg-white ui-bordered mb-2 hide-collapse">
-                    <a href="#materi-{{ $materi->id }}" class="d-flex justify-content-between text-body py-3 px-4" data-toggle="collapse" aria-expanded="true">
-                        <strong><i class="las la-thumbtack"></i> {!! $materi->judul !!}</strong>
-                        <span class="collapse-icon"></span>
-                    </a>
-                    <div id="materi-{{ $materi->id }}" class="text-muted collapse">
-                        <div class="card-body pb-2">
-                            {!! $materi->keterangan ?? $materi->judul !!}
-                            @foreach ($materi->bahanPublish as $bahan)
-                            <div class="form-group mt-2">
+        </div>
+        <div id="accordion">
+            @foreach ($data['read']->materiPublish as $materi)
+            <div class="card mb-2">
+              <div class="card-header">
+                <a class="collapsed text-body" data-toggle="collapse" href="#materi-{{ $materi->id }}">
+                    <i class="las la-thumbtack"></i> {!! $materi->judul !!}
+                </a>
+              </div>
+              <div id="materi-{{ $materi->id }}" class="collapse" data-parent="#accordion">
+                <div class="card-body">
+                    {!! $materi->keterangan ?? $materi->judul !!}
+                    <ul class="list-group list-group-flush mt-2">
+                        @foreach ($materi->bahanPublish as $bahan)
+                        <li class="list-group-item py-4">
+                          <div class="media flex-wrap">
+                            <div class="d-none d-sm-block ui-w-120 text-center">
                                 @if ($bahan->type($bahan)['tipe'] == 'forum')
-                                <i class="las la-{{ $bahan->type($bahan)['icon'] }} mr-2" style="font-size: 1.5em;"></i>
-                                <a href="{{ route('course.bahan', ['id' => $data['read']->id, 'bahanId' => $bahan->id, 'tipe' => 'forum']) }}"><strong>{!! $bahan->judul !!}</strong></a>
+                                <i class="las la-{{ $bahan->type($bahan)['icon'] }} mr-2" style="font-size: 4em;"></i>
                                 @endif
                                 @if ($bahan->type($bahan)['tipe'] == 'dokumen')
-                                <i class="las la-file-{{ $bahan->dokumen->bankData->icon($bahan->dokumen->bankData->file_type) }} mr-2" style="font-size: 1.5em;"></i>
-                                <a href="{{ route('course.bahan', ['id' => $data['read']->id, 'bahanId' => $bahan->id, 'tipe' => 'dokumen']) }}"><strong>{!! $bahan->judul !!}</strong></a>
+                                <i class="las la-file-{{ $bahan->dokumen->bankData->icon($bahan->dokumen->bankData->file_type) }} mr-2" style="font-size: 4em;"></i>
                                 @endif
                                 @if ($bahan->type($bahan)['tipe'] == 'link')
-                                <i class="las la-{{ $bahan->type($bahan)['icon'] }} mr-2" style="font-size: 1.5em;"></i>
-                                <a href="{{ route('course.bahan', ['id' => $data['read']->id, 'bahanId' => $bahan->id, 'tipe' => 'link']) }}"><strong>{!! $bahan->judul !!}</strong></a>
+                                <i class="las la-{{ $bahan->type($bahan)['icon'] }} mr-2" style="font-size: 4em;"></i>
                                 @endif
                                 @if ($bahan->type($bahan)['tipe'] == 'quiz')
-                                <i class="las la-{{ $bahan->type($bahan)['icon'] }} mr-2" style="font-size: 1.5em;"></i>
-                                <a href="{{ route('course.bahan', ['id' => $data['read']->id, 'bahanId' => $bahan->id, 'tipe' => 'quiz']) }}"><strong>{!! $bahan->judul !!}</strong></a>
+                                <i class="las la-{{ $bahan->type($bahan)['icon'] }} mr-2" style="font-size: 4em;"></i>
                                 @endif
                                 @if ($bahan->type($bahan)['tipe'] == 'scorm')
-                                <i class="las la-{{ $bahan->type($bahan)['icon'] }} mr-2" style="font-size: 1.5em;"></i>
-                                <a href="{{ route('course.bahan', ['id' => $data['read']->id, 'bahanId' => $bahan->id, 'tipe' => 'scorm']) }}"><strong>{!! $bahan->judul !!}</strong></a>
+                                <i class="las la-{{ $bahan->type($bahan)['icon'] }} mr-2" style="font-size: 4em;"></i>
                                 @endif
                             </div>
-                            @endforeach
-                        </div>
-                    </div>
+                            <div class="media-body ml-sm-2">
+                              <h5 class="mb-2">
+                                <div class="float-right font-weight-semibold ml-3"><i class="las la-check-square" style="font-size: 2em;"></i></div>
+                                @if ($bahan->type($bahan)['tipe'] == 'forum')
+                                <a href="{{ route('course.bahan', ['id' => $data['read']->id, 'bahanId' => $bahan->id, 'tipe' => 'forum']) }}" class="text-body">{!! $bahan->judul !!}</a>&nbsp;
+                                @endif
+                                @if ($bahan->type($bahan)['tipe'] == 'dokumen')
+                                <a href="{{ route('course.bahan', ['id' => $data['read']->id, 'bahanId' => $bahan->id, 'tipe' => 'dokumen']) }}" class="text-body">{!! $bahan->judul !!}</a>&nbsp;
+                                @endif
+                                @if ($bahan->type($bahan)['tipe'] == 'link')
+                                <a href="{{ route('course.bahan', ['id' => $data['read']->id, 'bahanId' => $bahan->id, 'tipe' => 'link']) }}" class="text-body">{!! $bahan->judul !!}</a>&nbsp;
+                                @endif
+                                @if ($bahan->type($bahan)['tipe'] == 'quiz')
+                                <a href="{{ route('course.bahan', ['id' => $data['read']->id, 'bahanId' => $bahan->id, 'tipe' => 'quiz']) }}" class="text-body">{!! $bahan->judul !!}</a>&nbsp;
+                                @endif
+                                @if ($bahan->type($bahan)['tipe'] == 'scorm')
+                                <a href="{{ route('course.bahan', ['id' => $data['read']->id, 'bahanId' => $bahan->id, 'tipe' => 'scorm']) }}" class="text-body">{!! $bahan->judul !!}</a>&nbsp;
+                                @endif
+                              </h5>
+                              <div>{!! strip_tags(Str::limit($bahan->keterangan, 120)) !!}</div>
+                            </div>
+                          </div>
+                        </li>
+                        @endforeach
+                    </ul>
                 </div>
-                @endforeach
+              </div>
             </div>
+            @endforeach
         </div>
     </div>
     <div class="col-md-4 col-xl-3">
@@ -132,6 +155,7 @@
             </ul>
         </div>
         <!-- / Leaders -->
+        @if ($data['read']->show_feedback == 1)
         <div class="card mb-4">
             <h6 class="card-header with-elements">
                 <span class="card-header-title"> Student Feedback</span>
@@ -183,6 +207,7 @@
                 </div>
             </div>
         </div>
+        @endif
     </div>
 </div>
 @endsection

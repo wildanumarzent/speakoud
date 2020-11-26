@@ -25,20 +25,24 @@ class ArtikelService
 
         $query->when($request->q, function ($query, $q) {
             $query->where(function ($query) use ($q) {
-                $query->where('titlw', 'like', '%'.$q.'%');
+                $query->where('title', 'like', '%'.$q.'%');
             });
         });
+
+        if (isset($request->p)) {
+            $query->where('publish', $request->p);
+        }
 
         $result = $query->orderBy('created_at', 'DESC')->paginate(20);
 
         return $result;
     }
 
-    public function getArtikelPublish()
+    public function getArtikel()
     {
         $query = $this->model->query();
 
-        $query->where('publish', 1);
+        $query->publish();
 
         $result = $query->orderBy('created_at', 'DESC')->paginate(8);
 
@@ -49,7 +53,7 @@ class ArtikelService
     {
         $query = $this->model->query();
 
-        $query->where('publish', 1);
+        $query->publish();
         $query->whereNotIn('id', [$id]);
 
         $result = $query->inRandomOrder()->limit(8)->get();

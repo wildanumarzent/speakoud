@@ -22,16 +22,16 @@ class PageController extends Controller
 
     public function index(Request $request)
     {
-        $s = '';
+        $p = '';
         $q = '';
-        if (isset($request->s) || isset($request->q)) {
-            $s = '?s='.$request->s;
+        if (isset($request->p) || isset($request->q)) {
+            $p = '?p='.$request->p;
             $q = '&q='.$request->q;
         }
 
         $data['pages'] = $this->service->getPageList($request);
         $data['number'] = $data['pages']->firstItem();
-        $data['pages']->withPath(url()->current().$s.$q);
+        $data['pages']->withPath(url()->current().$p.$q);
 
         return view('backend.page.index', compact('data'), [
             'title' => 'Pages',

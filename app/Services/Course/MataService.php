@@ -10,13 +10,15 @@ use Illuminate\Support\Str;
 
 class MataService
 {
-    private $model;
+    private $model, $modelInstruktur;
 
     public function __construct(
-        MataPelatihan $model
+        MataPelatihan $model,
+        MataInstruktur $modelInstruktur
     )
     {
         $this->model = $model;
+        $this->modelInstruktur = $modelInstruktur;
     }
 
     public function getAllMata()
@@ -71,6 +73,25 @@ class MataService
         return $result;
     }
 
+    public function getInstrukturList($request, int $mataId)
+    {
+        $query = $this->modelInstruktur->query();
+
+        $query->where('mata_id', $mataId);
+        $query->whereHas('instruktur', function ($query) use ($request) {
+            $query->when($request->q, function ($query, $q) {
+                $query->where(function ($query) use ($q) {
+                    $query->where('nip', 'like', '%'.$q.'%')
+                        ->orWhere('kedeputian', 'like', '%'.$q.'%');
+                });
+            });
+        });
+
+        $result = $query->paginate(20);
+
+        return $result;
+    }
+
     public function getMata($order, $by, int $limit)
     {
         $query = $this->model->query();
@@ -112,6 +133,7 @@ class MataService
         $mata->publish_start = $request->publish_start ?? null;
         $mata->publish_end = ($request->enable == 1 ? $request->publish_end : null);
         $mata->urutan = ($this->model->where('program_id', $programId)->max('urutan') + 1);
+        $mata->show_feedback = (bool)$request->show_feedback;
         $mata->save();
 
         $collectInstruktur = $this->collectInstruktur($request);
@@ -147,6 +169,7 @@ class MataService
         $mata->publish = (bool)$request->publish;
         $mata->publish_start = $request->publish_start ?? null;
         $mata->publish_end = $request->publish_end ?? null;
+        $mata->show_feedback = (bool)$request->show_feedback;
         $mata->save();
 
         $deleteInstruktur = $mata->instruktur()->delete();

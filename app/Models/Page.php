@@ -42,7 +42,7 @@ class Page extends Model
         return $cover;
     }
 
-    public function isPublish($query)
+    public function scopePublish($query)
     {
         return $query->where('publish', 1);
     }

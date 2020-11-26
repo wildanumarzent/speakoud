@@ -1,6 +1,10 @@
 <?php
 
 return [
+    'active' => [
+        '1' => 'AKTIF',
+        '0' => 'TIDAK AKTIF'
+    ],
     'publish' => [
         '1' => 'PUBLISH',
         '0' => 'DRAFT'

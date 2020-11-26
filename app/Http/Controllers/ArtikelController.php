@@ -34,16 +34,16 @@ class ArtikelController extends Controller
 
     public function index(Request $request)
     {
-        $s = '';
+        $p = '';
         $q = '';
-        if (isset($request->s) || isset($request->q)) {
-            $s = '?s='.$request->s;
+        if (isset($request->p) || isset($request->q)) {
+            $p = '?p='.$request->p;
             $q = '&q='.$request->q;
         }
 
         $data['artikel'] = $this->service->getArtikelList($request);
         $data['number'] = $data['artikel']->firstItem();
-        $data['artikel']->withPath(url()->current().$s.$q);
+        $data['artikel']->withPath(url()->current().$p.$q);
 
         return view('backend.artikel.index', compact('data'), [
             'title' => 'Artikel',
@@ -55,7 +55,7 @@ class ArtikelController extends Controller
 
     public function list()
     {
-        $data['artikel'] = $this->service->getArtikelPublish();
+        $data['artikel'] = $this->service->getArtikel();
 
         return view('frontend.artikel.index', compact('data'), [
             'title' => 'Artikel',

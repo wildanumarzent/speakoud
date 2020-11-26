@@ -65,11 +65,11 @@ class FrontendServiceProvider extends ServiceProvider
             'menu' => [
                 'program_pelatihan' => ProgramPelatihan::publish()
                     ->orderBy('urutan', 'ASC')->get(),
-                'inquiry' => Inquiry::where('id', 1)->where('publish', 1)->get(),
+                'inquiry' => Inquiry::where('id', 1)->publish()->get(),
             ],
             'pages' => [
-                'quick_link' => Page::where('publish', 1)->whereIn('id', [2,3,4])->get(),
-                'layanan' => Page::where('publish', 1)->whereIn('id', [5,6])->get(),
+                'quick_link' => Page::publish()->whereIn('id', [2,3,4])->get(),
+                'layanan' => Page::publish()->whereIn('id', [5,6])->get(),
             ],
             'banner' => [
                 'login' => BannerKategori::where('id', 2)->get(),

@@ -22,7 +22,7 @@
         <div class="card-body">
             <div class="form-group row">
                 <div class="col-md-2 text-md-right">
-                    <label class="col-form-label">Mata Pelatihan</label>
+                    <label class="col-form-label">Program Pelatihan</label>
                 </div>
                 <div class="col-md-10">
                   <select class="select2 show-tick @error('mata_id') is-invalid @enderror" name="mata_id" data-style="btn-default">

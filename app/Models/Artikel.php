@@ -42,4 +42,9 @@ class Artikel extends Model
     {
         return $this->morphMany(TagsTipe::class, 'tagable');
     }
+
+    public function scopePublish($query)
+    {
+        return $query->where('publish', 1);
+    }
 }

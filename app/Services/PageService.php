@@ -25,8 +25,8 @@ class PageService
             });
         });
 
-        if (isset($request->s)) {
-            $query->where('publish', $request->s);
+        if (isset($request->p)) {
+            $query->where('publish', $request->p);
         }
 
         $result = $query->where('parent', 0)->orderBy('urutan', 'ASC')->paginate(10);

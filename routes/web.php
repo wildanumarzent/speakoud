@@ -80,7 +80,7 @@ Route::put('/forum/{id}/topik/{topikId}/lock', 'Course\Bahan\BahanForumControlle
     ->middleware('auth');
 Route::get('/forum/{id}/topik/{topikId}/star', 'Course\Bahan\BahanForumController@starTopik')
     ->name('forum.topik.star')
-    ->middleware(['auth', 'role:peserta_internal|peserta_mitra']);
+    ->middleware('auth');
 Route::delete('forum/{id}/topik/{topikId}', 'Course\Bahan\BahanForumController@destroyTopik')
     ->name('forum.topik.destroy')
     ->middleware('auth');
@@ -451,6 +451,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::delete('/program/{id}/mata/{mataId}', 'Course\MataController@destroy')
         ->name('mata.destroy')
         ->middleware('role:developer|administrator|internal|mitra');
+
+    //mata user
+    Route::get('mata/{id}/instruktur', 'Course\MataController@instruktur')
+        ->name('mata.instruktur')
+        ->middleware('role:administrator|internal|mitra');
 
     //materi pelatihan
     Route::get('/mata/{id}/materi', 'Course\MateriController@index')

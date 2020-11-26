@@ -26,10 +26,11 @@
             <div class="col-md">
                 <div class="form-group">
                     <label class="form-label">Status</label>
-                    <select class="status custom-select form-control" name="s">
+                    <select class="status custom-select form-control" name="a">
                         <option value=" " selected>Semua</option>
-                        <option value="1" {{ Request::get('s') == '1' ? 'selected' : '' }}>AKTIF</option>
-                        <option value="0" {{ Request::get('s') == '0' ? 'selected' : '' }}>TIDAK AKTIF</option>
+                        @foreach (config('addon.label.active') as $key => $value)
+                        <option value="{{ $key }}" {{ Request::get('a') == ''.$key.'' ? 'selected' : '' }}>{{ $value }}</option>
+                        @endforeach
                     </select>
                 </div>
             </div>

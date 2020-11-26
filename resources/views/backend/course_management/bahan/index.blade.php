@@ -17,8 +17,9 @@
                     <label class="form-label">Status</label>
                     <select class="status custom-select form-control" name="p">
                         <option value=" " selected>Semua</option>
-                        <option value="1" {{ Request::get('p') == '1' ? 'selected' : '' }}>PUBLISH</option>
-                        <option value="0" {{ Request::get('p') == '0' ? 'selected' : '' }}>DRAFT</option>
+                        @foreach (config('addon.label.publish') as $key => $value)
+                        <option value="{{ $key }}" {{ Request::get('p') == ''.$key.'' ? 'selected' : '' }}>{{ $value }}</option>
+                        @endforeach
                     </select>
                 </div>
             </div>
@@ -39,8 +40,8 @@
 </div>
 <!-- / Filters -->
 <div class="text-left">
-    <a href="{{ route('materi.index', ['id' => $data['materi']->id]) }}" class="btn btn-secondary rounded-pill" title="kembali ke list materi"><i class="las la-arrow-left"></i>Kembali</a>
-    <button type="button" class="btn btn-primary rounded-pill" data-toggle="modal" data-target="#modals-tipe-bahan" title="klik untuk menambah bahan pelatihan"><i class="las la-plus"></i>Tambah</button>
+    <a href="{{ route('materi.index', ['id' => $data['materi']->mata_id]) }}" class="btn btn-secondary rounded-pill" title="kembali ke list mata"><i class="las la-arrow-left"></i>Kembali</a>
+    <button type="button" class="btn btn-primary rounded-pill" data-toggle="modal" data-target="#modals-tipe-bahan" title="klik untuk menambah materi pelatihan"><i class="las la-plus"></i>Tambah</button>
 </div>
 <br>
 
@@ -82,13 +83,13 @@
               </a>
               @endif
               @endif
-              <a class="dropdown-item" href="{{ route('bahan.edit', ['id' => $item->materi_id, 'bahanId' => $item->id, 'type' => $item->type($item)['tipe']]) }}" title="klik untuk mengedit bahan pelatihan">
+              <a class="dropdown-item" href="{{ route('bahan.edit', ['id' => $item->materi_id, 'bahanId' => $item->id, 'type' => $item->type($item)['tipe']]) }}" title="klik untuk mengedit materi pelatihan">
                 <i class="las la-pen"></i> Edit
               </a>
-              <a class="dropdown-item js-sa2-delete" href="javascript:void(0);" data-materiid="{{ $item->materi_id }}" data-id="{{ $item->id }}" title="klik untuk menghapus bahan pelatihan">
+              <a class="dropdown-item js-sa2-delete" href="javascript:void(0);" data-materiid="{{ $item->materi_id }}" data-id="{{ $item->id }}" title="klik untuk menghapus materi pelatihan">
                 <i class="las la-trash-alt"></i> Hapus
               </a>
-              <a class="dropdown-item" href="javascript:void(0);" onclick="$(this).find('form').submit();" title="klik untuk {{ $item->publish == 0 ? 'publish' : 'draft' }} bahan pelatihan">
+              <a class="dropdown-item" href="javascript:void(0);" onclick="$(this).find('form').submit();" title="klik untuk {{ $item->publish == 0 ? 'publish' : 'draft' }} materi pelatihan">
                   <i class="las la-{{ $item->publish == 0 ? 'eye' : 'eye-slash' }} "></i> {{ $item->publish == 1 ? 'Draft' : 'Publish' }}
                   <form action="{{ route('bahan.publish', ['id' => $item->materi_id, 'bahanId' => $item->id]) }}" method="POST">
                     @csrf
@@ -176,6 +177,34 @@
                     </td>
                 </tr>
                 @endif
+                <tr>
+                    <th>Action</th>
+                    <td>
+                        @if ($item->type($item)['tipe'] == 'quiz')
+                        @if (!$data['hasRole'] || $data['hasRole'] && $item->creator_id == auth()->user()->id)
+                        <a class="btn btn-success icon-btn btn-sm" href="{{ route('quiz.item', ['id' => $item->quiz->id]) }}" title="klik untuk melihat soal">
+                          <i class="las la-list-ol"></i>
+                        </a>
+                        @endif
+                        @endif
+                        <a class="btn btn-info icon-btn btn-sm" href="{{ route('bahan.edit', ['id' => $item->materi_id, 'bahanId' => $item->id, 'type' => $item->type($item)['tipe']]) }}" title="klik untuk mengedit bahan pelatihan">
+                          <i class="las la-pen"></i>
+                        </a>
+                        <a class="btn btn-danger icon-btn btn-sm js-sa2-delete" href="javascript:void(0);" data-materiid="{{ $item->materi_id }}" data-id="{{ $item->id }}" title="klik untuk menghapus bahan pelatihan">
+                          <i class="las la-trash-alt"></i>
+                        </a>
+                        <a class="btn btn-secondary icon-btn btn-sm" href="javascript:void(0);" onclick="$(this).find('form').submit();" title="klik untuk {{ $item->publish == 0 ? 'publish' : 'draft' }} bahan pelatihan">
+                            <i class="las la-{{ $item->publish == 0 ? 'eye-slash' : 'eye' }} "></i>
+                            <form action="{{ route('bahan.publish', ['id' => $item->materi_id, 'bahanId' => $item->id]) }}" method="POST">
+                              @csrf
+                              @method('PUT')
+                          </form>
+                        </a>
+                        <a class="btn btn-primary icon-btn btn-sm" href="{{ $route }}" title="klik untuk melihat preview">
+                            <i class="las la-play"></i>
+                        </a>
+                    </td>
+                </tr>
           </table>
         </div>
         <hr class="m-0 mb-2">
@@ -202,9 +231,9 @@
     <div class="card-body text-center">
         <strong style="color: red;">
             @if (Request::get('p') || Request::get('q'))
-            ! Bahan Pelatihan tidak ditemukan !
+            ! Materi Pelatihan tidak ditemukan !
             @else
-            ! Data Bahan Pelatihan kosong !
+            ! Data Materi Pelatihan kosong !
             @endif
         </strong>
     </div>
@@ -265,7 +294,7 @@
             var id = $(this).attr('data-id');
             Swal.fire({
                 title: "Apakah anda yakin?",
-                text: "Anda akan menghapus bahan pelatihan ini, data yang bersangkutan dengan bahan pelatihan ini akan terhapus. Data yang sudah dihapus tidak dapat dikembalikan!",
+                text: "Anda akan menghapus materi pelatihan ini, data yang bersangkutan dengan materi pelatihan ini akan terhapus. Data yang sudah dihapus tidak dapat dikembalikan!",
                 type: "warning",
                 confirmButtonText: "Ya, hapus!",
                 customClass: {
@@ -300,7 +329,7 @@
                 if (response.value.success) {
                     Swal.fire({
                         type: 'success',
-                        text: 'bahan pelatihan berhasil dihapus'
+                        text: 'materi pelatihan berhasil dihapus'
                     }).then(() => {
                         window.location.reload();
                     })

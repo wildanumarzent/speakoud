@@ -38,9 +38,9 @@ class ProgramController extends Controller
         $data['hasRole'] = auth()->user()->hasRole('developer|administrator|internal|mitra');
 
         return view('backend.course_management.program.index', compact('data'), [
-            'title' => 'Program Pelatihan',
+            'title' => 'Course - Kategori Pelatihan',
             'breadcrumbsBackend' => [
-                'Program Pelatihan' => '',
+                'Kategori Pelatihan' => '',
             ],
         ]);
     }
@@ -50,9 +50,9 @@ class ProgramController extends Controller
         $data['mitra'] = $this->serviceMitra->getMitraAll();
 
         return view('backend.course_management.program.form', compact('data'), [
-            'title' => 'Program Pelatihan - Tambah',
+            'title' => 'Kategori Pelatihan - Tambah',
             'breadcrumbsBackend' => [
-                'Program Pelatihan' => route('program.index'),
+                'Kategori Pelatihan' => route('program.index'),
                 'Tambah' => ''
             ],
         ]);
@@ -63,7 +63,7 @@ class ProgramController extends Controller
         $this->service->storeProgram($request);
 
         return redirect()->route('program.index')
-            ->with('success', 'Program pelatihan berhasil ditambahkan');
+            ->with('success', 'Kategori pelatihan berhasil ditambahkan');
     }
 
     public function edit($id)
@@ -74,9 +74,9 @@ class ProgramController extends Controller
         $this->checkRole($data['program']);
 
         return view('backend.course_management.program.form', compact('data'), [
-            'title' => 'Program Pelatihan - Edit',
+            'title' => 'Kategori Pelatihan - Edit',
             'breadcrumbsBackend' => [
-                'Program Pelatihan' => route('program.index'),
+                'Kategori Pelatihan' => route('program.index'),
                 'Edit' => ''
             ],
         ]);
@@ -90,7 +90,7 @@ class ProgramController extends Controller
         $this->service->updateProgram($request, $id);
 
         return redirect()->route('program.index')
-            ->with('success', 'Program pelatihan berhasil diedit');
+            ->with('success', 'Kategori pelatihan berhasil diedit');
     }
 
     public function publish($id)
@@ -141,7 +141,7 @@ class ProgramController extends Controller
         if ($program->bahan()->count() > 0) {
             return response()->json([
                 'success' => 0,
-                'message' => 'Program kegiatan gagal dihapus dikarenakan'.
+                'message' => 'Kategori kegiatan gagal dihapus dikarenakan'.
                             ' masih ada bahan pelatihan didalamnya'
             ], 200);
         } else {

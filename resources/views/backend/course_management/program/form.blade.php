@@ -9,7 +9,7 @@
 @section('content')
 <div class="card">
     <h6 class="card-header">
-      Form Program Pelatihan
+      Form Kategori Pelatihan
     </h6>
     <form action="{{ !isset($data['program']) ? route('program.store') : route('program.update', ['id' => $data['program']->id]) }}" method="POST">
         @csrf

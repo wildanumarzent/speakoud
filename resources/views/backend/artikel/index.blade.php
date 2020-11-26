@@ -15,8 +15,9 @@
                     <label class="form-label">Status</label>
                     <select class="status custom-select form-control" name="p">
                         <option value=" " selected>Semua</option>
-                        <option value="1" {{ Request::get('p') == '1' ? 'selected' : '' }}>PUBLISH</option>
-                        <option value="0" {{ Request::get('p') == '0' ? 'selected' : '' }}>DRAFT</option>
+                        @foreach (config('addon.label.publish') as $key => $value)
+                        <option value="{{ $key }}" {{ Request::get('p') == ''.$key.'' ? 'selected' : '' }}>{{ $value }}</option>
+                        @endforeach
                     </select>
                 </div>
             </div>
@@ -81,7 +82,7 @@
                     <td>
                         <a href="javascript:void(0);" onclick="$(this).find('form').submit();" class="badge badge-{{ $item->publish == 1 ? 'primary' : 'warning' }}"
                             title="Click to publish artikel">
-                            {{ config('addon.label.publish.'.$item->publish) }}
+                            {{ $item->publish == 1 ? 'Publish' : 'Draft' }}
                             <form action="{{ route('artikel.publish', ['id' => $item->id]) }}" method="POST">
                                 @csrf
                                 @method('PUT')

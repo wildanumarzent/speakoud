@@ -9,7 +9,7 @@
 </div>
 @endif
 
-@if (Request::segment(3) == 'materi')
+@if (Request::segment(3) == 'instruktur' || Request::segment(3) == 'materi')
 <div class="row">
     <div class="col-md-12">
       <div class="alert alert-primary alert-dismissible fade show text-muted">

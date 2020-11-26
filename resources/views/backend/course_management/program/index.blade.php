@@ -15,8 +15,9 @@
                     <label class="form-label">Status</label>
                     <select class="status custom-select form-control" name="p">
                         <option value=" " selected>Semua</option>
-                        <option value="1" {{ Request::get('p') == '1' ? 'selected' : '' }}>PUBLISH</option>
-                        <option value="0" {{ Request::get('p') == '0' ? 'selected' : '' }}>DRAFT</option>
+                        @foreach (config('addon.label.publish') as $key => $value)
+                        <option value="{{ $key }}" {{ Request::get('p') == ''.$key.'' ? 'selected' : '' }}>{{ $value }}</option>
+                        @endforeach
                     </select>
                 </div>
             </div>
@@ -50,7 +51,7 @@
 <!-- / Filters -->
 @if ($data['hasRole'])
 <div class="d-flex justify-content-between">
-    <a href="{{ route('program.create') }}" class="btn btn-primary rounded-pill" title="klik untuk menambah program pelatihan"><i class="las la-plus"></i>Tambah</a>
+    <a href="{{ route('program.create') }}" class="btn btn-primary rounded-pill" title="klik untuk menambah kategori pelatihan"><i class="las la-plus"></i>Tambah</a>
 </div>
 <br>
 @endif
@@ -68,16 +69,16 @@
               <i class="ion ion-ios-more"></i>
             </button>
             <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; will-change: top, left; top: 26px; left: 26px;">
-              <a class="dropdown-item" href="{{ route('mata.index', ['id' => $item->id]) }}" title="klik untuk melihat mata pelatihan">
-                <i class="las la-book"></i> Mata Pelatihan
+              <a class="dropdown-item" href="{{ route('mata.index', ['id' => $item->id]) }}" title="klik untuk melihat program pelatihan">
+                <i class="las la-book"></i> Program Pelatihan
               </a>
               @if ($data['hasRole'])
-              <a class="dropdown-item" href="{{ route('program.edit', ['id' => $item->id]) }}" title="klik untuk mengedit program pelatihan">
+              <a class="dropdown-item" href="{{ route('program.edit', ['id' => $item->id]) }}" title="klik untuk mengedit kategori pelatihan">
                 <i class="las la-pen"></i> Edit
               </a>
               @endif
               @if (auth()->user()->hasRole('developer|administrator') || $item->creator_id == auth()->user()->id)
-              <a class="dropdown-item js-sa2-delete" href="javascript:void(0);" data-id="{{ $item->id }}" title="klik untuk menghapus program pelatihan">
+              <a class="dropdown-item js-sa2-delete" href="javascript:void(0);" data-id="{{ $item->id }}" title="klik untuk menghapus kategori pelatihan">
                 <i class="las la-trash-alt"></i> Hapus
               </a>
               @endif
@@ -123,6 +124,24 @@
                     </td>
                 </tr>
                 @endif
+                <tr>
+                    <th>Action</th>
+                    <td>
+                        <a class="btn btn-success icon-btn btn-sm" href="{{ route('mata.index', ['id' => $item->id]) }}" title="klik untuk melihat program pelatihan">
+                            <i class="las la-book"></i>
+                        </a>
+                        @if ($data['hasRole'])
+                        <a class="btn btn-info icon-btn btn-sm" href="{{ route('program.edit', ['id' => $item->id]) }}" title="klik untuk mengedit kategori pelatihan">
+                          <i class="las la-pen"></i>
+                        </a>
+                        @endif
+                        @if (auth()->user()->hasRole('developer|administrator') || $item->creator_id == auth()->user()->id)
+                        <a class="btn btn-danger icon-btn btn-sm js-sa2-delete" href="javascript:void(0);" data-id="{{ $item->id }}" title="klik untuk menghapus kategori pelatihan">
+                          <i class="las la-trash-alt"></i>
+                        </a>
+                        @endif
+                    </td>
+                </tr>
           </table>
           @if (auth()->user()->hasRole('developer|administrator|internal|mitra') && $item->publish == 0 && $item->mata()->count() > 0 && $item->materi()->count() > 0 && $item->bahan()->count() > 0)
           <a href="javascript:;" class="btn btn-success btn-block publish" title="klik untuk publish">
@@ -157,9 +176,9 @@
     <div class="card-body text-center">
         <strong style="color: red;">
             @if (Request::get('p') || Request::get('q'))
-            ! Program Pelatihan tidak ditemukan !
+            ! Kategori Pelatihan tidak ditemukan !
             @else
-            ! Data Program Pelatihan kosong !
+            ! Data Kategori Pelatihan kosong !
             @endif
         </strong>
     </div>
@@ -215,7 +234,7 @@
             var id = $(this).attr('data-id');
             Swal.fire({
                 title: "Apakah anda yakin?",
-                text: "Anda akan menghapus program pelatihan ini, data yang bersangkutan dengan program pelatihan ini akan terhapus. Data yang sudah dihapus tidak dapat dikembalikan!",
+                text: "Anda akan menghapus kategori pelatihan ini, data yang bersangkutan dengan kategori pelatihan ini akan terhapus. Data yang sudah dihapus tidak dapat dikembalikan!",
                 type: "warning",
                 confirmButtonText: "Ya, hapus!",
                 customClass: {
@@ -250,7 +269,7 @@
                 if (response.value.success) {
                     Swal.fire({
                         type: 'success',
-                        text: 'program pelatihan berhasil dihapus'
+                        text: 'kategori pelatihan berhasil dihapus'
                     }).then(() => {
                         window.location.reload();
                     })

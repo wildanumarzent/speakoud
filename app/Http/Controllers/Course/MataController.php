@@ -45,10 +45,32 @@ class MataController extends Controller
         $this->serviceProgram->checkInstruktur($programId);
 
         return view('backend.course_management.mata.index', compact('data'), [
-            'title' => 'Program - Mata Pelatihan',
+            'title' => 'Course - Program Pelatihan',
             'breadcrumbsBackend' => [
-                'Program' => route('program.index'),
-                'Mata Pelatihan' => ''
+                'Kategori' => route('program.index'),
+                'Program Pelatihan' => ''
+            ],
+        ]);
+    }
+
+    public function instruktur(Request $request, $mataId)
+    {
+        $q = '';
+        if (isset($request->q)) {
+            $q = '?q='.$request->q;
+        }
+
+        $data['instruktur'] = $this->service->getInstrukturList($request, $mataId);
+        $data['number'] = $data['instruktur']->firstItem();
+        $data['instruktur']->withPath(url()->current().$q);
+        $data['mata'] = $this->service->findMata($mataId);
+
+        return view('backend.course_management.mata.instruktur', compact('data'), [
+            'title' => 'Program Pelatihan - Instruktur',
+            'breadcrumbsBackend' => [
+                'Kategori' => route('program.index'),
+                'Program' => route('mata.index', ['id' => $data['mata']->program_id]),
+                'Instruktur' => '',
             ],
         ]);
     }
@@ -97,8 +119,7 @@ class MataController extends Controller
         return view('frontend.course.detail', compact('data'), [
             'title' => $data['read']->judul,
             'breadcrumbsBackend' => [
-                'Program Pelatihan' => route('course.list'),
-                'Course' => '',
+                'Course' => route('course.list'),
                 'Detail' => '',
             ],
         ]);
@@ -112,10 +133,10 @@ class MataController extends Controller
         $this->serviceProgram->checkInstruktur($programId);
 
         return view('backend.course_management.mata.form', compact('data'), [
-            'title' => 'Mata Pelatihan - Tambah',
+            'title' => 'Program Pelatihan - Tambah',
             'breadcrumbsBackend' => [
-                'Program' => route('program.index'),
-                'Mata Pelatihan' => route('mata.index', ['id' => $programId]),
+                'Kategori' => route('program.index'),
+                'Program Pelatihan' => route('mata.index', ['id' => $programId]),
                 'Tambah' => ''
             ],
         ]);
@@ -128,7 +149,7 @@ class MataController extends Controller
         $this->service->storeMata($request, $programId);
 
         return redirect()->route('mata.index', ['id' => $programId])
-            ->with('success', 'Mata pelatihan berhasil ditambahkan');
+            ->with('success', 'Program pelatihan berhasil ditambahkan');
     }
 
     public function edit($programId, $id)
@@ -145,10 +166,10 @@ class MataController extends Controller
         $this->checkCreator($id);
 
         return view('backend.course_management.mata.form', compact('data'), [
-            'title' => 'Mata Pelatihan - Edit',
+            'title' => 'Program Pelatihan - Edit',
             'breadcrumbsBackend' => [
-                'Program' => route('program.index'),
-                'Mata Pelatihan' => route('mata.index', ['id' => $programId]),
+                'Kategori' => route('program.index'),
+                'Program Pelatihan' => route('mata.index', ['id' => $programId]),
                 'Edit' => ''
             ],
         ]);
@@ -161,7 +182,7 @@ class MataController extends Controller
         $this->service->updateMata($request, $id);
 
         return redirect()->route('mata.index', ['id' => $programId])
-            ->with('success', 'Mata pelatihan berhasil diedit');
+            ->with('success', 'Program pelatihan berhasil diedit');
     }
 
     public function publish($programId, $id)
@@ -215,7 +236,7 @@ class MataController extends Controller
         if ($mata->bahan()->count() > 0) {
             return response()->json([
                 'success' => 0,
-                'message' => 'Mata pelatihan gagal dihapus dikarenakan'.
+                'message' => 'Program pelatihan gagal dihapus dikarenakan'.
                             ' masih ada bahan pelatihan didalamnya'
             ], 200);
         } else {

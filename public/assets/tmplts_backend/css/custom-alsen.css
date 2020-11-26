@@ -967,7 +967,7 @@
   border-radius: 0.75rem;
   margin-bottom: 1.5em;
   border: none;
-  overflow: hidden;
+  overflow: none;
 }
 .alsen .layout-container .layout-content .card.card-list {
   height: calc(100% - 30px);
