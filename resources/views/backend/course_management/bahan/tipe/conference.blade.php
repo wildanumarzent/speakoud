@@ -8,13 +8,13 @@
     </div>
     <div class="col-md-10">
         <label class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="tipe" value="0" {{ isset($data['bahan']) ? (old('tipe', $data['bahan']->link->tipe == '0') ? 'checked' : '') : (old('tipe') ? 'checked' : 'checked') }}>
+            <input class="form-check-input" type="radio" name="tipe" value="0" {{ isset($data['bahan']) ? (old('tipe', $data['bahan']->conference->tipe == '0') ? 'checked' : '') : (old('tipe') ? 'checked' : 'checked') }}>
             <span class="form-check-label">
                 BPPT Conference
             </span>
         </label>
         <label class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="tipe" value="1" {{ isset($data['bahan']) ? (old('tipe', $data['bahan']->link->tipe == '1') ? 'checked' : '') : (old('tipe') ? '' : '') }}>
+            <input class="form-check-input" type="radio" name="tipe" value="1" {{ isset($data['bahan']) ? (old('tipe', $data['bahan']->conference->tipe == '1') ? 'checked' : '') : (old('tipe') ? '' : '') }}>
             <span class="form-check-label">
                 Platform (zoom, gmeet, dll)
             </span>
@@ -29,7 +29,7 @@
     <div class="col-sm-10">
         <div class="input-group">
         <input type="text" class="form-control @error('meeting_link') is-invalid @enderror" name="meeting_link"
-            value="{{ (isset($data['bahan'])) ? old('meeting_link', $data['bahan']->link->meeting_link) : old('meeting_link') }}" placeholder="masukan link meeting...">
+            value="{{ (isset($data['bahan'])) ? old('meeting_link', $data['bahan']->conference->meeting_link) : old('meeting_link') }}" placeholder="masukan link meeting...">
         @include('components.field-error', ['field' => 'meeting_link'])
         </div>
     </div>

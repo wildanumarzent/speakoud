@@ -9,10 +9,10 @@
     <div class="col-md-12">
       <div class="alert alert-primary alert-dismissible fade show text-muted">
         <i class="las la-map-pin"></i>
-        {!! $data['link']->program->judul !!} <i class="las la-arrow-right"></i>
-        {!! $data['link']->mata->judul !!} <i class="las la-arrow-right"></i>
-        {!! $data['link']->materi->judul !!} <i class="las la-arrow-right"></i>
-        <strong>{!! $data['link']->bahan->judul !!}</strong>
+        {!! $data['conference']->program->judul !!} <i class="las la-arrow-right"></i>
+        {!! $data['conference']->mata->judul !!} <i class="las la-arrow-right"></i>
+        {!! $data['conference']->materi->judul !!} <i class="las la-arrow-right"></i>
+        <strong>{!! $data['conference']->bahan->judul !!}</strong>
       </div>
     </div>
 </div>
@@ -39,7 +39,7 @@
 </div>
 
 <div class="text-left">
-    <a href="{{ route('course.bahan', ['id' => $data['link']->mata_id, 'bahanId' => $data['link']->bahan_id,  'tipe' => 'link']) }}" class="btn btn-secondary rounded-pill" title="kembali ke link"><i class="las la-arrow-left"></i>Kembali</a>
+    <a href="{{ route('course.bahan', ['id' => $data['conference']->mata_id, 'bahanId' => $data['conference']->bahan_id,  'tipe' => 'conference']) }}" class="btn btn-secondary rounded-pill" title="kembali ke conference"><i class="las la-arrow-left"></i>Kembali</a>
 </div>
 <br>
 
@@ -92,7 +92,7 @@
                         @if ($item->check_in_verified == 0)
                         <a href="javascript:;" class="btn btn-success icon-btn btn-sm check" title="Klik untuk verifikasi peserta">
                             <i class="las la-check"></i>
-                            <form action="{{ route('conference.peserta.check', ['id' => $item->link_id, 'trackId' => $item->id, 'tipe' => 'detail'])}}" method="POST" id="form-check">
+                            <form action="{{ route('conference.peserta.check', ['id' => $item->conference_id, 'trackId' => $item->id, 'tipe' => 'detail'])}}" method="POST" id="form-check">
                                 @csrf
                                 @method('PUT')
                             </form>

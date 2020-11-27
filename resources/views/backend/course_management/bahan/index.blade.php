@@ -57,8 +57,8 @@
                     $route = route('course.bahan', ['id' => $item->mata_id, 'bahanId' => $item->id, 'tipe' => 'forum']);
                 } elseif ($item->type($item)['tipe'] == 'dokumen') {
                     $route = route('course.bahan', ['id' => $item->mata_id, 'bahanId' => $item->id, 'tipe' => 'dokumen']);
-                } elseif ($item->type($item)['tipe'] == 'link') {
-                    $route = route('course.bahan', ['id' => $item->mata_id, 'bahanId' => $item->id, 'tipe' => 'link']);
+                } elseif ($item->type($item)['tipe'] == 'conference') {
+                    $route = route('course.bahan', ['id' => $item->mata_id, 'bahanId' => $item->id, 'tipe' => 'conference']);
                 } elseif ($item->type($item)['tipe'] == 'quiz') {
                     $route = route('course.bahan', ['id' => $item->mata_id, 'bahanId' => $item->id, 'tipe' => 'quiz']);
                 } elseif ($item->type($item)['tipe'] == 'scorm') {
@@ -120,11 +120,11 @@
                     <td><i class="las la-file-{{ $item->dokumen->bankData->icon($item->dokumen->bankData->file_type) }} mr-2" style="font-size: 1.5em;"></i> {{ strtoupper($item->dokumen->bankData->file_type) }}</td>
                 </tr>
                 @endif
-                @if ($item->type($item)['tipe'] == 'link')
+                @if ($item->type($item)['tipe'] == 'conference')
                 <tr>
                     <th>Tipe Meeting</th>
                     <td>
-                        @if ($item->link->tipe == 0)
+                        @if ($item->conference->tipe == 0)
                             BPPT Conference
                         @else
                             Platform
@@ -201,7 +201,7 @@
                           </form>
                         </a>
                         <a class="btn btn-primary icon-btn btn-sm" href="{{ $route }}" title="klik untuk melihat preview">
-                            <i class="las la-play"></i>
+                            <i class="las la-external-link-alt"></i>
                         </a>
                     </td>
                 </tr>

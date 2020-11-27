@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Course;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\KomentarRequest;
 use App\Http\Requests\MataRequest;
 use App\Services\Course\MataService;
 use App\Services\Course\ProgramService;
@@ -226,6 +227,13 @@ class MataController extends Controller
             'success' => 1,
             'message' => ''
         ], 200);
+    }
+
+    public function giveComment(KomentarRequest $request, $id)
+    {
+        $this->service->comment($request, $id);
+
+        return back()->with('success', 'Berhasil memberi komentar');
     }
 
     public function destroy($programId, $id)

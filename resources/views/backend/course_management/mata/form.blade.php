@@ -147,6 +147,15 @@
                   </label>
                 </div>
             </div>
+            <div class="form-group row">
+                <label class="col-form-label col-sm-2 text-sm-right">Tampilkan Komentar</label>
+                <div class="col-sm-10">
+                  <label class="custom-control custom-checkbox m-0">
+                    <input type="checkbox" class="custom-control-input" name="show_comment" value="1" {{ isset($data['mata']) ? (old('show_comment', $data['mata']->show_comment) == 1 ? 'checked' : '') : (old('show_comment') ? 'checked' : '') }}>
+                    <span class="custom-control-label ml-4">Ya</span>
+                  </label>
+                </div>
+            </div>
         </div>
         <div class="card-footer">
             <div class="row">

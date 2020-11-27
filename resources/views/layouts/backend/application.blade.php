@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html lang="{{ app()->getLocale() }}" class="default-style layout-collapsed layout-fixed">
+<html lang="{{ app()->getLocale() }}" class="default-style layout-fixed layout-collapsed">
 
 <head>
     <meta name="csrf-token" content="{{ csrf_token() }}">

@@ -48,9 +48,9 @@ class BahanPelatihan extends Model
         return $this->hasOne(BahanFile::class, 'bahan_id');
     }
 
-    public function link()
+    public function conference()
     {
-        return $this->hasOne(BahanLink::class, 'bahan_id');
+        return $this->hasOne(BahanConference::class, 'bahan_id');
     }
 
     public function quiz()
@@ -80,9 +80,9 @@ class BahanPelatihan extends Model
             ];
         }
 
-        if ($bahan->link()->count() == 1) {
+        if ($bahan->conference()->count() == 1) {
             $segmen = [
-                'tipe' => 'link',
+                'tipe' => 'conference',
                 'title' => 'Video Conference',
                 'icon' => 'video'
             ];

@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 return [
 	'title_header' => 'BELS',
@@ -6,8 +6,8 @@ return [
 	'widget_1_title' => 'Program Pelatihan',
 	'widget_1_description' => 'Beragam pilihan program pelatihan e-learning yang tersedia saat ini',
 	'widget_1_button' => 'Lihat Lainnya',
-    'widget_2_title' => 'Acara Mendatang',
-    'widget_2_title_2' => 'Jadwal Pelatihan',
+	'widget_2_title' => 'Acara Mendatang',
+	'widget_2_title_2' => 'Jadwal Pelatihan',
 	'widget_2_description' => 'Temukan program pelatihan E-Learning yang akan diselenggarakan dalam waktu dekat, disini',
 	'widget_2_button' => 'Lihat Lainnya',
 	'widget_3_title' => 'Berlangganan Informasi Pelatihan Terbaru',

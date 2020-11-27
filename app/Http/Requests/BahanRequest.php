@@ -35,7 +35,7 @@ class BahanRequest extends FormRequest
                 'file_path' => 'required',
             ];
         }
-        if ($this->type == 'link') {
+        if ($this->type == 'conference') {
             if ($this->tipe == 1) {
                 return [
                     'judul' => 'required',

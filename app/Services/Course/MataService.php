@@ -5,20 +5,23 @@ namespace App\Services\Course;
 use App\Models\Course\MataInstruktur;
 use App\Models\Course\MataPelatihan;
 use App\Models\Course\MataRating;
+use App\Services\Component\KomentarService;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
 class MataService
 {
-    private $model, $modelInstruktur;
+    private $model, $modelInstruktur, $komentar;
 
     public function __construct(
         MataPelatihan $model,
-        MataInstruktur $modelInstruktur
+        MataInstruktur $modelInstruktur,
+        KomentarService $komentar
     )
     {
         $this->model = $model;
         $this->modelInstruktur = $modelInstruktur;
+        $this->komentar = $komentar;
     }
 
     public function getAllMata()
@@ -134,6 +137,7 @@ class MataService
         $mata->publish_end = ($request->enable == 1 ? $request->publish_end : null);
         $mata->urutan = ($this->model->where('program_id', $programId)->max('urutan') + 1);
         $mata->show_feedback = (bool)$request->show_feedback;
+        $mata->show_comment = (bool)$request->show_comment;
         $mata->save();
 
         $collectInstruktur = $this->collectInstruktur($request);
@@ -170,6 +174,7 @@ class MataService
         $mata->publish_start = $request->publish_start ?? null;
         $mata->publish_end = $request->publish_end ?? null;
         $mata->show_feedback = (bool)$request->show_feedback;
+        $mata->show_comment = (bool)$request->show_comment;
         $mata->save();
 
         $deleteInstruktur = $mata->instruktur()->delete();
@@ -245,6 +250,13 @@ class MataService
         return $rating;
     }
 
+    public function comment($request, $mataId)
+    {
+        $komentar = $this->komentar->store($request->komentar, $this->findMata($mataId));
+
+        return $komentar;
+    }
+
     public function deleteMata(int $id)
     {
         $mata = $this->findMata($id);
@@ -254,6 +266,7 @@ class MataService
         }
         $mata->instruktur()->delete();
         $mata->materi()->delete();
+        $mata->comment()->delete();
         $mata->delete();
 
         return $mata;

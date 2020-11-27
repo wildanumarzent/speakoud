@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Course\Bahan;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BahanRequest;
+use App\Services\Course\Bahan\BahanConferenceService;
 use App\Services\Course\Bahan\BahanForumService;
-use App\Services\Course\Bahan\BahanLinkService;
 use App\Services\Course\Bahan\BahanService;
 use App\Services\Course\MataService;
 use App\Services\Course\MateriService;
@@ -15,7 +15,7 @@ use Illuminate\Http\Request;
 class BahanController extends Controller
 {
     private $service, $serviceMateri, $serviceMata, $serviceProgram, $serviceBahanForum,
-        $serviceLink;
+        $serviceConference;
 
     public function __construct(
         BahanService $service,
@@ -23,7 +23,7 @@ class BahanController extends Controller
         MataService $serviceMata,
         ProgramService $serviceProgram,
         BahanForumService $serviceBahanForum,
-        BahanLinkService $serviceLink
+        BahanConferenceService $serviceConference
     )
     {
         $this->service = $service;
@@ -31,7 +31,7 @@ class BahanController extends Controller
         $this->serviceMata = $serviceMata;
         $this->serviceProgram = $serviceProgram;
         $this->serviceBahanForum = $serviceBahanForum;
-        $this->serviceLink = $serviceLink;
+        $this->serviceConference = $serviceConference;
     }
 
     public function index(Request $request, $materiId)

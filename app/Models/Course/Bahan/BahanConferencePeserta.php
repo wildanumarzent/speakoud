@@ -5,9 +5,9 @@ namespace App\Models\Course\Bahan;
 use App\Models\Users\User;
 use Illuminate\Database\Eloquent\Model;
 
-class BahanLinkPeserta extends Model
+class BahanConferencePeserta extends Model
 {
-    protected $table = 'link_user_tracker';
+    protected $table = 'conference_user_tracker';
     protected $guarded = [];
 
     protected $casts = [
@@ -17,7 +17,7 @@ class BahanLinkPeserta extends Model
 
     public function link()
     {
-        return $this->belongsTo(BahanLink::class, 'link_id');
+        return $this->belongsTo(BahanConference::class, 'link_id');
     }
 
     public function user()

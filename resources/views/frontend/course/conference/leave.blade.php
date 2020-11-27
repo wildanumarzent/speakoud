@@ -14,12 +14,12 @@
           <div class="input-group input-group-lg mb-3 d-flex justify-content-center">
             <a href="javascript:void(0);" onclick="$(this).find('form').submit();" class="btn btn-danger btn-lg">
                 YA
-                <form action="{{ route('conference.leave', ['id' => $data['link']->id]) }}" method="POST">
+                <form action="{{ route('conference.leave', ['id' => $data['conference']->id]) }}" method="POST">
                     @csrf
                     @method('PUT')
                 </form>
             </a>&nbsp;&nbsp;&nbsp;
-            <a href="{{ route('conference.room', ['id' => $data['link']->id]) }}" class="btn btn-primary btn-lg" type="button">TIDAK</a>
+            <a href="{{ route('conference.room', ['id' => $data['conference']->id]) }}" class="btn btn-primary btn-lg" type="button">TIDAK</a>
           </div>
           <div class="text-center text-right text-white opacity-50">Jika tidak, anda akan kembali ke room</div>
         </div>

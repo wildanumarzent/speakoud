@@ -81,7 +81,7 @@
 <script>
     const domain = 'meet.jit.si';
     const options = {
-        roomName: '{{ $data['link']->meeting_link }}',
+        roomName: '{{ $data['conference']->meeting_link }}',
         width: 1125,
         height: 700,
         parentNode: document.querySelector('#meet'),
@@ -93,16 +93,16 @@
 
     const api = new JitsiMeetExternalAPI(domain, options);
     api.addEventListener('videoConferenceLeft', function () {
-        window.location = '/conference/{{ $data['link']->id }}/leave';
+        window.location = '/conference/{{ $data['conference']->id }}/leave';
     });
-    api.executeCommand('subject', '{{ $data['link']->bahan->judul }}');
+    api.executeCommand('subject', '{{ $data['conference']->bahan->judul }}');
     // api.executeCommand('avatarUrl', '{{ auth()->user()->getPhoto(auth()->user()->photo['filename']) }}');
 
     $(document).ready(function () {
         //list peserta
         setInterval (function () {
             $.ajax({
-                url : '/conference/{{ $data['link']->id }}/peserta',
+                url : '/conference/{{ $data['conference']->id }}/peserta',
                 type : "POST",
                 dataType : "json",
                 data : {},
@@ -143,7 +143,7 @@
         $(document).on('click', '#verifikasi', function() {
             var id = $(this).attr("data-id");
             $.ajax({
-                url : '/conference/{{ $data['link']->id }}/join/'+ id +'/verification',
+                url : '/conference/{{ $data['conference']->id }}/join/'+ id +'/verification',
                 method: 'PUT',
                 success:function() {
                     // console.log('success');

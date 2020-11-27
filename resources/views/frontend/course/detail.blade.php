@@ -5,6 +5,7 @@
 <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/fancybox/fancybox.min.css') }}">
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-bar-rating/1.2.2/themes/fontawesome-stars.min.css">
+<link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/sweetalert2/sweetalert2.css') }}">
 @endsection
 
 @section('content')
@@ -65,7 +66,7 @@
                 {!! $data['read']->content !!}
             </div>
         </div>
-        <div class="card mb-1">
+        <div class="card mb-2">
             <h6 class="card-header with-elements">
                 <span class="card-header-title"> Course Content</span>
             </h6>
@@ -92,7 +93,7 @@
                                 @if ($bahan->type($bahan)['tipe'] == 'dokumen')
                                 <i class="las la-file-{{ $bahan->dokumen->bankData->icon($bahan->dokumen->bankData->file_type) }} mr-2" style="font-size: 4em;"></i>
                                 @endif
-                                @if ($bahan->type($bahan)['tipe'] == 'link')
+                                @if ($bahan->type($bahan)['tipe'] == 'conference')
                                 <i class="las la-{{ $bahan->type($bahan)['icon'] }} mr-2" style="font-size: 4em;"></i>
                                 @endif
                                 @if ($bahan->type($bahan)['tipe'] == 'quiz')
@@ -111,8 +112,8 @@
                                 @if ($bahan->type($bahan)['tipe'] == 'dokumen')
                                 <a href="{{ route('course.bahan', ['id' => $data['read']->id, 'bahanId' => $bahan->id, 'tipe' => 'dokumen']) }}" class="text-body">{!! $bahan->judul !!}</a>&nbsp;
                                 @endif
-                                @if ($bahan->type($bahan)['tipe'] == 'link')
-                                <a href="{{ route('course.bahan', ['id' => $data['read']->id, 'bahanId' => $bahan->id, 'tipe' => 'link']) }}" class="text-body">{!! $bahan->judul !!}</a>&nbsp;
+                                @if ($bahan->type($bahan)['tipe'] == 'conference')
+                                <a href="{{ route('course.bahan', ['id' => $data['read']->id, 'bahanId' => $bahan->id, 'tipe' => 'conference']) }}" class="text-body">{!! $bahan->judul !!}</a>&nbsp;
                                 @endif
                                 @if ($bahan->type($bahan)['tipe'] == 'quiz')
                                 <a href="{{ route('course.bahan', ['id' => $data['read']->id, 'bahanId' => $bahan->id, 'tipe' => 'quiz']) }}" class="text-body">{!! $bahan->judul !!}</a>&nbsp;
@@ -209,12 +210,57 @@
         </div>
         @endif
     </div>
+    @if ($data['read']->show_comment == 1)
+    <div class="col-md-9">
+        <div class="card">
+            <h6 class="card-header with-elements">
+                <a href="javascript:;" class="card-header-title" id="show-comment"> Comment & Review</a>
+            </h6>
+            <form action="{{ route('course.comment', ['id' => $data['read']->id]) }}" method="POST" id="form-comment">
+                @csrf
+                <div class="card-body">
+                    <div class="form-group">
+                        <textarea class="form-control @error('komentar') is-invalid @enderror" name="komentar" placeholder="masukan komentar...">{{ old('komentar') }}</textarea>
+                        @include('components.field-error', ['field' => 'komentar'])
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary">Comment</button>
+                </div>
+            </form>
+        </div>
+        @foreach ($data['read']->comment as $comment)
+        <div class="card mb-3">
+            <div class="card-body">
+              <div class="media">
+                <img src="{{ asset(config('addon.images.photo')) }}" alt="" class="d-block ui-w-40 rounded-circle">
+                <div class="media-body ml-4">
+                  <div class="float-right text-muted small">
+                      @if (auth()->user()->hasRole('administrator') || $comment->creator_id == auth()->user()->id)
+                        <a href="javascript:;" data-id="{{ $comment->id }}" class="btn btn-danger icon-btn btn-sm js-sa2-delete"><i class="las la-trash-alt"></i></a>
+                      @endif
+                  </div>
+                  <a href="javascript:void(0)">{{ $comment->user->name }}</a>
+                  <div class="text-muted small">{{ $comment->created_at->format('l, j F Y (H:i A)') }}</div>
+                  <div class="mt-2">
+                    {!! $comment->komentar !!}
+                  </div>
+                  <div class="small mt-2">
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+        @endforeach
+    </div>
+    @endif
 </div>
 @endsection
 
 @section('scripts')
 <script src="{{ asset('assets/tmplts_backend/vendor/js/sidenav.js') }}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-bar-rating/1.2.2/jquery.barrating.min.js" type="text/javascript"></script>
+<script src="{{ asset('assets/tmplts_backend/vendor/libs/sweetalert2/sweetalert2.js') }}"></script>
 @endsection
 
 @section('jsbody')
@@ -240,6 +286,65 @@
               });
             }
         });
+
+        $('#form-comment').hide();
+        $('#show-comment').click(function (){
+            $('#form-comment').toggle('slow');
+        });
+
+        $('.js-sa2-delete').on('click', function () {
+            var id = $(this).attr('data-id');
+            Swal.fire({
+                title: "Apakah anda yakin akan menghapus komentar ini ?",
+                text: "",
+                type: "warning",
+                confirmButtonText: "Ya, hapus!",
+                customClass: {
+                    confirmButton: "btn btn-danger btn-lg",
+                    cancelButton: "btn btn-info btn-lg"
+                },
+                showLoaderOnConfirm: true,
+                showCancelButton: true,
+                allowOutsideClick: () => !Swal.isLoading(),
+                cancelButtonText: "Tidak, terima kasih",
+                preConfirm: () => {
+                    return $.ajax({
+                        url: "/komentar/delete/" + id,
+                        method: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        dataType: 'json'
+                    }).then(response => {
+                        if (!response.success) {
+                            return new Error(response.message);
+                        }
+                        return response;
+                    }).catch(error => {
+                        swal({
+                            type: 'error',
+                            text: 'Error while deleting data. Error Message: ' + error
+                        })
+                    });
+                }
+            }).then(response => {
+                if (response.value.success) {
+                    Swal.fire({
+                        type: 'success',
+                        text: 'komentar pelatihan berhasil dihapus'
+                    }).then(() => {
+                        window.location.reload();
+                    })
+                } else {
+                    Swal.fire({
+                        type: 'error',
+                        text: response.value.message
+                    }).then(() => {
+                        window.location.reload();
+                    })
+                }
+            });
+        })
     });
 </script>
 

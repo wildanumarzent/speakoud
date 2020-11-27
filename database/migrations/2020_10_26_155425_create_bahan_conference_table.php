@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBahanLinkTable extends Migration
+class CreateBahanConferenceTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateBahanLinkTable extends Migration
      */
     public function up()
     {
-        Schema::create('bahan_link', function (Blueprint $table) {
+        Schema::create('bahan_conference', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('program_id');
             $table->unsignedBigInteger('mata_id');
@@ -49,6 +49,6 @@ class CreateBahanLinkTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('bahan_link');
+        Schema::dropIfExists('bahan_conference');
     }
 }

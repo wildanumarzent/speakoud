@@ -24,7 +24,7 @@ return [
         ],
         2 => [
             'title' => 'Video Conference',
-            'get' => 'link',
+            'get' => 'conference',
             'description' => '',
             'icon' => 'video'
         ],

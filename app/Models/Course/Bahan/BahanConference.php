@@ -8,9 +8,9 @@ use App\Models\Course\ProgramPelatihan;
 use App\Models\Users\User;
 use Illuminate\Database\Eloquent\Model;
 
-class BahanLink extends Model
+class BahanConference extends Model
 {
-    protected $table = 'bahan_link';
+    protected $table = 'bahan_conference';
     protected $guarded = [];
 
     public function creator()

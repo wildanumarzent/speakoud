@@ -9,14 +9,14 @@ use Illuminate\Support\Facades\Storage;
 
 class BahanService
 {
-    private $model, $materi, $forum, $file, $link, $quiz;
+    private $model, $materi, $forum, $file, $conference, $quiz;
 
     public function __construct(
         BahanPelatihan $model,
         MateriService $materi,
         BahanForumService $forum,
         BahanFileService $file,
-        BahanLinkService $link,
+        BahanConferenceService $conference,
         BahanQuizService $quiz,
         BahanScormService $scorm
     )
@@ -25,7 +25,7 @@ class BahanService
         $this->materi = $materi;
         $this->forum = $forum;
         $this->file = $file;
-        $this->link = $link;
+        $this->conference = $conference;
         $this->quiz = $quiz;
         $this->scorm = $scorm;
     }
@@ -108,8 +108,8 @@ class BahanService
         if ($request->type == 'dokumen') {
             $segmen = $this->file->storeFile($request, $materi, $bahan);
         }
-        if ($request->type == 'link') {
-            $segmen = $this->link->storeLink($request, $materi, $bahan);
+        if ($request->type == 'conference') {
+            $segmen = $this->conference->storeConference($request, $materi, $bahan);
         }
         if ($request->type == 'quiz') {
             $segmen = $this->quiz->storeQuiz($request, $materi, $bahan);
@@ -138,8 +138,8 @@ class BahanService
         if ($request->type == 'dokumen') {
             $this->file->updateFile($request, $bahan);
         }
-        if ($request->type == 'link') {
-            $this->link->updateLink($request, $bahan);
+        if ($request->type == 'conference') {
+            $this->conference->updatuConferece($request, $bahan);
         }
         if ($request->type == 'quiz') {
             $this->quiz->updateQuiz($request, $bahan);
@@ -199,8 +199,8 @@ class BahanService
         if ($bahan->dokumen()->count() == 1) {
             $bahan->dokumen()->delete();
         }
-        if ($bahan->link()->count() == 1) {
-            $bahan->link()->delete();
+        if ($bahan->conference()->count() == 1) {
+            $bahan->conference()->delete();
         }
         if ($bahan->quiz()->count() == 1) {
             $bahan->quiz()->delete();

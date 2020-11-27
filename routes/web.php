@@ -48,11 +48,14 @@ Route::get('/course/{id}/register', 'Course\MataController@courseRegister')
 Route::get('/course/{id}/detail', 'Course\MataController@courseDetail')
     ->name('course.detail')
     ->middleware('auth');
+Route::get('course/{id}/bahan/{bahanId}/{tipe}', 'Course\Bahan\BahanController@view')
+    ->name('course.bahan')
+    ->middleware('auth');
 Route::post('/course/{id}/rating', 'Course\MataController@giveRating')
     ->name('course.rating')
     ->middleware(['auth', 'role:peserta_internal|peserta_mitra']);
-Route::get('course/{id}/bahan/{bahanId}/{tipe}', 'Course\Bahan\BahanController@view')
-    ->name('course.bahan')
+Route::post('/course/{id}/comment', 'Course\MataController@giveComment')
+    ->name('course.comment')
     ->middleware('auth');
 
 //forum
@@ -103,24 +106,24 @@ Route::delete('forum/{id}/topik/{topikId}/reply/{replyId}', 'Course\Bahan\BahanF
     ->middleware('auth');
 
 //video conference
-Route::get('/conference/{id}/room', 'Course\Bahan\BahanLinkController@room')
+Route::get('/conference/{id}/room', 'Course\Bahan\BahanConferenceController@room')
     ->name('conference.room')
     ->middleware('auth');
-Route::get('/conference/{id}/leave', 'Course\Bahan\BahanLinkController@leave')
+Route::get('/conference/{id}/leave', 'Course\Bahan\BahanConferenceController@leave')
     ->name('conference.leave')
     ->middleware('auth');
-Route::put('/conference/{id}/leave', 'Course\Bahan\BahanLinkController@leaveConfirm')
+Route::put('/conference/{id}/leave', 'Course\Bahan\BahanConferenceController@leaveConfirm')
     ->middleware(['auth', 'role:administrator|internal|mitra|instruktur_internal|instruktur_mitra']);;
-Route::get('/conference/{id}/platform/start', 'Course\Bahan\BahanLinkController@startMeet')
+Route::get('/conference/{id}/platform/start', 'Course\Bahan\BahanConferenceController@startMeet')
     ->name('conference.platform.start')
     ->middleware('auth');
-Route::get('/conference/{id}/peserta/list', 'Course\Bahan\BahanLinkController@peserta')
+Route::get('/conference/{id}/peserta/list', 'Course\Bahan\BahanConferenceController@peserta')
     ->name('conference.peserta.list')
     ->middleware(['auth', 'role:administrator|internal|mitra|instruktur_internal|instruktur_mitra']);
-Route::post('/conference/{id}/peserta', 'Course\Bahan\BahanLinkController@pesertaCheck')
+Route::post('/conference/{id}/peserta', 'Course\Bahan\BahanConferenceController@pesertaCheck')
     ->name('conference.peserta')
     ->middleware(['auth', 'role:administrator|internal|mitra|instruktur_internal|instruktur_mitra']);
-Route::put('/conference/{id}/join/{trackId}/verification', 'Course\Bahan\BahanLinkController@checkInVerified')
+Route::put('/conference/{id}/join/{trackId}/verification', 'Course\Bahan\BahanConferenceController@checkInVerified')
     ->name('conference.peserta.check')
     ->middleware(['auth', 'role:administrator|internal|mitra|instruktur_internal|instruktur_mitra']);
 

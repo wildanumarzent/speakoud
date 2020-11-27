@@ -2,6 +2,7 @@
 
 namespace App\Models\Course;
 
+use App\Models\Component\Komentar;
 use App\Models\Course\Bahan\BahanPelatihan;
 use App\Models\Users\User;
 use Illuminate\Database\Eloquent\Model;
@@ -87,6 +88,11 @@ class MataPelatihan extends Model
         }
 
         return $rating;
+    }
+
+    public function comment()
+    {
+        return $this->morphMany(Komentar::class, 'commentable');
     }
 
     public function scopePublish($query)
