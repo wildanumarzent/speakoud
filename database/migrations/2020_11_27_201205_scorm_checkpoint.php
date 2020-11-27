@@ -17,12 +17,11 @@ class ScormCheckpoint extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('scorm_id');
-            $table->text('checkpoint')->nullable();
+            $table->json('checkpoint')->nullable();
             $table->timestamps();
-
             $table->foreign('scorm_id')->references('id')->on('bahan_scorm')
             ->cascadeOnDelete();
-            $table->foreign('user_id')->references('id')->on('user_id')
+            $table->foreign('user_id')->references('id')->on('users')
             ->cascadeOnDelete();
         });
     }

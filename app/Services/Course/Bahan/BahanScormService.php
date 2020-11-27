@@ -40,13 +40,12 @@ class BahanScormService
 
             //parsing
             $xml = XmlParser::load($scormPath.'/imsmanifest.xml');
-            $resource = $xml->parse([
+            $parse = $xml->parse([
+                'version' => ['uses' => 'metadata.schemaversion'],
                 'resource' => ['uses' => 'resources.resource::href'],
             ]);
 
-            $xmlPath =  $scormPath.'/'.$resource['resource'];
-
-
+            $xmlPath =  $scormPath.'/'.$parse['resource'];
             $scorm = new BahanScorm;
             $scorm->program_id = $materi->program_id;
             $scorm->mata_id = $materi->mata_id;
@@ -54,6 +53,7 @@ class BahanScormService
             $scorm->bahan_id = $bahan->id;
             $scorm->creator_id = auth()->user()->id;
             $scorm->package = $xmlPath;
+            $scorm->version = "ver.".$parse['version'];
             $scorm->package_name = basename($fileName,".zip");
             $scorm->save();
 
