@@ -13,58 +13,14 @@
 
 @section('script')
 <script type="text/javascript" src="{{ asset('assets/scorm/js/scorm-api/pipewerks.js') }}"></script>
+<script type="text/javascript" src="{{ asset('assets/scorm/js/scorm-api/scormAPI.js') }}"></script>
 <script>
-    var API ={};
     (function ($) {
         function setupScormApi() {
-
-            API.LMSInitialize = LMSInitialize;
-            API.LMSGetLastError = LMSGetLastError;
-            API.LMSGetValue = LMSGetValue;
-            API.LMSSetValue = LMSSetValue;
-            API.LMSCommit = LMSCommit;
-            API.LMSFinish = LMSFinish;
-            API.LMSGetDiagnostic = LMSGetDiagnostic;
-            API.LMSGetErrorString = LMSGetErrorString;
-
+            window.API = new window.simplifyScorm.ScormAPI();
 
         }
 
-        function LMSInitialize(initializeInput) {
-            displayLog("LMSInitialize: " + initializeInput);
-            return true;
-        }
-        function LMSGetValue(cmi) {
-            displayLog("LMSGetValue: " + cmi);
-            return "";
-        }
-        function LMSSetValue(cmi, varvalue) {
-            displayLog("LMSSetValue: " + cmi + "=" + varvalue);
-            return "";
-        }
-        function LMSCommit(commitInput) {
-            displayLog("LMSCommit: " + commitInput);
-            return true;
-        }
-        function LMSFinish(finishInput) {
-            displayLog("LMSFinish: " + finishInput);
-            return true;
-        }
-        function LMSGetLastError() {
-            displayLog("LMSGetLastError: ");
-            return 0;
-        }
-        function LMSGetDiagnostic(errorCode) {
-            displayLog("LMSGetDiagnostic: " + errorCode);
-            return "";
-        }
-        function LMSGetErrorString(errorCode) {
-            displayLog("LMSGetErrorString: " + errorCode);
-            return "";
-        }
-        function displayLog(textToDisplay){
-            console.log(textToDisplay);
-        }
 
         $(document).ready(setupScormApi());
         $('.scorm-play').on('click', function () {
@@ -72,18 +28,22 @@
             var src = $(this).attr('data-src');
             var uid = parseInt($(this).attr('data-uid'));
             var uname = $(this).attr('data-uname');
-
-            // pipwerks.SCORM.set("cmi.core.student_name",uname);
-            // pipwerks.SCORM.get("cmi.core.student_name",uname);
-            LMSSetValue("cmi.core.student_name",uname);
-            LMSSetValue("cmi.core.student_id",uid);
+            var json = {
+            "core": {
+            "student_id": uid,
+            "student_name": uname,
+            "lesson_status": "incomplete",
+            "lesson_location": "2",
+        }
+        };
+        window.API.loadFromJSON(json);
         document.getElementById("scorm-content").setAttribute("src",src);
         });
 
 
         $('.scorm-stop').on('click', function () {
-            pipwerks.SCORM.get("cmi.core.student_id");
-        console.log(API);
+            var save = window.API.cmi.toJSON();
+            console.log(save);
         });
     })(jQuery);
     </script>

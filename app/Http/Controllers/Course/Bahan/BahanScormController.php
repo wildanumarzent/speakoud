@@ -43,7 +43,9 @@ class BahanScormController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+        
+        return response()->json(['success'=>'Saved']);
     }
 
     /**

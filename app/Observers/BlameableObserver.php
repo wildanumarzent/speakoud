@@ -11,7 +11,7 @@ class BlameableObserver
 
     }
 
-    public function updating(Model $model){
-        $model->updated_by = Auth::user()->id;
-    }
+    // public function updating(Model $model){
+    //     $model->updated_by = Auth::user()->id;
+    // }
 }
