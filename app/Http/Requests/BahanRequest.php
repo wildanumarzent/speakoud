@@ -67,6 +67,7 @@ class BahanRequest extends FormRequest
                 return [
                     'judul' => 'required',
                     'package' => 'required|mimes:'.config('addon.mimes.package_scorm.m'),
+                    'repeatable' => 'nullable',
                     'publish_start' => 'required',
                     'publish_end' => 'required',
                 ];
@@ -74,6 +75,7 @@ class BahanRequest extends FormRequest
                 return [
                     'judul' => 'required',
                     'package' => 'nullable|mimes:'.config('addon.mimes.package_scorm.m'),
+                    'repeatable' => 'nullable',
                     'publish_start' => 'required',
                     'publish_end' => 'required',
                 ];

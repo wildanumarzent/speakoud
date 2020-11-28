@@ -10,6 +10,7 @@
     "require": {
         "php": "^7.2.5",
         "anhskohbo/no-captcha": "^3.3",
+        "asantibanez/livewire-calendar": "^2.0",
         "asantibanez/livewire-charts": "^1.5",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^1.0",
@@ -19,7 +20,7 @@
         "laravel/ui": "2.4",
         "livewire/livewire": "^2.3",
         "madnest/madzipper": "^1.0",
-        "orchestra/parser": "^6.0",
+        "orchestra/parser": "5.0",
         "spatie/laravel-google-calendar": "^3.1",
         "spatie/laravel-permission": "^3.17"
     },

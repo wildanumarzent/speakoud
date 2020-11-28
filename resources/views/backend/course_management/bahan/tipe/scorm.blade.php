@@ -19,4 +19,16 @@
             @enderror
     </div>
 </div>
+<br>
+<div class="form-group row">
+    <div class="col-md-2 text-md-right">
+        <label class="col-form-label">Repeatable</label>
+    </div>
+    <div class="col-sm-10">
+        <label class="custom-control custom-checkbox">
+            <input type="checkbox" name="repeatable" class="custom-control-input" value="1">
+            <span class="custom-control-label">Yes</span>
+        </label>
+    </div>
+</div>
 @endsection

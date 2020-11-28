@@ -58,6 +58,20 @@
         </div>
     </div>
     <div class="col-md-4 col-xl-3">
+        @if($data['bahan']->segmenable_type == 'App\Models\Course\Bahan\BahanScorm')
+        <div class="card mb-4">
+            <h6 class="card-header with-elements">
+                <span class="card-header-title">Scorm Result</span>
+            </h6>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                 <p><span class="text-muted">Status : </span> <span class="text-bold">{{@$data['cpData']['core']['lesson_status']}}</span></p>
+                 <p><span class="text-muted">Score : </span> <span class="text-bold">{{@$data['cpData']['core']['score']['raw'] ?? "0"}} / {{@$data['cpData']['core']['score']['max'] ?? "0"}}</span></p>
+                 <p><span class="text-muted">Session Time : </span> <span class="text-bold">{{@$data['cpData']['core']['session_time'] ?? '-'}}</span></p>
+                </li>
+            </ul>
+        </div>
+        @endif
         <div class="card mb-4">
             <h6 class="card-header with-elements">
                 <span class="card-header-title"> Bahan Lainnya</span>
@@ -92,6 +106,7 @@
                 </li>
             </ul>
         </div>
+
         {{-- <div class="card mb-4">
             <h6 class="card-header with-elements">
                 <span class="card-header-title">{!! $data['bahan']->judul !!}</span>

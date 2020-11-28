@@ -2,88 +2,95 @@
 
 @section('content-view')
 <iframe class="scorm-iframe" id="scorm-content" style="width:100%;height:500px;" src=""></iframe>
-<a href="javascript:;" data-uid="{{auth()->user()->id}}" data-uname="{{auth()->user()->name}}" data-src="{{ url($data['bahan']->scorm->package) }}" class="btn btn-sm btn-primary scorm-play" title="klik untuk mulai">
-   Mulai
-</a>
-<a href="javascript:;" class="btn btn-sm btn-success scorm-stop" title="klik jika selesai">
+@if($data['bahan']->scorm->repeatable == 0)
+@if(empty(@$data['cpData']))
+@if(@$data['cpData']['core']['lesson_status'] != 'completed')
+<a href="javascript:;" data-uid="{{auth()->user()->id}}" data-sid="{{$data['bahan']->scorm->id}}" data-uname="{{auth()->user()->name}}" data-version="2004 3rd Generation" data-src="{{ url($data['bahan']->scorm->package) }}" class="btn btn-sm btn-primary scorm-play" title="klik untuk mulai"  data-checkpoint="{{$data['checkpoint']->checkpoint ?? 0}}">
+    Mulai
+ </a>
+ <a href="javascript:;" class="btn btn-sm btn-success scorm-exit">
     Selesai
  </a>
-<div id="logDisplay"></div>
+ @else
+ @endif
+@endif
+@else
+<a href="javascript:;" data-uid="{{auth()->user()->id}}" data-sid="{{$data['bahan']->scorm->id}}" data-uname="{{auth()->user()->name}}" data-version="2004 3rd Generation" data-src="{{ url($data['bahan']->scorm->package) }}" class="btn btn-sm btn-primary scorm-play" title="klik untuk mulai"  data-checkpoint="{{$data['checkpoint']->checkpoint ?? 0}}">
+    Mulai
+ </a>
+ <a href="javascript:;" class="btn btn-sm btn-success scorm-exit">
+    Selesai
+ </a>
+@endif
+
 @endsection
 
 @section('script')
 <script type="text/javascript" src="{{ asset('assets/scorm/js/scorm-api/pipewerks.js') }}"></script>
+<script type="text/javascript" src="{{ asset('assets/scorm/js/scorm-api/scormAPI.js') }}"></script>
 <script>
-    var API ={};
+    var uid,sid;
     (function ($) {
         function setupScormApi() {
-
-            API.LMSInitialize = LMSInitialize;
-            API.LMSGetLastError = LMSGetLastError;
-            API.LMSGetValue = LMSGetValue;
-            API.LMSSetValue = LMSSetValue;
-            API.LMSCommit = LMSCommit;
-            API.LMSFinish = LMSFinish;
-            API.LMSGetDiagnostic = LMSGetDiagnostic;
-            API.LMSGetErrorString = LMSGetErrorString;
-
-
+            window.API = new window.simplifyScorm.ScormAPI();
         }
 
-        function LMSInitialize(initializeInput) {
-            displayLog("LMSInitialize: " + initializeInput);
-            return true;
-        }
-        function LMSGetValue(cmi) {
-            displayLog("LMSGetValue: " + cmi);
-            return "";
-        }
-        function LMSSetValue(cmi, varvalue) {
-            displayLog("LMSSetValue: " + cmi + "=" + varvalue);
-            return "";
-        }
-        function LMSCommit(commitInput) {
-            displayLog("LMSCommit: " + commitInput);
-            return true;
-        }
-        function LMSFinish(finishInput) {
-            displayLog("LMSFinish: " + finishInput);
-            return true;
-        }
-        function LMSGetLastError() {
-            displayLog("LMSGetLastError: ");
-            return 0;
-        }
-        function LMSGetDiagnostic(errorCode) {
-            displayLog("LMSGetDiagnostic: " + errorCode);
-            return "";
-        }
-        function LMSGetErrorString(errorCode) {
-            displayLog("LMSGetErrorString: " + errorCode);
-            return "";
-        }
-        function displayLog(textToDisplay){
-            console.log(textToDisplay);
-        }
 
         $(document).ready(setupScormApi());
         $('.scorm-play').on('click', function () {
-            console.log(API);
+            var version = $(this).attr('data-version');
+            var checkpoint = $(this).attr('data-checkpoint');
             var src = $(this).attr('data-src');
-            var uid = parseInt($(this).attr('data-uid'));
+            uid = parseInt($(this).attr('data-uid'));
+            sid = parseInt($(this).attr('data-sid'));
             var uname = $(this).attr('data-uname');
-
-            // pipwerks.SCORM.set("cmi.core.student_name",uname);
-            // pipwerks.SCORM.get("cmi.core.student_name",uname);
-            LMSSetValue("cmi.core.student_name",uname);
-            LMSSetValue("cmi.core.student_id",uid);
+            if(checkpoint != 0){
+                var mySave = JSON.parse(checkpoint);
+            }else{
+                var mySave = {
+            "core": {
+            "student_id": uid,
+            "student_name": uname,
+            "lesson_status": "incomplete",
+            }
+            }
+        };
+        window.API.loadFromJSON(mySave);
         document.getElementById("scorm-content").setAttribute("src",src);
         });
 
+        window.API.on("LMSSetValue", function() {
+                catchUpdate();
+            });
 
-        $('.scorm-stop').on('click', function () {
-            pipwerks.SCORM.get("cmi.core.student_id");
-        console.log(API);
+            window.API.on("LMSFinish", function() {
+                catchUpdate();
+                window.location.reload(1);
+            });
+
+        function catchUpdate(){
+            let _token   = $('meta[name="csrf-token"]').attr('content');
+            let backup = window.API.cmi.toJSON();
+            $.ajax({
+        url: "/scorm/checkpoint/store",
+        type:"POST",
+        data:{
+          user_id:uid,
+          scorm_id:sid,
+          checkpoint:backup,
+          _token: _token
+        },
+        success:function(response){
+          console.log(response);
+          if(response) {
+            $('.success').text(response.success);
+          }
+        },
+       });
+		}
+        $('.scorm-exit').on('click', function () {
+            catchUpdate();
+            window.location.reload(1);
         });
     })(jQuery);
     </script>
