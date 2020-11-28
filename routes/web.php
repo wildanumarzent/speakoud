@@ -540,7 +540,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     // Bahan Scorm
     Route::get('/scorm/{id}','Course\Bahan\BahanScormController@show')->name('scorm.detail');
-    Route::post('scorm/store', 'Course\Bahan\BahanScormController@store');
+    Route::post('scorm/checkpoint/store', 'Course\Bahan\BahanScormController@store');
 
     //jadwal pelatihan
     Route::get('/jadwal', 'Course\JadwalController@index')

@@ -44,7 +44,7 @@ class BahanScormController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        
+        $this->scorm->savePoint($data);
         return response()->json(['success'=>'Saved']);
     }
 
@@ -57,6 +57,7 @@ class BahanScormController extends Controller
     public function show($id)
     {
         $data['scorm'] = $this->scorm->get($id);
+
         // $data['path'] = storage_path($data['scorm']->package);
         $data['path'] = asset($data['scorm']->package);
         $data['path1'] = asset('scorm-sample/odading/scormdriver/indexAPI.html');

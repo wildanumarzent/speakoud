@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\BahanRequest;
 use App\Services\Course\Bahan\BahanConferenceService;
 use App\Services\Course\Bahan\BahanForumService;
+use App\Services\Course\Bahan\BahanScormService;
 use App\Services\Course\Bahan\BahanService;
 use App\Services\Course\MataService;
 use App\Services\Course\MateriService;
@@ -23,7 +24,8 @@ class BahanController extends Controller
         MataService $serviceMata,
         ProgramService $serviceProgram,
         BahanForumService $serviceBahanForum,
-        BahanConferenceService $serviceConference
+        BahanConferenceService $serviceConference,
+        BahanScormService $serviceScorm
     )
     {
         $this->service = $service;
@@ -32,6 +34,7 @@ class BahanController extends Controller
         $this->serviceProgram = $serviceProgram;
         $this->serviceBahanForum = $serviceBahanForum;
         $this->serviceConference = $serviceConference;
+        $this->serviceScorm = $serviceScorm;
     }
 
     public function index(Request $request, $materiId)
@@ -76,7 +79,11 @@ class BahanController extends Controller
         $data['jump'] = $this->service->bahanJump($id);
         $data['prev'] = $this->service->bahanPrevNext($data['materi']->id, $data['bahan']->urutan, 'prev');
         $data['next'] = $this->service->bahanPrevNext($data['materi']->id, $data['bahan']->urutan, 'next');
-
+        $data['checkpoint'] = $this->serviceScorm->checkpoint(auth()->user()->id,$data['bahan']->scorm->id);
+        if(isset($data['checkpoint'])){
+        $data['cpData'] = json_decode($data['checkpoint']->checkpoint,true);
+        }
+        // return $data['cpData'];
         if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
             if ($data['bahan']->program->publish == 0 || $data['bahan']->publish == 0) {
                 return abort(404);
@@ -171,10 +178,10 @@ class BahanController extends Controller
 
     public function update(BahanRequest $request, $materiId, $id)
     {
+
         $this->checkCreator($id);
 
-        $this->service->updateBahan($request, $id);
-
+        $data = $this->service->updateBahan($request, $id);
         return redirect()->route('bahan.index', ['id' => $materiId])
             ->with('success', 'Materi pelatihan berhasil diedit');
     }
