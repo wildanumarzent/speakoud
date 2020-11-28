@@ -55,16 +55,17 @@
                 <tr>
                     <th style="width: 10px;">No</th>
                     <th>Nama</th>
-                    <th>Tanggal Masuk</th>
+                    <th>Join</th>
                     <th>Check In</th>
                     <th>Verifikasi</th>
+                    <th>Leave</th>
                     <th style="width: 90px;">Action</th>
                 </tr>
             </thead>
             <tbody>
                 @if ($data['peserta']->total() == 0)
                 <tr>
-                    <td colspan="6" align="center">
+                    <td colspan="7" align="center">
                         <i><strong style="color:red;">
                         @if (Request::get('q'))
                         ! Peserta tidak ditemukan !
@@ -88,6 +89,7 @@
                             <span class="badge badge-success">Sudah Diverifikasi</span>
                         @endif
                     </td>
+                    <td>{{ !empty($item->leave) ? $item->leave->format('l, j F Y H:i A') : '-' }}</td>
                     <td>
                         @if ($item->check_in_verified == 0)
                         <a href="javascript:;" class="btn btn-success icon-btn btn-sm check" title="Klik untuk verifikasi peserta">

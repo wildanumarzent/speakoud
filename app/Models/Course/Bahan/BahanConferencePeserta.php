@@ -13,6 +13,7 @@ class BahanConferencePeserta extends Model
     protected $casts = [
         'join' => 'datetime',
         'check_in' => 'datetime',
+        'leave' => 'datetime',
     ];
 
     public function link()

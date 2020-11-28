@@ -145,6 +145,9 @@ class BahanConferenceController extends Controller
         $data['conference'] = $this->service->findConference($id);
 
         if (!auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
+
+            $this->service->trackPesertaLeave($id);
+
             return view('frontend.course.conference.leave', compact('data'));
         } else {
             return redirect()->route('course.bahan', [

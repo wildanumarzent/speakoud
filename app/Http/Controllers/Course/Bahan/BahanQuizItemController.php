@@ -79,6 +79,9 @@ class BahanQuizItemController extends Controller
             $data['countdown'] = $menit.':'.$detik;
 
             if ($data['quiz']->tipe == 1) {
+                if ($data['quiz']->trackUserIn->status == 2) {
+                    return back()->with('info', 'Anda sudah menyelesaikan quiz ini');
+                }
                 if (now()->format('Y-m-d H:i:s') > $data['quiz']->trackUserIn->start_time->addMinutes($data['quiz']->durasi)->format('Y-m-d H:i:s')) {
                     return redirect()->route('course.bahan', ['id' => $data['quiz']->mata_id, 'bahanId' => $data['quiz']->bahan_id, 'tipe' => 'quiz'])
                         ->with('warning', 'Durasi sudah habis');

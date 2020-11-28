@@ -124,6 +124,16 @@ class BahanConferenceService
         return $peserta;
     }
 
+    public function trackPesertaLeave(int $id)
+    {
+        $peserta = $this->modelPeserta->where('conference_id', $id)
+            ->where('user_id', auth()->user()->id)->first();
+        $peserta->leave = now();
+        $peserta->save();
+
+        return $peserta;
+    }
+
     public function checkInVerified(int $id)
     {
         $peserta = $this->modelPeserta->findOrFail($id);
