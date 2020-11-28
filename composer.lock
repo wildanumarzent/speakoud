@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "233fd8931b8eb64e2abee2827c4f63de",
+    "content-hash": "9ae4440e88f9e8c8025992ce412f7b60",
     "packages": [
         {
             "name": "anhskohbo/no-captcha",
@@ -65,64 +65,6 @@
                 "recaptcha"
             ],
             "time": "2020-09-10T02:31:52+00:00"
-        },
-        {
-            "name": "asantibanez/livewire-calendar",
-            "version": "2.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/asantibanez/livewire-calendar.git",
-                "reference": "030ee713b6b82a6972665a85038490e76f0d9fc9"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/asantibanez/livewire-calendar/zipball/030ee713b6b82a6972665a85038490e76f0d9fc9",
-                "reference": "030ee713b6b82a6972665a85038490e76f0d9fc9",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/support": "~5.6.0|~5.7.0|~5.8.0|^6.0|^7.0|^8.0",
-                "livewire/livewire": "^1.0|^2.0",
-                "php": "^7.2"
-            },
-            "require-dev": {
-                "orchestra/testbench": "~3.6.0|~3.7.0|~3.8.0|^4.0|^5.0",
-                "phpunit/phpunit": "^8.0"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Asantibanez\\LivewireCalendar\\LivewireCalendarServiceProvider"
-                    ],
-                    "aliases": {
-                        "LivewireCalendar": "Asantibanez\\LivewireCalendar\\LivewireCalendarFacade"
-                    }
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Asantibanez\\LivewireCalendar\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Andrés Santibáñez",
-                    "email": "santibanez.andres@gmail.com",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Laravel Livewire calendar component",
-            "homepage": "https://github.com/asantibanez/livewire-calendar",
-            "keywords": [
-                "asantibanez",
-                "livewire-calendar"
-            ],
-            "time": "2020-10-14T04:23:49+00:00"
         },
         {
             "name": "asantibanez/livewire-charts",
@@ -6957,5 +6899,5 @@
         "php": "^7.2.5"
     },
     "platform-dev": [],
-    "plugin-api-version": "1.1.0"
+    "plugin-api-version": "2.0.0"
 }
