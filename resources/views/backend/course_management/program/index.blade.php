@@ -143,7 +143,7 @@
                     </td>
                 </tr>
           </table>
-          @if (auth()->user()->hasRole('developer|administrator|internal|mitra') && $item->publish == 0 && $item->mata()->count() > 0 && $item->materi()->count() > 0 && $item->bahan()->count() > 0)
+          @if (auth()->user()->hasRole('developer|administrator|internal|mitra') && $item->publish == 0 && $item->mata()->count() > 0 && $item->materi()->count() > 0)
           <a href="javascript:;" class="btn btn-success btn-block publish" title="klik untuk publish">
             PUBLISH
             <form action="{{ route('program.publish', ['id' => $item->id])}}" method="POST" id="form-publish">

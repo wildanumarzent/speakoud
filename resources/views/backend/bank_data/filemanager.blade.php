@@ -59,7 +59,7 @@
         @endif
         @foreach ($data['directories'] as $key => $value)
         <div class="file-item">
-            <a href="{{ route('bank.data.filemanager', ['type' => Request::get('type-file'), 'view' => Request::get('view'), 'path' => $value['path']]) }}">
+            <a href="{{ route('bank.data.filemanager', ['type-file' => Request::get('type-file'), 'view' => Request::get('view'), 'path' => $value['path']]) }}">
                 <div class="file-item-icon las la-folder-open text-secondary"></div>
                 <div class="file-item-name">
                     {{ $value['name'] }}

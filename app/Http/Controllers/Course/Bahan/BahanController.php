@@ -81,7 +81,15 @@ class BahanController extends Controller
             if ($data['bahan']->program->publish == 0 || $data['bahan']->publish == 0) {
                 return abort(404);
             }
+            if (now() < $data['bahan']->publish_start) {
+                return back()->with('warning', 'Materi tidak bisa diakses dikarenakan belum memasuki tanggal mulai');
+            }
+
+            if (now() > $data['bahan']->publish_end) {
+                return back()->with('warning', 'Materi tidak bisa diakses dikarenakan sudah melebihi tanggal selesai');
+            }
         }
+
 
         if ($tipe == 'forum') {
             $data['topik'] = $this->serviceBahanForum->getTopikList($data['bahan']->forum->id);

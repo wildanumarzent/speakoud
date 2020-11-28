@@ -151,6 +151,14 @@
         </li>
         @endrole
 
+        @role ('administrator|internal|mitra')
+        <li class="sidenav-item{{ Request::is('soal*') ? ' active' : '' }}">
+            <a href="{{ route('soal.kategori') }}" class="sidenav-link"><i class="sidenav-icon las la-spell-check"></i>
+              <div>Bank Soal</div>
+            </a>
+        </li>
+        @endrole
+
         @role ('developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra')
         <li class="sidenav-item{{ $course ? ' active open' : '' }}">
           <a href="javascript:void(0)" class="sidenav-link sidenav-toggle"><i class="sidenav-icon las la-book-open"></i>

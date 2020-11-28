@@ -63,6 +63,10 @@
                     $route = route('course.bahan', ['id' => $item->mata_id, 'bahanId' => $item->id, 'tipe' => 'quiz']);
                 } elseif ($item->type($item)['tipe'] == 'scorm') {
                     $route = route('course.bahan', ['id' => $item->mata_id, 'bahanId' => $item->id, 'tipe' => 'scorm']);
+                } elseif ($item->type($item)['tipe'] == 'audio') {
+                    $route = route('course.bahan', ['id' => $item->mata_id, 'bahanId' => $item->id, 'tipe' => 'audio']);
+                } elseif ($item->type($item)['tipe'] == 'video') {
+                    $route = route('course.bahan', ['id' => $item->mata_id, 'bahanId' => $item->id, 'tipe' => 'video']);
                 } else {
                     $route = 'javascript:;';
                 }
@@ -140,6 +144,7 @@
                     </td>
                 </tr>
                 @endif
+
                 <tr>
                     <th>Creator</th>
                     <td>{{ $item->creator['name'] }}</td>

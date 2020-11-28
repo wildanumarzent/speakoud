@@ -45,10 +45,10 @@ class BahanQuizItemController extends Controller
         return view('backend.course_management.bahan.quiz.index', compact('data'), [
             'title' => 'Bahan Pelatihan - Quiz Item',
             'breadcrumbsBackend' => [
-                'Program' => route('program.index'),
-                'Mata' => route('mata.index', ['id' => $data['quiz']->program_id]),
-                'Materi' => route('materi.index', ['id' => $data['quiz']->mata_id]),
-                'Bahan' => route('bahan.index', ['id' => $data['quiz']->materi_id]),
+                'Kategori' => route('program.index'),
+                'Program' => route('mata.index', ['id' => $data['quiz']->program_id]),
+                'Mata' => route('materi.index', ['id' => $data['quiz']->mata_id]),
+                'Materi' => route('bahan.index', ['id' => $data['quiz']->materi_id]),
                 'Soal Quiz' => '',
             ],
         ]);
@@ -174,10 +174,10 @@ class BahanQuizItemController extends Controller
         return view('backend.course_management.bahan.quiz.form', compact('data'), [
             'title' => 'Quiz Item - Tambah',
             'breadcrumbsBackend' => [
-                'Program' => route('program.index'),
-                'Mata' => route('mata.index', ['id' => $data['quiz']->program_id]),
-                'Materi' => route('materi.index', ['id' => $data['quiz']->mata_id]),
-                'Bahan' => route('bahan.index', ['id' => $data['quiz']->materi_id]),
+                'Kategori' => route('program.index'),
+                'Program' => route('mata.index', ['id' => $data['quiz']->program_id]),
+                'Mata' => route('materi.index', ['id' => $data['quiz']->mata_id]),
+                'Materi' => route('bahan.index', ['id' => $data['quiz']->materi_id]),
                 'Soal Quiz' => route('quiz.item', ['id' => $data['quiz']->id]),
                 'Tambah' => ''
             ],
@@ -206,10 +206,10 @@ class BahanQuizItemController extends Controller
         return view('backend.course_management.bahan.quiz.form-edit', compact('data'), [
             'title' => 'Quiz Item - Edit',
             'breadcrumbsBackend' => [
-                'Program' => route('program.index'),
-                'Mata' => route('mata.index', ['id' => $data['quiz']->program_id]),
-                'Materi' => route('materi.index', ['id' => $data['quiz']->mata_id]),
-                'Bahan' => route('bahan.index', ['id' => $data['quiz']->materi_id]),
+                'Kategori' => route('program.index'),
+                'Program' => route('mata.index', ['id' => $data['quiz']->program_id]),
+                'Mata' => route('materi.index', ['id' => $data['quiz']->mata_id]),
+                'Materi' => route('bahan.index', ['id' => $data['quiz']->materi_id]),
                 'Soal Quiz' => route('quiz.item', ['id' => $data['quiz']->id]),
                 'Edit' => ''
             ],

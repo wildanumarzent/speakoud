@@ -96,6 +96,15 @@
                             @endforeach
                         @elseif ($soal1->item->tipe_jawaban == 1)
                         <input type="text" class="form-control" name="jawaban-{{ $key1 }}" placeholder="masukan jawaban" value="{{ $soal1->jawaban }}">
+                        @elseif ($soal1->item->tipe_jawaban == 3)
+                        <label class="custom-control custom-radio mb-3">
+                            <input type="radio" class="custom-control-input" name="jawaban-{{ $key1 }}" value="1" {{ $soal1->jawaban == 1 ? 'checked' : '' }}>
+                            <span class="custom-control-label">TRUE</span>
+                        </label>
+                        <label class="custom-control custom-radio mb-3">
+                            <input type="radio" class="custom-control-input" name="jawaban-{{ $key1 }}" value="0" {{ $soal1->jawaban == 0 ? 'checked' : '' }}>
+                            <span class="custom-control-label">FALSE</span>
+                        </label>
                         @else
                         <textarea class="form-control" name="jawaban-{{ $key1 }}" placeholder="masukan jawaban...">{!! $soal1->jawaban !!}</textarea>
                         @endif
@@ -123,6 +132,15 @@
                         @endforeach
                       @elseif ($soal2->tipe_jawaban == 1)
                       <input type="text" class="form-control" name="jawaban-{{ !isset($data['soal_tracker']) ? $key2 : ($key2+count($data['soal_tracker'])) }}" placeholder="masukan jawaban">
+                      @elseif ($soal2->tipe_jawaban == 3)
+                      <label class="custom-control custom-radio mb-3">
+                        <input type="radio" class="custom-control-input" name="jawaban-{{ !isset($data['soal_tracker']) ? $key2 : ($key2+count($data['soal_tracker'])) }}" value="1">
+                        <span class="custom-control-label">TRUE</span>
+                      </label>
+                      <label class="custom-control custom-radio mb-3">
+                        <input type="radio" class="custom-control-input" name="jawaban-{{ !isset($data['soal_tracker']) ? $key2 : ($key2+count($data['soal_tracker'])) }}" value="0">
+                        <span class="custom-control-label">FALSE</span>
+                      </label>
                       @else
                       <textarea class="form-control" name="jawaban-{{ !isset($data['soal_tracker']) ? $key2 : ($key2+count($data['soal_tracker'])) }}" placeholder="masukan jawaban..."></textarea>
                       @endif

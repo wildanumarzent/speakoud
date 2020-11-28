@@ -19,6 +19,6 @@ class DatabaseSeeder extends Seeder
         $this->call(PageSeeder::class);
         $this->call(BannerSeeder::class);
         $this->call(InquirySeeder::class);
-        // $this->call(AddonSeeder::class);
+        $this->call(AddonSeeder::class);
     }
 }

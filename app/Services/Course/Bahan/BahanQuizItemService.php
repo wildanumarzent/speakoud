@@ -107,7 +107,7 @@ class BahanQuizItemService
             $item->pilihan = $request->pilihan;
             $item->jawaban = $request->jawaban;
 
-        } elseif ($request->get('tipe') == 1) {
+        } elseif ($request->get('tipe') == 1 || $request->get('tipe') == 3) {
             $item->jawaban = $request->jawaban;
         }
         $item->save();
@@ -123,7 +123,7 @@ class BahanQuizItemService
             $item->pilihan = $request->pilihan;
             $item->jawaban = $request->jawaban;
 
-        } elseif ($item->tipe_jawaban == 1) {
+        } elseif ($item->tipe_jawaban == 1 || $item->tipe_jawaban == 3) {
             $item->jawaban = $request->jawaban;
         }
         $item->save();
@@ -144,7 +144,7 @@ class BahanQuizItemService
         $item = $this->findItem($request->id);
 
         $benar = null;
-        if ($item->tipe_jawaban == 0) {
+        if ($item->tipe_jawaban == 0 || $item->tipe_jawaban == 3) {
             $benar = ($request->jawaban == $item->jawaban) ? 1 : 0;
         }
         if ($item->tipe_jawaban == 1) {

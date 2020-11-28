@@ -9,7 +9,8 @@ use Illuminate\Support\Facades\Storage;
 
 class BahanService
 {
-    private $model, $materi, $forum, $file, $conference, $quiz;
+    private $model, $materi, $forum, $file, $conference, $quiz, $scorm, $audio,
+     $video;
 
     public function __construct(
         BahanPelatihan $model,
@@ -18,7 +19,9 @@ class BahanService
         BahanFileService $file,
         BahanConferenceService $conference,
         BahanQuizService $quiz,
-        BahanScormService $scorm
+        BahanScormService $scorm,
+        BahanAudioService $audio,
+        BahanVideoService $video
     )
     {
         $this->model = $model;
@@ -28,6 +31,8 @@ class BahanService
         $this->conference = $conference;
         $this->quiz = $quiz;
         $this->scorm = $scorm;
+        $this->audio = $audio;
+        $this->video = $video;
     }
 
     public function getBahanList($request, int $materiId)
@@ -99,6 +104,8 @@ class BahanService
         $bahan->creator_id = auth()->user()->id;
         $bahan->keterangan = $request->keterangan ?? null;
         $bahan->publish = (bool)$request->publish;
+        $bahan->publish_start = $request->publish_start;
+        $bahan->publish_end = $request->publish_end;
         $bahan->urutan = ($this->model->where('materi_id', $materiId)->max('urutan') + 1);
         $bahan->save();
 
@@ -117,6 +124,12 @@ class BahanService
         if ($request->type == 'scorm') {
             $segmen = $this->scorm->storeScorm($request, $materi, $bahan);
         }
+        if ($request->type == 'audio') {
+            $segmen = $this->audio->storeAudio($request, $materi, $bahan);
+        }
+        if ($request->type == 'video') {
+            $segmen = $this->video->storeVideo($request, $materi, $bahan);
+        }
 
         $bahan->segmenable()->associate($segmen);
         $bahan->save();
@@ -130,6 +143,8 @@ class BahanService
         $bahan->fill($request->only(['judul']));
         $bahan->keterangan = $request->keterangan ?? null;
         $bahan->publish = (bool)$request->publish;
+        $bahan->publish_start = $request->publish_start;
+        $bahan->publish_end = $request->publish_end;
         $bahan->save();
 
         if ($request->type == 'forum') {
@@ -146,6 +161,12 @@ class BahanService
         }
         if ($request->type == 'scorm') {
             $this->scorm->updateScorm($request, $bahan);
+        }
+        if ($request->type == 'audio') {
+            $this->audio->updateAudio($request, $bahan);
+        }
+        if ($request->type == 'video') {
+            $this->video->updateVideo($request, $bahan);
         }
 
         return $bahan;
@@ -212,6 +233,12 @@ class BahanService
             File::delete($oldFile);
             File::deleteDirectory($oldDir);
             $bahan->scorm()->delete();
+        }
+        if ($bahan->audio()->count() == 1) {
+            $bahan->audio()->delete();
+        }
+        if ($bahan->video()->count() == 1) {
+            $bahan->video()->delete();
         }
 
         $bahan->delete();

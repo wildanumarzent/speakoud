@@ -66,11 +66,8 @@
                 {!! $data['read']->content !!}
             </div>
         </div>
-        <div class="card mb-2">
-            <h6 class="card-header with-elements">
-                <span class="card-header-title"> Course Content</span>
-            </h6>
-        </div>
+        <hr class="mt-2 mb-4">
+        <h6 class="font-weight-semibold mb-4">Course</h6>
         <div id="accordion">
             @foreach ($data['read']->materiPublish as $materi)
             <div class="card mb-2">
@@ -81,7 +78,7 @@
               </div>
               <div id="materi-{{ $materi->id }}" class="collapse" data-parent="#accordion">
                 <div class="card-body">
-                    {!! $materi->keterangan ?? $materi->judul !!}
+                    {!! $materi->keterangan !!}
                     <ul class="list-group list-group-flush mt-2">
                         @foreach ($materi->bahanPublish as $bahan)
                         <li class="list-group-item py-4">
@@ -102,10 +99,16 @@
                                 @if ($bahan->type($bahan)['tipe'] == 'scorm')
                                 <i class="las la-{{ $bahan->type($bahan)['icon'] }} mr-2" style="font-size: 4em;"></i>
                                 @endif
+                                @if ($bahan->type($bahan)['tipe'] == 'audio')
+                                <i class="las la-{{ $bahan->type($bahan)['icon'] }} mr-2" style="font-size: 4em;"></i>
+                                @endif
+                                @if ($bahan->type($bahan)['tipe'] == 'video')
+                                <i class="las la-{{ $bahan->type($bahan)['icon'] }} mr-2" style="font-size: 4em;"></i>
+                                @endif
                             </div>
                             <div class="media-body ml-sm-2">
                               <h5 class="mb-2">
-                                <div class="float-right font-weight-semibold ml-3"><i class="las la-check-square" style="font-size: 2em;"></i></div>
+                                <div class="float-right font-weight-semibold ml-3"><i class="las la-stop text-danger" style="font-size: 2em;"></i></div>
                                 @if ($bahan->type($bahan)['tipe'] == 'forum')
                                 <a href="{{ route('course.bahan', ['id' => $data['read']->id, 'bahanId' => $bahan->id, 'tipe' => 'forum']) }}" class="text-body">{!! $bahan->judul !!}</a>&nbsp;
                                 @endif
@@ -121,7 +124,19 @@
                                 @if ($bahan->type($bahan)['tipe'] == 'scorm')
                                 <a href="{{ route('course.bahan', ['id' => $data['read']->id, 'bahanId' => $bahan->id, 'tipe' => 'scorm']) }}" class="text-body">{!! $bahan->judul !!}</a>&nbsp;
                                 @endif
+                                @if ($bahan->type($bahan)['tipe'] == 'audio')
+                                <a href="{{ route('course.bahan', ['id' => $data['read']->id, 'bahanId' => $bahan->id, 'tipe' => 'audio']) }}" class="text-body">{!! $bahan->judul !!}</a>&nbsp;
+                                @endif
+                                @if ($bahan->type($bahan)['tipe'] == 'video')
+                                <a href="{{ route('course.bahan', ['id' => $data['read']->id, 'bahanId' => $bahan->id, 'tipe' => 'video']) }}" class="text-body">{!! $bahan->judul !!}</a>&nbsp;
+                                @endif
                               </h5>
+                              <div class="d-flex flex-wrap align-items-center mb-2">
+                                <div class="text-muted small">
+                                  <i class="las la-calendar text-primary"></i>
+                                  <span>{{ $bahan->publish_start->format('d F Y (H:i A)').' s/d '.$bahan->publish_end->format('d F Y (H:i A)') }}</span>
+                                </div>
+                              </div>
                               <div>{!! strip_tags(Str::limit($bahan->keterangan, 120)) !!}</div>
                             </div>
                           </div>
@@ -209,12 +224,10 @@
             </div>
         </div>
         @endif
-    </div>
-    @if ($data['read']->show_comment == 1)
-    <div class="col-md-9">
-        <div class="card">
+        @if ($data['read']->show_comment == 1)
+        <div class="card mb-4">
             <h6 class="card-header with-elements">
-                <a href="javascript:;" class="card-header-title" id="show-comment"> Comment & Review</a>
+                <span class="card-header-title"> Comment & Review</span>
             </h6>
             <form action="{{ route('course.comment', ['id' => $data['read']->id]) }}" method="POST" id="form-comment">
                 @csrf
@@ -229,30 +242,38 @@
                 </div>
             </form>
         </div>
-        @foreach ($data['read']->comment as $comment)
-        <div class="card mb-3">
-            <div class="card-body">
-              <div class="media">
-                <img src="{{ asset(config('addon.images.photo')) }}" alt="" class="d-block ui-w-40 rounded-circle">
-                <div class="media-body ml-4">
-                  <div class="float-right text-muted small">
-                      @if (auth()->user()->hasRole('administrator') || $comment->creator_id == auth()->user()->id)
-                        <a href="javascript:;" data-id="{{ $comment->id }}" class="btn btn-danger icon-btn btn-sm js-sa2-delete"><i class="las la-trash-alt"></i></a>
-                      @endif
-                  </div>
-                  <a href="javascript:void(0)">{{ $comment->user->name }}</a>
-                  <div class="text-muted small">{{ $comment->created_at->format('l, j F Y (H:i A)') }}</div>
-                  <div class="mt-2">
-                    {!! $comment->komentar !!}
-                  </div>
-                  <div class="small mt-2">
-                  </div>
-                </div>
-              </div>
-            </div>
-        </div>
-        @endforeach
+        @endif
     </div>
+    @if ($data['read']->comment->count() > 0)
+        @if ($data['read']->show_comment == 1)
+        <div class="col-md-9">
+            <hr class="mt-2 mb-4">
+            <h6 class="font-weight-semibold mb-4">Comment</h6>
+            @foreach ($data['read']->comment as $comment)
+            <div class="card mb-3">
+                <div class="card-body">
+                <div class="media">
+                    <img src="{{ asset(config('addon.images.photo')) }}" alt="" class="d-block ui-w-40 rounded-circle">
+                    <div class="media-body ml-4">
+                    <div class="float-right text-muted small">
+                        @if (auth()->user()->hasRole('administrator') || $comment->creator_id == auth()->user()->id)
+                            <a href="javascript:;" data-id="{{ $comment->id }}" class="btn btn-danger icon-btn btn-sm js-sa2-delete"><i class="las la-trash-alt"></i></a>
+                        @endif
+                    </div>
+                    <a href="javascript:void(0)">{{ $comment->user->name }}</a>
+                    <div class="text-muted small">{{ $comment->created_at->format('l, j F Y (H:i A)') }}</div>
+                    <div class="mt-2">
+                        {!! $comment->komentar !!}
+                    </div>
+                    <div class="small mt-2">
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            @endforeach
+        </div>
+        @endif
     @endif
 </div>
 @endsection
@@ -285,11 +306,6 @@
                 }
               });
             }
-        });
-
-        $('#form-comment').hide();
-        $('#show-comment').click(function (){
-            $('#form-comment').toggle('slow');
         });
 
         $('.js-sa2-delete').on('click', function () {

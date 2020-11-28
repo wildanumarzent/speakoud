@@ -7,9 +7,9 @@
 @section('content')
 <div class="card">
     <h6 class="card-header">
-      Form Soal Quiz
+      Form Soal
     </h6>
-    <form action="{{ route('quiz.item.update', ['id' => $data['quiz']->id, 'itemId' => $data['quiz_item']->id]) }}" method="POST">
+    <form action="{{ route('soal.update', ['id' => $data['kategori']->id, 'soalId' => $data['soal']->id]) }}" method="POST">
         @csrf
         @method('PUT')
         <div class="card-body">
@@ -18,14 +18,14 @@
                   <label class="col-form-label text-sm-right">Pertanyaan</label>
                 </div>
                 <div class="col-md-10">
-                    <textarea class="form-control tiny @error('pertanyaan') is-invalid @enderror" name="pertanyaan">{!! old('pertanyaan', $data['quiz_item']->pertanyaan) !!}</textarea>
+                    <textarea class="form-control tiny @error('pertanyaan') is-invalid @enderror" name="pertanyaan">{!! old('pertanyaan', $data['soal']->pertanyaan) !!}</textarea>
                     @include('components.field-error', ['field' => 'pertanyaan'])
                 </div>
             </div>
         </div>
         <div id="list">
-            @if ($data['quiz_item']->tipe_jawaban == 0)
-                @foreach ($data['quiz_item']->pilihan as $key => $value)
+            @if ($data['soal']->tipe_jawaban == 0)
+                @foreach ($data['soal']->pilihan as $key => $value)
                 <div class="form-group row" id="delete-pilihan-{{ $key }}">
                     <label class="col-form-label col-sm-2 text-sm-right">
                         @if ($loop->first)
@@ -34,7 +34,7 @@
                     </label>
                     <div class="col-sm-8 d-flex align-items-center">
                         <label class="custom-control custom-radio">
-                            <input type="radio" class="custom-control-input" name="jawaban" value="{{ $key }}" {{ $key == $data['quiz_item']->jawaban ? 'checked' : '' }}>
+                            <input type="radio" class="custom-control-input" name="jawaban" value="{{ $key }}" {{ $key == $data['soal']->jawaban ? 'checked' : '' }}>
                             <span class="custom-control-label"></span>
                         </label>
                         <input type="text" class="form-control @error('pilihan.'.$key) is-invalid @enderror" name="pilihan[]" value="{{ old('pilihan'.$key, $value) }}" placeholder="masukan pilihan...">
@@ -47,8 +47,8 @@
                     @enderror
                 </div>
                 @endforeach
-            @elseif ($data['quiz_item']->tipe_jawaban == 1)
-                @foreach ($data['quiz_item']->jawaban as $key => $value)
+            @elseif ($data['soal']->tipe_jawaban == 1)
+                @foreach ($data['soal']->jawaban as $key => $value)
                 <div class="form-group row" id="delete-jawaban-{{ $key }}">
                     <label class="col-form-label col-sm-2 text-sm-right">
                         @if ($loop->first)
@@ -65,37 +65,37 @@
                 </div>
                 @endforeach
             @elseif ($data['soal']->tipe_jawaban == 3)
-                <fieldset class="form-group">
-                    <div class="row">
-                    <div class="col-md-2 text-md-right  pt-sm-0">
-                        <label class="col-form-label">Jawaban</label>
-                    </div>
-                    <div class="col-md-10">
-                        <label class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="jawaban" value="1" {{ old('jawaban', $data['quiz_item']->jawaban == 1) ? 'checked' : 'checked' }}>
-                            <span class="form-check-label">
-                                TRUE
-                            </span>
-                        </label>
-                        <label class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="jawaban" value="0" {{ old('jawaban', $data['quiz_item']->jawaban == 0) ? 'checked' : '' }}>
-                            <span class="form-check-label">
-                                FALSE
-                            </span>
-                        </label>
-                    </div>
-                    </div>
-                </fieldset>
+            <fieldset class="form-group">
+                <div class="row">
+                <div class="col-md-2 text-md-right  pt-sm-0">
+                    <label class="col-form-label">Jawaban</label>
+                </div>
+                <div class="col-md-10">
+                    <label class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="jawaban" value="1" {{ old('jawaban', $data['soal']->jawaban == 1) ? 'checked' : 'checked' }}>
+                        <span class="form-check-label">
+                            TRUE
+                        </span>
+                    </label>
+                    <label class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="jawaban" value="0" {{ old('jawaban', $data['soal']->jawaban == 0) ? 'checked' : '' }}>
+                        <span class="form-check-label">
+                            FALSE
+                        </span>
+                    </label>
+                </div>
+                </div>
+            </fieldset>
             @endif
         </div>
-        @if ($data['quiz_item']->tipe_jawaban != 2)
-            @if ($data['quiz_item']->tipe_jawaban == 0 && count($data['quiz_item']->pilihan) < 10 || $data['quiz_item']->tipe_jawaban == 1 && count($data['quiz_item']->jawaban) < 20)
+        @if ($data['soal']->tipe_jawaban < 2)
+            @if ($data['soal']->tipe_jawaban == 0 && count($data['soal']->pilihan) < 10 || $data['soal']->tipe_jawaban == 1 && count($data['soal']->jawaban) < 20)
             <div class="form-group row" id="add-jawaban">
                 <div class="col-md-2 text-md-right d-none d-md-block">
                         <label class="col-form-label">&nbsp;</label>
                     </div>
                 <div class="col-md-10 d-flex justify-content-start">
-                    <button type="button" id="add" class="btn btn-success"><i class="las la-plus"></i>{{ $data['quiz_item']->tipe_jawaban == 0 ? 'Pilihan' : 'Jawaban' }}</button>
+                    <button type="button" id="add" class="btn btn-success"><i class="las la-plus"></i>{{ $data['soal']->tipe_jawaban == 0 ? 'Pilihan' : 'Jawaban' }}</button>
                 </div>
             </div>
             @endif
@@ -103,26 +103,22 @@
         <div class="card-footer">
             <div class="row">
               <div class="col-md-10 ml-sm-auto text-md-left text-right">
-                <a href="{{ route('quiz.item', ['id' => $data['quiz']->id]) }}" class="btn btn-danger" title="klik untuk kembali ke list" data-toggle="tooltip">Kembali</a>
+                <a href="{{ route('soal.index', ['id' => $data['kategori']->id]) }}" class="btn btn-danger" title="klik untuk kembali ke list" data-toggle="tooltip">Kembali</a>
                 <button type="submit" class="btn btn-primary" name="action" value="save" title="klik untuk menyimpan" data-toggle="tooltip">Simpan Perubahan</button>
               </div>
             </div>
         </div>
     </form>
 </div>
-@if ($data['quiz_item']->tipe_jawaban == 0)
-<input type="hidden" id="total-pilihan" value="{{ count($data['quiz_item']->pilihan) }}">
-@elseif ($data['quiz_item']->tipe_jawaban == 1)
-<input type="hidden" id="total-jawaban" value="{{ count($data['quiz_item']->jawaban) }}">
+@if ($data['soal']->tipe_jawaban == 0)
+<input type="hidden" id="total-pilihan" value="{{ count($data['soal']->pilihan) }}">
+@elseif ($data['soal']->tipe_jawaban == 1)
+<input type="hidden" id="total-jawaban" value="{{ count($data['soal']->jawaban) }}">
 @endif
 @endsection
 
-@section('scripts')
-
-@endsection
-
 @section('jsbody')
-@if ($data['quiz_item']->tipe_jawaban == 0)
+@if ($data['soal']->tipe_jawaban == 0)
 <script>
     $(function()  {
         var totalPilihan = $("#total-pilihan").val();
@@ -169,7 +165,7 @@
         $("#delete-pilihan-"+id).remove();
     });
 </script>
-@elseif ($data['quiz_item']->tipe_jawaban == 1)
+@elseif ($data['soal']->tipe_jawaban == 1)
 <script>
     $(function()  {
         var totalJawaban = $("#total-jawaban").val();
