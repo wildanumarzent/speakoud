@@ -35,6 +35,6 @@ class Announcements extends Migration
      */
     public function down()
     {
-        chema::dropIfExists('announcements');
+        Schema::dropIfExists('announcements');
     }
 }

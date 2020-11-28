@@ -40,6 +40,18 @@ return [
             'description' => '',
             'icon' => 'archive'
         ],
+        5 => [
+            'title' => 'Audio',
+            'get' => 'audio',
+            'description' => '',
+            'icon' => 'file-audio'
+        ],
+        6 => [
+            'title' => 'Video',
+            'get' => 'video',
+            'description' => '',
+            'icon' => 'file-video'
+        ],
     ],
     'forum_tipe' => [
         0 => [
@@ -79,6 +91,10 @@ return [
         2 => [
             'code' => 'essay',
             'title' => 'Essay',
+        ],
+        3 => [
+            'code' => 'true_false',
+            'title' => 'True / False',
         ],
     ],
     'quiz_view' => [

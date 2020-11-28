@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBahanPelatihanTable extends Migration
+class CreateBahanVideoTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,20 +13,14 @@ class CreateBahanPelatihanTable extends Migration
      */
     public function up()
     {
-        Schema::create('bahan_pelatihan', function (Blueprint $table) {
+        Schema::create('bahan_video', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('program_id');
             $table->unsignedBigInteger('mata_id');
             $table->unsignedBigInteger('materi_id');
+            $table->unsignedBigInteger('bahan_id');
             $table->unsignedBigInteger('creator_id');
-            $table->string('judul');
-            $table->text('keterangan')->nullable();
-            $table->boolean('publish')->default(false);
-            $table->timestamp('publish_start')->nullable();
-            $table->timestamp('publish_end')->nullable();
-            $table->integer('urutan')->default(0);
-            $table->string('segmenable_type')->nullable();
-            $table->unsignedBigInteger('segmenable_id')->nullable();
+            $table->unsignedBigInteger('bank_data_id');
             $table->timestamps();
 
             $table->foreign('program_id')->references('id')
@@ -38,7 +32,12 @@ class CreateBahanPelatihanTable extends Migration
             $table->foreign('materi_id')->references('id')
                 ->on('materi_pelatihan')
                 ->cascadeOnDelete();
+            $table->foreign('bahan_id')->references('id')
+                ->on('bahan_pelatihan')
+                ->cascadeOnDelete();
             $table->foreign('creator_id')->references('id')->on('users')
+                ->cascadeOnDelete();
+            $table->foreign('bank_data_id')->references('id')->on('bank_data')
                 ->cascadeOnDelete();
         });
     }
@@ -50,6 +49,6 @@ class CreateBahanPelatihanTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('bahan_pelatihan');
+        Schema::dropIfExists('bahan_video');
     }
 }

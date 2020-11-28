@@ -59,7 +59,18 @@
                         @endforeach
                     @elseif ($soal1->item->tipe_jawaban == 1)
                         <input type="text" class="form-control" name="jawaban-{{ $key1 }}" value="{{ $soal1->jawaban }}" placeholder="Masukan jawaban">
-                        @else
+                    @elseif ($soal1->item->tipe_jawaban == 3)
+                    <label class="custom-control custom-radio">
+                        <input type="radio" class="custom-control-input" name="jawaban-{{ $key1 }}" value="1" {{ $soal1->jawaban == 1 ? 'checked' : '' }}>
+                        <span class="custom-control-label">TRUE</span>
+                    </label>
+                    &nbsp;
+                    <label class="custom-control custom-radio">
+                        <input type="radio" class="custom-control-input" name="jawaban-{{ $key1 }}" value="0" {{ $soal1->jawaban == 0 ? 'checked' : '' }}>
+                        <span class="custom-control-label">FALSE</span>
+                    </label>
+                    &nbsp;
+                    @else
                         <textarea class="form-control" name="jawaban-{{ $key1 }}" placeholder="Masukan jawaban">{{ $soal1->jawaban }}</textarea>
                     @endif
                 </div>
@@ -86,6 +97,17 @@
                     @endforeach
                 @elseif ($soal2->tipe_jawaban == 1)
                 <input type="text" class="form-control" name="jawaban-{{ ($key2+count($data['quiz_tracker'])) }}" placeholder="Masukan jawaban">
+                @elseif ($soal2->tipe_jawaban == 3)
+                <label class="custom-control custom-radio">
+                    <input type="radio" class="custom-control-input" name="jawaban-{{ ($key2+count($data['quiz_tracker'])) }}" value="1">
+                    <span class="custom-control-label">TRUE</span>
+                </label>
+                &nbsp;
+                <label class="custom-control custom-radio">
+                    <input type="radio" class="custom-control-input" name="jawaban-{{ ($key2+count($data['quiz_tracker'])) }}" value="0">
+                    <span class="custom-control-label">FALSE</span>
+                </label>
+                &nbsp;
                 @else
                 <textarea class="form-control" name="jawaban-{{ ($key2+count($data['quiz_tracker'])) }}" placeholder="Masukan jawaban"></textarea>
                 @endif
@@ -183,7 +205,7 @@
             var type = $('#type-'+index).val();
             if (type == 2) {
                 var jawaban = $('textarea[name="jawaban-'+index+'"]').val();
-            } else if (type == 0) {
+            } else if (type == 0 || type == 3) {
                 var jawaban = $('input[name="jawaban-'+index+'"]:checked').val();
             } else {
                 var jawaban = $('input[name="jawaban-'+index+'"]').val();

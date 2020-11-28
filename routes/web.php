@@ -396,6 +396,46 @@ Route::group(['middleware' => ['auth']], function () {
         ->name('bank.data.files.destroy')
         ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
 
+    /**bank soal */
+    //kategori
+    Route::get('/soal/kategori', 'Soal\SoalKategoriController@index')
+        ->name('soal.kategori')
+        ->middleware('role:developer|administrator|internal|mitra');
+    Route::get('/soal/kategori/create', 'Soal\SoalKategoriController@create')
+        ->name('soal.kategori.create')
+        ->middleware('role:developer|administrator|internal|mitra');
+    Route::post('/soal/kategori', 'Soal\SoalKategoriController@store')
+        ->name('soal.kategori.store')
+        ->middleware('role:developer|administrator|internal|mitra');
+    Route::get('/soal/kategori/{id}/edit', 'Soal\SoalKategoriController@edit')
+        ->name('soal.kategori.edit')
+        ->middleware('role:developer|administrator|internal|mitra');
+    Route::put('/soal/kategori/{id}', 'Soal\SoalKategoriController@update')
+        ->name('soal.kategori.update')
+        ->middleware('role:developer|administrator|internal|mitra');
+    Route::delete('/soal/kategori/{id}', 'Soal\SoalKategoriController@destroy')
+        ->name('soal.kategori.destroy')
+        ->middleware('role:developer|administrator|internal|mitra');
+    //soal
+    Route::get('/soal/kategori/{id}', 'Soal\SoalController@index')
+        ->name('soal.index')
+        ->middleware('role:developer|administrator|internal|mitra');
+    Route::get('/soal/kategori/{id}/create', 'Soal\SoalController@create')
+        ->name('soal.create')
+        ->middleware('role:developer|administrator|internal|mitra');
+    Route::post('/soal/kategori/{id}', 'Soal\SoalController@store')
+        ->name('soal.store')
+        ->middleware('role:developer|administrator|internal|mitra');
+    Route::get('/soal/kategori/{id}/edit/{soalId}', 'Soal\SoalController@edit')
+        ->name('soal.edit')
+        ->middleware('role:developer|administrator|internal|mitra');
+    Route::put('/soal/kategori/{id}/{soalId}', 'Soal\SoalController@update')
+        ->name('soal.update')
+        ->middleware('role:developer|administrator|internal|mitra');
+    Route::delete('/soal/kategori/{id}/{soalId}', 'Soal\SoalController@destroy')
+        ->name('soal.destroy')
+        ->middleware('role:developer|administrator|internal|mitra');
+
     /**manage course */
     //program pelatihan
     Route::get('/program', 'Course\ProgramController@index')

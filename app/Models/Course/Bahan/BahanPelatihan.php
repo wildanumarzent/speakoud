@@ -13,6 +13,11 @@ class BahanPelatihan extends Model
     protected $table = 'bahan_pelatihan';
     protected $guarded = [];
 
+    protected $casts = [
+        'publish_start' => 'datetime',
+        'publish_end' => 'datetime',
+    ];
+
     public function segmenable()
     {
         return $this->morphTo();
@@ -57,9 +62,20 @@ class BahanPelatihan extends Model
     {
         return $this->hasOne(BahanQuiz::class, 'bahan_id');
     }
+
     public function scorm()
     {
         return $this->hasOne(BahanScorm::class, 'bahan_id');
+    }
+
+    public function audio()
+    {
+        return $this->hasOne(BahanAudio::class, 'bahan_id');
+    }
+
+    public function video()
+    {
+        return $this->hasOne(BahanVideo::class, 'bahan_id');
     }
 
     public function type($bahan)
@@ -95,11 +111,28 @@ class BahanPelatihan extends Model
                 'icon' => 'spell-check'
             ];
         }
+
         if ($bahan->scorm()->count() == 1) {
             $segmen = [
                 'tipe' => 'scorm',
                 'title' => 'Scorm',
                 'icon' => 'archive'
+            ];
+        }
+
+        if ($bahan->audio()->count() == 1) {
+            $segmen = [
+                'tipe' => 'audio',
+                'title' => 'Audio',
+                'icon' => 'file-audio'
+            ];
+        }
+
+        if ($bahan->video()->count() == 1) {
+            $segmen = [
+                'tipe' => 'video',
+                'title' => 'Video',
+                'icon' => 'file-video'
             ];
         }
 

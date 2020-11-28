@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class QuizItemRequest extends FormRequest
+class SoalRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -33,7 +33,7 @@ class QuizItemRequest extends FormRequest
                 'pertanyaan' => 'required|string',
                 'jawaban.*' => 'required',
             ];
-        } elseif ($this->tipe_jawaban == 3) {
+        }  elseif ($this->tipe_jawaban == 3) {
             return [
                 'pertanyaan' => 'required|string',
                 'jawaban' => 'required',
