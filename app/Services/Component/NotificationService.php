@@ -26,8 +26,7 @@ class NotificationService{
     }
 
     public function make($model,$title,
-    $description = 'Intro Not Found,lorem ipsum dolor sit amet, consectetur adipiscing elit, sed diam nonummy nibh euismod tincidunt',
-    $special = null,$to = null){
+    $description = 'Intro Not Found,lorem ipsum dolor sit amet, consectetur adipiscing elit, sed diam nonummy nibh euismod tincidunt',$to = null){
 
         if(is_array($to)){
             $to = implode(';',$to);
@@ -40,7 +39,6 @@ class NotificationService{
             'title' => $title,
             'description' => $description,
             'to' => $to,
-            'special' => $special,
             'notifable_id' => $model['notifable_id'],
             'notifable_type' => $model['notifable_type'],
         ]);

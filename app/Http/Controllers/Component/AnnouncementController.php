@@ -75,6 +75,9 @@ class AnnouncementController extends Controller
     public function show(Announcement $announcement)
     {
         $data['announcement'] = $announcement;
+        if($announcement->status == 0){
+            return redirect()->back();
+        }
         return view('backend.announcement.detail', compact('data'), [
             'title' => 'Announcement',
             'breadcrumbsBackend' => [

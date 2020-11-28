@@ -55,7 +55,7 @@
                 @forelse ($data['announcement'] as $item)
                 <tr>
                     <td>{{ $data['number']++ }}</td>
-                    <td><strong>{!! Str::limit($item->title, 90) !!}</strong> <a href="{{ route('announcement.show', ['announcement' => $item->id]) }}" title="view announcement" target="_blank"><i class="las la-external-link-alt"></i></a></td>
+                    <td><strong>{!! Str::limit($item->title, 90) !!}</strong> @if($item->statu != 0)<a href="{{ route('announcement.show', ['announcement' => $item->id]) }}" title="view announcement" target="_blank"><i class="las la-external-link-alt"></i></a>@endif</td>
                     <td >{{ $item->user->name ?? '-' }}</td>
 
                     <td >@if(!empty($item->attachment))<a href="{{$item->attachment}}" download>download</a>@endif</td>
