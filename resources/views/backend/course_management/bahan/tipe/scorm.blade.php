@@ -26,7 +26,7 @@
     </div>
     <div class="col-sm-10">
         <label class="custom-control custom-checkbox">
-            <input type="checkbox" name="repeatable" class="custom-control-input" value="1">
+            <input type="checkbox" name="repeatable" class="custom-control-input" value="1" {{ isset($data['bahan']) ? (old('tipe', $data['bahan']->scorm->repeatable == '1') ? 'checked' : '') : (old('tipe') ? '' : '') }}>
             <span class="custom-control-label">Yes</span>
         </label>
     </div>

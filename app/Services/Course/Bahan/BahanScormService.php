@@ -62,7 +62,7 @@ class BahanScormService
             $scorm->bahan_id = $bahan->id;
             $scorm->creator_id = auth()->user()->id;
             $scorm->package = $xmlPath;
-            $scorm->repeatable = $request->repeatable;
+            $scorm->repeatable = (bool)$request->repeatable;
             $scorm->version = "ver.".$parse['version'];
             $scorm->package_name = basename($fileName,".zip");
             $scorm->save();
@@ -99,13 +99,11 @@ class BahanScormService
               $xmlPath =  $scormPath.'/'.$resource['resource'];
               $scorm->package = $xmlPath;
               $scorm->package_name = basename($fileName,".zip");
-              $scorm->repeatable = $request->repeatable;
-             $scorm->save();
-
-            return $scorm;
-        } else {
-            return false;
         }
+        $scorm->repeatable = (bool)$request->repeatable;
+        $scorm->save();
+
+        return $scorm;
     }
 
     public function savePoint($data){
