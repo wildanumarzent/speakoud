@@ -23,6 +23,7 @@ class Announcements extends Migration
             $table->longtext('attachment')->nullable();
             $table->longtext('read_by')->nullable();
             $table->tinyInteger('status')->default(1);
+            $table->date('end_date')->nullable();
             $table->timestamps();
         });
     }

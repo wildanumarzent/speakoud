@@ -17,8 +17,8 @@ class CreateNotificationsTable extends Migration
             $table->id();
             $table->string('title',255);
             $table->longText('description');
-            $table->json('special')->nullable();
             $table->longtext('to')->nullable();
+            $table->longtext('read_by')->nullable();
             $table->bigInteger('notifable_id')->nullable();
             $table->string('notifable_type')->nullable();
             $table->timestamps();

@@ -2,10 +2,12 @@
         <div class="box-content mt-5">
             <h3>Comment</h3>
             <hr>
+            <div class="card">
             <form wire:submit.prevent="store">
                 <input type="hidden" name="model" wire:model="model" value={{$model}}>
                 <input type="text" name="comments" wire:model="comentdata" class="form-control" placeholder="Tulis Komentar...">
             </form>
+        </div>
             <br>
             <div class="scrollable" style="height:400px; overflow-y: scroll; scrollbar-width: none;">
             @forelse($list as $komentar)

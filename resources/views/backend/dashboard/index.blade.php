@@ -19,10 +19,7 @@
     </div>
 </div>
 
-<div class="alert alert-warning alert-dismissible fade show">
-    <button type="button" class="close" data-dismiss="alert">×</button>
-    <i class="las la-bullhorn mr-2"></i> Pencegahan COVID-19 . <a href="">Selengkapnya <i class="las la-external-link-alt"></i></a>
-</div>
+@livewire('announcement')
 
 @role ('developer|administrator')
 @include('backend.dashboard.administrator')

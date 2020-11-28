@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use App\Services\Component\NotificationService;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\File;
 class AnnouncementService{
 
     public function __construct(NotificationService $notifikasi)
@@ -23,7 +24,13 @@ class AnnouncementService{
                 $query->where('komentar', 'like', '%'.$q.'%');
             });
         });
-        $result = $anno->paginate(20);
+        $result = $anno->orderby('created_at','desc')->paginate(20);
+        return $result;
+    }
+
+    public function annoDashboard(){
+        $anno = Announcement::query();
+        $result = $anno->limit(3)->where('status',1)->orderby('created_at','desc')->get();
         return $result;
     }
 
@@ -56,7 +63,7 @@ class AnnouncementService{
         $this->notifikasi->make($model = $query,
         $title = 'New Announcement - '.$query['title'],
         $description = $query->sub_content,
-        $special = '',
+
         $to = '');
         }
         return true;
@@ -89,7 +96,7 @@ class AnnouncementService{
                 $this->notifikasi->make($model = $anno,
                 $title = 'New Announcement - '.$anno['title'],
                 $description = $anno->sub_content,
-                $special = '',
+
                 $to = '');
                 }
         return true;
@@ -109,7 +116,7 @@ class AnnouncementService{
             $this->notifikasi->make($model = $anno,
             $title = 'New Announcement - '.$anno['title'],
             $description = $anno->sub_content,
-            $special = '',
+
             $to = '');
             }else{
                 $this->notifikasi->destroy($anno);
