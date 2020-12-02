@@ -73,7 +73,7 @@
                         {!! $data['read']->keterangan !!}
                     </article>
                     <div class="box-btn">
-                        <a href="{{ route('course.register', ['id' => $data['read']->mata_id]) }}" class="btn btn-primary">Daftar</a>
+                        {{-- <a href="{{ route('course.register', ['id' => $data['read']->mata_id]) }}" class="btn btn-primary">Daftar</a> --}}
                     </div>
 
                 </div>

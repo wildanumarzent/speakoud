@@ -3,7 +3,7 @@
 @section('styles')
 <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/css/pages/tickets.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/fancybox/fancybox.min.css') }}">
-<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-bar-rating/1.2.2/themes/fontawesome-stars.min.css">
 <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/sweetalert2/sweetalert2.css') }}">
 @endsection
@@ -103,12 +103,20 @@
                                 <i class="las la-{{ $bahan->type($bahan)['icon'] }} mr-2" style="font-size: 4em;"></i>
                                 @endif
                                 @if ($bahan->type($bahan)['tipe'] == 'video')
+                                    @if (!empty($bahan->video->bankData->thumbnail))
+                                        <div class="d-block ui-rect-67 ui-bg-cover" style="background-image: url({{ route('bank.data.stream', ['path' => $bahan->video->bankData->thumbnail]) }});"></div>
+                                    @else
+                                        <div class="d-block ui-rect-67 ui-bg-cover" style="background-image: url({{ asset(config('addon.images.thumbnail')) }});"></div>
+                                    @endif
+                                    {{-- <i class="las la-{{ $bahan->type($bahan)['icon'] }} mr-2" style="font-size: 4em;"></i> --}}
+                                @endif
+                                @if ($bahan->type($bahan)['tipe'] == 'tugas')
                                 <i class="las la-{{ $bahan->type($bahan)['icon'] }} mr-2" style="font-size: 4em;"></i>
                                 @endif
                             </div>
                             <div class="media-body ml-sm-2">
                               <h5 class="mb-2">
-                                <div class="float-right font-weight-semibold ml-3"><i class="las la-stop text-danger" style="font-size: 2em;"></i></div>
+                                <div class="float-right font-weight-semibold ml-3"><i class="las la-stop text-danger" style="font-size: 2em;" title="anda belum mengakses materi ini"></i></div>
                                 @if ($bahan->type($bahan)['tipe'] == 'forum')
                                 <a href="{{ route('course.bahan', ['id' => $data['read']->id, 'bahanId' => $bahan->id, 'tipe' => 'forum']) }}" class="text-body">{!! $bahan->judul !!}</a>&nbsp;
                                 @endif
@@ -129,6 +137,9 @@
                                 @endif
                                 @if ($bahan->type($bahan)['tipe'] == 'video')
                                 <a href="{{ route('course.bahan', ['id' => $data['read']->id, 'bahanId' => $bahan->id, 'tipe' => 'video']) }}" class="text-body">{!! $bahan->judul !!}</a>&nbsp;
+                                @endif
+                                @if ($bahan->type($bahan)['tipe'] == 'tugas')
+                                <a href="{{ route('course.bahan', ['id' => $data['read']->id, 'bahanId' => $bahan->id, 'tipe' => 'tugas']) }}" class="text-body">{!! $bahan->judul !!}</a>&nbsp;
                                 @endif
                               </h5>
                               <div class="d-flex flex-wrap align-items-center mb-2">

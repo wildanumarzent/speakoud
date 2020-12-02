@@ -97,6 +97,14 @@ class BahanRequest extends FormRequest
                 'publish_end' => 'required',
             ];
         }
+        if ($this->type == 'tugas') {
+            return [
+                'judul' => 'required',
+                'files.*' => 'required|mimes:'.config('addon.mimes.tugas.m'),
+                'publish_start' => 'required',
+                'publish_end' => 'required',
+            ];
+        }
     }
 
     public function attributes()
@@ -107,6 +115,7 @@ class BahanRequest extends FormRequest
             'file_path' => 'File Path',
             'meeting_link' => 'Meeting Link',
             'package' => 'Package',
+            'files.*' => 'Files',
             'publish_start' => 'Tanggal Mulai',
             'publish_end' => 'Tanggal Selesai',
         ];
@@ -121,6 +130,8 @@ class BahanRequest extends FormRequest
             'meeting_link.required' => ':attribute tidak boleh kosong',
             'package.required' => ':attribute tidak boleh kosong',
             'package.mimes' => 'Tipe :attribute harus :values.',
+            'files.*.required' => ':attribute tidak boleh kosong',
+            'files.*.mimes' => 'Tipe :attribute harus :values.',
             'publish_start.required' => ':attribute tidak boleh kosong',
             'publish_end.required' => ':attribute tidak boleh kosong',
         ];

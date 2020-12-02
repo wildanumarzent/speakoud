@@ -34,6 +34,11 @@ class MataPelatihan extends Model
         return $this->hasMany(MataInstruktur::class, 'mata_id');
     }
 
+    public function peserta()
+    {
+        return $this->hasMany(MataPeserta::class, 'mata_id');
+    }
+
     public function materi()
     {
         return $this->hasMany(MateriPelatihan::class, 'mata_id');
@@ -48,17 +53,6 @@ class MataPelatihan extends Model
     public function bahan()
     {
         return $this->hasMany(BahanPelatihan::class, 'mata_id');
-    }
-
-    public function getCover($value)
-    {
-        if (!empty($value)) {
-            $cover = asset(config('addon.images.path.cover').$value);
-        } else {
-            $cover = asset(config('addon.images.cover'));
-        }
-
-        return $cover;
     }
 
     public function rating()
@@ -98,5 +92,16 @@ class MataPelatihan extends Model
     public function scopePublish($query)
     {
         return $query->where('publish', 1);
+    }
+
+    public function getCover($value)
+    {
+        if (!empty($value)) {
+            $cover = asset(config('addon.images.path.cover').$value);
+        } else {
+            $cover = asset(config('addon.images.cover'));
+        }
+
+        return $cover;
     }
 }

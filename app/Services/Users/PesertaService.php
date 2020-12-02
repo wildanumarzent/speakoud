@@ -59,6 +59,32 @@ class PesertaService
         return $result;
     }
 
+    public function getPesertaForMata($type, $pesertaId)
+    {
+        $query = $this->model->query();
+
+        $query->whereHas('user', function ($query) {
+            $query->active();
+        });
+        if ($type == false) {
+            $query->whereNull('mitra_id');
+        } else {
+            if (auth()->user()->hasRole('mitra')) {
+                $query->where('mitra_id', auth()->user()->mitra->id);
+            } else {
+                $query->whereNotNull('mitra_id');
+            }
+        }
+
+        $query->where(function ($query) use ($pesertaId) {
+            $query->whereNotIn('id', $pesertaId);
+        });
+
+        $result = $query->get();
+
+        return $result;
+    }
+
     public function findPeserta(int $id)
     {
         return $this->model->findOrFail($id);

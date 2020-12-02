@@ -22,6 +22,9 @@ return [
     'attachment' => [
         'm' => 'jpg,jpeg,png,pdf,ppt,pptx,doc,docx'
     ],
+    'tugas' => [
+        'm' => 'doc,docx,pdf'
+    ],
     'cover' => [
         'm' => 'jpg,jpeg,png,svg',
         'p' => '500x500 px'

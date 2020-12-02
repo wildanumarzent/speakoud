@@ -78,6 +78,11 @@ class BahanPelatihan extends Model
         return $this->hasOne(BahanVideo::class, 'bahan_id');
     }
 
+    public function tugas()
+    {
+        return $this->hasOne(BahanTugas::class, 'bahan_id');
+    }
+
     public function type($bahan)
     {
         if ($bahan->forum()->count() == 1) {
@@ -133,6 +138,14 @@ class BahanPelatihan extends Model
                 'tipe' => 'video',
                 'title' => 'Video',
                 'icon' => 'file-video'
+            ];
+        }
+
+        if ($bahan->tugas()->count() == 1) {
+            $segmen = [
+                'tipe' => 'tugas',
+                'title' => 'Tugas',
+                'icon' => 'briefcase'
             ];
         }
 

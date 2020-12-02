@@ -5,7 +5,17 @@
 @endsection
 
 @section('content')
-@include('backend.course_management.breadcrumbs')
+<div class="row">
+    <div class="col-md-12">
+      <div class="alert alert-primary alert-dismissible fade show text-muted">
+        <i class="las la-map-pin"></i>
+        {!! $data['tugas']->program->judul !!} <i class="las la-arrow-right"></i>
+        {!! $data['tugas']->mata->judul !!} <i class="las la-arrow-right"></i>
+        {!! $data['tugas']->materi->judul !!} <i class="las la-arrow-right"></i>
+        <strong>{!! $data['tugas']->bahan->judul !!}</strong>
+      </div>
+    </div>
+</div>
 
 <!-- Filters -->
 <div class="card">
@@ -27,55 +37,49 @@
         </div>
     </div>
 </div>
-<!-- / Filters -->
 <div class="text-left">
-    <a href="{{ route('mata.index', ['id' => $data['mata']->program_id]) }}" class="btn btn-secondary rounded-pill" title="kembali ke list program"><i class="las la-arrow-left"></i>Kembali</a>
+    <a href="{{ route('course.bahan', ['id' => $data['tugas']->mata_id, 'bahanId' => $data['tugas']->bahan_id,  'tipe' => 'tugas']) }}" class="btn btn-secondary rounded-pill" title="kembali ke tugas"><i class="las la-arrow-left"></i>Kembali</a>
 </div>
 <br>
-
+<!-- / Filters -->
 <div class="card">
     <div class="card-header with-elements">
-        <h5 class="card-header-title mt-1 mb-0">Instruktur List</h5>
+        <h5 class="card-header-title mt-1 mb-0">Peserta List</h5>
         <div class="card-header-elements ml-auto">
-
         </div>
     </div>
-    <div class="table-responsive table-mobile-responsive">
-        <table id="user-list" class="table card-table table-striped table-bordered table-hover">
+    <div class="card-datatable table-responsive">
+        <table class="table table-striped table-bordered mb-0">
             <thead>
                 <tr>
                     <th style="width: 10px;">No</th>
-                    <th>NIP</th>
                     <th>Nama</th>
-                    <th>Unit Kerja</th>
-                    <th>Kedeputian</th>
-                    <th>Materi Upload</th>
+                    <th>Keterangan</th>
+                    <th>Tanggal Pengumpulan</th>
+                    <th style="width: 120px;">Action</th>
                 </tr>
             </thead>
             <tbody>
-                @if ($data['instruktur']->total() == 0)
+                @if ($data['peserta']->total() == 0)
                 <tr>
-                    <td colspan="6" align="center">
-                        <i>
-                            <strong style="color:red;">
-                            @if (Request::get('q'))
-                            ! Instruktur tidak ditemukan !
-                            @else
-                            ! Data Instruktur kosong !
-                            @endif
-                            </strong>
-                        </i>
+                    <td colspan="5" align="center">
+                        <i><strong style="color:red;">
+                        @if (Request::get('q'))
+                        ! Peserta tidak ditemukan !
+                        @else
+                        ! Data Peserta kosong !
+                        @endif
+                        </strong></i>
                     </td>
                 </tr>
                 @endif
-                @foreach ($data['instruktur'] as $item)
+                @foreach ($data['peserta'] as $item)
                 <tr>
                     <td>{{ $data['number']++ }}</td>
-                    <td>{{ $item->instruktur->nip }}</td>
-                    <td>{{ $item->instruktur->user->name }}</td>
-                    <td>{{ $item->instruktur->unit_kerja }}</td>
-                    <td>{{ $item->instruktur->kedeputian }}</td>
-                    <td>{{ $item->mata->bahan()->where('creator_id', $item->instruktur->user->id)->count() }}</td>
+                    <td>{{ $item->user->name }}</td>
+                    <td>{{ $item->keterangan }}</td>
+                    <td>{{ $item->created_at->format('d F Y (H:i A)') }}</td>
+                    <td></td>
                 </tr>
                 @endforeach
             </tbody>
@@ -84,11 +88,11 @@
     <div class="card-footer">
         <div class="row align-items-center">
             <div class="col-lg-6 m--valign-middle">
-                Menampilkan : <strong>{{ $data['instruktur']->firstItem() }}</strong> - <strong>{{ $data['instruktur']->lastItem() }}</strong> dari
-                <strong>{{ $data['instruktur']->total() }}</strong>
+                Showing : <strong>{{ $data['peserta']->firstItem() }}</strong> - <strong>{{ $data['peserta']->lastItem() }}</strong> of
+                <strong>{{ $data['peserta']->total() }}</strong>
             </div>
             <div class="col-lg-6 m--align-right">
-                {{ $data['instruktur']->onEachSide(1)->links() }}
+                {{ $data['peserta']->onEachSide(1)->links() }}
             </div>
         </div>
     </div>
@@ -100,6 +104,6 @@
 @endsection
 
 @section('jsbody')
-
 @include('components.toastr')
 @endsection
+

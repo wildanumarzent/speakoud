@@ -117,7 +117,7 @@
                                 <a href="{{ route('course.detail', ['id' => $mata->id]) }}">{!! $mata->judul !!}</a>
                             </h5>
                             <div class="post-info">
-                                <a href="{{ route('course.register', ['id' => $mata->id]) }}" class="btn btn-primary mr-auto">Daftar</a>
+                                <a href="{{ route('course.register', ['id' => $mata->id]) }}" class="btn btn-primary mr-auto">@lang('strip.widget_1_button')</a>
                                 <div class="box-info">
                                     <div class="item-info">
                                         <div class="data-info">
@@ -152,8 +152,8 @@
                     <div class="swiper-button-prev swiper-btn sbp-2"><i class="la la-angle-left"></i></div>
                     <div class="swiper-button-next swiper-btn sbn-2"><i class="la la-angle-right"></i></div>
                 </div>
-                <a href="{{ route('course.list') }}" class="link-icon ml-auto" title="@lang('strip.widget_1_button')">
-                    @lang('strip.widget_1_button')
+                <a href="{{ route('course.list') }}" class="link-icon ml-auto" title="@lang('strip.widget_1_button_2')">
+                    @lang('strip.widget_1_button_2')
                     <span>
                         <i class="las la-arrow-right"></i>
                     </span>

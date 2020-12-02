@@ -37,7 +37,7 @@
                             <a href="{{ route('course.detail', ['id' => $item->id]) }}">{!! $item->judul !!}</a>
                         </h5>
                         <div class="post-info">
-                            <a href="{{ route('course.register', ['id' => $item->id]) }}" class="btn btn-primary mr-auto">Daftar</a>
+                            <a href="{{ route('course.register', ['id' => $item->id]) }}" class="btn btn-primary mr-auto">@lang('strip.widget_1_button')</a>
                             <div class="box-info">
                                 <div class="item-info">
                                     <div class="data-info">

@@ -3,7 +3,6 @@
 @section('styles')
 <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-material-datetimepicker/bootstrap-material-datetimepicker.css') }}">
 <script src="{{ asset('assets/tmplts_backend/wysiwyg/tinymce.min.js') }}"></script>
-<link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/select2/select2.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/fancybox/fancybox.min.css') }}">
 @endsection
 
@@ -77,21 +76,6 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group row">
-                <div class="col-md-2 text-md-right">
-                    <label class="col-form-label">Instruktur</label>
-                </div>
-                <div class="col-md-10">
-                  <select class="select2 show-tick @error('instruktur_id') is-invalid @enderror" name="instruktur_id[]" data-style="btn-default" multiple="multiple">
-                      @foreach ($data['instruktur'] as $instruktur)
-                          <option value="{{ $instruktur->id }}" {{ isset($data['mata']) ? (in_array($instruktur->id, $data['instruktur_id']) ? 'selected' : '') : '' }}> {{ strtoupper($instruktur->user['name']) }}</option>
-                      @endforeach
-                  </select>
-                  @error('instruktur_id')
-                  <label class="error jquery-validation-error small form-text invalid-feedback" style="display: inline-block;color:red;">{!! $message !!}</label>
-                  @enderror
-                </div>
-            </div>
             <hr>
             <div class="form-group row">
                 <div class="col-md-2 text-md-right">
@@ -142,7 +126,7 @@
                 <label class="col-form-label col-sm-2 text-sm-right">Tampilkan Feedback Peserta</label>
                 <div class="col-sm-10">
                   <label class="custom-control custom-checkbox m-0">
-                    <input type="checkbox" class="custom-control-input" name="show_feedback" value="1" {{ isset($data['mata']) ? (old('show_feedback', $data['mata']->show_feedback) == 1 ? 'checked' : '') : (old('show_feedback') ? 'checked' : '') }}>
+                    <input type="checkbox" class="custom-control-input" name="show_feedback" value="1" {{ isset($data['mata']) ? (old('show_feedback', $data['mata']->show_feedback) == 1 ? 'checked' : '') : (old('show_feedback') ? 'checked' : 'checked') }}>
                     <span class="custom-control-label ml-4">Ya</span>
                   </label>
                 </div>
@@ -151,7 +135,7 @@
                 <label class="col-form-label col-sm-2 text-sm-right">Tampilkan Komentar</label>
                 <div class="col-sm-10">
                   <label class="custom-control custom-checkbox m-0">
-                    <input type="checkbox" class="custom-control-input" name="show_comment" value="1" {{ isset($data['mata']) ? (old('show_comment', $data['mata']->show_comment) == 1 ? 'checked' : '') : (old('show_comment') ? 'checked' : '') }}>
+                    <input type="checkbox" class="custom-control-input" name="show_comment" value="1" {{ isset($data['mata']) ? (old('show_comment', $data['mata']->show_comment) == 1 ? 'checked' : '') : (old('show_comment') ? 'checked' : 'checked') }}>
                     <span class="custom-control-label ml-4">Ya</span>
                   </label>
                 </div>
@@ -172,13 +156,12 @@
 @section('scripts')
 <script src="{{ asset('assets/tmplts_backend/vendor/libs/moment/moment.js') }}"></script>
 <script src="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-material-datetimepicker/bootstrap-material-datetimepicker.js') }}"></script>
-<script src="{{ asset('assets/tmplts_backend/vendor/libs/select2/select2.js') }}"></script>
+
 <script src="{{ asset('assets/tmplts_backend/fancybox/fancybox.min.js') }}"></script>
 @endsection
 
 @section('jsbody')
 <script>
-    $('.select2').select2();
     //datetime
     $('.datetime-picker').bootstrapMaterialDatePicker({
         date: true,

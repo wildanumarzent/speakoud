@@ -4,6 +4,7 @@ namespace App\Services\Course;
 
 use App\Models\Course\MataInstruktur;
 use App\Models\Course\MataPelatihan;
+use App\Models\Course\MataPeserta;
 use App\Models\Course\MataRating;
 use App\Services\Component\KomentarService;
 use Illuminate\Support\Facades\File;
@@ -11,16 +12,18 @@ use Illuminate\Support\Str;
 
 class MataService
 {
-    private $model, $modelInstruktur, $komentar;
+    private $model, $modelInstruktur, $modelPeserta, $komentar;
 
     public function __construct(
         MataPelatihan $model,
         MataInstruktur $modelInstruktur,
+        MataPeserta $modelPeserta,
         KomentarService $komentar
     )
     {
         $this->model = $model;
         $this->modelInstruktur = $modelInstruktur;
+        $this->modelPeserta = $modelPeserta;
         $this->komentar = $komentar;
     }
 
@@ -95,6 +98,25 @@ class MataService
         return $result;
     }
 
+    public function getPesertaList($request, int $mataId)
+    {
+        $query = $this->modelPeserta->query();
+
+        $query->where('mata_id', $mataId);
+        $query->whereHas('peserta', function ($query) use ($request) {
+            $query->when($request->q, function ($query, $q) {
+                $query->where(function ($query) use ($q) {
+                    $query->where('nip', 'like', '%'.$q.'%')
+                        ->orWhere('kedeputian', 'like', '%'.$q.'%');
+                });
+            });
+        });
+
+        $result = $query->paginate(20);
+
+        return $result;
+    }
+
     public function getMata($order, $by, int $limit)
     {
         $query = $this->model->query();
@@ -140,16 +162,29 @@ class MataService
         $mata->show_comment = (bool)$request->show_comment;
         $mata->save();
 
-        $collectInstruktur = $this->collectInstruktur($request);
+        return $mata;
+    }
 
+    public function storeInstruktur($request, int $mataId)
+    {
+        $collectInstruktur = collect($request->instruktur_id);
         foreach ($collectInstruktur->all() as $key => $value) {
-            $instruktur = new MataInstruktur();
-            $instruktur->mata_id = $mata->id;
+            $instruktur = new MataInstruktur;
+            $instruktur->mata_id = $mataId;
             $instruktur->instruktur_id = $value;
             $instruktur->save();
         }
+    }
 
-        return $mata;
+    public function storePeserta($request, int $mataId)
+    {
+        $collectPeserta = collect($request->peserta_id);
+        foreach ($collectPeserta->all() as $key => $value) {
+            $peserta = new MataPeserta;
+            $peserta->mata_id = $mataId;
+            $peserta->peserta_id = $value;
+            $peserta->save();
+        }
     }
 
     public function updateMata($request, int $id)
@@ -177,25 +212,7 @@ class MataService
         $mata->show_comment = (bool)$request->show_comment;
         $mata->save();
 
-        $deleteInstruktur = $mata->instruktur()->delete();
-
-        $collectInstruktur = $this->collectInstruktur($request);
-
-        foreach ($collectInstruktur->all() as $key => $value) {
-            $instruktur = new MataInstruktur();
-            $instruktur->mata_id = $id;
-            $instruktur->instruktur_id = $value;
-            $instruktur->save();
-        }
-
         return $mata;
-    }
-
-    public function collectInstruktur($request)
-    {
-        $collectInstruktur = collect($request->instruktur_id);
-
-        return $collectInstruktur;
     }
 
     public function positionMata(int $id, $urutan)
@@ -236,6 +253,15 @@ class MataService
         return $mata;
     }
 
+    public function approvalPeserta(int $id, $status)
+    {
+        $peserta = $this->modelPeserta->findOrFail($id);
+        $peserta->status = $status;
+        $peserta->save();
+
+        return $peserta;
+    }
+
     public function rating($request, int $mataId)
     {
         $rating = MataRating::updateOrCreate([
@@ -265,11 +291,36 @@ class MataService
             $this->deleteCoverFromPath($mata->cover['filename']);
         }
         $mata->instruktur()->delete();
+        $mata->peserta()->delete();
         $mata->materi()->delete();
         $mata->comment()->delete();
         $mata->delete();
 
         return $mata;
+    }
+
+    public function deleteInstruktur(int $mataId, $id)
+    {
+        $mata = $this->findMata($mataId);
+        $instruktur = $this->modelInstruktur->findOrFail($id);
+
+        $checkBahan = $mata->bahan()->where('creator_id', $instruktur->instruktur->user_id)->count();
+        if ($checkBahan > 0) {
+            return false;
+        } else {
+            $instruktur->delete();
+
+            return $instruktur;
+        }
+    }
+
+    public function deletePeserta(int $mataId, $id)
+    {
+        $mata = $this->findMata($mataId);
+        $peserta = $this->modelPeserta->findOrFail($id);
+        $peserta->delete();
+
+        return $peserta;
     }
 
     public function deleteCoverFromPath($fileName)

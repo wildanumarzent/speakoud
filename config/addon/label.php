@@ -52,6 +52,12 @@ return [
             'description' => '',
             'icon' => 'file-video'
         ],
+        7 => [
+            'title' => 'Tugas',
+            'get' => 'tugas',
+            'description' => '',
+            'icon' => 'briefcase'
+        ],
     ],
     'forum_tipe' => [
         0 => [

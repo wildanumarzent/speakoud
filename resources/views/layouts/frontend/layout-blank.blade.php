@@ -35,8 +35,8 @@
         @endforeach
         <div class="form-signbox">
             <div class="form-signbox-top">
-                <a href="{{ route('home') }}" class="link-icon ml-auto" title="Home">
-                    Home
+                <a href="{{ route('home') }}" class="link-icon ml-auto" title="@lang('layout.menu.home')">
+                    @lang('layout.menu.home')
                     <span>
                         <i class="las la-home"></i>
                     </span>
@@ -46,10 +46,10 @@
                 <div class="item-signbox">
                     <ul class="nav-signbox">
                         <li class="{{ Request::is('login') ? 'active' : '' }}">
-                            <a href="{{ route('login') }}" title="Login">Login</a>
+                            <a href="{{ route('login') }}" title="@lang('layout.menu.login')">@lang('layout.menu.login')</a>
                         </li>
                         <li class="{{ Request::is('register') ? 'active' : '' }}">
-                            <a href="{{ route('register') }}" title="Register">Register</a>
+                            <a href="{{ route('register') }}" title="@lang('layout.menu.register')">@lang('layout.menu.register')</a>
                         </li>
                     </ul>
                 </div>

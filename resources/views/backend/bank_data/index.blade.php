@@ -103,8 +103,12 @@
                 @else
                 <a href="{{ route('bank.data.stream', ['path' => $file->file_path]) }}" class="file-item-name" data-fancybox="gallery">
                 @endif
-                    @if ($file->file_type == 'jpg' || $file->file_type == 'jpeg' || $file->file_type == 'png')
+                    @if ($file->file_type == 'jpg' || $file->file_type == 'jpeg' || $file->file_type == 'png' || $file->is_video == 1)
+                        @if (!empty($file->thumbnail))
+                        <div class="file-item-img" style="background-image: url({{ route('bank.data.stream', ['path' => $file->thumbnail]) }})"></div>
+                        @else
                         <div class="file-item-img" style="background-image: url({{ route('bank.data.stream', ['path' => $file->file_path]) }})"></div>
+                        @endif
                     @else
                         <div class="file-item-icon las la-file-{{ $file->icon($file->file_type) }} text-secondary"></div>
                     @endif

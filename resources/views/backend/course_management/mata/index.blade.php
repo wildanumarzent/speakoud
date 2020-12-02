@@ -170,9 +170,9 @@
                         <a href="{{ route('mata.instruktur', ['id' => $item->id]) }}" class="btn btn-warning btn-sm" title="klik untuk melihat instruktur">
                             <i class="las la-user-tie"></i> Instruktur
                         </a>
-                        <button type="button" class="btn btn-warning btn-sm" title="klik untuk melihat peserta">
+                        <a href="{{ route('mata.peserta', ['id' => $item->id]) }}" class="btn btn-warning btn-sm" title="klik untuk melihat peserta">
                             <i class="las la-user"></i> Peserta
-                        </button>
+                        </a>
                     </td>
                 </tr>
                 @endif

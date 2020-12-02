@@ -4,27 +4,32 @@ namespace App\Http\Controllers\Course;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\KomentarRequest;
+use App\Http\Requests\MataInstrukturRequest;
+use App\Http\Requests\MataPesertaRequest;
 use App\Http\Requests\MataRequest;
 use App\Services\Course\MataService;
 use App\Services\Course\ProgramService;
 use App\Services\KonfigurasiService;
 use App\Services\Users\InstrukturService;
+use App\Services\Users\PesertaService;
 use Illuminate\Http\Request;
 
 class MataController extends Controller
 {
-    private $service, $serviceProgram, $serviceInstruktur, $serviceKonfig;
+    private $service, $serviceProgram, $serviceInstruktur, $servicePeserta, $serviceKonfig;
 
     public function __construct(
         MataService $service,
         ProgramService $serviceProgram,
         InstrukturService $serviceInstruktur,
+        PesertaService $servicePeserta,
         KonfigurasiService $serviceKonfig
     )
     {
         $this->service = $service;
         $this->serviceProgram = $serviceProgram;
         $this->serviceInstruktur = $serviceInstruktur;
+        $this->servicePeserta = $servicePeserta;
         $this->serviceKonfig = $serviceKonfig;
     }
 
@@ -66,12 +71,52 @@ class MataController extends Controller
         $data['instruktur']->withPath(url()->current().$q);
         $data['mata'] = $this->service->findMata($mataId);
 
-        return view('backend.course_management.mata.instruktur', compact('data'), [
+        $collectInstruktur = collect($data['mata']->instruktur);
+        $data['instruktur_id'] = $collectInstruktur->map(function($item, $key) {
+            return $item->instruktur_id;
+        })->all();
+        $data['instruktur_list'] = $this->serviceInstruktur
+            ->getInstrukturForMata($data['mata']->program->tipe, $data['instruktur_id']);
+
+        $this->serviceProgram->checkInstruktur($data['mata']->program->id);
+
+        return view('backend.course_management.mata.instruktur.index', compact('data'), [
             'title' => 'Program Pelatihan - Instruktur',
             'breadcrumbsBackend' => [
                 'Kategori' => route('program.index'),
                 'Program' => route('mata.index', ['id' => $data['mata']->program_id]),
                 'Instruktur' => '',
+            ],
+        ]);
+    }
+
+    public function peserta(Request $request, $mataId)
+    {
+        $q = '';
+        if (isset($request->q)) {
+            $q = '?q='.$request->q;
+        }
+
+        $data['peserta'] = $this->service->getPesertaList($request, $mataId);
+        $data['number'] = $data['peserta']->firstItem();
+        $data['peserta']->withPath(url()->current().$q);
+        $data['mata'] = $this->service->findMata($mataId);
+
+        $collectPeserta = collect($data['mata']->peserta);
+        $data['peserta_id'] = $collectPeserta->map(function($item, $key) {
+            return $item->peserta_id;
+        })->all();
+        $data['peserta_list'] = $this->servicePeserta
+            ->getPesertaForMata($data['mata']->program->tipe, $data['peserta_id']);
+
+        $this->serviceProgram->checkInstruktur($data['mata']->program->id);
+
+        return view('backend.course_management.mata.peserta.index', compact('data'), [
+            'title' => 'Program Pelatihan - Peserta',
+            'breadcrumbsBackend' => [
+                'Kategori' => route('program.index'),
+                'Program' => route('mata.index', ['id' => $data['mata']->program_id]),
+                'Peserta' => '',
             ],
         ]);
     }
@@ -153,16 +198,26 @@ class MataController extends Controller
             ->with('success', 'Program pelatihan berhasil ditambahkan');
     }
 
+    public function storeInstruktur(MataInstrukturRequest $request, $mataId)
+    {
+        $this->service->storeInstruktur($request, $mataId);
+
+        return redirect()->route('mata.instruktur', ['id' => $mataId])
+            ->with('success', 'Instruktur pelatihan berhasil ditambahkan');
+    }
+
+    public function storePeserta(MataPesertaRequest $request, $mataId)
+    {
+        $this->service->storePeserta($request, $mataId);
+
+        return redirect()->route('mata.peserta', ['id' => $mataId])
+            ->with('success', 'Peserta pelatihan berhasil ditambahkan');
+    }
+
     public function edit($programId, $id)
     {
         $data['mata'] = $this->service->findMata($id);
         $data['program'] = $this->serviceProgram->findProgram($programId);
-        $data['instruktur'] = $this->serviceInstruktur->getInstrukturForMata($data['program']->tipe);
-
-        $collectInstruktur = collect($data['mata']->instruktur);
-        $data['instruktur_id'] = $collectInstruktur->map(function($item, $key) {
-            return $item->instruktur_id;
-        })->all();
 
         $this->checkCreator($id);
 
@@ -197,8 +252,6 @@ class MataController extends Controller
 
     public function position($programId, $id, $urutan)
     {
-        $this->checkCreator($id);
-
         $this->service->positionMata($id, $urutan);
 
         return back()->with('success', 'Posisi berhasil diubah');
@@ -206,11 +259,6 @@ class MataController extends Controller
 
     public function sort($programId)
     {
-        if (auth()->user()->hasRole('mitra')) {
-            $mata = $this->service->findMata($id);
-            $this->checkCreator($mata->creator_id);
-        }
-
         $i = 0;
 
         foreach ($_POST['datas'] as $value) {
@@ -255,6 +303,44 @@ class MataController extends Controller
                 'message' => ''
             ], 200);
         }
+    }
+
+    public function destroyInstruktur($mataId, $id)
+    {
+        $delete = $this->service->deleteInstruktur($mataId, $id);
+
+        if ($delete == false) {
+            return response()->json([
+                'success' => 0,
+                'message' => 'Instruktur pelatihan gagal dihapus dikarenakan'.
+                            ' masih memiliki bahan pelatihan'
+            ], 200);
+        } else {
+
+            return response()->json([
+                'success' => 1,
+                'message' => ''
+            ], 200);
+        }
+    }
+
+    public function destroyPeserta($mataId, $id)
+    {
+        $delete = $this->service->deletePeserta($mataId, $id);
+
+        // if ($delete == false) {
+        //     return response()->json([
+        //         'success' => 0,
+        //         'message' => 'Peserta pelatihan gagal dihapus dikarenakan'.
+        //                     ' masih memiliki bahan pelatihan'
+        //     ], 200);
+        // } else {
+
+            return response()->json([
+                'success' => 1,
+                'message' => ''
+            ], 200);
+        // }
     }
 
     public function checkCreator($id)

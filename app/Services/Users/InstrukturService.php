@@ -59,14 +59,14 @@ class InstrukturService
         return $result;
     }
 
-    public function getInstrukturForMata($type)
+    public function getInstrukturForMata($type, $instrukturId)
     {
         $query = $this->model->query();
 
         $query->whereHas('user', function ($query) {
             $query->active();
         });
-        if ($type == 0) {
+        if ($type == false) {
             $query->whereNull('mitra_id');
         } else {
             if (auth()->user()->hasRole('mitra')) {
@@ -75,6 +75,10 @@ class InstrukturService
                 $query->whereNotNull('mitra_id');
             }
         }
+
+        $query->where(function ($query) use ($instrukturId) {
+            $query->whereNotIn('id', $instrukturId);
+        });
 
         $result = $query->get();
 

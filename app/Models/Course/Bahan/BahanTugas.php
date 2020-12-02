@@ -8,10 +8,14 @@ use App\Models\Course\ProgramPelatihan;
 use App\Models\Users\User;
 use Illuminate\Database\Eloquent\Model;
 
-class BahanForum extends Model
+class BahanTugas extends Model
 {
-    protected $table = 'bahan_forum';
+    protected $table = 'bahan_tugas';
     protected $guarded = [];
+
+    protected $casts = [
+        'files' => 'array',
+    ];
 
     public function creator()
     {
@@ -38,8 +42,13 @@ class BahanForum extends Model
         return $this->belongsTo(BahanPelatihan::class, 'bahan_id');
     }
 
-    public function topik()
+    public function respon()
     {
-        return $this->hasMany(BahanForumTopik::class, 'forum_id');
+        return $this->hasMany(BahanTugasRespon::class, 'tugas_id');
+    }
+
+    public function responByUser()
+    {
+        return $this->hasOne(BahanTugasRespon::class, 'tugas_id')->where('user_id', auth()->user()->id);
     }
 }

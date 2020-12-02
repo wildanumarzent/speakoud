@@ -2,11 +2,11 @@
 <h4 class="font-weight-light py-3 mb-2">
     <ol class="breadcrumb">
         <li class="breadcrumb-item">
-            <a href="{{ route('dashboard') }}">Dashboard</a>
+            <a href="{{ route('dashboard') }}" title="@lang('layout.menu.dashboard')">@lang('layout.menu.dashboard')</a>
         </li>
         @foreach ($breadcrumbsBackend as $key => $val)
         <li class="breadcrumb-item">
-            <a href="{{ $val }}">{{ $key }}</a>
+            <a href="{{ $val }}" title="{{ $key }}">{{ $key }}</a>
         </li>
         @endforeach
     </ol>

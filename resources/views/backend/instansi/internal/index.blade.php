@@ -13,11 +13,11 @@
             <div class="col-md">
                 <form action="" method="GET">
                     <div class="form-group">
-                        <label class="form-label">Cari</label>
+                        <label class="form-label">@lang('global.search.input_title')</label>
                         <div class="input-group">
-                            <input type="text" class="form-control" name="q" value="{{ Request::get('q') }}" placeholder="Kata kunci...">
+                            <input type="text" class="form-control" name="q" value="{{ Request::get('q') }}" placeholder="@lang('global.search.input_placeholder')">
                             <div class="input-group-append">
-                                <button type="submit" class="btn btn-warning" title="klik untuk mencari"><i class="las la-search"></i></button>
+                                <button type="submit" class="btn btn-warning" title="@lang('global.search.target')"><i class="las la-search"></i></button>
                             </div>
                         </div>
                     </div>
@@ -60,11 +60,11 @@
                     <td colspan="11" align="center">
                         <i>
                             <strong style="color:red;">
-                            @if (Request::get('q'))
-                            ! Instansi tidak ditemukan !
-                            @else
-                            ! Data Instansi kosong !
-                            @endif
+                                @if (Request::get('q'))
+                                ! @lang('layout.menu.instansi.title') @lang('global.data_empty.notfound') !
+                                @else
+                                ! @lang('layout.menu.instansi.title') @lang('global.data_empty.record') !
+                                @endif
                             </strong>
                         </i>
                     </td>
@@ -104,9 +104,9 @@
                         <i>
                             <strong style="color:red;">
                             @if (Request::get('q'))
-                            ! Instansi tidak ditemukan !
+                            ! Instansi @lang('global.data_empty.notfound') !
                             @else
-                            ! Data Instansi kosong !
+                            ! Instansi @lang('global.data_empty.record') !
                             @endif
                             </strong>
                         </i>
@@ -164,7 +164,7 @@
     <div class="card-footer">
         <div class="row align-items-center">
             <div class="col-lg-6 m--valign-middle">
-                Menampilkan : <strong>{{ $data['instansi']->firstItem() }}</strong> - <strong>{{ $data['instansi']->lastItem() }}</strong> dari
+                @lang('global.pagination.title') : <strong>{{ $data['instansi']->firstItem() }}</strong> - <strong>{{ $data['instansi']->lastItem() }}</strong> @lang('global.pagination.from')
                 <strong>{{ $data['instansi']->total() }}</strong>
             </div>
             <div class="col-lg-6 m--align-right">

@@ -150,6 +150,14 @@ Route::put('/peserta/{id}/cek', 'Course\Bahan\BahanQuizItemController@checkPeser
     ->name('quiz.peserta.cek')
     ->middleware(['auth', 'role:administrator|internal|mitra|instruktur_internal|instruktur_mitra']);
 
+//tugas
+Route::post('/tugas/{id}/kirim', 'Course\Bahan\BahanTugasController@sendTugas')
+    ->name('tugas.send')
+    ->middleware(['auth', 'role:peserta_internal|peserta_mitra']);
+Route::get('/tugas/{id}/peserta', 'Course\Bahan\BahanTugasController@peserta')
+    ->name('tugas.peserta')
+    ->middleware(['auth', 'role:administrator|internal|mitra|instruktur_internal|instruktur_mitra']);
+
 /**
  * authentication
  */
@@ -499,6 +507,24 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('mata/{id}/instruktur', 'Course\MataController@instruktur')
         ->name('mata.instruktur')
         ->middleware('role:administrator|internal|mitra');
+    Route::post('mata/{id}/instruktur', 'Course\MataController@storeInstruktur')
+        ->name('mata.instruktur.store')
+        ->middleware('role:administrator|internal|mitra');
+    Route::delete('mata/{id}/instruktur/{mataInstrukturId}', 'Course\MataController@destroyInstruktur')
+        ->name('mata.instruktur.destroy')
+        ->middleware('role:administrator|internal|mitra');
+    Route::get('mata/{id}/peserta', 'Course\MataController@peserta')
+        ->name('mata.peserta')
+        ->middleware('role:administrator|internal|mitra');
+    Route::post('mata/{id}/peserta', 'Course\MataController@storePeserta')
+        ->name('mata.peserta.store')
+        ->middleware('role:administrator|internal|mitra');
+    Route::put('peserta/{id}/approval/{status}', 'Course\MataController@approvalPeserta')
+        ->name('mata.peserta.approval')
+        ->middleware('role:administrator|internal|mitra');
+    Route::delete('mata/{id}/instruktur/{mataPesertaId}', 'Course\MataController@destroyPeserta')
+        ->name('mata.peserta.destroy')
+        ->middleware('role:administrator|internal|mitra');
 
     //materi pelatihan
     Route::get('/mata/{id}/materi', 'Course\MateriController@index')
@@ -604,6 +630,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::delete('/jadwal/{id}', 'Course\JadwalController@destroy')
         ->name('jadwal.destroy')
         ->middleware('role:developer|administrator|internal|mitra');
+
+    //evaluasi
+    Route::get('/evaluasi', 'Course\EvaluasiController@index')
+        ->name('evaluasi.index');
 
     /**Website module */
     //page

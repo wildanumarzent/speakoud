@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Storage;
 class BahanService
 {
     private $model, $materi, $forum, $file, $conference, $quiz, $scorm, $audio,
-     $video;
+     $video, $tugas;
 
     public function __construct(
         BahanPelatihan $model,
@@ -21,7 +21,8 @@ class BahanService
         BahanQuizService $quiz,
         BahanScormService $scorm,
         BahanAudioService $audio,
-        BahanVideoService $video
+        BahanVideoService $video,
+        BahanTugasService $tugas
     )
     {
         $this->model = $model;
@@ -33,6 +34,7 @@ class BahanService
         $this->scorm = $scorm;
         $this->audio = $audio;
         $this->video = $video;
+        $this->tugas = $tugas;
     }
 
     public function getBahanList($request, int $materiId)
@@ -130,6 +132,9 @@ class BahanService
         if ($request->type == 'video') {
             $segmen = $this->video->storeVideo($request, $materi, $bahan);
         }
+        if ($request->type == 'tugas') {
+            $segmen = $this->tugas->storeTugas($request, $materi, $bahan);
+        }
 
         $bahan->segmenable()->associate($segmen);
         $bahan->save();
@@ -167,6 +172,9 @@ class BahanService
         }
         if ($request->type == 'video') {
             $this->video->updateVideo($request, $bahan);
+        }
+        if ($request->type == 'tugas') {
+            $this->tugas->updateTugas($request, $bahan);
         }
 
         return $bahan;
@@ -239,6 +247,14 @@ class BahanService
         }
         if ($bahan->video()->count() == 1) {
             $bahan->video()->delete();
+        }
+        if ($bahan->tugas()->count() == 1) {
+
+            foreach ($bahan->tugas->files as $file) {
+                Storage::disk('bank_data')->delete($file);
+            }
+
+            $bahan->tugas()->delete();
         }
 
         $bahan->delete();

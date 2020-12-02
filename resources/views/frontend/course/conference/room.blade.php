@@ -73,13 +73,13 @@
 @endsection
 
 @section('scripts')
-<script src='https://meet.jit.si/external_api.js'></script>
+<script src='https://meeting-dev.bppt.go.id/external_api.js'></script>
 <script src="{{ asset('assets/tmplts_backend/vendor/libs/sweetalert2/sweetalert2.js') }}"></script>
 @endsection
 
 @section('jsbody')
 <script>
-    const domain = 'meet.jit.si';
+    const domain = 'meeting-dev.bppt.go.id';
     const options = {
         roomName: '{{ $data['conference']->meeting_link }}',
         width: 1125,
@@ -88,7 +88,8 @@
         userInfo: {
             email: '{{ auth()->user()->email }}',
             displayName: '{{ auth()->user()->name }}'
-        }
+        },
+        prejoinPageEnabled : false,
     };
 
     const api = new JitsiMeetExternalAPI(domain, options);

@@ -79,10 +79,7 @@ class BahanController extends Controller
         $data['jump'] = $this->service->bahanJump($id);
         $data['prev'] = $this->service->bahanPrevNext($data['materi']->id, $data['bahan']->urutan, 'prev');
         $data['next'] = $this->service->bahanPrevNext($data['materi']->id, $data['bahan']->urutan, 'next');
-        $data['checkpoint'] = $this->serviceScorm->checkpoint(auth()->user()->id,$data['bahan']->scorm->id);
-        if(isset($data['checkpoint'])){
-        $data['cpData'] = json_decode($data['checkpoint']->checkpoint,true);
-        }
+
         // return $data['cpData'];
         if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
             if ($data['bahan']->program->publish == 0 || $data['bahan']->publish == 0) {
@@ -115,6 +112,13 @@ class BahanController extends Controller
                     $detik = gmdate('s', $totalDuration);
                     $data['total_duration'] = $menit.' Menit '.$detik.' Detik';
                 }
+            }
+        }
+
+        if ($tipe == 'scorm') {
+            $data['checkpoint'] = $this->serviceScorm->checkpoint(auth()->user()->id,$data['bahan']->scorm->id);
+            if(isset($data['checkpoint'])){
+                $data['cpData'] = json_decode($data['checkpoint']->checkpoint,true);
             }
         }
 

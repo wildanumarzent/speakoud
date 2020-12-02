@@ -6,7 +6,7 @@
         <span class="app-brand-logo demo bg-white">
             <img src="{{ asset(config('addon.images.logo')) }}" style="width:50px;height:50px;object-fit:cover">
         </span>
-        <span class="app-brand-text demo font-weight-normal ml-2">BPPT E-LEARNING SYSTEM</span>
+        <span class="app-brand-text demo font-weight-normal ml-2">@lang('layout.header.title')</span>
     </a>
 
 
@@ -27,7 +27,7 @@
         <div class="navbar-nav align-items-lg-center d-none d-lg-block">
           <!-- Search -->
           <label class="nav-item navbar-text navbar-search-box p-0 active">
-            BPPT E-LEARNING SYSTEM &nbsp;
+            @lang('layout.header.title') &nbsp;
             <a href="{{ route('home') }}" target="_blank" title="Website"><i class="las la-external-link-alt"></i></a>
           </label>
         </div>
@@ -73,13 +73,14 @@
             </a>
             <div class="dropdown-menu dropdown-menu-right">
               <span class="dropdown-item name-user d-block d-lg-none">{{ auth()->user()->name }}</span>
-              <a href="{{ route('profile') }}" class="dropdown-item">
+              <a href="{{ route('profile') }}" class="dropdown-item" title="@lang('layout.header.profile')">
                   <i class="las la-user-circle"></i>
-                  &nbsp; My profile</a>
+                  &nbsp; @lang('layout.header.profile')
+              </a>
               <div class="dropdown-divider"></div>
-              <a href="javascript:void(0)" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+              <a href="javascript:void(0)" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" title="@lang('layout.header.logout')">
                   <i class="las la-sign-out-alt"></i>
-                &nbsp; Log Out
+                &nbsp; @lang('layout.header.logout')
               </a>
               <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                   @csrf

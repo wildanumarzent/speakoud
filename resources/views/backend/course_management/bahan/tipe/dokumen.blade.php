@@ -16,3 +16,11 @@
     </div>
 </div>
 @endsection
+
+@section('body')
+<script>
+    function openFm() {
+        var win = window.open("/bank/data/filemanager/view?type-file=dokumen&view=button", "fm", "width=1400,height=800");
+    }
+</script>
+@endsection

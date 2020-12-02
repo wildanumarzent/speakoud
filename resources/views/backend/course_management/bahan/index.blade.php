@@ -67,6 +67,8 @@
                     $route = route('course.bahan', ['id' => $item->mata_id, 'bahanId' => $item->id, 'tipe' => 'audio']);
                 } elseif ($item->type($item)['tipe'] == 'video') {
                     $route = route('course.bahan', ['id' => $item->mata_id, 'bahanId' => $item->id, 'tipe' => 'video']);
+                } elseif ($item->type($item)['tipe'] == 'tugas') {
+                    $route = route('course.bahan', ['id' => $item->mata_id, 'bahanId' => $item->id, 'tipe' => 'tugas']);
                 } else {
                     $route = 'javascript:;';
                 }

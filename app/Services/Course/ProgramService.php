@@ -25,6 +25,13 @@ class ProgramService
             });
         });
 
+        if (isset($request->p)) {
+            $query->where('publish', $request->p);
+        }
+        if (isset($request->t)) {
+            $query->where('tipe', $request->t);
+        }
+
         //cek role
         if (auth()->user()->hasRole('internal|instruktur_internal')) {
             $query->where('tipe', 0);
@@ -36,13 +43,6 @@ class ProgramService
         if (auth()->user()->hasRole('instruktur_mitra')) {
             $query->where('mitra_id', auth()->user()->instruktur->mitra_id)
                 ->where('tipe', 1);
-        }
-
-        if (isset($request->p)) {
-            $query->where('publish', $request->p);
-        }
-        if (isset($request->t)) {
-            $query->where('tipe', $request->t);
         }
 
         $result = $query->orderBy('urutan', 'ASC')->paginate(9);
@@ -59,17 +59,20 @@ class ProgramService
     {
         if (auth()->user()->hasRole('mitra')) {
             $tipe = 1;
+            $mitra = auth()->user()->mitra->id;
         }
         if (auth()->user()->hasRole('internal')) {
             $tipe = 0;
+            $mitra = null;
         }
         if (auth()->user()->hasRole('developer|administrator')) {
             $tipe = $request->tipe;
+            $mitra = $request->mitra_id;
         }
 
         $program = new ProgramPelatihan($request->only(['judul']));
         $program->creator_id = auth()->user()->id;
-        $program->mitra_id = $request->mitra_id ?? null;
+        $program->mitra_id = $mitra;
         $program->keterangan = $request->keterangan ?? null;
         $program->urutan = ($this->model->max('urutan') + 1);
         $program->tipe = $tipe;

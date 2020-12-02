@@ -26,8 +26,8 @@
             </label>
         </div>
         <div class="box-btn text-center">
-            <button class="btn btn-primary" type="submit"><span>Login</span></button>
-            <a class="link-forgot" href="{{ route('password.email') }}">Forgot Password?</a>
+            <button class="btn btn-primary" type="submit"><span>@lang('layout.menu.login')</span></button>
+            <a class="link-forgot" href="{{ route('password.email') }}">@lang('layout.menu.forgot_password')</a>
         </div>
     </form>
 </div>

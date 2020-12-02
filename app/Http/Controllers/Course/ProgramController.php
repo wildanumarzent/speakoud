@@ -167,7 +167,7 @@ class ProgramController extends Controller
             }
 
             if ($check) {
-                return abort(404);
+                return abort(403);
             }
         }
     }

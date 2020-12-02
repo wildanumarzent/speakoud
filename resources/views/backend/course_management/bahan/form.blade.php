@@ -3,6 +3,7 @@
 @section('styles')
 <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-material-datetimepicker/bootstrap-material-datetimepicker.css') }}">
 <script src="{{ asset('assets/tmplts_backend/wysiwyg/tinymce.min.js') }}"></script>
+@yield('style')
 @endsection
 
 @section('content')
@@ -97,6 +98,7 @@
 @section('scripts')
 <script src="{{ asset('assets/tmplts_backend/vendor/libs/moment/moment.js') }}"></script>
 <script src="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-material-datetimepicker/bootstrap-material-datetimepicker.js') }}"></script>
+@yield('script')
 @endsection
 
 @section('jsbody')
@@ -110,26 +112,6 @@
 </script>
 
 @include('includes.tiny-mce-with-fileman')
-@if (Request::get('type') == 'dokumen')
-<script>
-    function openFm() {
-        var win = window.open("/bank/data/filemanager/view?type-file=dokumen&view=button", "fm", "width=1400,height=800");
-    }
-</script>
-@endif
-@if (Request::get('type') == 'audio')
-<script>
-    function openFm() {
-        var win = window.open("/bank/data/filemanager/view?type-file=audio&view=button", "fm", "width=1400,height=800");
-    }
-</script>
-@endif
-@if (Request::get('type') == 'video')
-<script>
-    function openFm() {
-        var win = window.open("/bank/data/filemanager/view?type-file=video&view=button", "fm", "width=1400,height=800");
-    }
-</script>
-@endif
+@yield('body')
 @include('components.toastr')
 @endsection
