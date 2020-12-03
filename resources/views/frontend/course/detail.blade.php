@@ -84,63 +84,23 @@
                         <li class="list-group-item py-4">
                           <div class="media flex-wrap">
                             <div class="d-none d-sm-block ui-w-120 text-center">
-                                @if ($bahan->type($bahan)['tipe'] == 'forum')
-                                <i class="las la-{{ $bahan->type($bahan)['icon'] }} mr-2" style="font-size: 4em;"></i>
-                                @endif
                                 @if ($bahan->type($bahan)['tipe'] == 'dokumen')
                                 <i class="las la-file-{{ $bahan->dokumen->bankData->icon($bahan->dokumen->bankData->file_type) }} mr-2" style="font-size: 4em;"></i>
-                                @endif
-                                @if ($bahan->type($bahan)['tipe'] == 'conference')
-                                <i class="las la-{{ $bahan->type($bahan)['icon'] }} mr-2" style="font-size: 4em;"></i>
-                                @endif
-                                @if ($bahan->type($bahan)['tipe'] == 'quiz')
-                                <i class="las la-{{ $bahan->type($bahan)['icon'] }} mr-2" style="font-size: 4em;"></i>
-                                @endif
-                                @if ($bahan->type($bahan)['tipe'] == 'scorm')
-                                <i class="las la-{{ $bahan->type($bahan)['icon'] }} mr-2" style="font-size: 4em;"></i>
-                                @endif
-                                @if ($bahan->type($bahan)['tipe'] == 'audio')
-                                <i class="las la-{{ $bahan->type($bahan)['icon'] }} mr-2" style="font-size: 4em;"></i>
-                                @endif
-                                @if ($bahan->type($bahan)['tipe'] == 'video')
+                                @elseif ($bahan->type($bahan)['tipe'] == 'video')
                                     @if (!empty($bahan->video->bankData->thumbnail))
                                         <div class="d-block ui-rect-67 ui-bg-cover" style="background-image: url({{ route('bank.data.stream', ['path' => $bahan->video->bankData->thumbnail]) }});"></div>
                                     @else
                                         <div class="d-block ui-rect-67 ui-bg-cover" style="background-image: url({{ asset(config('addon.images.thumbnail')) }});"></div>
                                     @endif
                                     {{-- <i class="las la-{{ $bahan->type($bahan)['icon'] }} mr-2" style="font-size: 4em;"></i> --}}
-                                @endif
-                                @if ($bahan->type($bahan)['tipe'] == 'tugas')
+                                @else
                                 <i class="las la-{{ $bahan->type($bahan)['icon'] }} mr-2" style="font-size: 4em;"></i>
                                 @endif
                             </div>
                             <div class="media-body ml-sm-2">
                               <h5 class="mb-2">
                                 <div class="float-right font-weight-semibold ml-3"><i class="las la-stop text-danger" style="font-size: 2em;" title="anda belum mengakses materi ini"></i></div>
-                                @if ($bahan->type($bahan)['tipe'] == 'forum')
-                                <a href="{{ route('course.bahan', ['id' => $data['read']->id, 'bahanId' => $bahan->id, 'tipe' => 'forum']) }}" class="text-body">{!! $bahan->judul !!}</a>&nbsp;
-                                @endif
-                                @if ($bahan->type($bahan)['tipe'] == 'dokumen')
-                                <a href="{{ route('course.bahan', ['id' => $data['read']->id, 'bahanId' => $bahan->id, 'tipe' => 'dokumen']) }}" class="text-body">{!! $bahan->judul !!}</a>&nbsp;
-                                @endif
-                                @if ($bahan->type($bahan)['tipe'] == 'conference')
-                                <a href="{{ route('course.bahan', ['id' => $data['read']->id, 'bahanId' => $bahan->id, 'tipe' => 'conference']) }}" class="text-body">{!! $bahan->judul !!}</a>&nbsp;
-                                @endif
-                                @if ($bahan->type($bahan)['tipe'] == 'quiz')
-                                <a href="{{ route('course.bahan', ['id' => $data['read']->id, 'bahanId' => $bahan->id, 'tipe' => 'quiz']) }}" class="text-body">{!! $bahan->judul !!}</a>&nbsp;
-                                @endif
-                                @if ($bahan->type($bahan)['tipe'] == 'scorm')
-                                <a href="{{ route('course.bahan', ['id' => $data['read']->id, 'bahanId' => $bahan->id, 'tipe' => 'scorm']) }}" class="text-body">{!! $bahan->judul !!}</a>&nbsp;
-                                @endif
-                                @if ($bahan->type($bahan)['tipe'] == 'audio')
-                                <a href="{{ route('course.bahan', ['id' => $data['read']->id, 'bahanId' => $bahan->id, 'tipe' => 'audio']) }}" class="text-body">{!! $bahan->judul !!}</a>&nbsp;
-                                @endif
-                                @if ($bahan->type($bahan)['tipe'] == 'video')
-                                <a href="{{ route('course.bahan', ['id' => $data['read']->id, 'bahanId' => $bahan->id, 'tipe' => 'video']) }}" class="text-body">{!! $bahan->judul !!}</a>&nbsp;
-                                @endif
-                                @if ($bahan->type($bahan)['tipe'] == 'tugas')
-                                <a href="{{ route('course.bahan', ['id' => $data['read']->id, 'bahanId' => $bahan->id, 'tipe' => 'tugas']) }}" class="text-body">{!! $bahan->judul !!}</a>&nbsp;
-                                @endif
+                                <a href="{{ route('course.bahan', ['id' => $data['read']->id, 'bahanId' => $bahan->id, 'tipe' => $bahan->type($bahan)['tipe']]) }}" class="text-body">{!! $bahan->judul !!}</a>&nbsp;
                               </h5>
                               <div class="d-flex flex-wrap align-items-center mb-2">
                                 <div class="text-muted small">

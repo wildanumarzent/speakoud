@@ -6,19 +6,22 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\MateriRequest;
 use App\Services\Course\MataService;
 use App\Services\Course\MateriService;
+use App\Services\Course\ProgramService;
 use Illuminate\Http\Request;
 
 class MateriController extends Controller
 {
-    private $service, $serviceMata;
+    private $service, $serviceMata, $serviceProgram;
 
     public function __construct(
         MateriService $service,
-        MataService $serviceMata
+        MataService $serviceMata,
+        ProgramService $serviceProgram
     )
     {
         $this->service = $service;
         $this->serviceMata = $serviceMata;
+        $this->serviceProgram = $serviceProgram;
     }
 
     public function index(Request $request, $mataId)
@@ -35,6 +38,8 @@ class MateriController extends Controller
         $data['materi']->withPath(url()->current().$p.$q);
         $data['mata'] = $this->serviceMata->findMata($mataId);
         $data['hasRole'] = auth()->user()->hasRole('developer|administrator|internal|mitra');
+
+        $this->serviceProgram->checkInstruktur($data['mata']->program_id);
 
         if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra') &&
             $data['mata']->instruktur()->where('instruktur_id', auth()->user()->instruktur->id)
@@ -55,6 +60,7 @@ class MateriController extends Controller
     public function create($mataId)
     {
         $data['mata'] = $this->serviceMata->findMata($mataId);
+        $this->serviceProgram->checkInstruktur($data['mata']->program_id);
 
         return view('backend.course_management.materi.form', compact('data'), [
             'title' => 'Mata Pelatihan - Tambah',
@@ -81,6 +87,7 @@ class MateriController extends Controller
     {
         $data['materi'] = $this->service->findMateri($id);
         $data['mata'] = $this->serviceMata->findMata($mataId);
+        $this->serviceProgram->checkInstruktur($data['mata']->program_id);
 
         $this->checkCreator($id);
 

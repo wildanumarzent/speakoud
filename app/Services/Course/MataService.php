@@ -330,4 +330,23 @@ class MataService
 
         return $path;
     }
+
+    public function checkUser(int $id)
+    {
+        $mata = $this->findMata($id);
+
+        if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra')) {
+            $registerInstruktur = $this->modelInstruktur->where('mata_id', $id)
+                ->where('instruktur_id', auth()->user()->instruktur->id)->count();
+
+            return $registerInstruktur;
+        }
+
+        if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
+            $registerPeserta = $this->modelPeserta->where('mata_id', $id)
+                ->where('peserta_id', auth()->user()->peserta->id)->count();
+
+            return $registerPeserta;
+        }
+    }
 }

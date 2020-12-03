@@ -69,6 +69,7 @@
             }
         </style>
         <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/spinkit/spinkit.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/toastr/toastr.css') }}">
         @yield('styles')
 
         {!! $configuration['google_analytics'] !!}
@@ -107,6 +108,7 @@
 	<!-- jQuery Global-->
     <script src="{{ asset('assets/tmplts_frontend/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('assets/tmplts_frontend/js/main.js') }}"></script>
+    <script src="{{ asset('assets/tmplts_backend/vendor/libs/toastr/toastr.js') }}"></script>
 	@yield('scripts')
 
     <script>
@@ -127,6 +129,7 @@
         // var txt = match.join('');
         // $(".user-profile").text(txt);
     </script>
+    @include('components.toastr')
     @yield('jsbody')
 
 </html>

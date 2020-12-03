@@ -37,12 +37,12 @@
                             <a href="{{ route('course.detail', ['id' => $item->id]) }}">{!! $item->judul !!}</a>
                         </h5>
                         <div class="post-info">
-                            <a href="{{ route('course.register', ['id' => $item->id]) }}" class="btn btn-primary mr-auto">@lang('strip.widget_1_button')</a>
+                            <a href="{{ route('course.detail', ['id' => $item->id]) }}" class="btn btn-primary mr-auto">@lang('strip.widget_1_button')</a>
                             <div class="box-info">
                                 <div class="item-info">
                                     <div class="data-info">
                                         <i class="las la-user"></i>
-                                        <span>50</span>
+                                        <span>{{ $item->peserta->count() }}</span>
                                     </div>
                                     <span>Enrolled</span>
                                 </div>

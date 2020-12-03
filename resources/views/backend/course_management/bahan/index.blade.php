@@ -52,28 +52,7 @@
       <div class="card card-list">
         <div class="card-body d-flex justify-content-between align-items-start pb-1">
           <div>
-            @php
-                if ($item->type($item)['tipe'] == 'forum') {
-                    $route = route('course.bahan', ['id' => $item->mata_id, 'bahanId' => $item->id, 'tipe' => 'forum']);
-                } elseif ($item->type($item)['tipe'] == 'dokumen') {
-                    $route = route('course.bahan', ['id' => $item->mata_id, 'bahanId' => $item->id, 'tipe' => 'dokumen']);
-                } elseif ($item->type($item)['tipe'] == 'conference') {
-                    $route = route('course.bahan', ['id' => $item->mata_id, 'bahanId' => $item->id, 'tipe' => 'conference']);
-                } elseif ($item->type($item)['tipe'] == 'quiz') {
-                    $route = route('course.bahan', ['id' => $item->mata_id, 'bahanId' => $item->id, 'tipe' => 'quiz']);
-                } elseif ($item->type($item)['tipe'] == 'scorm') {
-                    $route = route('course.bahan', ['id' => $item->mata_id, 'bahanId' => $item->id, 'tipe' => 'scorm']);
-                } elseif ($item->type($item)['tipe'] == 'audio') {
-                    $route = route('course.bahan', ['id' => $item->mata_id, 'bahanId' => $item->id, 'tipe' => 'audio']);
-                } elseif ($item->type($item)['tipe'] == 'video') {
-                    $route = route('course.bahan', ['id' => $item->mata_id, 'bahanId' => $item->id, 'tipe' => 'video']);
-                } elseif ($item->type($item)['tipe'] == 'tugas') {
-                    $route = route('course.bahan', ['id' => $item->mata_id, 'bahanId' => $item->id, 'tipe' => 'tugas']);
-                } else {
-                    $route = 'javascript:;';
-                }
-            @endphp
-            <a href="{{ $route }}" class="text-body text-big font-weight-semibold" title="{!! $item->judul !!}">{!! Str::limit($item->judul, 80) !!}</a>
+            <a href="{{ route('course.bahan', ['id' => $item->mata_id, 'bahanId' => $item->id, 'tipe' => $item->type($item)['tipe']]) }}" class="text-body text-big font-weight-semibold" title="{!! $item->judul !!}">{!! Str::limit($item->judul, 80) !!}</a>
           </div>
 
           @if (!$data['hasRole'] || $data['hasRole'] && $item->creator_id == auth()->user()->id)
@@ -83,11 +62,9 @@
             </button>
             <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; will-change: top, left; top: 26px; left: 26px;">
               @if ($item->type($item)['tipe'] == 'quiz')
-              @if (!$data['hasRole'] || $data['hasRole'] && $item->creator_id == auth()->user()->id)
               <a class="dropdown-item" href="{{ route('quiz.item', ['id' => $item->quiz->id]) }}" title="klik untuk melihat soal">
                 <i class="las la-list-ol"></i> Soal
               </a>
-              @endif
               @endif
               <a class="dropdown-item" href="{{ route('bahan.edit', ['id' => $item->materi_id, 'bahanId' => $item->id, 'type' => $item->type($item)['tipe']]) }}" title="klik untuk mengedit materi pelatihan">
                 <i class="las la-pen"></i> Edit
@@ -187,12 +164,11 @@
                 <tr>
                     <th>Action</th>
                     <td>
-                        @if ($item->type($item)['tipe'] == 'quiz')
                         @if (!$data['hasRole'] || $data['hasRole'] && $item->creator_id == auth()->user()->id)
+                        @if ($item->type($item)['tipe'] == 'quiz')
                         <a class="btn btn-success icon-btn btn-sm" href="{{ route('quiz.item', ['id' => $item->quiz->id]) }}" title="klik untuk melihat soal">
                           <i class="las la-list-ol"></i>
                         </a>
-                        @endif
                         @endif
                         <a class="btn btn-info icon-btn btn-sm" href="{{ route('bahan.edit', ['id' => $item->materi_id, 'bahanId' => $item->id, 'type' => $item->type($item)['tipe']]) }}" title="klik untuk mengedit bahan pelatihan">
                           <i class="las la-pen"></i>
@@ -207,7 +183,8 @@
                               @method('PUT')
                           </form>
                         </a>
-                        <a class="btn btn-primary icon-btn btn-sm" href="{{ $route }}" title="klik untuk melihat preview">
+                        @endif
+                        <a class="btn btn-primary icon-btn btn-sm" href="{{ route('course.bahan', ['id' => $item->mata_id, 'bahanId' => $item->id, 'tipe' => $item->type($item)['tipe']]) }}" title="klik untuk melihat preview">
                             <i class="las la-external-link-alt"></i>
                         </a>
                     </td>

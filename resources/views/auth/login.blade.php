@@ -8,7 +8,7 @@
     </div>
 </div>
 <div class="item-signbox form">
-    @include('components.alert')
+    {{-- @include('components.alert') --}}
     <form action="{{ route('login') }}" method="POST">
         @csrf
         <div class="form-group">

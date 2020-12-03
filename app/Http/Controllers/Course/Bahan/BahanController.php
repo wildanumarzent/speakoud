@@ -94,7 +94,6 @@ class BahanController extends Controller
             }
         }
 
-
         if ($tipe == 'forum') {
             $data['topik'] = $this->serviceBahanForum->getTopikList($data['bahan']->forum->id);
         }
@@ -124,6 +123,9 @@ class BahanController extends Controller
 
         $this->serviceProgram->checkInstruktur($data['mata']->program_id);
         $this->serviceProgram->checkPeserta($data['mata']->program_id);
+        if ($this->serviceMata->checkUser($mataId) == 0) {
+            return back()->with('warning', 'anda tidak terdaftar di course '.$data['mata']->judul.'');
+        }
 
         return view('frontend.course.bahan.'.$tipe, compact('data'), [
             'title' => 'Course - Bahan',

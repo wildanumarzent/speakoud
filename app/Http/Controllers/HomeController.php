@@ -57,4 +57,14 @@ class HomeController extends Controller
             'title' => 'Dashboard',
         ]);
     }
+
+    public function denide()
+    {
+        return view('components.errors.denide', [
+            'title' => 'Access Denide',
+            'breadcrumbsFrontend' => [
+                'Acccss Denide' => '',
+            ],
+        ]);
+    }
 }

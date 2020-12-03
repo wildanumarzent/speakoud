@@ -161,6 +161,9 @@ class MataController extends Controller
 
         $this->serviceProgram->checkInstruktur($data['read']->program_id);
         $this->serviceProgram->checkPeserta($data['read']->program_id);
+        if ($this->service->checkUser($id) == 0) {
+            return back()->with('warning', 'anda tidak terdaftar di course '.$data['read']->judul.'');
+        }
 
         return view('frontend.course.detail', compact('data'), [
             'title' => $data['read']->judul,
@@ -174,7 +177,6 @@ class MataController extends Controller
     public function create($programId)
     {
         $data['program'] = $this->serviceProgram->findProgram($programId);
-        $data['instruktur'] = $this->serviceInstruktur->getInstrukturForMata($data['program']->tipe);
 
         $this->serviceProgram->checkInstruktur($programId);
 
@@ -328,19 +330,19 @@ class MataController extends Controller
     {
         $delete = $this->service->deletePeserta($mataId, $id);
 
-        // if ($delete == false) {
-        //     return response()->json([
-        //         'success' => 0,
-        //         'message' => 'Peserta pelatihan gagal dihapus dikarenakan'.
-        //                     ' masih memiliki bahan pelatihan'
-        //     ], 200);
-        // } else {
+        if ($delete == false) {
+            return response()->json([
+                'success' => 0,
+                'message' => 'Peserta pelatihan gagal dihapus dikarenakan'.
+                            ' masih memiliki bahan pelatihan'
+            ], 200);
+        } else {
 
             return response()->json([
                 'success' => 1,
                 'message' => ''
             ], 200);
-        // }
+        }
     }
 
     public function checkCreator($id)

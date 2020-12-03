@@ -19,6 +19,8 @@ class CreateBahanTugasResponTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->text('keterangan');
             $table->json('files')->nullable();
+            $table->boolean('approval')->nullable();
+            $table->timestamp('approval_time')->nullable();
             $table->timestamps();
 
             $table->foreign('tugas_id')->references('id')->on('bahan_tugas')
