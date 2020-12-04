@@ -4,6 +4,6 @@ return [
     'sso' => [],
     'conference' => [],
     'evaluasi' => [
-        'link' => '',
+        'end_point' => 'https://perekayasa.bppt.go.id/evaluasi-online/rest',
     ],
 ];

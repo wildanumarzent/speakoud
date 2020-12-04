@@ -47,9 +47,9 @@
     <div class="card-header with-elements">
         <h5 class="card-header-title mt-1 mb-0">Peserta List</h5>
         <div class="card-header-elements ml-auto">
-            <button type="button" class="btn btn-success icon-btn-only-sm" data-toggle="modal" data-target="#modals-import-peserta" title="klik untuk import peserta ke program">
+            {{-- <button type="button" class="btn btn-success icon-btn-only-sm" data-toggle="modal" data-target="#modals-import-peserta" title="klik untuk import peserta ke program">
                 <i class="las la-file-import"></i> <span>Import</span>
-            </button>
+            </button> --}}
             <button type="button" class="btn btn-primary icon-btn-only-sm" data-toggle="modal" data-target="#modals-add-peserta" title="klik untuk menambahkan peserta ke program">
                 <i class="las la-plus"></i> <span>Tambah</span>
             </button>

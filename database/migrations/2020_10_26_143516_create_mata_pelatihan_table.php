@@ -18,6 +18,7 @@ class CreateMataPelatihanTable extends Migration
             $table->unsignedBigInteger('program_id');
             $table->unsignedBigInteger('creator_id');
             $table->string('judul');
+            $table->string('kode_evaluasi')->nullable();
             $table->text('intro')->nullable();
             $table->text('content')->nullable();
             $table->json('cover')->nullable();

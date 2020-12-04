@@ -2,29 +2,33 @@
 
 namespace App\Services\Course;
 
+use App\Models\Course\ApiEvaluasi;
 use App\Models\Course\MataInstruktur;
 use App\Models\Course\MataPelatihan;
 use App\Models\Course\MataPeserta;
 use App\Models\Course\MataRating;
 use App\Services\Component\KomentarService;
+use App\Services\Users\PesertaService;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
 class MataService
 {
-    private $model, $modelInstruktur, $modelPeserta, $komentar;
+    private $model, $modelInstruktur, $modelPeserta, $komentar, $peserta;
 
     public function __construct(
         MataPelatihan $model,
         MataInstruktur $modelInstruktur,
         MataPeserta $modelPeserta,
-        KomentarService $komentar
+        KomentarService $komentar,
+        PesertaService $peserta
     )
     {
         $this->model = $model;
         $this->modelInstruktur = $modelInstruktur;
         $this->modelPeserta = $modelPeserta;
         $this->komentar = $komentar;
+        $this->peserta = $peserta;
     }
 
     public function getAllMata()
@@ -147,6 +151,7 @@ class MataService
         $mata = new MataPelatihan($request->only(['judul']));
         $mata->program_id = $programId;
         $mata->creator_id = auth()->user()->id;
+        $mata->kode_evaluasi = $request->kode_evaluasi ?? null;
         $mata->intro = $request->intro ?? null;
         $mata->content = $request->content ?? null;
         $mata->cover = [
@@ -178,12 +183,44 @@ class MataService
 
     public function storePeserta($request, int $mataId)
     {
+        $mata = $this->findMata($mataId);
+
         $collectPeserta = collect($request->peserta_id);
         foreach ($collectPeserta->all() as $key => $value) {
             $peserta = new MataPeserta;
             $peserta->mata_id = $mataId;
             $peserta->peserta_id = $value;
             $peserta->save();
+
+            // if (!empty($mata->kode_evaluasi)) {
+            //     $peserta = $this->peserta->findPeserta($value);
+            //     $client = new \GuzzleHttp\Client();
+            //     $url = config('addon.api.evaluasi.end_point').'/register/'.$mata->kode_evaluasi;
+            //     $parameter = [
+            //         'nama' => $peserta->user->name,
+            //         'kode_peserta' => $peserta->nip,
+            //         'email' => $peserta->user->email,
+            //         'kode_instansi' => '15017',
+            //         'unit_kerja' => $peserta->unit_kerja,
+            //         'deputi' => $peserta->kedeputian,
+            //     ];
+            //     $response = $client->request('POST', $url, [
+            //         'form_params' => $parameter,
+            //     ]);
+
+            //     $data = $response->getBody()->getContents();
+            //     $json = json_decode($data);
+
+            //     $api = new ApiEvaluasi;
+            //     $api->mata_id = $mataId;
+            //     $api->user_id = $peserta->user_id;
+            //     $api->token = $json->data->token;
+            //     $api->evaluasi = $json->data->evaluasi;
+            //     $api->waktu_mulai = $json->data->evaluasi->waktu_mulai;
+            //     $api->waktu_selesai = $json->data->evaluasi->waktu_selesai;
+            //     $api->lama_jawab = $json->data->evaluasi->lama_jawab;
+            //     $api->save();
+            // }
         }
     }
 
@@ -198,6 +235,7 @@ class MataService
 
         $mata = $this->findMata($id);
         $mata->fill($request->only(['judul']));
+        $mata->kode_evaluasi = $request->kode_evaluasi ?? null;
         $mata->intro = $request->intro ?? null;
         $mata->content = $request->content ?? null;
         $mata->cover = [

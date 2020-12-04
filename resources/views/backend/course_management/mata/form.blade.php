@@ -31,6 +31,16 @@
             </div>
             <div class="form-group row">
                 <div class="col-md-2 text-md-right">
+                  <label class="col-form-label text-sm-right">Kode Evaluasi</label>
+                </div>
+                <div class="col-md-10">
+                  <input type="text" class="form-control @error('kode_evaluasi') is-invalid @enderror" name="kode_evaluasi"
+                    value="{{ (isset($data['mata'])) ? old('kode_evaluasi', $data['mata']->kode_evaluasi) : old('kode_evaluasi') }}" placeholder="masukan kode evaluasi...">
+                  @include('components.field-error', ['field' => 'kode_evaluasi'])
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-2 text-md-right">
                   <label class="col-form-label text-sm-right">Status</label>
                 </div>
                 <div class="col-md-10">

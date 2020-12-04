@@ -92,13 +92,13 @@ class ArtikelService
         $artikel->save();
 
         $this->tags->store($request, $artikel);
-        if($request->publish == 1){
-        $this->notifikasi->make($model = $artikel,
-                                $title = 'New Article - '.$artikel['judul'],
-                                $description = $artikel->intro,
-                                $special = '',
-                                $to = '');
-        }
+        // if($request->publish == 1){
+        // $this->notifikasi->make($model = $artikel,
+        //                         $title = 'New Article - '.$artikel['judul'],
+        //                         $description = $artikel->intro,
+        //                         $special = '',
+        //                         $to = '');
+        // }
         return $artikel;
 
     }
@@ -143,15 +143,15 @@ class ArtikelService
     public function statusArtikel(int $id)
     {
         $artikel = $this->findArtikel($id);
-        if($artikel->status == 0){
-            $this->notifikasi->make($model = $artikel,
-            $title = 'New Announcement - '.$artikel['title'],
-            $description = $artikel->sub_content,
-            $special = '',
-            $to = '');
-            }else{
-                 $this->notifikasi->destroy($artikel);
-            }
+        // if($artikel->status == 0){
+        //     $this->notifikasi->make($model = $artikel,
+        //     $title = 'New Announcement - '.$artikel['title'],
+        //     $description = $artikel->sub_content,
+        //     $special = '',
+        //     $to = '');
+        //     }else{
+        //          $this->notifikasi->destroy($artikel);
+        //     }
         $artikel->publish = !$artikel->publish;
         $artikel->save();
 
@@ -178,7 +178,7 @@ class ArtikelService
         if ($artikel->tags()->count() > 0) {
             $artikel->tags()->delete();
         }
-         $this->notifikasi->destroy($artikel);
+        //  $this->notifikasi->destroy($artikel);
         $artikel->delete();
         return $artikel;
     }

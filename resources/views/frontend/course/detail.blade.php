@@ -118,6 +118,41 @@
               </div>
             </div>
             @endforeach
+            @if (!empty($data['read']->kode_evaluasi))
+            <div class="card mb-2">
+                <div class="card-header">
+                  <a class="collapsed text-body" data-toggle="collapse" href="#evaluasi">
+                      <i class="las la-thumbtack"></i> Form Evaluasi
+                  </a>
+                </div>
+                <div id="evaluasi" class="collapse" data-parent="#accordion">
+                    <div class="card-body">
+                        <ul class="list-group list-group-flush mt-2">
+                            <li class="list-group-item py-4">
+                                <div class="media flex-wrap">
+                                  <div class="d-none d-sm-block ui-w-120 text-center">
+                                      <i class="las la-edit mr-2" style="font-size: 4em;"></i>
+                                  </div>
+                                  <div class="media-body ml-sm-2">
+                                    <h5 class="mb-2">
+                                      {{-- <div class="float-right font-weight-semibold ml-3"><i class="las la-stop text-danger" style="font-size: 2em;" title="anda belum mengakses materi ini"></i></div> --}}
+                                      <a href="" class="text-body">Evaluasi Pelatihan</a>&nbsp;
+                                    </h5>
+                                    <div class="d-flex flex-wrap align-items-center mb-2">
+                                      {{-- <div class="text-muted small">
+                                        <i class="las la-calendar text-primary"></i>
+                                        <span></span>
+                                      </div> --}}
+                                    </div>
+                                    <div>SiEViTA: Evaluasi Online</div>
+                                  </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            @endif
         </div>
     </div>
     <div class="col-md-4 col-xl-3">

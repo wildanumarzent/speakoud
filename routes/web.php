@@ -819,7 +819,6 @@ Route::group(['middleware' => ['auth']], function () {
         ->name('logout');
 });
 
-
 //stream file
 Route::get('/bank/data/view/{path}', 'BankDataController@streamFile')
         ->where('path', '^.*\.(jpg|JPG|jpeg|JPEG|png|PNG|pdf|PDF|ppt|PPT|pptx|PPTX|mp3|MP3|mp4|MP4|webm|WEBM|doc|DOC|docx|DOCX|xls|XLS|xlsx|XLSX|html)$')

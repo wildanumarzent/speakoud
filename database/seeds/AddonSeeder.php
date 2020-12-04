@@ -84,7 +84,23 @@ class AddonSeeder extends Seeder
             'instansi_id' => $instansiInternal->id,
             'nip' => '201828010014',
             'kedeputian' => 'BPTT',
-            'pangkat' => 'Kepala BELS'
+            'pangkat' => 'Kepala BELS',
+            'sk_cpns' => [
+                'file' => null,
+                'keterangan' => null,
+            ],
+            'sk_pengangkatan' => [
+                'file' => null,
+                'keterangan' => null,
+            ],
+            'sk_golongan' => [
+                'file' => null,
+                'keterangan' => null,
+            ],
+            'sk_jabatan' => [
+                'file' => null,
+                'keterangan' => null,
+            ],
         ]);
 
         #-- mitra
@@ -136,7 +152,23 @@ class AddonSeeder extends Seeder
             'instansi_id' => $instansiMitra->id,
             'nip' => '201828010014',
             'kedeputian' => 'CAA',
-            'pangkat' => 'Kepala CAA'
+            'pangkat' => 'Kepala CAA',
+            'sk_cpns' => [
+                'file' => null,
+                'keterangan' => null,
+            ],
+            'sk_pengangkatan' => [
+                'file' => null,
+                'keterangan' => null,
+            ],
+            'sk_golongan' => [
+                'file' => null,
+                'keterangan' => null,
+            ],
+            'sk_jabatan' => [
+                'file' => null,
+                'keterangan' => null,
+            ],
         ]);
 
         #-- instruktur
@@ -188,7 +220,23 @@ class AddonSeeder extends Seeder
             'nip' => '201828010014',
             'unit_kerja' => 'BPPT',
             'kedeputian' => 'BPPT',
-            'pangkat' => 'Pengajar'
+            'pangkat' => 'Pengajar',
+            'sk_cpns' => [
+                'file' => null,
+                'keterangan' => null,
+            ],
+            'sk_pengangkatan' => [
+                'file' => null,
+                'keterangan' => null,
+            ],
+            'sk_golongan' => [
+                'file' => null,
+                'keterangan' => null,
+            ],
+            'sk_jabatan' => [
+                'file' => null,
+                'keterangan' => null,
+            ],
         ]);
 
         #-- peserta
@@ -240,7 +288,27 @@ class AddonSeeder extends Seeder
             'nip' => '201828010014',
             'unit_kerja' => 'BPPT',
             'kedeputian' => 'BPPT',
-            'pangkat' => 'Peserta'
+            'pangkat' => 'Peserta',
+            'sk_cpns' => [
+                'file' => null,
+                'keterangan' => null,
+            ],
+            'sk_pengangkatan' => [
+                'file' => null,
+                'keterangan' => null,
+            ],
+            'sk_golongan' => [
+                'file' => null,
+                'keterangan' => null,
+            ],
+            'sk_jabatan' => [
+                'file' => null,
+                'keterangan' => null,
+            ],
+            'surat_ijin_atasan' => [
+                'file' => null,
+                'keterangan' => null,
+            ],
         ]);
     }
 }

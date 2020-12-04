@@ -206,12 +206,6 @@
                   <div>@lang('layout.menu.management_course.kalender')</div>
                 </a>
             </li>
-            <!-- evaluasi -->
-            <li class="sidenav-item{{ (Request::is('evaluasi*')) ? ' active' : '' }}">
-                <a href="{{ route('evaluasi.index') }}" class="sidenav-link" title="@lang('layout.menu.management_course.evaluasi')">
-                  <div>@lang('layout.menu.management_course.evaluasi')</div>
-                </a>
-            </li>
           </ul>
         </li>
         @endrole

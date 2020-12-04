@@ -161,8 +161,10 @@ class MataController extends Controller
 
         $this->serviceProgram->checkInstruktur($data['read']->program_id);
         $this->serviceProgram->checkPeserta($data['read']->program_id);
-        if ($this->service->checkUser($id) == 0) {
-            return back()->with('warning', 'anda tidak terdaftar di course '.$data['read']->judul.'');
+        if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra|peserta_internal|peserta_mitra')) {
+            if ($this->service->checkUser($id) == 0) {
+                return back()->with('warning', 'anda tidak terdaftar di course '.$data['read']->judul.'');
+            }
         }
 
         return view('frontend.course.detail', compact('data'), [
