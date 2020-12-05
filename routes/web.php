@@ -160,6 +160,14 @@ Route::get('/tugas/{id}/peserta', 'Course\Bahan\BahanTugasController@peserta')
     ->name('tugas.peserta')
     ->middleware(['auth', 'role:administrator|internal|mitra|instruktur_internal|instruktur_mitra']);
 
+//evaluasi
+Route::get('/course/{id}/evaluasi', 'Course\EvaluasiController@form')
+    ->name('evaluasi.form')
+    ->middleware('role:peserta_internal|peserta_mitra');
+Route::post('/course/{id}/evaluasi', 'Course\EvaluasiController@submit')
+    ->name('evaluasi.submit')
+    ->middleware('role:peserta_internal|peserta_mitra');
+
 /**
  * authentication
  */
@@ -360,23 +368,24 @@ Route::group(['middleware' => ['auth']], function () {
         ->middleware('role:developer|administrator');
 
     //--- grades management
-    Route::get('/grades/letter', 'Grades\GradesLetterController@index')
-        ->name('grades.letter')
+    //kategori
+    Route::get('/grades', 'Grades\GradesKategoriController@index')
+        ->name('grades.index')
         ->middleware('role:developer|administrator');
-    Route::get('/grades/letter/create', 'Grades\GradesLetterController@create')
-        ->name('grades.letter.create')
+    Route::get('/grades/create', 'Grades\GradesKategoriController@create')
+        ->name('grades.create')
         ->middleware('role:developer|administrator');
-    Route::post('/grades/letter', 'Grades\GradesLetterController@store')
-        ->name('grades.letter.store')
+    Route::post('/grades', 'Grades\GradesKategoriController@store')
+        ->name('grades.store')
         ->middleware('role:developer|administrator');
-    Route::get('/grades/letter/{id}/edit', 'Grades\GradesLetterController@edit')
-        ->name('grades.letter.edit')
+    Route::get('/grades/{id}/edit', 'Grades\GradesKategoriController@edit')
+        ->name('grades.edit')
         ->middleware('role:developer|administrator');
-    Route::put('/grades/letter/{id}', 'Grades\GradesLetterController@update')
-        ->name('grades.letter.update')
+    Route::put('/grades/{id}', 'Grades\GradesKategoriController@update')
+        ->name('grades.update')
         ->middleware('role:developer|administrator');
-    Route::delete('/grades/letter/{id}', 'Grades\GradesLetterController@destroy')
-        ->name('grades.letter.destroy')
+    Route::delete('/grades/{id}', 'Grades\GradesKategoriController@destroy')
+        ->name('grades.destroy')
         ->middleware('role:developer|administrator');
 
     /**bank data */

@@ -1,7 +1,6 @@
 @extends('layouts.backend.layout')
 
 @section('styles')
-<link rel="stylesheet" href="{{ asset('assets/tmplts_backend/fancybox/fancybox.min.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/sweetalert2/sweetalert2.css') }}">
 @endsection
 
@@ -42,7 +41,7 @@
             <thead>
                 <tr>
                     <th style="width: 10px;">No</th>
-                    <th>Logo</th>
+                    <th>Kode Instansi</th>
                     <th>Nama Instansi</th>
                     <th>Telpon</th>
                     <th>Fax</th>
@@ -73,11 +72,7 @@
                 @foreach ($data['instansi'] as $item)
                 <tr>
                     <td>{{ $data['number']++ }}</td>
-                    <td>
-                        <a href="{{ $item->getLogo($item->logo) }}" data-fancybox="gallery">
-                            <img src="{{ $item->getLogo($item->logo) }}" class="d-block ui-w-80">
-                        </a>
-                    </td>
+                    <td>{{ $item->kode_instansi ?? '-' }}</td>
                     <td>{{ $item->nama_instansi }}</td>
                     <td>{{ $item->telpon ?? '-' }}</td>
                     <td>{{ $item->fax ?? '-' }}</td>
@@ -118,6 +113,10 @@
                     <td>
                         <div class="card">
                             <div class="card-body">
+                                <div class="item-table">
+                                    <div class="data-table">Kode Instansi</div>
+                                    <div class="desc-table">{{ $item->kode_instansi ?? '-' }}</div>
+                                </div>
                                 <div class="item-table">
                                     <div class="data-table">Nama Instansi</div>
                                     <div class="desc-table">{{ $item->nama_instansi }}</div>
@@ -176,7 +175,6 @@
 @endsection
 
 @section('scripts')
-<script src="{{ asset('assets/tmplts_backend/fancybox/fancybox.min.js') }}"></script>
 <script src="{{ asset('assets/tmplts_backend/vendor/libs/sweetalert2/sweetalert2.js') }}"></script>
 @endsection
 

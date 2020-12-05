@@ -22,6 +22,8 @@ class CreateApiEvaluasiTable extends Migration
             $table->timestamp('waktu_mulai')->nullable();
             $table->timestamp('waktu_selesai')->nullable();
             $table->integer('lama_jawab')->nullable();
+            $table->timestamp('start_time')->nullable();
+            $table->boolean('is_complete')->default(0);
             $table->timestamps();
 
             $table->foreign('mata_id')->references('id')->on('mata_pelatihan')

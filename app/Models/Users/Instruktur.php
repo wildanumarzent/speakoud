@@ -2,6 +2,8 @@
 
 namespace App\Models\Users;
 
+use App\Models\Instansi\InstansiInternal;
+use App\Models\Instansi\InstansiMitra;
 use Illuminate\Database\Eloquent\Model;
 
 class Instruktur extends Model
@@ -24,5 +26,14 @@ class Instruktur extends Model
     public function creator()
     {
         return $this->belongsTo(User::class, 'creator_id');
+    }
+
+    public function instansi($item)
+    {
+        if ($item->user->hasRole('instruktur_internal')) {
+            return InstansiInternal::find($item->instansi_id);
+        } else {
+            return InstansiMitra::find($item->instansi_id);
+        }
     }
 }

@@ -17,6 +17,16 @@
         <div class="card-body">
             <div class="form-group row">
                 <div class="col-md-2 text-md-right">
+                  <label class="col-form-label text-sm-right">Kode Instansi</label>
+                </div>
+                <div class="col-md-10">
+                  <input type="text" class="form-control @error('kode_instansi') is-invalid @enderror" name="kode_instansi"
+                    value="{{ (isset($data['instansi'])) ? old('kode_instansi', $data['instansi']->kode_instansi) : old('kode_instansi') }}" placeholder="masukan kode instansi..." autofocus>
+                  @include('components.field-error', ['field' => 'kode_instansi'])
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-2 text-md-right">
                   <label class="col-form-label text-sm-right">Nama Instansi</label>
                 </div>
                 <div class="col-md-10">

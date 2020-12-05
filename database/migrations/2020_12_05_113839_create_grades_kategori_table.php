@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTipeNilaiTable extends Migration
+class CreateGradesKategoriTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,14 @@ class CreateTipeNilaiTable extends Migration
      */
     public function up()
     {
-        Schema::create('tipe_nilai', function (Blueprint $table) {
+        Schema::create('grades_kategori', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('creator_id');
-            $table->unsignedBigInteger('mata_id');
             $table->string('nama');
-            $table->integer('banyak_desimal');
+            $table->text('keterangan')->nullable();
             $table->timestamps();
 
             $table->foreign('creator_id')->references('id')->on('users')
-                ->cascadeOnDelete();
-            $table->foreign('mata_id')->references('id')->on('mata_pelatihan')
                 ->cascadeOnDelete();
         });
     }
@@ -35,6 +32,6 @@ class CreateTipeNilaiTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tipe_nilai');
+        Schema::dropIfExists('grades_kategori');
     }
 }

@@ -31,9 +31,19 @@
     <div class="card-header with-elements">
         <h5 class="card-header-title mt-1 mb-0">Peserta List</h5>
         <div class="card-header-elements ml-auto">
-            <a href="{{ route('peserta.create') }}" class="btn btn-primary icon-btn-only-sm" title="klik untuk menambah peserta" data-toggle="tooltip">
+            @role ('developer|administrator')
+            <div class="btn-group float-right dropdown ml-2">
+                <button type="button" class="btn btn-primary dropdown-toggle hide-arrow icon-btn-only-sm" data-toggle="dropdown" title="klik untuk menambah peserta"><i class="las la-plus"></i><span>Tambah</span></button>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a href="{{ route('peserta.create', ['peserta' => 'internal']) }}" class="dropdown-item" ><i class="las la-users"></i><span>Peserta Internal</span></a>
+                    <a href="{{ route('peserta.create', ['peserta' => 'mitra']) }}" class="dropdown-item" ><i class="las la-users"></i><span>Peserta Mitra</span></a>
+                </div>
+            </div>
+            @else
+            <a href="{{ route('peserta.create') }}" class="btn btn-primary icon-btn-only-sm" title="klik untuk menambah peserta">
                 <i class="las la-plus"></i><span>Tambah</span>
             </a>
+            @endrole
         </div>
     </div>
     <div class="table-responsive table-mobile-responsive">
@@ -45,7 +55,7 @@
                     <th>Nama</th>
                     <th>Unit Kerja</th>
                     <th>Kedeputian</th>
-                    <th>Pangkat</th>
+                    <th>Jabatan</th>
                     <th>Alamat</th>
                     <th style="width: 120px; text-align: center;">Tipe</th>
                     <th style="width: 200px;">Created</th>
@@ -74,7 +84,7 @@
                     <td>{{ $data['number']++ }}</td>
                     <td>{{ $item->nip ?? '-' }}</td>
                     <td>{{ $item->user->name }}</td>
-                    <td>{{ $item->unit_kerja ?? '-' }}</td>
+                    <td>{{ $item->instansi($item)->nama_instansi ?? '-' }}</td>
                     <td>{{ $item->kedeputian ?? '-' }}</td>
                     <td>{{ $item->pangkat ?? '-' }}</td>
                     <td>{{ $item->alamat ?? '-' }}</td>
@@ -125,14 +135,14 @@
                                 </div>
                                 <div class="item-table">
                                     <div class="data-table">Unit Kerja</div>
-                                    <div class="desc-table">{{ $item->unit_kerja ?? '-' }}</div>
+                                    <div class="desc-table">{{ $item->instansi($item)->nama_instansi ?? '-' }}<</div>
                                 </div>
                                 <div class="item-table">
                                     <div class="data-table">Kedeputian</div>
                                     <div class="desc-table">{{ $item->kedeputian ?? '-' }}</div>
                                 </div>
                                 <div class="item-table">
-                                    <div class="data-table">Pangkat</div>
+                                    <div class="data-table">Jabatan</div>
                                     <div class="desc-table">{{ $item->pangkat ?? '-' }}</div>
                                 </div>
                                 <div class="item-table">

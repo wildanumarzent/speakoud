@@ -3,9 +3,9 @@
 @section('content')
 <div class="card">
     <h6 class="card-header">
-      Form Kategori Soal
+      Form Grades
     </h6>
-    <form action="{{ !isset($data['kategori']) ? route('soal.kategori.store') : route('soal.kategori.update', ['id' => $data['kategori']->id]) }}" method="POST">
+    <form action="{{ !isset($data['kategori']) ? route('grades.store') : route('grades.update', ['id' => $data['kategori']->id]) }}" method="POST">
         @csrf
         @if (isset($data['kategori']))
             @method('PUT')
@@ -13,12 +13,12 @@
         <div class="card-body">
             <div class="form-group row">
                 <div class="col-md-2 text-md-right">
-                  <label class="col-form-label text-sm-right">Judul</label>
+                  <label class="col-form-label text-sm-right">Nama</label>
                 </div>
                 <div class="col-md-10">
-                  <input type="text" class="form-control @error('judul') is-invalid @enderror" name="judul"
-                    value="{{ (isset($data['kategori'])) ? old('judul', $data['kategori']->judul) : old('judul') }}" placeholder="masukan judul..." autofocus>
-                  @include('components.field-error', ['field' => 'judul'])
+                  <input type="text" class="form-control @error('nama') is-invalid @enderror" name="nama"
+                    value="{{ (isset($data['kategori'])) ? old('nama', $data['kategori']->nama) : old('nama') }}" placeholder="masukan nama..." autofocus>
+                  @include('components.field-error', ['field' => 'nama'])
                 </div>
             </div>
             <div class="form-group row">
@@ -34,7 +34,7 @@
         <div class="card-footer">
             <div class="row">
               <div class="col-md-10 ml-sm-auto text-md-left text-right">
-                <a href="{{ route('soal.kategori') }}" class="btn btn-danger" title="klik untuk kembali ke list" data-toggle="tooltip">Kembali</a>
+                <a href="{{ route('grades.index') }}" class="btn btn-danger" title="klik untuk kembali ke list" data-toggle="tooltip">Kembali</a>
                 <button type="submit" class="btn btn-primary" name="action" value="save" title="klik untuk menyimpan" data-toggle="tooltip">{{ isset($data['kategori']) ? 'Simpan perubahan' : 'Simpan' }}</button>
               </div>
             </div>

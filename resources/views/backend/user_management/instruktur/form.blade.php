@@ -13,7 +13,7 @@
         <a class="list-group-item list-group-item-action" data-toggle="list" href="#akun">Akun</a>
     </div>
     <div class="card-body">
-        <form action="{{ !isset($data['instruktur']) ? route('instruktur.store') : route('instruktur.update', ['id' => $data['instruktur']->id]) }}" method="POST">
+        <form action="{{ !isset($data['instruktur']) ? route('instruktur.store') : route('instruktur.update', ['id' => $data['instruktur']->id]) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @if (isset($data['instruktur']))
                 @method('PUT')
@@ -41,16 +41,61 @@
                           @include('components.field-error', ['field' => 'name'])
                         </div>
                     </div>
+                    @role ('developer|administrator')
+                    @if (!isset($data['instruktur']) && Request::get('instruktur') == 'mitra')
+                    <div class="form-group row" id="mitra">
+                        <div class="col-md-2 text-md-right">
+                          <label class="col-form-label text-sm-right">Mitra</label>
+                        </div>
+                        <div class="col-md-9">
+                          <select class="select2 show-tick @error('mitra_id') is-invalid @enderror" name="mitra_id" data-style="btn-default">
+                              <option value="" disabled selected>Pilih</option>
+                              @foreach ($data['mitra'] as $mitra)
+                              <option value="{{ $mitra->id }}" {{ old('mitra_id') == $mitra->id ? 'selected' : '' }}>{{ $mitra->instansi['nama_instansi'] }}</option>
+                              @endforeach
+                          </select>
+                          @error('mitra_id')
+                          <label class="error jquery-validation-error small form-text invalid-feedback" style="display: inline-block; color:red;">{!! $message !!}</label>
+                          @enderror
+                        </div>
+                        <div class="col-md-1">
+                            <a href="{{ route('mitra.create') }}" class="btn btn-primary icon-btn" title="klik untuk menambah mitra"><i class="las la-plus"></i></a>
+                        </div>
+                    </div>
+                    @endif
+                    @endrole
+                    @role ('mitra')
                     <div class="form-group row">
                         <div class="col-md-2 text-md-right">
                           <label class="col-form-label text-sm-right">Unit kerja / Instansi / Perusahaan</label>
                         </div>
                         <div class="col-md-10">
-                          <input type="text" class="form-control @error('unit_kerja') is-invalid @enderror" name="unit_kerja"
-                            value="{{ (isset($data['instruktur'])) ? old('unit_kerja', $data['instruktur']->unit_kerja) : old('unit_kerja') }}" placeholder="masukan unit kerja...">
-                          @include('components.field-error', ['field' => 'unit_kerja'])
+                          <input type="hidden" name="instansi_id" value="{{ auth()->user()->mitra->instansi_id }}">
+                          <input type="text" class="form-control" value="{{ auth()->user()->mitra->instansi->nama_instansi }}" readonly>
                         </div>
                     </div>
+                    @else
+                    <div class="form-group row">
+                        <div class="col-md-2 text-md-right">
+                          <label class="col-form-label text-sm-right">Unit kerja / Instansi / Perusahaan</label>
+                        </div>
+                        <div class="col-md-10">
+                            <div class="input-group">
+                                <select class="select2 show-tick @error('instansi_id') is-invalid @enderror" name="instansi_id" data-style="btn-default">
+                                    <option value=" " selected disabled>Pilih</option>
+                                    @foreach ($data['instansi'] as $instansi)
+                                    <option value="{{ $instansi->id }}" {{ isset($data['instruktur']) ? (old('instansi_id', $data['instruktur']->instansi_id) == $instansi->id ? 'selected' : '') : (old('instansi_id') == $instansi->id ? 'selected' : '') }}>
+                                        {{ $instansi->nama_instansi }}
+                                    </option>
+                                    @endforeach
+                                </select>
+                                @error('instansi_id')
+                                    <label class="error jquery-validation-error small form-text invalid-feedback" style="display: inline-block; color:red;">{!! $message !!}</label>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    @endrole
                     <div class="form-group row">
                         <div class="col-md-2 text-md-right">
                           <label class="col-form-label text-sm-right">Kedeputian</label>
@@ -63,11 +108,11 @@
                     </div>
                     <div class="form-group row">
                         <div class="col-md-2 text-md-right">
-                          <label class="col-form-label text-sm-right">Pangkat</label>
+                          <label class="col-form-label text-sm-right">Jabatan</label>
                         </div>
                         <div class="col-md-10">
                           <input type="text" class="form-control @error('pangkat') is-invalid @enderror" name="pangkat"
-                            value="{{ (isset($data['instruktur'])) ? old('pangkat', $data['instruktur']->pangkat) : old('pangkat') }}" placeholder="masukan pangkat...">
+                            value="{{ (isset($data['instruktur'])) ? old('pangkat', $data['instruktur']->pangkat) : old('pangkat') }}" placeholder="masukan jabatan...">
                           @include('components.field-error', ['field' => 'pangkat'])
                         </div>
                     </div>
@@ -186,40 +231,7 @@
                         </div>
                     </div>
                     @if (!isset($data['instruktur']) && auth()->user()->hasRole('developer|administrator'))
-                    <div class="form-group row">
-                        <div class="col-md-2 text-md-right">
-                          <label class="col-form-label text-sm-right">Roles</label>
-                        </div>
-                        <div class="col-md-10">
-                          <select id="select-role" class="selectpicker show-tick @error('roles') is-invalid @enderror" name="roles" data-style="btn-default">
-                              <option value="" disabled selected>Pilih</option>
-                              <option value="instruktur_internal" {{ old('roles') == 'instruktur_internal' ? 'selected' : '' }}>Instruktur Internal</option>
-                              <option value="instruktur_mitra" {{ old('roles') == 'instruktur_mitra' ? 'selected' : '' }}>Instruktur Mitra</option>
-                          </select>
-                          @error('roles')
-                          <label class="error jquery-validation-error small form-text invalid-feedback" style="display: inline-block; color:red;">{!! $message !!}</label>
-                          @enderror
-                        </div>
-                    </div>
-                    <div class="form-group row" id="mitra">
-                        <div class="col-md-2 text-md-right">
-                          <label class="col-form-label text-sm-right">Mitra</label>
-                        </div>
-                        <div class="col-md-9">
-                          <select class="select2 show-tick @error('mitra_id') is-invalid @enderror" name="mitra_id" data-style="btn-default">
-                              <option value="" disabled selected>Pilih</option>
-                              @foreach ($data['mitra'] as $mitra)
-                              <option value="{{ $mitra->id }}" {{ old('mitra_id') == $mitra->id ? 'selected' : '' }}>{{ $mitra->instansi['nama_instansi'] }}</option>
-                              @endforeach
-                          </select>
-                          @error('mitra_id')
-                          <label class="error jquery-validation-error small form-text invalid-feedback" style="display: inline-block; color:red;">{!! $message !!}</label>
-                          @enderror
-                        </div>
-                        <div class="col-md-1">
-                            <a href="{{ route('mitra.create') }}" class="btn btn-primary icon-btn" title="klik untuk menambah mitra"><i class="las la-plus"></i></a>
-                        </div>
-                    </div>
+                    <input type="hidden" name="roles" value="instruktur_{{ Request::get('instruktur') }}">
                     @endif
                     @if (!isset($data['instruktur']) && auth()->user()->hasRole('internal|mitra'))
                     <input type="hidden" name="roles" value="instruktur_{{ auth()->user()->roles[0]->name }}">
@@ -279,14 +291,14 @@
 <script>
 //select mitra
 $('.select2').select2();
-$('#mitra').hide();
-$('#select-role').change(function(){
-    if($('#select-role').val() == 'instruktur_mitra') {
-        $('#mitra').show();
-    } else {
-        $('#mitra').hide();
-    }
-});
+// $('#mitra').hide();
+// $('#select-role').change(function(){
+//     if($('#select-role').val() == 'instruktur_mitra') {
+//         $('#mitra').show();
+//     } else {
+//         $('#mitra').hide();
+//     }
+// });
 //show & hide password
 $(".toggle-password, .toggle-password-confirm").click(function() {
     $(this).toggleClass("fa-eye fa-eye-slash");

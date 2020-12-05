@@ -7,6 +7,7 @@ use App\Http\Requests\KomentarRequest;
 use App\Http\Requests\MataInstrukturRequest;
 use App\Http\Requests\MataPesertaRequest;
 use App\Http\Requests\MataRequest;
+use App\Services\Course\EvaluasiService;
 use App\Services\Course\MataService;
 use App\Services\Course\ProgramService;
 use App\Services\KonfigurasiService;
@@ -16,14 +17,16 @@ use Illuminate\Http\Request;
 
 class MataController extends Controller
 {
-    private $service, $serviceProgram, $serviceInstruktur, $servicePeserta, $serviceKonfig;
+    private $service, $serviceProgram, $serviceInstruktur, $servicePeserta, $serviceKonfig,
+        $serviceEvaluasi;
 
     public function __construct(
         MataService $service,
         ProgramService $serviceProgram,
         InstrukturService $serviceInstruktur,
         PesertaService $servicePeserta,
-        KonfigurasiService $serviceKonfig
+        KonfigurasiService $serviceKonfig,
+        EvaluasiService $serviceEvaluasi
     )
     {
         $this->service = $service;
@@ -31,6 +34,7 @@ class MataController extends Controller
         $this->serviceInstruktur = $serviceInstruktur;
         $this->servicePeserta = $servicePeserta;
         $this->serviceKonfig = $serviceKonfig;
+        $this->serviceEvaluasi = $serviceEvaluasi;
     }
 
     public function index(Request $request, $programId)
@@ -165,6 +169,10 @@ class MataController extends Controller
             if ($this->service->checkUser($id) == 0) {
                 return back()->with('warning', 'anda tidak terdaftar di course '.$data['read']->judul.'');
             }
+        }
+
+        if (!empty($data['read']->kode_evaluasi)) {
+            $data['preview'] = $this->serviceEvaluasi->previewSoal($id);
         }
 
         return view('frontend.course.detail', compact('data'), [

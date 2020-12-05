@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class GradesLetterRequest extends FormRequest
+class GradesKategoriRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,27 +24,21 @@ class GradesLetterRequest extends FormRequest
     public function rules()
     {
         return [
-            'nilai_minimum' => 'required',
-            'nilai_maksimum' => 'required',
-            'angka' => 'required',
+            'nama' => 'required',
         ];
     }
 
     public function attributes()
     {
         return [
-            'nilai_minimum' => 'Nilai Minimum',
-            'nilai_maksimum' => 'Nilai Maksimum',
-            'angka' => 'Angka',
+            'nama' => 'Nama',
         ];
     }
 
     public function messages()
     {
         return [
-            'nilai_minimum.required' => ':attribute tidak boleh kosong',
-            'nilai_maksimum.required' => ':attribute tidak boleh kosong',
-            'angka.required' => ':attribute tidak boleh kosong',
+            'nama.required' => ':attribute tidak boleh kosong',
         ];
     }
 }

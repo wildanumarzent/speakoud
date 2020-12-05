@@ -25,14 +25,14 @@ class InternalRequest extends FormRequest
     {
         if ($this->method() == 'POST') {
             return [
-                'nip' => 'required',
+                'nip' => 'required|max:191',
                 'instansi_id' => 'required',
-                'kedeputian' => 'required',
+                'kedeputian' => 'required|max:191',
                 // 'pangkat' => 'required',
                 // 'alamat' => 'required',
-                'name' => 'required',
-                'email' => 'required|email|unique:users,email',
-                'username' => 'required|min:5|unique:users,username',
+                'name' => 'required|max:191',
+                'email' => 'required|max:191|email|unique:users,email',
+                'username' => 'required|max:191|min:5|unique:users,username',
                 'roles' => 'required',
                 'password' => 'required|confirmed|min:8',
                 'sk_cpns' => 'nullable|mimes:'.config('addon.mimes.surat_keterangan.m'),
@@ -42,15 +42,15 @@ class InternalRequest extends FormRequest
             ];
         } else {
             return [
-                'nip' => 'required',
+                'nip' => 'required|max:191',
                 'instansi_id' => 'required',
-                'kedeputian' => 'required',
+                'kedeputian' => 'required|max:191',
                 // 'pangkat' => 'required',
                 // 'alamat' => 'required',
-                'name' => 'required',
-                'email' => 'required|email|unique:users,email,'.
+                'name' => 'required|max:191',
+                'email' => 'required|max:191|email|unique:users,email,'.
                             $this->user_id,
-                'username' => 'required|min:5|unique:users,username,'.
+                'username' => 'required|max:191|min:5|unique:users,username,'.
                             $this->user_id,
                 'password' => 'nullable|confirmed|min:8',
                 'sk_cpns' => 'nullable|mimes:'.config('addon.mimes.surat_keterangan.m'),
@@ -68,7 +68,7 @@ class InternalRequest extends FormRequest
             'nip' => 'NIP',
             'instansi_id' => 'Unit Kerja',
             'kedeputian' => 'Kedeputian',
-            'pangkat' => 'Pangkat',
+            'pangkat' => 'Jabatan',
             'alamat' => 'Alamat',
             'name' => 'Nama',
             'email' => 'Email',

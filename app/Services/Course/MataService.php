@@ -2,6 +2,7 @@
 
 namespace App\Services\Course;
 
+use App\Models\Course\ApiEvaluasi;
 use App\Models\Course\MataInstruktur;
 use App\Models\Course\MataPelatihan;
 use App\Models\Course\MataPeserta;
@@ -13,15 +14,14 @@ use Illuminate\Support\Str;
 
 class MataService
 {
-    private $model, $modelInstruktur, $modelPeserta, $komentar, $peserta, $evaluasi;
+    private $model, $modelInstruktur, $modelPeserta, $komentar, $peserta;
 
     public function __construct(
         MataPelatihan $model,
         MataInstruktur $modelInstruktur,
         MataPeserta $modelPeserta,
         KomentarService $komentar,
-        PesertaService $peserta,
-        EvaluasiService $evaluasi
+        PesertaService $peserta
     )
     {
         $this->model = $model;
@@ -29,7 +29,6 @@ class MataService
         $this->modelPeserta = $modelPeserta;
         $this->komentar = $komentar;
         $this->peserta = $peserta;
-        $this->evaluasi = $evaluasi;
     }
 
     public function getAllMata()
@@ -194,7 +193,35 @@ class MataService
             $peserta->save();
 
             if (!empty($mata->kode_evaluasi)) {
-                $this->evaluasi->registerPeserta($mataId, $value);
+                $peserta = $this->peserta->findPeserta($value);
+                $client = new \GuzzleHttp\Client();
+                $url = config('addon.api.evaluasi.end_point').'/register/'.$mata->kode_evaluasi;
+                $parameter = [
+                    'nama' => $peserta->user->name,
+                    'kode_peserta' => $peserta->nip,
+                    'email' => $peserta->user->email,
+                    'kode_instansi' => '15017',
+                    'unit_kerja' => $peserta->unit_kerja,
+                    'deputi' => $peserta->kedeputian,
+                ];
+                $response = $client->request('POST', $url, [
+                    'form_params' => $parameter,
+                ]);
+
+                $data = $response->getBody()->getContents();
+                $json = json_decode($data);
+
+                if ($json->success == true) {
+                    $api = new ApiEvaluasi;
+                    $api->mata_id = $mataId;
+                    $api->user_id = $peserta->user_id;
+                    $api->token = $json->data->token;
+                    $api->evaluasi = $json->data->evaluasi;
+                    $api->waktu_mulai = $json->data->evaluasi->waktu_mulai;
+                    $api->waktu_selesai = $json->data->evaluasi->waktu_selesai;
+                    $api->lama_jawab = $json->data->evaluasi->lama_jawab;
+                    $api->save();
+                }
             }
         }
     }

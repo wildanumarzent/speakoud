@@ -26,7 +26,7 @@ class CreateBankSoalTable extends Migration
             $table->timestamps();
 
             $table->foreign('creator_id')->references('id')->on('users')
-                ->onDelete('SET NULL');
+                ->cascadeOnDelete();
             $table->foreign('kategori_id')->references('id')
                 ->on('bank_soal_kategori')->cascadeOnDelete();
         });

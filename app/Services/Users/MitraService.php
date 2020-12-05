@@ -190,8 +190,8 @@ class MitraService
             Storage::disk('bank_data')->delete($mitra->sk_pengangkatan['file']);
         }
 
-        if (!empty($mitra->golongan['file'])) {
-            Storage::disk('bank_data')->delete($mitra->golongan['file']);
+        if (!empty($mitra->sk_golongan['file'])) {
+            Storage::disk('bank_data')->delete($mitra->sk_golongan['file']);
         }
 
         if (!empty($mitra->sk_jabatan['file'])) {

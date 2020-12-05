@@ -118,7 +118,7 @@
               </div>
             </div>
             @endforeach
-            @if (!empty($data['read']->kode_evaluasi))
+            @if (auth()->user()->hasRole('peserta_internal|peserta_mitra') && !empty($data['read']->kode_evaluasi))
             <div class="card mb-2">
                 <div class="card-header">
                   <a class="collapsed text-body" data-toggle="collapse" href="#evaluasi">
@@ -135,16 +135,16 @@
                                   </div>
                                   <div class="media-body ml-sm-2">
                                     <h5 class="mb-2">
-                                      {{-- <div class="float-right font-weight-semibold ml-3"><i class="las la-stop text-danger" style="font-size: 2em;" title="anda belum mengakses materi ini"></i></div> --}}
-                                      <a href="" class="text-body">Evaluasi Pelatihan</a>&nbsp;
+                                      <div class="float-right font-weight-semibold ml-3"><i class="las la-stop text-danger" style="font-size: 2em;" title="anda belum mengakses materi ini"></i></div>
+                                      <a href="{{ route('evaluasi.form', ['id' => $data['read']->id]) }}" class="text-body">{{ $data['preview']->nama }}</a>&nbsp;
                                     </h5>
                                     <div class="d-flex flex-wrap align-items-center mb-2">
-                                      {{-- <div class="text-muted small">
+                                      <div class="text-muted small">
                                         <i class="las la-calendar text-primary"></i>
-                                        <span></span>
-                                      </div> --}}
+                                        <span>{{ $data['preview']->waktu_mulai.' s/d '.$data['preview']->waktu_selesai }}</span>
+                                      </div>
                                     </div>
-                                    <div>SiEViTA: Evaluasi Online</div>
+                                    <div>Durasi pengerjaan : <span class="badge badge-warning"><i class="las la-clock"></i> {{ $data['preview']->lama_jawab.' Menit' }}</span></div>
                                   </div>
                                 </div>
                             </li>

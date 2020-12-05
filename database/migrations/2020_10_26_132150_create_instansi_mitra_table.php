@@ -16,6 +16,7 @@ class CreateInstansiMitraTable extends Migration
         Schema::create('instansi_mitra', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('creator_id');
+            $table->string('kode_instansi')->nullable();
             $table->string('nama_pimpinan');
             $table->string('nama_instansi');
             $table->string('jabatan');

@@ -79,11 +79,11 @@
                     </div>
                     <div class="form-group row">
                         <div class="col-md-2 text-md-right">
-                          <label class="col-form-label text-sm-right">Pangkat</label>
+                          <label class="col-form-label text-sm-right">Jabatan</label>
                         </div>
                         <div class="col-md-10">
                           <input type="text" class="form-control @error('pangkat') is-invalid @enderror" name="pangkat"
-                            value="{{ (isset($data['mitra'])) ? old('pangkat', $data['mitra']->pangkat) : old('pangkat') }}" placeholder="masukan pangkat...">
+                            value="{{ (isset($data['mitra'])) ? old('pangkat', $data['mitra']->pangkat) : old('pangkat') }}" placeholder="masukan Jabatan...">
                           @include('components.field-error', ['field' => 'pangkat'])
                         </div>
                     </div>

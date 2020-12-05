@@ -21,7 +21,8 @@ class InstansiInternalService
 
         $query->when($request->q, function ($query, $q) {
             $query->where(function ($query) use ($q) {
-                $query->where('nip_pimpinan', 'like', '%'.$q.'%')
+                $query->where('kode_instansi', 'like', '%'.$q.'%')
+                ->orWhere('nip_pimpinan', 'like', '%'.$q.'%')
                 ->orWhere('nama_pimpinan', 'like', '%'.$q.'%')
                 ->orWhere('nama_instansi', 'like', '%'.$q.'%')
                 ->orWhere('jabatan', 'like', '%'.$q.'%')
@@ -59,6 +60,7 @@ class InstansiInternalService
 
         $instansi = new InstansiInternal;
         $instansi->creator_id = auth()->user()->id;
+        $instansi->kode_instansi = $request->kode_instansi ?? null;
         $instansi->nip_pimpinan = $request->nip_pimpinan;
         $instansi->nama_pimpinan = $request->nama_pimpinan;
         $instansi->nama_instansi = $request->nama_instansi;
@@ -81,6 +83,7 @@ class InstansiInternalService
         }
 
         $instansi = $this->findInstansi($id);
+        $instansi->kode_instansi = $request->kode_instansi ?? null;
         $instansi->nip_pimpinan = $request->nip_pimpinan;
         $instansi->nama_pimpinan = $request->nama_pimpinan;
         $instansi->nama_instansi = $request->nama_instansi;

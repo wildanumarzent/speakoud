@@ -5,9 +5,9 @@ namespace App\Models\Grades;
 use App\Models\Users\User;
 use Illuminate\Database\Eloquent\Model;
 
-class PersenNilai extends Model
+class GradesKategori extends Model
 {
-    protected $table = 'persen_nilai';
+    protected $table = 'grades_kategori';
     protected $guarded = [];
 
     public function creator()

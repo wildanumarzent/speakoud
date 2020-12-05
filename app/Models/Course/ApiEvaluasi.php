@@ -14,6 +14,7 @@ class ApiEvaluasi extends Model
         'evaluasi' => 'array',
         'waktu_mulai' => 'datetime',
         'waktu_selesai' => 'datetime',
+        'start_time' => 'datetime',
     ];
 
     public function mata()
@@ -24,5 +25,10 @@ class ApiEvaluasi extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function scopeComplete($query)
+    {
+        return $query->where('is_complete', 1);
     }
 }

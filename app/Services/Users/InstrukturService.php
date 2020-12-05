@@ -30,7 +30,6 @@ class InstrukturService
         $query->when($request->q, function ($query, $q) {
             $query->where(function ($query) use ($q) {
                 $query->where('nip', 'like', '%'.$q.'%')
-                ->orWhere('unit_kerja', 'like', '%'.$q.'%')
                 ->orWhere('kedeputian', 'like', '%'.$q.'%')
                 ->orWhere('pangkat', 'like', '%'.$q.'%')
                 ->orWhere('alamat', 'like', '%'.$q.'%');
@@ -94,12 +93,18 @@ class InstrukturService
     {
         $user = $this->user->storeUser($request);
 
+        if (auth()->user()->hasRole('mitra')) {
+            $mitraId = auth()->user()->mitra->id;
+        } else {
+            $mitraId = $request->mitra_id;
+        }
+
         $instruktur = new Instruktur;
         $instruktur->user_id = $user->id;
         $instruktur->creator_id = auth()->user()->id;
-        $instruktur->mitra_id = $request->mitra_id ?? null;
+        $instruktur->mitra_id = $mitraId ?? null;
+        $instruktur->instansi_id = $request->instansi_id ?? null;
         $instruktur->nip = $request->nip ?? null;
-        $instruktur->unit_kerja = $request->unit_kerja ?? null;
         $instruktur->kedeputian = $request->kedeputian ?? null;
         $instruktur->pangkat = $request->pangkat ?? null;
         $instruktur->alamat = $request->alamat ?? null;
@@ -119,7 +124,7 @@ class InstrukturService
     {
         $instruktur = $this->findInstruktur($id);
         $instruktur->nip = $request->nip ?? null;
-        $instruktur->unit_kerja = $request->unit_kerja ?? null;
+        $instruktur->instansi_id = $request->instansi_id ?? null;
         $instruktur->kedeputian = $request->kedeputian ?? null;
         $instruktur->pangkat = $request->pangkat ?? null;
         $instruktur->alamat = $request->alamat ?? null;
@@ -222,8 +227,8 @@ class InstrukturService
             Storage::disk('bank_data')->delete($instruktur->sk_pengangkatan['file']);
         }
 
-        if (!empty($instruktur->golongan['file'])) {
-            Storage::disk('bank_data')->delete($instruktur->golongan['file']);
+        if (!empty($instruktur->sk_golongan['file'])) {
+            Storage::disk('bank_data')->delete($instruktur->sk_golongan['file']);
         }
 
         if (!empty($instruktur->sk_jabatan['file'])) {

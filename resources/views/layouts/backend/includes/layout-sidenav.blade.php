@@ -110,19 +110,10 @@
                 </li>
                 @role ('developer|administrator')
                 <!-- grades -->
-                <li class="sidenav-item{{ (Request::is('grades*')) ? ' active open' : '' }}">
-                    <a href="javascript:void(0)" class="sidenav-link sidenav-toggle" title="@lang('layout.menu.grades_management.title')">
+                <li class="sidenav-item{{ Request::is('grades*') ? ' active' : '' }}">
+                    <a href="{{ route('grades.index') }}" class="sidenav-link" title="@lang('layout.menu.grades_management.title')">
                       <div>@lang('layout.menu.grades_management.title')</div>
                     </a>
-
-                    <ul class="sidenav-menu">
-                        <!-- letter -->
-                        <li class="sidenav-item{{ Request::is('grades/letter*') ? ' active' : '' }}">
-                            <a href="{{ route('grades.letter') }}" class="sidenav-link" title="@lang('layout.menu.grades_management.letter')">
-                              <div>@lang('layout.menu.grades_management.letter')</div>
-                            </a>
-                        </li>
-                    </ul>
                 </li>
                 <!-- tags -->
                 <li class="sidenav-item{{ Request::is('tags*') ? ' active' : '' }}">

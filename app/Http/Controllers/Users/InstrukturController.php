@@ -4,21 +4,27 @@ namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\InstrukturRequest;
+use App\Services\Instansi\InstansiInternalService;
+use App\Services\Instansi\InstansiMitraService;
 use App\Services\Users\InstrukturService;
 use App\Services\Users\MitraService;
 use Illuminate\Http\Request;
 
 class InstrukturController extends Controller
 {
-    private $service, $serviceMitra;
+    private $service, $serviceMitra, $instansiInternal, $instansiMitra;
 
     public function __construct(
         InstrukturService $service,
-        MitraService $serviceMitra
+        MitraService $serviceMitra,
+        InstansiInternalService $instansiInternal,
+        InstansiMitraService $instansiMitra
     )
     {
         $this->service = $service;
         $this->serviceMitra = $serviceMitra;
+        $this->instansiInternal = $instansiInternal;
+        $this->instansiMitra = $instansiMitra;
     }
 
     public function index(Request $request)
@@ -40,9 +46,14 @@ class InstrukturController extends Controller
         ]);
     }
 
-    public function create()
+    public function create(Request $request)
     {
         $data['mitra'] = $this->serviceMitra->getMitraAll();
+        if (auth()->user()->hasRole('internal') || auth()->user()->hasRole('developer|administrator') && $request->get('instruktur') == 'internal') {
+            $data['instansi'] = $this->instansiInternal->getInstansi();
+        } elseif (auth()->user()->hasRole('mitra') || auth()->user()->hasRole('developer|administrator') && $request->get('instruktur') == 'mitra') {
+            $data['instansi'] = $this->instansiMitra->getInstansi();
+        }
 
         return view('backend.user_management.instruktur.form', compact('data'), [
             'title' => 'Instruktur - Tambah',
@@ -64,6 +75,11 @@ class InstrukturController extends Controller
     public function edit($id)
     {
         $data['instruktur'] = $this->service->findInstruktur($id);
+        if (empty($data['instruktur']->mitra_id)) {
+            $data['instansi'] = $this->instansiInternal->getInstansi();
+        } else {
+            $data['instansi'] = $this->instansiMitra->getInstansi();
+        }
 
         return view('backend.user_management.instruktur.form', compact('data'), [
             'title' => 'Instruktur - Edit',

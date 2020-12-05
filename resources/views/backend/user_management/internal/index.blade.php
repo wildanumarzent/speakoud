@@ -45,7 +45,7 @@
                     <th>Nama</th>
                     <th>Unit Kerja</th>
                     <th>Kedeputian</th>
-                    <th>Pangkat</th>
+                    <th>Jabatan</th>
                     <th>Alamat</th>
                     <th style="width: 200px;">Created</th>
                     <th style="width: 200px;">Updated</th>
@@ -128,7 +128,7 @@
                                     <div class="desc-table">{{ $item->kedeputian ?? '-' }}</div>
                                 </div>
                                 <div class="item-table">
-                                    <div class="data-table">Pangkat</div>
+                                    <div class="data-table">Jabatan</div>
                                     <div class="desc-table">{{ $item->pangkat ?? '-' }}</div>
                                 </div>
                                 <div class="item-table">

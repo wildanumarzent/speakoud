@@ -178,8 +178,8 @@ class InternalService
             Storage::disk('bank_data')->delete($internal->sk_pengangkatan['file']);
         }
 
-        if (!empty($internal->golongan['file'])) {
-            Storage::disk('bank_data')->delete($internal->golongan['file']);
+        if (!empty($internal->sk_golongan['file'])) {
+            Storage::disk('bank_data')->delete($internal->sk_golongan['file']);
         }
 
         if (!empty($internal->sk_jabatan['file'])) {

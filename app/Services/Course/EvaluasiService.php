@@ -17,21 +17,51 @@ class EvaluasiService
         $this->mata = $mata;
     }
 
-    public function registerPeserta(int $mataId, int $pesertaId)
+    public function previewSoal(int $mataId)
     {
         $mata = $this->mata->findMata($mataId);
 
-        $peserta = $this->peserta->findPeserta($pesertaId);
         $client = new \GuzzleHttp\Client();
-        $url = config('addon.api.evaluasi.end_point').'/register/'.$mata->kode_evaluasi;
+        $url = config('addon.api.evaluasi.end_point').'/preview/'.$mata->kode_evaluasi;
+        $response = $client->request('GET', $url, [
+
+        ]);
+
+        $data = $response->getBody()->getContents();
+        $json = json_decode($data);
+
+        return $json->data->evaluasi;
+    }
+
+    public function checkUser(int $mataId)
+    {
+        return $this->model->where('mata_id', $mataId)->where('user_id', auth()->user()->id);
+    }
+
+    public function recordUser(int $mataId)
+    {
+        $record = $this->checkUser($mataId)->update([
+                'start_time' => now(),
+            ]);
+
+        return $record;
+    }
+
+    public function submitAnswer($request, int $mataId)
+    {
+        $mata = $this->mata->findMata($mataId);
+        $token = $this->checkUser($mataId)->first();
+
+        $client = new \GuzzleHttp\Client();
+        $instrumen = [];
+        foreach ($request->instrumen as $key) {
+            $instrumen[$key] = $request->input('opsi-'.$key);
+        }
         $parameter = [
-            'nama' => $peserta->user->name,
-            'kode_peserta' => $peserta->nip,
-            'email' => $peserta->user->email,
-            'kode_instansi' => '15017',
-            'unit_kerja' => $peserta->unit_kerja,
-            'deputi' => $peserta->kedeputian,
+            'token' => $token->token,
+            'instrumen' => $instrumen
         ];
+        $url = config('addon.api.evaluasi.end_point').'/submit-answers/'.$mata->kode_evaluasi;
         $response = $client->request('POST', $url, [
             'form_params' => $parameter,
         ]);
@@ -39,16 +69,10 @@ class EvaluasiService
         $data = $response->getBody()->getContents();
         $json = json_decode($data);
 
-        $api = new ApiEvaluasi;
-        $api->mata_id = $mataId;
-        $api->user_id = $peserta->user_id;
-        $api->token = $json->data->token;
-        $api->evaluasi = $json->data->evaluasi;
-        $api->waktu_mulai = $json->data->evaluasi->waktu_mulai;
-        $api->waktu_selesai = $json->data->evaluasi->waktu_selesai;
-        $api->lama_jawab = $json->data->evaluasi->lama_jawab;
-        $api->save();
-
-        return $api;
+        if ($json->success == true) {
+            $record = $this->checkUser($mataId)->update([
+                'is_complete' => 1,
+            ]);
+        }
     }
 }

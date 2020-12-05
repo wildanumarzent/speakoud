@@ -26,14 +26,14 @@ class PesertaRequest extends FormRequest
         if ($this->method() == 'POST') {
             if (auth()->user()->hasRole('developer|administrator') && $this->roles == 'instruktur_mitra') {
                 return [
-                    'nip' => 'required',
-                    'unit_kerja' => 'required',
-                    'kedeputian' => 'required',
+                    'nip' => 'required|max:191',
+                    'instansi_id' => 'required|max:191',
+                    'kedeputian' => 'required|max:191',
                     // 'pangkat' => 'required',
                     // 'alamat' => 'required',
-                    'name' => 'required',
-                    'email' => 'required|email|unique:users,email',
-                    'username' => 'required|min:5|unique:users,username',
+                    'name' => 'required|max:191',
+                    'email' => 'required|max:191|email|unique:users,email',
+                    'username' => 'required|max:191|min:5|unique:users,username',
                     'roles' => 'required',
                     'mitra_id' => 'required',
                     'password' => 'required|confirmed|min:8',
@@ -45,14 +45,14 @@ class PesertaRequest extends FormRequest
                 ];
             } else {
                 return [
-                    'nip' => 'required',
-                    'unit_kerja' => 'required',
-                    'kedeputian' => 'required',
+                    'nip' => 'required|max:191',
+                    'instansi_id' => 'required',
+                    'kedeputian' => 'required|max:191',
                     // 'pangkat' => 'required',
                     // 'alamat' => 'required',
-                    'name' => 'required',
-                    'email' => 'required|email|unique:users,email',
-                    'username' => 'required|min:5|unique:users,username',
+                    'name' => 'required|max:191',
+                    'email' => 'required|max:191|email|unique:users,email',
+                    'username' => 'required|max:191|min:5|unique:users,username',
                     'roles' => 'required',
                     'password' => 'required|confirmed|min:8',
                     'sk_cpns' => 'nullable|mimes:'.config('addon.mimes.surat_keterangan.m'),
@@ -64,15 +64,15 @@ class PesertaRequest extends FormRequest
             }
         } else {
             return [
-                'nip' => 'required',
-                'unit_kerja' => 'required',
-                'kedeputian' => 'required',
+                'nip' => 'required|max:191',
+                'instansi_id' => 'required',
+                'kedeputian' => 'required|max:191',
                 // 'pangkat' => 'required',
                 // 'alamat' => 'required',
-                'name' => 'required',
-                'email' => 'required|email|unique:users,email,'.
+                'name' => 'required|max:191',
+                'email' => 'required|max:191|email|unique:users,email,'.
                             $this->user_id,
-                'username' => 'required|min:5|unique:users,username,'.
+                'username' => 'required|max:191|min:5|unique:users,username,'.
                             $this->user_id,
                 'password' => 'nullable|confirmed|min:8',
                 'sk_cpns' => 'nullable|mimes:'.config('addon.mimes.surat_keterangan.m'),
@@ -89,9 +89,9 @@ class PesertaRequest extends FormRequest
     {
         return [
             'nip' => 'NIP',
-            'unit_kerja' => 'Unit Kerja',
+            'instansi_id' => 'Unit Kerja',
             'kedeputian' => 'Kedeputian',
-            'pangkat' => 'Pangkat',
+            'pangkat' => 'Jabatan',
             'alamat' => 'Alamat',
             'name' => 'Nama',
             'email' => 'Email',
@@ -111,7 +111,7 @@ class PesertaRequest extends FormRequest
     {
         return [
             'nip.required' => ':attribute tidak boleh kosong',
-            'unit_kerja.required' => ':attribute tidak boleh kosong',
+            'instansi_id.required' => ':attribute tidak boleh kosong',
             'kedeputian.required' => ':attribute tidak boleh kosong',
             'pangkat.required' => ':attribute tidak boleh kosong',
             'alamat.required' => ':attribute tidak boleh kosong',

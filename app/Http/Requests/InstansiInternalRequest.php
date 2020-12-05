@@ -24,10 +24,11 @@ class InstansiInternalRequest extends FormRequest
     public function rules()
     {
         return [
-            'nip_pimpinan' => 'required',
-            'nama_pimpinan' => 'required',
-            'nama_instansi' => 'required',
-            'jabatan' => 'required',
+            'kode_instansi' => 'required|max:191',
+            'nip_pimpinan' => 'required|max:191',
+            'nama_pimpinan' => 'required|max:191',
+            'nama_instansi' => 'required|max:191',
+            'jabatan' => 'required|max:191',
             'logo' => 'nullable|mimes:'.config('addon.mimes.logo_instansi.m'),
         ];
 
@@ -36,9 +37,10 @@ class InstansiInternalRequest extends FormRequest
     public function attributes()
     {
         return [
+            'kode_instansi' => 'Kode Instansi',
             'nip_pimpinan' => 'NIP',
             'nama_pimpinan' => 'Nama Pimpinan',
-            'nama_instansi' => 'Instansi',
+            'nama_instansi' => 'Nama Instansi',
             'jabatan' => 'Jabatan',
             'logo' => 'Logo',
         ];
@@ -47,6 +49,7 @@ class InstansiInternalRequest extends FormRequest
     public function messages()
     {
         return [
+            'kode_instansi.required' => ':attribute tidak boleh kosong',
             'nip_pimpinan.required' => ':attribute tidak boleh kosong',
             'nama_pimpinan.required' => ':attribute tidak boleh kosong',
             'nama_instansi.required' => ':attribute tidak boleh kosong',

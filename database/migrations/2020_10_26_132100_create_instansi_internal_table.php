@@ -16,6 +16,7 @@ class CreateInstansiInternalTable extends Migration
         Schema::create('instansi_internal', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('creator_id');
+            $table->string('kode_instansi')->nullable();
             $table->string('nip_pimpinan');
             $table->string('nama_pimpinan');
             $table->string('nama_instansi');

@@ -94,12 +94,18 @@ class PesertaService
     {
         $user = $this->user->storeUser($request);
 
+        if (auth()->user()->hasRole('mitra')) {
+            $mitraId = auth()->user()->mitra->id;
+        } else {
+            $mitraId = $request->mitra_id;
+        }
+
         $peserta = new Peserta;
         $peserta->user_id = $user->id;
         $peserta->creator_id = auth()->user()->id;
-        $peserta->mitra_id = $request->mitra_id ?? null;
+        $peserta->mitra_id = $mitraId ?? null;
         $peserta->nip = $request->nip ?? null;
-        $peserta->unit_kerja = $request->unit_kerja ?? null;
+        $peserta->instansi_id = $request->instansi_id ?? null;
         $peserta->kedeputian = $request->kedeputian ?? null;
         $peserta->pangkat = $request->pangkat ?? null;
         $peserta->alamat = $request->alamat ?? null;
@@ -122,7 +128,7 @@ class PesertaService
         $peserta = new Peserta;
         $peserta->user_id = $user->id;
         $peserta->nip = $request->nip ?? null;
-        $peserta->unit_kerja = $request->unit_kerja ?? null;
+        $peserta->instansi_id = $request->instansi_id ?? null;
         $peserta->kedeputian = $request->kedeputian ?? null;
         $peserta->pangkat = $request->pangkat ?? null;
         $peserta->alamat = $request->alamat ?? null;
@@ -161,7 +167,7 @@ class PesertaService
     {
         $peserta = $this->findPeserta($id);
         $peserta->nip = $request->nip ?? null;
-        $peserta->unit_kerja = $request->unit_kerja ?? null;
+        $peserta->instansi_id = $request->instansi_id ?? null;
         $peserta->kedeputian = $request->kedeputian ?? null;
         $peserta->pangkat = $request->pangkat ?? null;
         $peserta->alamat = $request->alamat ?? null;
@@ -276,8 +282,8 @@ class PesertaService
             Storage::disk('bank_data')->delete($peserta->sk_pengangkatan['file']);
         }
 
-        if (!empty($peserta->golongan['file'])) {
-            Storage::disk('bank_data')->delete($peserta->golongan['file']);
+        if (!empty($peserta->sk_golongan['file'])) {
+            Storage::disk('bank_data')->delete($peserta->sk_golongan['file']);
         }
 
         if (!empty($peserta->sk_jabatan['file'])) {
