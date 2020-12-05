@@ -388,6 +388,26 @@ Route::group(['middleware' => ['auth']], function () {
         ->name('grades.destroy')
         ->middleware('role:developer|administrator');
 
+    //nilai
+    Route::get('/grades/{id}/nilai', 'Grades\GradesNilaiController@index')
+        ->name('grades.nilai')
+        ->middleware('role:developer|administrator');
+    Route::get('/grades/{id}/nilai/create', 'Grades\GradesNilaiController@create')
+        ->name('grades.nilai.create')
+        ->middleware('role:developer|administrator');
+    Route::post('/grades/{id}/nilai', 'Grades\GradesNilaiController@store')
+        ->name('grades.nilai.store')
+        ->middleware('role:developer|administrator');
+    Route::get('/grades/{id}/nilai/{nilaiId}/edit', 'Grades\GradesNilaiController@edit')
+        ->name('grades.nilai.edit')
+        ->middleware('role:developer|administrator');
+    Route::put('/grades/{id}/nilai/{nilaiId}', 'Grades\GradesNilaiController@update')
+        ->name('grades.nilai.update')
+        ->middleware('role:developer|administrator');
+    Route::delete('/grades/{id}/nilai/{nilaiId}', 'Grades\GradesNilaiController@destroy')
+        ->name('grades.nilai.destroy')
+        ->middleware('role:developer|administrator');
+
     /**bank data */
     Route::get('/bank/data/{type}', 'BankDataController@index')
         ->name('bank.data')

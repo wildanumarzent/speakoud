@@ -184,6 +184,7 @@ class PesertaService
             $user->email_verified_at = null;
         }
         $user->save();
+        $this->user->updateInformation($request, $peserta->user_id);
 
         return [
             'peserta' => $peserta,

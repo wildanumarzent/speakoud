@@ -72,7 +72,7 @@
                     <td>{{ $item->created_at->format('d F Y (H:i A)') }}</td>
                     <td>{{ $item->updated_at->format('d F Y (H:i A)') }}</td>
                     <td>
-                        <a href="" class="btn icon-btn btn-sm btn-success" title="klik untuk melihat list grades">
+                        <a href="{{ route('grades.nilai', ['id' => $item->id]) }}" class="btn icon-btn btn-sm btn-success" title="klik untuk melihat list grades">
                             <i class="las la-list-ol"></i>
                         </a>
                         <a href="{{ route('grades.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-sm btn-primary" title="klik untuk mengedit grades kategori">

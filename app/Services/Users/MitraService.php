@@ -104,6 +104,7 @@ class MitraService
             $user->email_verified_at = null;
         }
         $user->save();
+        $this->user->updateInformation($request, $mitra->user_id);
 
         return [
             'mitra' => $mitra,

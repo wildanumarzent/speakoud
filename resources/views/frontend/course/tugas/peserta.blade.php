@@ -1,6 +1,7 @@
 @extends('layouts.backend.layout')
 
 @section('styles')
+<link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/css/pages/projects.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/sweetalert2/sweetalert2.css') }}">
 @endsection
 
@@ -53,6 +54,7 @@
             <thead>
                 <tr>
                     <th style="width: 10px;">No</th>
+                    <th>NIP</th>
                     <th>Nama</th>
                     <th>Keterangan</th>
                     <th>Tanggal Pengumpulan</th>
@@ -62,7 +64,7 @@
             <tbody>
                 @if ($data['peserta']->total() == 0)
                 <tr>
-                    <td colspan="5" align="center">
+                    <td colspan="6" align="center">
                         <i><strong style="color:red;">
                         @if (Request::get('q'))
                         ! Peserta tidak ditemukan !
@@ -76,10 +78,15 @@
                 @foreach ($data['peserta'] as $item)
                 <tr>
                     <td>{{ $data['number']++ }}</td>
+                    <td>{{ $item->user->peserta->nip }}</td>
                     <td>{{ $item->user->name }}</td>
                     <td>{{ $item->keterangan }}</td>
                     <td>{{ $item->created_at->format('d F Y (H:i A)') }}</td>
-                    <td></td>
+                    <td>
+                        <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modals-dokumen-{{ $item->id }}" title="klik untuk melihat tugas">
+                            <i class="las la-file"></i> <span>Dokumen</span>
+                        </button>
+                    </td>
                 </tr>
                 @endforeach
             </tbody>
@@ -97,12 +104,13 @@
         </div>
     </div>
 </div>
+
+@include('frontend.course.tugas.dokumen')
 @endsection
 
 @section('scripts')
 <script src="{{ asset('assets/tmplts_backend/vendor/libs/sweetalert2/sweetalert2.js') }}"></script>
 @endsection
-
 @section('jsbody')
 @include('components.toastr')
 @endsection

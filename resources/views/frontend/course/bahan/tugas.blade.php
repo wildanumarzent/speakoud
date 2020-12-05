@@ -52,16 +52,12 @@
             <th style="width: 150px;">Dokumen Tugas</th>
             <td>
                 Silahkan klik dokumen dibawah untuk mengunduh tugas yang diberikan. Selamat mengerjakan!
-                <div class="jstree" style="margin-top:20px;min-height:200px;border:1px solid #ddd;padding:20px;">
-                    <ul>
-                      <li>Dokumen
-                        <ul>
-                          @foreach ($data['bahan']->tugas->files as $key => $file)
-                          <li data-jstree="{&quot;icon&quot; : &quot;jstree-file&quot;}"><a href="{{ route('bank.data.stream', ['path' => $file]) }}">{{ collect(explode("/", $file))->last() }}</a></li>
-                          @endforeach
-                        </ul>
-                      </li>
-                    </ul>
+                <div style="margin-top:20px;min-height:200px;border:1px solid #ddd;padding:20px;">
+                    <ol>
+                        @foreach ($data['bahan']->tugas->files as $key => $file)
+                        <li><i class="las la-file" style="font-size:1.2em;"></i> <a href="{{ route('bank.data.stream', ['path' => $file]) }}">{{ collect(explode("/", $file))->last() }}</a></li>
+                        @endforeach
+                    </ol>
                 </div>
             </td>
         </tr>
@@ -143,16 +139,12 @@
        <tr>
         <th style="width: 150px;">Dokumen Tugas</th>
         <td>
-            <div class="jstree" style="margin-top:20px;min-height:200px;border:1px solid #ddd;padding:20px;">
-                <ul>
-                  <li>Dokumen
-                    <ul>
-                      @foreach ($data['bahan']->tugas->responByUser->files as $key => $file)
-                      <li data-jstree="{&quot;icon&quot; : &quot;jstree-file&quot;}"><a href="{{ route('bank.data.stream', ['path' => $file]) }}">{{ collect(explode("/", $file))->last() }}</a></li>
-                      @endforeach
-                    </ul>
-                  </li>
-                </ul>
+            <div style="margin-top:20px;min-height:200px;border:1px solid #ddd;padding:20px;">
+                <ol>
+                    @foreach ($data['bahan']->tugas->responByUser->files as $key => $file)
+                    <li><i class="las la-file" style="font-size:1.2em;"></i> <a href="{{ route('bank.data.stream', ['path' => $file]) }}">{{ collect(explode("/", $file))->last() }}</a></li>
+                    @endforeach
+                </ol>
             </div>
         </td>
     </tr>

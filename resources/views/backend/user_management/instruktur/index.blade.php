@@ -35,8 +35,8 @@
             <div class="btn-group float-right dropdown ml-2">
                 <button type="button" class="btn btn-primary dropdown-toggle hide-arrow icon-btn-only-sm" data-toggle="dropdown" title="klik untuk menambah instruktur"><i class="las la-plus"></i><span>Tambah</span></button>
                 <div class="dropdown-menu dropdown-menu-right">
-                    <a href="{{ route('instruktur.create', ['instruktur' => 'internal']) }}" class="dropdown-item" ><i class="las la-users"></i><span>Instruktur Internal</span></a>
-                    <a href="{{ route('instruktur.create', ['instruktur' => 'mitra']) }}" class="dropdown-item" ><i class="las la-users"></i><span>Instruktur Mitra</span></a>
+                    <a href="{{ route('instruktur.create', ['instruktur' => 'internal']) }}" class="dropdown-item" ><i class="las la-user-tie"></i><span>Instruktur Internal</span></a>
+                    <a href="{{ route('instruktur.create', ['instruktur' => 'mitra']) }}" class="dropdown-item" ><i class="las la-user-tie"></i><span>Instruktur Mitra</span></a>
                 </div>
             </div>
             @else
@@ -53,9 +53,11 @@
                     <th style="width: 10px;">No</th>
                     <th>NIP</th>
                     <th>Nama</th>
+                    <th>Username</th>
                     <th>Unit Kerja</th>
-                    <th>Kedeputian</th>
+                    {{-- <th>Kedeputian</th> --}}
                     <th>Jabatan</th>
+                    <th>Telpon</th>
                     <th>Alamat</th>
                     <th style="width: 120px; text-align: center;">Tipe</th>
                     <th style="width: 200px;">Created</th>
@@ -66,7 +68,7 @@
             <tbody>
                 @if ($data['instruktur']->total() == 0)
                 <tr>
-                    <td colspan="11" align="center">
+                    <td colspan="12" align="center">
                         <i>
                             <strong style="color:red;">
                             @if (Request::get('q'))
@@ -84,9 +86,11 @@
                     <td>{{ $data['number']++ }}</td>
                     <td>{{ $item->nip ?? '-' }}</td>
                     <td>{{ $item->user->name }}</td>
+                    <td>{{ $item->user->username }}</td>
                     <td>{{ $item->instansi($item)->nama_instansi ?? '-' }}</td>
-                    <td>{{ $item->kedeputian ?? '-' }}</td>
-                    <td>{{ $item->pangkat ?? '-' }}</td>
+                    {{-- <td>{{ $item->kedeputian ?? '-' }}</td> --}}
+                    <td>{{ config('addon.label.jabatan.'.$item->pangkat) ?? '-' }}</td>
+                    <td>{{ $item->user->information->optional['phone'] ?? '-' }}</td>
                     <td>{{ $item->alamat ?? '-' }}</td>
                     <td>
                         <span class="badge badge-outline-primary">{{ strtoupper(str_replace('_', ' ', $item->user->roles[0]->name)) }}</span>
@@ -134,16 +138,24 @@
                                     <div class="desc-table">{{ $item->user->name }}</div>
                                 </div>
                                 <div class="item-table">
+                                    <div class="data-table">Username</div>
+                                    <div class="desc-table">{{ $item->user->username }}</div>
+                                </div>
+                                <div class="item-table">
                                     <div class="data-table">Unit Kerja</div>
                                     <div class="desc-table">{{ $item->instansi($item)->nama_instansi ?? '-' }}</div>
                                 </div>
-                                <div class="item-table">
+                                {{-- <div class="item-table">
                                     <div class="data-table">Kedeputian</div>
                                     <div class="desc-table">{{ $item->kedeputian ?? '-' }}</div>
-                                </div>
+                                </div> --}}
                                 <div class="item-table">
                                     <div class="data-table">Jabatan</div>
-                                    <div class="desc-table">{{ $item->pangkat ?? '-' }}</div>
+                                    <div class="desc-table">{{ config('addon.label.jabatan.'.$item->pangkat) ?? '-' }}</div>
+                                </div>
+                                <div class="item-table">
+                                    <div class="data-table">Telpon</div>
+                                    <div class="desc-table">{{ $item->user->information->optional['phone'] ?? '-' }}</div>
                                 </div>
                                 <div class="item-table">
                                     <div class="data-table">Alamat</div>

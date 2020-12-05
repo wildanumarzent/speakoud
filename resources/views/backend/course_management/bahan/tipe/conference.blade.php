@@ -24,7 +24,7 @@
 </fieldset>
 <div class="form-group row" id="meeting-link">
     <div class="col-md-2 text-md-right">
-        <label class="col-form-label">Meeting Link</label>
+        <label class="col-form-label">Meeting Link (jika tipe platform)</label>
     </div>
     <div class="col-sm-10">
         <div class="input-group">
@@ -35,7 +35,7 @@
     </div>
 </div>
 
-@if (!isset($data['bahan']))
+{{-- @if (!isset($data['bahan']))
     <script>
         $("#meeting-link").hide();
     </script>
@@ -48,5 +48,5 @@
             $('#meeting-link').toggle();
         }
     });
-    </script>
+    </script> --}}
 @endsection

@@ -141,6 +141,7 @@ class InstrukturService
             $user->email_verified_at = null;
         }
         $user->save();
+        $this->user->updateInformation($request, $instruktur->user_id);
 
         return [
             'instruktur' => $instruktur,

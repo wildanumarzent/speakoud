@@ -43,9 +43,11 @@
                     <th style="width: 10px;">No</th>
                     <th>NIP</th>
                     <th>Nama</th>
+                    <th>Username</th>
                     <th>Unit Kerja</th>
                     <th>Kedeputian</th>
                     <th>Jabatan</th>
+                    <th>Telpon</th>
                     <th>Alamat</th>
                     <th style="width: 200px;">Created</th>
                     <th style="width: 200px;">Updated</th>
@@ -55,7 +57,7 @@
             <tbody>
                 @if ($data['mitra']->total() == 0)
                 <tr>
-                    <td colspan="10" align="center">
+                    <td colspan="12" align="center">
                         <i>
                             <strong style="color:red;">
                             @if (Request::get('q'))
@@ -73,9 +75,11 @@
                     <td>{{ $data['number']++ }}</td>
                     <td>{{ $item->nip ?? '-' }}</td>
                     <td>{{ $item->user->name }}</td>
+                    <td>{{ $item->user->username }}</td>
                     <td>{{ $item->instansi['nama_instansi'] ?? '-' }}</td>
                     <td>{{ $item->kedeputian ?? '-' }}</td>
-                    <td>{{ $item->pangkat ?? '-' }}</td>
+                    <td>{{ config('addon.label.jabatan.'.$item->pangkat) ?? '-' }}</td>
+                    <td>{{ $item->user->information->optional['phone'] ?? '-' }}</td>
                     <td>{{ $item->alamat ?? '-' }}</td>
                     <td>{{ $item->created_at->format('d F Y - (H:i)') }}</td>
                     <td>{{ $item->updated_at->format('d F Y - (H:i)') }}</td>
@@ -120,6 +124,10 @@
                                     <div class="desc-table">{{ $item->user->name }}</div>
                                 </div>
                                 <div class="item-table">
+                                    <div class="data-table">Username</div>
+                                    <div class="desc-table">{{ $item->user->username }}</div>
+                                </div>
+                                <div class="item-table">
                                     <div class="data-table">Unit Kerja</div>
                                     <div class="desc-table">{{ $item->instansi['nama_instansi'] ?? '-' }}</div>
                                 </div>
@@ -129,7 +137,11 @@
                                 </div>
                                 <div class="item-table">
                                     <div class="data-table">Jabatan</div>
-                                    <div class="desc-table">{{ $item->pangkat ?? '-' }}</div>
+                                    <div class="desc-table">{{ config('addon.label.jabatan.'.$item->pangkat) ?? '-' }}</div>
+                                </div>
+                                <div class="item-table">
+                                    <div class="data-table">Telpon</div>
+                                    <div class="desc-table">{{ $item->user->information->optional['phone'] ?? '-' }}</div>
                                 </div>
                                 <div class="item-table">
                                     <div class="data-table">Alamat</div>

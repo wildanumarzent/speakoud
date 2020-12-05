@@ -165,7 +165,7 @@
                 </tr>
                 @if ($data['hasRole'])
                 <tr>
-                    <th>User</th>
+                    <th>Enroll</th>
                     <td>
                         <a href="{{ route('mata.instruktur', ['id' => $item->id]) }}" class="btn btn-warning btn-sm" title="klik untuk melihat instruktur">
                             <i class="las la-user-tie"></i> Instruktur

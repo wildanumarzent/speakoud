@@ -91,6 +91,7 @@ class InternalService
             $user->email_verified_at = null;
         }
         $user->save();
+        $this->user->updateInformation($request, $internal->user_id);
 
         return [
             'internal' => $internal,

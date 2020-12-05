@@ -28,7 +28,7 @@ class InstrukturRequest extends FormRequest
                 return [
                     'nip' => 'required|max:191',
                     'instansi_id' => 'required',
-                    'kedeputian' => 'required|max:191',
+                    // 'kedeputian' => 'required|max:191',
                     // 'pangkat' => 'required',
                     // 'alamat' => 'required',
                     'name' => 'required|max:191',
@@ -46,7 +46,7 @@ class InstrukturRequest extends FormRequest
                 return [
                     'nip' => 'required|max:191',
                     'instansi_id' => 'required',
-                    'kedeputian' => 'required|max:191',
+                    // 'kedeputian' => 'required|max:191',
                     // 'pangkat' => 'required',
                     // 'alamat' => 'required',
                     'name' => 'required|max:191',
@@ -64,7 +64,7 @@ class InstrukturRequest extends FormRequest
             return [
                 'nip' => 'required|max:191',
                 'instansi_id' => 'required',
-                'kedeputian' => 'required|max:191',
+                // 'kedeputian' => 'required|max:191',
                 // 'pangkat' => 'required',
                 // 'alamat' => 'required',
                 'name' => 'required|max:191',

@@ -63,6 +63,7 @@
             <thead>
                 <tr>
                     <th style="width: 10px;">No</th>
+                    <th>NIP</th>
                     <th>Nama</th>
                     <th>Tanggal Mulai</th>
                     <th>Tanggal Selesai</th>
@@ -75,7 +76,7 @@
             <tbody>
                 @if ($data['peserta']->total() == 0)
                 <tr>
-                    <td colspan="8" align="center">
+                    <td colspan="9" align="center">
                         <i><strong style="color:red;">
                         @if (Request::get('s') || Request::get('q'))
                         ! Peserta tidak ditemukan !
@@ -101,6 +102,7 @@
                 @endphp
                 <tr>
                     <td>{{ $data['number']++ }}</td>
+                    <td>{{ $item->user->peserta->nip }}</td>
                     <td>{{ $item->user->name }}</td>
                     <td>{{ !empty($item->start_time) ? $item->start_time->format('l, j F Y H:i A') : '-' }}</td>
                     <td>{{ !empty($item->end_time) ? $item->end_time->format('l, j F Y H:i A') : '-' }}</td>

@@ -14,4 +14,9 @@ class GradesKategori extends Model
     {
         return $this->belongsTo(User::class, 'creator_id');
     }
+
+    public function nilai()
+    {
+        return $this->hasMany(GradesNilai::class, 'kategori_id');
+    }
 }

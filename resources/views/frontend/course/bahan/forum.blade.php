@@ -12,7 +12,7 @@
                 <th style="width: 10px;"></th>
                 <th>
                     <button type="button" class="btn btn-primary icon-btn-only-sm btn-sm" data-toggle="modal" data-target="#form-topik" title="klik untuk menambah topik">
-                        <i class="las la-plus"></i><span>Topik Diskusi</span>
+                        <i class="las la-plus"></i><span>Topik</span>
                     </button>
                 </th>
                 <th style="width:180px;">Started By</th>

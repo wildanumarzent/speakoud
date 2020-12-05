@@ -106,7 +106,7 @@
                           @include('components.field-error', ['field' => 'kedeputian'])
                         </div>
                     </div>
-                    <div class="form-group row">
+                    {{-- <div class="form-group row">
                         <div class="col-md-2 text-md-right">
                           <label class="col-form-label text-sm-right">Jabatan</label>
                         </div>
@@ -114,6 +114,34 @@
                           <input type="text" class="form-control @error('pangkat') is-invalid @enderror" name="pangkat"
                             value="{{ (isset($data['peserta'])) ? old('pangkat', $data['peserta']->pangkat) : old('pangkat') }}" placeholder="masukan jabatan...">
                           @include('components.field-error', ['field' => 'pangkat'])
+                        </div>
+                    </div> --}}
+                    <div class="form-group row">
+                        <div class="col-md-2 text-md-right">
+                          <label class="col-form-label text-sm-right">Jabatan</label>
+                        </div>
+                        <div class="col-md-10">
+                            <select class="status custom-select form-control" name="pangkat">
+                                <option value=" " selected>Pilih</option>
+                                @foreach (config('addon.label.jabatan') as $key => $value)
+                                <option value="{{ $key }}" {{ isset($data['instruktur']) ? (old('pangkat', $data['instruktur']->pangkat) == ''.$key.'' ? 'selected' : '') : (old('pangkat') == ''.$key.'' ? 'selected' : '') }}>{{ $value }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-2 text-md-right">
+                          <label class="col-form-label text-sm-right">Nomor Telpon</label>
+                        </div>
+                        <div class="col-md-10">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">+62</span>
+                                </div>
+                                <input type="text" class="form-control @error('phone') is-invalid @enderror" name="phone"
+                                    value="{{ (isset($data['peserta'])) ? old('phone', $data['peserta']->user->information->optional['phone']) : old('phone') }}" placeholder="masukan nomor telpon...">
+                                @include('components.field-error', ['field' => 'phone'])
+                            </div>
                         </div>
                     </div>
                     <div class="form-group row">

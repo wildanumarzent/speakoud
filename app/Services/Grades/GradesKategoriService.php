@@ -57,7 +57,7 @@ class GradesKategoriService
     public function deleteGradesKategori(int $id)
     {
         $kategori = $this->findGradesKategori($id);
-
+        $kategori->nilai()->delete();
         $kategori->delete();
 
         return $kategori;
