@@ -63,7 +63,6 @@
                     <th>NIP</th>
                     <th>Nama</th>
                     <th>Unit Kerja</th>
-                    <th>Kedeputian</th>
                     <th>Materi Upload</th>
                     <th style="width: 80px;">Action</th>
                 </tr>
@@ -71,7 +70,7 @@
             <tbody>
                 @if ($data['instruktur']->total() == 0)
                 <tr>
-                    <td colspan="7" align="center">
+                    <td colspan="6" align="center">
                         <i>
                             <strong style="color:red;">
                             @if (Request::get('q'))
@@ -89,8 +88,7 @@
                     <td>{{ $data['number']++ }}</td>
                     <td>{{ $item->instruktur->nip }}</td>
                     <td>{{ $item->instruktur->user->name }}</td>
-                    <td>{{ $item->instruktur->unit_kerja }}</td>
-                    <td>{{ $item->instruktur->kedeputian }}</td>
+                    <td>{{ $item->instruktur->instansi($item->instruktur)->nama_instansi }}</td>
                     <td>{{ $item->mata->bahan()->where('creator_id', $item->instruktur->user->id)->count() }}</td>
                     <td>
                         <a href="javascript:void(0);" class="btn btn-danger icon-btn btn-sm js-sa2-delete" data-mataid="{{ $item->mata_id }}" data-id="{{ $item->id }}" title="klik untuk menghapus instruktur pelatihan">

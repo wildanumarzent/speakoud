@@ -118,7 +118,7 @@
               </div>
             </div>
             @endforeach
-            @if (auth()->user()->hasRole('peserta_internal|peserta_mitra') && !empty($data['read']->kode_evaluasi))
+            @if (auth()->user()->hasRole('peserta_internal|peserta_mitra') && !empty($data['read']->kode_evaluasi) && $data['read']->apiEvaluasiByUser()->count() == 1)
             <div class="card mb-2">
                 <div class="card-header">
                   <a class="collapsed text-body" data-toggle="collapse" href="#evaluasi">

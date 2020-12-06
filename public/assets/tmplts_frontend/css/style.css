@@ -1,7 +1,7 @@
-@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=Open+Sans+Condensed:wght@700&display=swap");
+@import url(../fonts/product-sans/fonts.css);
 body {
   font-family: "Open Sans", sans-serif;
-  color: #333;
+  color: #000;
   background-color: #efebea;
   font-size: 14px;
   line-height: 1.7;
@@ -124,7 +124,7 @@ article ol > li:before {
   height: 15px;
   font-size: 12px;
   border-right: 2px solid #064ad0;
-  font-family: "Open Sans Condensed", sans-serif;
+  font-family: "product sans", sans-serif;
   font-weight: 700;
 }
 
@@ -229,7 +229,7 @@ article img[style="float: left;"] {
   color: #999;
 }
 .title-heading h3 {
-  font-family: "Open Sans Condensed", sans-serif;
+  font-family: "product sans", sans-serif;
 }
 .title-heading h3:after {
   position: relative;
@@ -241,7 +241,7 @@ article img[style="float: left;"] {
 .title-heading h1 {
   margin-bottom: 30px;
   font-weight: 700;
-  font-family: "Open Sans Condensed", sans-serif;
+  font-family: "product sans", sans-serif;
 }
 .title-heading h1:after {
   position: relative;
@@ -697,8 +697,8 @@ article img[style="float: left;"] {
 }
 .logo-signbox h5 {
   position: relative;
-  font-family: "Open Sans Condensed", sans-serif;
-  color: #fff;
+  font-family: "product sans", sans-serif;
+  font-weight: 800;
 }
 .logo-signbox h5:after {
   position: relative;
@@ -763,7 +763,6 @@ article img[style="float: left;"] {
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 2;
-  color: #fff;
   width: 100%;
 }
 .wrapper-flex .banner-signbox .swiper-1:before {
@@ -773,7 +772,7 @@ article img[style="float: left;"] {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(5, 9, 33, 0.75);
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.9) 0%, rgba(6, 74, 208, 0.65) 100%);
   z-index: 2;
 }
 @media screen and (min-width: 1199.98px) {
@@ -943,13 +942,13 @@ header .main-header .menubar-flex .menubar-left .main-logo .logo {
 }
 header .main-header .menubar-flex .menubar-left .main-logo h5 {
   position: relative;
-  font-family: "Open Sans Condensed", sans-serif;
-  color: #fff;
-  font-weight: 700;
+  font-family: "product sans", sans-serif;
+  color: #000;
+  font-weight: 800;
   transition: all 0.3s;
 }
 header .main-header .menubar-flex .menubar-left .main-logo h5::after {
-  font-family: "Open Sans Condensed", sans-serif;
+  font-family: "product sans", sans-serif;
   position: relative;
   content: ".";
   display: inline;
@@ -1039,7 +1038,7 @@ header .main-header .menubar-flex .menubar-center .main-nav .list-nav > li > a {
     text-align: center;
   }
   header .main-header .menubar-flex .menubar-center .main-nav .list-nav li a {
-    font-family: "Open Sans Condensed", sans-serif;
+    font-family: "product sans", sans-serif;
     font-weight: 600 !important;
     font-size: 1.3em;
     width: 100%;
@@ -1133,11 +1132,10 @@ header .main-header .menubar-flex .menubar-center .main-nav .list-nav > li > a {
     position: relative;
   }
   header .main-header .menubar-flex .menubar-center .main-nav .list-nav > li:not(.current-nav):hover > a {
-    background-color: rgba(0, 0, 0, 0.25);
+    background-color: white;
   }
   header .main-header .menubar-flex .menubar-center .main-nav .list-nav > li > a {
     line-height: 1;
-    color: #fff;
   }
   header .main-header .menubar-flex .menubar-center .main-nav .list-nav > li.current-nav > a {
     background-color: #064ad0;
@@ -1180,7 +1178,7 @@ header .main-header .menubar-flex .menubar-right .navigation-bar .navigation-lab
 }
 header .main-header .menubar-flex .menubar-right .navigation-bar .navigation-label::before {
   content: "menu";
-  color: #fff;
+  color: #000;
   transition: all 0.3s cubic-bezier(0.2, 0.4, 0.1, 1);
 }
 header .main-header .menubar-flex .menubar-right .navigation-bar .navigation-label::after {
@@ -1235,7 +1233,6 @@ header .main-header .menubar-flex .menubar-right .navigation-bar .navigation-bur
 header .main-header .menubar-flex .menubar-right .account .user {
   display: flex;
   align-items: center;
-  color: #fff;
 }
 header .main-header .menubar-flex .menubar-right .account .user span {
   margin-right: 10px;
@@ -1339,7 +1336,7 @@ header .main-header.bg-fixed .menubar-flex .menubar-right .account .user {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(5, 9, 33, 0.75);
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.9) 0%, rgba(6, 74, 208, 0.65) 100%);
   z-index: 2;
 }
 .slide-intro .swiper-1 .swiper-slide .slide-inner .slide-inner-image {
@@ -1364,7 +1361,6 @@ header .main-header.bg-fixed .menubar-flex .menubar-right .account .user {
   top: 50%;
   left: 50%;
   padding: 0 3em;
-  color: #fff;
   z-index: 3;
   opacity: 0;
   transform: translate(-50%, -50%);
@@ -1379,10 +1375,10 @@ header .main-header.bg-fixed .menubar-flex .menubar-right .account .user {
   /*display: none;*/
 }
 .slide-intro .swiper-1 .swiper-slide .slide-inner .slide-inner-info h6 {
-  color: #fff;
+  color: #000;
 }
 .slide-intro .swiper-1 .swiper-slide .slide-inner .slide-inner-info h1 {
-  font-family: "Open Sans Condensed", sans-serif;
+  font-family: "product sans", sans-serif;
   margin-bottom: 30px;
 }
 .slide-intro .swiper-1 .swiper-slide .slide-inner .slide-inner-info h1:after {
@@ -1425,6 +1421,13 @@ header .main-header.bg-fixed .menubar-flex .menubar-right .account .user {
   -webkit-transition: opacity 1s ease 1s;
   -o-transition: opacity 1s ease 1s;
   transition: opacity 1s ease 1s;
+}
+.slide-intro .swiper-1 .swiper-slide .btn {
+  color: #fff;
+}
+.slide-intro .swiper-1 .swiper-slide .btn:before {
+  transform: scaleX(1);
+  opacity: 1;
 }
 .slide-intro .swiper-1 .swiper-button-prev, .slide-intro .swiper-1 .swiper-button-next {
   background-image: none;
@@ -1583,7 +1586,7 @@ header .main-header.bg-fixed .menubar-flex .menubar-right .account .user {
   color: #064ad0;
 }
 .box-post .post-title {
-  font-family: "Open Sans Condensed", sans-serif;
+  font-family: "product sans", sans-serif;
   margin-bottom: 30px;
 }
 .box-post .post-info {
@@ -1641,7 +1644,7 @@ header .main-header.bg-fixed .menubar-flex .menubar-right .account .user {
   box-shadow: 0 29px 75px rgba(65, 62, 101, 0.1);
 }
 .item-post .box-post:not(.boxless) .post-title {
-  font-family: "Open Sans Condensed", sans-serif;
+  font-family: "product sans", sans-serif;
   margin-bottom: 30px;
   max-height: 60px;
   height: 60px;
@@ -1716,7 +1719,7 @@ header .main-header.bg-fixed .menubar-flex .menubar-right .account .user {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(5, 9, 33, 0.75);
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.9) 0%, rgba(6, 74, 208, 0.65) 100%);
   z-index: 2;
 }
 .banner-breadcrumb .banner-content {
@@ -1728,15 +1731,6 @@ header .main-header.bg-fixed .menubar-flex .menubar-right .account .user {
   flex-direction: column;
   text-align: center;
   z-index: 4;
-}
-.banner-breadcrumb .banner-content .banner-text h1 {
-  color: #fff;
-}
-.banner-breadcrumb .breadcrumb ul > li.current {
-  color: #fff;
-}
-.banner-breadcrumb .breadcrumb ul > li a {
-  color: #fff;
 }
 
 @media screen and (max-width: 1199.98px) {
@@ -1864,12 +1858,11 @@ header .main-header.bg-fixed .menubar-flex .menubar-right .account .user {
   border: 1px solid #e4e6eb;
 }
 .account-wrap h6 {
-  font-family: "Open Sans Condensed", sans-serif;
+  font-family: "product sans", sans-serif;
 }
 
 .footer {
-  background-color: #172348;
-  color: #808da8;
+  background-color: #f0f1f4;
 }
 .footer .footer-top {
   padding: 8em 0;
@@ -1886,8 +1879,8 @@ header .main-header.bg-fixed .menubar-flex .menubar-right .account .user {
 }
 .footer .footer-top .footer-logo h5 {
   position: relative;
-  font-family: "Open Sans Condensed", sans-serif;
-  color: #fff;
+  font-family: "product sans", sans-serif;
+  color: #000;
 }
 .footer .footer-top .footer-logo h5:after {
   position: relative;
@@ -1901,8 +1894,7 @@ header .main-header.bg-fixed .menubar-flex .menubar-right .account .user {
 }
 .footer .footer-top .f-widget h5 {
   position: relative;
-  font-family: "Open Sans Condensed", sans-serif;
-  color: #fff;
+  font-family: "product sans", sans-serif;
   margin-bottom: 30px;
 }
 .footer .footer-top .f-widget ul li {
@@ -1911,10 +1903,10 @@ header .main-header.bg-fixed .menubar-flex .menubar-right .account .user {
   color: #545e75;
 }
 .footer .footer-top .f-widget ul li a {
-  color: #808da8;
+  color: #545e75;
 }
 .footer .footer-top .f-widget ul li a:hover {
-  color: #fff;
+  color: #064ad0;
 }
 .footer .footer-bottom {
   padding-bottom: 5em;
@@ -1954,6 +1946,57 @@ header .main-header.bg-fixed .menubar-flex .menubar-right .account .user {
   .footer .footer-bottom .d-flex .copyright {
     margin-bottom: 10px;
   }
+}
+
+.box-comment {
+  position: relative;
+  padding: 3em 0;
+  margin-top: 3em;
+  border-top: 1px solid #dfdfdf;
+}
+
+.list-comment .comment-item {
+  position: relative;
+  padding: 2.5em;
+  border: 1px solid #dfdfdf;
+  margin-bottom: 1em;
+}
+.list-comment .comment-item .comment-header {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1em;
+}
+.list-comment .comment-item .comment-header .header-info {
+  font-size: 0.9em;
+  color: #585a68;
+}
+.list-comment .comment-item .comment-header .header-profile {
+  position: relative;
+  display: flex;
+}
+.list-comment .comment-item .comment-header .header-profile .img-user {
+  position: relative;
+  height: 50px;
+  width: 50px;
+  display: block;
+  overflow: hidden;
+  border-radius: 100%;
+}
+.list-comment .comment-item .comment-header .header-profile .user-name {
+  margin-left: 1em;
+}
+.list-comment .comment-item .comment-header .header-profile .user-name .name {
+  max-width: 200px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  font-weight: 700;
+  color: #064ad0;
+}
+.list-comment .comment-item .comment-body {
+  position: relative;
+  padding-left: calc(50px + 1em);
 }
 
 /*# sourceMappingURL=style.css.map */

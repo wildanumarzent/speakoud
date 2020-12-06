@@ -73,6 +73,10 @@ class EvaluasiService
             $record = $this->checkUser($mataId)->update([
                 'is_complete' => 1,
             ]);
+
+            return true;
+        } else {
+            return false;
         }
     }
 }

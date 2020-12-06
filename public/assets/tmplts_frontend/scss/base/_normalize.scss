@@ -1,6 +1,6 @@
 body {
     font-family: $font-global;
-    color: $primary-text-color;
+    color: #000;
     background-color: $bg-color;
     font-size: 14px;
     line-height: 1.7;
@@ -141,7 +141,7 @@ article ul li::before {
     left: 0;
     top: 10px;
     background-color: transparent;
-    border: 2px solid $main-color; 
+    border: 2px solid $main-color;
     border-radius: 100%;
 }
 
@@ -207,7 +207,7 @@ article img[style="float: right;"] {
     &.bg-grey {
         background-color: #f0f1f4;
     }
-    
+
     &.bg-grey-alt {
         background-color: #fefefe;
     }
@@ -281,7 +281,7 @@ article img[style="float: right;"] {
             font-size: 2em;
         }
     }
-    
+
 
     &.text-white {
         > * {

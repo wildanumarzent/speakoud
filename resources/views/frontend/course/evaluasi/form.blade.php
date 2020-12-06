@@ -1,5 +1,17 @@
 @extends('layouts.backend.layout')
 
+@section('styles')
+<link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/sweetalert2/sweetalert2.css') }}">
+<style>
+  .custom-control-label::before {
+    border : rgba(24,28,33,0.3) solid 1px;
+  }
+  .hidden {
+    display: none;
+  }
+</style>
+@endsection
+
 @section('content')
 <div class="text-left">
     <a href="{{ route('course.detail', ['id' => $data['mata']->id]) }}" class="btn btn-secondary rounded-pill" title="kembali ke tugas"><i class="las la-arrow-left"></i>Kembali</a>
@@ -51,7 +63,7 @@
         <div class="card-footer">
             <div class="row">
               <div class="col-md-12 text-right">
-                <a href="{{ route('course.detail', [ 'id' => $data['mata']->id]) }}" class="btn btn-danger mr-2" title="klik untuk kembali">Kembali</a>
+                <a href="{{ route('course.detail', [ 'id' => $data['mata']->id, 'submit' => 'yes']) }}" class="btn btn-danger mr-2" title="klik untuk kembali">Kembali</a>
                 <button type="submit" class="btn btn-primary finish" title="klik untuk selesai">
                     Selesai
                 </button>
@@ -60,6 +72,10 @@
         </div>
     </form>
 </div>
+@endsection
+
+@section('scripts')
+<script src="{{ asset('assets/tmplts_backend/vendor/libs/sweetalert2/sweetalert2.js') }}"></script>
 @endsection
 
 @section('jsbody')
@@ -72,6 +88,43 @@
         --seconds;
         minutes = (seconds < 0) ? --minutes : minutes;
         if (minutes < 0) {
+
+            Swal.fire({
+            title: "Durasi Evaluasi sudah habis",
+            text: "Klik selesai untuk mengakhiri evaluasi",
+            type: "warning",
+            confirmButtonText: "Selesai",
+            customClass: {
+                confirmButton: "btn btn-primary btn-lg"
+            },
+            showLoaderOnConfirm: false,
+            allowOutsideClick: false,
+            preConfirm: () => {
+                return $.ajax({
+                    url: "/course/{{ $data['mata']->id }}/evaluasi",
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    dataType: 'json'
+                }).then(response => {
+                    if (!response.success) {
+                        return new Error(response.message);
+                    }
+                    return response;
+                }).catch(error => {
+                    swal({
+                        type: 'error',
+                        text: 'Error while deleting data. Error Message: ' + error
+                    })
+                });
+            }
+            }).then(response => {
+                if (response.value.success) {
+                    window.location.href = '/course/{{ $data['mata']->id }}/detail';
+                }
+            });
+
             clearInterval(interval);
         };
 

@@ -200,7 +200,7 @@ class MataService
                     'nama' => $peserta->user->name,
                     'kode_peserta' => $peserta->nip,
                     'email' => $peserta->user->email,
-                    'kode_instansi' => '15017',
+                    'kode_instansi' => $peserta->instansi($peserta)->kode_instansi,
                     'unit_kerja' => $peserta->unit_kerja,
                     'deputi' => $peserta->kedeputian,
                 ];

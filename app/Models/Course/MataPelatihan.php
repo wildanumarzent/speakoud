@@ -65,6 +65,11 @@ class MataPelatihan extends Model
         return $this->hasOne(MataRating::class, 'mata_id')->where('user_id', auth()->user()->id);
     }
 
+    public function apiEvaluasiByUser()
+    {
+        return $this->hasMany(ApiEvaluasi::class, 'mata_id')->where('user_id', auth()->user()->id);
+    }
+
     public function getRating($type, $rate = null)
     {
         $mata = $this->hasMany(MataRating::class, 'mata_id');

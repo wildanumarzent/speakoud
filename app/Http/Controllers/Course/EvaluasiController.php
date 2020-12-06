@@ -26,6 +26,22 @@ class EvaluasiController extends Controller
         $data['preview'] = $this->service->previewSoal($mataId);
         $apiUser = $this->service->checkUser($mataId)->first();
 
+        if ($data['mata']->apiEvaluasiByUser()->count() == 0) {
+            return back()->with('info', 'anda belum terdaftar di evaluasi ini');
+        }
+
+        if (now() < $data['preview']->waktu_mulai) {
+            return back()->with('warning', 'evaluasi tidak bisa dibuka dikarenakan belum memasuki waktu yang ditentukan');
+        }
+
+        if (now() > $data['preview']->waktu_selesai) {
+            return back()->with('warning', 'evaluasi tidak bisa dibuka dikarenakan sudah melebihi waktu yang ditentukan');
+        }
+
+        if ($apiUser->is_complete == 1) {
+            return back()->with('info', 'anda sudah menyelesaikan evaluasi');
+        }
+
         if (empty($apiUser->start_time)) {
             $this->service->recordUser($mataId);
 
@@ -52,8 +68,19 @@ class EvaluasiController extends Controller
 
     public function submit(Request $request, $mataId)
     {
-        $this->service->submitAnswer($request, $mataId);
+        $submit = $this->service->submitAnswer($request, $mataId);
 
-        return back()->with('success', 'Terima kasih');
+        if ($submit == true) {
+            if ($request->submit == 'yes') {
+                return back()->with('success', 'Terima kasih');
+            } else {
+                return response()->json([
+                    'success' => 1,
+                    'message' => ''
+                ], 200);
+            }
+        } else {
+            return redirect()->route('course.detail', ['id' => $mataId])->with('warning', 'Token tidak valid');
+        }
     }
 }

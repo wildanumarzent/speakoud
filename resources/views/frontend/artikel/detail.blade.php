@@ -49,9 +49,7 @@
                 {!! $data['read']->content !!}
             </article>
         </div>
-
         @livewire('komentar-form',['model' => $data['read']])
-
 
     </div>
 </div>

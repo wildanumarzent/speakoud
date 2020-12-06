@@ -24,7 +24,7 @@
                         <input type="file" class="form-control custom-file-input file @error('file_path') is-invalid @enderror" type="file" id="file-1" lang="en" name="file_path" value="browse...">
                         @include('components.field-error', ['field' => 'file_path'])
                     </label>
-                    <small>Allowed : <strong>{{ strtoupper(config('addon.mimes.bank_data.m')) }}</strong></small>
+                    <small>Allowed : <strong>{{ strtoupper(config('addon.mimes.bank_data.m')) }}</strong>, Max Upload Size : {{ ini_get('upload_max_filesize') }}</small>
                 </div>
             </div>
             <div class="form-row" id="thumbnail">
@@ -35,7 +35,7 @@
                         <input type="file" class="form-control custom-file-input file @error('thumbnail') is-invalid @enderror" type="file" id="file-2" lang="en" name="thumbnail" value="browse...">
                         @include('components.field-error', ['field' => 'thumbnail'])
                     </label>
-                    <small>Allowed : <strong>{{ strtoupper(config('addon.mimes.photo.m')) }}</strong></small>
+                    <small>Allowed : <strong>{{ strtoupper(config('addon.mimes.photo.m')) }}</strong>, Max Upload Size : {{ ini_get('upload_max_filesize') }}</small>
                 </div>
             </div>
             <div class="form-row">
