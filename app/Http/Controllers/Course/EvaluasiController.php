@@ -20,7 +20,7 @@ class EvaluasiController extends Controller
         $this->serviceMata = $serviceMata;
     }
 
-    public function form(Request $request, $mataId)
+    public function formPenyelenggara(Request $request, $mataId)
     {
         $data['mata'] = $this->serviceMata->findMata($mataId);
         $data['preview'] = $this->service->previewSoal($mataId);
@@ -39,7 +39,7 @@ class EvaluasiController extends Controller
         }
 
         if ($apiUser->is_complete == 1) {
-            return back()->with('info', 'anda sudah menyelesaikan evaluasi');
+            return back()->with('info', 'anda sudah menyelesaikan evaluasi ini');
         }
 
         if (empty($apiUser->start_time)) {
@@ -66,7 +66,22 @@ class EvaluasiController extends Controller
         ]);
     }
 
-    public function submit(Request $request, $mataId)
+    public function rekapPenyelenggara(Request $request, $mataId)
+    {
+        $data['mata'] = $this->serviceMata->findMata($mataId);
+        $data['result'] = $this->service->resultSubmit($mataId);
+
+        return view('frontend.course.evaluasi.rekap', compact('data'), [
+            'title' => 'Course - Evalusi - Rekap',
+            'breadcrumbsBackend' => [
+                'Course' => route('course.detail', ['id' => $mataId]),
+                'Evaluasi' => '',
+                'Rekap' => '',
+            ],
+        ]);
+    }
+
+    public function submitPenyelenggara(Request $request, $mataId)
     {
         $submit = $this->service->submitAnswer($request, $mataId);
 

@@ -50,7 +50,13 @@ class BahanForumTopik extends Model
 
     public function diskusi()
     {
-        return $this->hasMany(BahanForumTopikDiskusi::class, 'forum_id');
+        return $this->hasMany(BahanForumTopikDiskusi::class, 'forum_topik_id');
+    }
+
+    public function diskusiByUser()
+    {
+        return $this->hasMany(BahanForumTopikDiskusi::class, 'forum_topik_id')
+            ->where('user_id', auth()->user()->id);
     }
 
     public function lastPost()

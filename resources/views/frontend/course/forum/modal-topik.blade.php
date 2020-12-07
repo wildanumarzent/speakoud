@@ -26,6 +26,15 @@
               @include('components.field-error', ['field' => 'message'])
             </div>
           </div>
+          @if (!auth()->user()->hasRole('peserta_internal|peserta_mitra'))
+          <div class="form-row">
+            <div class="form-group col">
+              <label class="form-label">Limit Reply</label>
+              <input type="number" class="form-control @error('limit_reply') is-invalid @enderror" name="limit_reply" value="{{ old('limit_reply') }}" placeholder="masukan limit reply...">
+              @include('components.field-error', ['field' => 'limit_reply'])
+            </div>
+          </div>
+          @endif
           <div class="form-row">
             <div class="form-group col">
                 <a href="{{ route('forum.topik.create', ['id' => $data['bahan']->forum->id]) }}" class="form-label"><i class="las la-edit"></i> Tampilkan lebih banyak</a>

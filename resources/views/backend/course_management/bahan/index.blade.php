@@ -93,7 +93,7 @@
                 </tr>
                 @if ($item->type($item)['tipe'] == 'forum')
                 <tr>
-                    <th>Tipe Forum</th>
+                    <th>Option</th>
                     <td>{{ config('addon.label.forum_tipe.'.$item->forum->tipe)['title'] }}</td>
                 </tr>
                 @endif
@@ -177,7 +177,7 @@
                           <i class="las la-trash-alt"></i>
                         </a>
                         <a class="btn btn-secondary icon-btn btn-sm" href="javascript:void(0);" onclick="$(this).find('form').submit();" title="klik untuk {{ $item->publish == 0 ? 'publish' : 'draft' }} bahan pelatihan">
-                            <i class="las la-{{ $item->publish == 0 ? 'eye-slash' : 'eye' }} "></i>
+                            <i class="las la-{{ $item->publish == 0 ? 'eye' : 'eye-slash' }} "></i>
                             <form action="{{ route('bahan.publish', ['id' => $item->materi_id, 'bahanId' => $item->id]) }}" method="POST">
                               @csrf
                               @method('PUT')

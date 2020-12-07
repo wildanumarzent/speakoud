@@ -21,6 +21,7 @@ class CreateBahanForumTable extends Migration
             $table->unsignedBigInteger('bahan_id');
             $table->unsignedBigInteger('creator_id');
             $table->integer('tipe')->default(0);
+            $table->integer('limit_topik')->nullable();
             $table->timestamps();
 
             $table->foreign('program_id')->references('id')

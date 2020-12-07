@@ -40,6 +40,7 @@ class BahanForumService
         $forum->bahan_id = $bahan->id;
         $forum->creator_id = auth()->user()->id;
         $forum->tipe = $request->tipe;
+        $forum->limit_topik = $request->limit_topik ?? null;
         $forum->save();
 
         return $forum;
@@ -49,6 +50,7 @@ class BahanForumService
     {
         $forum = $bahan->forum;
         $forum->tipe = $request->tipe;
+        $forum->limit_topik = $request->limit_topik ?? null;
         $forum->save();
 
         return $forum;
@@ -95,6 +97,7 @@ class BahanForumService
         $topik->creator_id = auth()->user()->id;
         $topik->pin = (bool)$request->pin;
         $topik->attachment = !empty($request->attachment) ? $fileName : null;
+        $topik->limit_reply = $request->limit_reply ?? null;
         $topik->publish_start = (bool)$request->enable_start == 1 ? $request->publish_start : null;
         $topik->publish_end = (bool)$request->enable_end == 1 ? $request->publish_end : null;
         $topik->save();
@@ -119,6 +122,7 @@ class BahanForumService
         $topik->fill($request->only(['subject', 'message']));
         $topik->pin = (bool)$request->pin;
         $topik->attachment = !empty($request->attachment) ? $fileName : $topik->attachment;
+        $topik->limit_reply = $request->limit_reply ?? null;
         $topik->publish_start = (bool)$request->enable_start == 1 ? $request->publish_start : null;
         $topik->publish_end = (bool)$request->enable_end == 1 ? $request->publish_end : null;
         $topik->save();

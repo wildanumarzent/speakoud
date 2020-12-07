@@ -33,10 +33,11 @@
           <div class="text-muted small">{{ $data['topik']->created_at->format('l, j F Y, H:i A') }} - {{ $data['topik']->creator['name'] }}</div>
         </div>
         <div class="media-body ml-3 text-right">
-            @if (auth()->user()->hasRole('developer|administrator|internal|mitra') || $data['topik']->creator_id == auth()->user()->id)
+            @if (auth()->user()->hasRole('administrator|internal|mitra') || $data['topik']->creator_id == auth()->user()->id)
             <div class="btn-group dropdown" id="hover-dropdown-demo">
                 <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" data-trigger="hover" aria-expanded="false">Action</button>
                 <div class="dropdown-menu" x-placement="bottom-start">
+                @if (auth()->user()->hasRole('administrator|internal|mitra') || auth()->user()->hasRole('instruktur_internal|instruktur_mitra') && $data['topik']->creator_id == auth()->user()->id)
                   <a href="javascript:void(0);" onclick="$(this).find('form').submit();" class="dropdown-item" title="{{ $data['topik']->pin == 1 ? 'Unpin' : 'Pin' }} Topik">
                     <i class="las la-thumbtack"></i> {{ $data['topik']->pin == 1 ? 'Unpin' : 'Pin' }}
                     <form action="{{ route('forum.topik.pin', ['id' => $data['topik']->forum_id, 'topikId' => $data['topik']->id]) }}" method="POST">
@@ -44,6 +45,7 @@
                         @method('PUT')
                     </form>
                   </a>
+                  @endif
                   <a href="javascript:void(0);" onclick="$(this).find('form').submit();" class="dropdown-item" title="{{ $data['topik']->lock == 1 ? 'Unlock' : 'Lock' }} Topik">
                     <i class="las la-lock"></i> {{ $data['topik']->lock == 1 ? 'Unlock' : 'Lock' }}
                     <form action="{{ route('forum.topik.lock', ['id' => $data['topik']->forum_id, 'topikId' => $data['topik']->id]) }}" method="POST">
@@ -73,7 +75,9 @@
           @endif
       </div>
       <div class="px-4 pt-3">
-        <button type="button" class="btn btn-primary reply" data-toggle="modal" data-target="#form-reply" data-parent="0"><i class="ion ion-md-create"></i>&nbsp; Reply</button>
+          @if (!auth()->user()->hasRole('peserta_internal|peserta_mitra') || auth()->user()->hasRole('peserta_internal|peserta_mitra') && empty($data['topik']->limit_reply) || !empty($data['topik']->limit_reply) && $data['topik']->diskusiByUser()->count() < $data['topik']->limit_reply)
+          <button type="button" class="btn btn-primary reply" data-toggle="modal" data-target="#form-reply" data-parent="0"><i class="ion ion-md-create"></i>&nbsp; Reply</button>
+          @endif
       </div>
     </div>
 </div>
@@ -106,7 +110,9 @@
             {!! $diskusi->message !!}
           </div>
           <div class="small mt-2">
+            @if (!auth()->user()->hasRole('peserta_internal|peserta_mitra') || auth()->user()->hasRole('peserta_internal|peserta_mitra') && empty($data['topik']->limit_reply) || !empty($data['topik']->limit_reply) && $data['topik']->diskusiByUser()->count() < $data['topik']->limit_reply)
             <a href="javascript:void(0)" class="text-light reply" data-toggle="modal" data-target="#form-reply" data-parent="{{ $diskusi->id }}">Reply</a>
+            @endif
           </div>
         </div>
       </div>

@@ -42,7 +42,7 @@ class BahanForumTopikDiskusi extends Model
 
     public function topik()
     {
-        return $this->belongsTo(BahanForumTopik::class, 'topik_id');
+        return $this->belongsTo(BahanForumTopik::class, 'forum_topik_id');
     }
 
     public function parent()

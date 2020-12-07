@@ -31,7 +31,7 @@
             </div>
             <div class="form-group row">
                 <div class="col-md-2 text-md-right">
-                  <label class="col-form-label text-sm-right">Kode Evaluasi</label>
+                  <label class="col-form-label text-sm-right">Kode Evaluasi Penyelenggara</label>
                 </div>
                 <div class="col-md-10">
                   <input type="text" class="form-control @error('kode_evaluasi') is-invalid @enderror" name="kode_evaluasi"

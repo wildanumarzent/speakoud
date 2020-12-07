@@ -103,6 +103,26 @@
                         <th>Status</th>
                         <td><span class="badge badge-outline-{{ $item->publish == 1 ? 'primary' : 'warning' }}">{{ $item->publish == 1 ? 'Publish' : 'Draft' }}</span></td>
                     </tr>
+                    <tr>
+                        <th>Action</th>
+                        <td>
+                            <a class="btn btn-info icon-btn btn-sm" href="{{ route('jadwal.edit', ['id' => $item->id]) }}" title="klik untuk mengedit jadwal pelatihan">
+                                <i class="las la-pen"></i>
+                            </a>
+                            @if (auth()->user()->hasRole('developer|administrator') || $item->creator_id == auth()->user()->id)
+                            <a class="btn btn-danger icon-btn btn-sm js-sa2-delete" href="javascript:void(0);" data-id="{{ $item->id }}" title="klik untuk menghapus jadwal pelatihan">
+                            <i class="las la-trash-alt"></i>
+                            </a>
+                            @endif
+                            <a class="btn btn-secondary icon-btn btn-sm" href="javascript:void(0);" onclick="$(this).find('form').submit();" title="klik untuk {{ $item->publish == 0 ? 'publish' : 'draft' }} jadwal pelatihan">
+                                <i class="las la-{{ $item->publish == 0 ? 'eye' : 'eye-slash' }} "></i>
+                                <form action="{{ route('jadwal.publish', ['id' => $item->id]) }}" method="POST">
+                                @csrf
+                                @method('PUT')
+                                </form>
+                            </a>
+                        </td>
+                    </tr>
                 </table>
             </div>
             <hr class="m-0 mb-2">

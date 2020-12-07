@@ -27,14 +27,14 @@ class BahanForumController extends Controller
         $data['forum'] = $this->service->findForum($forumId);
         $data['topik'] = $this->service->findTopik($id);
 
+        $this->serviceProgram->checkInstruktur($data['topik']->program_id);
+        $this->serviceProgram->checkPeserta($data['topik']->program_id);
+
         if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
             if ($data['forum']->program->publish == 0 || $data['forum']->bahan->publish == 0) {
                 return abort(404);
             }
         }
-
-        $this->serviceProgram->checkInstruktur($data['topik']->program_id);
-        $this->serviceProgram->checkPeserta($data['topik']->program_id);
 
         return view('frontend.course.forum.room', compact('data'), [
             'title' => 'Forum - Topik - Room',
@@ -53,6 +53,20 @@ class BahanForumController extends Controller
     public function createTopik($forumId)
     {
         $data['forum'] = $this->service->findForum($forumId);
+
+        if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
+            if ($data['forum']->program->publish == 0 || $data['forum']->bahan->publish == 0) {
+                return abort(404);
+            }
+            if ($data['forum']->tipe == 0) {
+                return back()->with('warning', 'Peserta tidak diberi akses untuk membuat topik');
+            }
+            if ($data['forum']->tipe == 1 && !empty($data['forum']->limit_topik)) {
+                if ($data['forum']->topikByUser()->count() >= $data['forum']->limit_topik) {
+                    return back()->with('warning', 'Forum dilimit '.$data['forum']->limit_topik.' Topik');
+                }
+            }
+        }
 
         return view('frontend.course.forum.form', compact('data'), [
             'title' => 'Forum - Topik - Tambah',
@@ -84,6 +98,10 @@ class BahanForumController extends Controller
     {
         $data['forum'] = $this->service->findForum($forumId);
         $data['topik'] = $this->service->findTopik($id);
+
+        if (auth()->user()->hasRole('peserta_internal|peserta_mitra') && $data['topik']->creator_id != auth()->user()->id) {
+            return abort(404);
+        }
 
         return view('frontend.course.forum.form', compact('data'), [
             'title' => 'Forum - Topik - Edit',
@@ -151,6 +169,16 @@ class BahanForumController extends Controller
             $data['diskusi'] = $this->service->findDiskusi($request->parent);
         }
 
+        if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
+            if ($data['forum']->program->publish == 0 || $data['forum']->bahan->publish == 0) {
+                return abort(404);
+            }
+
+            if (!empty($data['topik']->limit_reply) && $data['topik']->diskusiByUser()->count() >= $data['topik']->limit_reply) {
+                return back()->with('warning', 'Topik dilimit '.$data['topik']->limit_reply.' Reply');
+            }
+        }
+
         return view('frontend.course.forum.form-reply', compact('data'), [
             'title' => 'Forum - Topik - Reply',
             'breadcrumbsBackend' => [
@@ -168,9 +196,15 @@ class BahanForumController extends Controller
     public function storeReply(ForumTopikDiskusiRequest $request, $forumId, $topikId)
     {
         $forum = $this->service->findForum($forumId);
-        $topik = $this->service->findForum($topikId);
+        $topik = $this->service->findTopik($topikId);
 
-        $this->service->storeReply($request, $forumId, $topikId);
+        try {
+            //code...
+            $this->service->storeReply($request, $forumId, $topikId);
+        } catch (\Throwable $th) {
+            //throw $th;
+            dd($th->getMessage());
+        }
 
         return redirect()->route('forum.topik.room', ['id' => $forumId, 'topikId' => $topikId])
             ->with('success', 'Berhasil mereply topik');
@@ -181,6 +215,10 @@ class BahanForumController extends Controller
         $data['forum'] = $this->service->findForum($forumId);
         $data['topik'] = $this->service->findTopik($topikId);
         $data['diskusi'] = $this->service->findDiskusi($id);
+
+        if (auth()->user()->hasRole('peserta_internal|peserta_mitra') && $data['diskusi']->user_id != auth()->user()->id) {
+            return abort(404);
+        }
 
         return view('frontend.course.forum.form-reply', compact('data'), [
             'title' => 'Forum - Topik - Reply',

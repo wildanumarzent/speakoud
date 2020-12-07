@@ -42,4 +42,9 @@ class BahanForum extends Model
     {
         return $this->hasMany(BahanForumTopik::class, 'forum_id');
     }
+
+    public function topikByUser()
+    {
+        return $this->hasMany(BahanForumTopik::class, 'forum_id')->where('creator_id', auth()->user()->id);
+    }
 }

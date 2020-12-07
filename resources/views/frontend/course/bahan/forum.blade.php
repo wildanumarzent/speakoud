@@ -2,6 +2,7 @@
 
 @section('style')
 <script src="{{ asset('assets/tmplts_backend/wysiwyg/tinymce.min.js') }}"></script>
+<link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/sweetalert2/sweetalert2.css') }}">
 @endsection
 
 @section('content-view')
@@ -11,14 +12,25 @@
             <tr>
                 <th style="width: 10px;"></th>
                 <th>
+                    @if (auth()->user()->hasRole('peserta_internal|peserta_mitra') && $data['bahan']->forum->tipe == 1)
+                        @if (empty($data['bahan']->forum->limit_topik) || !empty($data['bahan']->forum->limit_topik) && $data['bahan']->forum->topikByUser()->count() < $data['bahan']->forum->limit_topik)
+                        <button type="button" class="btn btn-primary icon-btn-only-sm btn-sm" data-toggle="modal" data-target="#form-topik" title="klik untuk menambah topik">
+                            <i class="las la-plus"></i><span>Topik</span>
+                        </button>
+                        @else
+                        Topik
+                        @endif
+                    @endif
+                    @if (!auth()->user()->hasRole('peserta_internal|peserta_mitra') || auth()->user()->hasRole('instruktur_internal|instruktur_mitra') && $data['bahan']->forum->creator_id == auth()->user()->id)
                     <button type="button" class="btn btn-primary icon-btn-only-sm btn-sm" data-toggle="modal" data-target="#form-topik" title="klik untuk menambah topik">
                         <i class="las la-plus"></i><span>Topik</span>
                     </button>
+                    @endif
                 </th>
                 <th style="width:180px;">Started By</th>
                 <th style="width:180px;">Last Post</th>
                 <th style="width:20px;" class="text-center">Replies</th>
-                <th style="width:170px;"></th>
+                <th style="width:200px;"></th>
             </tr>
         </thead>
         <tbody>
@@ -106,6 +118,7 @@
                 </td>
                 <td class="text-center"><strong>{{ $item->diskusi()->count() }}</strong></td>
                 <td>
+                    @if (auth()->user()->hasRole('administrator|internal|mitra') || auth()->user()->hasRole('instruktur_internal|instruktur_mitra') && $item->creator_id == auth()->user()->id)
                     <a href="javascript:void(0);" onclick="$(this).find('form').submit();" class="btn btn-primary icon-btn btn-sm" title="{{ $item->pin == 1 ? 'Unpin' : 'Pin' }} Topik">
                         <i class="las la-thumbtack"></i>
                         <form action="{{ route('forum.topik.pin', ['id' => $item->forum_id, 'topikId' => $item->id]) }}" method="POST">
@@ -113,6 +126,8 @@
                             @method('PUT')
                         </form>
                     </a>
+                    @endif
+                    @if (auth()->user()->hasRole('administrator|internal|mitra') || $item->creator_id == auth()->user()->id)
                     <a href="javascript:void(0);" onclick="$(this).find('form').submit();" class="btn btn-warning icon-btn btn-sm" title="{{ $item->lock == 1 ? 'Unlock' : 'Lock' }} Topik">
                         <i class="las la-lock"></i>
                         <form action="{{ route('forum.topik.lock', ['id' => $item->forum_id, 'topikId' => $item->id]) }}" method="POST">
@@ -126,6 +141,7 @@
                     <a href="javascript:;" data-forumid="{{ $item->forum_id }}" data-id="{{ $item->id }}" class="btn btn-danger icon-btn btn-sm js-sa2-delete" title="Hapus topik">
                         <i class="las la-trash"></i>
                     </a>
+                    @endif
                 </td>
             </tr>
             @endforeach
@@ -134,6 +150,10 @@
 </div>
 
 @include('frontend.course.forum.modal-topik')
+@endsection
+
+@section('script')
+<script src="{{ asset('assets/tmplts_backend/vendor/libs/sweetalert2/sweetalert2.js') }}"></script>
 @endsection
 
 @section('body')

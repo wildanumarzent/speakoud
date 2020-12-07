@@ -80,7 +80,7 @@ class BahanController extends Controller
         $data['prev'] = $this->service->bahanPrevNext($data['materi']->id, $data['bahan']->urutan, 'prev');
         $data['next'] = $this->service->bahanPrevNext($data['materi']->id, $data['bahan']->urutan, 'next');
 
-        // return $data['cpData'];
+        //check data
         if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
             if ($data['bahan']->program->publish == 0 || $data['bahan']->publish == 0) {
                 return abort(404);
@@ -91,6 +91,14 @@ class BahanController extends Controller
 
             if (now() > $data['bahan']->publish_end) {
                 return back()->with('warning', 'Materi tidak bisa diakses dikarenakan sudah melebihi tanggal selesai');
+            }
+        }
+
+        $this->serviceProgram->checkInstruktur($data['mata']->program_id);
+        $this->serviceProgram->checkPeserta($data['mata']->program_id);
+        if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra|peserta_internal|peserta_mitra')) {
+            if ($this->serviceMata->checkUser($mataId) == 0) {
+                return back()->with('warning', 'anda tidak terdaftar di course '.$data['read']->judul.'');
             }
         }
 
@@ -118,14 +126,6 @@ class BahanController extends Controller
             $data['checkpoint'] = $this->serviceScorm->checkpoint(auth()->user()->id,$data['bahan']->scorm->id);
             if(isset($data['checkpoint'])){
                 $data['cpData'] = json_decode($data['checkpoint']->checkpoint,true);
-            }
-        }
-
-        $this->serviceProgram->checkInstruktur($data['mata']->program_id);
-        $this->serviceProgram->checkPeserta($data['mata']->program_id);
-        if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra|peserta_internal|peserta_mitra')) {
-            if ($this->serviceMata->checkUser($mataId) == 0) {
-                return back()->with('warning', 'anda tidak terdaftar di course '.$data['read']->judul.'');
             }
         }
 

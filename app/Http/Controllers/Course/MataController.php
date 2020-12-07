@@ -173,6 +173,7 @@ class MataController extends Controller
 
         if (!empty($data['read']->kode_evaluasi)) {
             $data['preview'] = $this->serviceEvaluasi->previewSoal($id);
+            $data['result'] = $this->serviceEvaluasi->resultSubmit($id);
         }
 
         return view('frontend.course.detail', compact('data'), [

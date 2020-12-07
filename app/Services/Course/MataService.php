@@ -14,14 +14,16 @@ use Illuminate\Support\Str;
 
 class MataService
 {
-    private $model, $modelInstruktur, $modelPeserta, $komentar, $peserta;
+    private $model, $modelInstruktur, $modelPeserta, $komentar, $peserta,
+        $modelEvaluasi;
 
     public function __construct(
         MataPelatihan $model,
         MataInstruktur $modelInstruktur,
         MataPeserta $modelPeserta,
         KomentarService $komentar,
-        PesertaService $peserta
+        PesertaService $peserta,
+        ApiEvaluasi $modelEvaluasi
     )
     {
         $this->model = $model;
@@ -29,6 +31,7 @@ class MataService
         $this->modelPeserta = $modelPeserta;
         $this->komentar = $komentar;
         $this->peserta = $peserta;
+        $this->modelEvaluasi = $modelEvaluasi;
     }
 
     public function getAllMata()
@@ -187,13 +190,19 @@ class MataService
 
         $collectPeserta = collect($request->peserta_id);
         foreach ($collectPeserta->all() as $key => $value) {
-            $peserta = new MataPeserta;
-            $peserta->mata_id = $mataId;
-            $peserta->peserta_id = $value;
-            $peserta->save();
+
+            $peserta = $this->peserta->findPeserta($value);
+
+            if ($this->modelEvaluasi->where('mata_id', $mataId)->where('user_id', $peserta->user_id)->count() == 0) {
+                $peserta = new MataPeserta;
+                $peserta->mata_id = $mataId;
+                $peserta->peserta_id = $value;
+                $peserta->save();
+            } else {
+                return false;
+            }
 
             if (!empty($mata->kode_evaluasi)) {
-                $peserta = $this->peserta->findPeserta($value);
                 $client = new \GuzzleHttp\Client();
                 $url = config('addon.api.evaluasi.end_point').'/register/'.$mata->kode_evaluasi;
                 $parameter = [

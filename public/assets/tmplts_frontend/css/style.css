@@ -1689,7 +1689,7 @@ header .main-header.bg-fixed .menubar-flex .menubar-right .account .user {
   .item-post.row-box .box-post {
     margin: 0;
     background-color: transparent;
-    box-shadow: none;
+    box-shadow: none !important;
   }
 }
 

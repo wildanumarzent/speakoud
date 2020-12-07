@@ -160,13 +160,17 @@ Route::get('/tugas/{id}/peserta', 'Course\Bahan\BahanTugasController@peserta')
     ->name('tugas.peserta')
     ->middleware(['auth', 'role:administrator|internal|mitra|instruktur_internal|instruktur_mitra']);
 
-//evaluasi
-Route::get('/course/{id}/evaluasi', 'Course\EvaluasiController@form')
-    ->name('evaluasi.form')
-    ->middleware('role:peserta_internal|peserta_mitra');
-Route::post('/course/{id}/evaluasi', 'Course\EvaluasiController@submit')
-    ->name('evaluasi.submit')
-    ->middleware('role:peserta_internal|peserta_mitra');
+//--evaluasi
+#--penyelenggara
+Route::get('/course/{id}/evaluasi/penyelenggara', 'Course\EvaluasiController@formPenyelenggara')
+    ->name('evaluasi.penyelenggara.form')
+    ->middleware(['auth', 'role:peserta_internal|peserta_mitra']);
+Route::get('/course/{id}/evaluasi/penyelenggara/rekap', 'Course\EvaluasiController@rekapPenyelenggara')
+    ->name('evaluasi.penyelenggara.rekap')
+    ->middleware(['auth', 'role:administrator|internal|mitra']);
+Route::post('/course/{id}/evaluasi/penyelenggara', 'Course\EvaluasiController@submitPenyelenggara')
+    ->name('evaluasi.penyelenggara.submit')
+    ->middleware(['auth', 'role:peserta_internal|peserta_mitra']);
 
 /**
  * authentication

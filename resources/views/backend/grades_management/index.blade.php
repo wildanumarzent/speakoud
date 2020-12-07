@@ -112,11 +112,11 @@
                             <div class="card-body">
                                 <div class="item-table">
                                     <div class="data-table">Nilai Maksimum</div>
-                                    <div class="desc-table">{{ $item->maksimum }}</div>
+                                    <div class="desc-table">{{ $item->maksimum.' %' }}</div>
                                 </div>
                                 <div class="item-table">
                                     <div class="data-table">Nilai Minimum</div>
-                                    <div class="desc-table">{{ $item->minimum }}</div>
+                                    <div class="desc-table">{{ $item->minimum.' %' }}</div>
                                 </div>
                                 <div class="item-table">
                                     <div class="data-table">Keterangan</div>
