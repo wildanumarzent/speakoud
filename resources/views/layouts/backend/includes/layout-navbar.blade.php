@@ -6,7 +6,7 @@
         <span class="app-brand-logo demo bg-white">
             <img src="{{ asset(config('addon.images.logo')) }}" style="width:50px;height:50px;object-fit:cover">
         </span>
-        <span class="app-brand-text demo font-weight-normal ml-2">@lang('layout.header.title')</span>
+        <span class="app-brand-text demo font-weight-normal ml-2">@lang('strip.title_header')</span>
     </a>
 
 
@@ -33,36 +33,6 @@
         </div>
 
         <div class="navbar-nav align-items-lg-center ml-lg-auto">
-          @livewire('notification')
-
-          {{-- <div class="demo-navbar-messages nav-item dropdown mr-lg-3">
-            <a class="nav-link dropdown-toggle hide-arrow" href="#" data-toggle="dropdown">
-              <i class="ion ion-ios-mail navbar-icon align-middle"></i>
-              <span class="badge badge-primary badge-dot indicator"></span>
-              <span class="d-lg-none align-middle">&nbsp; Messages</span>
-            </a>
-            <div class="dropdown-menu dropdown-menu-right">
-              <div class="bg-primary text-center text-white font-weight-bold p-3">
-                4 New Messages
-              </div>
-              <div class="list-group list-group-flush">
-                <a href="javascript:void(0)" class="list-group-item list-group-item-action media d-flex align-items-center">
-                  <img src="{{ asset('assets/images/profile.jpg') }}" class="d-block ui-w-40 rounded-circle" alt>
-                  <div class="media-body ml-3">
-                    <div class="text-body line-height-condenced">Sit meis deleniti eu, pri vidit meliore docendi ut.</div>
-                    <div class="text-light small mt-1">
-                      Mae Gibson &nbsp;·&nbsp; 58m ago
-                    </div>
-                  </div>
-                </a>
-              </div>
-
-              <a href="javascript:void(0)" class="d-block text-center text-light small p-2 my-1">Show all messages</a>
-            </div>
-          </div>
-
-          <!-- Divider -->
-          <div class="nav-item d-none d-lg-block text-big font-weight-light line-height-1 opacity-25 mr-3 ml-1">|</div> --}}
 
           <div class="demo-navbar-user nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">

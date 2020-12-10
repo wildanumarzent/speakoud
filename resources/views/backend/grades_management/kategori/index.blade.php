@@ -36,7 +36,7 @@
             </a>
         </div>
     </div>
-    <div class="card-datatable table-responsive">
+    <div class="table-responsive table-mobile-responsive">
         <table class="table table-striped table-bordered mb-0">
             <thead>
                 <tr>
@@ -81,6 +81,57 @@
                         <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-sm btn-danger js-sa2-delete" title="klik untuk menghapus grades kategori">
                             <i class="las la-trash"></i>
                         </a>
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+            <tbody class="tbody-responsive">
+                @if ($data['kategori']->total() == 0)
+                <tr>
+                    <td colspan="7" align="center">
+                        <i><strong style="color:red;">
+                        @if (Request::get('q'))
+                        ! Grades kategori tidak ditemukan !
+                        @else
+                        ! Data Grades kategori kosong !
+                        @endif
+                        </strong></i>
+                    </td>
+                </tr>
+                @endif
+                @foreach ($data['kategori'] as $item)
+                <tr>
+                    <td>
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="item-table">
+                                    <div class="data-table">Nama</div>
+                                    <div class="desc-table">{{ $item->nama }}</div>
+                                </div>
+                                <div class="item-table">
+                                    <div class="data-table">Keterangan</div>
+                                    <div class="desc-table">{{ $item->keterangan ?? '-' }}</div>
+                                </div>
+                                <div class="item-table">
+                                    <div class="data-table">Creator</div>
+                                    <div class="desc-table">{{ $item->creator->name }}</div>
+                                </div>
+
+                                <div class="item-table m-0">
+                                    <div class="desc-table text-right">
+                                        <a href="{{ route('grades.nilai', ['id' => $item->id]) }}" class="btn icon-btn btn-sm btn-success" title="klik untuk melihat list grades">
+                                            <i class="las la-list-ol"></i>
+                                        </a>
+                                        <a href="{{ route('grades.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-sm btn-primary" title="klik untuk mengedit grades kategori">
+                                            <i class="las la-pen"></i>
+                                        </a>
+                                        <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-sm btn-danger js-sa2-delete" title="klik untuk menghapus grades kategori">
+                                            <i class="las la-trash"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </td>
                 </tr>
                 @endforeach

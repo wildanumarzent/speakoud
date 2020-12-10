@@ -56,6 +56,18 @@
                   </label>
                 </div>
             </div>
+            @if (!auth()->user()->hasRole('peserta_internal|peserta_mitra'))
+            <div class="form-group row">
+                <div class="col-md-2 text-md-right">
+                  <label class="col-form-label text-sm-right">Limit Reply</label>
+                </div>
+                <div class="col-md-10">
+                  <input type="number" class="form-control @error('limit_reply') is-invalid @enderror" name="limit_reply"
+                    value="{{ (isset($data['topik'])) ? old('limit_reply', $data['topik']->limit_reply) : old('limit_reply') }}" placeholder="masukan limit reply...">
+                  @include('components.field-error', ['field' => 'limit_reply'])
+                </div>
+            </div>
+            @endif
             <div class="form-group row">
                 <div class="col-md-2 text-md-right">
                   <label class="col-form-label text-sm-right">Attachment</label>

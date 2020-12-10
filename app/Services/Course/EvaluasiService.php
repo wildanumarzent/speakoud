@@ -33,6 +33,22 @@ class EvaluasiService
         return $json->data->evaluasi;
     }
 
+    public function resultSubmit(int $mataId)
+    {
+        $mata = $this->mata->findMata($mataId);
+
+        $client = new \GuzzleHttp\Client();
+        $url = config('addon.api.evaluasi.end_point').'/result/'.$mata->kode_evaluasi;
+        $response = $client->request('GET', $url, [
+
+        ]);
+
+        $data = $response->getBody()->getContents();
+        $json = json_decode($data);
+
+        return $json->data;
+    }
+
     public function checkUser(int $mataId)
     {
         return $this->model->where('mata_id', $mataId)->where('user_id', auth()->user()->id);

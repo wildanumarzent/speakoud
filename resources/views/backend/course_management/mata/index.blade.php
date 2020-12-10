@@ -151,7 +151,7 @@
                         @endif
                         @if ($data['hasRole'])
                         <a class="btn btn-secondary icon-btn btn-sm" href="javascript:void(0);" onclick="$(this).find('form').submit();" title="klik untuk {{ $item->publish == 0 ? 'publish' : 'draft' }} program pelatihan">
-                            <i class="las la-{{ $item->publish == 0 ? 'eye-slash' : 'eye' }} "></i>
+                            <i class="las la-{{ $item->publish == 0 ? 'eye' : 'eye-slash' }} "></i>
                             <form action="{{ route('mata.publish', ['id' => $item->program_id, 'mataId' => $item->id]) }}" method="POST">
                                 @csrf
                                 @method('PUT')

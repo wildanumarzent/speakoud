@@ -33,7 +33,7 @@
                     <div class="media-body ml-3">
                       <h5 class="mb-1"><a href="javascript:void(0)" class="text-body">{!! $data['read']->judul !!}</a></h5>
                       {{-- <div class="text-muted small">Last Updated {{ $data['read']->updated_at->format('d F Y') }}</div> --}}
-                      <div class="text-muted small"><i class="las la-user"></i> <strong>0</strong> students enrolled <i class="las la-comment ml-3"></i> <strong>{{ $data['read']->materi->count() }}</strong> topics</div>
+                      <div class="text-muted small"><i class="las la-user"></i> <strong>{{ $data['read']->peserta->count() }}</strong> students enrolled <i class="las la-comment ml-3"></i> <strong>{{ $data['read']->materi->count() }}</strong> topics</div>
                     </div>
                 </div>
                 <div class="card-header-elements ml-auto">
@@ -121,11 +121,11 @@
             @if (auth()->user()->hasRole('peserta_internal|peserta_mitra') && !empty($data['read']->kode_evaluasi) && $data['read']->apiEvaluasiByUser()->count() == 1)
             <div class="card mb-2">
                 <div class="card-header">
-                  <a class="collapsed text-body" data-toggle="collapse" href="#evaluasi">
-                      <i class="las la-thumbtack"></i> Form Evaluasi
+                  <a class="collapsed text-body" data-toggle="collapse" href="#form-evaluasi">
+                      <i class="las la-thumbtack"></i> Form Evaluasi Penyelenggara
                   </a>
                 </div>
-                <div id="evaluasi" class="collapse" data-parent="#accordion">
+                <div id="form-evaluasi" class="collapse" data-parent="#accordion">
                     <div class="card-body">
                         <ul class="list-group list-group-flush mt-2">
                             <li class="list-group-item py-4">
@@ -135,8 +135,14 @@
                                   </div>
                                   <div class="media-body ml-sm-2">
                                     <h5 class="mb-2">
-                                      <div class="float-right font-weight-semibold ml-3"><i class="las la-stop text-danger" style="font-size: 2em;" title="anda belum mengakses materi ini"></i></div>
-                                      <a href="{{ route('evaluasi.form', ['id' => $data['read']->id]) }}" class="text-body">{{ $data['preview']->nama }}</a>&nbsp;
+                                        <div class="float-right font-weight-semibold ml-3">
+                                        @if ($data['read']->apiEvaluasiByUser()->complete()->count() == 0)
+                                            <i class="las la-stop text-danger" style="font-size: 2em;" title="anda belum mengisi evaluasi ini"></i>
+                                        @else
+                                            <i class="las la-check-square text-success" style="font-size: 2em;" title="anda sudah mengisi evaluasi ini"></i>
+                                        @endif
+                                        </div>
+                                      <a href="{{ route('evaluasi.penyelenggara.form', ['id' => $data['read']->id]) }}" class="text-body">{{ $data['preview']->nama }}</a>&nbsp;
                                     </h5>
                                     <div class="d-flex flex-wrap align-items-center mb-2">
                                       <div class="text-muted small">
@@ -145,6 +151,40 @@
                                       </div>
                                     </div>
                                     <div>Durasi pengerjaan : <span class="badge badge-warning"><i class="las la-clock"></i> {{ $data['preview']->lama_jawab.' Menit' }}</span></div>
+                                  </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            @endif
+            @if (!auth()->user()->hasRole('peserta_internal|peserta_mitra') && !empty($data['read']->kode_evaluasi))
+            <div class="card mb-2">
+                <div class="card-header">
+                  <a class="collapsed text-body" data-toggle="collapse" href="#rekap-evaluasi">
+                      <i class="las la-thumbtack"></i> Rekap Evaluasi Penyelenggara
+                  </a>
+                </div>
+                <div id="rekap-evaluasi" class="collapse" data-parent="#accordion">
+                    <div class="card-body">
+                        <ul class="list-group list-group-flush mt-2">
+                            <li class="list-group-item py-4">
+                                <div class="media flex-wrap">
+                                  <div class="d-none d-sm-block ui-w-120 text-center">
+                                      <i class="las la-list mr-2" style="font-size: 4em;"></i>
+                                  </div>
+                                  <div class="media-body ml-sm-2">
+                                    <h5 class="mb-2">
+                                      <a href="{{ route('evaluasi.penyelenggara.rekap', ['id' => $data['read']->id]) }}" class="text-body">{{ $data['result']->evaluasi->nama }}</a>&nbsp;
+                                    </h5>
+                                    <div class="d-flex flex-wrap align-items-center mb-2">
+                                      <div class="text-muted small">
+                                        <i class="las la-calendar text-primary"></i>
+                                        <span>{{ $data['result']->evaluasi->waktu_mulai.' s/d '.$data['result']->evaluasi->waktu_selesai }}</span>
+                                      </div>
+                                    </div>
+                                    <div>Durasi pengerjaan : <span class="badge badge-warning"><i class="las la-clock"></i> {{ $data['result']->evaluasi->lama_jawab.' Menit' }}</span></div>
                                   </div>
                                 </div>
                             </li>
