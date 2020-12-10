@@ -20,9 +20,7 @@ class CreateBahanScormTable extends Migration
             $table->unsignedBigInteger('materi_id');
             $table->unsignedBigInteger('bahan_id');
             $table->unsignedBigInteger('creator_id');
-            $table->text('package')->nullable();
-            $table->text('version')->nullable();
-            $table->text('package_name')->nullable();
+            $table->unsignedBigInteger('scorm_id');
             $table->boolean('repeatable')->default(0);
             $table->timestamps();
 
@@ -39,6 +37,8 @@ class CreateBahanScormTable extends Migration
                 ->on('bahan_pelatihan')
                 ->cascadeOnDelete();
             $table->foreign('creator_id')->references('id')->on('users')
+                ->cascadeOnDelete();
+                $table->foreign('scorm_id')->references('id')->on('scorm')
                 ->cascadeOnDelete();
         });
     }

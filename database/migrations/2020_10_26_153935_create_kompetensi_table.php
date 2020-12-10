@@ -21,7 +21,6 @@ class CreateKompetensiTable extends Migration
             $table->string('judul');
             $table->text('keterangan')->nullable();
             $table->timestamps();
-
             $table->foreign('mata_id')->references('id')
                 ->on('mata_pelatihan')
                 ->cascadeOnDelete();

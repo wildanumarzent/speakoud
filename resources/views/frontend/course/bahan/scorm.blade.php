@@ -5,22 +5,22 @@
 @if($data['bahan']->scorm->repeatable == 0)
 @if(empty(@$data['cpData']))
 @if(@$data['cpData']['core']['lesson_status'] != 'completed')
-<a href="javascript:;" data-uid="{{auth()->user()->id}}" data-sid="{{$data['bahan']->scorm->id}}" data-uname="{{auth()->user()->name}}" data-version="2004 3rd Generation" data-src="{{ url($data['bahan']->scorm->package) }}" class="btn btn-sm btn-primary scorm-play" title="klik untuk mulai"  data-checkpoint="{{$data['checkpoint']->checkpoint ?? 0}}">
+<button id="playButton" type="button" data-uid="{{auth()->user()->id}}" data-sid="{{$data['bahan']->scorm->id}}" data-uname="{{auth()->user()->name}}" data-version="2004 3rd Generation" data-src="{{ url($data['bahan']->scorm->scorm->package) }}" class="btn btn-sm btn-primary scorm-play" title="klik untuk mulai"  data-checkpoint="{{$data['checkpoint']->checkpoint ?? 0}}">
     Mulai
- </a>
- <a href="javascript:;" class="btn btn-sm btn-success scorm-exit">
+</button>
+ <button type="button" class="btn btn-sm btn-success scorm-exit">
     Selesai
- </a>
+ </button>
  @else
  @endif
 @endif
 @else
-<a href="javascript:;" data-uid="{{auth()->user()->id}}" data-sid="{{$data['bahan']->scorm->id}}" data-uname="{{auth()->user()->name}}" data-version="2004 3rd Generation" data-src="{{ url($data['bahan']->scorm->package) }}" class="btn btn-sm btn-primary scorm-play" title="klik untuk mulai"  data-checkpoint="{{$data['checkpoint']->checkpoint ?? 0}}">
+<button id="playButton" type="button" data-uid="{{auth()->user()->id}}" data-sid="{{$data['bahan']->scorm->id}}" data-uname="{{auth()->user()->name}}" data-version="2004 3rd Generation" data-src="{{ url($data['bahan']->scorm->scorm->package) }}" class="btn btn-sm btn-primary scorm-play" title="klik untuk mulai"  data-checkpoint="{{$data['checkpoint']->checkpoint ?? 0}}">
     Mulai
- </a>
- <a href="javascript:;" class="btn btn-sm btn-success scorm-exit">
+</button>
+ <button type="button" class="btn btn-sm btn-success scorm-exit" disabled>
     Selesai
- </a>
+ </button>
 @endif
 
 @endsection
@@ -38,6 +38,8 @@
 
         $(document).ready(setupScormApi());
         $('.scorm-play').on('click', function () {
+            $("#playButton").attr("disabled", true);
+            $(".scorm-exit").attr("disabled", false);
             var version = $(this).attr('data-version');
             var checkpoint = $(this).attr('data-checkpoint');
             var src = $(this).attr('data-src');
@@ -76,7 +78,7 @@
         type:"POST",
         data:{
           user_id:uid,
-          scorm_id:sid,
+          bahan_scorm_id:sid,
           checkpoint:backup,
           _token: _token
         },

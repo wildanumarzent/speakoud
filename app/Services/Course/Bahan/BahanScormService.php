@@ -2,6 +2,7 @@
 
 namespace App\Services\Course\Bahan;
 
+use App\Models\Scorm;
 use App\Models\Course\Bahan\BahanScorm;
 use App\Models\Course\Bahan\ScormCheckpoint;
 use Illuminate\Support\Facades\File;
@@ -15,10 +16,21 @@ class BahanScormService
 {
     private $model;
 
-    public function __construct(BahanScorm $model,ScormCheckpoint $checkpoint)
+    public function __construct(BahanScorm $model,ScormCheckpoint $checkpoint,Scorm $scorm)
     {
         $this->model = $model;
+        $this->scorm = $scorm;
         $this->checkpoint = $checkpoint;
+    }
+
+    public function getMaster(){
+        $query = $this->scorm->query();
+        if (auth()->user()->hasRole('developer|administrator|internal')){
+        }else{
+        $query->where('creator_id',auth()->user()->id);
+        }
+        $result = $query->orderby('package_name','asc')->get();
+        return $result;
     }
 
     public function get($id){
@@ -30,15 +42,16 @@ class BahanScormService
     public function checkpoint($userId,$scormId){
         $query = $this->checkpoint->query();
         $query->where('user_id',$userId);
-        $query->where('scorm_id',$scormId);
+        $query->where('bahan_scorm_id',$scormId);
         $result = $query->first();
         return $result;
      }
 
     public function storeScorm($request, $materi, $bahan)
     {
-        if ($request->hasFile('package')) {
 
+        if(empty($request->scorm_id)){
+        if ($request->hasFile('package')) {
             $fileName = str_replace(' ', '-', Carbon::now()->format('ymd-His').'-'.$request->file('package')->getClientOriginalName());
             $filePath = 'userfile/scorm/'.$materi->id;
             $scormPath = $filePath.'/'.basename($fileName, ".zip");
@@ -53,24 +66,29 @@ class BahanScormService
                 'version' => ['uses' => 'metadata.schemaversion'],
                 'resource' => ['uses' => 'resources.resource::href'],
             ]);
-
             $xmlPath =  $scormPath.'/'.$parse['resource'];
-            $scorm = new BahanScorm;
-            $scorm->program_id = $materi->program_id;
-            $scorm->mata_id = $materi->mata_id;
-            $scorm->materi_id = $materi->id;
-            $scorm->bahan_id = $bahan->id;
-            $scorm->creator_id = auth()->user()->id;
-            $scorm->package = $xmlPath;
-            $scorm->repeatable = (bool)$request->repeatable;
-            $scorm->version = "ver.".$parse['version'];
-            $scorm->package_name = basename($fileName,".zip");
-            $scorm->save();
-
-            return $scorm;
-        } else {
-            return false;
+            $masterScorm = new Scorm;
+            $masterScorm->package = $xmlPath;
+            $masterScorm->version = "ver.".$parse['version'];
+            $masterScorm->package_name = basename($request->file('package')->getClientOriginalName(),".zip");
+            $masterScorm->creator_id = auth()->user()->id;
+            $masterScorm->save();
+            $scormID = $masterScorm->id;
         }
+        }else{
+            $scormID = $request->scorm_id;
+        }
+        $scorm = new BahanScorm;
+        $scorm->program_id = $materi->program_id;
+        $scorm->mata_id = $materi->mata_id;
+        $scorm->materi_id = $materi->id;
+        $scorm->bahan_id = $bahan->id;
+        $scorm->creator_id = auth()->user()->id;
+        $scorm->scorm_id = $scormID;
+        $scorm->repeatable = (bool)$request->repeatable;
+        $scorm->save();
+
+        return $scorm;
     }
 
     public function updateScorm($request, $bahan)
@@ -109,9 +127,9 @@ class BahanScormService
     public function savePoint($data){
         $cp = new ScormCheckPoint;
         $cp->updateOrCreate([
-            'scorm_id' => $data['scorm_id'],
+            'bahan_scorm_id' => $data['bahan_scorm_id'],
             'user_id' => $data['user_id']],
-            ['scorm_id' => $data['scorm_id'],
+            ['bahan_scorm_id' => $data['bahan_scorm_id'],
             'checkpoint' => json_encode($data['checkpoint']),
             'user_id' => $data['user_id']]
 
