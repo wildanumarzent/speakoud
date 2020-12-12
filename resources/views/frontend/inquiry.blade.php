@@ -50,19 +50,41 @@
                         <div class="box-info mb-4">
                             <div class="item-info text-left p-0" style="border: none;">
                                 <span class="ml-4">Telpon</span>
+                                @if (!empty($configuration['fax']))
+                                <div class="data-info">
+                                    <i class="las la-fax"></i>
+                                    <span>{{ $configuration['fax'] }}</span>
+                                </div>
+                                @endif
+                                @if (!empty($configuration['phone']))
                                 <div class="data-info">
                                     <i class="las la-tty"></i>
                                     <span>{{ $configuration['phone'] }}</span>
                                 </div>
+                                @endif
+                                @if (!empty($configuration['phone_2']))
+                                <div class="data-info">
+                                    <i class="las la-phone"></i>
+                                    <span>{{ $configuration['phone_2'] }}</span>
+                                </div>
+                                @endif
                             </div>
                         </div>
                         <div class="box-info mb-4">
                             <div class="item-info text-left p-0" style="border: none;">
                                 <span class="ml-4">E-mail</span>
+                                @if (!empty($configuration['email']))
                                 <div class="data-info">
                                     <i class="las la-envelope"></i>
                                     <span><a href="mailto:{{ $configuration['email'] }}">{{ $configuration['email'] }}</a></span>
                                 </div>
+                                @endif
+                                @if (!empty($configuration['email_2']))
+                                <div class="data-info">
+                                    <i class="las la-envelope-open-text"></i>
+                                    <span><a href="mailto:{{ $configuration['email_2'] }}">{{ $configuration['email_2'] }}</a></span>
+                                </div>
+                                @endif
                             </div>
                         </div>
                         <div class="box-info mb-4">

@@ -25,7 +25,7 @@
                             @include('components.field-error', ['field' => 'thumbnail'])
                         </div>
                         <div class="col-md-7">
-                            <a href="javascript:;" id="show-thumb"><small class="text-muted">Current thumbnail</small></a><br>
+                            <a href="javascript:;" id="show-thumb"><small class="text-muted">Thumbnail Sebelumnya</small></a><br>
                             <img id="old-thumb" src="" style="width: 120px;">
                         </div>
                     </div>

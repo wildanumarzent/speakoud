@@ -49,16 +49,14 @@
     </div>
 </div>
 <!-- / Filters -->
-@if ($data['hasRole'])
 <div class="d-flex justify-content-between">
     <a href="{{ route('program.create') }}" class="btn btn-primary rounded-pill" title="klik untuk menambah kategori pelatihan"><i class="las la-plus"></i>Tambah</a>
 </div>
 <br>
-@endif
 
-<div class="row @if ($data['hasRole']) drag @endif">
+<div class="row drag">
     @foreach ($data['program'] as $item)
-    <div class="col-sm-6 col-xl-4" @if ($data['hasRole']) id="{{ $item->id }}" style="cursor: move;" title="geser untuk merubah urutan" @endif>
+    <div class="col-sm-6 col-xl-4" id="{{ $item->id }}" style="cursor: move;" title="geser untuk merubah urutan">
       <div class="card card-list">
         <div class="card-body d-flex justify-content-between align-items-start pb-1">
           <div>
@@ -72,11 +70,9 @@
               <a class="dropdown-item" href="{{ route('mata.index', ['id' => $item->id]) }}" title="klik untuk melihat program pelatihan">
                 <i class="las la-book"></i> Program Pelatihan
               </a>
-              @if ($data['hasRole'])
               <a class="dropdown-item" href="{{ route('program.edit', ['id' => $item->id]) }}" title="klik untuk mengedit kategori pelatihan">
                 <i class="las la-pen"></i> Edit
               </a>
-              @endif
               @if (auth()->user()->hasRole('developer|administrator') || $item->creator_id == auth()->user()->id)
               <a class="dropdown-item js-sa2-delete" href="javascript:void(0);" data-id="{{ $item->id }}" title="klik untuk menghapus kategori pelatihan">
                 <i class="las la-trash-alt"></i> Hapus
@@ -95,7 +91,6 @@
                     <th>Status</th>
                     <td><span class="badge badge-outline-{{ $item->publish == 1 ? 'primary' : 'warning' }}">{{ $item->publish == 1 ? 'Publish' : 'Draft' }}</span></td>
                 </tr>
-                @if ($data['hasRole'])
                 <tr>
                     <th>Urutan</th>
                     <td>
@@ -123,27 +118,25 @@
                         @endif
                     </td>
                 </tr>
-                @endif
                 <tr>
                     <th>Action</th>
                     <td>
-                        <a class="btn btn-success icon-btn btn-sm" href="{{ route('mata.index', ['id' => $item->id]) }}" title="klik untuk melihat program pelatihan">
-                            <i class="las la-book"></i>
+                        <a class="btn btn-success btn-sm btn-block" href="{{ route('mata.index', ['id' => $item->id]) }}" title="klik untuk melihat program pelatihan">
+                            <i class="las la-book"></i> Program Pelatihan
+                        </a><br>
+                        <a class="btn btn-info btn-sm btn-block" href="{{ route('program.edit', ['id' => $item->id]) }}" title="klik untuk mengedit kategori pelatihan">
+                          <i class="las la-pen"></i> Edit
                         </a>
-                        @if ($data['hasRole'])
-                        <a class="btn btn-info icon-btn btn-sm" href="{{ route('program.edit', ['id' => $item->id]) }}" title="klik untuk mengedit kategori pelatihan">
-                          <i class="las la-pen"></i>
-                        </a>
-                        @endif
                         @if (auth()->user()->hasRole('developer|administrator') || $item->creator_id == auth()->user()->id)
-                        <a class="btn btn-danger icon-btn btn-sm js-sa2-delete" href="javascript:void(0);" data-id="{{ $item->id }}" title="klik untuk menghapus kategori pelatihan">
-                          <i class="las la-trash-alt"></i>
+                        <br>
+                        <a class="btn btn-danger btn-sm btn-block js-sa2-delete" href="javascript:void(0);" data-id="{{ $item->id }}" title="klik untuk menghapus kategori pelatihan">
+                          <i class="las la-trash-alt"></i> Hapus
                         </a>
                         @endif
                     </td>
                 </tr>
           </table>
-          @if (auth()->user()->hasRole('developer|administrator|internal|mitra') && $item->publish == 0 && $item->mata()->count() > 0 && $item->materi()->count() > 0)
+          @if ($item->publish == 0 && $item->mata()->count() > 0 && $item->materi()->count() > 0)
           <a href="javascript:;" class="btn btn-success btn-block publish" title="klik untuk publish">
             PUBLISH
             <form action="{{ route('program.publish', ['id' => $item->id])}}" method="POST" id="form-publish">
@@ -178,7 +171,7 @@
             @if (Request::get('p') || Request::get('q'))
             ! Kategori Pelatihan tidak ditemukan !
             @else
-            ! Data Kategori Pelatihan kosong !
+            ! Kategori Pelatihan kosong !
             @endif
         </strong>
     </div>

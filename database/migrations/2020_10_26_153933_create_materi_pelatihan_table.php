@@ -17,6 +17,7 @@ class CreateMateriPelatihanTable extends Migration
             $table->id();
             $table->unsignedBigInteger('program_id');
             $table->unsignedBigInteger('mata_id');
+            $table->unsignedBigInteger('instruktur_id');
             $table->unsignedBigInteger('creator_id');
             $table->string('judul');
             $table->text('keterangan')->nullable();
@@ -29,6 +30,9 @@ class CreateMateriPelatihanTable extends Migration
                 ->cascadeOnDelete();
             $table->foreign('mata_id')->references('id')
                 ->on('mata_pelatihan')
+                ->cascadeOnDelete();
+            $table->foreign('instruktur_id')->references('id')
+                ->on('instruktur')
                 ->cascadeOnDelete();
             $table->foreign('creator_id')->references('id')->on('users')
                 ->cascadeOnDelete();

@@ -80,6 +80,29 @@ class User extends Authenticatable
         return $this->hasOne(Peserta::class, 'user_id');
     }
 
+    public function getDataByRole($user)
+    {
+        $data = $user;
+
+        if ($user->internal()->count() > 0) {
+            $data = $user->internal;
+        }
+
+        if ($user->mitra()->count() > 0) {
+            $data = $user->mitra;
+        }
+
+        if ($user->instruktur()->count() > 0) {
+            $data = $user->instruktur;
+        }
+
+        if ($user->peserta()->count() > 0) {
+            $data = $user->peserta;
+        }
+
+        return $data;
+    }
+
     public function getPhoto($value)
     {
         if (!empty($value)) {

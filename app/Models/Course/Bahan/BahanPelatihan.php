@@ -2,6 +2,7 @@
 
 namespace App\Models\Course\Bahan;
 
+use App\Models\Course\ApiEvaluasi;
 use App\Models\Course\MataPelatihan;
 use App\Models\Course\MateriPelatihan;
 use App\Models\Course\ProgramPelatihan;
@@ -83,6 +84,16 @@ class BahanPelatihan extends Model
         return $this->hasOne(BahanTugas::class, 'bahan_id');
     }
 
+    public function evaluasiPengajar()
+    {
+        return $this->hasOne(BahanEvaluasiPengajar::class, 'bahan_id');
+    }
+
+    public function userEvaluasiPengajar()
+    {
+        return $this->hasMany(ApiEvaluasi::class, 'bahan_id')->where('user_id', auth()->user()->id);
+    }
+
     public function type($bahan)
     {
         if ($bahan->forum()->count() == 1) {
@@ -146,6 +157,14 @@ class BahanPelatihan extends Model
                 'tipe' => 'tugas',
                 'title' => 'Tugas',
                 'icon' => 'briefcase'
+            ];
+        }
+
+        if ($bahan->evaluasiPengajar()->count() == 1) {
+            $segmen = [
+                'tipe' => 'evaluasi_pengajar',
+                'title' => 'Evaluasi Pengajar',
+                'icon' => 'user-tie'
             ];
         }
 

@@ -44,10 +44,10 @@
 @section('content-view')
 <div class="card-datatable table-responsive d-flex justify-content-center mb-4">
     <table class="table table-striped table-bordered mb-0">
-       <tr>
-            <th style="width: 150px;">Batas Pengumpulan</th>
-            <td>{{ $data['bahan']->publish_end->format('d F Y H:i') }}</td>
-       </tr>
+        <tr>
+             <th style="width: 150px;">Batas Pengumpulan</th>
+             <td>{{ !empty($data['bahan']->publish_end) ? $data['bahan']->publish_end->format('d F Y H:i') : 'Tidak dibatasi' }}</td>
+        </tr>
        <tr>
             <th style="width: 150px;">Dokumen Tugas</th>
             <td>
@@ -75,54 +75,13 @@
         <tr>
             <th colspan="2">
                 Klik tombol dibawah untuk mengirim hasil tugas!
-                <button type="button" class="btn btn-primary btn-block mt-2" id="upload"><i class="las la-upload"></i> Upload Tugas</button>
+                <button type="button" class="btn btn-primary btn-block mt-2" data-toggle="modal" data-target="#modals-upload-file"><i class="las la-upload"></i> Upload Tugas</button>
             </th>
         </tr>
         @endif
     </table>
 </div>
-@if (auth()->user()->hasRole('peserta_internal|peserta_mitra') && empty($data['bahan']->tugas->responByUser))
-<div class="card-body" style="border: 1px solid #e8e8e9; border-radius: .75rem;" id="form-upload">
-    <form action="{{ route('tugas.send', ['id' => $data['bahan']->tugas->id]) }}" method="POST" enctype="multipart/form-data">
-        @csrf
-        <div id="list">
-            <div class="form-group row">
-                <div class="col-md-2 text-md-right">
-                  <label class="col-form-label text-sm-right">Keterangan</label>
-                </div>
-                <div class="col-md-10">
-                    <textarea class="form-control tiny @error('keterangan') is-invalid @enderror" name="keterangan" placeholder="masukan deskripsi..."></textarea>
-                    @include('components.field-error', ['field' => 'keterangan'])
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col-md-2 text-md-right">
-                    <label class="col-form-label">Files</label>
-                </div>
-                <div class="col-md-9">
-                    <label class="custom-file mt-2">
-                        <label class="custom-file-label mt-2" for="file-0"></label>
-                        <input type="file" class="form-control custom-file-input file @error('files.0') is-invalid @enderror" id="file-0" lang="en" name="files[]" value="browse...">
-                        @error('files.0')
-                            @include('components.field-error', ['field' => 'files.0'])
-                        @else
-                        <small class="text-danger">Tipe File : <strong>{{ strtoupper(config('addon.mimes.tugas.m')) }}</strong></small>
-                        @enderror
-                    </label>
-                </div>
-                <div class="col-md-1" id="add-files">
-                    <button type="button" id="add" class="btn btn-success icon-btn"><i class="las la-plus"></i></button>
-                </div>
-            </div>
-        </div>
-        <br>
-        <hr>
-        <div class="col-md-10 ml-sm-auto text-md-left text-right">
-            <button type="submit" class="btn btn-primary" title="klik untuk mengirim" data-toggle="tooltip">Kirim</button>
-        </div>
-    </form>
-</div>
-@endif
+
 @if (auth()->user()->hasRole('peserta_internal|peserta_mitra') && !empty($data['bahan']->tugas->responByUser))
 <hr>
 <h5>Tugas Saya</h5>
@@ -151,6 +110,8 @@
     </table>
 </div>
 @endif
+
+@include('frontend.course.tugas.modal-upload')
 @endsection
 
 @section('script')
@@ -162,38 +123,30 @@
 <script>
     $('.jstree').jstree();
 
-    $("#form-upload").hide();
-    $( "#upload" ).click(function() {
-        $("#form-upload").toggle('slow');
-    });
-
     $(function()  {
         var no = 1;
         $("#add").click(function() {
             $("#list").append(`
             <div class="form-group row num-list" id="delete-`+no+`">
-                <div class="col-md-2 text-md-right">
-                    <label class="col-form-label"></label>
-                </div>
-                <div class="col-md-9">
+                <div class="col-md-11">
                     <label class="custom-file mt-2">
                         <label class="custom-file-label mt-2" for="file-`+no+`"></label>
                         <input type="file" class="form-control custom-file-input file @error('files.`+no+`') is-invalid @enderror" id="file-`+no+`" lang="en" name="files[]" value="browse...">
                     </label>
                 </div>
                 <div class="col-md-1">
-                    <button type="button" id="remove" data-id="`+no+`" class="btn btn-danger icon-btn"><i class="las la-times"></i></button>
+                    <button type="button" id="remove" data-id="`+no+`" class="btn btn-danger btn-sm icon-btn"><i class="las la-times"></i></button>
                 </div>
             </div>
             `);
 
-            // var noOfColumns = $('.num-list').length;
-            // var maxNum = 2;
-            // if (noOfColumns < maxNum) {
-            //     $("#add-files").show();
-            // } else {
-            //     $("#add-files").hide();
-            // }
+            var noOfColumns = $('.num-list').length;
+            var maxNum = 19;
+            if (noOfColumns < maxNum) {
+                $("#add-files").show();
+            } else {
+                $("#add-files").hide();
+            }
 
             // FILE BROWSE
             function callfileBrowser() {

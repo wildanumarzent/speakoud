@@ -43,6 +43,31 @@
               @include('components.field-error', ['field' => 'username'])
             </div>
         </div>
+        <div class="form-group row">
+            <div class="col-md-2 text-md-right">
+              <label class="col-form-label text-sm-right">Nomor Telpon</label>
+            </div>
+            <div class="col-md-10">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">+62</span>
+                    </div>
+                    <input type="text" class="form-control @error('phone') is-invalid @enderror" name="phone"
+                        value="{{ (isset($data['user'])) ? old('phone', $data['user']->information->phone) : old('phone') }}" placeholder="masukan nomor telpon...">
+                    @include('components.field-error', ['field' => 'phone'])
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-md-2 text-md-right">
+              <label class="col-form-label text-sm-right">Alamat</label>
+            </div>
+            <div class="col-md-10">
+              <textarea class="form-control @error('alamat') is-invalid @enderror" name="address" placeholder="masukan alamat...">{{ (isset($data['user'])) ? old('address', $data['user']->information->address) : old('address') }}</textarea>
+              @include('components.field-error', ['field' => 'address'])
+            </div>
+        </div>
+        <hr>
         @if (isset($data['user']))
           @if ($data['user']->roles[0]->name == 'developer' || $data['user']->roles[0]->name == 'administrator')
           <div class="form-group row">
@@ -119,8 +144,8 @@
       <div class="card-footer">
         <div class="row">
           <div class="col-md-10 ml-sm-auto text-md-left text-right">
-            <a href="{{ route('user.index') }}" class="btn btn-danger" title="klik untuk kembali ke list" data-toggle="tooltip">Kembali</a>
-            <button type="submit" class="btn btn-primary" name="action" value="save" title="klik untuk menyimpan" data-toggle="tooltip">{{ isset($data['user']) ? 'Simpan perubahan' : 'Simpan' }}</button>
+            <a href="{{ route('user.index') }}" class="btn btn-danger" title="klik untuk kembali ke list">Kembali</a>
+            <button type="submit" class="btn btn-primary" name="action" value="save" title="klik untuk menyimpan">{{ isset($data['user']) ? 'Simpan perubahan' : 'Simpan' }}</button>
           </div>
         </div>
       </div>

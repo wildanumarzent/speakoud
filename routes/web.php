@@ -128,6 +128,9 @@ Route::post('/conference/{id}/peserta', 'Course\Bahan\BahanConferenceController@
 Route::put('/conference/{id}/join/{trackId}/verification', 'Course\Bahan\BahanConferenceController@checkInVerified')
     ->name('conference.peserta.check')
     ->middleware(['auth', 'role:administrator|internal|mitra|instruktur_internal|instruktur_mitra']);
+Route::put('/conference/{id}/finish', 'Course\Bahan\BahanConferenceController@finishConference')
+    ->name('conference.finish')
+    ->middleware(['auth', 'role:administrator|internal|mitra|instruktur_internal|instruktur_mitra']);
 
 //quiz
 Route::get('/quiz/{id}/test', 'Course\Bahan\BahanQuizItemController@room')
@@ -162,7 +165,10 @@ Route::get('/tugas/{id}/peserta', 'Course\Bahan\BahanTugasController@peserta')
 
 //--evaluasi
 #--penyelenggara
-Route::get('/course/{id}/evaluasi/penyelenggara', 'Course\EvaluasiController@formPenyelenggara')
+Route::get('/course/{id}/evaluasi/penyelenggara', 'Course\EvaluasiController@penyelenggara')
+    ->name('evaluasi.penyelenggara')
+    ->middleware('auth');
+Route::get('/course/{id}/evaluasi/penyelenggara/form', 'Course\EvaluasiController@formPenyelenggara')
     ->name('evaluasi.penyelenggara.form')
     ->middleware(['auth', 'role:peserta_internal|peserta_mitra']);
 Route::get('/course/{id}/evaluasi/penyelenggara/rekap', 'Course\EvaluasiController@rekapPenyelenggara')
@@ -170,6 +176,10 @@ Route::get('/course/{id}/evaluasi/penyelenggara/rekap', 'Course\EvaluasiControll
     ->middleware(['auth', 'role:administrator|internal|mitra']);
 Route::post('/course/{id}/evaluasi/penyelenggara', 'Course\EvaluasiController@submitPenyelenggara')
     ->name('evaluasi.penyelenggara.submit')
+    ->middleware(['auth', 'role:peserta_internal|peserta_mitra']);
+#--pengajar
+Route::get('/course/{id}/bahan/{bahanId}/evaluasi/pengajar', 'Course\EvaluasiController@formPengajar')
+    ->name('evaluasi.pengajar.form')
     ->middleware(['auth', 'role:peserta_internal|peserta_mitra']);
 
 /**
@@ -483,7 +493,7 @@ Route::group(['middleware' => ['auth']], function () {
     //program pelatihan
     Route::get('/program', 'Course\ProgramController@index')
         ->name('program.index')
-        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
+        ->middleware('role:developer|administrator|internal|mitra');
     Route::get('/program/create', 'Course\ProgramController@create')
         ->name('program.create')
         ->middleware('role:developer|administrator|internal|mitra');
@@ -512,7 +522,7 @@ Route::group(['middleware' => ['auth']], function () {
     //mata pelatihan
     Route::get('/program/{id}/mata', 'Course\MataController@index')
         ->name('mata.index')
-        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
+        ->middleware('role:developer|administrator|internal|mitra');
     Route::get('/program/{id}/mata/create', 'Course\MataController@create')
         ->name('mata.create')
         ->middleware('role:developer|administrator|internal|mitra');
@@ -539,15 +549,20 @@ Route::group(['middleware' => ['auth']], function () {
         ->middleware('role:developer|administrator|internal|mitra');
 
     //mata user
+    #--instruktur
     Route::get('mata/{id}/instruktur', 'Course\MataController@instruktur')
         ->name('mata.instruktur')
         ->middleware('role:administrator|internal|mitra');
     Route::post('mata/{id}/instruktur', 'Course\MataController@storeInstruktur')
         ->name('mata.instruktur.store')
         ->middleware('role:administrator|internal|mitra');
+    Route::put('mata/{id}/instruktur/{instrukturId}', 'Course\MataController@kodeEvaluasiInstruktur')
+        ->name('mata.instruktur.evaluasi')
+        ->middleware('role:administrator|internal|mitra');
     Route::delete('mata/{id}/instruktur/{mataInstrukturId}', 'Course\MataController@destroyInstruktur')
         ->name('mata.instruktur.destroy')
         ->middleware('role:administrator|internal|mitra');
+    #peserta
     Route::get('mata/{id}/peserta', 'Course\MataController@peserta')
         ->name('mata.peserta')
         ->middleware('role:administrator|internal|mitra');
@@ -564,7 +579,7 @@ Route::group(['middleware' => ['auth']], function () {
     //materi pelatihan
     Route::get('/mata/{id}/materi', 'Course\MateriController@index')
         ->name('materi.index')
-        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
+        ->middleware('role:developer|administrator|internal|mitra');
     Route::get('/mata/{id}/materi/create', 'Course\MateriController@create')
         ->name('materi.create')
         ->middleware('role:developer|administrator|internal|mitra');

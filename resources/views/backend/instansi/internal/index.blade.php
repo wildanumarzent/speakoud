@@ -12,11 +12,11 @@
             <div class="col-md">
                 <form action="" method="GET">
                     <div class="form-group">
-                        <label class="form-label">@lang('global.search.input_title')</label>
+                        <label class="form-label">Cari</label>
                         <div class="input-group">
-                            <input type="text" class="form-control" name="q" value="{{ Request::get('q') }}" placeholder="@lang('global.search.input_placeholder')">
+                            <input type="text" class="form-control" name="q" value="{{ Request::get('q') }}" placeholder="Kata kunci...">
                             <div class="input-group-append">
-                                <button type="submit" class="btn btn-warning" title="@lang('global.search.target')"><i class="las la-search"></i></button>
+                                <button type="submit" class="btn btn-warning" title="klik untuk mencari"><i class="las la-search"></i></button>
                             </div>
                         </div>
                     </div>
@@ -60,9 +60,9 @@
                         <i>
                             <strong style="color:red;">
                                 @if (Request::get('q'))
-                                ! @lang('layout.menu.instansi.title') @lang('global.data_empty.notfound') !
+                                ! Instansi tidak ditemukan !
                                 @else
-                                ! @lang('layout.menu.instansi.title') @lang('global.data_empty.record') !
+                                ! Instansi kosong !
                                 @endif
                             </strong>
                         </i>
@@ -82,10 +82,10 @@
                     <td>{{ $item->created_at->format('d F Y - (H:i)') }}</td>
                     <td>{{ $item->updated_at->format('d F Y - (H:i)') }}</td>
                     <td>
-                        <a href="{{ route('instansi.internal.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengedit Instansi" data-toggle="tooltip">
+                        <a href="{{ route('instansi.internal.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengedit Instansi">
                                 <i class="las la-pen"></i>
                         </a>
-                        <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus Instansi" data-toggle="tooltip">
+                        <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus Instansi">
                             <i class="las la-trash-alt"></i>
                         </a>
                     </td>
@@ -95,13 +95,13 @@
             <tbody class="tbody-responsive">
                 @if ($data['instansi']->total() == 0)
                 <tr>
-                    <td colspan="10" align="center">
+                    <td colspan="11" align="center">
                         <i>
                             <strong style="color:red;">
                             @if (Request::get('q'))
-                            ! Instansi @lang('global.data_empty.notfound') !
+                            ! Instansi tidak ditemukan !
                             @else
-                            ! Instansi @lang('global.data_empty.record') !
+                            ! Instansi kosong !
                             @endif
                             </strong>
                         </i>
@@ -123,11 +123,11 @@
                                 </div>
                                 <div class="item-table">
                                     <div class="data-table">Telpon</div>
-                                    <div class="desc-table">{{ $item->telpon ?? null }}</div>
+                                    <div class="desc-table">{{ $item->telpon ?? '-' }}</div>
                                 </div>
                                 <div class="item-table">
                                     <div class="data-table">Fax</div>
-                                    <div class="desc-table">{{ $item->fax ?? null }}</div>
+                                    <div class="desc-table">{{ $item->fax ?? '-' }}</div>
                                 </div>
                                 <div class="item-table">
                                     <div class="data-table">NIP Pimpinan</div>
@@ -144,10 +144,10 @@
 
                                 <div class="item-table m-0">
                                     <div class="desc-table text-right">
-                                        <a href="{{ route('instansi.internal.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengedit Instansi" data-toggle="tooltip">
+                                        <a href="{{ route('instansi.internal.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengedit Instansi">
                                                 <i class="las la-pen"></i>
                                         </a>
-                                        <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus Instansi" data-toggle="tooltip">
+                                        <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus Instansi">
                                             <i class="las la-trash-alt"></i>
                                         </a>
                                     </div>

@@ -122,7 +122,7 @@
                     <input class="form-control custom-file-input file @error('cover_file') is-invalid @enderror" type="file" id="upload-2" lang="en" name="cover_file" placeholder="masukan cover...">
                     @include('components.field-error', ['field' => 'cover_file'])
                     <small class="text-muted">Tipe File : <strong>{{ strtoupper(config('addon.mimes.cover.m')) }}</strong></small>
-                    <div class="row mt-3">
+                    <div class="row mt-3 hide-meta">
                         <div class="col-md-6">
                             <input type="text" class="form-control" name="cover_title" value="{{ isset($data['mata']) ? old('cover_title', $data['mata']->cover['title']) : old('cover_title') }}" placeholder="title cover...">
                         </div>
@@ -154,8 +154,8 @@
         <div class="card-footer">
             <div class="row">
               <div class="col-md-10 ml-sm-auto text-md-left text-right">
-                <a href="{{ route('mata.index', ['id' => $data['program']->id]) }}" class="btn btn-danger" title="klik untuk kembali ke list" data-toggle="tooltip">Kembali</a>
-                <button type="submit" class="btn btn-primary" name="action" value="save" title="klik untuk menyimpan" data-toggle="tooltip">{{ isset($data['mata']) ? 'Simpan perubahan' : 'Simpan' }}</button>
+                <a href="{{ route('mata.index', ['id' => $data['program']->id]) }}" class="btn btn-danger" title="klik untuk kembali ke list">Kembali</a>
+                <button type="submit" class="btn btn-primary" name="action" value="save" title="klik untuk menyimpan">{{ isset($data['mata']) ? 'Simpan perubahan' : 'Simpan' }}</button>
               </div>
             </div>
         </div>
@@ -172,6 +172,7 @@
 
 @section('jsbody')
 <script>
+    $('.hide-meta').hide();
     //datetime
     $('.datetime-picker').bootstrapMaterialDatePicker({
         date: true,

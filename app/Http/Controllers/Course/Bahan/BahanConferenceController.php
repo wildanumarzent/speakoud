@@ -4,15 +4,20 @@ namespace App\Http\Controllers\Course\Bahan;
 
 use App\Http\Controllers\Controller;
 use App\Services\Course\Bahan\BahanConferenceService;
+use App\Services\Course\Bahan\BahanService;
 use Illuminate\Http\Request;
 
 class BahanConferenceController extends Controller
 {
-    private $service;
+    private $service, $serviceBahan;
 
-    public function __construct(BahanConferenceService $service)
+    public function __construct(
+        BahanConferenceService $service,
+        BahanService $serviceBahan
+    )
     {
         $this->service = $service;
+        $this->serviceBahan = $serviceBahan;
     }
 
     public function room($id)
@@ -24,16 +29,14 @@ class BahanConferenceController extends Controller
                 return abort(404);
             }
 
+            if ($data['conference']->status == 0) {
+                return back()->with('warning', 'Pengajar belum memulai video conference');
+            } elseif ($data['conference']->status == 2) {
+                return back()->with('warning', 'Pengajar sudah mengakhiri video conference');
+            }
+
             if ($this->service->checkPesertaJoin($id) == 0) {
                 $this->service->trackPesertaJoin($id);
-            }
-        }
-
-        if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
-            if ($data['conference']->status == 0) {
-                return back()->with('warning', 'Instruktur belum memulai video conference');
-            } elseif ($data['conference']->status == 2) {
-                return back()->with('warning', 'Instruktur sudah mengakhiri video conference');
             }
         }
 
@@ -45,7 +48,7 @@ class BahanConferenceController extends Controller
 
             $checkRole = auth()->user()->hasRole('developer|administrator|internal|mitra');
             if ($checkRole || auth()->user()->hasRole('instruktur_internal|instruktur_mitra') &&
-                $data['conference']->creator_id == auth()->user()->id) {
+                $data['conference']->materi->instruktur_id == auth()->user()->instruktur->id) {
                 $this->service->statusMeet($id, 1);
             } else {
                 return abort(403);
@@ -80,6 +83,8 @@ class BahanConferenceController extends Controller
         $data['number'] = $data['peserta']->firstItem();
         $data['peserta']->withPath(url()->current().$q);
         $data['conference'] = $this->service->findConference($id);
+
+        $this->serviceBahan->checkInstruktur($data['conference']->materi_id);
 
         return view('frontend.course.conference.peserta', compact('data'), [
             'title' => 'Conference - Peserta',
@@ -178,5 +183,12 @@ class BahanConferenceController extends Controller
                 'message' => ''
             ], 200);
         }
+    }
+
+    public function finishConference($id)
+    {
+        $this->service->statusMeet($id, 2);
+
+        return back()->with('success', 'Video Conference berhasil ditutup');
     }
 }

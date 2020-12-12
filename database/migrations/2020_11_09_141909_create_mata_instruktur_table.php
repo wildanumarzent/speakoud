@@ -17,6 +17,7 @@ class CreateMataInstrukturTable extends Migration
             $table->id();
             $table->unsignedBigInteger('mata_id');
             $table->unsignedBigInteger('instruktur_id');
+            $table->string('kode_evaluasi')->nullable();
             $table->timestamps();
 
             $table->foreign('mata_id')->references('id')

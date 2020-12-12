@@ -17,7 +17,7 @@
         <div class="card-body">
             <div class="form-group row">
                 <div class="col-md-2 text-md-right">
-                  <label class="col-form-label text-sm-right">Kode Instansi</label>
+                  <label class="col-form-label text-sm-right">Kode Mitra</label>
                 </div>
                 <div class="col-md-10">
                   <input type="text" class="form-control @error('kode_instansi') is-invalid @enderror" name="kode_instansi"
@@ -27,7 +27,7 @@
             </div>
             <div class="form-group row">
                 <div class="col-md-2 text-md-right">
-                  <label class="col-form-label text-sm-right">Nama Instansi</label>
+                  <label class="col-form-label text-sm-right">Nama Mitra</label>
                 </div>
                 <div class="col-md-10">
                   <input type="text" class="form-control @error('nama_instansi') is-invalid @enderror" name="nama_instansi"
@@ -99,8 +99,8 @@
         <div class="card-footer">
             <div class="row">
               <div class="col-md-10 ml-sm-auto text-md-left text-right">
-                <a href="{{ route('instansi.mitra.index') }}" class="btn btn-danger" title="klik untuk kembali ke list" data-toggle="tooltip">Kembali</a>
-                <button type="submit" class="btn btn-primary" name="action" value="save" title="klik untuk menyimpan" data-toggle="tooltip">{{ isset($data['instansi']) ? 'Simpan perubahan' : 'Simpan' }}</button>
+                <a href="{{ route('instansi.mitra.index') }}" class="btn btn-danger" title="klik untuk kembali ke list">Kembali</a>
+                <button type="submit" class="btn btn-primary" name="action" value="save" title="klik untuk menyimpan">{{ isset($data['instansi']) ? 'Simpan perubahan' : 'Simpan' }}</button>
               </div>
             </div>
           </div>

@@ -22,11 +22,11 @@ class CreateInstrukturTable extends Migration
             $table->string('nip')->nullable();
             $table->string('kedeputian')->nullable();
             $table->string('pangkat')->nullable();
-            $table->text('alamat')->nullable();
             $table->json('sk_cpns')->nullable();
             $table->json('sk_pengangkatan')->nullable();
             $table->json('sk_golongan')->nullable();
             $table->json('sk_jabatan')->nullable();
+            $table->text('cv')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')

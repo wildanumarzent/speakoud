@@ -51,7 +51,7 @@
             <thead>
                 <tr>
                     <th style="width: 10px;">No</th>
-                    <th>NIP</th>
+                    <th>NIP / NIK</th>
                     <th>Nama</th>
                     <th>Username</th>
                     <th>Unit Kerja</th>
@@ -74,7 +74,7 @@
                             @if (Request::get('q'))
                             ! User instruktur tidak ditemukan !
                             @else
-                            ! Data User instruktur kosong !
+                            ! User instruktur kosong !
                             @endif
                             </strong>
                         </i>
@@ -89,19 +89,19 @@
                     <td>{{ $item->user->username }}</td>
                     <td>{{ $item->instansi($item)->nama_instansi ?? '-' }}</td>
                     {{-- <td>{{ $item->kedeputian ?? '-' }}</td> --}}
-                    <td>{{ config('addon.label.jabatan.'.$item->pangkat) ?? '-' }}</td>
-                    <td>{{ $item->user->information->optional['phone'] ?? '-' }}</td>
-                    <td>{{ $item->alamat ?? '-' }}</td>
+                    <td>{{ $item->pangkat ?? '-' }}</td>
+                    <td>{{ $item->user->information->phone ?? '-' }}</td>
+                    <td>{{ $item->user->information->address ?? '-' }}</td>
                     <td>
                         <span class="badge badge-outline-primary">{{ strtoupper(str_replace('_', ' ', $item->user->roles[0]->name)) }}</span>
                     </td>
                     <td>{{ $item->created_at->format('d F Y - (H:i)') }}</td>
                     <td>{{ $item->updated_at->format('d F Y - (H:i)') }}</td>
                     <td>
-                        <a href="{{ route('instruktur.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengedit instruktur" data-toggle="tooltip">
+                        <a href="{{ route('instruktur.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengedit instruktur">
                                 <i class="las la-pen"></i>
                         </a>
-                        <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus instruktur" data-toggle="tooltip">
+                        <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus instruktur">
                             <i class="las la-trash-alt"></i>
                         </a>
                     </td>
@@ -117,7 +117,7 @@
                             @if (Request::get('q'))
                             ! User instruktur tidak ditemukan !
                             @else
-                            ! Data User instruktur kosong !
+                            ! User instruktur kosong !
                             @endif
                             </strong>
                         </i>
@@ -130,7 +130,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="item-table">
-                                    <div class="data-table">NIP</div>
+                                    <div class="data-table">NIP / NIK</div>
                                     <div class="desc-table">{{ $item->nip ?? '-' }}</div>
                                 </div>
                                 <div class="item-table">
@@ -151,23 +151,23 @@
                                 </div> --}}
                                 <div class="item-table">
                                     <div class="data-table">Jabatan</div>
-                                    <div class="desc-table">{{ config('addon.label.jabatan.'.$item->pangkat) ?? '-' }}</div>
+                                    <div class="desc-table">{{ $item->pangkat ?? '-' }}</div>
                                 </div>
                                 <div class="item-table">
                                     <div class="data-table">Telpon</div>
-                                    <div class="desc-table">{{ $item->user->information->optional['phone'] ?? '-' }}</div>
+                                    <div class="desc-table">{{ $item->user->information->phone ?? '-' }}</div>
                                 </div>
                                 <div class="item-table">
                                     <div class="data-table">Alamat</div>
-                                    <div class="desc-table">{{ $item->alamat ?? '-' }}</div>
+                                    <div class="desc-table">{{ $item->user->information->address ?? '-' }}</div>
                                 </div>
 
                                 <div class="item-table m-0">
                                     <div class="desc-table text-right">
-                                        <a href="{{ route('instruktur.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengedit instruktur" data-toggle="tooltip">
+                                        <a href="{{ route('instruktur.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengedit instruktur">
                                                 <i class="las la-pen"></i>
                                         </a>
-                                        <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus instruktur" data-toggle="tooltip">
+                                        <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus instruktur">
                                             <i class="las la-trash-alt"></i>
                                         </a>
                                     </div>

@@ -2,6 +2,7 @@
 
 namespace App\Models\Course;
 
+use App\Models\Course\Bahan\BahanPelatihan;
 use App\Models\Users\User;
 use Illuminate\Database\Eloquent\Model;
 
@@ -20,6 +21,11 @@ class ApiEvaluasi extends Model
     public function mata()
     {
         return $this->belongsTo(MataPelatihan::class, 'mata_id');
+    }
+
+    public function bahan()
+    {
+        return $this->belongsTo(BahanPelatihan::class, 'bahan_id');
     }
 
     public function user()

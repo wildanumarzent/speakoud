@@ -32,6 +32,9 @@
         <h5 class="card-header-title mt-1 mb-0">Soal yang sudah diisi</h5>
     </div>
     <div class="card-body">
+        <h6 class="text-center text-muted">
+            Persentase Nilai : <span class="badge badge-primary">{{ round(($data['item']->where('benar', 1)->count() / $data['item']->count()) * 100) }}</span>
+        </h6>
         @foreach ($data['item'] as $item)
         <div class="card-body" style="border: 1px solid #e8e8e9; border-radius: .75rem;">
             <div class="form-group">

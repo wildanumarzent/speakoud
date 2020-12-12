@@ -40,7 +40,9 @@ class BahanForumService
         $forum->bahan_id = $bahan->id;
         $forum->creator_id = auth()->user()->id;
         $forum->tipe = $request->tipe;
-        $forum->limit_topik = $request->limit_topik ?? null;
+        if ($forum->tipe == 1) {
+            $forum->limit_topik = $request->limit_topik ?? null;
+        }
         $forum->save();
 
         return $forum;
@@ -50,7 +52,9 @@ class BahanForumService
     {
         $forum = $bahan->forum;
         $forum->tipe = $request->tipe;
-        $forum->limit_topik = $request->limit_topik ?? null;
+        if ($forum->tipe == 1) {
+            $forum->limit_topik = $request->limit_topik ?? null;
+        }
         $forum->save();
 
         return $forum;
@@ -83,7 +87,7 @@ class BahanForumService
         $forum = $this->findForum($forumId);
 
         if ($request->hasFile('attachment')) {
-            $fileName = str_replace(' ', '-', Str::random(5).'-'.$request->file('attachment')
+            $fileName = str_replace(' ', '-', $request->file('attachment')
                 ->getClientOriginalName());
             $request->file('attachment')->move(public_path('userfile/attachment/forum/'.$forumId), $fileName);
         }
@@ -110,7 +114,7 @@ class BahanForumService
         $topik = $this->findTopik($id);
 
         if ($request->hasFile('attachment')) {
-            $fileName = str_replace(' ', '-', Str::random(5).'-'.$request->file('attachment')
+            $fileName = str_replace(' ', '-', $request->file('attachment')
                 ->getClientOriginalName());
 
             $path = public_path('userfile/attachment/forum/'.$topik->forum_id.'/'.$request->old_attachment) ;
@@ -195,7 +199,7 @@ class BahanForumService
         $topik = $this->findTopik($topikId);
 
         if ($request->hasFile('attachment')) {
-            $fileName = str_replace(' ', '-', Str::random(5).'-'.$request->file('attachment')
+            $fileName = str_replace(' ', '-', $request->file('attachment')
                 ->getClientOriginalName());
             $request->file('attachment')->move(public_path('userfile/attachment/forum/'.$forumId.'/topik/'.$topikId), $fileName);
         }
@@ -220,7 +224,7 @@ class BahanForumService
         $reply = $this->findDiskusi($id);
 
         if ($request->hasFile('attachment')) {
-            $fileName = str_replace(' ', '-', Str::random(5).'-'.$request->file('attachment')
+            $fileName = str_replace(' ', '-', $request->file('attachment')
                 ->getClientOriginalName());
 
             $path = public_path('userfile/attachment/forum/'.$reply->forum_id.'/topik/'.$reply->topik_id.'/'.$request->old_attachment) ;

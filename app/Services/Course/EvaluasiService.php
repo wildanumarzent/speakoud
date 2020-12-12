@@ -3,26 +3,28 @@
 namespace App\Services\Course;
 
 use App\Models\Course\ApiEvaluasi;
+use App\Services\Course\Bahan\BahanService;
 
 class EvaluasiService
 {
-    private $model, $mata;
+    private $model, $mata, $bahan;
 
     public function __construct(
         ApiEvaluasi $model,
-        MataService $mata
+        MataService $mata,
+        BahanService $bahan
     )
     {
         $this->model = $model;
         $this->mata = $mata;
+        $this->bahan = $bahan;
     }
 
-    public function previewSoal(int $mataId)
+    //penyelenggara
+    public function preview($kodeEvaluasi)
     {
-        $mata = $this->mata->findMata($mataId);
-
         $client = new \GuzzleHttp\Client();
-        $url = config('addon.api.evaluasi.end_point').'/preview/'.$mata->kode_evaluasi;
+        $url = config('addon.api.evaluasi.end_point').'/preview/'.$kodeEvaluasi;
         $response = $client->request('GET', $url, [
 
         ]);
@@ -30,15 +32,13 @@ class EvaluasiService
         $data = $response->getBody()->getContents();
         $json = json_decode($data);
 
-        return $json->data->evaluasi;
+        return $json;
     }
 
-    public function resultSubmit(int $mataId)
+    public function result($kodeEvaluasi)
     {
-        $mata = $this->mata->findMata($mataId);
-
         $client = new \GuzzleHttp\Client();
-        $url = config('addon.api.evaluasi.end_point').'/result/'.$mata->kode_evaluasi;
+        $url = config('addon.api.evaluasi.end_point').'/result/'.$kodeEvaluasi;
         $response = $client->request('GET', $url, [
 
         ]);
@@ -49,24 +49,59 @@ class EvaluasiService
         return $json->data;
     }
 
-    public function checkUser(int $mataId)
+    public function register($mataId, $kodeEvaluasi)
+    {
+        $client = new \GuzzleHttp\Client();
+        $url = config('addon.api.evaluasi.end_point').'/register/'.$kodeEvaluasi;
+        $parameter = [
+            'nama' => auth()->user()->name,
+            'kode_peserta' => auth()->user()->peserta->nip,
+            'email' => auth()->user()->email,
+            'kode_instansi' => auth()->user()->peserta->instansi(auth()->user()->peserta)->kode_instansi,
+            'unit_kerja' => auth()->user()->peserta->unit_kerja,
+            'deputi' => auth()->user()->peserta->kedeputian,
+        ];
+
+        $response = $client->request('POST', $url, [
+            'form_params' => $parameter,
+        ]);
+
+        $data = $response->getBody()->getContents();
+        $json = json_decode($data);
+
+        if ($json->success == true) {
+            $api = new ApiEvaluasi;
+            $api->mata_id = $mataId;
+            $api->user_id = auth()->user()->id;
+            $api->token = $json->data->token;
+            $api->evaluasi = $json->data->evaluasi;
+            $api->waktu_mulai = $json->data->evaluasi->waktu_mulai;
+            $api->waktu_selesai = $json->data->evaluasi->waktu_selesai;
+            $api->lama_jawab = $json->data->evaluasi->lama_jawab;
+            $api->save();
+        }
+
+        return $json;
+    }
+
+    public function checkUserPenyelenggara(int $mataId)
     {
         return $this->model->where('mata_id', $mataId)->where('user_id', auth()->user()->id);
     }
 
-    public function recordUser(int $mataId)
+    public function recordUserPenyelenggara(int $mataId)
     {
-        $record = $this->checkUser($mataId)->update([
+        $record = $this->checkUserPenyelenggara($mataId)->update([
                 'start_time' => now(),
             ]);
 
         return $record;
     }
 
-    public function submitAnswer($request, int $mataId)
+    public function submitAnswerPenyelenggara($request, int $mataId)
     {
         $mata = $this->mata->findMata($mataId);
-        $token = $this->checkUser($mataId)->first();
+        $token = $this->checkUserPenyelenggara($mataId)->first();
 
         $client = new \GuzzleHttp\Client();
         $instrumen = [];
@@ -86,7 +121,7 @@ class EvaluasiService
         $json = json_decode($data);
 
         if ($json->success == true) {
-            $record = $this->checkUser($mataId)->update([
+            $record = $this->checkUserPenyelenggara($mataId)->update([
                 'is_complete' => 1,
             ]);
 

@@ -27,7 +27,7 @@
         <div class="navbar-nav align-items-lg-center d-none d-lg-block">
           <!-- Search -->
           <label class="nav-item navbar-text navbar-search-box p-0 active">
-            @lang('layout.header.title') &nbsp;
+            BPPT E-LEARNING SYSTEM &nbsp;
             <a href="{{ route('home') }}" target="_blank" title="Website"><i class="las la-external-link-alt"></i></a>
           </label>
         </div>
@@ -43,14 +43,14 @@
             </a>
             <div class="dropdown-menu dropdown-menu-right">
               <span class="dropdown-item name-user d-block d-lg-none">{{ auth()->user()->name }}</span>
-              <a href="{{ route('profile') }}" class="dropdown-item" title="@lang('layout.header.profile')">
+              <a href="{{ route('profile') }}" class="dropdown-item" title="Profile">
                   <i class="las la-user-circle"></i>
-                  &nbsp; @lang('layout.header.profile')
+                  &nbsp; Profile
               </a>
               <div class="dropdown-divider"></div>
-              <a href="javascript:void(0)" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" title="@lang('layout.header.logout')">
+              <a href="javascript:void(0)" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" title="Log Out">
                   <i class="las la-sign-out-alt"></i>
-                &nbsp; @lang('layout.header.logout')
+                &nbsp; Log Out
               </a>
               <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                   @csrf

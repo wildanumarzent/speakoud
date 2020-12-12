@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Storage;
 class BahanService
 {
     private $model, $materi, $forum, $file, $conference, $quiz, $scorm, $audio,
-     $video, $tugas;
+     $video, $tugas, $evaluasiPengajar;
 
     public function __construct(
         BahanPelatihan $model,
@@ -22,7 +22,8 @@ class BahanService
         BahanScormService $scorm,
         BahanAudioService $audio,
         BahanVideoService $video,
-        BahanTugasService $tugas
+        BahanTugasService $tugas,
+        BahanEvaluasiPengajarService $evaluasiPengajar
     )
     {
         $this->model = $model;
@@ -35,6 +36,7 @@ class BahanService
         $this->audio = $audio;
         $this->video = $video;
         $this->tugas = $tugas;
+        $this->evaluasiPengajar = $evaluasiPengajar;
     }
 
     public function getBahanList($request, int $materiId)
@@ -106,8 +108,10 @@ class BahanService
         $bahan->creator_id = auth()->user()->id;
         $bahan->keterangan = $request->keterangan ?? null;
         $bahan->publish = (bool)$request->publish;
-        $bahan->publish_start = $request->publish_start;
-        $bahan->publish_end = $request->publish_end;
+        if ((bool)$request->batas_tanggal == 1) {
+            $bahan->publish_start = $request->publish_start ?? null;
+            $bahan->publish_end = $request->publish_end ?? null;
+        }
         $bahan->urutan = ($this->model->where('materi_id', $materiId)->max('urutan') + 1);
         $bahan->save();
 
@@ -135,6 +139,9 @@ class BahanService
         if ($request->type == 'tugas') {
             $segmen = $this->tugas->storeTugas($request, $materi, $bahan);
         }
+        if ($request->type == 'evaluasi-pengajar') {
+            $segmen = $this->evaluasiPengajar->storeEvaluasiPengajar($request, $materi, $bahan);
+        }
 
         $bahan->segmenable()->associate($segmen);
         $bahan->save();
@@ -148,8 +155,10 @@ class BahanService
         $bahan->fill($request->only(['judul']));
         $bahan->keterangan = $request->keterangan ?? null;
         $bahan->publish = (bool)$request->publish;
-        $bahan->publish_start = $request->publish_start;
-        $bahan->publish_end = $request->publish_end;
+        if ((bool)$request->batas_tanggal == 1) {
+            $bahan->publish_start = $request->publish_start ?? null;
+            $bahan->publish_end = $request->publish_end ?? null;
+        }
         $bahan->save();
 
         if ($request->type == 'forum') {
@@ -175,6 +184,9 @@ class BahanService
         }
         if ($request->type == 'tugas') {
             $this->tugas->updateTugas($request, $bahan);
+        }
+        if ($request->type == 'evaluasi-pengajar') {
+            $this->evaluasiPengajar->updateEvaluasiPengajar($request, $bahan);
         }
 
         return $bahan;
@@ -256,9 +268,23 @@ class BahanService
 
             $bahan->tugas()->delete();
         }
+        if ($bahan->evaluasiPengajar()->count() == 1) {
+            $bahan->evaluasiPengajar()->delete();
+        }
 
         $bahan->delete();
 
         return $bahan;
+    }
+
+    public function checkInstruktur($materiId)
+    {
+        $materi = $this->materi->findMateri($materiId);
+
+        if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra')) {
+            if ($materi->instruktur_id != auth()->user()->instruktur->id) {
+                return abort(403);
+            }
+        }
     }
 }

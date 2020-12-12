@@ -26,14 +26,14 @@ class PesertaRequest extends FormRequest
         if ($this->method() == 'POST') {
             if (auth()->user()->hasRole('developer|administrator') && $this->roles == 'instruktur_mitra') {
                 return [
-                    'nip' => 'required|max:191',
-                    'instansi_id' => 'required|max:191',
-                    // 'kedeputian' => 'required|max:191',
+                    'nip' => 'required',
+                    'instansi_id' => 'required',
+                    // 'kedeputian' => 'required',
                     // 'pangkat' => 'required',
                     // 'alamat' => 'required',
-                    'name' => 'required|max:191',
-                    'email' => 'required|max:191|email|unique:users,email',
-                    'username' => 'required|max:191|min:5|unique:users,username',
+                    'name' => 'required',
+                    'email' => 'required|email|unique:users,email',
+                    'username' => 'required|min:5|unique:users,username',
                     'roles' => 'required',
                     'mitra_id' => 'required',
                     'password' => 'required|confirmed|min:8',
@@ -45,14 +45,14 @@ class PesertaRequest extends FormRequest
                 ];
             } else {
                 return [
-                    'nip' => 'required|max:191',
+                    'nip' => 'required',
                     'instansi_id' => 'required',
-                    // 'kedeputian' => 'required|max:191',
+                    // 'kedeputian' => 'required',
                     // 'pangkat' => 'required',
                     // 'alamat' => 'required',
-                    'name' => 'required|max:191',
-                    'email' => 'required|max:191|email|unique:users,email',
-                    'username' => 'required|max:191|min:5|unique:users,username',
+                    'name' => 'required',
+                    'email' => 'required|email|unique:users,email',
+                    'username' => 'required|min:5|unique:users,username',
                     'roles' => 'required',
                     'password' => 'required|confirmed|min:8',
                     'sk_cpns' => 'nullable|mimes:'.config('addon.mimes.surat_keterangan.m'),
@@ -64,15 +64,15 @@ class PesertaRequest extends FormRequest
             }
         } else {
             return [
-                'nip' => 'required|max:191',
+                'nip' => 'required',
                 'instansi_id' => 'required',
-                // 'kedeputian' => 'required|max:191',
+                // 'kedeputian' => 'required',
                 // 'pangkat' => 'required',
                 // 'alamat' => 'required',
-                'name' => 'required|max:191',
-                'email' => 'required|max:191|email|unique:users,email,'.
+                'name' => 'required',
+                'email' => 'required|email|unique:users,email,'.
                             $this->user_id,
-                'username' => 'required|max:191|min:5|unique:users,username,'.
+                'username' => 'required|min:5|unique:users,username,'.
                             $this->user_id,
                 'password' => 'nullable|confirmed|min:8',
                 'sk_cpns' => 'nullable|mimes:'.config('addon.mimes.surat_keterangan.m'),

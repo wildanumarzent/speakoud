@@ -55,7 +55,7 @@
     <div class="card-header with-elements">
         <h5 class="card-header-title mt-1 mb-0">Users List</h5>
         <div class="card-header-elements ml-auto">
-            <a href="{{ route('user.create') }}" class="btn btn-primary icon-btn-only-sm" title="klik untuk menambah user" data-toggle="tooltip">
+            <a href="{{ route('user.create') }}" class="btn btn-primary icon-btn-only-sm" title="klik untuk menambah user">
                 <i class="las la-plus"></i><span>Tambah</span>
             </a>
         </div>
@@ -85,7 +85,7 @@
                             @if (Request::get('r') || Request::get('s') || Request::get('q'))
                             ! User tidak ditemukan !
                             @else
-                            ! Data User kosong !
+                            ! User kosong !
                             @endif
                             </strong>
                         </i>
@@ -113,7 +113,7 @@
                         <a href="#" class="badge badge-outline-secondary">AKTIF</a>
                         @else
                         <a href="javascript:void(0);" onclick="$(this).find('form').submit();" class="badge badge-outline-{{ $item->active == 1 ? 'success' : 'secondary' }}"
-                            title="klik untuk {{ $item->active == 0 ? 'mengaktifkan' : 'menon-aktifkan' }} user" data-toggle="tooltip">{{ $item->active == 1 ? 'AKTIF' : 'TIDAK AKTIF' }}
+                            title="klik untuk {{ $item->active == 0 ? 'mengaktifkan' : 'menon-aktifkan' }} user">{{ $item->active == 1 ? 'AKTIF' : 'TIDAK AKTIF' }}
                             <form action="{{ route('user.activate', ['id' => $item->id]) }}" method="POST">
                                 @csrf
                                 @method('PUT')
@@ -133,7 +133,7 @@
                             <i class="las la-trash-alt"></i>
                         </button>
                         @else
-                        <a href="{{ route('user.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengedit user" data-toggle="tooltip">
+                        <a href="{{ route('user.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengedit user">
                                 <i class="las la-pen"></i>
                         </a>
                         @if ($item->hasRole('internal|mitra|instruktur_internal|instruktur_mitra|peserta_internal|peserta_mitra'))
@@ -141,7 +141,7 @@
                             <i class="las la-trash-alt"></i>
                         </button>
                         @else
-                            <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus user" data-toggle="tooltip">
+                            <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus user">
                                 <i class="las la-trash-alt"></i>
                             </a>
                         @endif
@@ -159,7 +159,7 @@
                             @if (Request::get('r') || Request::get('s') || Request::get('q'))
                             ! User tidak ditemukan !
                             @else
-                            ! Data User kosong !
+                            ! User kosong !
                             @endif
                             </strong>
                         </i>
@@ -197,7 +197,7 @@
                                             <i class="las la-trash-alt"></i>
                                         </button>
                                         @else
-                                        <a href="{{ route('user.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengedit user" data-toggle="tooltip">
+                                        <a href="{{ route('user.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengedit user">
                                                 <i class="las la-pen"></i>
                                         </a>
                                         @if ($item->hasRole('internal|mitra|instruktur_internal|instruktur_mitra|peserta_internal|peserta_mitra'))
@@ -205,7 +205,7 @@
                                             <i class="las la-trash-alt"></i>
                                         </button>
                                         @else
-                                            <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus user" data-toggle="tooltip">
+                                            <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus user">
                                                 <i class="las la-trash-alt"></i>
                                             </a>
                                         @endif

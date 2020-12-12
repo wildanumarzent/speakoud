@@ -4,16 +4,21 @@ namespace App\Http\Controllers\Course\Bahan;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UploadTugasRequest;
+use App\Services\Course\Bahan\BahanService;
 use App\Services\Course\Bahan\BahanTugasService;
 use Illuminate\Http\Request;
 
 class BahanTugasController extends Controller
 {
-    private $service;
+    private $service, $serviceBahan;
 
-    public function __construct(BahanTugasService $service)
+    public function __construct(
+        BahanTugasService $service,
+        BahanService $serviceBahan
+    )
     {
         $this->service = $service;
+        $this->serviceBahan = $serviceBahan;
     }
 
     public function peserta(Request $request, $tugasId)
@@ -27,6 +32,8 @@ class BahanTugasController extends Controller
         $data['number'] = $data['peserta']->firstItem();
         $data['peserta']->withPath(url()->current().$q);
         $data['tugas'] = $this->service->findTugas($tugasId);
+
+        $this->serviceBahan->checkInstruktur($data['tugas']->materi_id);
 
         return view('frontend.course.tugas.peserta', compact('data'), [
             'title' => 'Tugas - Peserta',

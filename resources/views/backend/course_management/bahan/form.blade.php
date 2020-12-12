@@ -54,12 +54,24 @@
             <hr>
             <div class="form-group row">
                 <div class="col-md-2 text-md-right">
+                  <label class="col-form-label text-sm-right">Batasi akses materi sesuai tanggal :</label>
+                </div>
+                <div class="col-md-10">
+                    <label class="custom-control custom-checkbox m-0">
+                        <input type="checkbox" class="custom-control-input" name="batas_tanggal" value="1" id="batasi" {{ isset($data['bahan']) && !empty($data['bahan']->publish_start) && !empty($data['bahan']->publish_end) ? 'checked' : '' }}>
+                        <span class="custom-control-label ml-4">Ya</span>
+                      </label>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-2 text-md-right">
                   <label class="col-form-label text-sm-right">Tanggal Mulai</label>
                 </div>
                 <div class="col-md-10">
                     <div class="input-group">
-                        <input type="text" class="datetime-picker form-control @error('publish_start') is-invalid @enderror" name="publish_start"
-                            value="{{ isset($data['bahan']) ? old('publish_start', $data['bahan']->publish_start->format('Y-m-d H:i')) : old('publish_start', now()->format('Y-m-d 00:00')) }}" placeholder="masukan tanggal mulai...">
+                        <input type="hidden" id="val_start" value="{{ isset($data['bahan']) && !empty($data['bahan']->publish_start) ? old('publish_start', $data['bahan']->publish_start->format('Y-m-d H:i')) : old('publish_start', now()->format('Y-m-d H:i')) }}">
+                        <input id="publish_start" type="text" class="datetime-picker form-control @error('publish_start') is-invalid @enderror" name="publish_start"
+                            value="{{ isset($data['bahan']) && !empty($data['bahan']->publish_start) ? old('publish_start', $data['bahan']->publish_start->format('Y-m-d H:i')) : '' }}" placeholder="masukan tanggal mulai...">
                         <div class="input-group-append">
                             <span class="input-group-text"><i class="las la-calendar"></i></span>
                         </div>
@@ -73,8 +85,9 @@
                 </div>
                 <div class="col-md-10">
                     <div class="input-group">
-                        <input type="text" class="datetime-picker form-control @error('publish_end') is-invalid @enderror" name="publish_end"
-                            value="{{ isset($data['bahan']) ? old('publish_end', $data['bahan']->publish_end->format('Y-m-d H:i')) : old('publish_end', now()->addDays(3)->format('Y-m-d 00:00')) }}" placeholder="masukan tanggal selesai...">
+                        <input type="hidden" id="val_end" value="{{ isset($data['bahan']) && !empty($data['bahan']->publish_end) ? old('publish_end', $data['bahan']->publish_end->format('Y-m-d H:i')) : old('publish_end', now()->addDays(3)->format('Y-m-d H:i')) }}">
+                        <input id="publish_end" type="text" class="datetime-picker form-control @error('publish_end') is-invalid @enderror" name="publish_end"
+                            value="{{ isset($data['bahan']) && !empty($data['bahan']->publish_end) ? old('publish_end', $data['bahan']->publish_end->format('Y-m-d H:i')) : '' }}" placeholder="masukan tanggal selesai...">
                         <div class="input-group-append">
                             <span class="input-group-text"><i class="las la-calendar"></i></span>
                         </div>
@@ -86,8 +99,8 @@
         <div class="card-footer">
             <div class="row">
               <div class="col-md-10 ml-sm-auto text-md-left text-right">
-                <a href="{{ route('bahan.index', ['id' => $data['materi']->id]) }}" class="btn btn-danger" title="klik untuk kembali ke list" data-toggle="tooltip">Kembali</a>
-                <button type="submit" class="btn btn-primary" name="action" value="save" title="klik untuk menyimpan" data-toggle="tooltip">{{ isset($data['bahan']) ? 'Simpan perubahan' : 'Simpan' }}</button>
+                <a href="{{ route('bahan.index', ['id' => $data['materi']->id]) }}" class="btn btn-danger" title="klik untuk kembali ke list">Kembali</a>
+                <button type="submit" class="btn btn-primary" name="action" value="save" title="klik untuk menyimpan">{{ isset($data['bahan']) ? 'Simpan perubahan' : 'Simpan' }}</button>
               </div>
             </div>
         </div>
@@ -104,6 +117,19 @@
 @section('jsbody')
 <script>
     //datetime
+    $(document).ready(function() {
+        $('#batasi').change(function() {
+            if(this.checked) {
+                var ps = $('#val_start').val();
+                var pe = $('#val_end').val();
+                $('#publish_start').val(ps);
+                $('#publish_end').val(pe);
+            } else {
+                $('#publish_start').val('');
+                $('#publish_end').val('');
+            }
+        });
+    });
     $('.datetime-picker').bootstrapMaterialDatePicker({
         date: true,
         shortTime: false,

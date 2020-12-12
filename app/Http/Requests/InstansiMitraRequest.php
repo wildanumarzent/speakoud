@@ -24,10 +24,10 @@ class InstansiMitraRequest extends FormRequest
     public function rules()
     {
         return [
-            'kode_instansi' => 'required|max:191',
-            'nama_pimpinan' => 'required|max:191',
-            'nama_instansi' => 'required|max:191',
-            'jabatan' => 'required|max:191',
+            'kode_instansi' => 'required',
+            'nama_pimpinan' => 'required',
+            'nama_instansi' => 'required',
+            'jabatan' => 'required',
             'logo' => 'nullable|mimes:'.config('addon.mimes.logo_instansi.m'),
         ];
 
@@ -36,9 +36,9 @@ class InstansiMitraRequest extends FormRequest
     public function attributes()
     {
         return [
-            'kode_instansi' => 'Kode Instansi',
+            'kode_instansi' => 'Kode Mitra',
             'nama_pimpinan' => 'Nama Pimpinan',
-            'nama_instansi' => 'Instansi',
+            'nama_instansi' => 'Mitra',
             'jabatan' => 'Jabatan',
             'logo' => 'Logo',
         ];

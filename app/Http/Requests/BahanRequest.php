@@ -27,16 +27,16 @@ class BahanRequest extends FormRequest
             return [
                 'judul' => 'required',
                 'tipe' => 'required',
-                'publish_start' => 'required',
-                'publish_end' => 'required',
+                // 'publish_start' => 'required',
+                // 'publish_end' => 'required',
             ];
         }
         if ($this->type == 'dokumen') {
             return [
                 'judul' => 'required',
                 'file_path' => 'required',
-                'publish_start' => 'required',
-                'publish_end' => 'required',
+                // 'publish_start' => 'required',
+                // 'publish_end' => 'required',
             ];
         }
         if ($this->type == 'conference') {
@@ -44,22 +44,22 @@ class BahanRequest extends FormRequest
                 return [
                     'judul' => 'required',
                     'meeting_link' => 'required',
-                    'publish_start' => 'required',
-                    'publish_end' => 'required',
+                    // 'publish_start' => 'required',
+                    // 'publish_end' => 'required',
                 ];
             } else {
                 return [
                     'judul' => 'required',
-                    'publish_start' => 'required',
-                    'publish_end' => 'required',
+                    // 'publish_start' => 'required',
+                    // 'publish_end' => 'required',
                 ];
             }
         }
         if ($this->type == 'quiz') {
             return [
                 'judul' => 'required',
-                'publish_start' => 'required',
-                'publish_end' => 'required',
+                // 'publish_start' => 'required',
+                // 'publish_end' => 'required',
             ];
         }
         if ($this->type == 'scorm') {
@@ -68,16 +68,16 @@ class BahanRequest extends FormRequest
                     'judul' => 'required',
                     'package' => 'required|mimes:'.config('addon.mimes.package_scorm.m'),
                     'repeatable' => 'nullable',
-                    'publish_start' => 'required',
-                    'publish_end' => 'required',
+                    // 'publish_start' => 'required',
+                    // 'publish_end' => 'required',
                 ];
             } else {
                 return [
                     'judul' => 'required',
                     'package' => 'nullable|mimes:'.config('addon.mimes.package_scorm.m'),
                     'repeatable' => 'nullable',
-                    'publish_start' => 'required',
-                    'publish_end' => 'required',
+                    // 'publish_start' => 'required',
+                    // 'publish_end' => 'required',
                 ];
             }
         }
@@ -85,24 +85,33 @@ class BahanRequest extends FormRequest
             return [
                 'judul' => 'required',
                 'file_path' => 'required',
-                'publish_start' => 'required',
-                'publish_end' => 'required',
+                // 'publish_start' => 'required',
+                // 'publish_end' => 'required',
             ];
         }
         if ($this->type == 'video') {
             return [
                 'judul' => 'required',
                 'file_path' => 'required',
-                'publish_start' => 'required',
-                'publish_end' => 'required',
+                // 'publish_start' => 'required',
+                // 'publish_end' => 'required',
             ];
         }
         if ($this->type == 'tugas') {
             return [
                 'judul' => 'required',
-                'files.*' => 'required|mimes:'.config('addon.mimes.tugas.m'),
-                'publish_start' => 'required',
-                'publish_end' => 'required',
+                'files' => 'required|array',
+                'files.*' => 'required|max:50000|distinct|mimes:'.config('addon.mimes.tugas.m'),
+                // 'publish_start' => 'required',
+                // 'publish_end' => 'required',
+            ];
+        }
+        if ($this->type == 'evaluasi_pengajar') {
+            return [
+                'judul' => 'required',
+                'mata_instruktur_id' => 'required',
+                // 'publish_start' => 'required',
+                // 'publish_end' => 'required',
             ];
         }
     }
@@ -115,7 +124,8 @@ class BahanRequest extends FormRequest
             'file_path' => 'File Path',
             'meeting_link' => 'Meeting Link',
             'package' => 'Package',
-            'files.*' => 'Files',
+            'files' => 'Files',
+            'mata_instruktur_id' => 'Instruktur',
             'publish_start' => 'Tanggal Mulai',
             'publish_end' => 'Tanggal Selesai',
         ];
@@ -130,8 +140,9 @@ class BahanRequest extends FormRequest
             'meeting_link.required' => ':attribute tidak boleh kosong',
             'package.required' => ':attribute tidak boleh kosong',
             'package.mimes' => 'Tipe :attribute harus :values.',
-            'files.*.required' => ':attribute tidak boleh kosong',
-            'files.*.mimes' => 'Tipe :attribute harus :values.',
+            'files.required' => ':attribute tidak boleh kosong',
+            'files.mimes' => 'Tipe :attribute harus :values.',
+            'mata_instruktur_id.required' => ':attribute tidak boleh kosong',
             'publish_start.required' => ':attribute tidak boleh kosong',
             'publish_end.required' => ':attribute tidak boleh kosong',
         ];

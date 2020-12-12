@@ -14,7 +14,7 @@
 
 @section('content')
 <div class="text-left">
-    <a href="{{ route('course.detail', ['id' => $data['mata']->id]) }}" class="btn btn-secondary rounded-pill" title="kembali ke tugas"><i class="las la-arrow-left"></i>Kembali</a>
+    <a href="{{ route('evaluasi.penyelenggara', ['id' => $data['mata']->id]) }}" class="btn btn-secondary rounded-pill" title="kembali ke tugas"><i class="las la-arrow-left"></i>Kembali</a>
 </div>
 <br>
 
@@ -23,11 +23,15 @@
         <h5 class="card-header-title mt-1 mb-0"><i class="las la-edit"></i> {{ $data['preview']->nama }}</h5>
         <div class="card-header-elements ml-auto">
             <div class="btn-group btn-group">
-                <button type="button" class="btn btn-warning" id="countdown"></button>
+                <button type="button" class="btn btn-warning" id="countdown">
+                    @if (empty($data['preview']->lama_jawab))
+                    Tidak ada durasi
+                    @endif
+                </button>
             </div>
         </div>
     </div>
-    <form action="{{ route('evaluasi.submit', ['id' => $data['mata']->id]) }}" method="POST">
+    <form action="{{ route('evaluasi.penyelenggara.submit', ['id' => $data['mata']->id, 'submit' => 'yes']) }}" method="POST">
         @csrf
         <div class="card-body">
             <h5 class="text-center">
@@ -63,7 +67,7 @@
         <div class="card-footer">
             <div class="row">
               <div class="col-md-12 text-right">
-                <a href="{{ route('course.detail', [ 'id' => $data['mata']->id, 'submit' => 'yes']) }}" class="btn btn-danger mr-2" title="klik untuk kembali">Kembali</a>
+                <a href="{{ route('evaluasi.penyelenggara', [ 'id' => $data['mata']->id]) }}" class="btn btn-danger mr-2" title="klik untuk kembali">Kembali</a>
                 <button type="submit" class="btn btn-primary finish" title="klik untuk selesai">
                     Selesai
                 </button>
@@ -79,6 +83,7 @@
 @endsection
 
 @section('jsbody')
+@if (!empty($data['preview']->lama_jawab))
 <script>
     var timer2 = "{{ $data['countdown'] }}";
     var interval = setInterval(function() {
@@ -101,7 +106,7 @@
             allowOutsideClick: false,
             preConfirm: () => {
                 return $.ajax({
-                    url: "/course/{{ $data['mata']->id }}/evaluasi",
+                    url: "/course/{{ $data['mata']->id }}/evaluasi/penyelenggara",
                     method: 'POST',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -121,7 +126,7 @@
             }
             }).then(response => {
                 if (response.value.success) {
-                    window.location.href = '/course/{{ $data['mata']->id }}/detail';
+                    window.location.href = '/course/{{ $data['mata']->id }}/evaluasi/penyelenggara';
                 }
             });
 
@@ -135,4 +140,5 @@
         timer2 = minutes + ':' + seconds;
     }, 1000);
 </script>
+@endif
 @endsection

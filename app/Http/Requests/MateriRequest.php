@@ -25,6 +25,7 @@ class MateriRequest extends FormRequest
     {
         return [
             'judul' => 'required',
+            'instruktur_id' => 'required',
         ];
     }
 
@@ -32,6 +33,7 @@ class MateriRequest extends FormRequest
     {
         return [
             'judul' => 'Judul',
+            'instruktur_id' => 'Instruktur',
         ];
     }
 
@@ -39,6 +41,7 @@ class MateriRequest extends FormRequest
     {
         return [
             'judul.required' => ':attribute tidak boleh kosong',
+            'instruktur_id.required' => ':attribute tidak boleh kosong',
         ];
     }
 }

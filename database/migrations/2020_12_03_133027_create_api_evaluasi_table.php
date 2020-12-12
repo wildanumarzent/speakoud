@@ -16,6 +16,7 @@ class CreateApiEvaluasiTable extends Migration
         Schema::create('api_evaluasi', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('mata_id');
+            $table->unsignedBigInteger('bahan_id')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->text('token');
             $table->json('evaluasi')->nullable();
@@ -28,6 +29,8 @@ class CreateApiEvaluasiTable extends Migration
 
             $table->foreign('mata_id')->references('id')->on('mata_pelatihan')
                 ->cascadeOnDelete();
+            $table->foreign('bahan_id')->references('id')->on('bahan_pelatihan')
+                ->onDelete('set null');
             $table->foreign('user_id')->references('id')->on('users')
                 ->cascadeOnDelete();
         });

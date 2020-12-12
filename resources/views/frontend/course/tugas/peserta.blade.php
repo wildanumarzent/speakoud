@@ -80,7 +80,7 @@
                     <td>{{ $data['number']++ }}</td>
                     <td>{{ $item->user->peserta->nip }}</td>
                     <td>{{ $item->user->name }}</td>
-                    <td>{{ $item->keterangan }}</td>
+                    <td>{{ $item->keterangan ?? '-' }}</td>
                     <td>{{ $item->created_at->format('d F Y (H:i A)') }}</td>
                     <td>
                         <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modals-dokumen-{{ $item->id }}" title="klik untuk melihat tugas">

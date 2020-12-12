@@ -55,6 +55,16 @@ class MataPelatihan extends Model
         return $this->hasMany(BahanPelatihan::class, 'mata_id');
     }
 
+    public function evaluasiByUser()
+    {
+        return $this->hasMany(ApiEvaluasi::class, 'mata_id')->where('user_id', auth()->user()->id);
+    }
+
+    public function comment()
+    {
+        return $this->morphMany(Komentar::class, 'commentable');
+    }
+
     public function rating()
     {
         return $this->hasMany(MataRating::class, 'mata_id');
@@ -63,11 +73,6 @@ class MataPelatihan extends Model
     public function ratingByUser()
     {
         return $this->hasOne(MataRating::class, 'mata_id')->where('user_id', auth()->user()->id);
-    }
-
-    public function apiEvaluasiByUser()
-    {
-        return $this->hasMany(ApiEvaluasi::class, 'mata_id')->where('user_id', auth()->user()->id);
     }
 
     public function getRating($type, $rate = null)
@@ -87,11 +92,6 @@ class MataPelatihan extends Model
         }
 
         return $rating;
-    }
-
-    public function comment()
-    {
-        return $this->morphMany(Komentar::class, 'commentable');
     }
 
     public function scopePublish($query)

@@ -13,6 +13,20 @@
                @endif
            </td>
         </tr>
+        @if (!auth()->user()->hasRole('peserta_internal|peserta_mitra') && $data['bahan']->conference->tipe == 1 && $data['bahan']->conference->status == 1)
+        <tr>
+            <th style="width: 150px;">Konfirmasi</th>
+            <td>
+                <a href="javascript:;" class="btn btn-success icon-btn-only-sm btn-sm close-vidcon" title="klik untuk menutup conference">
+                    Tutup Video Conference
+                    <form action="{{ route('conference.finish', ['id' => $data['bahan']->conference->id])}}" method="POST" id="form-close">
+                        @csrf
+                        @method('PUT')
+                    </form>
+                </a>
+            </td>
+        </tr>
+        @endif
         <tr>
             <th style="width: 150px;">Status</th>
             <td>
@@ -25,6 +39,45 @@
                 @endif
             </td>
          </tr>
+         @if (auth()->user()->hasRole('peserta_internal|peserta_mitra') && !empty($data['bahan']->conference->trackByUser) && $data['bahan']->conference->status == 2)
+         <tr>
+            <th style="width: 150px;">Join</th>
+            <td>
+                {{ $data['bahan']->conference->trackByUser->join->format('d F Y (H:i A)') }}
+            </td>
+         </tr>
+         <tr>
+            <th style="width: 150px;">Leave</th>
+            <td>
+                {{ !empty($data['bahan']->conference->trackByUser->leave) ? $data['bahan']->conference->trackByUser->leave->format('d F Y (H:i A)') : '-' }}
+            </td>
+         </tr>
+         <tr>
+            <th style="width: 150px;">Verifikasi Kehadiran</th>
+            <td>
+                @if ($data['bahan']->conference->trackByUser->check_in_verified == 1)
+                <span class="badge badge-success">Sudah Diverifikasi <i class="las la-check"></i></span>
+                @else
+                <span class="badge badge-danger">Belum Diverifikasi <i class="las la-times"></i></span>
+                @endif
+            </td>
+         </tr>
+         @if ($data['bahan']->conference->trackByUser->check_in_verified == 1)
+         <tr>
+            <th style="width: 150px;">Diverifikasi Tanggal</th>
+            <td>
+                {{ $data['bahan']->conference->trackByUser->check_in->format('d F Y (H:i A)') }}
+            </td>
+         </tr>
+         @endif
+         @endif
+         @if (auth()->user()->hasRole('peserta_internal|peserta_mitra') && empty($data['bahan']->conference->trackByUser) && $data['bahan']->conference->status == 2)
+         <tr>
+            <th colspan="2" class="text-center">
+                <strong class="text-center">Anda tidak mengikuti Video Conference ini</strong>
+            </th>
+         </tr>
+         @endif
          @if (!auth()->user()->hasRole('peserta_internal|peserta_mitra'))
          <tr>
             <th style="width: 150px;">Peserta</th>
@@ -35,6 +88,7 @@
             </td>
          </tr>
          @endif
+         @if ($data['bahan']->conference->status < 2)
          <tr>
              <th colspan="2" class="text-center">
                 <strong class="text-center">Klik tombol dibawah untuk {{ auth()->user()->hasRole('peserta_internal|peserta_mitra') ? 'mengikuti' : 'memulai' }} video conference!</strong><br>
@@ -49,7 +103,32 @@
                 @endif
              </th>
          </tr>
+         @endif
     </table>
 </div>
+@endsection
+
+@section('body')
+<script>
+    $('.close-vidcon').click(function(e)
+    {
+        e.preventDefault();
+        var url = $(this).attr('href');
+        Swal.fire({
+        title: "Apakah anda yakin akan menutup video conference ini ?",
+        text: "Video conference tidak akan bisa dibuka lagi",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Ya, tutup!',
+        cancelButtonText: "Tidak, terima kasih",
+        }).then((result) => {
+        if (result.value) {
+            $("#form-close").submit();
+        }
+        })
+    });
+</script>
 @endsection
 

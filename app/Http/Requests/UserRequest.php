@@ -25,18 +25,18 @@ class UserRequest extends FormRequest
     {
         if ($this->method() == 'POST') {
             return [
-                'name' => 'required|max:191',
-                'email' => 'required|email|unique:users,email|max:191',
-                'username' => 'required|min:5|unique:users,username|max:191',
+                'name' => 'required',
+                'email' => 'required|email|unique:users,email',
+                'username' => 'required|min:5|unique:users,username',
                 'roles' => 'required',
                 'password' => 'required|confirmed|min:8',
             ];
         } else {
             return [
-                'name' => 'required|max:191',
-                'email' => 'required|email|max:191|unique:users,email,'.
+                'name' => 'required',
+                'email' => 'required|email|unique:users,email,'.
                             $this->id,
-                'username' => 'required|min:5|max:191|unique:users,username,'.
+                'username' => 'required|min:5|unique:users,username,'.
                             $this->id,
                 'roles' => 'required',
                 'password' => 'nullable|confirmed|min:8',

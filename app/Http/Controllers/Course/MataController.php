@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Course;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\KodeEvaluasiInstrukturRequest;
 use App\Http\Requests\KomentarRequest;
 use App\Http\Requests\MataInstrukturRequest;
 use App\Http\Requests\MataPesertaRequest;
 use App\Http\Requests\MataRequest;
 use App\Services\Course\EvaluasiService;
 use App\Services\Course\MataService;
+use App\Services\Course\MateriService;
 use App\Services\Course\ProgramService;
 use App\Services\KonfigurasiService;
 use App\Services\Users\InstrukturService;
@@ -17,12 +19,13 @@ use Illuminate\Http\Request;
 
 class MataController extends Controller
 {
-    private $service, $serviceProgram, $serviceInstruktur, $servicePeserta, $serviceKonfig,
+    private $service, $serviceProgram, $serviceMateri, $serviceInstruktur, $servicePeserta, $serviceKonfig,
         $serviceEvaluasi;
 
     public function __construct(
         MataService $service,
         ProgramService $serviceProgram,
+        MateriService $serviceMateri,
         InstrukturService $serviceInstruktur,
         PesertaService $servicePeserta,
         KonfigurasiService $serviceKonfig,
@@ -31,6 +34,7 @@ class MataController extends Controller
     {
         $this->service = $service;
         $this->serviceProgram = $serviceProgram;
+        $this->serviceMateri = $serviceMateri;
         $this->serviceInstruktur = $serviceInstruktur;
         $this->servicePeserta = $servicePeserta;
         $this->serviceKonfig = $serviceKonfig;
@@ -50,9 +54,8 @@ class MataController extends Controller
         $data['number'] = $data['mata']->firstItem();
         $data['mata']->withPath(url()->current().$p.$q);
         $data['program'] = $this->serviceProgram->findProgram($programId);
-        $data['hasRole'] = auth()->user()->hasRole('developer|administrator|internal|mitra');
 
-        $this->serviceProgram->checkInstruktur($programId);
+        $this->serviceProgram->checkAdmin($programId);
 
         return view('backend.course_management.mata.index', compact('data'), [
             'title' => 'Course - Program Pelatihan',
@@ -82,7 +85,7 @@ class MataController extends Controller
         $data['instruktur_list'] = $this->serviceInstruktur
             ->getInstrukturForMata($data['mata']->program->tipe, $data['instruktur_id']);
 
-        $this->serviceProgram->checkInstruktur($data['mata']->program->id);
+        $this->serviceProgram->checkAdmin($data['mata']->program->id);
 
         return view('backend.course_management.mata.instruktur.index', compact('data'), [
             'title' => 'Program Pelatihan - Instruktur',
@@ -113,7 +116,7 @@ class MataController extends Controller
         $data['peserta_list'] = $this->servicePeserta
             ->getPesertaForMata($data['mata']->program->tipe, $data['peserta_id']);
 
-        $this->serviceProgram->checkInstruktur($data['mata']->program->id);
+        $this->serviceProgram->checkAdmin($data['mata']->program->id);
 
         return view('backend.course_management.mata.peserta.index', compact('data'), [
             'title' => 'Program Pelatihan - Peserta',
@@ -139,23 +142,10 @@ class MataController extends Controller
         ]);
     }
 
-    public function courseRegister($id)
-    {
-        $data['mata'] = $this->service->findMata($id);
-
-        return view('frontend.course.register', compact('data'), [
-            'title' => 'Course - Register',
-            'breadcrumbsFrontend' => [
-                $data['mata']->program->judul => '',
-                $data['mata']->judul => '',
-                'Register' => '',
-            ],
-        ]);
-    }
-
     public function courseDetail($id)
     {
         $data['read'] = $this->service->findMata($id);
+        $data['materi'] = $this->serviceMateri->getMateriByMata($id);
 
         if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
             if ($data['read']->program->publish == 0 || $data['read']->publish == 0) {
@@ -163,17 +153,23 @@ class MataController extends Controller
             }
         }
 
-        $this->serviceProgram->checkInstruktur($data['read']->program_id);
+        $this->serviceProgram->checkAdmin($data['read']->program_id);
         $this->serviceProgram->checkPeserta($data['read']->program_id);
         if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra|peserta_internal|peserta_mitra')) {
-            if ($this->service->checkUser($id) == 0) {
+            if ($this->service->checkUserEnroll($id) == 0) {
                 return back()->with('warning', 'anda tidak terdaftar di course '.$data['read']->judul.'');
             }
         }
 
         if (!empty($data['read']->kode_evaluasi)) {
-            $data['preview'] = $this->serviceEvaluasi->previewSoal($id);
-            $data['result'] = $this->serviceEvaluasi->resultSubmit($id);
+            $preview = $this->serviceEvaluasi->preview($data['read']->kode_evaluasi);
+            $data['checkKode'] = $preview->success;
+            if ($preview->success == true) {
+                $data['preview'] = $preview->data->evaluasi;
+                if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
+                    $data['apiUser'] = $this->serviceEvaluasi->checkUserPenyelenggara($id)->first();
+                }
+            }
         }
 
         return view('frontend.course.detail', compact('data'), [
@@ -189,7 +185,7 @@ class MataController extends Controller
     {
         $data['program'] = $this->serviceProgram->findProgram($programId);
 
-        $this->serviceProgram->checkInstruktur($programId);
+        $this->serviceProgram->checkAdmin($programId);
 
         return view('backend.course_management.mata.form', compact('data'), [
             'title' => 'Program Pelatihan - Tambah',
@@ -203,8 +199,6 @@ class MataController extends Controller
 
     public function store(MataRequest $request, $programId)
     {
-        $this->serviceProgram->checkInstruktur($programId);
-
         $this->service->storeMata($request, $programId);
 
         return redirect()->route('mata.index', ['id' => $programId])
@@ -217,6 +211,14 @@ class MataController extends Controller
 
         return redirect()->route('mata.instruktur', ['id' => $mataId])
             ->with('success', 'Instruktur pelatihan berhasil ditambahkan');
+    }
+
+    public function kodeEvaluasiInstruktur(KodeEvaluasiInstrukturRequest $request, $mataId, $id)
+    {
+        $this->service->kodeEvaluasiInstruktur($request, $mataId, $id);
+
+        return redirect()->route('mata.instruktur', ['id' => $mataId])
+            ->with('success', 'kode evaluasi berhasil dimasukan');
     }
 
     public function storePeserta(MataPesertaRequest $request, $mataId)
@@ -246,8 +248,6 @@ class MataController extends Controller
 
     public function update(MataRequest $request, $programId, $id)
     {
-        $this->checkCreator($id);
-
         $this->service->updateMata($request, $id);
 
         return redirect()->route('mata.index', ['id' => $programId])
@@ -256,8 +256,6 @@ class MataController extends Controller
 
     public function publish($programId, $id)
     {
-        $this->checkCreator($id);
-
         $this->service->publishMata($id);
 
         return back()->with('success', 'Status berhasil diubah');

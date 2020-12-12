@@ -23,6 +23,8 @@
 </div>
 <br>
 
+@include('components.alert-any')
+
 {{-- topik --}}
 <div class="card mb-4">
     <div class="card-header">
@@ -30,7 +32,7 @@
         <img src="{{ $data['topik']->creator->getPhoto($data['topik']->creator->photo['filename']) }}" class="d-block ui-w-40 rounded-circle" alt>
         <div class="media-body ml-3">
           <a href="javascript:void(0)">{!! $data['topik']->subject !!}</a>
-          <div class="text-muted small">{{ $data['topik']->created_at->format('l, j F Y, H:i A') }} - {{ $data['topik']->creator['name'] }}</div>
+          <div class="text-muted small">{{ $data['topik']->created_at->format('l, j F Y, H:i A') }} - <span class="badge badge-success">{{ $data['topik']->creator['name'] }}</span></div>
         </div>
         <div class="media-body ml-3 text-right">
             @if (auth()->user()->hasRole('administrator|internal|mitra') || $data['topik']->creator_id == auth()->user()->id)
@@ -105,9 +107,13 @@
             @endif
           </div>
           <a href="javascript:void(0)">Re : {{ $data['topik']->subject  }}</a>
-          <div class="text-muted small">{{ $diskusi->created_at->format('l, j F Y, H:i A') }} - by {{ $diskusi->user->name }}</div>
+          <div class="text-muted small">{{ $diskusi->created_at->format('l, j F Y, H:i A') }} - by <span class="badge badge-{{ $diskusi->user_id == $data['topik']->creator_id ? 'success' : 'secondary' }}">{{ $diskusi->user->name }}</span></div>
           <div class="mt-2">
             {!! $diskusi->message !!}
+
+            @if (!empty($diskusi->attachment))
+            <a href="{{ asset('userfile/attachment/forum/'.$data['topik']->forum_id.'/topik/'.$diskusi->attachment) }}" class="badge badge-outline-success"><i class="las la-download"></i> Download attachment</a>
+            @endif
           </div>
           <div class="small mt-2">
             @if (!auth()->user()->hasRole('peserta_internal|peserta_mitra') || auth()->user()->hasRole('peserta_internal|peserta_mitra') && empty($data['topik']->limit_reply) || !empty($data['topik']->limit_reply) && $data['topik']->diskusiByUser()->count() < $data['topik']->limit_reply)

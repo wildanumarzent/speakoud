@@ -41,16 +41,14 @@
 <!-- / Filters -->
 <div class="text-left">
     <a href="{{ route('program.index') }}" class="btn btn-secondary rounded-pill" title="kembali ke list kategori"><i class="las la-arrow-left"></i>Kembali</a>
-    @if ($data['hasRole'])
     <a href="{{ route('mata.create', ['id' => $data['program']->id]) }}" class="btn btn-primary rounded-pill" title="klik untuk menambah program pelatihan"><i class="las la-plus"></i>Tambah</a>
-    @endif
 </div>
 <br>
 
-<div class="row @if ($data['hasRole']) drag @endif">
+<div class="row drag">
 
     @foreach ($data['mata'] as $item)
-    <div class="col-sm-6 col-xl-4" @if ($data['hasRole']) id="{{ $item->id }}" style="cursor: move;" title="geser untuk merubah urutan" @endif>
+    <div class="col-sm-6 col-xl-4" id="{{ $item->id }}" style="cursor: move;" title="geser untuk merubah urutan">
       <div class="card card-list">
         <div class="card-body d-flex justify-content-between align-items-start pb-1">
           <div>
@@ -64,17 +62,14 @@
               <a class="dropdown-item" href="{{ route('materi.index', ['id' => $item->id]) }}" title="klik untuk melihat mata pelatihan">
                 <i class="las la-swatchbook"></i> Mata Pelatihan
               </a>
-              @if ($data['hasRole'])
               <a class="dropdown-item" href="{{ route('mata.edit', ['id' => $item->program_id, 'mataId' => $item->id]) }}" title="klik untuk mengedit program pelatihan">
                 <i class="las la-pen"></i> Edit
               </a>
-              @endif
               @if (auth()->user()->hasRole('developer|administrator') || $item->creator_id == auth()->user()->id)
               <a class="dropdown-item js-sa2-delete" href="javascript:void(0);" data-programid="{{ $item->program_id }}" data-id="{{ $item->id }}" title="klik untuk menghapus program pelatihan">
                 <i class="las la-trash-alt"></i> Hapus
               </a>
               @endif
-              @if ($data['hasRole'])
               <a class="dropdown-item" href="javascript:void(0);" onclick="$(this).find('form').submit();" title="klik untuk {{ $item->publish == 0 ? 'publish' : 'draft' }} program pelatihan">
                   <i class="las la-{{ $item->publish == 0 ? 'eye' : 'eye-slash' }} "></i> {{ $item->publish == 1 ? 'Draft' : 'Publish' }}
                   <form action="{{ route('mata.publish', ['id' => $item->program_id, 'mataId' => $item->id]) }}" method="POST">
@@ -82,7 +77,6 @@
                     @method('PUT')
                 </form>
               </a>
-              @endif
             </div>
           </div>
         </div>
@@ -104,7 +98,6 @@
                     <th>Status</th>
                     <td><span class="badge badge-outline-{{ $item->publish == 1 ? 'primary' : 'warning' }}">{{ $item->publish == 1 ? 'Publish' : 'Draft' }}</span></td>
                 </tr>
-                @if ($data['hasRole'])
                 <tr>
                     <th>Urutan</th>
                     <td>
@@ -132,50 +125,43 @@
                         @endif
                     </td>
                 </tr>
-                @endif
                 <tr>
                     <th>Action</th>
                     <td>
-                        <a class="btn btn-success icon-btn btn-sm" href="{{ route('materi.index', ['id' => $item->id]) }}" title="klik untuk melihat mata pelatihan">
-                            <i class="las la-swatchbook"></i>
+                        <a class="btn btn-success btn-block btn-sm" href="{{ route('materi.index', ['id' => $item->id]) }}" title="klik untuk melihat mata pelatihan">
+                            <i class="las la-swatchbook"></i> Mata Pelatihan
                         </a>
-                        @if ($data['hasRole'])
-                        <a class="btn btn-info icon-btn btn-sm" href="{{ route('mata.edit', ['id' => $item->program_id, 'mataId' => $item->id]) }}" title="klik untuk mengedit program pelatihan">
-                            <i class="las la-pen"></i>
+                        <a class="btn btn-info btn-block btn-sm" href="{{ route('mata.edit', ['id' => $item->program_id, 'mataId' => $item->id]) }}" title="klik untuk mengedit program pelatihan">
+                            <i class="las la-pen"></i> Edit
                         </a>
-                        @endif
                         @if (auth()->user()->hasRole('developer|administrator') || $item->creator_id == auth()->user()->id)
-                        <a class="btn btn-danger icon-btn btn-sm js-sa2-delete" href="javascript:void(0);" data-programid="{{ $item->program_id }}" data-id="{{ $item->id }}" title="klik untuk menghapus program pelatihan">
-                            <i class="las la-trash-alt"></i>
+                        <a class="btn btn-danger btn-block btn-sm js-sa2-delete" href="javascript:void(0);" data-programid="{{ $item->program_id }}" data-id="{{ $item->id }}" title="klik untuk menghapus program pelatihan">
+                            <i class="las la-trash-alt"></i> Hapus
                         </a>
                         @endif
-                        @if ($data['hasRole'])
-                        <a class="btn btn-secondary icon-btn btn-sm" href="javascript:void(0);" onclick="$(this).find('form').submit();" title="klik untuk {{ $item->publish == 0 ? 'publish' : 'draft' }} program pelatihan">
-                            <i class="las la-{{ $item->publish == 0 ? 'eye' : 'eye-slash' }} "></i>
+                        <a class="btn btn-secondary btn-block btn-sm" href="javascript:void(0);" onclick="$(this).find('form').submit();" title="klik untuk {{ $item->publish == 0 ? 'publish' : 'draft' }} program pelatihan">
+                            <i class="las la-{{ $item->publish == 0 ? 'eye' : 'eye-slash' }} "></i> {{ $item->publish == 0 ? 'Publish' : 'Draft' }}
                             <form action="{{ route('mata.publish', ['id' => $item->program_id, 'mataId' => $item->id]) }}" method="POST">
                                 @csrf
                                 @method('PUT')
                             </form>
                         </a>
-                        @endif
-                        <a class="btn btn-primary icon-btn btn-sm" href="{{ route('course.detail', ['id' => $item->id]) }}" title="klik untuk melihat detail course">
-                            <i class="las la-external-link-alt"></i>
+                        <a class="btn btn-primary btn-block btn-sm" href="{{ route('course.detail', ['id' => $item->id]) }}" title="klik untuk melihat detail course">
+                            Detail Pelatihan <i class="las la-external-link-alt ml-1"></i>
                         </a>
                     </td>
                 </tr>
-                @if ($data['hasRole'])
                 <tr>
                     <th>Enroll</th>
                     <td>
-                        <a href="{{ route('mata.instruktur', ['id' => $item->id]) }}" class="btn btn-warning btn-sm" title="klik untuk melihat instruktur">
+                        {{-- <a href="{{ route('mata.instruktur', ['id' => $item->id]) }}" class="btn btn-warning btn-sm btn-block" title="klik untuk melihat instruktur">
                             <i class="las la-user-tie"></i> Instruktur
-                        </a>
-                        <a href="{{ route('mata.peserta', ['id' => $item->id]) }}" class="btn btn-warning btn-sm" title="klik untuk melihat peserta">
+                        </a> --}}
+                        <a href="{{ route('mata.peserta', ['id' => $item->id]) }}" class="btn btn-warning btn-sm btn-block" title="klik untuk melihat peserta">
                             <i class="las la-user"></i> Peserta
                         </a>
                     </td>
                 </tr>
-                @endif
           </table>
         </div>
         <hr class="m-0 mb-2">
@@ -204,7 +190,7 @@
             @if (Request::get('p') || Request::get('q'))
             ! Program Pelatihan tidak ditemukan !
             @else
-            ! Data Program Pelatihan kosong !
+            ! Program Pelatihan kosong !
             @endif
         </strong>
     </div>

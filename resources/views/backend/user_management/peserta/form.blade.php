@@ -139,7 +139,7 @@
                                     <span class="input-group-text">+62</span>
                                 </div>
                                 <input type="text" class="form-control @error('phone') is-invalid @enderror" name="phone"
-                                    value="{{ (isset($data['peserta'])) ? old('phone', $data['peserta']->user->information->optional['phone']) : old('phone') }}" placeholder="masukan nomor telpon...">
+                                    value="{{ (isset($data['peserta'])) ? old('phone', $data['peserta']->user->information->phone) : old('phone') }}" placeholder="masukan nomor telpon...">
                                 @include('components.field-error', ['field' => 'phone'])
                             </div>
                         </div>
@@ -149,8 +149,8 @@
                           <label class="col-form-label text-sm-right">Alamat</label>
                         </div>
                         <div class="col-md-10">
-                          <textarea class="form-control @error('alamat') is-invalid @enderror" name="alamat" placeholder="masukan alamat...">{{ (isset($data['peserta'])) ? old('alamat', $data['peserta']->alamat) : old('alamat') }}</textarea>
-                          @include('components.field-error', ['field' => 'alamat'])
+                          <textarea class="form-control @error('alamat') is-invalid @enderror" name="address" placeholder="masukan alamat...">{{ (isset($data['peserta'])) ? old('address', $data['peserta']->user->information->address) : old('address') }}</textarea>
+                          @include('components.field-error', ['field' => 'address'])
                         </div>
                     </div>
                     <div class="form-group row">
@@ -317,8 +317,8 @@
             <div class="card-footer">
                 <div class="row">
                     <div class="col-md-10 ml-sm-auto text-md-left text-right">
-                        <a href="{{ route('peserta.index') }}" class="btn btn-danger" title="klik untuk kembali ke list" data-toggle="tooltip">Kembali</a>
-                        <button type="submit" class="btn btn-primary" name="action" value="save" title="klik untuk menyimpan" data-toggle="tooltip">{{ isset($data['peserta']) ? 'Simpan perubahan' : 'Simpan' }}</button>
+                        <a href="{{ route('peserta.index') }}" class="btn btn-danger" title="klik untuk kembali ke list">Kembali</a>
+                        <button type="submit" class="btn btn-primary" name="action" value="save" title="klik untuk menyimpan">{{ isset($data['peserta']) ? 'Simpan perubahan' : 'Simpan' }}</button>
                     </div>
                 </div>
             </div>

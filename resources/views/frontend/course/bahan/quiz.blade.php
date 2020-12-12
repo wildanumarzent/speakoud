@@ -73,6 +73,12 @@
                 <a href="{{ route('quiz.room', ['id' => $data['bahan']->quiz]) }}" class="btn btn-primary btn-block mt-2"><i class="las la-play-circle"></i> Mulai</a>
             </th>
         </tr>
+        @else
+        <tr>
+            <th colspan="2" class="text-center">
+                <i>*Instruktur belum memasukan soal</i>
+            </th>
+        </tr>
         @endif
         @endrole
     </table>

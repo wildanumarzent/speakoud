@@ -34,8 +34,8 @@
         <div class="card-footer">
             <div class="row">
               <div class="col-md-10 ml-sm-auto text-md-left text-right">
-                <a href="{{ route('grades.index') }}" class="btn btn-danger" title="klik untuk kembali ke list" data-toggle="tooltip">Kembali</a>
-                <button type="submit" class="btn btn-primary" name="action" value="save" title="klik untuk menyimpan" data-toggle="tooltip">{{ isset($data['kategori']) ? 'Simpan perubahan' : 'Simpan' }}</button>
+                <a href="{{ route('grades.index') }}" class="btn btn-danger" title="klik untuk kembali ke list">Kembali</a>
+                <button type="submit" class="btn btn-primary" name="action" value="save" title="klik untuk menyimpan">{{ isset($data['kategori']) ? 'Simpan perubahan' : 'Simpan' }}</button>
               </div>
             </div>
           </div>

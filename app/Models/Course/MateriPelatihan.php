@@ -3,6 +3,7 @@
 namespace App\Models\Course;
 
 use App\Models\Course\Bahan\BahanPelatihan;
+use App\Models\Users\Instruktur;
 use App\Models\Users\User;
 use Illuminate\Database\Eloquent\Model;
 
@@ -24,6 +25,11 @@ class MateriPelatihan extends Model
     public function mata()
     {
         return $this->belongsTo(MataPelatihan::class, 'mata_id');
+    }
+
+    public function instruktur()
+    {
+        return $this->belongsTo(Instruktur::class, 'instruktur_id');
     }
 
     public function bahan()

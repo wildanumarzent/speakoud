@@ -74,7 +74,7 @@
                             @if (Request::get('q'))
                             ! User peserta tidak ditemukan !
                             @else
-                            ! Data User peserta kosong !
+                            ! User peserta kosong !
                             @endif
                             </strong>
                         </i>
@@ -90,18 +90,18 @@
                     <td>{{ $item->instansi($item)->nama_instansi ?? '-' }}</td>
                     <td>{{ $item->kedeputian ?? '-' }}</td>
                     <td>{{ config('addon.label.jabatan.'.$item->pangkat) ?? '-' }}</td>
-                    <td>{{ $item->user->information->optional['phone'] ?? '-' }}</td>
-                    <td>{{ $item->alamat ?? '-' }}</td>
+                    <td>{{ $item->user->information->phone ?? '-' }}</td>
+                    <td>{{ $item->user->information->address ?? '-' }}</td>
                     <td>
                         <span class="badge badge-outline-primary">{{ strtoupper(str_replace('_', ' ', $item->user->roles[0]->name)) }}</span>
                     </td>
                     <td>{{ $item->created_at->format('d F Y - (H:i)') }}</td>
                     <td>{{ $item->updated_at->format('d F Y - (H:i)') }}</td>
                     <td>
-                        <a href="{{ route('peserta.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengedit peserta" data-toggle="tooltip">
+                        <a href="{{ route('peserta.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengedit peserta">
                                 <i class="las la-pen"></i>
                         </a>
-                        <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus peserta" data-toggle="tooltip">
+                        <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus peserta">
                             <i class="las la-trash-alt"></i>
                         </a>
                     </td>
@@ -117,7 +117,7 @@
                             @if (Request::get('q'))
                             ! User peserta tidak ditemukan !
                             @else
-                            ! Data User peserta kosong !
+                            ! User peserta kosong !
                             @endif
                             </strong>
                         </i>
@@ -155,19 +155,19 @@
                                 </div>
                                 <div class="item-table">
                                     <div class="data-table">Telpon</div>
-                                    <div class="desc-table">{{ $item->user->information->optional['phone'] ?? '-' }}</div>
+                                    <div class="desc-table">{{ $item->user->information->phone ?? '-' }}</div>
                                 </div>
                                 <div class="item-table">
                                     <div class="data-table">Alamat</div>
-                                    <div class="desc-table">{{ $item->alamat ?? '-' }}</div>
+                                    <div class="desc-table">{{ $item->user->information->address ?? '-' }}</div>
                                 </div>
 
                                 <div class="item-table m-0">
                                     <div class="desc-table text-right">
-                                        <a href="{{ route('peserta.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengedit peserta" data-toggle="tooltip">
+                                        <a href="{{ route('peserta.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengedit peserta">
                                                 <i class="las la-pen"></i>
                                         </a>
-                                        <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus peserta" data-toggle="tooltip">
+                                        <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus peserta">
                                             <i class="las la-trash-alt"></i>
                                         </a>
                                     </div>

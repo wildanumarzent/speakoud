@@ -85,7 +85,6 @@ class UserService
             $user->active = 1;
             $user->active_at = now();
         }
-
         $user->photo = [
             'filename' => null,
             'description' => null,
@@ -102,30 +101,13 @@ class UserService
     {
         $information = new UserInformation;
         $information->user_id = $userId;
-        $information->general = [
-            'city' => $request->city ?? null,
-            'description' => $request->description ?? null,
-        ];
-        $information->additional_name = [
-            'first_name' => $request->first_name ?? null,
-            'sur_name' => $request->sur_name ?? null,
-            'middle_name' => $request->middle_name ?? null,
-            'alternate_name' => $request->alternate_name ?? null,
-        ];
-        $information->optional = [
-            'web_page' => $request->web_page ?? null,
-            'icq_number' => $request->icq_number ?? null,
-            'skype_id' => $request->skype_id ?? null,
-            'aim_id' => $request->aim_id ?? null,
-            'yahoo_id' => $request->yahoo_id ?? null,
-            'msn_id' => $request->msn_id ?? null,
-            'id_number' => $request->id_number ?? null,
-            'institution' => $request->institution ?? null,
-            'departement' => $request->departement ?? null,
-            'phone' => $request->phone ?? null,
-            'mobile_phone' => $request->mobile_phone ?? null,
-            'address' => $request->address ?? null,
-        ];
+        $information->place_of_birthday = $request->place_of_birthday ?? null;
+        $information->date_of_birthday = $request->date_of_birthday ?? null;
+        $information->gender = $request->gender ?? null;
+        $information->city = $request->city ?? null;
+        $information->description = $request->description ?? null;
+        $information->phone = $request->phone ?? null;
+        $information->address = $request->address ?? null;
         $information->save();
 
         return $information;
@@ -144,6 +126,7 @@ class UserService
         }
         $user->assignRole($request->roles);
         $user->save();
+        $this->updateInformation($request, $id);
 
         return $user;
     }
@@ -151,30 +134,13 @@ class UserService
     public function updateInformation($request, int $userId)
     {
         $information = $this->findUser($userId)->information;
-        $information->general = [
-            'city' => $request->city ?? $information->general['city'],
-            'description' => $request->description ?? $information->general['description'],
-        ];
-        $information->additional_name = [
-            'first_name' => $request->first_name ?? $information->additional_name['first_name'],
-            'sur_name' => $request->sur_name ?? $information->additional_name['sur_name'],
-            'middle_name' => $request->middle_name ?? $information->additional_name['middle_name'],
-            'alternate_name' => $request->alternate_name ?? $information->additional_name['alternate_name'],
-        ];
-        $information->optional = [
-            'web_page' => $request->web_page ?? $information->optional['web_page'],
-            'icq_number' => $request->icq_number ?? $information->optional['icq_number'],
-            'skype_id' => $request->skype_id ?? $information->optional['skype_id'],
-            'aim_id' => $request->aim_id ?? $information->optional['aim_id'],
-            'yahoo_id' => $request->yahoo_id ?? $information->optional['yahoo_id'],
-            'msn_id' => $request->msn_id ?? $information->optional['msn_id'],
-            'id_number' => $request->id_number ?? $information->optional['id_number'],
-            'institution' => $request->institution ?? $information->optional['institution'],
-            'departement' => $request->departement ?? $information->optional['departement'],
-            'phone' => $request->phone ?? $information->optional['phone'],
-            'mobile_phone' => $request->mobile_phone ?? $information->optional['mobile_phone'],
-            'address' => $request->address ?? $information->optional['address'],
-        ];
+        $information->place_of_birthday = $request->place_of_birthday ?? null;
+        $information->date_of_birthday = $request->date_of_birthday ?? null;
+        $information->gender = $request->gender ?? null;
+        $information->city = $request->city ?? null;
+        $information->description = $request->description ?? null;
+        $information->phone = $request->phone ?? null;
+        $information->address = $request->address ?? null;
         $information->save();
 
         return $information;
@@ -227,7 +193,6 @@ class UserService
             $user->email_verified = 0;
             $user->email_verified_at = null;
         }
-
         if ($request->hasFile('file')) {
             $fileName = str_replace(' ', '-', $request->file('file')
                 ->getClientOriginalName());

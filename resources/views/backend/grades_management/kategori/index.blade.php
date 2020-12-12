@@ -57,7 +57,7 @@
                         @if (Request::get('q'))
                         ! Grades kategori tidak ditemukan !
                         @else
-                        ! Data Grades kategori kosong !
+                        ! Grades kategori kosong !
                         @endif
                         </strong></i>
                     </td>
@@ -93,7 +93,7 @@
                         @if (Request::get('q'))
                         ! Grades kategori tidak ditemukan !
                         @else
-                        ! Data Grades kategori kosong !
+                        ! Grades kategori kosong !
                         @endif
                         </strong></i>
                     </td>

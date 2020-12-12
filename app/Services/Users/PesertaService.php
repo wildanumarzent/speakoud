@@ -108,7 +108,6 @@ class PesertaService
         $peserta->instansi_id = $request->instansi_id ?? null;
         $peserta->kedeputian = $request->kedeputian ?? null;
         $peserta->pangkat = $request->pangkat ?? null;
-        $peserta->alamat = $request->alamat ?? null;
         $this->uploadFile($request, $peserta, $user->id, 'store');
         $peserta->save();
 
@@ -131,7 +130,6 @@ class PesertaService
         $peserta->instansi_id = $request->instansi_id ?? null;
         $peserta->kedeputian = $request->kedeputian ?? null;
         $peserta->pangkat = $request->pangkat ?? null;
-        $peserta->alamat = $request->alamat ?? null;
         $peserta->sk_cpns = [
             'file' => null,
             'keterangan' => null,
@@ -170,7 +168,6 @@ class PesertaService
         $peserta->instansi_id = $request->instansi_id ?? null;
         $peserta->kedeputian = $request->kedeputian ?? null;
         $peserta->pangkat = $request->pangkat ?? null;
-        $peserta->alamat = $request->alamat ?? null;
         $this->uploadFile($request, $peserta, $peserta->user_id, 'update', $id);
         $peserta->save();
 
@@ -184,7 +181,7 @@ class PesertaService
             $user->email_verified_at = null;
         }
         $user->save();
-        $this->user->updateInformation($request, $peserta->user_id);
+        $this->user->updateInformation($request, $user->id);
 
         return [
             'peserta' => $peserta,

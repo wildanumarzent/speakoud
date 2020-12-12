@@ -217,20 +217,18 @@ class BankDataService
         if ($request->hasFile('file_path')) {
 
             $file = $request->file('file_path');
-            $replace = str_replace(' ', '-', $file->getClientOriginalName());
-            $generate = Str::random(5).'-'.$replace;
+            $fileName = str_replace(' ', '-', $file->getClientOriginalName());
             $extesion = $file->getClientOriginalExtension();
 
             if (!empty($request->thumbnail) && $request->hasFile('thumbnail')) {
                 $fileThumb = $request->file('thumbnail');
-                $replaceThumb = str_replace(' ', '-', $fileThumb->getClientOriginalName());
-                $generateThumb = Str::random(5).'-'.$replaceThumb;
+                $fileNameThumb = str_replace(' ', '-', $fileThumb->getClientOriginalName());
                 $pathThumb = 'thumbnail/'.auth()->user()->id.'/';
             }
 
             $upload = new BankData;
-            $upload->file_path = $path.$generate;
-            $upload->thumbnail = !empty($request->thumbnail) ? $pathThumb.$generateThumb : null;
+            $upload->file_path = $path.$fileName;
+            $upload->thumbnail = !empty($request->thumbnail) ? $pathThumb.$fileNameThumb : null;
             $upload->file_type = $extesion;
             $upload->file_size = $file->getSize();
             $upload->filename = $upload->filename ?? null;
@@ -241,9 +239,9 @@ class BankDataService
             }
             $upload->save();
 
-            Storage::disk('bank_data')->put($path.$generate, file_get_contents($file));
+            Storage::disk('bank_data')->put($path.$fileName, file_get_contents($file));
             if (!empty($request->thumbnail)) {
-                Storage::disk('bank_data')->put($pathThumb.$generateThumb, file_get_contents($fileThumb));
+                Storage::disk('bank_data')->put($pathThumb.$fileNameThumb, file_get_contents($fileThumb));
             }
 
             return $upload;
@@ -259,19 +257,18 @@ class BankDataService
 
         if (!empty($request->thumbnail) && $request->hasFile('thumbnail')) {
             $file = $request->file('thumbnail');
-            $replace = str_replace(' ', '-', $file->getClientOriginalName());
-            $generate = Str::random(5).'-'.$replace;
+            $fileName = str_replace(' ', '-', $file->getClientOriginalName());
             $pathThumb = 'thumbnail/'.auth()->user()->id.'/';
         }
 
-        $upload->thumbnail = !empty($request->thumbnail) ? $pathThumb.$generate : null;
+        $upload->thumbnail = !empty($request->thumbnail) ? $pathThumb.$fileName : null;
         $upload->filename = $request->filename ?? null;
         $upload->keterangan = $request->keterangan;
         $upload->save();
 
         if (!empty($request->thumbnail)) {
             Storage::disk('bank_data')->delete($request->old_thumbnail);
-            Storage::disk('bank_data')->put($pathThumb.$generate, file_get_contents($file));
+            Storage::disk('bank_data')->put($pathThumb.$fileName, file_get_contents($file));
         }
 
         return $upload;

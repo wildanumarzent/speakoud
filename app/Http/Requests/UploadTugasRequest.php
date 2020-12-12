@@ -24,8 +24,9 @@ class UploadTugasRequest extends FormRequest
     public function rules()
     {
         return [
-            'keterangan' => 'required',
-            'files.*' => 'required|mimes:'.config('addon.mimes.tugas.m'),
+            // 'keterangan' => 'required',
+            'files' => 'required|array',
+            'files.*' => 'required|distinct|max:50000|mimes:'.config('addon.mimes.tugas.m'),
         ];
     }
 
@@ -33,7 +34,7 @@ class UploadTugasRequest extends FormRequest
     {
         return [
             'keterangan' => 'Keterangan',
-            'files.*' => 'Files',
+            'files' => 'Files',
         ];
     }
 
@@ -41,8 +42,8 @@ class UploadTugasRequest extends FormRequest
     {
         return [
             'keterangan.required' => ':attribute tidak boleh kosong',
-            'files.*.required' => ':attribute tidak boleh kosong',
-            'files.*.mimes' => 'Tipe :attribute harus :values.',
+            'files.required' => ':attribute tidak boleh kosong',
+            'files.mimes' => 'Tipe :attribute harus :values.',
         ];
     }
 }

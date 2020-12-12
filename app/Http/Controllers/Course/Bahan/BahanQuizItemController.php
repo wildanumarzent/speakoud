@@ -7,18 +7,21 @@ use App\Http\Requests\QuizItemRequest;
 use App\Models\Course\Bahan\BahanQuizItem;
 use App\Services\Course\Bahan\BahanQuizItemService;
 use App\Services\Course\Bahan\BahanQuizService;
+use App\Services\Course\Bahan\BahanService;
 use Illuminate\Http\Request;
 
 class BahanQuizItemController extends Controller
 {
-    private $service, $serviceQuiz;
+    private $service, $serviceBahan, $serviceQuiz;
 
     public function __construct(
         BahanQuizItemService $service,
+        BahanService $serviceBahan,
         BahanQuizService $serviceQuiz
     )
     {
         $this->service = $service;
+        $this->serviceBahan = $serviceBahan;
         $this->serviceQuiz = $serviceQuiz;
     }
 
@@ -36,11 +39,7 @@ class BahanQuizItemController extends Controller
         $data['quiz_item']->withPath(url()->current().$t.$q);
         $data['quiz'] = $this->service->findQuiz($quizId);
 
-        if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra')) {
-            if ($data['quiz']->creator_id != auth()->user()->id) {
-                return abort(404);
-            }
-        }
+        $this->serviceBahan->checkInstruktur($data['quiz']->materi_id);
 
         return view('backend.course_management.bahan.quiz.index', compact('data'), [
             'title' => 'Bahan Pelatihan - Quiz Item',
@@ -95,6 +94,7 @@ class BahanQuizItemController extends Controller
         })->all();
 
         $data['quiz_tracker'] = $this->service->getSoalQuizTracker($quizId);
+        $data['count_tracker'] = $this->service->getSoalQuizTracker($quizId)->count();
         $data['soal'] = $this->service->soalQuiz($quizId, $soalId);
 
         if ($data['quiz']->view == true) {
@@ -131,6 +131,8 @@ class BahanQuizItemController extends Controller
         $data['peserta']->withPath(url()->current().$s.$q);
         $data['quiz'] = $this->service->findQuiz($quizId);
 
+        $this->serviceBahan->checkInstruktur($data['quiz']->materi_id);
+
         return view('frontend.course.quiz.peserta', compact('data'), [
             'title' => 'Quiz - Peserta',
             'breadcrumbsBackend' => [
@@ -150,6 +152,8 @@ class BahanQuizItemController extends Controller
         $data['item'] = $this->service->jawabanPeserta($quizId, $pesertaId);
         $data['quiz'] = $this->service->findQuiz($quizId);
 
+        $this->serviceBahan->checkInstruktur($data['quiz']->materi_id);
+
         return view('frontend.course.quiz.jawaban', compact('data'), [
             'title' => 'Quiz - Jawaban',
             'breadcrumbsBackend' => [
@@ -168,11 +172,7 @@ class BahanQuizItemController extends Controller
     {
         $data['quiz'] = $this->service->findQuiz($quizId);
 
-        if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra')) {
-            if ($data['quiz']->creator_id != auth()->user()->id) {
-                return abort(404);
-            }
-        }
+        $this->serviceBahan->checkInstruktur($data['quiz']->materi_id);
 
         return view('backend.course_management.bahan.quiz.form', compact('data'), [
             'title' => 'Quiz Item - Tambah',
@@ -200,11 +200,7 @@ class BahanQuizItemController extends Controller
         $data['quiz_item'] = $this->service->findItem($id);
         $data['quiz'] = $this->service->findQuiz($quizId);
 
-        if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra')) {
-            if ($data['quiz']->creator_id != auth()->user()->id) {
-                return abort(404);
-            }
-        }
+        $this->serviceBahan->checkInstruktur($data['quiz']->materi_id);
 
         return view('backend.course_management.bahan.quiz.form-edit', compact('data'), [
             'title' => 'Quiz Item - Edit',

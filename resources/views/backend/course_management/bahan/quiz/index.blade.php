@@ -39,7 +39,7 @@
 <!-- / Filters -->
 
 <div class="text-left">
-    <a href="{{ route('bahan.index', ['id' => $data['quiz']->bahan_id]) }}" class="btn btn-secondary rounded-pill" title="kembali ke list materi"><i class="las la-arrow-left"></i>Kembali</a>
+    <a href="{{ route('bahan.index', ['id' => $data['quiz']->materi_id]) }}" class="btn btn-secondary rounded-pill" title="kembali ke list materi"><i class="las la-arrow-left"></i>Kembali</a>
 </div>
 <br>
 

@@ -31,7 +31,7 @@
     <div class="card-header with-elements">
         <h5 class="card-header-title mt-1 mb-0">User BPPT List</h5>
         <div class="card-header-elements ml-auto">
-            <a href="{{ route('internal.create') }}" class="btn btn-primary icon-btn-only-sm" title="klik untuk menambah user BPPT" data-toggle="tooltip">
+            <a href="{{ route('internal.create') }}" class="btn btn-primary icon-btn-only-sm" title="klik untuk menambah user BPPT">
                 <i class="las la-plus"></i><span>Tambah</span>
             </a>
         </div>
@@ -63,7 +63,7 @@
                             @if (Request::get('q'))
                             ! User BPPT tidak ditemukan !
                             @else
-                            ! Data User BPPT kosong !
+                            ! User BPPT kosong !
                             @endif
                             </strong>
                         </i>
@@ -79,15 +79,15 @@
                     <td>{{ $item->instansi['nama_instansi'] ?? '-' }}</td>
                     <td>{{ $item->kedeputian ?? '-' }}</td>
                     <td>{{ config('addon.label.jabatan.'.$item->pangkat) ?? '-' }}</td>
-                    <td>{{ $item->user->information->optional['phone'] ?? '-' }}</td>
-                    <td>{{ $item->alamat ?? '-' }}</td>
+                    <td>{{ $item->user->information->phone ?? '-' }}</td>
+                    <td>{{ $item->user->information->address ?? '-' }}</td>
                     <td>{{ $item->created_at->format('d F Y - (H:i)') }}</td>
                     <td>{{ $item->updated_at->format('d F Y - (H:i)') }}</td>
                     <td>
-                        <a href="{{ route('internal.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengedit user BPPT" data-toggle="tooltip">
+                        <a href="{{ route('internal.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengedit user BPPT">
                                 <i class="las la-pen"></i>
                         </a>
-                        <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus user BPPT" data-toggle="tooltip">
+                        <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus user BPPT">
                             <i class="las la-trash-alt"></i>
                         </a>
                     </td>
@@ -103,7 +103,7 @@
                             @if (Request::get('q'))
                             ! User internal tidak ditemukan !
                             @else
-                            ! Data User internal kosong !
+                            ! User internal kosong !
                             @endif
                             </strong>
                         </i>
@@ -141,19 +141,19 @@
                                 </div>
                                 <div class="item-table">
                                     <div class="data-table">Telpon</div>
-                                    <div class="desc-table">{{ $item->user->information->optional['phone'] ?? '-' }}</div>
+                                    <div class="desc-table">{{ $item->user->information->phone ?? '-' }}</div>
                                 </div>
                                 <div class="item-table">
                                     <div class="data-table">Alamat</div>
-                                    <div class="desc-table">{{ $item->alamat ?? '-' }}</div>
+                                    <div class="desc-table">{{ $item->user->information->address ?? '-' }}</div>
                                 </div>
 
                                 <div class="item-table m-0">
                                     <div class="desc-table text-right">
-                                        <a href="{{ route('internal.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengedit user BPPT" data-toggle="tooltip">
+                                        <a href="{{ route('internal.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengedit user BPPT">
                                                 <i class="las la-pen"></i>
                                         </a>
-                                        <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus user BPPT" data-toggle="tooltip">
+                                        <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus user BPPT">
                                             <i class="las la-trash-alt"></i>
                                         </a>
                                     </div>

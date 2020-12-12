@@ -59,30 +59,13 @@ class UserSeeder extends Seeder
 
             $information = UserInformation::create([
                 'user_id' => $user->id,
-                'general' => [
-                    'city' => null,
-                    'description' => null,
-                ],
-                'additional_name' => [
-                    'first_name' => null,
-                    'sur_name' => null,
-                    'middle_name' => null,
-                    'alternate_name' => null,
-                ],
-                'optional' => [
-                    'web_page' => null,
-                    'icq_number' => null,
-                    'skype_id' => null,
-                    'aim_id' => null,
-                    'yahoo_id' => null,
-                    'msn_id' => null,
-                    'id_number' => null,
-                    'institution' => null,
-                    'departement' => null,
-                    'phone' => null,
-                    'mobile_phone' => null,
-                    'address' => null,
-                ],
+                'place_of_birthday' => null,
+                'date_of_birthday' => null,
+                'gender' => null,
+                'city' => null,
+                'description' => null,
+                'phone' => null,
+                'address' => null,
             ]);
         }
     }
