@@ -842,9 +842,11 @@ Route::group(['middleware' => ['auth']], function () {
 
     //fullcalender
     Route::get('kalender','EventController@index')->name('kalender.index');
-    Route::post('event/store','EventController@store');
-    Route::post('event/update','EventController@update');
-    Route::post('event/delete','EventController@destroy');
+    Route::get('event/list','EventController@list')->name('event.list');
+    Route::get('event/export/{media}','EventController@generateLink')->name('event.generate');
+    Route::post('event/store','EventController@store')->name('event.store');
+    Route::post('event/update','EventController@update')->name('event.update');
+    Route::post('event/delete','EventController@destroy')->name('event.delete');
 
 
     //logout

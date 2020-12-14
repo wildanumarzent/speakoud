@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use Illuminate\Http\Request;
 use Redirect,Response;
-
+use Alert;
+use Carbon\Carbon;
+use Spatie\CalendarLinks\Link;
+use Illuminate\Support\Facades\Validator;
 class EventController extends Controller
 {
     /**
@@ -15,22 +18,20 @@ class EventController extends Controller
      */
     public function index()
     {
-        if(request()->ajax())
-        {
-         $start = (!empty($_GET["start"])) ? ($_GET["start"]) : ('');
-         $end = (!empty($_GET["end"])) ? ($_GET["end"]) : ('');
-
-         $data = Event::whereDate('start', '>=', $start)->whereDate('end',   '<=', $end)->get(['id','judul','start', 'end']);
-         return Response::json($data);
-        }
         $data = [];
-        return view('frontend.kalender.index', compact('data'), [
+        return view('backend.kalender.index', compact('data'), [
             'judul' => 'Kalender Diklat',
             'breadcrumbsBackend' => [
                 'Kalender Diklat' => '',
             ],
         ]);
     }
+
+    public function list(){
+        $event = Event::latest()->get();
+        return response()->json($event);
+    }
+
 
     /**
      * Show the form for creating a new resource.
@@ -39,28 +40,62 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
-        $insertArr = [ 'judul' => $request->judul,
-                       'start' => $request->start,
-                       'end' => $request->end
+        switch($request->action) {
+
+
+            case 'submit':
+                $data = $request->except('action');
+                $validator = Validator::make($data,[
+                    'title' => 'required',
+                    'start' => 'required',
+                    'end' => 'required',
+                ]);
+
+                if($validator->fails()){
+                    Alert::error('Error !',$validator->messages()->first());
+                    return redirect()->back();
+                }else{
+                    $data['extendedProps'] = [
+                        'description' => $request->description ?? null,
+                        'link' => $request->link ?? null,
                     ];
-        $event = Event::insert($insertArr);
-        return Response::json($event);
+                        Event::updateOrCreate(
+                            ['id' => $request->id],
+                            $request->except('action')
+                        );
+
+
+                    Alert::success('Success','Sukses Menyimpan Event');
+                }
+            break;
+
+            case 'destroy':
+                Alert::success('Success','Sukses Menghapus Event');
+                $event = Event::where('id',$request->id)->delete();
+            break;
+        }
+
+        return redirect()->back();
+
     }
 
 
     public function update(Request $request)
     {
-        $where = array('id' => $request->id);
-        $updateArr = ['judul' => $request->judul,'start' => $request->start, 'end' => $request->end];
-        $event  = Event::where($where)->update($updateArr);
-
+        $event  = Event::query();
+        $event->where('id',$request->id)->first();
+        $event->update([
+            'title' => $request->title,
+            'start' => $request->start,
+            'end' => $request->end,
+        ]);
         return Response::json($event);
     }
 
 
     public function destroy(Request $request)
     {
-        $event = Event::where('id',$request->id)->delete();
+
 
         return Response::json($event);
     }

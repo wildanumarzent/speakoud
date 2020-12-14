@@ -17,14 +17,13 @@ class CreateEventTable extends Migration
             $table->id();
             $table->unsignedBigInteger('creator_id');
             $table->string('judul');
-            $table->text('keterangan')->nullable();
+            $table->longText('description')->nullable();
+            $table->text('url')->nullable();
+            $table->text('className')->default('fc-event-default');
             $table->timestamp('start')->nullable();
-            $table->text('alamat')->nullable();
             $table->timestamp('end')->nullable();
-            $table->integer('durasi_menit')->nullable();
-            $table->boolean('repeatable')->default(false)->nullable();
+            $table->boolean('allDay')->default(true)->nullable();
             $table->timestamps();
-
             $table->foreign('creator_id')->references('id')->on('users')
                 ->cascadeOnDelete();
         });
