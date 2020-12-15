@@ -133,7 +133,7 @@
                     </td>
                 </tr>
                 @if (count($item->childs))
-                    @include('backend.page.child', ['childs' => $item->childs])
+                    @include('backend.page.child', ['childs' => $item->childs,'level'=>1])
                 @endif
                 @endforeach
             </tbody>

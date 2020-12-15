@@ -185,7 +185,7 @@ $(document).ready(function () {
         var id = $(this).attr('data-id');
         Swal.fire({
             title: "Apakah anda yakin?",
-            text: "Anda akan menghapus instansi ini, data yang bersangkutan dengan instansi ini akan terhapus. Data yang sudah dihapus tidak dapat dikembalikan!",
+            text: "Anda akan menghapus instansi ini, Data yang sudah dihapus tidak dapat dikembalikan!",
             type: "warning",
             confirmButtonText: "Ya, hapus!",
             customClass: {

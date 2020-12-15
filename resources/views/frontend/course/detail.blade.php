@@ -9,7 +9,8 @@
 @endsection
 
 @section('content')
-<div class="row no-gutters row-bordered ui-bordered text-center mb-4">
+<div class="card mb-4">
+<div class="row no-gutters row-bordered ui-bordered text-center">
     <a href="javascript:void(0)" class="d-flex col flex-column text-body py-3">
       <div class="font-weight-bold">{!! $data['read']->program->judul !!}</div>
       <div class="text-muted small">Kategori</div>
@@ -22,6 +23,7 @@
       <div class="font-weight-bold">{!! !empty($data['read']->publish_end) ? $data['read']->publish_end->format('d F Y (H:i A)') : '-' !!}</div>
       <div class="text-muted small">Tanggal Selesai</div>
     </a>
+</div>
 </div>
 
 <div class="row">
@@ -180,7 +182,8 @@
               <span class="card-header-title"> Pengajar</span>
             </h6>
             <ul class="list-group list-group-flush">
-                @foreach ($data['read']->instruktur as $ins)
+                {{-- @foreach ($data['read']->instruktur as $ins) --}}
+                @foreach ($data['read']->materi()->select('instruktur_id')->groupBy('instruktur_id')->get() as $ins)
                 <li class="list-group-item">
                   <div class="media align-items-center">
                     <a href="{{ $ins->instruktur->user->getPhoto($ins->instruktur->user->photo['filename']) }}" data-fancybox="gallery">
@@ -204,10 +207,7 @@
                 // dd($data['read']->rating('per_rating', 5))
             @endphp
             <div class="card-body">
-                @php
-                    $number = [1, 2, 3, 4, 5];
-                @endphp
-                @foreach ($number as $i)
+                @foreach ($data['numberProgress'] as $i)
                 <div class="progress-course mb-4">
                     <div class="progress">
                         <span class="badge badge-warning mr-3">{{ $i }}</span>
@@ -235,11 +235,11 @@
                     </select>
                     @else
                     @if ($data['read']->rating->count() > 0)
-                    @foreach ($number as $i)
+                    @foreach ($data['numberRating'] as $i)
                         <i class="fa{{ (floor($data['read']->rating->where('rating', '>', 0)->avg('rating')) >= $i)? 's' : 'r' }} fa-star text-warning" style="font-size: 1.8em;"></i>
                     @endforeach
                     @else
-                    @foreach ($number as $i)
+                    @foreach ($data['numberRating'] as $i)
                         <i class="far fa-star text-warning" style="font-size: 1.8em;"></i>
                     @endforeach
                     @endif

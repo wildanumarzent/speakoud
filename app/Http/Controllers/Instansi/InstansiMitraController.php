@@ -80,11 +80,18 @@ class InstansiMitraController extends Controller
 
     public function destroy($id)
     {
-        $this->service->deleteInstansi($id);
+        $delete = $this->service->deleteInstansi($id);
 
-        return response()->json([
-            'success' => 1,
-            'message' => ''
-        ], 200);
+        if ($delete == true) {
+            return response()->json([
+                'success' => 1,
+                'message' => ''
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => 0,
+                'message' => 'Data instansi masih dipakai di user mitra / instruktur mitra / peserta mitra'
+            ], 200);
+        }
     }
 }

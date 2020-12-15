@@ -16,6 +16,7 @@ use App\Services\KonfigurasiService;
 use App\Services\Users\InstrukturService;
 use App\Services\Users\PesertaService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class MataController extends Controller
 {
@@ -147,6 +148,11 @@ class MataController extends Controller
         $data['read'] = $this->service->findMata($id);
         $data['materi'] = $this->serviceMateri->getMateriByMata($id);
 
+        //rating
+        $data['numberRating'] = [1, 2, 3, 4, 5];
+        $data['numberProgress'] = [1, 2, 3, 4, 5];
+        rsort($data['numberProgress']);
+
         if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
             if ($data['read']->program->publish == 0 || $data['read']->publish == 0) {
                 return abort(404);
@@ -171,6 +177,9 @@ class MataController extends Controller
                 }
             }
         }
+
+        // $ins = $data['read']->materi()->select('instruktur_id')->groupBy('instruktur_id')->get();
+        // dd($ins);
 
         return view('frontend.course.detail', compact('data'), [
             'title' => $data['read']->judul,

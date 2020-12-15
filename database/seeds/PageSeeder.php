@@ -34,8 +34,8 @@ class PageSeeder extends Seeder
             ],
             1 => [
                 'parent' => 0,
-                'judul' => 'About Us',
-                'slug' => 'about-us',
+                'judul' => 'Tentang Kami',
+                'slug' => 'tentang-kami',
                 'intro' => null,
                 'content' => null,
                 'cover' => [
