@@ -154,9 +154,9 @@
                 <tr>
                     <th>Enroll</th>
                     <td>
-                        {{-- <a href="{{ route('mata.instruktur', ['id' => $item->id]) }}" class="btn btn-warning btn-sm btn-block" title="klik untuk melihat instruktur">
+                        <a href="{{ route('mata.instruktur', ['id' => $item->id]) }}" class="btn btn-warning btn-sm btn-block" title="klik untuk melihat instruktur">
                             <i class="las la-user-tie"></i> Instruktur
-                        </a> --}}
+                        </a>
                         <a href="{{ route('mata.peserta', ['id' => $item->id]) }}" class="btn btn-warning btn-sm btn-block" title="klik untuk melihat peserta">
                             <i class="las la-user"></i> Peserta
                         </a>

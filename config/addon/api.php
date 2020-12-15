@@ -2,7 +2,9 @@
 
 return [
     'sso' => [],
-    'conference' => [],
+    'conference' => [
+        'end_point' => 'https://apidev.pluginesia.com/api/internal/meeting',
+    ],
     'evaluasi' => [
         'end_point' => 'https://perekayasa.bppt.go.id/evaluasi-online/rest',
     ],

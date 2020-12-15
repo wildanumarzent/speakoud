@@ -18,7 +18,7 @@ class BahanEvaluasiPengajarService
         $this->modelInstruktur = $modelInstruktur;
     }
 
-    public function getBahanByMata(int $mataId)
+    public function getEvaluasiByMata(int $mataId)
     {
         return $this->model->where('mata_id', $mataId)->get();
     }

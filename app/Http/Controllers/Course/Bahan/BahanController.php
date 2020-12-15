@@ -134,10 +134,10 @@ class BahanController extends Controller
         if ($tipe == 'evaluasi-pengajar') {
             $evaluasi = $data['bahan']->evaluasiPengajar->mataInstruktur;
             if (!empty($evaluasi->kode_evaluasi)) {
-                if (auth()->user()->hasRole('peserta_internal|peserta_mitra') && $data['bahan']->userEvaluasiPengajar()->count() == 0) {
-                    return back()->with('warning', 'Anda belum terdaftar di evaluasi pengajar ini');
+                $data['preview'] = $this->serviceEvaluasi->preview($evaluasi->kode_evaluasi)->data->evaluasi;
+                if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
+                    $data['apiUser'] = $this->serviceEvaluasi->checkUserPengajar($mataId, $id)->first();
                 }
-                $data['preview'] = $this->serviceEvaluasi->previewSoal($evaluasi->kode_evaluasi);
             } else {
                 return abort(404);
             }

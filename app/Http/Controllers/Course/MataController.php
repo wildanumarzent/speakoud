@@ -208,8 +208,15 @@ class MataController extends Controller
 
     public function store(MataRequest $request, $programId)
     {
-        $this->service->storeMata($request, $programId);
+        if (!empty($request->kode_evaluasi)) {
+            $cekApi = $this->serviceEvaluasi->preview($request->kode_evaluasi);
+            if ($cekApi->success == false) {
+                return back()->with('warning', $cekApi->error_message[0]);
+            }
+        }
 
+        $this->service->storeMata($request, $programId);
+    
         return redirect()->route('mata.index', ['id' => $programId])
             ->with('success', 'Program pelatihan berhasil ditambahkan');
     }
@@ -224,6 +231,13 @@ class MataController extends Controller
 
     public function kodeEvaluasiInstruktur(KodeEvaluasiInstrukturRequest $request, $mataId, $id)
     {
+        if (!empty($request->kode_evaluasi)) {
+            $cekApi = $this->serviceEvaluasi->preview($request->kode_evaluasi);
+            if ($cekApi->success == false) {
+                return back()->with('warning', $cekApi->error_message[0]);
+            }
+        }
+        
         $this->service->kodeEvaluasiInstruktur($request, $mataId, $id);
 
         return redirect()->route('mata.instruktur', ['id' => $mataId])
@@ -257,6 +271,14 @@ class MataController extends Controller
 
     public function update(MataRequest $request, $programId, $id)
     {
+
+        if (!empty($request->kode_evaluasi)) {
+            $cekApi = $this->serviceEvaluasi->preview($request->kode_evaluasi);
+            if ($cekApi->success == false) {
+                return back()->with('warning', $cekApi->error_message[0]);
+            }
+        }
+        
         $this->service->updateMata($request, $id);
 
         return redirect()->route('mata.index', ['id' => $programId])

@@ -37,7 +37,7 @@
                     <select class="select2 show-tick @error('instruktur_id') is-invalid @enderror" name="instruktur_id" data-style="btn-default">
                         <option value=" " selected disabled>Pilih</option>
                         @foreach ($data['instruktur'] as $instruktur)
-                        <option value="{{ $instruktur->id }}" {{ isset($data['materi']) ? (old('instruktur_id', $data['materi']->instruktur_id) == $instruktur->id ? 'selected' : '') : (old('instruktur_id') == $instruktur->id ? 'selected' : '') }}>{{ $instruktur->user->name }}</option>
+                        <option value="{{ $instruktur->instruktur_id }}" {{ isset($data['materi']) ? (old('instruktur_id', $data['materi']->instruktur_id) == $instruktur->instruktur_id ? 'selected' : '') : (old('instruktur_id') == $instruktur->id ? 'selected' : '') }}>{{ $instruktur->instruktur->user->name }}</option>
                         @endforeach
                     </select>
                     @error('instruktur_id')

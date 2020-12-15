@@ -178,8 +178,14 @@ Route::post('/course/{id}/evaluasi/penyelenggara', 'Course\EvaluasiController@su
     ->name('evaluasi.penyelenggara.submit')
     ->middleware(['auth', 'role:peserta_internal|peserta_mitra']);
 #--pengajar
-Route::get('/course/{id}/bahan/{bahanId}/evaluasi/pengajar', 'Course\EvaluasiController@formPengajar')
+Route::get('/course/{id}/bahan/{bahanId}/evaluasi/pengajar/form', 'Course\EvaluasiController@formPengajar')
     ->name('evaluasi.pengajar.form')
+    ->middleware(['auth', 'role:peserta_internal|peserta_mitra']);
+Route::get('/course/{id}/bahan/{bahanId}/evaluasi/pengajar/rekap', 'Course\EvaluasiController@rekapPengajar')
+    ->name('evaluasi.pengajar.rekap')
+    ->middleware(['auth', 'role:administrator|internal|mitra|instruktur_internal|instruktur_mitra']);
+Route::post('/course/{id}/bahan/{bahanId}/evaluasi/pengajar', 'Course\EvaluasiController@submitPengajar')
+    ->name('evaluasi.pengajar.submit')
     ->middleware(['auth', 'role:peserta_internal|peserta_mitra']);
 
 /**

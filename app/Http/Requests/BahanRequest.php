@@ -106,7 +106,7 @@ class BahanRequest extends FormRequest
                 // 'publish_end' => 'required',
             ];
         }
-        if ($this->type == 'evaluasi_pengajar') {
+        if ($this->type == 'evaluasi-pengajar') {
             return [
                 'judul' => 'required',
                 'mata_instruktur_id' => 'required',

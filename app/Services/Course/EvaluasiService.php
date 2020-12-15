@@ -49,7 +49,7 @@ class EvaluasiService
         return $json->data;
     }
 
-    public function register($mataId, $kodeEvaluasi)
+    public function register($mataId, $kodeEvaluasi, $bahanId = null)
     {
         $client = new \GuzzleHttp\Client();
         $url = config('addon.api.evaluasi.end_point').'/register/'.$kodeEvaluasi;
@@ -72,6 +72,7 @@ class EvaluasiService
         if ($json->success == true) {
             $api = new ApiEvaluasi;
             $api->mata_id = $mataId;
+            $api->bahan_id = ($bahanId != null) ? $bahanId : null;
             $api->user_id = auth()->user()->id;
             $api->token = $json->data->token;
             $api->evaluasi = $json->data->evaluasi;
@@ -89,9 +90,24 @@ class EvaluasiService
         return $this->model->where('mata_id', $mataId)->where('user_id', auth()->user()->id);
     }
 
+    public function checkUserPengajar(int $mataId, int $bahanId)
+    {
+        return $this->model->where('mata_id', $mataId)->where('bahan_id', $bahanId)
+            ->where('user_id', auth()->user()->id);
+    }
+
     public function recordUserPenyelenggara(int $mataId)
     {
         $record = $this->checkUserPenyelenggara($mataId)->update([
+                'start_time' => now(),
+            ]);
+
+        return $record;
+    }
+
+    public function recordUserPengajar(int $mataId, int $bahanId)
+    {
+        $record = $this->checkUserPengajar($mataId, $bahanId)->update([
                 'start_time' => now(),
             ]);
 
@@ -122,6 +138,40 @@ class EvaluasiService
 
         if ($json->success == true) {
             $record = $this->checkUserPenyelenggara($mataId)->update([
+                'is_complete' => 1,
+            ]);
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function submitAnswerPengajar($request, int $mataId, int $bahanId)
+    {
+        $mata = $this->mata->findMata($mataId);
+        $bahan = $this->bahan->findBahan($mataId);
+        $token = $this->checkUserPengajar($mataId, $bahanId)->first();
+
+        $client = new \GuzzleHttp\Client();
+        $instrumen = [];
+        foreach ($request->instrumen as $key) {
+            $instrumen[$key] = $request->input('opsi-'.$key);
+        }
+        $parameter = [
+            'token' => $token->token,
+            'instrumen' => $instrumen
+        ];
+        $url = config('addon.api.evaluasi.end_point').'/submit-answers/'.$bahan->evaluasiPengajar->mataInstruktur->kode_evaluasi;
+        $response = $client->request('POST', $url, [
+            'form_params' => $parameter,
+        ]);
+
+        $data = $response->getBody()->getContents();
+        $json = json_decode($data);
+
+        if ($json->success == true) {
+            $record = $this->checkUserPengajar($mataId, $bahanId)->update([
                 'is_complete' => 1,
             ]);
 

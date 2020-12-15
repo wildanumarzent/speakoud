@@ -25,7 +25,7 @@
 </div>
 
 <div class="text-left">
-    <a href="{{ route('evaluasi.penyelenggara', ['id' => $data['mata']->id]) }}" class="btn btn-secondary rounded-pill" title="kembali ke evaluasi"><i class="las la-arrow-left"></i>Kembali</a>
+    <a href="{{ route('course.bahan', ['id' => $data['mata']->id, 'bahanId' => $data['bahan']->id, 'tipe' => 'evaluasi-pengajar']) }}" class="btn btn-secondary rounded-pill" title="kembali ke evaluasi"><i class="las la-arrow-left"></i>Kembali</a>
 </div>
 <br>
 

@@ -162,7 +162,7 @@ class BahanPelatihan extends Model
 
         if ($bahan->evaluasiPengajar()->count() == 1) {
             $segmen = [
-                'tipe' => 'evaluasi_pengajar',
+                'tipe' => 'evaluasi-pengajar',
                 'title' => 'Evaluasi Pengajar',
                 'icon' => 'user-tie'
             ];

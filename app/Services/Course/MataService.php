@@ -106,7 +106,7 @@ class MataService
         if (auth()->guard()->check() == true) {
 
             if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra')) {
-                $query->whereHas('materi', function ($query) {
+                $query->whereHas('instruktur', function ($query) {
                     $query->whereIn('instruktur_id', [auth()->user()->instruktur->id]);
                 });
             }
@@ -141,7 +141,7 @@ class MataService
 
     public function getInstrukturEnroll(int $mataId)
     {
-        $instruktur = $this->bahanEvaluasi->getBahanByMata($mataId);
+        $instruktur = $this->bahanEvaluasi->getEvaluasiByMata($mataId);
         $collectInstruktur = collect($instruktur);
         $mataInstrukturId = $collectInstruktur->map(function($item, $key) {
             return $item->mata_instruktur_id;

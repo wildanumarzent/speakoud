@@ -53,10 +53,11 @@ class MateriController extends Controller
         ]);
     }
 
-    public function create($mataId)
+    public function create(Request $request, $mataId)
     {
         $data['mata'] = $this->serviceMata->findMata($mataId);
-        $data['instruktur'] = $this->serviceInstruktur->getInstrukturByTypeProgram($data['mata']->program_id);
+        // $data['instruktur'] = $this->serviceInstruktur->getInstrukturByTypeProgram($data['mata']->program_id);
+        $data['instruktur'] = $this->serviceMata->getInstrukturList($request, $mataId);
 
         $this->serviceProgram->checkAdmin($data['mata']->program_id);
 
@@ -79,11 +80,12 @@ class MateriController extends Controller
             ->with('success', 'Mata pelatihan berhasil ditambahkan');
     }
 
-    public function edit($mataId, $id)
+    public function edit(Request $request, $mataId, $id)
     {
         $data['materi'] = $this->service->findMateri($id);
         $data['mata'] = $this->serviceMata->findMata($mataId);
-        $data['instruktur'] = $this->serviceInstruktur->getInstrukturByTypeProgram($data['mata']->program_id);
+        // $data['instruktur'] = $this->serviceInstruktur->getInstrukturByTypeProgram($data['mata']->program_id);
+        $data['instruktur'] = $this->serviceMata->getInstrukturList($request, $mataId);
 
         $this->serviceProgram->checkAdmin($data['mata']->program_id);
         $this->checkCreator($id);

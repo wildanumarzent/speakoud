@@ -12,7 +12,7 @@
             </div>
             <div class="modal-body">
                 @foreach (config('addon.label.bahan_tipe') as $key => $value)
-                @if ($value['get'] != 'evaluasi_pengajar')
+                @if ($value['get'] != 'evaluasi-pengajar')
                 <a href="{{ route('bahan.create', ['id' => $data['materi']->id, 'type' => $value['get']]) }}" class="media text-body px-3" title="create bahan dengan tipe forum">
                     <div class="box-materi py-3">
                         <div class="dot-circle"></div>

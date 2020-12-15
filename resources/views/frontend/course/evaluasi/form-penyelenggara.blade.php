@@ -14,7 +14,7 @@
 
 @section('content')
 <div class="text-left">
-    <a href="{{ route('evaluasi.penyelenggara', ['id' => $data['mata']->id]) }}" class="btn btn-secondary rounded-pill" title="kembali ke tugas"><i class="las la-arrow-left"></i>Kembali</a>
+    <a href="{{ route('evaluasi.penyelenggara', ['id' => $data['mata']->id]) }}" class="btn btn-secondary rounded-pill" title="kembali ke evaluasi"><i class="las la-arrow-left"></i>Kembali</a>
 </div>
 <br>
 
