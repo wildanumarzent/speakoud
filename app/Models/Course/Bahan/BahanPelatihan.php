@@ -94,6 +94,11 @@ class BahanPelatihan extends Model
         return $this->hasMany(ApiEvaluasi::class, 'bahan_id')->where('user_id', auth()->user()->id);
     }
 
+    public function activityCompletionByUser()
+    {
+        return $this->hasOne(ActivityCompletion::class, 'bahan_id')->where('user_id', auth()->user()->id);
+    }
+
     public function type($bahan)
     {
         if ($bahan->forum()->count() == 1) {

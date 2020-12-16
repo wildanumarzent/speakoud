@@ -215,8 +215,16 @@ class MataController extends Controller
             }
         }
 
+        $bobot = ($request->join_vidconf + $request->activity_completion +
+            $request->forum_diskusi + $request->webinar + $request->progress_test +
+            $request->quiz + $request->post_test);
+
+        if ($bobot < 100 || $bobot > 100) {
+            return back()->with('warning', 'Bobot nilai harus memiliki jumlah keseluruhan 100%');
+        }
+
         $this->service->storeMata($request, $programId);
-    
+
         return redirect()->route('mata.index', ['id' => $programId])
             ->with('success', 'Program pelatihan berhasil ditambahkan');
     }
@@ -237,7 +245,7 @@ class MataController extends Controller
                 return back()->with('warning', $cekApi->error_message[0]);
             }
         }
-        
+
         $this->service->kodeEvaluasiInstruktur($request, $mataId, $id);
 
         return redirect()->route('mata.instruktur', ['id' => $mataId])
@@ -278,7 +286,7 @@ class MataController extends Controller
                 return back()->with('warning', $cekApi->error_message[0]);
             }
         }
-        
+
         $this->service->updateMata($request, $id);
 
         return redirect()->route('mata.index', ['id' => $programId])

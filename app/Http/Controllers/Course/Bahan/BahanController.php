@@ -93,15 +93,15 @@ class BahanController extends Controller
                     return back()->with('warning', 'Materi sudah ditutup tanggal '.$data['bahan']->publish_end->format('d F Y H:i'));
                 }
             }
+            if ($this->serviceMata->checkUserEnroll($mataId) == 0) {
+                return back()->with('warning', 'anda tidak terdaftar di course '.$data['read']->judul.'');
+            }
+
+            $this->service->recordActivity($id);
         }
 
         $this->serviceProgram->checkAdmin($data['mata']->program_id);
         $this->serviceProgram->checkPeserta($data['mata']->program_id);
-        if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
-            if ($this->serviceMata->checkUserEnroll($mataId) == 0) {
-                return back()->with('warning', 'anda tidak terdaftar di course '.$data['read']->judul.'');
-            }
-        }
         $this->service->checkInstruktur($data['bahan']->materi_id);
 
         if ($tipe == 'forum') {

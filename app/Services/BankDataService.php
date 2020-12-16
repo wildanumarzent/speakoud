@@ -79,7 +79,7 @@ class BankDataService
         }
         //audio
         if ($type == 'audio') {
-            $query->where('file_type', 'mp3');
+            $query->whereIn('file_type', ['mp3', 'wav']);
         }
         //video
         if ($type == 'video') {

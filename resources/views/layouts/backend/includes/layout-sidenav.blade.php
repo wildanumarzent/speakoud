@@ -169,36 +169,48 @@
         </li>
         @endrole
 
-        @role ('developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra')
         <!-- courses -->
         <li class="sidenav-item{{ $course ? ' active open' : '' }}">
           <a href="javascript:void(0)" class="sidenav-link sidenav-toggle" title="Course Management"><i class="sidenav-icon las la-book-open"></i>
             <div>Course Management</div>
           </a>
-
+          @php
+              if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra|peserta_internal|peserta_mitra')) {
+                  $program = 'course.list';
+                  $jadwal = 'course.jadwal';
+              } else {
+                  $program = 'program.index';
+                  $jadwal = 'jadwal.index';
+              }
+          @endphp
           <ul class="sidenav-menu">
-            <!-- program -->
-            @role ('instruktur_internal|instruktur_mitra')
-            <li class="sidenav-item{{ (Request::is('program*') || Request::is('mata*') || Request::is('materi*') || Request::is('course*')) ? ' active' : '' }}">
-                <a href="{{ route('course.list') }}" class="sidenav-link" title="Program Pelatihan">
+            <!-- program pelatihan -->
+            <li class="sidenav-item{{ (Request::is('program*') || Request::is('mata*') || Request::is('materi*') || Request::is('course*')) ? ' active open' : '' }}">
+                <a href="javascript:void(0)" class="sidenav-link sidenav-toggle" title="Program Pelatihan">
                   <div>Program Pelatihan</div>
                 </a>
+
+                <ul class="sidenav-menu">
+                    <!-- aktif -->
+                    <li class="sidenav-item{{ (Request::is('program*') && Request::get('status') != 'histori' || Request::is('mata*') || Request::is('materi*') || Request::is('course*')) ? ' active' : '' }}">
+                        <a href="{{ route($program) }}" class="sidenav-link" title="Aktif">
+                          <div>Aktif</div>
+                        </a>
+                    </li>
+                    <!-- histori -->
+                    <li class="sidenav-item">
+                        <a href="" class="sidenav-link" title="Histori">
+                          <div>Histori</div>
+                        </a>
+                    </li>
+                </ul>
             </li>
-            @else
-            <li class="sidenav-item{{ (Request::is('program*') || Request::is('mata*') || Request::is('materi*') || Request::is('course*')) ? ' active' : '' }}">
-              <a href="{{ route('program.index') }}" class="sidenav-link" title="Program Pelatihan">
-                <div>Program Pelatihan</div>
-              </a>
-            </li>
-            @endrole
-            @role ('developer|administrator|internal|mitra')
             <!-- jadwal -->
             <li class="sidenav-item{{ (Request::is('jadwal*')) ? ' active' : '' }}">
-                <a href="{{ route('jadwal.index') }}" class="sidenav-link" title="Jadwal Diklat">
+                <a href="{{ route($jadwal) }}" class="sidenav-link" title="Jadwal Diklat">
                   <div>Jadwal Diklat</div>
                 </a>
             </li>
-            @endrole
             <!-- kalender -->
             <li class="sidenav-item{{ (Request::is('kalender*')) ? ' active' : '' }}">
                 <a href="{{route('kalender.index')}}" class="sidenav-link" title="Kalender Diklat">
@@ -207,16 +219,6 @@
             </li>
           </ul>
         </li>
-        @endrole
-
-        @role ('peserta_internal|peserta_mitra')
-        <!-- program -->
-        <li class="sidenav-item {{ Request::is('course*') ? 'active' : '' }}">
-            <a href="{{ route('course.list') }}" class="sidenav-link" title="Program Pelatihan"><i class="sidenav-icon las la-book-open"></i>
-              <div>Program Pelatihan</div>
-            </a>
-        </li>
-        @endrole
 
         <!-- sertifikasi -->
         <li class="sidenav-item">

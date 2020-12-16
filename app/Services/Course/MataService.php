@@ -2,7 +2,7 @@
 
 namespace App\Services\Course;
 
-use App\Models\Course\ApiEvaluasi;
+use App\Models\Course\MataBobotNilai;
 use App\Models\Course\MataInstruktur;
 use App\Models\Course\MataPelatihan;
 use App\Models\Course\MataPeserta;
@@ -11,32 +11,33 @@ use App\Models\Course\MateriPelatihan;
 use App\Services\Component\KomentarService;
 use App\Services\Course\Bahan\BahanEvaluasiPengajarService;
 use App\Services\Users\PesertaService;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
 class MataService
 {
-    private $model, $modelInstruktur, $modelPeserta, $modelMateri, $komentar, $peserta,
-        $modelEvaluasi, $bahanEvaluasi;
+    private $model, $modelBobot, $modelInstruktur, $modelPeserta, $modelMateri, $komentar,
+        $peserta, $bahanEvaluasi;
 
     public function __construct(
         MataPelatihan $model,
+        MataBobotNilai $modelBobot,
         MataInstruktur $modelInstruktur,
         MataPeserta $modelPeserta,
         MateriPelatihan $modelMateri,
         KomentarService $komentar,
         PesertaService $peserta,
-        ApiEvaluasi $modelEvaluasi,
         BahanEvaluasiPengajarService $bahanEvaluasi
     )
     {
         $this->model = $model;
+        $this->modelBobot = $modelBobot;
         $this->modelInstruktur = $modelInstruktur;
         $this->modelPeserta = $modelPeserta;
         $this->modelMateri = $modelMateri;
         $this->komentar = $komentar;
         $this->peserta = $peserta;
-        $this->modelEvaluasi = $modelEvaluasi;
         $this->bahanEvaluasi = $bahanEvaluasi;
     }
 
@@ -105,6 +106,7 @@ class MataService
 
         if (auth()->guard()->check() == true) {
 
+
             if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra')) {
                 $query->whereHas('instruktur', function ($query) {
                     $query->whereIn('instruktur_id', [auth()->user()->instruktur->id]);
@@ -112,6 +114,10 @@ class MataService
             }
 
             if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
+
+                $query->where('publish_start', '<=', Carbon::now()->format('Y-m-d H:i'))
+                    ->where('publish_end', '>=', Carbon::now()->format('Y-m-d H:i'));
+
                 $query->whereHas('program', function ($query) {
                     $query->publish();
                     if (auth()->user()->hasRole('peserta_mitra')) {
@@ -226,6 +232,17 @@ class MataService
         $mata->show_feedback = (bool)$request->show_feedback;
         $mata->show_comment = (bool)$request->show_comment;
         $mata->save();
+
+        $bobot = new MataBobotNilai;
+        $bobot->mata_id = $mata->id;
+        $bobot->join_vidconf = $request->join_vidconf;
+        $bobot->activity_completion = $request->activity_completion;
+        $bobot->forum_diskusi = $request->forum_diskusi;
+        $bobot->webinar = $request->webinar;
+        $bobot->progress_test = (bool)$request->enable_progress == 1 ? $request->progress_test : null;
+        $bobot->quiz = $request->quiz;
+        $bobot->post_test = $request->post_test;
+        $bobot->save();
 
         return $mata;
     }

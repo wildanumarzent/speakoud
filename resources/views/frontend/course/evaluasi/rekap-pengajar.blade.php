@@ -88,8 +88,10 @@
 
         </div>
     @endforeach
+</div>
+<div class="row">
     @foreach ($data['result']->result_essai as $key => $essai)
-    <div class="col-sm-6 col-xl-4">
+    <div class="col-sm-12 col-xl-12">
         <div class="card card-list mb-4">
             <div class="card-body d-flex justify-content-between align-items-start pb-2">
                 <div>

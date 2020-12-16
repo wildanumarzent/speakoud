@@ -90,7 +90,7 @@
             @endforeach
             @foreach ($data['files'] as $key => $file)
             <div class="file-item only">
-                @if ($file->file_type == 'mp3' || $file->file_type == 'pptx' || $file->file_type == 'ppt' || $file->file_type == 'pdf')
+                @if ($file->file_type == 'mp3' || $file->file_type == 'wav' || $file->file_type == 'pptx' || $file->file_type == 'ppt' || $file->file_type == 'pdf')
                 <a href="javascript:;" class="file-item-name modals-preview" data-toggle="modal" data-target="#preview-file"
                     data-id="{{ $file->id }}" data-type="{{ $file->file_type }}" data-path="{{ $file->file_path }}">
                 @else

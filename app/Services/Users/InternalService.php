@@ -41,6 +41,19 @@ class InternalService
         return $result;
     }
 
+    public function countInternal()
+    {
+        $query = $this->model->query();
+
+        $query->whereHas('user', function ($query) {
+            $query->active();
+        });
+
+        $result = $query->count();
+
+        return $result;
+    }
+
     public function findInternal(int $id)
     {
         return $this->model->findOrFail($id);

@@ -26,6 +26,7 @@ class CreateUsersTable extends Migration
             $table->json('photo')->nullable()->comment('{
                 "file": "name of file", "description": "picture description",
             }');
+            $table->text('foto_sertifikat')->nullable();
             $table->bigInteger('userable_id')->nullable();
             $table->string('userable_type')->nullable();
             $table->rememberToken();

@@ -2,6 +2,7 @@
 
 namespace App\Services\Course\Bahan;
 
+use App\Models\Course\Bahan\ActivityCompletion;
 use App\Models\Course\Bahan\BahanPelatihan;
 use App\Services\Course\MateriService;
 use Illuminate\Support\Facades\File;
@@ -10,7 +11,7 @@ use Illuminate\Support\Facades\Storage;
 class BahanService
 {
     private $model, $materi, $forum, $file, $conference, $quiz, $scorm, $audio,
-     $video, $tugas, $evaluasiPengajar;
+     $video, $tugas, $evaluasiPengajar, $completion;
 
     public function __construct(
         BahanPelatihan $model,
@@ -23,7 +24,8 @@ class BahanService
         BahanAudioService $audio,
         BahanVideoService $video,
         BahanTugasService $tugas,
-        BahanEvaluasiPengajarService $evaluasiPengajar
+        BahanEvaluasiPengajarService $evaluasiPengajar,
+        ActivityCompletion $completion
     )
     {
         $this->model = $model;
@@ -37,6 +39,7 @@ class BahanService
         $this->video = $video;
         $this->tugas = $tugas;
         $this->evaluasiPengajar = $evaluasiPengajar;
+        $this->completion = $completion;
     }
 
     public function getBahanList($request, int $materiId)
@@ -275,6 +278,25 @@ class BahanService
         $bahan->delete();
 
         return $bahan;
+    }
+
+    public function recordActivity(int $id)
+    {
+        $bahan = $this->findBahan($id);
+
+        return $this->completion->updateOrCreate([
+            'program_id' => $bahan->program_id,
+            'mata_id' => $bahan->mata_id,
+            'materi_id' => $bahan->materi_id,
+            'bahan_id' => $id,
+            'user_id' => auth()->user()->id,
+        ], [
+            'program_id' => $bahan->program_id,
+            'mata_id' => $bahan->mata_id,
+            'materi_id' => $bahan->materi_id,
+            'bahan_id' => $id,
+            'user_id' => auth()->user()->id,
+        ]);
     }
 
     public function checkInstruktur($materiId)

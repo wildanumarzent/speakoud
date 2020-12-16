@@ -105,7 +105,15 @@
                             </div>
                             <div class="media-body ml-sm-2">
                               <h5 class="mb-2">
-                                <div class="float-right font-weight-semibold ml-3"><i class="las la-stop text-danger" style="font-size: 2em;" title="anda belum mengakses materi ini"></i></div>
+                                @role ('peserta_internal|peserta_mitra')
+                                <div class="float-right font-weight-semibold ml-3">
+                                    @if ($bahan->activityCompletionByUser()->count() == 1)
+                                    <i class="las la-check-square text-success" style="font-size: 2em;" title="anda sudah mengakses materi ini"></i>
+                                    @else
+                                    <i class="las la-stop text-danger" style="font-size: 2em;" title="anda belum mengakses materi ini"></i>
+                                    @endif
+                                </div>
+                                @endrole
                                 <a href="{{ route('course.bahan', ['id' => $data['read']->id, 'bahanId' => $bahan->id, 'tipe' => $bahan->type($bahan)['tipe']]) }}" class="text-body">{!! $bahan->judul !!}</a>&nbsp;
                               </h5>
                               <div class="d-flex flex-wrap align-items-center mb-2">

@@ -6,6 +6,10 @@ use App\Services\Banner\BannerKategoriService;
 use App\Services\Course\JadwalService;
 use App\Services\Course\MataService;
 use App\Services\PageService;
+use App\Services\Users\InstrukturService;
+use App\Services\Users\InternalService;
+use App\Services\Users\MitraService;
+use App\Services\Users\PesertaService;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -53,7 +57,14 @@ class HomeController extends Controller
 
     public function dashboard(Request $request)
     {
-        return view('backend.dashboard.index', [
+        $data['counter'] = [
+            'user_internal' => app()->make(InternalService::class)->countInternal(),
+            'user_mitra' =>app()->make(MitraService::class)->countMitra(),
+            'user_instruktur' => app()->make(InstrukturService::class)->countInstruktur(),
+            'user_peserta' => app()->make(PesertaService::class)->countPeserta(),
+        ];
+
+        return view('backend.dashboard.index', compact('data'), [
             'title' => 'Dashboard',
         ]);
     }

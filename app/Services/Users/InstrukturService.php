@@ -115,6 +115,19 @@ class InstrukturService
         return $result;
     }
 
+    public function countInstruktur()
+    {
+        $query = $this->model->query();
+
+        $query->whereHas('user', function ($query) {
+            $query->active();
+        });
+
+        $result = $query->count();
+
+        return $result;
+    }
+
     public function findInstruktur(int $id)
     {
         return $this->model->findOrFail($id);

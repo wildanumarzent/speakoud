@@ -85,6 +85,19 @@ class PesertaService
         return $result;
     }
 
+    public function countPeserta()
+    {
+        $query = $this->model->query();
+
+        $query->whereHas('user', function ($query) {
+            $query->active();
+        });
+
+        $result = $query->count();
+
+        return $result;
+    }
+
     public function findPeserta(int $id)
     {
         return $this->model->findOrFail($id);

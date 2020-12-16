@@ -29,6 +29,11 @@ class MataPelatihan extends Model
         return $this->belongsTo(ProgramPelatihan::class, 'program_id');
     }
 
+    public function bobot()
+    {
+        return $this->hasOne(MataBobotNilai::class, 'mata_id');
+    }
+
     public function instruktur()
     {
         return $this->hasMany(MataInstruktur::class, 'mata_id');

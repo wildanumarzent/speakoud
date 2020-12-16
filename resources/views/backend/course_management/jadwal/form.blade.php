@@ -148,7 +148,7 @@
                     <input class="form-control custom-file-input file @error('cover_file') is-invalid @enderror" type="file" id="upload-2" lang="en" name="cover_file" placeholder="masukan cover...">
                     @include('components.field-error', ['field' => 'cover_file'])
                     <small class="text-muted">Tipe File : <strong>{{ strtoupper(config('addon.mimes.cover.m')) }}</strong></small>
-                    <div class="row mt-3">
+                    <div class="row mt-3 hide-meta">
                         <div class="col-md-6">
                             <input type="text" class="form-control" name="cover_title" value="{{ isset($data['jadwal']) ? old('cover_title', $data['jadwal']->cover['title']) : old('cover_title') }}" placeholder="title cover...">
                         </div>
@@ -194,6 +194,7 @@
 
 @section('jsbody')
 <script>
+    $('.hide-meta').hide();
     $('.select2').select2();
     //datetime
     $(function() {

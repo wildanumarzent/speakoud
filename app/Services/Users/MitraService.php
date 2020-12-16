@@ -54,6 +54,19 @@ class MitraService
         return $result;
     }
 
+    public function countMitra()
+    {
+        $query = $this->model->query();
+
+        $query->whereHas('user', function ($query) {
+            $query->active();
+        });
+
+        $result = $query->count();
+
+        return $result;
+    }
+
     public function findMitra(int $id)
     {
         return $this->model->findOrFail($id);
