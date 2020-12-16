@@ -45,6 +45,23 @@ class ProgramService
         return $result;
     }
 
+    public function countProgram()
+    {
+        $query = $this->model->query();
+
+        if (auth()->user()->hasRole('internal')) {
+            $query->where('tipe', 0);
+        }
+        if (auth()->user()->hasRole('mitra')) {
+            $query->where('mitra_id', auth()->user()->id)
+                ->where('tipe', 1);
+        }
+
+        $result = $query->count();
+
+        return $result;
+    }
+
     public function findProgram(int $id)
     {
         return $this->model->findOrFail($id);

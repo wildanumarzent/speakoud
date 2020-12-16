@@ -8,7 +8,7 @@
             <div class="las la-user-tie display-4 text-primary"></div>
             <div class="ml-3">
               <div class="text-muted small">Instruktur</div>
-              <div class="text-large">0</div>
+              <div class="text-large">{{ $data['counter']['user_instruktur'] }}</div>
             </div>
           </div>
         </div>
@@ -23,7 +23,7 @@
             <div class="las la-users display-4 text-primary"></div>
             <div class="ml-3">
               <div class="text-muted small">Peserta</div>
-              <div class="text-large">0</div>
+              <div class="text-large">{{ $data['counter']['user_peserta'] }}</div>
             </div>
           </div>
         </div>
@@ -38,7 +38,7 @@
               <div class="las la-book display-4 text-primary"></div>
               <div class="ml-3">
                 <div class="text-muted small">Program Pelatihan</div>
-                <div class="text-large">0</div>
+                <div class="text-large">{{ $data['counter']['course_program'] }}</div>
               </div>
             </div>
           </div>
@@ -53,7 +53,7 @@
               <div class="las la-book-open display-4 text-primary"></div>
               <div class="ml-3">
                 <div class="text-muted small">Mata Pelatihan</div>
-                <div class="text-large">0</div>
+                <div class="text-large">{{ $data['counter']['course_mata'] }}</div>
               </div>
             </div>
           </div>

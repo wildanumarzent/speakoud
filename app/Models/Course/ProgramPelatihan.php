@@ -5,7 +5,6 @@ namespace App\Models\Course;
 use App\Models\Course\Bahan\BahanPelatihan;
 use App\Models\Users\Mitra;
 use App\Models\Users\User;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class ProgramPelatihan extends Model
@@ -37,8 +36,8 @@ class ProgramPelatihan extends Model
             });
         }
         if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
-            $query->publish()->orderBy('urutan', 'ASC')->where('publish_start', '<=', Carbon::now()->format('Y-m-d H:i'))
-                ->where('publish_end', '>=', Carbon::now()->format('Y-m-d H:i'));
+            $query->publish()->orderBy('urutan', 'ASC')->where('publish_start', '<=', now())
+                ->where('publish_end', '>=', now());
             $query->whereHas('program', function ($query) {
                 $query->publish();
                 if (auth()->user()->hasRole('peserta_mitra')) {

@@ -67,8 +67,8 @@
             <div class="d-flex align-items-center">
               <div class="las la-book display-4 text-primary"></div>
               <div class="ml-3">
-                <div class="text-muted small">Program Pelatihan</div>
-                <div class="text-large">0</div>
+                <div class="text-muted small">Kategori Pelatihan</div>
+                <div class="text-large">{{ $data['counter']['course_kategori'] }}</div>
               </div>
             </div>
           </div>
@@ -82,8 +82,8 @@
             <div class="d-flex align-items-center">
               <div class="las la-book-open display-4 text-primary"></div>
               <div class="ml-3">
-                <div class="text-muted small">Mata Pelatihan</div>
-                <div class="text-large">0</div>
+                <div class="text-muted small">Program Pelatihan</div>
+                <div class="text-large">{{ $data['counter']['course_program'] }}</div>
               </div>
             </div>
           </div>
@@ -97,8 +97,8 @@
             <div class="d-flex align-items-center">
               <div class="las la-swatchbook display-4 text-primary"></div>
               <div class="ml-3">
-                <div class="text-muted small">Materi Pelatihan</div>
-                <div class="text-large">0</div>
+                <div class="text-muted small">Mata Pelatihan</div>
+                <div class="text-large">{{ $data['counter']['course_mata'] }}</div>
               </div>
             </div>
           </div>
@@ -112,8 +112,8 @@
             <div class="d-flex align-items-center">
               <div class="las la-folder display-4 text-primary"></div>
               <div class="ml-3">
-                <div class="text-muted small">Bahan Pelatihan</div>
-                <div class="text-large">0</div>
+                <div class="text-muted small">Materi Pelatihan</div>
+                <div class="text-large">{{ $data['counter']['course_materi'] }}</div>
               </div>
             </div>
           </div>
@@ -140,19 +140,26 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @for ($i = 0; $i < 5; $i++)
+                    @if ($data['latestCourse']->count() == 0)
                     <tr>
-                        <td>Pelatihan Jabatan Fungsional Perekayasa</td>
-                        <td>25 November 2020 - 25 November 2021</td>
-                        <td>30</td>
-                        <td>8</td>
+                        <td colspan="5" class="text-center">
+                            <i style="color: red;">! tidak ada course !</i>
+                        </td>
+                    </tr>
+                    @endif
+                    @foreach ($data['latestCourse'] as $course)
+                    <tr>
+                        <td>{!! $course->judul !!}</td>
+                        <td>{{ $course->publish_start->format('d F Y') }} - {{ $course->publish_end->format('d F Y') }}</td>
+                        <td>{{ $course->peserta->count() }}</td>
+                        <td>{{ $course->materi->count() }}</td>
                         <td>
-                          <a href="" class="btn btn-primary icon-btn btn-sm">
+                          <a href="{{ route('course.detail', ['id' => $course->id]) }}" target="_blank" class="btn btn-primary icon-btn btn-sm" title="klik untuk melihat detail">
                               <i class="las la-external-link-alt"></i>
                           </a>
                         </td>
                     </tr>
-                    @endfor
+                    @endforeach
                 </tbody>
             </table>
           </div>

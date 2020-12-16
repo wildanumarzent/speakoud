@@ -192,14 +192,14 @@
 
                 <ul class="sidenav-menu">
                     <!-- aktif -->
-                    <li class="sidenav-item{{ (Request::is('program*') && Request::get('status') != 'histori' || Request::is('mata*') || Request::is('materi*') || Request::is('course*')) ? ' active' : '' }}">
+                    <li class="sidenav-item{{ (Request::is('program*') && Request::segment(2) != 'history' || Request::is('mata*') || Request::is('materi*') || Request::is('course*')) ? ' active' : '' }}">
                         <a href="{{ route($program) }}" class="sidenav-link" title="Aktif">
                           <div>Aktif</div>
                         </a>
                     </li>
                     <!-- histori -->
-                    <li class="sidenav-item">
-                        <a href="" class="sidenav-link" title="Histori">
+                    <li class="sidenav-item{{ (Request::is('program*') && Request::segment(2) == 'history') ? ' active' : '' }}">
+                        <a href="{{ route('mata.history') }}" class="sidenav-link" title="Histori">
                           <div>Histori</div>
                         </a>
                     </li>

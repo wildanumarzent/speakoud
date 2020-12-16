@@ -11,7 +11,6 @@ use App\Models\Course\MateriPelatihan;
 use App\Services\Component\KomentarService;
 use App\Services\Course\Bahan\BahanEvaluasiPengajarService;
 use App\Services\Users\PesertaService;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
@@ -72,6 +71,7 @@ class MataService
         $query = $this->model->query();
 
         $query->where('program_id', $programId);
+        $query->where('publish_start', '<=', now())->where('publish_end', '>=', now());
         $query->when($request->q, function ($query, $q) {
             $query->where(function ($query) use ($q) {
                 $query->where('judul', 'like', '%'.$q.'%')
@@ -115,8 +115,8 @@ class MataService
 
             if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
 
-                $query->where('publish_start', '<=', Carbon::now()->format('Y-m-d H:i'))
-                    ->where('publish_end', '>=', Carbon::now()->format('Y-m-d H:i'));
+                $query->where('publish_start', '<=', now())
+                    ->where('publish_end', '>=', now());
 
                 $query->whereHas('program', function ($query) {
                     $query->publish();
@@ -141,6 +141,82 @@ class MataService
         }
 
         $result = $query->orderBy($order, $by)->paginate($limit);
+
+        return $result;
+    }
+
+    public function getLatestMata()
+    {
+        $query = $this->model->query();
+
+        if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra')) {
+            $query->whereHas('instruktur', function ($query) {
+                $query->whereIn('instruktur_id', [auth()->user()->instruktur->id]);
+            });
+        }
+
+        if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
+
+            $query->where('publish_start', '<=', now())
+                ->where('publish_end', '>=', now());
+
+            $query->whereHas('program', function ($query) {
+                $query->publish();
+                if (auth()->user()->hasRole('peserta_mitra')) {
+                    $query->where('tipe', 1)->where('mitra_id', auth()->user()->peserta->mitra_id);
+                } else {
+                    $query->where('tipe', 0);
+                }
+            });
+            $query->publish();
+            $query->whereHas('peserta', function ($query) {
+                $query->where('peserta_id', auth()->user()->peserta->id);
+            });
+        }
+
+        $result = $query->orderBy('publish_start', 'DESC')->limit(5)->get();
+
+        return $result;
+    }
+
+    public function getMataHistory($request)
+    {
+        $query = $this->model->query();
+
+        $query->when($request->q, function ($query, $q) {
+            $query->where(function ($query) use ($q) {
+                $query->where('judul', 'like', '%'.$q.'%');
+            });
+        });
+        if (isset($request->p)) {
+            $query->where('publish', $request->p);
+        }
+
+        $query->where('publish_end', '<', now());
+
+        $query->publish();
+
+        if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra')) {
+            $query->whereHas('instruktur', function ($query) {
+                $query->whereIn('instruktur_id', [auth()->user()->instruktur->id]);
+            });
+        }
+
+        if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
+            $query->whereHas('program', function ($query) {
+                $query->publish();
+                if (auth()->user()->hasRole('peserta_mitra')) {
+                    $query->where('tipe', 1)->where('mitra_id', auth()->user()->peserta->mitra_id);
+                } else {
+                    $query->where('tipe', 0);
+                }
+            });
+            $query->whereHas('peserta', function ($query) {
+                $query->where('peserta_id', auth()->user()->peserta->id);
+            });
+        }
+
+        $result = $query->paginate(9);
 
         return $result;
     }
@@ -197,6 +273,28 @@ class MataService
         });
 
         $result = $query->paginate(20);
+
+        return $result;
+    }
+
+    public function countMata()
+    {
+        $query = $this->model->query();
+
+        if (auth()->user()->hasRole('internal')) {
+            $query->whereHas('program', function ($query) {
+                $query->where('tipe', 0);
+            });
+        }
+
+        if (auth()->user()->hasRole('mitra')) {
+            $query->whereHas('program', function ($query) {
+                $query->where('mitra_id', auth()->user()->id)
+                ->where('tipe', 1);
+            });
+        }
+
+        $result = $query->count();
 
         return $result;
     }
@@ -304,6 +402,16 @@ class MataService
         $mata->show_comment = (bool)$request->show_comment;
         $mata->save();
 
+        $bobot = $mata->bobot;
+        $bobot->join_vidconf = $request->join_vidconf;
+        $bobot->activity_completion = $request->activity_completion;
+        $bobot->forum_diskusi = $request->forum_diskusi;
+        $bobot->webinar = $request->webinar;
+        $bobot->progress_test = (bool)$request->enable_progress == 1 ? $request->progress_test : null;
+        $bobot->quiz = $request->quiz;
+        $bobot->post_test = $request->post_test;
+        $bobot->save();
+
         return $mata;
     }
 
@@ -386,6 +494,7 @@ class MataService
         $mata->peserta()->delete();
         $mata->materi()->delete();
         $mata->comment()->delete();
+        $mata->bobot()->delete();
         $mata->delete();
 
         return $mata;

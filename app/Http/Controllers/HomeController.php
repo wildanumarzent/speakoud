@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Services\Banner\BannerKategoriService;
+use App\Services\Course\Bahan\BahanService;
 use App\Services\Course\JadwalService;
 use App\Services\Course\MataService;
+use App\Services\Course\MateriService;
+use App\Services\Course\ProgramService;
 use App\Services\PageService;
 use App\Services\Users\InstrukturService;
 use App\Services\Users\InternalService;
@@ -62,7 +65,12 @@ class HomeController extends Controller
             'user_mitra' =>app()->make(MitraService::class)->countMitra(),
             'user_instruktur' => app()->make(InstrukturService::class)->countInstruktur(),
             'user_peserta' => app()->make(PesertaService::class)->countPeserta(),
+            'course_kategori' => app()->make(ProgramService::class)->countProgram(),
+            'course_program' => app()->make(MataService::class)->countMata(),
+            'course_mata' => app()->make(MateriService::class)->countMateri(),
+            'course_materi' => app()->make(BahanService::class)->countBahan(),
         ];
+        $data['latestCourse'] = app()->make(MataService::class)->getLatestMata();
 
         return view('backend.dashboard.index', compact('data'), [
             'title' => 'Dashboard',

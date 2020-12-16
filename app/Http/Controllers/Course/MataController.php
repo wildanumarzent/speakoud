@@ -20,8 +20,8 @@ use Illuminate\Support\Facades\Session;
 
 class MataController extends Controller
 {
-    private $service, $serviceProgram, $serviceMateri, $serviceInstruktur, $servicePeserta, $serviceKonfig,
-        $serviceEvaluasi;
+    private $service, $serviceProgram, $serviceMateri, $serviceInstruktur,
+        $servicePeserta, $serviceKonfig, $serviceEvaluasi;
 
     public function __construct(
         MataService $service,
@@ -190,6 +190,28 @@ class MataController extends Controller
         ]);
     }
 
+    public function history(Request $request)
+    {
+        $p = '';
+        $q = '';
+        if (isset($request->p) || isset($request->q)) {
+            $p = '?p='.$request->p;
+            $q = '&q='.$request->q;
+        }
+
+        $data['mata'] = $this->service->getMataHistory($request);
+        $data['number'] = $data['mata']->firstItem();
+        $data['mata']->withPath(url()->current().$p.$q);
+
+        return view('backend.course_management.mata.history', compact('data'), [
+            'title' => 'Histori - Program Pelatihan',
+            'breadcrumbsBackend' => [
+                'Histori' => route('mata.history'),
+                'Program Pelatihan' => ''
+            ],
+        ]);
+    }
+
     public function create($programId)
     {
         $data['program'] = $this->serviceProgram->findProgram($programId);
@@ -220,7 +242,7 @@ class MataController extends Controller
             $request->quiz + $request->post_test);
 
         if ($bobot < 100 || $bobot > 100) {
-            return back()->with('warning', 'Bobot nilai harus memiliki jumlah keseluruhan 100%');
+            return back()->with('warning', 'Bobot nilai harus memiliki jumlah keseluruhan 100%, tidak boleh kurang / lebih');
         }
 
         $this->service->storeMata($request, $programId);
@@ -285,6 +307,14 @@ class MataController extends Controller
             if ($cekApi->success == false) {
                 return back()->with('warning', $cekApi->error_message[0]);
             }
+        }
+
+        $bobot = ($request->join_vidconf + $request->activity_completion +
+            $request->forum_diskusi + $request->webinar + $request->progress_test +
+            $request->quiz + $request->post_test);
+
+        if ($bobot < 100 || $bobot > 100) {
+            return back()->with('warning', 'Bobot nilai harus memiliki jumlah keseluruhan 100%, tidak boleh kurang / lebih');
         }
 
         $this->service->updateMata($request, $id);

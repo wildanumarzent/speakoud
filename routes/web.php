@@ -529,6 +529,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/program/{id}/mata', 'Course\MataController@index')
         ->name('mata.index')
         ->middleware('role:developer|administrator|internal|mitra');
+    Route::get('/program/history', 'Course\MataController@history')
+        ->name('mata.history');
     Route::get('/program/{id}/mata/create', 'Course\MataController@create')
         ->name('mata.create')
         ->middleware('role:developer|administrator|internal|mitra');

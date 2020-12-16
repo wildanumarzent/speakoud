@@ -58,6 +58,28 @@ class MateriService
         return $result;
     }
 
+    public function countMateri()
+    {
+        $query = $this->model->query();
+
+        if (auth()->user()->hasRole('internal')) {
+            $query->whereHas('program', function ($query) {
+                $query->where('tipe', 0);
+            });
+        }
+
+        if (auth()->user()->hasRole('mitra')) {
+            $query->whereHas('program', function ($query) {
+                $query->where('mitra_id', auth()->user()->id)
+                ->where('tipe', 1);
+            });
+        }
+
+        $result = $query->count();
+
+        return $result;
+    }
+
     public function findMateri(int $id)
     {
         return $this->model->findOrFail($id);
