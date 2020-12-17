@@ -6,31 +6,30 @@
 @endsection
 
 @section('content-view')
-<div class="card-datatable table-responsive">
-    <table class="table">
+@if (auth()->user()->hasRole('peserta_internal|peserta_mitra') && $data['bahan']->forum->tipe == 1)
+    @if (empty($data['bahan']->forum->limit_topik) || !empty($data['bahan']->forum->limit_topik) && $data['bahan']->forum->topikByUser()->count() < $data['bahan']->forum->limit_topik)
+    <button type="button" class="btn btn-primary icon-btn-only-sm btn-sm mb-2" data-toggle="modal" data-target="#form-topik" title="klik untuk menambah topik">
+        <i class="las la-plus"></i><span>Topik</span>
+    </button>
+    @endif
+@endif
+@if (!auth()->user()->hasRole('peserta_internal|peserta_mitra') || auth()->user()->hasRole('instruktur_internal|instruktur_mitra') && $data['bahan']->forum->creator_id == auth()->user()->id)
+<button type="button" class="btn btn-primary icon-btn-only-sm btn-sm mb-2" data-toggle="modal" data-target="#form-topik" title="klik untuk menambah topik">
+    <i class="las la-plus"></i><span>Topik</span>
+</button>
+@endif
+<div class="table-responsive">
+    <table id="user-list" class="table card-table table-striped table-bordered table-hover">
         <thead>
             <tr>
-                <th style="width: 10px;"></th>
-                <th>
-                    @if (auth()->user()->hasRole('peserta_internal|peserta_mitra') && $data['bahan']->forum->tipe == 1)
-                        @if (empty($data['bahan']->forum->limit_topik) || !empty($data['bahan']->forum->limit_topik) && $data['bahan']->forum->topikByUser()->count() < $data['bahan']->forum->limit_topik)
-                        <button type="button" class="btn btn-primary icon-btn-only-sm btn-sm" data-toggle="modal" data-target="#form-topik" title="klik untuk menambah topik">
-                            <i class="las la-plus"></i><span>Topik</span>
-                        </button>
-                        @else
-                        Topik
-                        @endif
-                    @endif
-                    @if (!auth()->user()->hasRole('peserta_internal|peserta_mitra') || auth()->user()->hasRole('instruktur_internal|instruktur_mitra') && $data['bahan']->forum->creator_id == auth()->user()->id)
-                    <button type="button" class="btn btn-primary icon-btn-only-sm btn-sm" data-toggle="modal" data-target="#form-topik" title="klik untuk menambah topik">
-                        <i class="las la-plus"></i><span>Topik</span>
-                    </button>
-                    @endif
+                <th style="width: 105px;">
+                    Star / Pin
                 </th>
-                <th style="width:180px;">Started By</th>
-                <th style="width:180px;">Last Post</th>
-                <th style="width:20px;" class="text-center">Replies</th>
-                <th style="width:200px;"></th>
+                <th>Topik</th>
+                <th style="width: 190px;">Started By</th>
+                <th style="width: 190px;">Latest Post</th>
+                <th style="width: 15px;">Replies</th>
+                <th style="width: 180px;">Action</th>
             </tr>
         </thead>
         <tbody>
@@ -75,48 +74,27 @@
                     @endif
                 </td>
                 <td>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <img src="{{ $item->creator->getPhoto($item->creator->photo['filename']) }}" class="ui-w-40 rounded-circle">
-                        </div>
-                        <div class="col-md-4">
-                            <a class="text-muted small text-truncate">
-                                by {{ Str::limit($item->creator['name'], 20) }} <br>
-                                {{ $item->created_at->diffForHumans() }}
-                            </a>
-                        </div>
-                    </div>
+                    <a class="text-muted small text-truncate">
+                        by <strong>{{ Str::limit($item->creator['name'], 20) }}</strong> <br>
+                        {{ $item->created_at->diffForHumans() }}
+                    </a>
                 </td>
                 <td>
                     @if ($item->lastPost()->count() > 0)
                         @foreach ($item->lastPost as $last)
-                        <div class="row">
-                            <div class="col-md-4">
-                                <img src="{{ $last->user->getPhoto($last->user->photo['filename']) }}" class="ui-w-40 rounded-circle">
-                            </div>
-                            <div class="col-md-4">
-                                <a class="text-muted small text-truncate">
-                                    by {{ Str::limit($last->user['name'], 15) }} <br>
-                                    {{ $last->created_at->diffForHumans() }}
-                                </a>
-                            </div>
-                        </div>
+                        <a class="text-muted small text-truncate">
+                            by <strong>{{ Str::limit($last->user['name'], 15) }}</strong> <br>
+                            {{ $last->created_at->diffForHumans() }}
+                        </a>
                         @endforeach
                     @else
-                    <div class="row">
-                        <div class="col-md-4">
-                            <img src="{{ $item->creator->getPhoto($item->creator->photo['filename']) }}" class="ui-w-40 rounded-circle">
-                        </div>
-                        <div class="col-md-4">
-                            <a class="text-muted small text-truncate">
-                                by {{ Str::limit($item->creator['name'], 15) }} <br>
-                                {{ $item->created_at->diffForHumans() }}
-                            </a>
-                        </div>
-                    </div>
+                        <a class="text-muted small text-truncate">
+                            by <strong>{{ Str::limit($item->creator['name'], 15) }}</strong> <br>
+                            {{ $item->created_at->diffForHumans() }}
+                        </a>
                     @endif
                 </td>
-                <td class="text-center"><strong>{{ $item->diskusi()->count() }}</strong></td>
+                <td class="text-center"><strong class="badge badge-info">{{ $item->diskusi()->count() }}</strong></td>
                 <td>
                     @if (auth()->user()->hasRole('administrator|internal|mitra') || auth()->user()->hasRole('instruktur_internal|instruktur_mitra') && $item->creator_id == auth()->user()->id)
                     <a href="javascript:void(0);" onclick="$(this).find('form').submit();" class="btn btn-primary icon-btn btn-sm" title="{{ $item->pin == 1 ? 'Unpin' : 'Pin' }} Topik">
@@ -140,6 +118,10 @@
                     </a>
                     <a href="javascript:;" data-forumid="{{ $item->forum_id }}" data-id="{{ $item->id }}" class="btn btn-danger icon-btn btn-sm js-sa2-delete" title="Hapus topik">
                         <i class="las la-trash"></i>
+                    </a>
+                    @else
+                    <a href="{{ route('forum.topik.room', ['id' => $item->forum_id, 'topikId' => $item->id]) }}" class="btn btn-info btn-sm btn-block" title="detail topik">
+                        Detail
                     </a>
                     @endif
                 </td>

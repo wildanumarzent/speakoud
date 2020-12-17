@@ -16,18 +16,13 @@ class CreateUsersInformationTable extends Migration
         Schema::create('users_information', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->json('general')->nullable()->comment('{
-                "city":"-", "description":"-"
-            }');
-            $table->json('additional_name')->nullable()->comment('{
-                "first_name":"-", "sur_name":"-", "middle_name":"-",
-                "alternate_name":""
-            }');
-            $table->json('optional')->nullable()->comment('{
-                "web_page":"-", "icq_number":"-", "skype_id":"-", "aim_id":"-",
-                "yahoo_id":"-", "msn_id":"-", "id_number":"-", "Institution":"-",
-                "departement":"-", "phone":"-", "mobile_phone":"-", "address":"-",
-            }');
+            $table->text('place_of_birthday')->nullable();
+            $table->timestamp('date_of_birthday')->nullable();
+            $table->tinyInteger('gender')->nullable();
+            $table->string('city')->nullable();
+            $table->text('description')->nullable();
+            $table->string('phone')->nullable();
+            $table->text('address')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')

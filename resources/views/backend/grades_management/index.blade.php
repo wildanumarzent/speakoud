@@ -36,7 +36,7 @@
     <div class="card-header with-elements">
         <h5 class="card-header-title mt-1 mb-0">Grades Nilai List</h5>
         <div class="card-header-elements ml-auto">
-            <a href="{{ route('grades.nilai.create', ['id' => $data['kategori']->id]) }}" class="btn btn-primary icon-btn-only-sm" title="klik untuk menambah nilai grades" data-toggle="tooltip">
+            <a href="{{ route('grades.nilai.create', ['id' => $data['kategori']->id]) }}" class="btn btn-primary icon-btn-only-sm" title="klik untuk menambah nilai grades">
                 <i class="las la-plus"></i><span>Tambah</span>
             </a>
         </div>
@@ -63,7 +63,7 @@
                             @if (Request::get('q'))
                             ! Nilai Grades tidak ditemukan !
                             @else
-                            ! Data Nilai Grades kosong !
+                            ! Nilai Grades kosong !
                             @endif
                             </strong>
                         </i>
@@ -79,10 +79,10 @@
                     <td>{{ $item->created_at->format('d F Y - (H:i)') }}</td>
                     <td>{{ $item->updated_at->format('d F Y - (H:i)') }}</td>
                     <td>
-                        <a href="{{ route('grades.nilai.edit', ['id' => $item->kategori_id, 'nilaiId' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengedit nilai grades" data-toggle="tooltip">
+                        <a href="{{ route('grades.nilai.edit', ['id' => $item->kategori_id, 'nilaiId' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengedit nilai grades">
                                 <i class="las la-pen"></i>
                         </a>
-                        <a href="javascript:;" data-kategoriid="{{ $item->kategori_id }}" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus nilai grades" data-toggle="tooltip">
+                        <a href="javascript:;" data-kategoriid="{{ $item->kategori_id }}" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus nilai grades">
                             <i class="las la-trash-alt"></i>
                         </a>
                     </td>
@@ -98,7 +98,7 @@
                             @if (Request::get('q'))
                             ! Nilai Grades tidak ditemukan !
                             @else
-                            ! Data Nilai Grades kosong !
+                            ! Nilai Grades kosong !
                             @endif
                             </strong>
                         </i>
@@ -133,10 +133,10 @@
 
                                 <div class="item-table m-0">
                                     <div class="desc-table text-right">
-                                        <a href="{{ route('grades.nilai.edit', ['id' => $item->kategori_id, 'nilaiId' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengedit nilai grades" data-toggle="tooltip">
+                                        <a href="{{ route('grades.nilai.edit', ['id' => $item->kategori_id, 'nilaiId' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengedit nilai grades">
                                             <i class="las la-pen"></i>
                                         </a>
-                                        <a href="javascript:;" data-kategoriid="{{ $item->kategori_id }}" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus nilai grades" data-toggle="tooltip">
+                                        <a href="javascript:;" data-kategoriid="{{ $item->kategori_id }}" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus nilai grades">
                                             <i class="las la-trash-alt"></i>
                                         </a>
                                     </div>

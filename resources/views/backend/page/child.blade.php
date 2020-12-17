@@ -1,7 +1,7 @@
 @foreach ($childs as $child)
 <tr>
     <td><i class="lab la-slack"></i></td>
-    <td>--- {!! Str::limit($child->judul, 90) !!} <a href="{{ route('page.read', ['id' => $child->id, 'slug' => $child->slug]) }}" title="view website" target="_blank"><i class="las la-external-link-alt"></i></a></td>
+    <td>{{ str_repeat('---',$level) }}  {!! Str::limit($child->judul, 90) !!} <a href="{{ route('page.read', ['id' => $child->id, 'slug' => $child->slug]) }}" title="view website" target="_blank"><i class="las la-external-link-alt"></i></a></td>
     <td><span class="badge badge-info">{!! $child->viewer ?? 0 !!}</span></td>
     <td>
         <a href="javascript:void(0);" onclick="$(this).find('form').submit();" class="badge badge-{{ $child->publish == 1 ? 'primary' : 'warning' }}"
@@ -55,4 +55,7 @@
         </a>
     </td>
 </tr>
+@if (count($child->childs))
+    @include('backend.page.child', ['childs' => $child->childs, 'level'=> $level+1])
+@endif
 @endforeach

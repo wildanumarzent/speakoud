@@ -63,20 +63,22 @@
                     <th>NIP</th>
                     <th>Nama</th>
                     <th>Unit Kerja</th>
+                    <th>Jabatan</th>
                     <th>Materi Upload</th>
+                    <th style="width: 200px;">Kode Evaluasi</th>
                     <th style="width: 80px;">Action</th>
                 </tr>
             </thead>
             <tbody>
                 @if ($data['instruktur']->total() == 0)
                 <tr>
-                    <td colspan="6" align="center">
+                    <td colspan="8" align="center">
                         <i>
                             <strong style="color:red;">
                             @if (Request::get('q'))
                             ! Instruktur tidak ditemukan !
                             @else
-                            ! Data Instruktur kosong !
+                            ! Instruktur kosong !
                             @endif
                             </strong>
                         </i>
@@ -89,7 +91,21 @@
                     <td>{{ $item->instruktur->nip }}</td>
                     <td>{{ $item->instruktur->user->name }}</td>
                     <td>{{ $item->instruktur->instansi($item->instruktur)->nama_instansi }}</td>
+                    <td>{{ config('addon.label.jabatan.'.$item->instruktur->pangkat) ?? '-' }}</td>
                     <td>{{ $item->mata->bahan()->where('creator_id', $item->instruktur->user->id)->count() }}</td>
+                    <td>
+                        @if (!empty($item->kode_evaluasi))
+                        {{ $item->kode_evaluasi }}
+                        @else
+                        <button type="button" class="btn btn-primary btn-sm modals-evaluasi" data-toggle="modal" data-target="#modals-evaluasi-form" title="klik untuk menambahkan kode evaluasi"
+                            data-id="{{ $item->id }}"
+                            data-mataid="{{ $item->mata_id }}"
+                            data-name="{{ $item->instruktur->user->name  }}"
+                        >
+                            <i class="las la-plus"></i> Kode Evaluasi
+                        </button>
+                        @endif
+                    </td>
                     <td>
                         <a href="javascript:void(0);" class="btn btn-danger icon-btn btn-sm js-sa2-delete" data-mataid="{{ $item->mata_id }}" data-id="{{ $item->id }}" title="klik untuk menghapus instruktur pelatihan">
                             <i class="las la-trash-alt"></i>
@@ -98,6 +114,73 @@
                 </tr>
                 @endforeach
             </tbody>
+            <tbody class="tbody-responsive">
+                @if ($data['instruktur']->total() == 0)
+                <tr>
+                    <td colspan="7" align="center">
+                        <i>
+                            <strong style="color:red;">
+                            @if (Request::get('q'))
+                            ! Instruktur tidak ditemukan !
+                            @else
+                            ! Instruktur kosong !
+                            @endif
+                            </strong>
+                        </i>
+                    </td>
+                </tr>
+                @endif
+                @foreach ($data['instruktur'] as $item)
+                <tr>
+                    <td>
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="item-table">
+                                    <div class="data-table">NIP</div>
+                                    <div class="desc-table">{{ $item->instruktur->nip }}</div>
+                                </div>
+                                <div class="item-table">
+                                    <div class="data-table">Nama</div>
+                                    <div class="desc-table">{{ $item->instruktur->user->name }}</div>
+                                </div>
+                                <div class="item-table">
+                                    <div class="data-table">Instansi</div>
+                                    <div class="desc-table">{{ $item->instruktur->instansi($item->instruktur)->nama_instansi }}</div>
+                                </div>
+                                <div class="item-table">
+                                    <div class="data-table">Materi Upload</div>
+                                    <div class="desc-table">{{ $item->mata->bahan()->where('creator_id', $item->instruktur->user->id)->count() }}</div>
+                                </div>
+                                <div class="item-table">
+                                    <div class="data-table">Kode Evaluasi</div>
+                                    <div class="desc-table">
+                                        @if (!empty($item->kode_evaluasi))
+                                        {{ $item->kode_evaluasi }}
+                                        @else
+                                        <button type="button" class="btn btn-primary btn-sm modals-evaluasi" data-toggle="modal" data-target="#modals-evaluasi-form" title="klik untuk menambahkan kode evaluasi"
+                                            data-id="{{ $item->id }}"
+                                            data-mataid="{{ $item->mata_id }}"
+                                            data-name="{{ $item->instruktur->user->name  }}"
+                                        >
+                                            <i class="las la-plus"></i> Kode Evaluasi
+                                        </button>
+                                        @endif
+                                    </div>
+                                </div>
+
+                                <div class="item-table m-0">
+                                    <div class="desc-table text-right">
+                                        <a href="javascript:void(0);" class="btn btn-danger icon-btn btn-sm js-sa2-delete" data-mataid="{{ $item->mata_id }}" data-id="{{ $item->id }}" title="klik untuk menghapus instruktur pelatihan">
+                                            <i class="las la-trash-alt"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                @endforeach
+            <tbody>
         </table>
     </div>
     <div class="card-footer">
@@ -114,6 +197,7 @@
 </div>
 
 @include('backend.course_management.mata.instruktur.modal-create')
+@include('backend.course_management.mata.instruktur.modal-evaluasi')
 @endsection
 
 @section('scripts')
@@ -184,6 +268,17 @@
                 }
             });
         })
+    });
+
+    //modal
+    $('.modals-evaluasi').click(function() {
+        var id = $(this).data('id');
+        var mata_id = $(this).data('mataid');
+        var name = $(this).data('name');
+        var url = '/mata/'+ mata_id +'/instruktur/' + id;
+
+        $(".modal-dialog #form-evaluasi").attr('action', url);
+        $('.modal-body #name').val(name);
     });
 </script>
 

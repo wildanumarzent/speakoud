@@ -23,11 +23,11 @@
                 <div class="tab-pane fade show active" id="data">
                     <div class="form-group row">
                         <div class="col-md-2 text-md-right">
-                          <label class="col-form-label text-sm-right">NIP</label>
+                          <label class="col-form-label text-sm-right">NIP / NIK</label>
                         </div>
                         <div class="col-md-10">
                           <input type="text" class="form-control @error('nip') is-invalid @enderror" name="nip"
-                            value="{{ (isset($data['instruktur'])) ? old('nip', $data['instruktur']->nip) : old('nip') }}" placeholder="masukan nip..." autofocus>
+                            value="{{ (isset($data['instruktur'])) ? old('nip', $data['instruktur']->nip) : old('nip') }}" placeholder="masukan nip / nik..." autofocus>
                           @include('components.field-error', ['field' => 'nip'])
                         </div>
                     </div>
@@ -106,7 +106,7 @@
                           @include('components.field-error', ['field' => 'kedeputian'])
                         </div>
                     </div>
-                    {{-- <div class="form-group row">
+                    <div class="form-group row">
                         <div class="col-md-2 text-md-right">
                           <label class="col-form-label text-sm-right">Jabatan</label>
                         </div>
@@ -115,8 +115,8 @@
                             value="{{ (isset($data['instruktur'])) ? old('pangkat', $data['instruktur']->pangkat) : old('pangkat') }}" placeholder="masukan jabatan...">
                           @include('components.field-error', ['field' => 'pangkat'])
                         </div>
-                    </div> --}}
-                    <div class="form-group row">
+                    </div>
+                    {{-- <div class="form-group row">
                         <div class="col-md-2 text-md-right">
                           <label class="col-form-label text-sm-right">Jabatan</label>
                         </div>
@@ -128,7 +128,7 @@
                                 @endforeach
                             </select>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="form-group row">
                         <div class="col-md-2 text-md-right">
                           <label class="col-form-label text-sm-right">Nomor Telpon</label>
@@ -139,7 +139,7 @@
                                     <span class="input-group-text">+62</span>
                                 </div>
                                 <input type="text" class="form-control @error('phone') is-invalid @enderror" name="phone"
-                                    value="{{ (isset($data['instruktur'])) ? old('phone', $data['instruktur']->user->information->optional['phone']) : old('phone') }}" placeholder="masukan nomor telpon...">
+                                    value="{{ (isset($data['instruktur'])) ? old('phone', $data['instruktur']->user->information->phone) : old('phone') }}" placeholder="masukan nomor telpon...">
                                 @include('components.field-error', ['field' => 'phone'])
                             </div>
                         </div>
@@ -149,8 +149,8 @@
                           <label class="col-form-label text-sm-right">Alamat</label>
                         </div>
                         <div class="col-md-10">
-                          <textarea class="form-control @error('alamat') is-invalid @enderror" name="alamat" placeholder="masukan alamat...">{{ (isset($data['instruktur'])) ? old('alamat', $data['instruktur']->alamat) : old('alamat') }}</textarea>
-                          @include('components.field-error', ['field' => 'alamat'])
+                          <textarea class="form-control @error('alamat') is-invalid @enderror" name="address" placeholder="masukan alamat...">{{ (isset($data['instruktur'])) ? old('address', $data['instruktur']->user->information->address) : old('address') }}</textarea>
+                          @include('components.field-error', ['field' => 'address'])
                         </div>
                     </div>
                     <div id="surat-keterangan">
@@ -226,15 +226,31 @@
                               @include('components.field-error', ['field' => 'keterangan_jabatan'])
                             </div>
                         </div>
-                        <div class="form-group row">
-                            <div class="col-md-2 text-md-right">
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-2 text-md-right">
+                            <label class="col-form-label text-sm-right">Curriculum Vitae</label>
+                        </div>
+                        <div class="col-md-10">
+                            <label class="custom-file-label mt-1" for="file-5"></label>
+                            @if (isset($data['instruktur']))
+                                <input type="hidden" name="old_cv" value="{{ $data['instruktur']->cv }}">
+                                @if (!empty($data['instruktur']->cv))
+                                <small class="text-muted">File Sebelumnya : <a href="{{ route('bank.data.stream', ['path' => $data['instruktur']->cv]) }}">Download</a></small>
+                                @endif
+                            @endif
+                            <input type="file" class="form-control custom-file-input file @error('cv') is-invalid @enderror" type="file" id="file-5" lang="en" name="cv" value="browse...">
+                            @include('components.field-error', ['field' => 'cv'])
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-2 text-md-right">
 
-                            </div>
-                            <div class="col-md-10">
-                                <div class="alert alert-warning alert-dismissible">
-                                    <i class="las la-file"></i>
-                                    <small class="text-muted">Tipe File Surat Keterangan : <strong>{{ strtoupper(config('addon.mimes.surat_keterangan.m')) }}</strong></small>
-                                </div>
+                        </div>
+                        <div class="col-md-10">
+                            <div class="alert alert-warning alert-dismissible">
+                                <i class="las la-file"></i>
+                                <small class="text-muted">Tipe File Curriculum Vitae : <strong>{{ strtoupper(config('addon.mimes.surat_keterangan.m')) }}</strong></small>
                             </div>
                         </div>
                     </div>
@@ -301,8 +317,8 @@
             <div class="card-footer">
                 <div class="row">
                     <div class="col-md-10 ml-sm-auto text-md-left text-right">
-                        <a href="{{ route('instruktur.index') }}" class="btn btn-danger" title="klik untuk kembali ke list" data-toggle="tooltip">Kembali</a>
-                        <button type="submit" class="btn btn-primary" name="action" value="save" title="klik untuk menyimpan" data-toggle="tooltip">{{ isset($data['instruktur']) ? 'Simpan perubahan' : 'Simpan' }}</button>
+                        <a href="{{ route('instruktur.index') }}" class="btn btn-danger" title="klik untuk kembali ke list">Kembali</a>
+                        <button type="submit" class="btn btn-primary" name="action" value="save" title="klik untuk menyimpan">{{ isset($data['instruktur']) ? 'Simpan perubahan' : 'Simpan' }}</button>
                     </div>
                 </div>
             </div>

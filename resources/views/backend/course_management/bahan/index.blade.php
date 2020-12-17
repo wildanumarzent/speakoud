@@ -40,7 +40,11 @@
 </div>
 <!-- / Filters -->
 <div class="text-left">
+    @role ('instruktur_internal|instruktur_mitra')
+    <a href="{{ route('course.detail', ['id' => $data['materi']->mata_id]) }}" class="btn btn-secondary rounded-pill" title="kembali ke detail course"><i class="las la-arrow-left"></i>Kembali</a>
+    @else
     <a href="{{ route('materi.index', ['id' => $data['materi']->mata_id]) }}" class="btn btn-secondary rounded-pill" title="kembali ke list mata"><i class="las la-arrow-left"></i>Kembali</a>
+    @endrole
     <button type="button" class="btn btn-primary rounded-pill" data-toggle="modal" data-target="#modals-tipe-bahan" title="klik untuk menambah materi pelatihan"><i class="las la-plus"></i>Tambah</button>
 </div>
 <br>
@@ -48,14 +52,13 @@
 <div class="row drag">
 
     @foreach ($data['bahan'] as $item)
-    <div class="col-sm-6 col-xl-4" @if (!$data['hasRole'] || $data['hasRole'] && $item->creator_id == auth()->user()->id) id="{{ $item->id }}" style="cursor: move;" title="geser untuk merubah urutan" @endif>
+    <div class="col-sm-6 col-xl-4" id="{{ $item->id }}" style="cursor: move;" title="geser untuk merubah urutan">
       <div class="card card-list">
         <div class="card-body d-flex justify-content-between align-items-start pb-1">
           <div>
             <a href="{{ route('course.bahan', ['id' => $item->mata_id, 'bahanId' => $item->id, 'tipe' => $item->type($item)['tipe']]) }}" class="text-body text-big font-weight-semibold" title="{!! $item->judul !!}">{!! Str::limit($item->judul, 80) !!}</a>
           </div>
 
-          @if (!$data['hasRole'] || $data['hasRole'] && $item->creator_id == auth()->user()->id)
           <div class="btn-group project-actions dropdown">
             <button type="button" class="btn btn-sm btn-default icon-btn dropdown-toggle hide-arrow  btn-toggle-radius" data-toggle="dropdown" aria-expanded="false">
               <i class="ion ion-ios-more"></i>
@@ -81,19 +84,18 @@
               </a>
             </div>
           </div>
-          @endif
         </div>
         <div class="card-body pb-3">
           <table class="table table-bordered mb-0">
                 <tr>
-                    <th>Tipe Bahan</th>
+                    <th style="width: 200px;">Tipe Bahan</th>
                     <td>
                         <i class="las la-{{ $item->type($item)['icon'] }} mr-2" style="font-size: 1.5em;"></i> <strong>{{ $item->type($item)['title'] }}</strong>
                     </td>
                 </tr>
                 @if ($item->type($item)['tipe'] == 'forum')
                 <tr>
-                    <th>Option</th>
+                    <th>Topik</th>
                     <td>{{ config('addon.label.forum_tipe.'.$item->forum->tipe)['title'] }}</td>
                 </tr>
                 @endif
@@ -132,7 +134,6 @@
                     <th>Status</th>
                     <td><span class="badge badge-outline-{{ $item->publish == 1 ? 'primary' : 'warning' }}">{{ $item->publish == 1 ? 'Publish' : 'Draft' }}</span></td>
                 </tr>
-                @if (!$data['hasRole'] || $data['hasRole'] && $item->creator_id == auth()->user()->id)
                 <tr>
                     <th>Urutan</th>
                     <td>
@@ -160,32 +161,29 @@
                         @endif
                     </td>
                 </tr>
-                @endif
                 <tr>
                     <th>Action</th>
                     <td>
-                        @if (!$data['hasRole'] || $data['hasRole'] && $item->creator_id == auth()->user()->id)
                         @if ($item->type($item)['tipe'] == 'quiz')
-                        <a class="btn btn-success icon-btn btn-sm" href="{{ route('quiz.item', ['id' => $item->quiz->id]) }}" title="klik untuk melihat soal">
-                          <i class="las la-list-ol"></i>
+                        <a class="btn btn-success btn-block btn-sm" href="{{ route('quiz.item', ['id' => $item->quiz->id]) }}" title="klik untuk melihat soal">
+                          <i class="las la-list-ol"></i> Soal
                         </a>
                         @endif
-                        <a class="btn btn-info icon-btn btn-sm" href="{{ route('bahan.edit', ['id' => $item->materi_id, 'bahanId' => $item->id, 'type' => $item->type($item)['tipe']]) }}" title="klik untuk mengedit bahan pelatihan">
-                          <i class="las la-pen"></i>
+                        <a class="btn btn-info btn-block btn-sm" href="{{ route('bahan.edit', ['id' => $item->materi_id, 'bahanId' => $item->id, 'type' => $item->type($item)['tipe']]) }}" title="klik untuk mengedit bahan pelatihan">
+                          <i class="las la-pen"></i> Edit
                         </a>
-                        <a class="btn btn-danger icon-btn btn-sm js-sa2-delete" href="javascript:void(0);" data-materiid="{{ $item->materi_id }}" data-id="{{ $item->id }}" title="klik untuk menghapus bahan pelatihan">
-                          <i class="las la-trash-alt"></i>
+                        <a class="btn btn-danger btn-block btn-sm js-sa2-delete" href="javascript:void(0);" data-materiid="{{ $item->materi_id }}" data-id="{{ $item->id }}" title="klik untuk menghapus bahan pelatihan">
+                          <i class="las la-trash-alt"></i> Hapus
                         </a>
-                        <a class="btn btn-secondary icon-btn btn-sm" href="javascript:void(0);" onclick="$(this).find('form').submit();" title="klik untuk {{ $item->publish == 0 ? 'publish' : 'draft' }} bahan pelatihan">
-                            <i class="las la-{{ $item->publish == 0 ? 'eye' : 'eye-slash' }} "></i>
+                        <a class="btn btn-secondary btn-block btn-sm" href="javascript:void(0);" onclick="$(this).find('form').submit();" title="klik untuk {{ $item->publish == 0 ? 'publish' : 'draft' }} bahan pelatihan">
+                            <i class="las la-{{ $item->publish == 0 ? 'eye' : 'eye-slash' }} "></i> {{ $item->publish == 0 ? 'Publish' : 'Draft' }}
                             <form action="{{ route('bahan.publish', ['id' => $item->materi_id, 'bahanId' => $item->id]) }}" method="POST">
                               @csrf
                               @method('PUT')
                           </form>
                         </a>
-                        @endif
-                        <a class="btn btn-primary icon-btn btn-sm" href="{{ route('course.bahan', ['id' => $item->mata_id, 'bahanId' => $item->id, 'tipe' => $item->type($item)['tipe']]) }}" title="klik untuk melihat preview">
-                            <i class="las la-external-link-alt"></i>
+                        <a class="btn btn-primary btn-block btn-sm" href="{{ route('course.bahan', ['id' => $item->mata_id, 'bahanId' => $item->id, 'tipe' => $item->type($item)['tipe']]) }}" title="klik untuk melihat preview">
+                            Detail Materi <i class="las la-external-link-alt"></i>
                         </a>
                     </td>
                 </tr>
@@ -217,7 +215,7 @@
             @if (Request::get('p') || Request::get('q'))
             ! Materi Pelatihan tidak ditemukan !
             @else
-            ! Data Materi Pelatihan kosong !
+            ! Materi Pelatihan kosong !
             @endif
         </strong>
     </div>

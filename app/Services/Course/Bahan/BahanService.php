@@ -2,6 +2,7 @@
 
 namespace App\Services\Course\Bahan;
 
+use App\Models\Course\Bahan\ActivityCompletion;
 use App\Models\Course\Bahan\BahanPelatihan;
 use App\Services\Course\MateriService;
 use Illuminate\Support\Facades\File;
@@ -10,7 +11,7 @@ use Illuminate\Support\Facades\Storage;
 class BahanService
 {
     private $model, $materi, $forum, $file, $conference, $quiz, $scorm, $audio,
-     $video, $tugas;
+     $video, $tugas, $evaluasiPengajar, $completion;
 
     public function __construct(
         BahanPelatihan $model,
@@ -22,7 +23,9 @@ class BahanService
         BahanScormService $scorm,
         BahanAudioService $audio,
         BahanVideoService $video,
-        BahanTugasService $tugas
+        BahanTugasService $tugas,
+        BahanEvaluasiPengajarService $evaluasiPengajar,
+        ActivityCompletion $completion
     )
     {
         $this->model = $model;
@@ -35,6 +38,8 @@ class BahanService
         $this->audio = $audio;
         $this->video = $video;
         $this->tugas = $tugas;
+        $this->evaluasiPengajar = $evaluasiPengajar;
+        $this->completion = $completion;
     }
 
     public function getBahanList($request, int $materiId)
@@ -90,6 +95,28 @@ class BahanService
         return $result;
     }
 
+    public function countBahan()
+    {
+        $query = $this->model->query();
+
+        if (auth()->user()->hasRole('internal')) {
+            $query->whereHas('program', function ($query) {
+                $query->where('tipe', 0);
+            });
+        }
+
+        if (auth()->user()->hasRole('mitra')) {
+            $query->whereHas('program', function ($query) {
+                $query->where('mitra_id', auth()->user()->id)
+                ->where('tipe', 1);
+            });
+        }
+
+        $result = $query->count();
+
+        return $result;
+    }
+
     public function findBahan(int $id)
     {
         return $this->model->findOrFail($id);
@@ -106,8 +133,10 @@ class BahanService
         $bahan->creator_id = auth()->user()->id;
         $bahan->keterangan = $request->keterangan ?? null;
         $bahan->publish = (bool)$request->publish;
-        $bahan->publish_start = $request->publish_start;
-        $bahan->publish_end = $request->publish_end;
+        if ((bool)$request->batas_tanggal == 1) {
+            $bahan->publish_start = $request->publish_start ?? null;
+            $bahan->publish_end = $request->publish_end ?? null;
+        }
         $bahan->urutan = ($this->model->where('materi_id', $materiId)->max('urutan') + 1);
         $bahan->save();
 
@@ -138,6 +167,9 @@ class BahanService
         if ($request->type == 'tugas') {
             $segmen = $this->tugas->storeTugas($request, $materi, $bahan);
         }
+        if ($request->type == 'evaluasi-pengajar') {
+            $segmen = $this->evaluasiPengajar->storeEvaluasiPengajar($request, $materi, $bahan);
+        }
 
         $bahan->segmenable()->associate($segmen);
         $bahan->save();
@@ -154,8 +186,10 @@ class BahanService
         $bahan->fill($request->only(['judul']));
         $bahan->keterangan = $request->keterangan ?? null;
         $bahan->publish = (bool)$request->publish;
-        $bahan->publish_start = $request->publish_start;
-        $bahan->publish_end = $request->publish_end;
+        if ((bool)$request->batas_tanggal == 1) {
+            $bahan->publish_start = $request->publish_start ?? null;
+            $bahan->publish_end = $request->publish_end ?? null;
+        }
         $bahan->save();
 
         if ($request->type == 'forum') {
@@ -181,6 +215,9 @@ class BahanService
         }
         if ($request->type == 'tugas') {
             $this->tugas->updateTugas($request, $bahan);
+        }
+        if ($request->type == 'evaluasi-pengajar') {
+            $this->evaluasiPengajar->updateEvaluasiPengajar($request, $bahan);
         }
 
         return $bahan;
@@ -262,9 +299,42 @@ class BahanService
 
             $bahan->tugas()->delete();
         }
+        if ($bahan->evaluasiPengajar()->count() == 1) {
+            $bahan->evaluasiPengajar()->delete();
+        }
 
         $bahan->delete();
 
         return $bahan;
+    }
+
+    public function recordActivity(int $id)
+    {
+        $bahan = $this->findBahan($id);
+
+        return $this->completion->updateOrCreate([
+            'program_id' => $bahan->program_id,
+            'mata_id' => $bahan->mata_id,
+            'materi_id' => $bahan->materi_id,
+            'bahan_id' => $id,
+            'user_id' => auth()->user()->id,
+        ], [
+            'program_id' => $bahan->program_id,
+            'mata_id' => $bahan->mata_id,
+            'materi_id' => $bahan->materi_id,
+            'bahan_id' => $id,
+            'user_id' => auth()->user()->id,
+        ]);
+    }
+
+    public function checkInstruktur($materiId)
+    {
+        $materi = $this->materi->findMateri($materiId);
+
+        if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra')) {
+            if ($materi->instruktur_id != auth()->user()->instruktur->id) {
+                return abort(403);
+            }
+        }
     }
 }

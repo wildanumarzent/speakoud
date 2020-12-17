@@ -49,9 +49,16 @@ class PesertaController extends Controller
     public function create(Request $request)
     {
         $data['mitra'] = $this->serviceMitra->getMitraAll();
-        if (auth()->user()->hasRole('internal') || auth()->user()->hasRole('developer|administrator') && $request->get('peserta') == 'internal') {
+        if (auth()->user()->hasRole('internal') ||
+            auth()->user()->hasRole('developer|administrator') &&
+            $request->get('peserta') == 'internal') {
+
             $data['instansi'] = $this->instansiInternal->getInstansi();
-        } elseif (auth()->user()->hasRole('mitra') || auth()->user()->hasRole('developer|administrator') && $request->get('peserta') == 'mitra') {
+
+        } elseif (auth()->user()->hasRole('mitra') ||
+            auth()->user()->hasRole('developer|administrator') &&
+            $request->get('peserta') == 'mitra') {
+
             $data['instansi'] = $this->instansiMitra->getInstansi();
         }
 

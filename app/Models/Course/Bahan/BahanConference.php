@@ -37,4 +37,10 @@ class BahanConference extends Model
     {
         return $this->belongsTo(BahanPelatihan::class, 'bahan_id');
     }
+
+    public function trackByUser()
+    {
+        return $this->hasOne(BahanConferencePeserta::class, 'conference_id')
+            ->where('user_id', auth()->user()->id);
+    }
 }

@@ -1551,16 +1551,16 @@ header {
             display:flex;
             justify-content:space-between;
             margin-bottom:1em;
-
+    
             .header-info {
                 font-size:.9em;
                 color:#585a68
             }
-
+    
             .header-profile {
                 position:relative;
                 display:flex;
-
+    
                 .img-user {
                     position:relative;
                     height:50px;
@@ -1569,10 +1569,10 @@ header {
                     overflow:hidden;
                     border-radius:100%;
                 }
-
+    
                 .user-name {
                     margin-left:1em;
-
+    
                     .name {
                         max-width:200px;
                         text-overflow:ellipsis;
@@ -1591,7 +1591,7 @@ header {
         }
     }
 
-}
-
+} 
+   
 
 

@@ -2,36 +2,42 @@
 
 namespace App\Services\Course;
 
-use App\Models\Course\ApiEvaluasi;
+use App\Models\Course\MataBobotNilai;
 use App\Models\Course\MataInstruktur;
 use App\Models\Course\MataPelatihan;
 use App\Models\Course\MataPeserta;
 use App\Models\Course\MataRating;
+use App\Models\Course\MateriPelatihan;
 use App\Services\Component\KomentarService;
+use App\Services\Course\Bahan\BahanEvaluasiPengajarService;
 use App\Services\Users\PesertaService;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
 class MataService
 {
-    private $model, $modelInstruktur, $modelPeserta, $komentar, $peserta,
-        $modelEvaluasi;
+    private $model, $modelBobot, $modelInstruktur, $modelPeserta, $modelMateri, $komentar,
+        $peserta, $bahanEvaluasi;
 
     public function __construct(
         MataPelatihan $model,
+        MataBobotNilai $modelBobot,
         MataInstruktur $modelInstruktur,
         MataPeserta $modelPeserta,
+        MateriPelatihan $modelMateri,
         KomentarService $komentar,
         PesertaService $peserta,
-        ApiEvaluasi $modelEvaluasi
+        BahanEvaluasiPengajarService $bahanEvaluasi
     )
     {
         $this->model = $model;
+        $this->modelBobot = $modelBobot;
         $this->modelInstruktur = $modelInstruktur;
         $this->modelPeserta = $modelPeserta;
+        $this->modelMateri = $modelMateri;
         $this->komentar = $komentar;
         $this->peserta = $peserta;
-        $this->modelEvaluasi = $modelEvaluasi;
+        $this->bahanEvaluasi = $bahanEvaluasi;
     }
 
     public function getAllMata()
@@ -65,6 +71,7 @@ class MataService
         $query = $this->model->query();
 
         $query->where('program_id', $programId);
+        $query->where('publish_start', '<=', now())->where('publish_end', '>=', now());
         $query->when($request->q, function ($query, $q) {
             $query->where(function ($query) use ($q) {
                 $query->where('judul', 'like', '%'.$q.'%')
@@ -75,13 +82,159 @@ class MataService
             $query->where('publish', $request->p);
         }
 
-        if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra')) {
-            $query->whereHas('instruktur', function ($query) {
-                $query->where('instruktur_id', auth()->user()->instruktur->id);
+        if (auth()->user()->hasRole('internal')) {
+            $query->whereHas('program', function ($query) {
+                $query->where('tipe', 0);
+            });
+        }
+
+        if (auth()->user()->hasRole('mitra')) {
+            $query->whereHas('program', function ($query) {
+                $query->where('mitra_id', auth()->user()->id)
+                ->where('tipe', 1);
             });
         }
 
         $result = $query->orderBy('urutan', 'ASC')->paginate(9);
+
+        return $result;
+    }
+
+    public function getMata($order, $by, int $limit)
+    {
+        $query = $this->model->query();
+
+        if (auth()->guard()->check() == true) {
+
+
+            if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra')) {
+                $query->whereHas('instruktur', function ($query) {
+                    $query->whereIn('instruktur_id', [auth()->user()->instruktur->id]);
+                });
+            }
+
+            if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
+
+                $query->where('publish_start', '<=', now())
+                    ->where('publish_end', '>=', now());
+
+                $query->whereHas('program', function ($query) {
+                    $query->publish();
+                    if (auth()->user()->hasRole('peserta_mitra')) {
+                        $query->where('tipe', 1)->where('mitra_id', auth()->user()->peserta->mitra_id);
+                    } else {
+                        $query->where('tipe', 0);
+                    }
+                });
+                $query->publish();
+                $query->whereHas('peserta', function ($query) {
+                    $query->where('peserta_id', auth()->user()->peserta->id);
+                });
+            }
+
+        } else {
+
+            $query->whereHas('program', function ($query) {
+                $query->publish();
+            });
+            $query->publish();
+        }
+
+        $result = $query->orderBy($order, $by)->paginate($limit);
+
+        return $result;
+    }
+
+    public function getLatestMata()
+    {
+        $query = $this->model->query();
+
+        if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra')) {
+            $query->whereHas('instruktur', function ($query) {
+                $query->whereIn('instruktur_id', [auth()->user()->instruktur->id]);
+            });
+        }
+
+        if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
+
+            $query->where('publish_start', '<=', now())
+                ->where('publish_end', '>=', now());
+
+            $query->whereHas('program', function ($query) {
+                $query->publish();
+                if (auth()->user()->hasRole('peserta_mitra')) {
+                    $query->where('tipe', 1)->where('mitra_id', auth()->user()->peserta->mitra_id);
+                } else {
+                    $query->where('tipe', 0);
+                }
+            });
+            $query->publish();
+            $query->whereHas('peserta', function ($query) {
+                $query->where('peserta_id', auth()->user()->peserta->id);
+            });
+        }
+
+        $result = $query->orderBy('publish_start', 'DESC')->limit(5)->get();
+
+        return $result;
+    }
+
+    public function getMataHistory($request)
+    {
+        $query = $this->model->query();
+
+        $query->when($request->q, function ($query, $q) {
+            $query->where(function ($query) use ($q) {
+                $query->where('judul', 'like', '%'.$q.'%');
+            });
+        });
+        if (isset($request->p)) {
+            $query->where('publish', $request->p);
+        }
+
+        $query->where('publish_end', '<', now());
+
+        $query->publish();
+
+        if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra')) {
+            $query->whereHas('instruktur', function ($query) {
+                $query->whereIn('instruktur_id', [auth()->user()->instruktur->id]);
+            });
+        }
+
+        if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
+            $query->whereHas('program', function ($query) {
+                $query->publish();
+                if (auth()->user()->hasRole('peserta_mitra')) {
+                    $query->where('tipe', 1)->where('mitra_id', auth()->user()->peserta->mitra_id);
+                } else {
+                    $query->where('tipe', 0);
+                }
+            });
+            $query->whereHas('peserta', function ($query) {
+                $query->where('peserta_id', auth()->user()->peserta->id);
+            });
+        }
+
+        $result = $query->paginate(9);
+
+        return $result;
+    }
+
+    public function getInstrukturEnroll(int $mataId)
+    {
+        $instruktur = $this->bahanEvaluasi->getEvaluasiByMata($mataId);
+        $collectInstruktur = collect($instruktur);
+        $mataInstrukturId = $collectInstruktur->map(function($item, $key) {
+            return $item->mata_instruktur_id;
+        })->all();
+
+        $query = $this->modelInstruktur->query();
+
+        $query->whereNotNull('kode_evaluasi');
+        $query->whereNotIn('id', $mataInstrukturId);
+
+        $result = $query->get();
 
         return $result;
     }
@@ -124,16 +277,24 @@ class MataService
         return $result;
     }
 
-    public function getMata($order, $by, int $limit)
+    public function countMata()
     {
         $query = $this->model->query();
 
-        $query->whereHas('program', function ($query) {
-            $query->publish();
-        });
-        $query->publish();
+        if (auth()->user()->hasRole('internal')) {
+            $query->whereHas('program', function ($query) {
+                $query->where('tipe', 0);
+            });
+        }
 
-        $result = $query->orderBy($order, $by)->paginate($limit);
+        if (auth()->user()->hasRole('mitra')) {
+            $query->whereHas('program', function ($query) {
+                $query->where('mitra_id', auth()->user()->id)
+                ->where('tipe', 1);
+            });
+        }
+
+        $result = $query->count();
 
         return $result;
     }
@@ -146,7 +307,7 @@ class MataService
     public function storeMata($request, int $programId)
     {
         if ($request->hasFile('cover_file')) {
-            $fileName = str_replace(' ', '-', Str::random(5).'-'.$request->file('cover_file')
+            $fileName = str_replace(' ', '-', $request->file('cover_file')
                 ->getClientOriginalName());
             $request->file('cover_file')->move(public_path('userfile/cover'), $fileName);
         }
@@ -170,6 +331,17 @@ class MataService
         $mata->show_comment = (bool)$request->show_comment;
         $mata->save();
 
+        $bobot = new MataBobotNilai;
+        $bobot->mata_id = $mata->id;
+        $bobot->join_vidconf = $request->join_vidconf;
+        $bobot->activity_completion = $request->activity_completion;
+        $bobot->forum_diskusi = $request->forum_diskusi;
+        $bobot->webinar = $request->webinar;
+        $bobot->progress_test = (bool)$request->enable_progress == 1 ? $request->progress_test : null;
+        $bobot->quiz = $request->quiz;
+        $bobot->post_test = $request->post_test;
+        $bobot->save();
+
         return $mata;
     }
 
@@ -184,61 +356,30 @@ class MataService
         }
     }
 
+    public function kodeEvaluasiInstruktur($request, int $mataId, int $id)
+    {
+        $instruktur = $this->modelInstruktur->findOrFail($id);
+        $instruktur->kode_evaluasi = $request->kode_evaluasi ?? null;
+        $instruktur->save();
+
+        return $instruktur;
+    }
+
     public function storePeserta($request, int $mataId)
     {
-        $mata = $this->findMata($mataId);
-
         $collectPeserta = collect($request->peserta_id);
         foreach ($collectPeserta->all() as $key => $value) {
-
-            $peserta = $this->peserta->findPeserta($value);
-
-            if ($this->modelEvaluasi->where('mata_id', $mataId)->where('user_id', $peserta->user_id)->count() == 0) {
-                $peserta = new MataPeserta;
-                $peserta->mata_id = $mataId;
-                $peserta->peserta_id = $value;
-                $peserta->save();
-            } else {
-                return false;
-            }
-
-            if (!empty($mata->kode_evaluasi)) {
-                $client = new \GuzzleHttp\Client();
-                $url = config('addon.api.evaluasi.end_point').'/register/'.$mata->kode_evaluasi;
-                $parameter = [
-                    'nama' => $peserta->user->name,
-                    'kode_peserta' => $peserta->nip,
-                    'email' => $peserta->user->email,
-                    'kode_instansi' => $peserta->instansi($peserta)->kode_instansi,
-                    'unit_kerja' => $peserta->unit_kerja,
-                    'deputi' => $peserta->kedeputian,
-                ];
-                $response = $client->request('POST', $url, [
-                    'form_params' => $parameter,
-                ]);
-
-                $data = $response->getBody()->getContents();
-                $json = json_decode($data);
-
-                if ($json->success == true) {
-                    $api = new ApiEvaluasi;
-                    $api->mata_id = $mataId;
-                    $api->user_id = $peserta->user_id;
-                    $api->token = $json->data->token;
-                    $api->evaluasi = $json->data->evaluasi;
-                    $api->waktu_mulai = $json->data->evaluasi->waktu_mulai;
-                    $api->waktu_selesai = $json->data->evaluasi->waktu_selesai;
-                    $api->lama_jawab = $json->data->evaluasi->lama_jawab;
-                    $api->save();
-                }
-            }
+            $peserta = new MataPeserta;
+            $peserta->mata_id = $mataId;
+            $peserta->peserta_id = $value;
+            $peserta->save();
         }
     }
 
     public function updateMata($request, int $id)
     {
         if ($request->hasFile('cover_file')) {
-            $fileName = str_replace(' ', '-', Str::random(5).'-'.$request->file('cover_file')
+            $fileName = str_replace(' ', '-', $request->file('cover_file')
                 ->getClientOriginalName());
             $this->deleteCoverFromPath($request->old_cover_file);
             $request->file('cover_file')->move(public_path('userfile/cover'), $fileName);
@@ -260,6 +401,16 @@ class MataService
         $mata->show_feedback = (bool)$request->show_feedback;
         $mata->show_comment = (bool)$request->show_comment;
         $mata->save();
+
+        $bobot = $mata->bobot;
+        $bobot->join_vidconf = $request->join_vidconf;
+        $bobot->activity_completion = $request->activity_completion;
+        $bobot->forum_diskusi = $request->forum_diskusi;
+        $bobot->webinar = $request->webinar;
+        $bobot->progress_test = (bool)$request->enable_progress == 1 ? $request->progress_test : null;
+        $bobot->quiz = $request->quiz;
+        $bobot->post_test = $request->post_test;
+        $bobot->save();
 
         return $mata;
     }
@@ -343,6 +494,7 @@ class MataService
         $mata->peserta()->delete();
         $mata->materi()->delete();
         $mata->comment()->delete();
+        $mata->bobot()->delete();
         $mata->delete();
 
         return $mata;
@@ -380,15 +532,16 @@ class MataService
         return $path;
     }
 
-    public function checkUser(int $id)
+    public function checkUserEnroll(int $id)
     {
         $mata = $this->findMata($id);
 
         if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra')) {
-            $registerInstruktur = $this->modelInstruktur->where('mata_id', $id)
-                ->where('instruktur_id', auth()->user()->instruktur->id)->count();
+            $query = $this->modelMateri->query();
+            $query->where('mata_id', $id);
+            $query->whereIn('instruktur_id', [auth()->user()->instruktur->id]);
 
-            return $registerInstruktur;
+            return $query->count();
         }
 
         if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {

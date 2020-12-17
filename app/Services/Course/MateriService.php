@@ -3,18 +3,21 @@
 namespace App\Services\Course;
 
 use App\Models\Course\MateriPelatihan;
+use App\Services\Users\InstrukturService;
 
 class MateriService
 {
-    private $model, $mata;
+    private $model, $mata, $instruktur;
 
     public function __construct(
         MateriPelatihan $model,
-        MataService $mata
+        MataService $mata,
+        InstrukturService $instruktur
     )
     {
         $this->model = $model;
         $this->mata = $mata;
+        $this->instruktur = $instruktur;
     }
 
     public function getMateriList($request, int $mataId)
@@ -37,6 +40,46 @@ class MateriService
         return $result;
     }
 
+    public function getMateriByMata(int $mataId)
+    {
+        $query = $this->model->query();
+
+        $query->where('mata_id', $mataId);
+        if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra')) {
+            $query->where('instruktur_id', auth()->user()->instruktur->id);
+        }
+
+        if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
+            $query->publish();
+        }
+
+        $result = $query->orderBy('urutan', 'ASC')->get();
+
+        return $result;
+    }
+
+    public function countMateri()
+    {
+        $query = $this->model->query();
+
+        if (auth()->user()->hasRole('internal')) {
+            $query->whereHas('program', function ($query) {
+                $query->where('tipe', 0);
+            });
+        }
+
+        if (auth()->user()->hasRole('mitra')) {
+            $query->whereHas('program', function ($query) {
+                $query->where('mitra_id', auth()->user()->id)
+                ->where('tipe', 1);
+            });
+        }
+
+        $result = $query->count();
+
+        return $result;
+    }
+
     public function findMateri(int $id)
     {
         return $this->model->findOrFail($id);
@@ -49,6 +92,7 @@ class MateriService
         $materi = new MateriPelatihan($request->only(['judul']));
         $materi->program_id = $mata->program_id;
         $materi->mata_id = $mataId;
+        $materi->instruktur_id = $request->instruktur_id;
         $materi->creator_id = auth()->user()->id;
         $materi->keterangan = $request->keterangan ?? null;
         $materi->publish = (bool)$request->publish;
@@ -62,6 +106,7 @@ class MateriService
     {
         $materi = $this->findMateri($id);
         $materi->fill($request->only(['judul']));
+        $materi->instruktur_id = $request->instruktur_id;
         $materi->keterangan = $request->keterangan ?? null;
         $materi->publish = (bool)$request->publish;
         $materi->save();

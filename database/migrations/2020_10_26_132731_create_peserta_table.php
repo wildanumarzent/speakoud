@@ -22,7 +22,6 @@ class CreatePesertaTable extends Migration
             $table->string('nip')->nullable();
             $table->string('kedeputian')->nullable();
             $table->string('pangkat')->nullable();
-            $table->text('alamat')->nullable();
             $table->json('sk_cpns')->nullable();
             $table->json('sk_pengangkatan')->nullable();
             $table->json('sk_golongan')->nullable();
@@ -35,7 +34,7 @@ class CreatePesertaTable extends Migration
             $table->foreign('creator_id')->references('id')->on('users')
                 ->cascadeOnDelete();
             $table->foreign('mitra_id')->references('id')->on('mitra')
-                ->onDelete('SET NULL');
+                ->onDelete('set null');
         });
     }
 

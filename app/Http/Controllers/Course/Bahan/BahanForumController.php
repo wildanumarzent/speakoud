@@ -6,20 +6,26 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ForumTopikDiskusiRequest;
 use App\Http\Requests\ForumTopikRequest;
 use App\Services\Course\Bahan\BahanForumService;
+use App\Services\Course\Bahan\BahanService;
+use App\Services\Course\MataService;
 use App\Services\Course\ProgramService;
 use Illuminate\Http\Request;
 
 class BahanForumController extends Controller
 {
-    private $service, $serviceProgram;
+    private $service, $serviceBahan, $serviceProgram, $serviceMata;
 
     public function __construct(
         BahanForumService $service,
-        ProgramService $serviceProgram
+        BahanService $serviceBahan,
+        ProgramService $serviceProgram,
+        MataService $serviceMata
     )
     {
         $this->service = $service;
+        $this->serviceBahan = $serviceBahan;
         $this->serviceProgram = $serviceProgram;
+        $this->serviceMata = $serviceMata;
     }
 
     public function room($forumId, $id)
@@ -27,14 +33,31 @@ class BahanForumController extends Controller
         $data['forum'] = $this->service->findForum($forumId);
         $data['topik'] = $this->service->findTopik($id);
 
-        $this->serviceProgram->checkInstruktur($data['topik']->program_id);
+        $this->serviceProgram->checkAdmin($data['topik']->program_id);
         $this->serviceProgram->checkPeserta($data['topik']->program_id);
 
         if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
-            if ($data['forum']->program->publish == 0 || $data['forum']->bahan->publish == 0) {
+            if ($data['forum']->program->publish == 0 || $data['forum']->mata->publish == 0 ||
+                $data['forum']->materi->publish == 0|| $data['forum']->bahan->publish == 0) {
                 return abort(404);
             }
+            if (!empty($data['forum']->bahan->publish_start) && !empty($data['forum']->bahan->publish_end)) {
+                if (now() < $data['forum']->bahan->publish_start) {
+                    return back()->with('warning', 'Materi dibuka tanggal '.$data['forum']->bahan->publish_start->format('d F Y H:i'));
+                }
+
+                if (now() > $data['forum']->bahan->publish_end) {
+                    return back()->with('warning', 'Materi sudah ditutup tanggal '.$data['forum']->bahan->publish_end->format('d F Y H:i'));
+                }
+            }
         }
+        if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
+            if ($this->serviceMata->checkUserEnroll($data['forum']->mata_id) == 0) {
+                return back()->with('warning', 'anda tidak terdaftar di course '.$data['forum']->mata->judul.'');
+            }
+        }
+        $this->serviceBahan->checkInstruktur($data['forum']->materi_id);
+
 
         return view('frontend.course.forum.room', compact('data'), [
             'title' => 'Forum - Topik - Room',
@@ -67,6 +90,8 @@ class BahanForumController extends Controller
                 }
             }
         }
+
+        $this->serviceBahan->checkInstruktur($data['forum']->materi_id);
 
         return view('frontend.course.forum.form', compact('data'), [
             'title' => 'Forum - Topik - Tambah',
@@ -102,6 +127,8 @@ class BahanForumController extends Controller
         if (auth()->user()->hasRole('peserta_internal|peserta_mitra') && $data['topik']->creator_id != auth()->user()->id) {
             return abort(404);
         }
+
+        $this->serviceBahan->checkInstruktur($data['forum']->materi_id);
 
         return view('frontend.course.forum.form', compact('data'), [
             'title' => 'Forum - Topik - Edit',
@@ -179,6 +206,8 @@ class BahanForumController extends Controller
             }
         }
 
+        $this->serviceBahan->checkInstruktur($data['forum']->materi_id);
+
         return view('frontend.course.forum.form-reply', compact('data'), [
             'title' => 'Forum - Topik - Reply',
             'breadcrumbsBackend' => [
@@ -219,6 +248,8 @@ class BahanForumController extends Controller
         if (auth()->user()->hasRole('peserta_internal|peserta_mitra') && $data['diskusi']->user_id != auth()->user()->id) {
             return abort(404);
         }
+
+        $this->serviceBahan->checkInstruktur($data['forum']->materi_id);
 
         return view('frontend.course.forum.form-reply', compact('data'), [
             'title' => 'Forum - Topik - Reply',

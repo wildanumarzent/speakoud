@@ -57,7 +57,7 @@
                         @if (Request::get('q'))
                         ! Kategori soal tidak ditemukan !
                         @else
-                        ! Data Kategori soal kosong !
+                        ! Kategori soal kosong !
                         @endif
                         </strong></i>
                     </td>
@@ -93,7 +93,7 @@
                         @if (Request::get('q'))
                         ! Kategori soal tidak ditemukan !
                         @else
-                        ! Data Kategori soal kosong !
+                        ! Kategori soal kosong !
                         @endif
                         </strong></i>
                     </td>

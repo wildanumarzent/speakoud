@@ -62,6 +62,12 @@ return [
             'description' => '',
             'icon' => 'briefcase'
         ],
+        8 => [
+            'title' => 'Evaluasi Pengajar',
+            'get' => 'evaluasi-pengajar',
+            'description' => '',
+            'icon' => 'user-tie'
+        ],
     ],
     'forum_tipe' => [
         0 => [

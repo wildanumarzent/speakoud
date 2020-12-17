@@ -43,7 +43,7 @@
         {{-- <h6>Soal No : <span class="badge badge-primary" id="soal-number">1</span></h6> --}}
         <form id="smartwizard-6">
             <ul class="card px-4 pt-3 mb-3" style="display: none;">
-                @if (isset($data['quiz_tracker']))
+                @if ($data['count_tracker'] > 0)
                     @foreach ($data['quiz_tracker'] as $key1 => $soal1)
                     <li>
                         <a href="#smartwizard-6-step-{{ $key1 }}" class="mb-3">
@@ -55,9 +55,9 @@
                     </li>
                     @endforeach
                 @endif
-                @foreach ($data['soal'] as $key2 => $soal2)
+                @foreach ($data['soal'] as $key => $soal)
                 <li>
-                  <a href="#smartwizard-6-step-{{ !isset($data['quiz_tracker']) ? $key2 : ($key2 + count($data['quiz_tracker'])) }}" class="mb-3">
+                  <a href="#smartwizard-6-step-{{ ($data['count_tracker'] > 0) ? ($key+$data['count_tracker']) : $key }}" class="mb-3">
                     <span class="sw-done-icon ion ion-md-checkmark"></span>
                     <span class="sw-number">1</span>
                     <div class="text-muted small">SOAL</div>
@@ -66,7 +66,7 @@
                 </li>
                 @endforeach
                 <li>
-                    <a href="#smartwizard-6-step-{{ !isset($data['quiz_tracker']) ? (count($data['soal'])+1) : (count($data['soal'])+1+count($data['quiz_tracker'])) }}" class="mb-3">
+                    <a href="#smartwizard-6-step-{{ ($data['count_tracker'] > 0) ? ($data['soal']->count()+1+$data['count_tracker']) : ($data['soal']->count()+1) }}" class="mb-3">
                       <span class="sw-done-icon ion ion-md-checkmark"></span>
                       <span class="sw-number">1</span>
                       <div class="text-muted small">SOAL</div>
@@ -76,79 +76,77 @@
             </ul>
 
             <div id="soal-ujian">
-                @if (isset($data['quiz_tracker']))
+                @if ($data['count_tracker'] > 0)
                     @foreach ($data['quiz_tracker'] as $key1 => $soal1)
                     <div id="smartwizard-6-step-{{ $key1 }}" class="card animated fadeIn" data-itemid="{{ $soal1->quiz_item_id }}">
-                    <div class="card-body" style="border: 1px solid #e8e8e9; border-radius: .75rem;">
-                        <div class="form-group mb-0">
-                            <span class="text-muted mb-2 d-inline-block">Soal no : <span id="soal-number">{{ $soal1->posisi }}</span></span>
-                        <h5>{!! $soal1->item->pertanyaan !!}</h5>
-                        <hr style="border-color: #d1a340;">
-                        <span class="text-muted mb-2 d-inline-block">Jawab :</span>
-                        <input type="hidden" id="type-{{ $key1 }}" value="{{ $soal1->item->tipe_jawaban }}">
-                        @if ($soal1->item->tipe_jawaban == 0)
-                            @foreach ($soal1->item->shufflePilihan($soal1->item->pilihan) as $keyA => $valueA)
-                            <label class="custom-control custom-radio mb-3">
-                                <input type="radio" class="custom-control-input" name="jawaban-{{ $key1 }}" value="{{ $keyA }}" {{ $soal1->jawaban == $keyA ? 'checked' : '' }}>
-                                <span class="custom-control-label">{{ $valueA }}</span>
-                            </label>
-
-                            @endforeach
-                        @elseif ($soal1->item->tipe_jawaban == 1)
-                        <input type="text" class="form-control" name="jawaban-{{ $key1 }}" placeholder="masukan jawaban" value="{{ $soal1->jawaban }}">
-                        @elseif ($soal1->item->tipe_jawaban == 3)
-                        <label class="custom-control custom-radio mb-3">
-                            <input type="radio" class="custom-control-input" name="jawaban-{{ $key1 }}" value="1" {{ $soal1->jawaban == 1 ? 'checked' : '' }}>
-                            <span class="custom-control-label">TRUE</span>
-                        </label>
-                        <label class="custom-control custom-radio mb-3">
-                            <input type="radio" class="custom-control-input" name="jawaban-{{ $key1 }}" value="0" {{ $soal1->jawaban == 0 ? 'checked' : '' }}>
-                            <span class="custom-control-label">FALSE</span>
-                        </label>
-                        @else
-                        <textarea class="form-control" name="jawaban-{{ $key1 }}" placeholder="masukan jawaban...">{!! $soal1->jawaban !!}</textarea>
-                        @endif
+                        <div class="card-body" style="border: 1px solid #e8e8e9; border-radius: .75rem;">
+                            <div class="form-group mb-0">
+                                <span class="text-muted mb-2 d-inline-block">Soal no : <span class="soal-number">{{ $soal1->posisi }}</span></span>
+                                <h5>{!! $soal1->item->pertanyaan !!}</h5>
+                                <hr style="border-color: #d1a340;">
+                                <span class="text-muted mb-2 d-inline-block">Jawab :</span>
+                                <input type="hidden" id="type-{{ $key1 }}" value="{{ $soal1->item->tipe_jawaban }}">
+                                @if ($soal1->item->tipe_jawaban == 0)
+                                    @foreach ($soal1->item->shufflePilihan($soal1->item->pilihan) as $keyA => $valueA)
+                                    <label class="custom-control custom-radio mb-3">
+                                        <input type="radio" class="custom-control-input" name="jawaban-{{ $key1 }}" value="{{ $keyA }}" {{ $soal1->jawaban == $keyA ? 'checked' : '' }}>
+                                        <span class="custom-control-label">{{ $valueA }}</span>
+                                    </label>
+                                    @endforeach
+                                @elseif ($soal1->item->tipe_jawaban == 1)
+                                    <input type="text" class="form-control" name="jawaban-{{ $key1 }}" placeholder="masukan jawaban" value="{{ $soal1->jawaban }}">
+                                @elseif ($soal1->item->tipe_jawaban == 3)
+                                    <label class="custom-control custom-radio mb-3">
+                                        <input type="radio" class="custom-control-input" name="jawaban-{{ $key1 }}" value="1" {{ $soal1->jawaban == 1 ? 'checked' : '' }}>
+                                        <span class="custom-control-label">TRUE</span>
+                                    </label>
+                                    <label class="custom-control custom-radio mb-3">
+                                        <input type="radio" class="custom-control-input" name="jawaban-{{ $key1 }}" value="0" {{ $soal1->jawaban == 0 ? 'checked' : '' }}>
+                                        <span class="custom-control-label">FALSE</span>
+                                    </label>
+                                @else
+                                    <textarea class="form-control" name="jawaban-{{ $key1 }}" placeholder="masukan jawaban...">{!! $soal1->jawaban !!}</textarea>
+                                @endif
+                            </div>
                         </div>
-                    </div>
                     </div>
                     @endforeach
                 @endif
-                @foreach ($data['soal'] as $key2 => $soal2)
-                <div id="smartwizard-6-step-{{ !isset($data['soal_tracker']) ? $key2 : ($key2+count($data['soal_tracker'])) }}" class="card animated fadeIn" data-itemid="{{ $soal2->id }}">
-                  <div class="card-body" style="border: 1px solid #e8e8e9; border-radius: .75rem;">
-                    <div class="form-group mb-0">
-                        <span class="text-muted mb-2 d-inline-block">Soal no : <span id="soal-number">1</span></span>
-                      <h5>{!! $soal2->pertanyaan !!}</h5>
-                      <hr style="border-color: #d1a340;">
-                      <span class="text-muted mb-2 d-inline-block">Jawab :</span>
-                      <input type="hidden" id="type-{{ !isset($data['soal_tracker']) ? $key2 : ($key2+count($data['soal_tracker'])) }}" value="{{ $soal2->tipe_jawaban }}">
-                      @if ($soal2->tipe_jawaban == 0)
-                        @foreach ($soal2->shufflePilihan($soal2->pilihan) as $keyB => $value)
-                        <label class="custom-control custom-radio mb-3">
-                            <input type="radio" class="custom-control-input" name="jawaban-{{ !isset($data['soal_tracker']) ? $key2 : ($key2+count($data['soal_tracker'])) }}" value="{{ $keyB }}">
-                            <span class="custom-control-label">{{ $value }}</span>
-                        </label>
-
-                        @endforeach
-                      @elseif ($soal2->tipe_jawaban == 1)
-                      <input type="text" class="form-control" name="jawaban-{{ !isset($data['soal_tracker']) ? $key2 : ($key2+count($data['soal_tracker'])) }}" placeholder="masukan jawaban">
-                      @elseif ($soal2->tipe_jawaban == 3)
-                      <label class="custom-control custom-radio mb-3">
-                        <input type="radio" class="custom-control-input" name="jawaban-{{ !isset($data['soal_tracker']) ? $key2 : ($key2+count($data['soal_tracker'])) }}" value="1">
-                        <span class="custom-control-label">TRUE</span>
-                      </label>
-                      <label class="custom-control custom-radio mb-3">
-                        <input type="radio" class="custom-control-input" name="jawaban-{{ !isset($data['soal_tracker']) ? $key2 : ($key2+count($data['soal_tracker'])) }}" value="0">
-                        <span class="custom-control-label">FALSE</span>
-                      </label>
-                      @else
-                      <textarea class="form-control" name="jawaban-{{ !isset($data['soal_tracker']) ? $key2 : ($key2+count($data['soal_tracker'])) }}" placeholder="masukan jawaban..."></textarea>
-                      @endif
+                @foreach ($data['soal'] as $key => $soal)
+                <div id="smartwizard-6-step-{{ ($data['count_tracker'] > 0) ? ($key+$data['count_tracker']) : $key }}" class="card animated fadeIn" data-itemid="{{ $soal->id }}">
+                    <div class="card-body" style="border: 1px solid #e8e8e9; border-radius: .75rem;">
+                        <div class="form-group mb-0">
+                            <span class="text-muted mb-2 d-inline-block">Soal no : <span class="soal-number">1</span></span>
+                            <h5>{!! $soal->pertanyaan !!}</h5>
+                            <hr style="border-color: #d1a340;">
+                            <span class="text-muted mb-2 d-inline-block">Jawab :</span>
+                            <input type="hidden" id="type-{{ ($data['count_tracker'] > 0) ? ($key+$data['count_tracker']) : $key }}" value="{{ $soal->tipe_jawaban }}">
+                            @if ($soal->tipe_jawaban == 0)
+                                @foreach ($soal->shufflePilihan($soal->pilihan) as $keyB => $value)
+                                <label class="custom-control custom-radio mb-3">
+                                    <input type="radio" class="custom-control-input" name="jawaban-{{ ($data['count_tracker'] > 0) ? ($key+$data['count_tracker']) : $key }}" value="{{ $keyB }}">
+                                    <span class="custom-control-label">{{ $value }}</span>
+                                </label>
+                                @endforeach
+                            @elseif ($soal->tipe_jawaban == 1)
+                                <input type="text" class="form-control" name="jawaban-{{ ($data['count_tracker'] > 0) ? ($key+$data['count_tracker']) : $key }}" placeholder="masukan jawaban">
+                            @elseif ($soal->tipe_jawaban == 3)
+                                <label class="custom-control custom-radio mb-3">
+                                    <input type="radio" class="custom-control-input" name="jawaban-{{ ($data['count_tracker'] > 0) ? ($key+$data['count_tracker']) : $key }}" value="1">
+                                    <span class="custom-control-label">TRUE</span>
+                                </label>
+                                <label class="custom-control custom-radio mb-3">
+                                    <input type="radio" class="custom-control-input" name="jawaban-{{ ($data['count_tracker'] > 0) ? ($key+$data['count_tracker']) : $key }}" value="0">
+                                    <span class="custom-control-label">FALSE</span>
+                                </label>
+                            @else
+                                <textarea class="form-control" name="jawaban-{{ ($data['count_tracker'] > 0) ? ($key+$data['count_tracker']) : $key }}" placeholder="masukan jawaban..."></textarea>
+                            @endif
+                        </div>
                     </div>
-                  </div>
                 </div>
                 @endforeach
-                <div id="smartwizard-6-step-{{ !isset($data['quiz_tracker']) ? (count($data['soal'])+1) : (count($data['soal'])+1+count($data['quiz_tracker'])) }}" class="card animated fadeIn">
+                <div id="smartwizard-6-step-{{ ($data['count_tracker'] > 0) ? ($data['soal']->count()+1+$data['count_tracker']) : ($data['soal']->count()+1) }}" class="card animated fadeIn">
                     <h6>Apakah anda yakin sudah mengisi semua jawaban ?</h6><br>
                     <div class="d-flex justify-content-center">
                         <button type="button" class="btn btn-success btn-block finish-quiz" data-id="{{ $data['quiz']->id }}" title="klik untuk selesai">
@@ -264,9 +262,9 @@
             var item = parseInt($("#counter-soal").val());
 
             if (currentStepIndex == item) {
-                $('#soal-number').html('Rekap Soal');
+                $('.soal-number').html('Rekap Soal');
             } else {
-                $('#soal-number').html(currentStepIndex+1);
+                $('.soal-number').html(currentStepIndex+1);
             }
 
             if (currentStepIndex+1 <= item) {
@@ -300,9 +298,9 @@
             var item = parseInt($("#counter-soal").val());
 
             if (currentStepIndex == item) {
-                $('#soal-number').html('Rekap Soal');
+                $('.soal-number').html('Rekap Soal');
             } else {
-                $('#soal-number').html(currentStepIndex+1);
+                $('.soal-number').html(currentStepIndex+1);
             }
 
             if (currentStepIndex+1 === parseInt(item+1)) {

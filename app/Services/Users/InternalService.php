@@ -41,6 +41,19 @@ class InternalService
         return $result;
     }
 
+    public function countInternal()
+    {
+        $query = $this->model->query();
+
+        $query->whereHas('user', function ($query) {
+            $query->active();
+        });
+
+        $result = $query->count();
+
+        return $result;
+    }
+
     public function findInternal(int $id)
     {
         return $this->model->findOrFail($id);
@@ -57,7 +70,6 @@ class InternalService
         $internal->instansi_id = $request->instansi_id;
         $internal->kedeputian = $request->kedeputian ?? null;
         $internal->pangkat = $request->pangkat ?? null;
-        $internal->alamat = $request->alamat ?? null;
         $this->uploadFile($request, $internal, $user->id, 'store');
         $internal->save();
 
@@ -77,7 +89,6 @@ class InternalService
         $internal->instansi_id = $request->instansi_id;
         $internal->kedeputian = $request->kedeputian ?? null;
         $internal->pangkat = $request->pangkat ?? null;
-        $internal->alamat = $request->alamat ?? null;
         $this->uploadFile($request, $internal, $internal->user_id, 'update', $id);
         $internal->save();
 
@@ -91,7 +102,7 @@ class InternalService
             $user->email_verified_at = null;
         }
         $user->save();
-        $this->user->updateInformation($request, $internal->user_id);
+        $this->user->updateInformation($request, $user->id);
 
         return [
             'internal' => $internal,

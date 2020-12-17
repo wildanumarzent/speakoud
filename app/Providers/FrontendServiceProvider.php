@@ -70,8 +70,8 @@ class FrontendServiceProvider extends ServiceProvider
                     'inquiry' => Inquiry::where('id', 1)->publish()->get(),
                 ],
                 'pages' => [
-                    'quick_link' => Page::publish()->whereIn('id', [2,3,4])->get(),
-                    'layanan' => Page::publish()->whereIn('id', [5,6])->get(),
+                    'quick_link' => Page::publish()->whereIn('id', [2])->get(),
+                    'layanan' => Page::publish()->whereIn('id', [3,4])->get(),
                 ],
                 'banner' => [
                     'login' => BannerKategori::where('id', 2)->get(),

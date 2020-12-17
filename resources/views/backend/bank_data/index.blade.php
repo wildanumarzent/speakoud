@@ -8,14 +8,7 @@
 @endsection
 
 @section('content')
-@if ($errors->any())
-  <div class="alert alert-danger alert-dismissible fade show">
-    <button type="button" class="close" data-dismiss="alert"><i class="las la-times"></i></button>
-    @foreach ($errors->all() as $error)
-        <i class="las la-ban"></i> {{ $error }} <br>
-    @endforeach
-  </div>
-@endif
+@include('components.alert-any')
 
 <div class="card">
     <div class="card-header with-elements">
@@ -97,7 +90,7 @@
             @endforeach
             @foreach ($data['files'] as $key => $file)
             <div class="file-item only">
-                @if ($file->file_type == 'mp3' || $file->file_type == 'pptx' || $file->file_type == 'ppt' || $file->file_type == 'pdf')
+                @if ($file->file_type == 'mp3' || $file->file_type == 'wav' || $file->file_type == 'pptx' || $file->file_type == 'ppt' || $file->file_type == 'pdf')
                 <a href="javascript:;" class="file-item-name modals-preview" data-toggle="modal" data-target="#preview-file"
                     data-id="{{ $file->id }}" data-type="{{ $file->file_type }}" data-path="{{ $file->file_path }}">
                 @else
@@ -107,7 +100,7 @@
                         @if (!empty($file->thumbnail))
                         <div class="file-item-img" style="background-image: url({{ route('bank.data.stream', ['path' => $file->thumbnail]) }})"></div>
                         @else
-                        <div class="file-item-img" style="background-image: url({{ route('bank.data.stream', ['path' => $file->file_path]) }})"></div>
+                        <div class="file-item-icon las la-file-{{ $file->icon($file->file_type) }} text-secondary"></div>
                         @endif
                     @else
                         <div class="file-item-icon las la-file-{{ $file->icon($file->file_type) }} text-secondary"></div>
@@ -144,8 +137,8 @@
         <div id="dropzone">
             <div class="dropzone needsclick" id="dropzone-upload">
                 <div class="dz-message needsclick">
-                  Drop files here or click to upload
-                  <span class="note needsclick">(Allowed : <strong>{{ strtoupper(config('addon.mimes.bank_data.m')) }}</strong>, Max Upload Size : <strong>{{ ini_get('upload_max_filesize') }}</strong>)</span>
+                  Drop files disini atau klik untuk upload
+                  <span class="note needsclick">(Tipe File : <strong>{{ strtoupper(config('addon.mimes.bank_data.m')) }}</strong>, Max Upload Size : <strong>{{ ini_get('upload_max_filesize') }}</strong>)</span>
                 </div>
                 <div class="fallback">
                   <input name="file" type="file" multiple>
@@ -218,7 +211,7 @@ $(document).ready(function () {
 
                     setTimeout(() => window.location.reload(), 1500);
                 }
-            })
+            });
         }
     });
     //delete directory

@@ -73,7 +73,7 @@
                         @if (Request::get('t') || Request::get('q'))
                         ! Soal tidak ditemukan !
                         @else
-                        ! Data Soal kosong !
+                        ! Soal kosong !
                         @endif
                         </strong></i>
                     </td>
@@ -106,7 +106,7 @@
                         @if (Request::get('t') || Request::get('q'))
                         ! Soal tidak ditemukan !
                         @else
-                        ! Data Soal kosong !
+                        ! Soal kosong !
                         @endif
                         </strong></i>
                     </td>

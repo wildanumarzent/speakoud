@@ -3,24 +3,28 @@
 namespace App\Services\Users;
 
 use App\Models\BankData;
+use App\Models\Course\MataInstruktur;
 use App\Models\Users\Instruktur;
+use App\Services\Course\ProgramService;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 class InstrukturService
 {
-    private $model, $modelBankData, $user;
+    private $model, $modelBankData, $user, $program;
 
     public function __construct(
         Instruktur $model,
         BankData $modelBankData,
-        UserService $user
+        UserService $user,
+        ProgramService $program
     )
     {
         $this->model = $model;
         $this->modelBankData = $modelBankData;
         $this->user = $user;
+        $this->program = $program;
     }
 
     public function getInstrukturList($request)
@@ -58,6 +62,33 @@ class InstrukturService
         return $result;
     }
 
+    public function getInstrukturByTypeProgram($programId)
+    {
+        $program = $this->program->findProgram($programId);
+
+        $query = $this->model->query();
+
+        $query->whereHas('user', function ($query) {
+            $query->active();
+        });
+
+        if ($program->tipe == 0) {
+            $query->whereNull('mitra_id');
+        }
+
+        if ($program->tipe == 1) {
+            if (auth()->user()->hasRole('mitra')) {
+                $query->where('mitra_id', auth()->user()->mitra->id);
+            } else {
+                $query->whereNotNull('mitra_id');
+            }
+        }
+
+        $result = $query->get();
+
+        return $result;
+    }
+
     public function getInstrukturForMata($type, $instrukturId)
     {
         $query = $this->model->query();
@@ -80,6 +111,19 @@ class InstrukturService
         });
 
         $result = $query->get();
+
+        return $result;
+    }
+
+    public function countInstruktur()
+    {
+        $query = $this->model->query();
+
+        $query->whereHas('user', function ($query) {
+            $query->active();
+        });
+
+        $result = $query->count();
 
         return $result;
     }
@@ -107,7 +151,6 @@ class InstrukturService
         $instruktur->nip = $request->nip ?? null;
         $instruktur->kedeputian = $request->kedeputian ?? null;
         $instruktur->pangkat = $request->pangkat ?? null;
-        $instruktur->alamat = $request->alamat ?? null;
         $this->uploadFile($request, $instruktur, $user->id, 'store');
         $instruktur->save();
 
@@ -127,7 +170,6 @@ class InstrukturService
         $instruktur->instansi_id = $request->instansi_id ?? null;
         $instruktur->kedeputian = $request->kedeputian ?? null;
         $instruktur->pangkat = $request->pangkat ?? null;
-        $instruktur->alamat = $request->alamat ?? null;
         $this->uploadFile($request, $instruktur, $instruktur->user_id, 'update', $id);
         $instruktur->save();
 
@@ -141,7 +183,7 @@ class InstrukturService
             $user->email_verified_at = null;
         }
         $user->save();
-        $this->user->updateInformation($request, $instruktur->user_id);
+        $this->user->updateInformation($request, $user->id);
 
         return [
             'instruktur' => $instruktur,
@@ -186,6 +228,14 @@ class InstrukturService
             Storage::disk('bank_data')->put($path.$jabatan, file_get_contents($file));
         }
 
+        if ($request->hasFile('cv')) {
+            $file = $request->file('cv');
+            $cv = str_replace(' ', '-', $file->getClientOriginalName());
+
+            Storage::disk('bank_data')->delete($request->old_cv);
+            Storage::disk('bank_data')->put($path.$cv, file_get_contents($file));
+        }
+
         $instruktur->sk_cpns = [
             'file' => !empty($request->sk_cpns) ? $path.$cpns : ($type == 'store' ? null : $find->sk_cpns['file']),
             'keterangan' => $request->keterangan_cpns ?? ($type == 'store' ? null : $find->sk_cpns['keterangan']),
@@ -202,6 +252,7 @@ class InstrukturService
             'file' => !empty($request->sk_jabatan) ? $path.$jabatan : ($type == 'store' ? null : $find->sk_jabatan['file']),
             'keterangan' => $request->keterangan_jabatan ?? ($type == 'store' ? null : $find->sk_jabatan['keterangan']),
         ];
+        $instruktur->cv =  !empty($request->cv) ? $path.$cv : ($type == 'store' ? null : $find->cv);
 
         return $instruktur;
     }
@@ -234,6 +285,10 @@ class InstrukturService
 
         if (!empty($instruktur->sk_jabatan['file'])) {
             Storage::disk('bank_data')->delete($instruktur->sk_jabatan['file']);
+        }
+
+        if (!empty($instruktur->cv)) {
+            Storage::disk('bank_data')->delete($instruktur->cv);
         }
 
         if ($bankData->count() > 0) {

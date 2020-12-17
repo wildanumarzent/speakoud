@@ -2,6 +2,8 @@
 
 @section('styles')
 <script src="{{ asset('assets/tmplts_backend/wysiwyg/tinymce.min.js') }}"></script>
+<link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-select/bootstrap-select.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/select2/select2.css') }}">
 @endsection
 
 @section('content')
@@ -29,6 +31,22 @@
             </div>
             <div class="form-group row">
                 <div class="col-md-2 text-md-right">
+                  <label class="col-form-label text-sm-right">Instruktur</label>
+                </div>
+                <div class="col-md-10">
+                    <select class="select2 show-tick @error('instruktur_id') is-invalid @enderror" name="instruktur_id" data-style="btn-default">
+                        <option value=" " selected disabled>Pilih</option>
+                        @foreach ($data['instruktur'] as $instruktur)
+                        <option value="{{ $instruktur->instruktur_id }}" {{ isset($data['materi']) ? (old('instruktur_id', $data['materi']->instruktur_id) == $instruktur->instruktur_id ? 'selected' : '') : (old('instruktur_id') == $instruktur->id ? 'selected' : '') }}>{{ $instruktur->instruktur->user->name }}</option>
+                        @endforeach
+                    </select>
+                    @error('instruktur_id')
+                    <label class="error jquery-validation-error small form-text invalid-feedback" style="display: inline-block; color:red;">{!! $message !!}</label>
+                    @enderror
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-2 text-md-right">
                   <label class="col-form-label text-sm-right">Status</label>
                 </div>
                 <div class="col-md-10">
@@ -52,8 +70,8 @@
         <div class="card-footer">
             <div class="row">
               <div class="col-md-10 ml-sm-auto text-md-left text-right">
-                <a href="{{ route('materi.index', ['id' => $data['mata']->id]) }}" class="btn btn-danger" title="klik untuk kembali ke list" data-toggle="tooltip">Kembali</a>
-                <button type="submit" class="btn btn-primary" name="action" value="save" title="klik untuk menyimpan" data-toggle="tooltip">{{ isset($data['materi']) ? 'Simpan perubahan' : 'Simpan' }}</button>
+                <a href="{{ route('materi.index', ['id' => $data['mata']->id]) }}" class="btn btn-danger" title="klik untuk kembali ke list">Kembali</a>
+                <button type="submit" class="btn btn-primary" name="action" value="save" title="klik untuk menyimpan">{{ isset($data['materi']) ? 'Simpan perubahan' : 'Simpan' }}</button>
               </div>
             </div>
         </div>
@@ -62,10 +80,14 @@
 @endsection
 
 @section('scripts')
-
+<script src="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-select/bootstrap-select.js') }}"></script>
+<script src="{{ asset('assets/tmplts_backend/vendor/libs/select2/select2.js') }}"></script>
 @endsection
 
 @section('jsbody')
+<script>
+    $('.select2').select2();
+</script>
 @include('includes.tiny-mce-with-fileman')
 @include('components.toastr')
 @endsection

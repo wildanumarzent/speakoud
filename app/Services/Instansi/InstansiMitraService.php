@@ -3,16 +3,24 @@
 namespace App\Services\Instansi;
 
 use App\Models\Instansi\InstansiMitra;
+use App\Models\Users\Instruktur;
+use App\Models\Users\Peserta;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
 class InstansiMitraService
 {
-    private $model;
+    private $model, $modelInstruktur, $modelPeserta;
 
-    public function __construct(InstansiMitra $model)
+    public function __construct(
+        InstansiMitra $model,
+        Instruktur $modelInstruktur,
+        Peserta $modelPeserta
+    )
     {
         $this->model = $model;
+        $this->modelInstruktur = $modelInstruktur;
+        $this->modelPeserta = $modelPeserta;
     }
 
     public function getInstansiList($request)
@@ -98,10 +106,22 @@ class InstansiMitraService
     {
         $instansi = $this->findInstansi($id);
 
+         //checkInstruktur
+         $instruktur = $this->modelInstruktur->where('instansi_id', $id)
+         ->whereNotNull('mitra_id')->count();
+         //checkPeserta
+         $peserta = $this->modelPeserta->where('instansi_id', $id)
+         ->whereNotNull('mitra_id')->count();
+
         if (!empty($instansi->logo)) {
             $this->deleteLogoFromPath($instansi->logo);
         }
-        $instansi->delete();
+
+        if ($instansi->mitra()->count() > 0 || $instruktur > 0 || $peserta > 0) {
+            return false;
+        } else {
+            $instansi->delete();
+        }
 
         return $instansi;
     }

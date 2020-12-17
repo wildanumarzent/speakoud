@@ -54,6 +54,19 @@ class MitraService
         return $result;
     }
 
+    public function countMitra()
+    {
+        $query = $this->model->query();
+
+        $query->whereHas('user', function ($query) {
+            $query->active();
+        });
+
+        $result = $query->count();
+
+        return $result;
+    }
+
     public function findMitra(int $id)
     {
         return $this->model->findOrFail($id);
@@ -70,7 +83,6 @@ class MitraService
         $mitra->instansi_id = $request->instansi_id ?? null;
         $mitra->kedeputian = $request->kedeputian ?? null;
         $mitra->pangkat = $request->pangkat ?? null;
-        $mitra->alamat = $request->alamat ?? null;
         $this->uploadFile($request, $mitra, $user->id, 'store');
         $mitra->save();
 
@@ -90,7 +102,6 @@ class MitraService
         $mitra->instansi_id = $request->instansi_id ?? null;
         $mitra->kedeputian = $request->kedeputian ?? null;
         $mitra->pangkat = $request->pangkat ?? null;
-        $mitra->alamat = $request->alamat ?? null;
         $this->uploadFile($request, $mitra, $mitra->user_id, 'update', $id);
         $mitra->save();
 
@@ -104,7 +115,7 @@ class MitraService
             $user->email_verified_at = null;
         }
         $user->save();
-        $this->user->updateInformation($request, $mitra->user_id);
+        $this->user->updateInformation($request, $user->id);
 
         return [
             'mitra' => $mitra,

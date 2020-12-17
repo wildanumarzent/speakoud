@@ -60,10 +60,9 @@ class BahanTugasService
             foreach ($request->file('files') as $file) {
 
                 $replace = str_replace(' ', '-', $file->getClientOriginalName());
-                $generate = Str::random(5).'-'.$replace;
-                $files[] = 'tugas/'.$materi->id.'/'.auth()->user()->id.'/'.$generate;
+                $files[] = 'tugas/'.$materi->id.'/'.auth()->user()->id.'/'.$replace;
 
-                Storage::disk('bank_data')->put('tugas/'.$materi->id.'/'.auth()->user()->id.'/'.$generate, file_get_contents($file));
+                Storage::disk('bank_data')->put('tugas/'.$materi->id.'/'.auth()->user()->id.'/'.$replace, file_get_contents($file));
             }
 
             $tugas->files = $files;
@@ -94,10 +93,9 @@ class BahanTugasService
             foreach ($request->file('files') as $file) {
 
                 $replace = str_replace(' ', '-', $file->getClientOriginalName());
-                $generate = Str::random(5).'-'.$replace;
-                $files[] = 'tugas/'.$tugas->materi_id.'/'.auth()->user()->id.'/'.$generate;
+                $files[] = 'tugas/'.$tugas->materi_id.'/'.auth()->user()->id.'/'.$replace;
 
-                Storage::disk('bank_data')->put('tugas/'.$tugas->materi_id.'/'.$tugas->creator_id.'/respon/'.auth()->user()->id.'/'.$generate, file_get_contents($file));
+                Storage::disk('bank_data')->put('tugas/'.$tugas->materi_id.'/'.$tugas->creator_id.'/respon/'.auth()->user()->id.'/'.$replace, file_get_contents($file));
             }
 
             $respon->files = $files;

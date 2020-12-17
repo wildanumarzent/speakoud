@@ -17,7 +17,7 @@ class CreateBahanTugasResponTable extends Migration
             $table->id();
             $table->unsignedBigInteger('tugas_id');
             $table->unsignedBigInteger('user_id');
-            $table->text('keterangan');
+            $table->text('keterangan')->nullable();
             $table->json('files')->nullable();
             $table->boolean('approval')->nullable();
             $table->timestamp('approval_time')->nullable();

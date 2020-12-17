@@ -22,12 +22,12 @@
         <div class="form-group">
             <label class="custom-control custom-checkbox m-0">
                 <input type="checkbox" class="custom-control-input" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-                <span class="custom-control-label">Remember me</span>
+                <span class="custom-control-label">Ingat saya</span>
             </label>
         </div>
         <div class="box-btn text-center">
-            <button class="btn btn-primary" type="submit"><span>@lang('layout.menu.login')</span></button>
-            <a class="link-forgot" href="{{ route('password.email') }}">@lang('layout.menu.forgot_password')</a>
+            <button class="btn btn-primary" type="submit"><span>Login</span></button>
+            <a class="link-forgot" href="{{ route('password.email') }}">Lupa Password?</a>
         </div>
     </form>
 </div>

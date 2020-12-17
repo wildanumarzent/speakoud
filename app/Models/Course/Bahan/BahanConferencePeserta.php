@@ -16,9 +16,9 @@ class BahanConferencePeserta extends Model
         'leave' => 'datetime',
     ];
 
-    public function link()
+    public function conference()
     {
-        return $this->belongsTo(BahanConference::class, 'link_id');
+        return $this->belongsTo(BahanConference::class, 'conference_id');
     }
 
     public function user()

@@ -140,7 +140,7 @@
                         <input type="text" class="form-control @error('pilihan.`+no+`') is-invalid @enderror" name="pilihan[]" value="{{ old('pilihan'.`+no+`) }}" placeholder="masukan pilihan...">
                     </div>
                     <div class="col-sm-2">
-                        <button type="button" id="remove" data-id="`+no+`" class="btn icon-btn btn-danger"><span class="las la-times"></span></button>
+                        <button type="button" id="remove" data-id="`+no+`" class="btn icon-btn btn-danger btn-sm"><span class="las la-times"></span></button>
                     </div>
                     @error ('pilihan.`+no+`')
                     <label class="error jquery-validation-error small form-text invalid-feedback text-center" style="display: inline-block;">{{ $message }}</label>

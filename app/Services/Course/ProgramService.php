@@ -32,20 +32,32 @@ class ProgramService
             $query->where('tipe', $request->t);
         }
 
-        //cek role
-        if (auth()->user()->hasRole('internal|instruktur_internal')) {
+        if (auth()->user()->hasRole('internal')) {
             $query->where('tipe', 0);
         }
         if (auth()->user()->hasRole('mitra')) {
             $query->where('mitra_id', auth()->user()->id)
                 ->where('tipe', 1);
         }
-        if (auth()->user()->hasRole('instruktur_mitra')) {
-            $query->where('mitra_id', auth()->user()->instruktur->mitra_id)
+
+        $result = $query->orderBy('urutan', 'ASC')->paginate(9);
+
+        return $result;
+    }
+
+    public function countProgram()
+    {
+        $query = $this->model->query();
+
+        if (auth()->user()->hasRole('internal')) {
+            $query->where('tipe', 0);
+        }
+        if (auth()->user()->hasRole('mitra')) {
+            $query->where('mitra_id', auth()->user()->id)
                 ->where('tipe', 1);
         }
 
-        $result = $query->orderBy('urutan', 'ASC')->paginate(9);
+        $result = $query->count();
 
         return $result;
     }
@@ -160,6 +172,27 @@ class ProgramService
         }
 
         if (auth()->user()->hasRole('internal|instruktur_internal')) {
+            if ($program->tipe == 1) {
+                return abort(403);
+            }
+        }
+    }
+
+    public function checkAdmin(int $id)
+    {
+        $program = $this->findProgram($id);
+
+        if (auth()->user()->hasRole('mitra')) {
+            if ($program->tipe == 0) {
+                return abort(403);
+            }
+
+            if ($program->mitra_id != auth()->user()->mitra->id) {
+                return abort(403);
+            }
+        }
+
+        if (auth()->user()->hasRole('internal')) {
             if ($program->tipe == 1) {
                 return abort(403);
             }

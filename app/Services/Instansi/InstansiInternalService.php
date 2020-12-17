@@ -3,16 +3,24 @@
 namespace App\Services\Instansi;
 
 use App\Models\Instansi\InstansiInternal;
+use App\Models\Users\Instruktur;
+use App\Models\Users\Peserta;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
 class InstansiInternalService
 {
-    private $model;
+    private $model, $modelInstruktur, $modelPeserta;
 
-    public function __construct(InstansiInternal $model)
+    public function __construct(
+        InstansiInternal $model,
+        Instruktur $modelInstruktur,
+        Peserta $modelPeserta
+    )
     {
         $this->model = $model;
+        $this->modelInstruktur = $modelInstruktur;
+        $this->modelPeserta = $modelPeserta;
     }
 
     public function getInstansiList($request)
@@ -100,10 +108,22 @@ class InstansiInternalService
     {
         $instansi = $this->findInstansi($id);
 
+        //checkInstruktur
+        $instruktur = $this->modelInstruktur->where('instansi_id', $id)
+            ->whereNull('mitra_id')->count();
+        //checkPeserta
+        $peserta = $this->modelPeserta->where('instansi_id', $id)
+            ->whereNull('mitra_id')->count();
+
         if (!empty($instansi->logo)) {
             $this->deleteLogoFromPath($instansi->logo);
         }
-        $instansi->delete();
+
+        if ($instansi->internal()->count() > 0 || $instruktur > 0 || $peserta > 0) {
+            return false;
+        } else {
+            $instansi->delete();
+        }
 
         return $instansi;
     }

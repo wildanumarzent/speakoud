@@ -3,6 +3,7 @@
 @section('styles')
 <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/select2/select2.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/fancybox/fancybox.min.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/sweetalert2/sweetalert2.css') }}">
 @yield('style')
 @endsection
 
@@ -17,6 +18,8 @@
       </div>
     </div>
 </div>
+
+@include('components.alert-any')
 
 <div class="row">
     <div class="col">
@@ -79,7 +82,7 @@
             <div class="card-body">
                 <select class="jump select2 show-tick" data-mataid="{{ $data['bahan']->mata_id }}" data-style="btn-default">
                     <option value="" selected disabled>Pilih Bahan</option>
-                    @foreach ($data['mata']->materiPublish as $materi)
+                    @foreach ($data['materi_lain'] as $materi)
                     <optgroup label="{!! $materi->judul !!}">
                         @foreach ($materi->bahanPublish('jump')->get() as $bahan)
                         <option value="{{ $bahan->id }}" data-tipe="{{ $bahan->type($bahan)['tipe']  }}">{!! $bahan->judul !!}</option>
@@ -128,6 +131,7 @@
 @section('scripts')
 <script src="{{ asset('assets/tmplts_backend/vendor/libs/select2/select2.js') }}"></script>
 <script src="{{ asset('assets/tmplts_backend/fancybox/fancybox.min.js') }}"></script>
+<script src="{{ asset('assets/tmplts_backend/vendor/libs/sweetalert2/sweetalert2.js') }}"></script>
 @yield('script')
 @endsection
 

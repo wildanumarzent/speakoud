@@ -14,12 +14,12 @@
                 @error('files.0')
                     @include('components.field-error', ['field' => 'files.0'])
                 @else
-                <small class="text-danger">Tipe File : <strong>{{ strtoupper(config('addon.mimes.tugas.m')) }}</strong></small>
+                <small class="text-danger">Tipe File : <strong>{{ strtoupper(config('addon.mimes.tugas.m')) }}</strong>, Max Upload : <strong>50 MB</strong></small>
                 @enderror
             </label>
         </div>
         <div class="col-md-1" id="add-files">
-            <button type="button" id="add" class="btn btn-success icon-btn"><i class="las la-plus"></i></button>
+            <button type="button" id="add" class="btn btn-success icon-btn btn-sm"><i class="las la-plus"></i></button>
         </div>
     </div>
 </div>
@@ -41,21 +41,22 @@
                     <label class="custom-file mt-2">
                         <label class="custom-file-label mt-2" for="file-`+no+`"></label>
                         <input type="file" class="form-control custom-file-input file @error('files.`+no+`') is-invalid @enderror" id="file-`+no+`" lang="en" name="files[]" value="browse...">
+                        @include('components.field-error', ['field' => 'files.`+no+`'])
                     </label>
                 </div>
                 <div class="col-md-1">
-                    <button type="button" id="remove" data-id="`+no+`" class="btn btn-danger icon-btn"><i class="las la-times"></i></button>
+                    <button type="button" id="remove" data-id="`+no+`" class="btn btn-danger icon-btn btn-sm"><i class="las la-times"></i></button>
                 </div>
             </div>
             `);
 
-            // var noOfColumns = $('.num-list').length;
-            // var maxNum = 2;
-            // if (noOfColumns < maxNum) {
-            //     $("#add-files").show();
-            // } else {
-            //     $("#add-files").hide();
-            // }
+            var noOfColumns = $('.num-list').length;
+            var maxNum = 19;
+            if (noOfColumns < maxNum) {
+                $("#add-files").show();
+            } else {
+                $("#add-files").hide();
+            }
 
             // FILE BROWSE
             function callfileBrowser() {

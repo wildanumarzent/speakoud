@@ -94,7 +94,7 @@
                     <input class="form-control custom-file-input file @error('cover_file') is-invalid @enderror" type="file" id="upload-2" lang="en" name="cover_file" placeholder="masukan cover...">
                     @include('components.field-error', ['field' => 'cover_file'])
                     <small class="text-muted">Tipe File : <strong>{{ strtoupper(config('addon.mimes.cover.m')) }}</strong></small>
-                    <div class="row mt-3">
+                    <div class="row mt-3 hide-meta">
                         <div class="col-md-6">
                             <input type="text" class="form-control" name="cover_title" value="{{ isset($data['artikel']) ? old('cover_title', $data['artikel']->cover['title']) : old('cover_title') }}" placeholder="title cover...">
                         </div>
@@ -104,30 +104,32 @@
                     </div>
                 </div>
             </div>
-            <hr>
-            <div class="form-group row">
-                <div class="col-md-2 text-md-right">
-                  <label class="col-form-label text-sm-right">Meta Title</label>
+            <div class="hide-meta">
+                <hr>
+                <div class="form-group row">
+                    <div class="col-md-2 text-md-right">
+                    <label class="col-form-label text-sm-right">Meta Title</label>
+                    </div>
+                    <div class="col-md-10">
+                    <input type="text" class="form-control @error('meta_title') is-invalid @enderror" name="meta_title"
+                        value="{{ (isset($data['artikel'])) ? old('meta_title', $data['artikel']->meta_data['title']) : old('meta_title') }}" placeholder="masukan meta title..." >
+                    </div>
                 </div>
-                <div class="col-md-10">
-                  <input type="text" class="form-control @error('meta_title') is-invalid @enderror" name="meta_title"
-                    value="{{ (isset($data['artikel'])) ? old('meta_title', $data['artikel']->meta_data['title']) : old('meta_title') }}" placeholder="masukan meta title..." >
+                <div class="form-group row">
+                    <div class="col-md-2 text-md-right">
+                    <label class="col-form-label text-sm-right">Meta Description</label>
+                    </div>
+                    <div class="col-md-10">
+                    <textarea class="form-control @error('meta_description') is-invalid @enderror" name="meta_description" placeholder="separated by comma(,)" >{{ (isset($data['artikel'])) ? old('meta_description', $data['artikel']->meta_data['description']) : old('meta_description') }}</textarea>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group row">
-                <div class="col-md-2 text-md-right">
-                  <label class="col-form-label text-sm-right">Meta Description</label>
-                </div>
-                <div class="col-md-10">
-                  <textarea class="form-control @error('meta_description') is-invalid @enderror" name="meta_description" placeholder="separated by comma(,)" >{{ (isset($data['artikel'])) ? old('meta_description', $data['artikel']->meta_data['description']) : old('meta_description') }}</textarea>
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col-md-2 text-md-right">
-                  <label class="col-form-label text-sm-right">Meta Keywords</label>
-                </div>
-                <div class="col-md-10">
-                  <textarea class="form-control @error('meta_keywords') is-invalid @enderror" name="meta_keywords" placeholder="separated by comma(,)" >{{ (isset($data['artikel'])) ? old('meta_keywords', $data['artikel']->meta_data['keywords']) : old('meta_keywords') }}</textarea>
+                <div class="form-group row">
+                    <div class="col-md-2 text-md-right">
+                    <label class="col-form-label text-sm-right">Meta Keywords</label>
+                    </div>
+                    <div class="col-md-10">
+                    <textarea class="form-control @error('meta_keywords') is-invalid @enderror" name="meta_keywords" placeholder="separated by comma(,)" >{{ (isset($data['artikel'])) ? old('meta_keywords', $data['artikel']->meta_data['keywords']) : old('meta_keywords') }}</textarea>
+                    </div>
                 </div>
             </div>
         </div>
@@ -150,6 +152,7 @@
 
 @section('jsbody')
 <script>
+$('.hide-meta').hide();
 // Bootstrap Tagsinput
 $(function() {
 

@@ -20,7 +20,7 @@ class KonfigurasiService
 
         $query->where('group', $group)->where('is_upload', 0);
 
-        $result = $query->get();
+        $result = $query->orderBy('name', 'ASC')->get();
 
         return $result;
     }
@@ -31,7 +31,7 @@ class KonfigurasiService
 
         $query->upload();
 
-        $result = $query->get();
+        $result = $query->orderBy('name', 'ASC')->get();
 
         return $result;
     }

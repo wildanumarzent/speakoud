@@ -32,7 +32,7 @@
     <div class="card-header with-elements">
         <h5 class="card-header-title mt-1 mb-0">Instansi Mitra List</h5>
         <div class="card-header-elements ml-auto">
-            <a href="{{ route('instansi.mitra.create') }}" class="btn btn-primary icon-btn-only-sm" title="klik untuk menambah instansi" data-toggle="tooltip">
+            <a href="{{ route('instansi.mitra.create') }}" class="btn btn-primary icon-btn-only-sm" title="klik untuk menambah instansi">
                 <i class="las la-plus"></i><span>Tambah</span>
             </a>
         </div>
@@ -42,8 +42,8 @@
             <thead>
                 <tr>
                     <th style="width: 10px;">No</th>
-                    <th>Kode Instansi</th>
-                    <th>Nama Instansi</th>
+                    <th>Kode Mitra</th>
+                    <th>Nama Mitra</th>
                     <th>Telpon</th>
                     <th>Fax</th>
                     <th>Nama Pimpinan</th>
@@ -62,7 +62,7 @@
                             @if (Request::get('q'))
                             ! Instansi tidak ditemukan !
                             @else
-                            ! Data Instansi kosong !
+                            ! Instansi kosong !
                             @endif
                             </strong>
                         </i>
@@ -81,10 +81,10 @@
                     <td>{{ $item->created_at->format('d F Y - (H:i)') }}</td>
                     <td>{{ $item->updated_at->format('d F Y - (H:i)') }}</td>
                     <td>
-                        <a href="{{ route('instansi.mitra.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengedit Instansi" data-toggle="tooltip">
+                        <a href="{{ route('instansi.mitra.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengedit Instansi">
                                 <i class="las la-pen"></i>
                         </a>
-                        <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus Instansi" data-toggle="tooltip">
+                        <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus Instansi">
                             <i class="las la-trash-alt"></i>
                         </a>
                     </td>
@@ -100,7 +100,7 @@
                             @if (Request::get('q'))
                             ! Instansi tidak ditemukan !
                             @else
-                            ! Data Instansi kosong !
+                            ! Instansi kosong !
                             @endif
                             </strong>
                         </i>
@@ -113,20 +113,20 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="item-table">
-                                    <div class="data-table">Kode Instansi</div>
+                                    <div class="data-table">Kode Mitra</div>
                                     <div class="desc-table">{{ $item->kode_instansi ?? '-' }}</div>
                                 </div>
                                 <div class="item-table">
-                                    <div class="data-table">Nama Instansi</div>
+                                    <div class="data-table">Nama Mitra</div>
                                     <div class="desc-table">{{ $item->nama_instansi }}</div>
                                 </div>
                                 <div class="item-table">
                                     <div class="data-table">Telpon</div>
-                                    <div class="desc-table">{{ $item->telpon ?? null }}</div>
+                                    <div class="desc-table">{{ $item->telpon ?? '-' }}</div>
                                 </div>
                                 <div class="item-table">
                                     <div class="data-table">Fax</div>
-                                    <div class="desc-table">{{ $item->fax ?? null }}</div>
+                                    <div class="desc-table">{{ $item->fax ?? '-' }}</div>
                                 </div>
                                 <div class="item-table">
                                     <div class="data-table">Nama Pimpinan</div>
@@ -139,10 +139,10 @@
 
                                 <div class="item-table m-0">
                                     <div class="desc-table text-right">
-                                        <a href="{{ route('instansi.mitra.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengedit Instansi" data-toggle="tooltip">
+                                        <a href="{{ route('instansi.mitra.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengedit Instansi">
                                                 <i class="las la-pen"></i>
                                         </a>
-                                        <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus Instansi" data-toggle="tooltip">
+                                        <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus Instansi">
                                             <i class="las la-trash-alt"></i>
                                         </a>
                                     </div>
@@ -181,7 +181,7 @@ $(document).ready(function () {
         var id = $(this).attr('data-id');
         Swal.fire({
             title: "Apakah anda yakin?",
-            text: "Anda akan menghapus instansi ini, data yang bersangkutan dengan instansi ini akan terhapus. Data yang sudah dihapus tidak dapat dikembalikan!",
+            text: "Anda akan menghapus instansi ini, Data yang sudah dihapus tidak dapat dikembalikan!",
             type: "warning",
             confirmButtonText: "Ya, hapus!",
             customClass: {

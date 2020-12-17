@@ -17,12 +17,6 @@
                                 <div class="f-widget">
                                     <h5>@lang('strip.footer_title_1')</h5>
                                     <ul>
-                                        <li>
-                                            <a href="">Pelatihan Teknis</a>
-                                        </li>
-                                        <li>
-                                            <a href="">Pelatihan Fungsional</a>
-                                        </li>
                                         @foreach ($pages['layanan'] as $layanan)
                                         <li>
                                             <a href="{{ route('page.read', ['id' => $layanan->id, 'slug' => $layanan->slug]) }}" title="{!! $layanan->judul !!}">{!! $layanan->judul !!}</a>
@@ -52,10 +46,13 @@
                                             {{ $configuration['address'] }}
                                         </li>
                                         <li>
-                                            {{ $configuration['phone'] }}
+                                            {{ $configuration['fax'] }} <br>
+                                            {{ $configuration['phone'] }} <br>
+                                            {{ $configuration['phone_2'] }} <br>
                                         </li>
                                         <li>
-                                            <a href="mailto:{{ $configuration['email'] }}" title="Email">{{ $configuration['email'] }}</a>
+                                            <a href="mailto:{{ $configuration['email'] }}" title="Email">{{ $configuration['email'] }}</a> <br>
+                                            <a href="mailto:{{ $configuration['email_2'] }}" title="Email 2">{{ $configuration['email_2'] }}</a> <br>
                                         </li>
                                     </ul>
                                 </div>

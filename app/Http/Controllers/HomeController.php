@@ -3,9 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Services\Banner\BannerKategoriService;
+use App\Services\Course\Bahan\BahanService;
 use App\Services\Course\JadwalService;
 use App\Services\Course\MataService;
+use App\Services\Course\MateriService;
+use App\Services\Course\ProgramService;
 use App\Services\PageService;
+use App\Services\Users\InstrukturService;
+use App\Services\Users\InternalService;
+use App\Services\Users\MitraService;
+use App\Services\Users\PesertaService;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -44,7 +51,7 @@ class HomeController extends Controller
     {
         $data['banner'] = $this->banner->findBannerKategori(1);
         $data['pageOne'] = $this->page->findPage(1);
-        $data['pageSix'] = $this->page->findPage(6);
+        $data['pageSix'] = $this->page->findPage(4);
         $data['mata'] = $this->mata->getMata('urutan', 'ASC', 8);
         $data['jadwal'] = $this->jadwal->getJadwal(6);
 
@@ -53,7 +60,19 @@ class HomeController extends Controller
 
     public function dashboard(Request $request)
     {
-        return view('backend.dashboard.index', [
+        $data['counter'] = [
+            'user_internal' => app()->make(InternalService::class)->countInternal(),
+            'user_mitra' =>app()->make(MitraService::class)->countMitra(),
+            'user_instruktur' => app()->make(InstrukturService::class)->countInstruktur(),
+            'user_peserta' => app()->make(PesertaService::class)->countPeserta(),
+            'course_kategori' => app()->make(ProgramService::class)->countProgram(),
+            'course_program' => app()->make(MataService::class)->countMata(),
+            'course_mata' => app()->make(MateriService::class)->countMateri(),
+            'course_materi' => app()->make(BahanService::class)->countBahan(),
+        ];
+        $data['latestCourse'] = app()->make(MataService::class)->getLatestMata();
+
+        return view('backend.dashboard.index', compact('data'), [
             'title' => 'Dashboard',
         ]);
     }

@@ -17,38 +17,63 @@
         @csrf
         @method('PUT')
         <div class="card-body">
-            <div class="bg-white ui-bordered mb-2">
-                <a href="#general" class="d-flex justify-content-between text-body py-3 px-4 collapsed" data-toggle="collapse" aria-expanded="true">
-                    <strong>General</strong>
+            <div class="bg-general ui-bordered mb-2">
+                <a href="#account" class="d-flex justify-content-between text-body py-3 px-4 collapsed" data-toggle="collapse" aria-expanded="true">
+                    <strong>Data</strong>
                     <span class="collapse-icon"></span>
                 </a>
                 <div id="general" class="text-muted collapse show">
                     <div class="card-body pb-2">
                         <div class="form-group">
-                            <label class="form-label">Name</label>
-                            <input type="text" class="form-control mb-1 @error('name') is-invalid @enderror" name="name" value="{{ old('name', $data['user']->name) }}" placeholder="Enter name...">
+                            <label class="form-label">Nama</label>
+                            <input type="text" class="form-control mb-1 @error('name') is-invalid @enderror" name="name" value="{{ old('name', $data['user']->name) }}" placeholder="Masukan nama...">
                             @include('components.field-error', ['field' => 'name'])
                         </div>
                         <div class="form-group">
+                            <label class="form-label">Telpon</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">+62</span>
+                                </div>
+                                <input type="text" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ old('phone', $data['information']->phone) }}" placeholder="Masukan telpon...">
+                                @include('components.field-error', ['field' => 'phone'])
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Alamat</label>
+                            <textarea class="form-control mb-1 @error('address') is-invalid @enderror" name="address" placeholder="Masukan alamat...">{{ old('address', $data['information']->address) }}</textarea>
+                            @include('components.field-error', ['field' => 'address'])
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white ui-bordered mb-2">
+                <a href="#account" class="d-flex justify-content-between text-body py-3 px-4 collapsed" data-toggle="collapse" aria-expanded="true">
+                    <strong>Akun</strong>
+                    <span class="collapse-icon"></span>
+                </a>
+                <div id="account" class="text-muted collapse show">
+                    <div class="card-body pb-2">
+                        <div class="form-group">
                             <label class="form-label">Email</label>
                             <input type="hidden" name="old_email" value="{{ $data['user']->email }}">
-                            <input type="text" class="form-control mb-1 @error('email') is-invalid @enderror" name="email" value="{{ old('email', $data['user']->email) }}" placeholder="Enter email...">
+                            <input type="text" class="form-control mb-1 @error('email') is-invalid @enderror" name="email" value="{{ old('email', $data['user']->email) }}" placeholder="Masukan email...">
                             @include('components.field-error', ['field' => 'email'])
                         </div>
                         <div class="form-group">
                             <label class="form-label">Username</label>
                             <input type="text" class="form-control mb-1 @error('username') is-invalid @enderror" name="username" value="{{ old('username', $data['user']->username) }}"
-                                placeholder="Enter username...">
+                                placeholder="Masukan username...">
                             @include('components.field-error', ['field' => 'username'])
                         </div>
                         <div class="form-group">
-                            <label class="col-form-label">Current password (<em>if you change password</em>)</label>
+                            <label class="col-form-label">Password sebelumnya (<em>jika ingin mengubah password</em>)</label>
                             <div class="input-group">
                                 <input type="password" id="current-password-field" class="form-control @error('current_password') is-invalid @enderror" name="current_password"
                                     value="{{ old('current_password') }}"
-                                    placeholder="Enter current password...">
+                                    placeholder="Masukan password sebelumnya...">
                                 <div class="input-group-append">
-                                    <span toggle="#current-password-field" class="input-group-text toggle-current-password fas fa-eye" title="Click to show password"></span>
+                                    <span toggle="#current-password-field" class="input-group-text toggle-current-password fas fa-eye" title="tampilkan password"></span>
                                 </div>
                                 @include('components.field-error', ['field' => 'current_password'])
                             </div>
@@ -56,10 +81,10 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="form-label">New password</label>
+                                    <label class="form-label">Password baru</label>
                                     <div class="input-group">
                                         <input type="password" id="password-field" class="form-control gen-field @error('password') is-invalid @enderror" name="password"
-                                            placeholder="Enter new password...">
+                                            placeholder="Masukan password baru...">
                                         <div class="input-group-append">
                                             <span toggle="#password-field" class="input-group-text toggle-password fas fa-eye"></span>
                                         </div>
@@ -69,10 +94,10 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="form-label">Repeat new password</label>
+                                    <label class="form-label">Konfirmasi password</label>
                                     <div class="input-group">
                                         <input type="password" id="password-confirm-field" class="form-control gen-field @error('password_confirmation') is-invalid @enderror"
-                                            name="password_confirmation" placeholder="Enter repeat new password...">
+                                            name="password_confirmation" placeholder="Masukan konfirmasi password...">
                                         <div class="input-group-append">
                                             <span toggle="#password-confirm-field" class="input-group-text toggle-password-confirm fas fa-eye"></span>
                                         </div>
@@ -84,25 +109,25 @@
                                 <span class="btn btn-warning"  id="generate"> Generate password</span>
                             </div>
                         </div>
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <label class="form-label">City / Town</label>
                             <input type="text" class="form-control mb-1 @error('city') is-invalid @enderror" name="city"
-                                value="{{ old('city', ($data['information'] != null ? $data['information']->general['city'] : '')) }}" placeholder="Enter city/town...">
+                                value="{{ old('city', ($data['information'] != null ? $data['information']->city : '')) }}" placeholder="Enter city/town...">
                             @include('components.field-error', ['field' => 'city'])
                         </div>
                         <div class="form-group">
                             <label class="form-label">Description</label>
                             <textarea class="form-control mb-1 tiny @error('description') is-invalid @enderror" name="description" placeholder="Enter description...">
-                                {{ old('description', ($data['information'] != null ? $data['information']->general['description'] : '')) }}
+                                {{ old('description', ($data['information'] != null ? $data['information']->description : '')) }}
                             </textarea>
                             @include('components.field-error', ['field' => 'description'])
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>
             <div class="bg-white ui-bordered mb-2">
                 <a href="#user-picture" class="d-flex justify-content-between text-body py-3 px-4 collapsed" data-toggle="collapse" aria-expanded="true">
-                    <strong>User Picture</strong>
+                    <strong>Foto</strong>
                     <span class="collapse-icon"></span>
                 </a>
                 <div id="user-picture" class="text-muted collapse show">
@@ -111,9 +136,9 @@
                             <div class="ui-bg-cover" style="width: 100px;height: 100px;background-image: url('{{ $data['user']->getPhoto($data['user']->photo['filename']) }}');"></div>
                             <div class="media-body ml-3">
                                 <label class="form-label">
-                                    Change picture :
+                                    Ganti foto :
                                 </label><br>
-                                <small class="text-muted">Allowed : <strong>{{ strtoupper(config('addon.mimes.photo.m')) }}</strong></small>
+                                <small class="text-muted">Tipe : <strong>{{ strtoupper(config('addon.mimes.photo.m')) }}</strong></small>
                                 <label class="custom-file mt-3">
                                     <label class="custom-file-label mt-1" for="file-1"></label>
                                     <input type="hidden" name="old_photo" value="{{ $data['user']->photo['filename'] }}">
@@ -123,14 +148,14 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="form-label">Picture description</label>
-                            <input type="text" class="form-control mb-1 @error('photo_description') is-invalid @enderror" name="photo_description" value="{{ old('photo_description', $data['user']->photo['description']) }}" placeholder="Enter description...">
+                            <label class="form-label">Deskripsi foto</label>
+                            <input type="text" class="form-control mb-1 @error('photo_description') is-invalid @enderror" name="photo_description" value="{{ old('photo_description', $data['user']->photo['description']) }}" placeholder="Masukan deskripsi...">
                             @include('components.field-error', ['field' => 'photo_description'])
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="bg-white ui-bordered mb-2 hide-collapse">
+            {{-- <div class="bg-white ui-bordered mb-2 hide-collapse">
                 <a href="#additional-name" class="d-flex justify-content-between text-body py-3 px-4 collapsed" data-toggle="collapse" aria-expanded="true">
                     <strong>Additional name</strong>
                     <span class="collapse-icon"></span>
@@ -245,7 +270,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
         <div class="card-footer d-flex justify-content-center">
             <a href="" class="btn btn-danger mr-2">Kembali</a>

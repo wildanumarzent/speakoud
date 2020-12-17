@@ -3,26 +3,30 @@
 namespace App\Http\Controllers\Course;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\KodeEvaluasiInstrukturRequest;
 use App\Http\Requests\KomentarRequest;
 use App\Http\Requests\MataInstrukturRequest;
 use App\Http\Requests\MataPesertaRequest;
 use App\Http\Requests\MataRequest;
 use App\Services\Course\EvaluasiService;
 use App\Services\Course\MataService;
+use App\Services\Course\MateriService;
 use App\Services\Course\ProgramService;
 use App\Services\KonfigurasiService;
 use App\Services\Users\InstrukturService;
 use App\Services\Users\PesertaService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class MataController extends Controller
 {
-    private $service, $serviceProgram, $serviceInstruktur, $servicePeserta, $serviceKonfig,
-        $serviceEvaluasi;
+    private $service, $serviceProgram, $serviceMateri, $serviceInstruktur,
+        $servicePeserta, $serviceKonfig, $serviceEvaluasi;
 
     public function __construct(
         MataService $service,
         ProgramService $serviceProgram,
+        MateriService $serviceMateri,
         InstrukturService $serviceInstruktur,
         PesertaService $servicePeserta,
         KonfigurasiService $serviceKonfig,
@@ -31,6 +35,7 @@ class MataController extends Controller
     {
         $this->service = $service;
         $this->serviceProgram = $serviceProgram;
+        $this->serviceMateri = $serviceMateri;
         $this->serviceInstruktur = $serviceInstruktur;
         $this->servicePeserta = $servicePeserta;
         $this->serviceKonfig = $serviceKonfig;
@@ -50,9 +55,8 @@ class MataController extends Controller
         $data['number'] = $data['mata']->firstItem();
         $data['mata']->withPath(url()->current().$p.$q);
         $data['program'] = $this->serviceProgram->findProgram($programId);
-        $data['hasRole'] = auth()->user()->hasRole('developer|administrator|internal|mitra');
 
-        $this->serviceProgram->checkInstruktur($programId);
+        $this->serviceProgram->checkAdmin($programId);
 
         return view('backend.course_management.mata.index', compact('data'), [
             'title' => 'Course - Program Pelatihan',
@@ -82,7 +86,7 @@ class MataController extends Controller
         $data['instruktur_list'] = $this->serviceInstruktur
             ->getInstrukturForMata($data['mata']->program->tipe, $data['instruktur_id']);
 
-        $this->serviceProgram->checkInstruktur($data['mata']->program->id);
+        $this->serviceProgram->checkAdmin($data['mata']->program->id);
 
         return view('backend.course_management.mata.instruktur.index', compact('data'), [
             'title' => 'Program Pelatihan - Instruktur',
@@ -113,7 +117,7 @@ class MataController extends Controller
         $data['peserta_list'] = $this->servicePeserta
             ->getPesertaForMata($data['mata']->program->tipe, $data['peserta_id']);
 
-        $this->serviceProgram->checkInstruktur($data['mata']->program->id);
+        $this->serviceProgram->checkAdmin($data['mata']->program->id);
 
         return view('backend.course_management.mata.peserta.index', compact('data'), [
             'title' => 'Program Pelatihan - Peserta',
@@ -139,23 +143,15 @@ class MataController extends Controller
         ]);
     }
 
-    public function courseRegister($id)
-    {
-        $data['mata'] = $this->service->findMata($id);
-
-        return view('frontend.course.register', compact('data'), [
-            'title' => 'Course - Register',
-            'breadcrumbsFrontend' => [
-                $data['mata']->program->judul => '',
-                $data['mata']->judul => '',
-                'Register' => '',
-            ],
-        ]);
-    }
-
     public function courseDetail($id)
     {
         $data['read'] = $this->service->findMata($id);
+        $data['materi'] = $this->serviceMateri->getMateriByMata($id);
+
+        //rating
+        $data['numberRating'] = [1, 2, 3, 4, 5];
+        $data['numberProgress'] = [1, 2, 3, 4, 5];
+        rsort($data['numberProgress']);
 
         if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
             if ($data['read']->program->publish == 0 || $data['read']->publish == 0) {
@@ -163,18 +159,27 @@ class MataController extends Controller
             }
         }
 
-        $this->serviceProgram->checkInstruktur($data['read']->program_id);
+        $this->serviceProgram->checkAdmin($data['read']->program_id);
         $this->serviceProgram->checkPeserta($data['read']->program_id);
         if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra|peserta_internal|peserta_mitra')) {
-            if ($this->service->checkUser($id) == 0) {
+            if ($this->service->checkUserEnroll($id) == 0) {
                 return back()->with('warning', 'anda tidak terdaftar di course '.$data['read']->judul.'');
             }
         }
 
         if (!empty($data['read']->kode_evaluasi)) {
-            $data['preview'] = $this->serviceEvaluasi->previewSoal($id);
-            $data['result'] = $this->serviceEvaluasi->resultSubmit($id);
+            $preview = $this->serviceEvaluasi->preview($data['read']->kode_evaluasi);
+            $data['checkKode'] = $preview->success;
+            if ($preview->success == true) {
+                $data['preview'] = $preview->data->evaluasi;
+                if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
+                    $data['apiUser'] = $this->serviceEvaluasi->checkUserPenyelenggara($id)->first();
+                }
+            }
         }
+
+        // $ins = $data['read']->materi()->select('instruktur_id')->groupBy('instruktur_id')->get();
+        // dd($ins);
 
         return view('frontend.course.detail', compact('data'), [
             'title' => $data['read']->judul,
@@ -185,11 +190,33 @@ class MataController extends Controller
         ]);
     }
 
+    public function history(Request $request)
+    {
+        $p = '';
+        $q = '';
+        if (isset($request->p) || isset($request->q)) {
+            $p = '?p='.$request->p;
+            $q = '&q='.$request->q;
+        }
+
+        $data['mata'] = $this->service->getMataHistory($request);
+        $data['number'] = $data['mata']->firstItem();
+        $data['mata']->withPath(url()->current().$p.$q);
+
+        return view('backend.course_management.mata.history', compact('data'), [
+            'title' => 'Histori - Program Pelatihan',
+            'breadcrumbsBackend' => [
+                'Histori' => route('mata.history'),
+                'Program Pelatihan' => ''
+            ],
+        ]);
+    }
+
     public function create($programId)
     {
         $data['program'] = $this->serviceProgram->findProgram($programId);
 
-        $this->serviceProgram->checkInstruktur($programId);
+        $this->serviceProgram->checkAdmin($programId);
 
         return view('backend.course_management.mata.form', compact('data'), [
             'title' => 'Program Pelatihan - Tambah',
@@ -203,7 +230,20 @@ class MataController extends Controller
 
     public function store(MataRequest $request, $programId)
     {
-        $this->serviceProgram->checkInstruktur($programId);
+        if (!empty($request->kode_evaluasi)) {
+            $cekApi = $this->serviceEvaluasi->preview($request->kode_evaluasi);
+            if ($cekApi->success == false) {
+                return back()->with('warning', $cekApi->error_message[0]);
+            }
+        }
+
+        $bobot = ($request->join_vidconf + $request->activity_completion +
+            $request->forum_diskusi + $request->webinar + $request->progress_test +
+            $request->quiz + $request->post_test);
+
+        if ($bobot < 100 || $bobot > 100) {
+            return back()->with('warning', 'Bobot nilai harus memiliki jumlah keseluruhan 100%, tidak boleh kurang / lebih');
+        }
 
         $this->service->storeMata($request, $programId);
 
@@ -217,6 +257,21 @@ class MataController extends Controller
 
         return redirect()->route('mata.instruktur', ['id' => $mataId])
             ->with('success', 'Instruktur pelatihan berhasil ditambahkan');
+    }
+
+    public function kodeEvaluasiInstruktur(KodeEvaluasiInstrukturRequest $request, $mataId, $id)
+    {
+        if (!empty($request->kode_evaluasi)) {
+            $cekApi = $this->serviceEvaluasi->preview($request->kode_evaluasi);
+            if ($cekApi->success == false) {
+                return back()->with('warning', $cekApi->error_message[0]);
+            }
+        }
+
+        $this->service->kodeEvaluasiInstruktur($request, $mataId, $id);
+
+        return redirect()->route('mata.instruktur', ['id' => $mataId])
+            ->with('success', 'kode evaluasi berhasil dimasukan');
     }
 
     public function storePeserta(MataPesertaRequest $request, $mataId)
@@ -246,7 +301,21 @@ class MataController extends Controller
 
     public function update(MataRequest $request, $programId, $id)
     {
-        $this->checkCreator($id);
+
+        if (!empty($request->kode_evaluasi)) {
+            $cekApi = $this->serviceEvaluasi->preview($request->kode_evaluasi);
+            if ($cekApi->success == false) {
+                return back()->with('warning', $cekApi->error_message[0]);
+            }
+        }
+
+        $bobot = ($request->join_vidconf + $request->activity_completion +
+            $request->forum_diskusi + $request->webinar + $request->progress_test +
+            $request->quiz + $request->post_test);
+
+        if ($bobot < 100 || $bobot > 100) {
+            return back()->with('warning', 'Bobot nilai harus memiliki jumlah keseluruhan 100%, tidak boleh kurang / lebih');
+        }
 
         $this->service->updateMata($request, $id);
 
@@ -256,8 +325,6 @@ class MataController extends Controller
 
     public function publish($programId, $id)
     {
-        $this->checkCreator($id);
-
         $this->service->publishMata($id);
 
         return back()->with('success', 'Status berhasil diubah');
