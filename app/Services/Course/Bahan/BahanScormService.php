@@ -39,6 +39,12 @@ class BahanScormService
        $result = $query->first();
        return $result;
     }
+    public function getScorm($id){
+        $query = $this->scorm->query();
+        $query->find($id);
+        $result = $query->first();
+        return $result;
+     }
     public function checkpoint($userId,$scormId){
         $query = $this->checkpoint->query();
         $query->where('user_id',$userId);
@@ -50,7 +56,7 @@ class BahanScormService
     public function storeScorm($request, $materi, $bahan)
     {
 
-        if(empty($request->scorm_id)){
+        if(!isset($request->scorm_id)){
         if ($request->hasFile('package')) {
             $fileName = str_replace(' ', '-', Carbon::now()->format('ymd-His').'-'.$request->file('package')->getClientOriginalName());
             $filePath = 'userfile/scorm/'.$materi->id;
@@ -61,17 +67,24 @@ class BahanScormService
             $zip->make($filePath.'/zip/'.$fileName)->extractTo($scormPath);
 
             //parsing
+            if(File::exists($scormPath.'/imsmanifest.xml')){
+
             $xml = XmlParser::load($scormPath.'/imsmanifest.xml');
             $parse = $xml->parse([
                 'version' => ['uses' => 'metadata.schemaversion'],
                 'resource' => ['uses' => 'resources.resource::href'],
             ]);
+            }else{
+                $oldFile = public_path('userfile/scorm/'.$materi->id.'/zip/'.$fileName);
+                File::deleteDirectory($scormPath);
+                File::delete($oldFile);
+                return false;
+            }
             $xmlPath =  $scormPath.'/'.$parse['resource'];
             $masterScorm = new Scorm;
             $masterScorm->package = $xmlPath;
             $masterScorm->version = "ver.".$parse['version'];
             $masterScorm->package_name = basename($request->file('package')->getClientOriginalName(),".zip");
-            $masterScorm->creator_id = auth()->user()->id;
             $masterScorm->save();
             $scormID = $masterScorm->id;
         }
@@ -95,6 +108,7 @@ class BahanScormService
     {
 
         $scorm = $bahan->scorm;
+        if(!isset($request->scorm_id)){
         if ($request->hasFile('package')) {
             $fileName = str_replace(' ', '-', Carbon::now()->format('ymd-His').'-'.$request->file('package')->getClientOriginalName());
             $filePath = 'userfile/scorm/'.$bahan->materi_id;
@@ -109,18 +123,31 @@ class BahanScormService
               $zip->make($filePath.'/zip/'.$fileName)->extractTo($scormPath);
 
               //parsing
-              $xml = XmlParser::load($scormPath.'/imsmanifest.xml');
-              $resource = $xml->parse([
-                  'resource' => ['uses' => 'resources.resource::href'],
-              ]);
+              if(File::exists($scormPath.'/imsmanifest.xml')){
+                $xml = XmlParser::load($scormPath.'/imsmanifest.xml');
+                $resource = $xml->parse([
+                    'version' => ['uses' => 'metadata.schemaversion'],
+                    'resource' => ['uses' => 'resources.resource::href'],
+                ]);
+                }else{
+                    File::deleteDirectory($scormPath);
+                    return false;
+                }
 
               $xmlPath =  $scormPath.'/'.$resource['resource'];
-              $scorm->package = $xmlPath;
-              $scorm->package_name = basename($fileName,".zip");
+              $masterScorm = new Scorm;
+              $masterScorm->version = "ver.".$resource['version'];
+              $masterScorm->package = $xmlPath;
+              $masterScorm->package_name = basename($request->file('package')->getClientOriginalName(),".zip");
+              $masterScorm->save();
+              $scormID = $masterScorm->id;
         }
+    }else{
+        $scormID = $request->scorm_id;
+    }
+        $scorm->scorm_id = $scormID;
         $scorm->repeatable = (bool)$request->repeatable;
         $scorm->save();
-
         return $scorm;
     }
 

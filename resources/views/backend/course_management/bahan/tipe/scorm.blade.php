@@ -19,7 +19,9 @@
             @enderror
     </div>
 </div>
-@if(isset($data['scorm']))
+@if(isset($data['bahan']))
+@if($data['scorm']->count() > 0)
+<input type="hidden" name="package" value="{{asset('userfile/scorm/default.zip')}}">
 <div class="form-group row">
     <div class="col-md-2 text-md-right">
         <label class="col-form-label">Pakai Package Sebelumnya</label>
@@ -33,6 +35,7 @@
        </select>
     </div>
 </div>
+@endif
 @endif
 
 <br>

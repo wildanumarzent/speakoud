@@ -125,6 +125,9 @@ class BahanService
         }
         if ($request->type == 'scorm') {
             $segmen = $this->scorm->storeScorm($request, $materi, $bahan);
+            if($segmen == false){
+                return false;
+            }
         }
         if ($request->type == 'audio') {
             $segmen = $this->audio->storeAudio($request, $materi, $bahan);
@@ -138,6 +141,9 @@ class BahanService
 
         $bahan->segmenable()->associate($segmen);
         $bahan->save();
+        if($segmen == false){
+        $bahan->delete();
+        }
 
         return $bahan;
     }

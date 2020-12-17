@@ -163,8 +163,10 @@ class BahanController extends Controller
 
     public function store(BahanRequest $request, $materiId)
     {
-        $this->service->storeBahan($request, $materiId);
-
+        $data = $this->service->storeBahan($request, $materiId);
+        if($data == false){
+            return redirect()->back()->with('failed', 'This Package is not Scorm Compliant');
+        }
         return redirect()->route('bahan.index', ['id' => $materiId])
             ->with('success', 'Materi pelatihan berhasil ditambahkan');
     }
@@ -174,7 +176,7 @@ class BahanController extends Controller
         if ($request->type == null) {
             return abort(404);
         }
-
+        $data['scorm'] = $this->serviceScorm->getMaster();
         $data['bahan'] = $this->service->findBahan($id);
         $data['materi'] = $this->serviceMateri->findMateri($materiId);
 
