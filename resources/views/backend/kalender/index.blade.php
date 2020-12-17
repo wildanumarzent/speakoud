@@ -33,7 +33,7 @@
             <div class="modal-header">
                 <h5 class="modal-title">Tambah Event</h5>
                 <div id="spatieCalendar">
-                <a href="" id="googleLink" target="_blank" title="klik untuk menambahkan ke google calendar" class="btn btn-sm icon-btn btn-outline-danger ">
+                <a href="#" id="googleLink" target="_blank" title="klik untuk menambahkan ke google calendar" class="btn btn-sm icon-btn btn-outline-danger ">
                     <span class="fab fa-google"></span>
                 </a>
                 </div>
@@ -62,6 +62,7 @@
                 </div>
                 <div class="form-group">
                     <label class="form-label">Url Link</label>
+                    <a id="ulink" target="_blank" href="#"></a>
                     <input id="link" type="text" class="form-control" name="link" placeholder="Url Link">
                 </div>
                 <div class="form-group">
@@ -222,6 +223,7 @@ var eventList = [];
             .find('input[type="text"], select').val('');
             $('#description').text('');
           defaultCalendar.unselect();
+          document.getElementById('googleLink').href = '#';
         })
         .modal('show');
     },
