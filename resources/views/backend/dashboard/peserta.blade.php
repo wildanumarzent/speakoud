@@ -120,8 +120,8 @@
                         @foreach ($data['jadwalPelatihan'] as $jdwl)
                         <tr>
                             <td>{!! $jdwl->judul !!}</td>
-                            <td>{{ $jdwl->start_time->format('H:i').' - '.$jdwl->end_time->format('H:i') }}</td>
-                            <td>{{ Str::limit($jdwl->alamat, 20) }}</td>
+                            <td>{{ $jdwl->start_time.' - '.$jdwl->end_time }}</td>
+                            <td>{{ Str::limit($jdwl->lokasi, 20) }}</td>
                             <td>
                                 <a href="{{ route('course.jadwal.detail', ['id' => $jdwl->id]) }}" class="btn btn-primary icon-btn btn-sm">
                                     <i class="las la-external-link-alt"></i>
