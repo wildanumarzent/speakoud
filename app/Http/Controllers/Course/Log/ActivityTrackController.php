@@ -44,6 +44,30 @@ class ActivityTrackController extends Controller
         ]);
     }
 
+    public function publish($id)
+    {
+       $activity = ActivityCompletion::find($id);
+       $status = (bool)$activity->status;
+       $activity->status = 1;
+       if($status == true){
+        $activity->status = 0;
+       }
+       $activity->save();
+       return redirect()->back()->with(['success' => 'data updated']);
+    }
+
+    public function submit($userId,$bahanId)
+    {
+        $bahan = $this->bahan->findBahan($bahanId);
+        ActivityCompletion::create([
+            'user_id' => $userId,
+            'bahan_id' => $bahan->id,
+            'mata_id' => $bahan->mata_id,
+            'program_id' => $bahan->program_id,
+            'materi_id' => $bahan->materi_id
+        ]);
+        return redirect()->back()->with(['success' => 'data updated']);
+    }
     /**
      * Show the form for creating a new resource.
      *
