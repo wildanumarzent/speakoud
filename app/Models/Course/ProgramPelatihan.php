@@ -35,25 +35,31 @@ class ProgramPelatihan extends Model
     public function mataPublish()
     {
         $query = $this->hasMany(MataPelatihan::class, 'program_id');
-        if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra')) {
-            $query->whereHas('instruktur', function ($query) {
-                $query->whereIn('instruktur_id', [auth()->user()->instruktur->id]);
-            });
-        }
-        if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
+
+        if (auth()->guard()->check() == true) {
+            if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra')) {
+                $query->whereHas('instruktur', function ($query) {
+                    $query->whereIn('instruktur_id', [auth()->user()->instruktur->id]);
+                });
+            }
+            if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
+                $query->publish()->orderBy('urutan', 'ASC')->where('publish_start', '<=', now())
+                    ->where('publish_end', '>=', now());
+                $query->whereHas('program', function ($query) {
+                    $query->publish();
+                    if (auth()->user()->hasRole('peserta_mitra')) {
+                        $query->where('tipe', 1)->where('mitra_id', auth()->user()->peserta->mitra_id);
+                    } else {
+                        $query->where('tipe', 0);
+                    }
+                });
+                $query->whereHas('peserta', function ($query) {
+                    $query->where('peserta_id', auth()->user()->peserta->id);
+                });
+            }
+        } else {
             $query->publish()->orderBy('urutan', 'ASC')->where('publish_start', '<=', now())
                 ->where('publish_end', '>=', now());
-            $query->whereHas('program', function ($query) {
-                $query->publish();
-                if (auth()->user()->hasRole('peserta_mitra')) {
-                    $query->where('tipe', 1)->where('mitra_id', auth()->user()->peserta->mitra_id);
-                } else {
-                    $query->where('tipe', 0);
-                }
-            });
-            $query->whereHas('peserta', function ($query) {
-                $query->where('peserta_id', auth()->user()->peserta->id);
-            });
         }
 
         return $query;

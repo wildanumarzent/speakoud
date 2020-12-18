@@ -71,7 +71,7 @@ class MataService
         $query = $this->model->query();
 
         $query->where('program_id', $programId);
-        $query->where('publish_start', '<=', now())->where('publish_end', '>=', now());
+        $query->where('publish_end', '>=', now());
         $query->when($request->q, function ($query, $q) {
             $query->where(function ($query) use ($q) {
                 $query->where('judul', 'like', '%'.$q.'%')

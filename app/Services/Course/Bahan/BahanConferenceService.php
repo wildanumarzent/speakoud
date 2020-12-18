@@ -48,6 +48,44 @@ class BahanConferenceService
         return $result;
     }
 
+    public function latestConference()
+    {
+        $query = $this->model->query();
+
+        $query->whereHas('bahan', function ($query) {
+            $query->publish();
+        });
+        if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra')) {
+            $query->whereHas('materi', function ($query) {
+                $query->where('instruktur_id', auth()->user()->instruktur->id);
+            });
+        }
+
+        if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
+            $query->whereHas('mata', function ($query) {
+                $query->where('publish_start', '<=', now())
+                        ->where('publish_end', '>=', now());
+                $query->whereHas('program', function ($query) {
+                    $query->publish();
+                    if (auth()->user()->hasRole('peserta_mitra')) {
+                        $query->where('tipe', 1)->where('mitra_id', auth()->user()->peserta->mitra_id);
+                    } else {
+                        $query->where('tipe', 0);
+                    }
+                });
+                $query->publish();
+                $query->whereHas('peserta', function ($queryB) {
+                    $queryB->where('peserta_id', auth()->user()->peserta->id);
+                });
+            });
+        }
+
+        $result = $query->orderBy('created_at', 'DESC')->orderBy('status', 'ASC')
+            ->limit(5)->get();
+
+        return $result;
+    }
+
     public function findConference(int $id)
     {
         return $this->model->findOrFail($id);
@@ -55,24 +93,30 @@ class BahanConferenceService
 
     public function storeConference($request, $materi, $bahan)
     {
-        $link = new BahanConference;
-        $link->program_id = $materi->program_id;
-        $link->mata_id = $materi->mata_id;
-        $link->materi_id = $materi->id;
-        $link->bahan_id = $bahan->id;
-        $link->creator_id = auth()->user()->id;
-        $link->tipe = (bool)$request->tipe;
-        $link->meeting_link = ($request->tipe == 0) ? $this->generateRandomString() :
+        $conference = new BahanConference;
+        $conference->program_id = $materi->program_id;
+        $conference->mata_id = $materi->mata_id;
+        $conference->materi_id = $materi->id;
+        $conference->bahan_id = $bahan->id;
+        $conference->creator_id = auth()->user()->id;
+        $conference->tipe = (bool)$request->tipe;
+        $conference->tanggal = $request->tanggal;
+        $conference->start_time = $request->tanggal.' '.$request->start_time;
+        $conference->end_time = $request->tanggal.' '.$request->end_time;
+        $conference->meeting_link = ($request->tipe == 0) ? $this->generateRandomString() :
             $request->meeting_link;
-        $link->save();
+        $conference->save();
 
-        return $link;
+        return $conference;
     }
 
     public function updatuConferece($request, $bahan)
     {
         $conference = $bahan->conference;
         $conference->tipe = (bool)$request->tipe;
+        $conference->tanggal = $request->tanggal;
+        $conference->start_time = $request->tanggal.' '.$request->start_time;
+        $conference->end_time = $request->tanggal.' '.$request->end_time;
         $conference->meeting_link = ($request->tipe == 0) ? $this->generateRandomString() :
             $request->meeting_link;
         $conference->save();

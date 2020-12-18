@@ -25,6 +25,9 @@ return [
     'tugas' => [
         'm' => 'doc,docx,pdf'
     ],
+    'sertifikat' => [
+        'm' => 'doc,docx,pdf,jpg,jpeg,png'
+    ],
     'cover' => [
         'm' => 'jpg,jpeg,png,svg',
         'p' => '500x500 px'

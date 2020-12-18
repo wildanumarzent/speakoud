@@ -689,9 +689,27 @@ Route::group(['middleware' => ['auth']], function () {
         ->name('jadwal.destroy')
         ->middleware('role:developer|administrator|internal|mitra');
 
-    //evaluasi
-    Route::get('/evaluasi', 'Course\EvaluasiController@index')
-        ->name('evaluasi.index');
+    //--sertifikasi
+    //internal
+    Route::get('/mata/{id}/sertifikat/internal/form', 'Sertifikasi\SertifikatInternalController@form')
+        ->name('sertifikat.internal.form')
+        ->middleware('role:administrator|internal|mitra');
+    Route::post('/mata/{id}/sertifikat/internal', 'Sertifikasi\SertifikatInternalController@store')
+        ->name('sertifikat.internal.store')
+        ->middleware('role:administrator|internal|mitra');
+    Route::put('/mata/{id}/sertifikat/internal/{sertifikatId}', 'Sertifikasi\SertifikatInternalController@update')
+        ->name('sertifikat.internal.update')
+        ->middleware('role:administrator|internal|mitra');
+    //external
+    Route::get('/mata/{id}/sertifikat/external/peserta', 'Sertifikasi\SertifikatExternalController@peserta')
+        ->name('sertifikat.external.peserta')
+        ->middleware('role:administrator|internal|mitra');
+    Route::post('/mata/{id}/sertifikat/external', 'Sertifikasi\SertifikatExternalController@upload')
+        ->name('sertifikat.external.upload')
+        ->middleware('role:administrator|internal|mitra');
+    Route::get('/mata/{id}/sertifikat/external/peserta/{pesertaId}/detail', 'Sertifikasi\SertifikatExternalController@detail')
+        ->name('sertifikat.external.peserta.detail')
+        ->middleware('role:administrator|internal|mitra');
 
     /**Website module */
     //page

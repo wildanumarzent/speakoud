@@ -64,14 +64,14 @@
                     <th>Nama</th>
                     <th>Unit Kerja</th>
                     <th>Kedeputian</th>
-                    <th>Surat Izin</th>
+                    {{-- <th>Surat Izin</th> --}}
                     <th style="width: 80px;">Action</th>
                 </tr>
             </thead>
             <tbody>
                 @if ($data['peserta']->total() == 0)
                 <tr>
-                    <td colspan="7" align="center">
+                    <td colspan="6" align="center">
                         <i>
                             <strong style="color:red;">
                             @if (Request::get('q'))
@@ -91,7 +91,7 @@
                     <td>{{ $item->peserta->user->name }}</td>
                     <td>{{ $item->peserta->instansi($item->peserta)->nama_instansi }}</td>
                     <td>{{ $item->peserta->kedeputian }}</td>
-                    <td>-</td>
+                    {{-- <td>-</td> --}}
                     <td>
                         <a href="javascript:void(0);" class="btn btn-danger icon-btn btn-sm js-sa2-delete" data-mataid="{{ $item->mata_id }}" data-id="{{ $item->id }}" title="klik untuk menghapus peserta pelatihan">
                             <i class="las la-trash-alt"></i>

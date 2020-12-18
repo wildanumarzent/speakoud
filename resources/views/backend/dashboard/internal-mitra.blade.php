@@ -65,68 +65,80 @@
 {{-- manage course --}}
 <div class="row">
     <div class="col-md-6 col-lg-12 col-xl-6">
-
-        <div class="card card-list mb-4">
-          <h6 class="card-header">Latest Course</h6>
+        <div class="card mb-4">
+          <h6 class="card-header">Pelatihan Aktif</h6>
           <div class="table-responsive">
             <table class="table card-table">
-              <thead>
-                  <tr>
-                      <th>Judul</th>
-                      <th>Tanggal</th>
-                      <th>Enroll</th>
-                      <th>Topik</th>
-                      <th></th>
-                  </tr>
-              </thead>
-              <tbody>
-                  @for ($i = 0; $i < 5; $i++)
-                  <tr>
-                      <td>Pelatihan Jabatan Fungsional Perekayasa</td>
-                      <td>25 November 2020 - 25 November 2021</td>
-                      <td>30</td>
-                      <td>8</td>
-                      <td>
-                        <a href="" class="btn btn-primary icon-btn btn-sm">
-                            <i class="las la-external-link-alt"></i>
-                        </a>
-                      </td>
-                  </tr>
-                  @endfor
-              </tbody>
+                <thead>
+                    <tr>
+                        <th>Judul</th>
+                        <th>Tanggal</th>
+                        <th>Enroll</th>
+                        <th>Topik</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if ($data['latestCourse']->count() == 0)
+                    <tr>
+                        <td colspan="5" class="text-center">
+                            <i style="color: red;">! tidak ada pelatihan !</i>
+                        </td>
+                    </tr>
+                    @endif
+                    @foreach ($data['latestCourse'] as $course)
+                    <tr>
+                        <td>{!! $course->judul !!}</td>
+                        <td>{{ $course->publish_start->format('d F Y') }} - {{ $course->publish_end->format('d F Y') }}</td>
+                        <td>{{ $course->peserta->count() }}</td>
+                        <td>{{ $course->materi->count() }}</td>
+                        <td>
+                          <a href="{{ route('course.detail', ['id' => $course->id]) }}" target="_blank" class="btn btn-primary icon-btn btn-sm" title="klik untuk melihat detail">
+                              <i class="las la-external-link-alt"></i>
+                          </a>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
             </table>
           </div>
         </div>
-
     </div>
     <div class="col-md-6 col-lg-12 col-xl-6">
-        <div class="card card-list mb-4">
+        <div class="card mb-4">
             <h6 class="card-header">Jadwal Diklat</h6>
             <div class="table-responsive">
-              <table class="table card-table">
-                  <thead>
-                      <tr>
-                          <th>Judul</th>
-                          <th>Jam</th>
-                          <th>Lokasi</th>
-                          <th></th>
-                      </tr>
-                  </thead>
-                  <tbody>
-                      @for ($i = 0; $i < 5; $i++)
-                      <tr>
-                          <td>Pelatihan JFP Teknisi Litkayasa</td>
-                          <td>08:00 - 17:00</td>
-                          <td>Bumi Aji, Anak Tuha...</td>
-                          <td>
-                            <a href="" class="btn btn-primary icon-btn btn-sm">
-                                <i class="las la-external-link-alt"></i>
-                            </a>
-                          </td>
-                      </tr>
-                      @endfor
-                  </tbody>
-              </table>
+                <table class="table card-table">
+                    <thead>
+                        <tr>
+                            <th>Judul</th>
+                            <th>Jam</th>
+                            <th>Lokasi</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if ($data['jadwalPelatihan']->count() == 0)
+                        <tr>
+                            <td colspan="4" class="text-center">
+                                <i style="color: red;">! tidak ada jadwal pelatihan !</i>
+                            </td>
+                        </tr>
+                        @endif
+                        @foreach ($data['jadwalPelatihan'] as $jdwl)
+                        <tr>
+                            <td>{!! $jdwl->judul !!}</td>
+                            <td>{{ $jdwl->start_time->format('H:i').' - '.$jdwl->end_time->format('H:i') }}</td>
+                            <td>{{ Str::limit($jdwl->alamat, 20) }}</td>
+                            <td>
+                                <a href="{{ route('course.jadwal.detail', ['id' => $jdwl->id]) }}" class="btn btn-primary icon-btn btn-sm">
+                                    <i class="las la-external-link-alt"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

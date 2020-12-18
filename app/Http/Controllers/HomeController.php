@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\ArtikelService;
 use App\Services\Banner\BannerKategoriService;
+use App\Services\Course\Bahan\BahanConferenceService;
 use App\Services\Course\Bahan\BahanService;
 use App\Services\Course\JadwalService;
 use App\Services\Course\MataService;
@@ -71,6 +73,9 @@ class HomeController extends Controller
             'course_materi' => app()->make(BahanService::class)->countBahan(),
         ];
         $data['latestCourse'] = app()->make(MataService::class)->getLatestMata();
+        $data['jadwalPelatihan'] = app()->make(JadwalService::class)->getJadwal(5);
+        $data['videoConference'] = app()->make(BahanConferenceService::class)->latestConference();
+        $data['latestArticle'] = app()->make(ArtikelService::class)->getLatestArticle();
 
         return view('backend.dashboard.index', compact('data'), [
             'title' => 'Dashboard',

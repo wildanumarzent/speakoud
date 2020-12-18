@@ -61,6 +61,17 @@ class ArtikelService
         return $result;
     }
 
+    public function getLatestArticle()
+    {
+        $query = $this->model->query();
+
+        $query->publish();
+
+        $result = $query->orderBy('created_at', 'DESC')->limit(5)->get();
+
+        return $result;
+    }
+
     public function findArtikel(int $id)
     {
         return $this->model->findOrFail($id);

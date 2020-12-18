@@ -20,6 +20,9 @@ class CreateBahanConferenceTable extends Migration
             $table->unsignedBigInteger('materi_id');
             $table->unsignedBigInteger('bahan_id');
             $table->unsignedBigInteger('creator_id');
+            $table->date('tanggal')->nullable();
+            $table->timestamp('start_time')->nullable();
+            $table->timestamp('end_time')->nullable();
             $table->text('meeting_link');
             $table->boolean('tipe')->default(false);
             $table->tinyInteger('status')->default(0);
