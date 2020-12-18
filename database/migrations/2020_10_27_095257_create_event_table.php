@@ -19,7 +19,7 @@ class CreateEventTable extends Migration
             $table->string('judul');
             $table->longText('description')->nullable();
             $table->text('url')->nullable();
-            $table->text('className')->default('fc-event-default');
+            $table->text('className')->nullable();
             $table->timestamp('start')->nullable();
             $table->timestamp('end')->nullable();
             $table->boolean('allDay')->default(true)->nullable();

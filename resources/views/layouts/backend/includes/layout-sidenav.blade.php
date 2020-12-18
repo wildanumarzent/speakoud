@@ -247,49 +247,52 @@
               <div>Announcement</div>
             </a>
         </li>
+
+        @role ('developer|administrator|internal')
         <!-- aktivitas -->
-        <li class="sidenav-item">
+        <li class="sidenav-item{{ (Request::is('statistic') || Request::is('log*')) ? ' active open' : '' }}">
             <a href="javascript:void(0)" class="sidenav-link sidenav-toggle" title="Aktivitas"><i class="sidenav-icon las la-calendar-day"></i>
               <div>Reports</div>
             </a>
 
             <ul class="sidenav-menu">
                 <!-- Activity Report -->
-               <li class="sidenav-item {{ Request::is('report.activity*') ? ' active' : '' }}">
-                <a href="#" class="sidenav-link" title="Activity Report">
-                  <div>Activity Completion</div>
-                </a>
-            </li>
+                <li class="sidenav-item {{ Request::is('report.activity*') ? ' active' : '' }}">
+                    <a href="#" class="sidenav-link" title="Activity Report">
+                    <div>Activity Completion</div>
+                    </a>
+                </li>
                 <!-- statistik -->
-              <li class="sidenav-item {{ Request::is('statistic*') ? ' active' : '' }}">
-                  <a href="{{route('statistic.index')}}" class="sidenav-link" title="Statistik">
-                    <div>Statistik</div>
-                  </a>
-              </li>
+                <li class="sidenav-item {{ Request::is('statistic*') ? ' active' : '' }}">
+                    <a href="{{route('statistic.index')}}" class="sidenav-link" title="Statistik">
+                        <div>Statistik</div>
+                    </a>
+                </li>
 
-              <!-- log -->
-              <li class="sidenav-item{{Request::is('log*') ? ' active open' : '' }}">
-                <a href="javascript:void(0)" class="sidenav-link sidenav-toggle" title="Logs">
-                  <div>Logs</div>
-                </a>
+                <!-- log -->
+                <li class="sidenav-item{{ Request::is('log*') ? ' active open' : '' }}">
+                    <a href="javascript:void(0)" class="sidenav-link sidenav-toggle" title="Logs">
+                    <div>Logs</div>
+                    </a>
 
-                <ul class="sidenav-menu">
+                    <ul class="sidenav-menu">
 
-                    <li class="sidenav-item{{ Request::is('log.daily') ? ' active' : '' }}">
-                        <a href="{{route('log.index')}}?q={{ \Carbon\Carbon::now()->format('Y-m-d')}}" class="sidenav-link" title="Aktif">
-                          <div>Today Log</div>
-                        </a>
-                    </li>
+                        <li class="sidenav-item{{ (Request::is('log') && !empty(Request::get('q'))) ? ' active' : '' }}">
+                            <a href="{{route('log.index')}}?q={{ \Carbon\Carbon::now()->format('Y-m-d')}}" class="sidenav-link" title="Aktif">
+                            <div>Today Log</div>
+                            </a>
+                        </li>
 
-                    <li class="sidenav-item{{ Request::is('log.index') ? ' active' : '' }}">
-                        <a href="{{ route('log.index') }}" class="sidenav-link" title="Aktif">
-                          <div>All Log</div>
-                        </a>
-                    </li>
-                </ul>
-            </li>
+                        <li class="sidenav-item{{ (Request::is('log') && empty(Request::get('q'))) ? ' active' : '' }}">
+                            <a href="{{ route('log.index') }}" class="sidenav-link" title="Aktif">
+                            <div>All Log</div>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
             </ul>
         </li>
+        @endrole
 
         @role ('developer|administrator')
         <!-- website -->
