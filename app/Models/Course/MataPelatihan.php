@@ -4,6 +4,7 @@ namespace App\Models\Course;
 
 use App\Models\Component\Komentar;
 use App\Models\Course\Bahan\BahanPelatihan;
+use App\Models\Sertifikasi\SertifikatInternal;
 use App\Models\Users\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -32,6 +33,11 @@ class MataPelatihan extends Model
     public function bobot()
     {
         return $this->hasOne(MataBobotNilai::class, 'mata_id');
+    }
+
+    public function sertifikatInternal()
+    {
+        return $this->hasOne(SertifikatInternal::class, 'mata_id');
     }
 
     public function instruktur()

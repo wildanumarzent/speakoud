@@ -44,12 +44,18 @@ class BahanRequest extends FormRequest
                 return [
                     'judul' => 'required',
                     'meeting_link' => 'required',
+                    'tanggal' => 'required',
+                    'start_time' => 'required',
+                    'end_time' => 'required',
                     // 'publish_start' => 'required',
                     // 'publish_end' => 'required',
                 ];
             } else {
                 return [
                     'judul' => 'required',
+                    'tanggal' => 'required',
+                    'start_time' => 'required',
+                    'end_time' => 'required',
                     // 'publish_start' => 'required',
                     // 'publish_end' => 'required',
                 ];
@@ -58,6 +64,7 @@ class BahanRequest extends FormRequest
         if ($this->type == 'quiz') {
             return [
                 'judul' => 'required',
+                'kategori' => 'required',
                 // 'publish_start' => 'required',
                 // 'publish_end' => 'required',
             ];
@@ -128,6 +135,10 @@ class BahanRequest extends FormRequest
             'mata_instruktur_id' => 'Instruktur',
             'publish_start' => 'Tanggal Mulai',
             'publish_end' => 'Tanggal Selesai',
+            'tanggal' => 'Tanggal',
+            'start_time' => 'Jam Mulai',
+            'end_time' => 'Jam Selesai',
+            'kategori' => 'Kategori'
         ];
     }
 
@@ -145,6 +156,10 @@ class BahanRequest extends FormRequest
             'mata_instruktur_id.required' => ':attribute tidak boleh kosong',
             'publish_start.required' => ':attribute tidak boleh kosong',
             'publish_end.required' => ':attribute tidak boleh kosong',
+            'tanggal.required' => ':attribute tidak boleh kosong',
+            'start_time.required' => ':attribute tidak boleh kosong',
+            'end_time.required' => ':attribute tidak boleh kosong',
+            'kategori.required' => ':attribute tidak boleh kosong',
         ];
     }
 }

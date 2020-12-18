@@ -221,11 +221,26 @@
         </li>
 
         <!-- sertifikasi -->
-        <li class="sidenav-item">
-            <a href="" class="sidenav-link" title="Sertifikasi"><i class="sidenav-icon las la-certificate"></i>
+        {{-- <li class="sidenav-item">
+            <a href="javascript:void(0)" class="sidenav-link sidenav-toggle" title="Sertifikasi"><i class="sidenav-icon las la-certificate"></i>
               <div>Sertifikasi</div>
             </a>
-        </li>
+
+            <ul class="sidenav-menu">
+              <!-- bppt -->
+              <li class="sidenav-item">
+                <a href="" class="sidenav-link" title="Internal BPPT">
+                  <div>Sertifikat Internal</div>
+                </a>
+              </li>
+              <!-- lan -->
+              <li class="sidenav-item">
+                  <a href="" class="sidenav-link" title="External">
+                    <div>Sertifikat External</div>
+                  </a>
+              </li>
+            </ul>
+        </li> --}}
         <!-- announcement -->
         <li class="sidenav-item {{ Request::is('announcement*') ? ' active' : '' }}">
             <a href="{{route('announcement.index')}}" class="sidenav-link" title="Announcement"><i class="sidenav-icon las la-bullhorn"></i>

@@ -81,6 +81,7 @@
                                     value="{{ isset($data['mata']) ? old('publish_end', (!empty($data['mata']->publish_end) ? $data['mata']->publish_end->format('Y-m-d H:i') : '')) : old('publish_end', now()->addDays(1)->addYears(1)->format('Y-m-d 00:00')) }}" placeholder="masukan tanggal selesai...">
                                 <div class="input-group-append">
                                     <span class="input-group-text"><i class="las la-calendar"></i></span>
+                                    <input type="hidden" name="enable" value="1">
                                     {{-- <span class="input-group-text">
                                         <input type="checkbox" id="checked" name="enable" value="1"
                                             {{ isset($data['mata']) ? (!empty($data['mata']->publish_end) ? 'checked' : '') : (old('enable') ? 'checked' : 'checked')}}>&nbsp; Enable
@@ -109,23 +110,23 @@
                             @include('components.field-error', ['field' => 'content'])
                         </div>
                     </div>
-                    <div class="form-group media row" style="min-height:1px">
+                    <div class="form-group row">
                         <div class="col-md-2 text-md-right">
                           <label class="col-form-label text-sm-right">Cover</label>
                         </div>
                         @if (isset($data['mata']))
-                            <input type="hidden" name="old_cover_file" value="{{ $data['mata']->cover['filename'] }}">
-                            <div class="col-md-1">
-                                <a href="{{ $data['mata']->getCover($data['mata']->cover['filename']) }}" data-fancybox="gallery">
-                                    <div class="ui-bg-cover" style="width: 100px;height: 100px;background-image: url('{{ $data['mata']->getCover($data['mata']->cover['filename']) }}');"></div>
-                                </a>
-                            </div>
+                        <input type="hidden" name="old_cover_file" value="{{ $data['mata']->cover['filename'] }}">
                         @endif
-                        <div class="col-md-{{ isset($data['mata']) ? '9' : '10' }}">
+                        <div class="col-md-10">
                             <label class="custom-file-label" for="upload-2"></label>
                             <input class="form-control custom-file-input file @error('cover_file') is-invalid @enderror" type="file" id="upload-2" lang="en" name="cover_file" placeholder="masukan cover...">
                             @include('components.field-error', ['field' => 'cover_file'])
-                            <small class="text-muted">Tipe File : <strong>{{ strtoupper(config('addon.mimes.cover.m')) }}</strong></small>
+                            <small class="text-muted mb-2">Tipe File : <strong>{{ strtoupper(config('addon.mimes.cover.m')) }}</strong></small>
+                            @if (isset($data['mata']))
+                            <a href="{{ $data['mata']->getCover($data['mata']->cover['filename']) }}" data-fancybox="gallery">
+                                <div class="ui-bg-cover" style="width: 100px;height: 100px;background-image: url('{{ $data['mata']->getCover($data['mata']->cover['filename']) }}');"></div>
+                            </a>
+                            @endif
                             <div class="row mt-3 hide-meta">
                                 <div class="col-md-6">
                                     <input type="text" class="form-control" name="cover_title" value="{{ isset($data['mata']) ? old('cover_title', $data['mata']->cover['title']) : old('cover_title') }}" placeholder="title cover...">
@@ -136,6 +137,7 @@
                             </div>
                         </div>
                     </div>
+                    <hr>
                     <div class="form-group row">
                         <label class="col-form-label col-sm-2 text-sm-right">Tampilkan Feedback Peserta</label>
                         <div class="col-sm-10">
@@ -318,6 +320,7 @@
     });
 
 
+$(document).ready(function () {
     $('#cp').click(function() {
         if ($('#cp').prop('checked') == true) {
             $('#progress-test').removeAttr('disabled');
@@ -326,6 +329,13 @@
             $('#progress-test').val('');
         }
     });
+    if ($('#cp').prop('checked') == true) {
+        $('#progress-test').removeAttr('disabled');
+    } else {
+        $('#progress-test').prop('disabled', true);
+        $('#progress-test').val('');
+    }
+});
 </script>
 
 @include('includes.tiny-mce-with-fileman')

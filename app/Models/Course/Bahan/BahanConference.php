@@ -13,6 +13,14 @@ class BahanConference extends Model
     protected $table = 'bahan_conference';
     protected $guarded = [];
 
+    protected $casts = [
+        'start_time' => 'datetime',
+        'end_time' => 'datetime',
+    ];
+    protected $dates = [
+        'tanggal',
+    ];
+
     public function creator()
     {
         return $this->belongsTo(User::class, 'creator_id');

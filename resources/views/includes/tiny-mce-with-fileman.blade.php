@@ -21,7 +21,7 @@
                 title: 'File manager',
                 url: '/bank/data/filemanager/view?view=text-editor',
                 width: 1000,
-                height: 800,
+                height: 600,
                 resizable: true,
                 maximizable: true,
                 inline: 1,

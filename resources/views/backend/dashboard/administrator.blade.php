@@ -125,9 +125,8 @@
 {{-- manage course --}}
 <div class="row">
     <div class="col-md-6 col-lg-12 col-xl-6">
-
-        <div class="card card-list mb-4">
-          <h6 class="card-header">Latest Course</h6>
+        <div class="card mb-4">
+          <h6 class="card-header">Pelatihan Aktif</h6>
           <div class="table-responsive">
             <table class="table card-table">
                 <thead>
@@ -143,7 +142,7 @@
                     @if ($data['latestCourse']->count() == 0)
                     <tr>
                         <td colspan="5" class="text-center">
-                            <i style="color: red;">! tidak ada course !</i>
+                            <i style="color: red;">! tidak ada pelatihan !</i>
                         </td>
                     </tr>
                     @endif
@@ -164,10 +163,9 @@
             </table>
           </div>
         </div>
-
     </div>
     <div class="col-md-6 col-lg-12 col-xl-6">
-        <div class="card card-list mb-4">
+        <div class="card mb-4">
             <h6 class="card-header">Jadwal Diklat</h6>
             <div class="table-responsive">
                 <table class="table card-table">
@@ -180,18 +178,25 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @for ($i = 0; $i < 5; $i++)
+                        @if ($data['jadwalPelatihan']->count() == 0)
                         <tr>
-                            <td>Pelatihan JFP Teknisi Litkayasa</td>
-                            <td>08:00 - 17:00</td>
-                            <td>Bumi Aji, Anak Tuha...</td>
-                            <td>
-                              <a href="" class="btn btn-primary icon-btn btn-sm">
-                                  <i class="las la-external-link-alt"></i>
-                              </a>
+                            <td colspan="4" class="text-center">
+                                <i style="color: red;">! tidak ada jadwal pelatihan !</i>
                             </td>
                         </tr>
-                        @endfor
+                        @endif
+                        @foreach ($data['jadwalPelatihan'] as $jdwl)
+                        <tr>
+                            <td>{!! $jdwl->judul !!}</td>
+                            <td>{{ $jdwl->start_time->format('H:i').' - '.$jdwl->end_time->format('H:i') }}</td>
+                            <td>{{ Str::limit($jdwl->alamat, 20) }}</td>
+                            <td>
+                                <a href="{{ route('course.jadwal.detail', ['id' => $jdwl->id]) }}" class="btn btn-primary icon-btn btn-sm">
+                                    <i class="las la-external-link-alt"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>

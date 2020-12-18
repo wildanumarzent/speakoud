@@ -136,6 +136,9 @@ class BahanService
         if ((bool)$request->batas_tanggal == 1) {
             $bahan->publish_start = $request->publish_start ?? null;
             $bahan->publish_end = $request->publish_end ?? null;
+        } else {
+            $bahan->publish_start = null;
+            $bahan->publish_end = null;
         }
         $bahan->urutan = ($this->model->where('materi_id', $materiId)->max('urutan') + 1);
         $bahan->save();
@@ -183,6 +186,9 @@ class BahanService
         if ((bool)$request->batas_tanggal == 1) {
             $bahan->publish_start = $request->publish_start ?? null;
             $bahan->publish_end = $request->publish_end ?? null;
+        } else {
+            $bahan->publish_start = null;
+            $bahan->publish_end = null;
         }
         $bahan->save();
 

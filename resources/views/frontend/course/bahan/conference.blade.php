@@ -39,6 +39,18 @@
                 @endif
             </td>
          </tr>
+         <tr>
+            <th style="width: 150px;">Tanggal</th>
+            <td>{{ $data['bahan']->conference->tanggal->format('d F Y') }}</td>
+         </tr>
+         <tr>
+            <th style="width: 150px;">Jam Mulai</th>
+            <td>{{ $data['bahan']->conference->start_time->format('H:i (A)') }}</td>
+         </tr>
+         <tr>
+            <th style="width: 150px;">Jam Selesai</th>
+            <td>{{ $data['bahan']->conference->end_time->format('H:i (A)') }}</td>
+         </tr>
          @if (auth()->user()->hasRole('peserta_internal|peserta_mitra') && !empty($data['bahan']->conference->trackByUser) && $data['bahan']->conference->status == 2)
          <tr>
             <th style="width: 150px;">Join</th>
@@ -92,13 +104,17 @@
          <tr>
              <th colspan="2" class="text-center">
                 <strong class="text-center">Klik tombol dibawah untuk {{ auth()->user()->hasRole('peserta_internal|peserta_mitra') ? 'mengikuti' : 'memulai' }} video conference!</strong><br>
-                @if ($data['bahan']->conference->tipe == 0)
-                    <a href="{{ route('conference.room', ['id' => $data['bahan']->conference->id]) }}" class="btn btn-primary btn-block"><i class="las la-play-circle"></i> Mulai</a>
+                @if (now()->format('Y-m-d') < $data['bahan']->conference->tanggal && now() < $data['bahan']->conference->start_time || now()->format('Y-m-d') < $data['bahan']->conference->tanggal && now() >= $data['bahan']->conference->end_time)
+                <button class="btn btn-secondary btn-block" type="button" disabled><i class="las la-play-circle"></i> Mulai</button>
                 @else
-                    @if (!auth()->user()->hasRole('peserta_internal|peserta_mitra') || auth()->user()->hasRole('peserta_internal|peserta_mitra') && $data['bahan']->conference->status == 1)
-                        <a href="{{ route('conference.platform.start', ['id' => $data['bahan']->conference->id]) }}" target="_blank" class="btn btn-primary btn-block"><i class="las la-play-circle"></i> Mulai</a>
+                    @if ($data['bahan']->conference->tipe == 0)
+                        <a href="{{ route('conference.room', ['id' => $data['bahan']->conference->id]) }}" class="btn btn-primary btn-block"><i class="las la-play-circle"></i> Mulai</a>
                     @else
-                        <button class="btn btn-secondary btn-block" type="button" disabled><i class="las la-play-circle"></i> Mulai</button>
+                        @if (!auth()->user()->hasRole('peserta_internal|peserta_mitra') || auth()->user()->hasRole('peserta_internal|peserta_mitra') && $data['bahan']->conference->status == 1)
+                            <a href="{{ route('conference.platform.start', ['id' => $data['bahan']->conference->id]) }}" target="_blank" class="btn btn-primary btn-block"><i class="las la-play-circle"></i> Mulai</a>
+                        @else
+                            <button class="btn btn-secondary btn-block" type="button" disabled><i class="las la-play-circle"></i> Mulai</button>
+                        @endif
                     @endif
                 @endif
              </th>

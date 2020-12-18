@@ -71,6 +71,9 @@
             <th colspan="2" class="text-center">
                 @if (!empty($data['bahan']->quiz->trackUserIn) && $data['bahan']->quiz->trackUserIn->status == 2)
                 Anda telah menyelesaikan quiz ini
+                {{-- <br>
+                <a href="" class="btn btn-info"><i class="las la-list"></i>Lihat Hasil</a>
+                <a href="" class="btn btn-success"><i class="las la-history"></i> Ulangi Test</a> --}}
                 @else
                 Klik tombol dibawah untuk mulai mengerjakan. Selamat mengerjakan!
                 <a href="{{ route('quiz.room', ['id' => $data['bahan']->quiz]) }}" class="btn btn-primary btn-block mt-2"><i class="las la-play-circle"></i> Mulai</a>

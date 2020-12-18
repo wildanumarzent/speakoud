@@ -162,6 +162,17 @@
                         </a>
                     </td>
                 </tr>
+                <tr>
+                    <th>Sertifikasi</th>
+                    <td>
+                        <a href="{{ route('sertifikat.internal.form', ['id' => $item->id]) }}" class="btn btn-primary btn-sm btn-block" title="Sertifikat internal">
+                            <i class="las la-certificate"></i> Sertifikat Internal
+                        </a>
+                        <a href="{{ route('sertifikat.external.peserta', ['id' => $item->id]) }}" class="btn btn-primary btn-sm btn-block" title="Sertitifikat External">
+                            <i class="las la-certificate"></i> Sertifikat External
+                        </a>
+                    </td>
+                </tr>
           </table>
         </div>
         <hr class="m-0 mb-2">

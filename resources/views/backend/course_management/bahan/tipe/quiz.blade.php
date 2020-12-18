@@ -1,6 +1,26 @@
 @extends('backend.course_management.bahan.form')
 
+@section('style')
+<link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-select/bootstrap-select.css') }}">
+@endsection
+
 @section('content-bahan')
+<div class="form-group row">
+    <div class="col-md-2 text-md-right">
+      <label class="col-form-label text-sm-right">Kategori</label>
+    </div>
+    <div class="col-md-10">
+        <select class="selectpicker @error('kategori') is-invalid @enderror" name="kategori" data-style="btn-default">
+            <option value=" " selected disabled>Pilih</option>
+            @foreach (config('addon.label.quiz_kategori') as $key => $value)
+            <option value="{{ $key }}" {{ isset($data['bahan']) ? (old('kategori', $data['bahan']->quiz->kategori) == ''.$key.'' ? 'selected' : '') : (old('kategori') == ''.$key.'' ? 'selected' : '') }}>{{ $value }}</option>
+            @endforeach
+        </select>
+        @error('kategori')
+        <label class="error jquery-validation-error small form-text invalid-feedback" style="display: inline-block;color:red;">{!! $message !!}</label>
+        @enderror
+    </div>
+</div>
 <div class="form-group row">
     <div class="col-md-2 text-md-right">
         <label class="col-form-label">Durasi</label>
@@ -40,4 +60,8 @@
         </select>
     </div>
 </div>
+@endsection
+
+@section('script')
+<script src="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-select/bootstrap-select.js') }}"></script>
 @endsection

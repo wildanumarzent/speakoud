@@ -58,6 +58,7 @@ class BahanQuizService
         $quiz->materi_id = $materi->id;
         $quiz->bahan_id = $bahan->id;
         $quiz->creator_id = auth()->user()->id;
+        $quiz->kategori = $request->kategori;
         $quiz->durasi = $request->durasi ?? null;
         $quiz->tipe = $request->tipe;
         $quiz->view = $request->view;
@@ -69,6 +70,7 @@ class BahanQuizService
     public function updateQuiz($request, $bahan)
     {
         $quiz = $bahan->quiz;
+        $quiz->kategori = $request->kategori;
         $quiz->durasi = $request->durasi ?? null;
         $quiz->tipe = $request->tipe;
         $quiz->view = $request->view;

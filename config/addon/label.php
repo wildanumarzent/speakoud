@@ -79,6 +79,11 @@ return [
             'description' => 'A single topic discussion developed on one page, which is useful for short focused discussions (cannot be used with separate groups)',
         ],
     ],
+    'quiz_kategori' => [
+        0 => 'PRE TEST',
+        1 => 'PROGRESS TEST',
+        2 => 'POST TEST'
+    ],
     'quiz_tipe' => [
         0 => 'Bisa diulang',
         1 => 'Tidak bisa diulang'

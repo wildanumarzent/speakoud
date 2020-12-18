@@ -24,6 +24,16 @@ class BahanConferenceController extends Controller
     {
         $data['conference'] = $this->service->findConference($id);
 
+        if (now()->format('Y-m-d') < $data['conference']->tanggal && now() < $data['conference']->start_time) {
+            return back()->with('info', 'video conference tidak bisa dimulai, '.
+                'dikarenakan belum memasuki tanggal / waktu yang sudah ditentukan');
+        }
+
+        if (now()->format('Y-m-d') < $data['conference']->tanggal && now() >= $data['conference']->end_time) {
+            return back()->with('info', 'video conference tidak bisa dimulai, '.
+                'dikarenakan sudah melebihi waktu yang sudah ditentukan');
+        }
+
         if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
             if ($data['conference']->program->publish == 0 || $data['conference']->bahan->publish == 0) {
                 return abort(404);
