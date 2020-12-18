@@ -28,16 +28,18 @@ class ActivityTrackController extends Controller
 
     public function index(Request $request,$materiId)
     {
+        $q = '';
+        if (isset($request->q)) {
+            $q = '?q='.$request->q;
+        }
+
+
         $data['materi'] = $this->materi->findMateri($materiId);
         $data['bahan'] = $this->bahan->getBahanList(null,$materiId);
         $data['track'] = ActivityCompletion::where('materi_id',$materiId)->get();
-
-        $data['mata'] = $this->mata->findMata($data['materi']->mata_id);
-        $collectPeserta = collect($data['mata']->peserta);
-        $data['peserta_id'] = $collectPeserta->map(function($item, $key) {
-            return $item->peserta_id;
-        })->all();
-        $data['peserta'] = $this->peserta->getPesertaForMata($data['mata']->program->tipe, $data['peserta_id']);
+         $data['peserta'] = $this->mata->getPesertaList($request, $data['materi']->mata_id);
+        $data['number'] = $data['peserta']->firstItem();
+        $data['peserta']->withPath(url()->current().$q);
         return view('backend.report.activity_report.index', compact('data'), [
             'title' => 'Activity Report',
             'breadcrumbsBackend' => [

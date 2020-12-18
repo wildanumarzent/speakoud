@@ -31,7 +31,7 @@
 
 @section('content')
 <!-- Filters -->
-{{-- <div class="card">
+<div class="card">
     <div class="card-body">
         <div class="form-row align-items-center">
             <div class="col-md">
@@ -49,7 +49,7 @@
             </div>
         </div>
     </div>
-</div> --}}
+</div>
 <!-- / Filters -->
 <div class="card">
     <div class="card-header with-elements">
@@ -71,14 +71,14 @@
                 @forelse ($data['peserta'] as $item)
                 <tr>
                     <td>{{ $loop->iteration }}</td>
-                    <td>{{$item->user->name}} </td>
-                    <td>{{$item->user->email}}</td>
+                    <td>{{$item->peserta->user->name}} </td>
+                    <td>{{$item->peserta->user->email}}</td>
                     @foreach($data['bahan'] as $bahan)
 
 
-                    @if($data['track']->where('bahan_id',$bahan->id)->where('user_id',$item->user->id)->count() != 0)
+                    @if($data['track']->where('bahan_id',$bahan->id)->where('user_id',$item->peserta->user->id)->count() != 0)
                     @php
-                    $track = $data['track']->where('bahan_id',$bahan->id)->where('user_id',$item->user->id)->first();
+                    $track = $data['track']->where('bahan_id',$bahan->id)->where('user_id',$item->peserta->user->id)->first();
                     @endphp
                     <form action="{{route('report.activity.publish',['id' => $track->id])}}" method="post">
                     @csrf
@@ -88,7 +88,7 @@
                     </form>
                     @else
                     <td>
-                        <form action="{{route('report.activity.submit',['userId' => $item->user->id,'bahanId' => $bahan->id])}}" method="post">
+                        <form action="{{route('report.activity.submit',['userId' => $item->peserta->user->id,'bahanId' => $bahan->id])}}" method="post">
                             @csrf
                         <button type="submit" class="btn icon-btn btn-sm btn-outline-secondary">
                         <span class="far fa-square"></span>
@@ -121,7 +121,8 @@
         <div class="row align-items-center">
             <div class="col-lg-6 m--valign-middle">
                 Menampilkan :
-                <strong>{{ $data['peserta']->count() }} Data</strong>
+                Menampilkan : <strong>{{ $data['peserta']->firstItem() }}</strong> - <strong>{{ $data['peserta']->lastItem() }}</strong> dari
+                <strong>{{ $data['peserta']->total() }}</strong>
             </div>
         </div>
     </div>
