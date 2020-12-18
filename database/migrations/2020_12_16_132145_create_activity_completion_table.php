@@ -20,6 +20,7 @@ class CreateActivityCompletionTable extends Migration
             $table->unsignedBigInteger('materi_id');
             $table->unsignedBigInteger('bahan_id');
             $table->unsignedBigInteger('user_id');
+            $table->tinyInteger('status')->default(1);
             $table->timestamps();
 
             $table->foreign('program_id')->references('id')
