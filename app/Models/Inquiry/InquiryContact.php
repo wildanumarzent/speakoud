@@ -14,6 +14,11 @@ class InquiryContact extends Model
         'submit_time' => 'datetime'
     ];
 
+    public static function boot(){
+        parent::boot();
+        InquiryContact::observe(new \App\Observers\LogObserver);
+        }
+
     public function inquiry()
     {
         return $this->belongsTo(Inquiry::class, 'inquiry_id');

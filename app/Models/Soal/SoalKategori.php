@@ -10,6 +10,11 @@ class SoalKategori extends Model
     protected $table = 'bank_soal_kategori';
     protected $guarded = [];
 
+    public static function boot(){
+        parent::boot();
+        SoalKategori::observe(new \App\Observers\LogObserver);
+        }
+
     public function creator()
     {
         return $this->belongsTo(User::class, 'creator_id');

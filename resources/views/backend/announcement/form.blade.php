@@ -56,7 +56,7 @@
 
                 </div>
 
-                <div class="form-group">
+                {{-- <div class="form-group">
                     <label class="form-label w-100">Kirim Kepada :</label>
                     <select class="select2-demo form-control" multiple style="width: 100%">
                         @php
@@ -71,7 +71,7 @@
                             @endif
                             @endforeach
                     </select>
-                </div>
+                </div> --}}
 
 
 

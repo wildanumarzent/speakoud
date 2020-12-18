@@ -10,6 +10,11 @@ class InstansiMitra extends Model
     protected $table = 'instansi_mitra';
     protected $guarded = [];
 
+    public static function boot(){
+        parent::boot();
+        InstansiMitra::observe(new \App\Observers\LogObserver);
+        }
+
     public function mitra()
     {
         return $this->hasMany(Mitra::class, 'instansi_id');

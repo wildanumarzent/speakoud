@@ -13,6 +13,13 @@ class Konfigurasi extends Model
     public $incrementing = false;
     public $timestamps = false;
 
+    // logging 15 data sekaligus?
+    
+    // public static function boot(){
+    //     parent::boot();
+    //     Konfigurasi::observe(new \App\Observers\LogObserver);
+    //     }
+
     public function scopeUpload($query)
     {
         return $query->where('is_upload', 1);

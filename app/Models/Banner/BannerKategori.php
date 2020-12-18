@@ -10,6 +10,11 @@ class BannerKategori extends Model
     protected $table = 'banner_kategori';
     protected $guarded = [];
 
+    public static function boot(){
+        parent::boot();
+        BannerKategori::observe(new \App\Observers\LogObserver);
+        }
+
     public function banner()
     {
         return $this->hasMany(Banner::class, 'banner_kategori_id')->publish()

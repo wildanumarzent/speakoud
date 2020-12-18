@@ -17,6 +17,11 @@ class Artikel extends Model
         'meta_data' => 'array',
     ];
 
+    public static function boot(){
+    parent::boot();
+    Artikel::observe(new \App\Observers\LogObserver);
+    }
+
     public function userCreated()
     {
         return $this->belongsTo(User::class, 'created_by');

@@ -18,6 +18,11 @@ class Instruktur extends Model
         'sk_jabatan' => 'array',
     ];
 
+    public static function boot(){
+        parent::boot();
+        Instruktur::observe(new \App\Observers\LogObserver);
+        }
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');

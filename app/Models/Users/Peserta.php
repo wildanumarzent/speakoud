@@ -19,6 +19,11 @@ class Peserta extends Model
         'surat_ijin_atasan' => 'array'
     ];
 
+    public static function boot(){
+        parent::boot();
+        Peserta::observe(new \App\Observers\LogObserver);
+        }
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
