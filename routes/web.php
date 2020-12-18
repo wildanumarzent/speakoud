@@ -896,6 +896,8 @@ Route::group(['middleware' => ['auth']], function () {
 
     //report
     Route::get('report/activity/{materiId}','Course\Log\ActivityTrackController@index')->name('report.activity');
+    Route::post('report/activity/publish/{id}','Course\Log\ActivityTrackController@publish')->name('report.activity.publish');
+    Route::post('report/activity/submit/{userId}/{bahanId}','Course\Log\ActivityTrackController@submit')->name('report.activity.submit');
 
     //logout
     Route::post('/logout', 'Auth\LoginController@logout')

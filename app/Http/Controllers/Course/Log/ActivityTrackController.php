@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Services\Course\Bahan\BahanService;
 use App\Services\Course\MateriService;
+use App\Services\Course\MataService;
 use App\Services\Users\PesertaService;
 
 class ActivityTrackController extends Controller
@@ -17,11 +18,12 @@ class ActivityTrackController extends Controller
      * @return \Illuminate\Http\Response
      */
     private $bahan,$peserta;
-    public function __construct(BahanService $bahan, PesertaService $peserta,MateriService $materi)
+    public function __construct(BahanService $bahan, PesertaService $peserta,MateriService $materi,MataService $mata)
     {
         $this->peserta = $peserta;
         $this->bahan = $bahan;
         $this->materi = $materi;
+        $this->mata = $mata;
     }
 
     public function index(Request $request,$materiId)
@@ -30,12 +32,14 @@ class ActivityTrackController extends Controller
         if (isset($request->q)) {
             $q = '?q='.$request->q;
         }
-        $data['peserta'] = $this->peserta->getPesertaList($request);
-        $data['number'] = $data['peserta']->firstItem();
-        $data['peserta']->withPath(url()->current().$q);
+
+
         $data['materi'] = $this->materi->findMateri($materiId);
         $data['bahan'] = $this->bahan->getBahanList(null,$materiId);
         $data['track'] = ActivityCompletion::where('materi_id',$materiId)->get();
+         $data['peserta'] = $this->mata->getPesertaList($request, $data['materi']->mata_id);
+        $data['number'] = $data['peserta']->firstItem();
+        $data['peserta']->withPath(url()->current().$q);
         return view('backend.report.activity_report.index', compact('data'), [
             'title' => 'Activity Report',
             'breadcrumbsBackend' => [
@@ -44,6 +48,30 @@ class ActivityTrackController extends Controller
         ]);
     }
 
+    public function publish($id)
+    {
+       $activity = ActivityCompletion::find($id);
+       $status = (bool)$activity->status;
+       $activity->status = 1;
+       if($status == true){
+        $activity->status = 0;
+       }
+       $activity->save();
+       return redirect()->back()->with(['success' => 'data updated']);
+    }
+
+    public function submit($userId,$bahanId)
+    {
+        $bahan = $this->bahan->findBahan($bahanId);
+        ActivityCompletion::create([
+            'user_id' => $userId,
+            'bahan_id' => $bahan->id,
+            'mata_id' => $bahan->mata_id,
+            'program_id' => $bahan->program_id,
+            'materi_id' => $bahan->materi_id
+        ]);
+        return redirect()->back()->with(['success' => 'data updated']);
+    }
     /**
      * Show the form for creating a new resource.
      *
