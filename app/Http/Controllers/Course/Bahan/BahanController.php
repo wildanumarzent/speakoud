@@ -48,7 +48,6 @@ class BahanController extends Controller
             $p = '?p='.$request->p;
             $q = '&q='.$request->q;
         }
-
         $data['bahan'] = $this->service->getBahanList($request, $materiId);
         $data['number'] = $data['bahan']->firstItem();
         $data['bahan']->withPath(url()->current().$p.$q);
@@ -155,6 +154,7 @@ class BahanController extends Controller
 
     public function create(Request $request, $materiId)
     {
+        $data['scorm'] = $this->serviceScorm->getMaster();
         if ($request->type == null) {
             return abort(404);
         }
@@ -179,8 +179,10 @@ class BahanController extends Controller
 
     public function store(BahanRequest $request, $materiId)
     {
-        $this->service->storeBahan($request, $materiId);
-
+        $data = $this->service->storeBahan($request, $materiId);
+        if($data == false){
+            return redirect()->back()->with('failed', 'This Package is not Scorm Compliant');
+        }
         return redirect()->route('bahan.index', ['id' => $materiId])
             ->with('success', 'Materi pelatihan berhasil ditambahkan');
     }
@@ -190,7 +192,7 @@ class BahanController extends Controller
         if ($request->type == null) {
             return abort(404);
         }
-
+        $data['scorm'] = $this->serviceScorm->getMaster();
         $data['bahan'] = $this->service->findBahan($id);
         $data['materi'] = $this->serviceMateri->findMateri($materiId);
 

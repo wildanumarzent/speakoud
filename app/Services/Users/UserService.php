@@ -25,6 +25,13 @@ class UserService
         $this->modelInformation = $modelInformation;
     }
 
+    public function getAllUser(){
+        $query = $this->model->query();
+        $query->with('roles');
+        $result = $query->orderBy('id', 'ASC')->get();
+        return $result;
+    }
+
     public function getUserList($request)
     {
         $query = $this->model->query();

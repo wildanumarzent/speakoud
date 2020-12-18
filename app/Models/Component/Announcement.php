@@ -11,6 +11,11 @@ class Announcement extends Model
     protected $guarded = [];
     use Creator;
 
+    public static function boot(){
+        parent::boot();
+        Announcement::observe(new \App\Observers\LogObserver);
+        }
+
     public function user()
     {
         return $this->belongsTo(User::class, 'creator_id');

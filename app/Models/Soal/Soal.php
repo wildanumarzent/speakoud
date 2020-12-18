@@ -15,6 +15,11 @@ class Soal extends Model
         'jawaban' => 'array',
     ];
 
+    public static function boot(){
+        parent::boot();
+        Soal::observe(new \App\Observers\LogObserver);
+        }
+
     public function creator()
     {
         return $this->belongsTo(User::class, 'creator_id');

@@ -16,6 +16,11 @@ class JadwalPelatihan extends Model
         'cover' => 'array',
     ];
 
+    public static function boot(){
+        parent::boot();
+        JadwalPelatihan::observe(new \App\Observers\LogObserver);
+        }
+
     public function creator()
     {
         return $this->belongsTo(User::class, 'creator_id');

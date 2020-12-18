@@ -44,7 +44,10 @@ class BahanScormController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        $this->scorm->savePoint($data);
+        $scorm = $this->scorm->savePoint($data);
+        if($scorm == false){
+            return redirect()->back()->with('failed', 'This Package is not Scorm Compliant');
+        }
         return response()->json(['success'=>'Saved']);
     }
 

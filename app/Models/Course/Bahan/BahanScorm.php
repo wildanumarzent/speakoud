@@ -6,6 +6,7 @@ use App\Models\Course\MataPelatihan;
 use App\Models\Course\MateriPelatihan;
 use App\Models\Course\ProgramPelatihan;
 use App\Models\Users\User;
+use App\Models\Scorm;
 use Illuminate\Database\Eloquent\Model;
 class BahanScorm extends Model
 {
@@ -35,5 +36,10 @@ class BahanScorm extends Model
     public function bahan()
     {
         return $this->belongsTo(BahanPelatihan::class, 'bahan_id');
+    }
+
+    public function scorm()
+    {
+        return $this->belongsTo(Scorm::class, 'scorm_id');
     }
 }

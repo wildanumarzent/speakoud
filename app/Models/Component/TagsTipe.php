@@ -9,6 +9,10 @@ class TagsTipe extends Model
 {
     protected $table = 'tags_tipe';
     protected $guarded = [];
+    public static function boot(){
+        parent::boot();
+        Tags::observe(new \App\Observers\LogObserver);
+        }
     public function tagable()
     {
         return $this->morphTo();

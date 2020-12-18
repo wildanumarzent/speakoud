@@ -45,6 +45,11 @@ class User extends Authenticatable
         'photo' => 'array',
     ];
 
+    public static function boot(){
+        parent::boot();
+        User::observe(new \App\Observers\LogObserver);
+        }
+
     public function userable()
     {
         return $this->morphTo();

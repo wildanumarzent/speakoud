@@ -6,7 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Component\Announcement;
 use Illuminate\Http\Request;
 use App\Services\Component\AnnouncementService;
-
+use App\Services\Users\UserService;
+use \Spatie\Permission\Models\Role;
 class AnnouncementController extends Controller
 {
     /**
@@ -14,9 +15,10 @@ class AnnouncementController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function __construct(AnnouncementService $announcement)
+    public function __construct(AnnouncementService $announcement ,UserService $user)
     {
        $this->announcement = $announcement;
+       $this->user = $user;
     }
    public function index(Request $request)
    {
@@ -28,6 +30,7 @@ class AnnouncementController extends Controller
        $data['announcement'] = $this->announcement->annoList($request);
        $data['number'] = $data['announcement']->firstItem();
        $data['announcement']->withPath(url()->current().$q);
+
 
        return view('backend.announcement.index', compact('data'), [
            'title' => 'Announcement',
@@ -44,7 +47,8 @@ class AnnouncementController extends Controller
      */
     public function create()
     {
-        $data = [];
+        $data['role'] = Role::all();
+        $data['user'] = $this->user->getAllUser();
         return view('backend.announcement.form', compact('data'), [
             'title' => 'Announcement',
             'breadcrumbsBackend' => [
@@ -95,6 +99,8 @@ class AnnouncementController extends Controller
      */
     public function edit(Announcement $announcement)
     {
+         $data['role'] = Role::all();
+        $data['user'] = $this->user->getAllUser();
         $data['announcement'] = $announcement;
         return view('backend.announcement.form', compact('data'), [
             'title' => 'Announcement',

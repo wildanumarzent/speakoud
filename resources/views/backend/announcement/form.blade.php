@@ -5,6 +5,8 @@
 <script src="{{ asset('assets/tmplts_backend/admin.js') }}"></script>
 <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-tagsinput/bootstrap-tagsinput.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/fancybox/fancybox.min.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/select2/select2.css') }}">
+
 @endsection
 
 @section('content')
@@ -53,7 +55,28 @@
                         </select>
 
                 </div>
+
+                {{-- <div class="form-group">
+                    <label class="form-label w-100">Kirim Kepada :</label>
+                    <select class="select2-demo form-control" multiple style="width: 100%">
+                        @php
+                        $value_id = explode(',',@$data['data']->receiver);
+                        $a = 'Hallo';
+                        @endphp
+                            @foreach($data['role'] as $value)
+                            @if (isset($data['announcement']))
+                        <option value="{{$value->id}}" @foreach($value_id as $u) {{$value->id == $u ? 'selected' : ''}} @endforeach>{{$value->name}}</option>
+                            @else
+                            <option value="{{$value->id}}">{{$value->name}}</option>
+                            @endif
+                            @endforeach
+                    </select>
+                </div> --}}
+
+
+
         </div>
+
         <div class="card-footer">
             <div class="row">
               <div class="col-md-10 ml-sm-auto text-md-left text-right">
@@ -69,6 +92,9 @@
 @section('scripts')
 <script src="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-tagsinput/bootstrap-tagsinput.js') }}"></script>
 <script src="{{ asset('assets/tmplts_backend/fancybox/fancybox.min.js') }}"></script>
+<script src="{{ asset('assets/tmplts_backend/vendor/libs/autosize/autosize.js') }}"></script>
+<script src="{{ asset('assets/tmplts_backend/vendor/libs/select2/select2.js') }}"></script>
+<script src="{{ asset('assets/tmplts_backend/js/forms_selects.js') }}"></script>
 @endsection
 
 @section('jsbody')

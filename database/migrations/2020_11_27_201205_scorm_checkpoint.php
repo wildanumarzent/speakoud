@@ -16,10 +16,10 @@ class ScormCheckpoint extends Migration
         Schema::create('scorm_checkpoint', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('scorm_id');
+            $table->unsignedBigInteger('bahan_scorm_id');
             $table->json('checkpoint')->nullable();
             $table->timestamps();
-            $table->foreign('scorm_id')->references('id')->on('bahan_scorm')
+            $table->foreign('bahan_scorm_id')->references('id')->on('bahan_scorm')
             ->cascadeOnDelete();
             $table->foreign('user_id')->references('id')->on('users')
             ->cascadeOnDelete();

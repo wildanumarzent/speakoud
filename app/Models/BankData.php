@@ -9,6 +9,11 @@ class BankData extends Model
     protected $table = 'bank_data';
     protected $guarded = [];
 
+    public static function boot(){
+        parent::boot();
+        BankData::observe(new \App\Observers\LogObserver);
+        }
+
     public function owner()
     {
         return $this->belongsTo(User::class, 'owner_id');

@@ -15,6 +15,11 @@ class Page extends Model
         'meta_data' => 'array',
     ];
 
+    public static function boot(){
+        parent::boot();
+        Page::observe(new \App\Observers\LogObserver);
+        }
+
     public function creator()
     {
         return $this->belongsTo(User::class, 'creator_id');

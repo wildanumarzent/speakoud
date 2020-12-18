@@ -10,6 +10,11 @@ class Banner extends Model
     protected $table = 'banner';
     protected $guarded = [];
 
+    public static function boot(){
+        parent::boot();
+        Banner::observe(new \App\Observers\LogObserver);
+        }
+
     public function creator()
     {
         return $this->belongsTo(User::class, 'creator_id');

@@ -14,6 +14,11 @@ class InstansiInternal extends Model
         'deleted_at' => 'datetime'
     ];
 
+    public static function boot(){
+        parent::boot();
+        InstansiInternal::observe(new \App\Observers\LogObserver);
+        }
+
     public function internal()
     {
         return $this->hasMany(Internal::class, 'instansi_id');

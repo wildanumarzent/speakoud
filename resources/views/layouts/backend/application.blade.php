@@ -75,7 +75,7 @@
 
     <!-- Core scripts -->
     <script src="{{ asset('assets/tmplts_backend/vendor/js/pace.js') }}"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> --}}
 
     <!-- `perfect-scrollbar` library required by SideNav plugin -->
     <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}">
