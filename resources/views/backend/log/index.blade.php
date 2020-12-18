@@ -47,7 +47,7 @@
                 @forelse ($data['log'] as $item)
                 <tr>
                     <td>{{ $data['number']++ }}</td>
-                    <td> <b>{{ucfirst(trans($item->logable_name))}} :</b> {{$item->event}}  </td>
+                    <td> <b>{{ucfirst(trans($item->logable_name))}} (Id:{{$item->logable_id}}) :</b> {{$item->event}}  </td>
                     <td>{{$item->creator}}</td>
                     <td>{{$item->ip_address}}</td>
                     <td >{{ $item->created_at->format('d F Y - (H:i)') }}</td>

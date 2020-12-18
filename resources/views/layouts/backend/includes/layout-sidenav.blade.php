@@ -261,7 +261,7 @@
                 <ul class="sidenav-menu">
 
                     <li class="sidenav-item{{ Request::is('log.daily') ? ' active' : '' }}">
-                        <a href="#" class="sidenav-link" title="Aktif">
+                        <a href="{{route('log.index')}}?q={{ \Carbon\Carbon::now()->format('Y-m-d')}}" class="sidenav-link" title="Aktif">
                           <div>Today Log</div>
                         </a>
                     </li>

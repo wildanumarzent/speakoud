@@ -12,6 +12,11 @@ class ProgramPelatihan extends Model
     protected $table = 'program_pelatihan';
     protected $guarded = [];
 
+    public static function boot(){
+        parent::boot();
+        ProgramPelatihan::observe(new \App\Observers\LogObserver);
+        }
+
     public function creator()
     {
         return $this->belongsTo(User::class, 'creator_id');

@@ -19,6 +19,11 @@ class MataPelatihan extends Model
         'cover' => 'array',
     ];
 
+    public static function boot(){
+        parent::boot();
+        MataPelatihan::observe(new \App\Observers\LogObserver);
+        }
+
     public function creator()
     {
         return $this->belongsTo(User::class, 'creator_id');
