@@ -47,12 +47,14 @@ class BahanService
         $query = $this->model->query();
 
         $query->where('materi_id', $materiId);
+        if(!empty($request)){
         $query->when($request->q, function ($query, $q) {
             $query->where(function ($query) use ($q) {
                 $query->where('judul', 'like', '%'.$q.'%')
                     ->orWhere('keterangan', 'like', '%'.$q.'%');
             });
         });
+    }
         if (isset($request->p)) {
             $query->where('publish', $request->p);
         }
