@@ -7,7 +7,7 @@
     <form wire:submit.prevent="store">
         <div class="form-group">
             <input type="hidden" name="model" wire:model="model" value={{$model}}>
-            <textarea class="form-control" name="comments" wire:model="comentdata" cols="30" rows="10" placeholder="Tulis Komentar..."></textarea>
+            <textarea class="form-control" name="comments" wire:model="comentdata" cols="30" rows="10" placeholder="Tulis Komentar..." required autofocus></textarea>
         </div>
         <div class="box-btn text-right">
             <button type="submit" class="btn btn-primary">Comment</button>

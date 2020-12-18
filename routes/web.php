@@ -850,6 +850,8 @@ Route::group(['middleware' => ['auth']], function () {
      Route::put('/announcement/{id}','Component\AnnouncementController@publish')->name('announcement.publish');
      Route::delete('/announcement/delete/{id}','Component\AnnouncementController@destroy')->name('announcement.destroy');
 
+     //Logs
+     Route::get('/log','LogController@index')->name('log.index');
 
 
       // Statistic

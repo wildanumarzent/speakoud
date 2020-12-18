@@ -261,13 +261,13 @@
                 <ul class="sidenav-menu">
 
                     <li class="sidenav-item{{ Request::is('log.daily') ? ' active' : '' }}">
-                        <a href="{{ route($program) }}" class="sidenav-link" title="Aktif">
+                        <a href="#" class="sidenav-link" title="Aktif">
                           <div>Today Log</div>
                         </a>
                     </li>
 
-                    <li class="sidenav-item{{ Request::is('log.all') ? ' active' : '' }}">
-                        <a href="{{ route($program) }}" class="sidenav-link" title="Aktif">
+                    <li class="sidenav-item{{ Request::is('log.index') ? ' active' : '' }}">
+                        <a href="{{ route('log.index') }}" class="sidenav-link" title="Aktif">
                           <div>All Log</div>
                         </a>
                     </li>

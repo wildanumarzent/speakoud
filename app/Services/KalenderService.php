@@ -1,20 +1,12 @@
 
 <?php
 
-namespace App\Services\Component;
+namespace App\Services;
 
 use App\Models\Event;
-use App\Model\Project;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
-use Illuminate\Support\Str;
 class KalenderService{
-
-    public function __construct(Notification $notif)
-    {
-        $this->notif = $notif;
-    }
-
 
     public function makeEvent($title,
     $description,$start,$end,
