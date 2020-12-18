@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Services\Course\Bahan\BahanService;
 use App\Services\Course\MateriService;
+use App\Services\Course\MataService;
 use App\Services\Users\PesertaService;
 
 class ActivityTrackController extends Controller
@@ -17,25 +18,26 @@ class ActivityTrackController extends Controller
      * @return \Illuminate\Http\Response
      */
     private $bahan,$peserta;
-    public function __construct(BahanService $bahan, PesertaService $peserta,MateriService $materi)
+    public function __construct(BahanService $bahan, PesertaService $peserta,MateriService $materi,MataService $mata)
     {
         $this->peserta = $peserta;
         $this->bahan = $bahan;
         $this->materi = $materi;
+        $this->mata = $mata;
     }
 
     public function index(Request $request,$materiId)
     {
-        $q = '';
-        if (isset($request->q)) {
-            $q = '?q='.$request->q;
-        }
-        $data['peserta'] = $this->peserta->getPesertaList($request);
-        $data['number'] = $data['peserta']->firstItem();
-        $data['peserta']->withPath(url()->current().$q);
         $data['materi'] = $this->materi->findMateri($materiId);
         $data['bahan'] = $this->bahan->getBahanList(null,$materiId);
         $data['track'] = ActivityCompletion::where('materi_id',$materiId)->get();
+
+        $data['mata'] = $this->mata->findMata($data['materi']->mata_id);
+        $collectPeserta = collect($data['mata']->peserta);
+        $data['peserta_id'] = $collectPeserta->map(function($item, $key) {
+            return $item->peserta_id;
+        })->all();
+        $data['peserta'] = $this->peserta->getPesertaForMata($data['mata']->program->tipe, $data['peserta_id']);
         return view('backend.report.activity_report.index', compact('data'), [
             'title' => 'Activity Report',
             'breadcrumbsBackend' => [

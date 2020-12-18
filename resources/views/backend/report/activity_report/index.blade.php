@@ -70,7 +70,7 @@
             <tbody>
                 @forelse ($data['peserta'] as $item)
                 <tr>
-                    <td>{{ $data['number']++ }}</td>
+                    <td>{{ $loop->iteration }}</td>
                     <td>{{$item->user->name}} </td>
                     <td>{{$item->user->email}}</td>
                     @foreach($data['bahan'] as $bahan)
@@ -120,11 +120,8 @@
     <div class="card-footer">
         <div class="row align-items-center">
             <div class="col-lg-6 m--valign-middle">
-                Menampilkan : <strong>{{ $data['peserta']->firstItem() }}</strong> - <strong>{{ $data['peserta']->lastItem() }}</strong> dari
-                <strong>{{ $data['peserta']->total() }}</strong>
-            </div>
-            <div class="col-lg-6 m--align-right">
-                {{ $data['peserta']->onEachSide(1)->links() }}
+                Menampilkan :
+                <strong>{{ $data['peserta']->count() }} Data</strong>
             </div>
         </div>
     </div>
