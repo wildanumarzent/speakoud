@@ -133,6 +133,7 @@
             </div>
             @endforeach
             @if (!auth()->user()->hasRole('instruktur_internal|instruktur_mitra') && !empty($data['read']->kode_evaluasi) && $data['checkKode'] == true)
+            {{-- evaluasi penyelenggara --}}
             <div class="card mb-2">
                 <div class="card-header">
                     <a class="collapsed text-body" data-toggle="collapse" href="#evaluasi-penyelenggara">
@@ -144,10 +145,10 @@
                         <ul class="list-group list-group-flush mt-2">
                             <li class="list-group-item py-4">
                                 <div class="media flex-wrap">
-                                  <div class="d-none d-sm-block ui-w-120 text-center">
-                                      <i class="las la-edit mr-2" style="font-size: 4em;"></i>
-                                  </div>
-                                  <div class="media-body ml-sm-2">
+                                    <div class="d-none d-sm-block ui-w-120 text-center">
+                                        <i class="las la-edit mr-2" style="font-size: 4em;"></i>
+                                    </div>
+                                    <div class="media-body ml-sm-2">
                                     <h5 class="mb-2">
                                         @role ('peserta_internal|peserta_mitra')
                                         <div class="float-right font-weight-semibold ml-3">
@@ -158,12 +159,12 @@
                                             @endif
                                         </div>
                                         @endrole
-                                      <a href="{{ route('evaluasi.penyelenggara', ['id' => $data['read']->id]) }}" class="text-body">{{ $data['preview']->nama }}</a>&nbsp;
+                                        <a href="{{ route('evaluasi.penyelenggara', ['id' => $data['read']->id]) }}" class="text-body">{{ $data['preview']->nama }}</a>&nbsp;
                                     </h5>
                                     <div class="d-flex flex-wrap align-items-center mb-2">
                                         <div class="text-muted small">
-                                          <i class="las la-calendar text-primary"></i>
-                                          <span>{{ $data['preview']->waktu_mulai.' s/d '.$data['preview']->waktu_selesai }}</span>
+                                            <i class="las la-calendar text-primary"></i>
+                                            <span>{{ $data['preview']->waktu_mulai.' s/d '.$data['preview']->waktu_selesai }}</span>
                                         </div>
                                     </div>
                                     <div>Durasi pengerjaan :
@@ -173,7 +174,7 @@
                                         Tidak ada durasi
                                         @endif
                                     </div>
-                                   </div>
+                                    </div>
                                 </div>
                             </li>
                         </ul>
@@ -182,6 +183,7 @@
             </div>
             @endif
         </div>
+        @include('frontend.course.sertifikat')
     </div>
     <div class="col-md-4 col-xl-3">
          <!-- Leaders -->

@@ -55,4 +55,11 @@ class SertifikatInternalController extends Controller
 
         return back()->with('success', 'sertifikat berhasil diubah');
     }
+
+    public function cetak($mataId)
+    {
+        $this->service->cetakSertifikat($mataId);
+
+        return back();
+    }
 }

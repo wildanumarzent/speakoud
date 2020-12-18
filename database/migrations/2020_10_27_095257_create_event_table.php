@@ -18,7 +18,7 @@ class CreateEventTable extends Migration
             $table->unsignedBigInteger('creator_id');
             $table->string('judul');
             $table->longText('description')->nullable();
-            $table->text('url')->nullable();
+            $table->text('link')->nullable();
             $table->text('className')->nullable();
             $table->timestamp('start')->nullable();
             $table->timestamp('end')->nullable();

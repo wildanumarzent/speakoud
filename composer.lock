@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f02bb7ebf404a302abd56a0e6ae09458",
+    "content-hash": "1ce31f18bb111cf8effbdf103c0e8948",
     "packages": [
         {
             "name": "anhskohbo/no-captcha",
@@ -5003,6 +5003,101 @@
             "time": "2020-07-13T06:12:54+00:00"
         },
         {
+            "name": "tinybutstrong/opentbs",
+            "version": "v1.10.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Skrol29/opentbs.git",
+                "reference": "d270aaae45f50de9b4718801738c95d9aa043c01"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Skrol29/opentbs/zipball/d270aaae45f50de9b4718801738c95d9aa043c01",
+                "reference": "d270aaae45f50de9b4718801738c95d9aa043c01",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.0",
+                "tinybutstrong/tinybutstrong": ">=3.12.0"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "tbs_plugin_opentbs.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-3.0-only"
+            ],
+            "authors": [
+                {
+                    "name": "Skrol29",
+                    "email": "skrol29dev@gmail.com"
+                }
+            ],
+            "description": "With OpenTBS you can merge OpenOffice - LibreOffice and Ms Office documents with PHP using the TinyButStrong template engine. Simple use OpenOffice - LibreOffice or Ms Office to edit your templates : DOCX, XLSX, PPTX, ODT, OSD, ODP and other formats.",
+            "homepage": "http://www.tinybutstrong.com/opentbs.php",
+            "keywords": [
+                "docx",
+                "odp",
+                "ods",
+                "odt",
+                "pptx",
+                "templating",
+                "xlsx"
+            ],
+            "support": {
+                "issues": "https://github.com/Skrol29/opentbs/issues",
+                "source": "https://github.com/Skrol29/opentbs/tree/v1.10.2"
+            },
+            "time": "2020-11-18T23:47:08+00:00"
+        },
+        {
+            "name": "tinybutstrong/tinybutstrong",
+            "version": "v3.12.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Skrol29/tinybutstrong.git",
+                "reference": "4db2833df0c565acd9ca6c6143bd0f8d5dd39192"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Skrol29/tinybutstrong/zipball/4db2833df0c565acd9ca6c6143bd0f8d5dd39192",
+                "reference": "4db2833df0c565acd9ca6c6143bd0f8d5dd39192",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.0"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "tbs_class.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-3.0-only"
+            ],
+            "authors": [
+                {
+                    "name": "Skrol29",
+                    "email": "skrol29dev@gmail.com"
+                }
+            ],
+            "description": "Template Engine for Pro and Beginners ",
+            "homepage": "http://www.tinybutstrong.com",
+            "keywords": [
+                "templating"
+            ],
+            "support": {
+                "issues": "https://github.com/Skrol29/tinybutstrong/issues",
+                "source": "https://github.com/Skrol29/tinybutstrong/tree/v3.12.2"
+            },
+            "time": "2020-11-03T23:23:38+00:00"
+        },
+        {
             "name": "vlucas/phpdotenv",
             "version": "v4.1.8",
             "source": {
@@ -7123,5 +7218,5 @@
         "php": "^7.2.5"
     },
     "platform-dev": [],
-    "plugin-api-version": "1.1.0"
+    "plugin-api-version": "2.0.0"
 }
