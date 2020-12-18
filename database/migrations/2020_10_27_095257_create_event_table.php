@@ -16,7 +16,7 @@ class CreateEventTable extends Migration
         Schema::create('event', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('creator_id');
-            $table->string('judul');
+            $table->string('title');
             $table->longText('description')->nullable();
             $table->text('link')->nullable();
             $table->text('className')->nullable();

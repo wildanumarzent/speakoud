@@ -894,6 +894,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('event/update','EventController@update')->name('event.update');
     Route::post('event/delete','EventController@destroy')->name('event.delete');
 
+    //report
+    Route::get('report/activity/{materiId}','Course\Log\ActivityTrackController@index')->name('report.activity');
 
     //logout
     Route::post('/logout', 'Auth\LoginController@logout')

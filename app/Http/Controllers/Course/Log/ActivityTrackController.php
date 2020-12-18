@@ -1,9 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Course\Log;
 
-use App\Models\Course\Track\ActivityTrack;
+use App\Models\Course\Bahan\ActivityCompletion;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Services\Course\Bahan\BahanService;
+use App\Services\Course\MateriService;
+use App\Services\Users\PesertaService;
 
 class ActivityTrackController extends Controller
 {
@@ -12,9 +16,32 @@ class ActivityTrackController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    private $bahan,$peserta;
+    public function __construct(BahanService $bahan, PesertaService $peserta,MateriService $materi)
     {
-      
+        $this->peserta = $peserta;
+        $this->bahan = $bahan;
+        $this->materi = $materi;
+    }
+
+    public function index(Request $request,$materiId)
+    {
+        $q = '';
+        if (isset($request->q)) {
+            $q = '?q='.$request->q;
+        }
+        $data['peserta'] = $this->peserta->getPesertaList($request);
+        $data['number'] = $data['peserta']->firstItem();
+        $data['peserta']->withPath(url()->current().$q);
+        $data['materi'] = $this->materi->findMateri($materiId);
+        $data['bahan'] = $this->bahan->getBahanList(null,$materiId);
+        $data['track'] = ActivityCompletion::where('materi_id',$materiId)->get();
+        return view('backend.report.activity_report.index', compact('data'), [
+            'title' => 'Activity Report',
+            'breadcrumbsBackend' => [
+                $data['materi']->judul => route('bahan.index', ['id' => $data['materi']->id]),
+            ],
+        ]);
     }
 
     /**
