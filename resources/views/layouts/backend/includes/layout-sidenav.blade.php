@@ -240,11 +240,11 @@
 
             <ul class="sidenav-menu">
                 <!-- Activity Report -->
-               <li class="sidenav-item {{ Request::is('report.activity*') ? ' active' : '' }}">
+               {{-- <li class="sidenav-item {{ Request::is('report.activity*') ? ' active' : '' }}">
                 <a href="#" class="sidenav-link" title="Activity Report">
                   <div>Activity Completion</div>
                 </a>
-            </li>
+            </li> --}}
                 <!-- statistik -->
               <li class="sidenav-item {{ Request::is('statistic*') ? ' active' : '' }}">
                   <a href="{{route('statistic.index')}}" class="sidenav-link" title="Statistik">

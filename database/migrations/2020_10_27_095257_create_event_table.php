@@ -16,10 +16,10 @@ class CreateEventTable extends Migration
         Schema::create('event', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('creator_id');
-            $table->string('judul');
+            $table->string('title');
             $table->longText('description')->nullable();
-            $table->text('url')->nullable();
-            $table->text('className')->default('fc-event-default');
+            $table->text('link')->nullable();
+            $table->text('className')->nullable();
             $table->timestamp('start')->nullable();
             $table->timestamp('end')->nullable();
             $table->boolean('allDay')->default(true)->nullable();
