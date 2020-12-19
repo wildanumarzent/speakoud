@@ -6,6 +6,7 @@ use App\Models\Component\Komentar;
 use App\Models\Course\Bahan\BahanPelatihan;
 use App\Models\Sertifikasi\SertifikatExternal;
 use App\Models\Sertifikasi\SertifikatInternal;
+use App\Models\Sertifikasi\SertifikatPeserta;
 use App\Models\Users\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -44,6 +45,12 @@ class MataPelatihan extends Model
     public function sertifikatInternal()
     {
         return $this->hasOne(SertifikatInternal::class, 'mata_id');
+    }
+
+    public function sertifikatPeserta()
+    {
+        return $this->hasOne(SertifikatPeserta::class, 'mata_id')
+            ->where('peserta_id', auth()->user()->peserta->id);
     }
 
     public function sertifikatExternalByUser()

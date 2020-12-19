@@ -124,7 +124,7 @@
                             <select class="status custom-select form-control" name="pangkat">
                                 <option value=" " selected>Pilih</option>
                                 @foreach (config('addon.label.jabatan') as $key => $value)
-                                <option value="{{ $key }}" {{ isset($data['instruktur']) ? (old('pangkat', $data['instruktur']->pangkat) == ''.$key.'' ? 'selected' : '') : (old('pangkat') == ''.$key.'' ? 'selected' : '') }}>{{ $value }}</option>
+                                <option value="{{ $key }}" {{ isset($data['peserta']) ? (old('pangkat', $data['peserta']->pangkat) == ''.$key.'' ? 'selected' : '') : (old('pangkat') == ''.$key.'' ? 'selected' : '') }}>{{ $value }}</option>
                                 @endforeach
                             </select>
                         </div>

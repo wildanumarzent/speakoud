@@ -33,7 +33,15 @@
                 <div class="card-header-title">Conference</div>
             </h6>
             <div class="card-body">
+                @if (count($data['conference']->api) == 0)
                 <div id="meet"></div>
+                @else
+                @role ('administrator|internal|mitra|instruktur_internal|instruktur_mitra')
+                <iframe allow="camera; microphone; fullscreen; display-capture" src="https://meeting.bppt.go.id/bels/video/{{ $data['conference']->api['data']['roomName'] }}?displayName={{ auth()->user()->name }}&hostKey={{ $data['conference']->api['data']['hostKey'] }}" style="height: 800px; width: 100%; border: 0px;"></iframe>
+                @else
+                <iframe allow="camera; microphone; fullscreen; display-capture" src="https://meeting.bppt.go.id/bels/video/{{ $data['conference']->api['data']['roomName'] }}?displayName={{ auth()->user()->name }}" style="height: 800px; width: 100%; border: 0px;"></iframe>
+                @endrole
+                @endif
             </div>
         </div>
     </div>
@@ -78,6 +86,7 @@
 @endsection
 
 @section('jsbody')
+@if (count($data['conference']->api) == 0)
 <script>
     const domain = 'meeting-dev.bppt.go.id';
     const options = {
@@ -97,8 +106,10 @@
         window.location = '/conference/{{ $data['conference']->id }}/leave';
     });
     api.executeCommand('subject', '{{ $data['conference']->bahan->judul }}');
-    // api.executeCommand('avatarUrl', '{{ auth()->user()->getPhoto(auth()->user()->photo['filename']) }}');
-
+    api.executeCommand('avatarUrl', '{{ auth()->user()->getPhoto(auth()->user()->photo['filename']) }}');
+</script>
+@endif
+<script>
     $(document).ready(function () {
         //list peserta
         setInterval (function () {
@@ -156,6 +167,5 @@
         });
     });
 </script>
-
 @include('components.toastr')
 @endsection

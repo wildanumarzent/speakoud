@@ -71,7 +71,7 @@ class FrontendServiceProvider extends ServiceProvider
                 ],
                 'pages' => [
                     'quick_link' => Page::publish()->whereIn('id', [2])->get(),
-                    'layanan' => Page::publish()->whereIn('id', [3,4])->get(),
+                    'layanan' => Page::publish()->whereIn('id', [3,4])->orderBy('urutan', 'ASC')->get(),
                 ],
                 'banner' => [
                     'login' => BannerKategori::where('id', 2)->get(),

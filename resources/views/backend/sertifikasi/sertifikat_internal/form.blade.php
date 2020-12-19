@@ -20,9 +20,10 @@
                   <label class="col-form-label text-sm-right">Nomor</label>
                 </div>
                 <div class="col-md-10">
-                  <input type="text" class="form-control @error('nomor') is-invalid @enderror" name="nomor"
-                    value="{{ isset($data['sertifikat']) ? old('nomor', $data['sertifikat']->nomor) : old('nomor') }}" placeholder="masukan nomor..." autofocus>
-                  @include('components.field-error', ['field' => 'nomor'])
+                    <input type="text" class="form-control @error('nomor') is-invalid @enderror" name="nomor"
+                        value="{{ isset($data['sertifikat']) ? old('nomor', $data['sertifikat']->nomor) : old('nomor') }}" placeholder="masukan nomor..." autofocus>
+                    <small><a href="javascript:;" data-toggle="modal" data-target="#modals-format"><em><i class="las la-info"></i> Format Penulisan</em></a></small>
+                    @include('components.field-error', ['field' => 'nomor'])
                 </div>
             </div>
             <div class="form-group row">
@@ -81,6 +82,44 @@
         </div>
     </form>
 </div>
+
+<!-- Modal template -->
+<div class="modal fade" id="modals-format">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                Format
+                <span class="font-weight-light">Nomor Sertifikat</span>
+                <br>
+                </h5>
+                <button type="button" class="close close-modal" data-dismiss="modal" aria-label="Close">×</button>
+            </div>
+            <div class="modal-body">
+                <em>Penulisan format nomor sertifikat :</em>
+                <table class="table table-striped table-bordered mb-0 mt-2 mb-2">
+                    <tr>
+                        <th>Nomor</th>
+                        <td><strong>{no}</strong></td>
+                    </tr>
+                    <tr>
+                        <th>Bulan</th>
+                        <td><strong>{bulan}</strong></td>
+                    </tr>
+                    <tr>
+                        <th>Tahun</th>
+                        <td><strong>{tahun}</strong></td>
+                    </tr>
+                </table>
+                Contoh : <strong><em>{no}/Teknis/DIKLAT/BPPT/{bulan}/{tahun}</em></strong>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default close-modal" data-dismiss="modal">Tutup</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @endsection
 
 @section('scripts')

@@ -124,7 +124,7 @@ class ArtikelService
         }
 
         $artikel = $this->findArtikel($id);
-        $artikel->fill($request->only(['title']));
+        $artikel->fill($request->only(['judul']));
         $artikel->slug = Str::slug($request->slug, '-');
         $artikel->intro = $request->intro ?? null;
         $artikel->content = $request->content ?? null;

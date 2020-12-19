@@ -20,7 +20,16 @@
                                 <div class="media-body ml-sm-2">
                                     <h5 class="mb-2">
                                         <div class="float-right font-weight-semibold ml-3">
-                                            <a href="{{ route('sertifikat.internal.cetak', ['id' => $data['read']->id]) }}"><i class="las la-print text-primary" style="font-size: 2em;" title="cetak sertifikat"></i></a>
+                                            @if ($data['read']->sertifikatPeserta($data['read']->sertifikatInternal->id)->count() == 0)
+                                            <a href="javascript:;" onclick="$('#form-cetak').submit();">
+                                                <i class="las la-print text-primary" style="font-size: 2em;" title="cetak sertifikat"></i>
+                                                <form action="{{ route('sertifikat.internal.cetak', ['id' => $data['read']->id, 'sertifikatId' => $data['read']->sertifikatInternal->id]) }}" method="POST" id="form-cetak">
+                                                    @csrf
+                                                </form>
+                                            </a>
+                                            @else
+                                            <a href="{{ route('bank.data.stream', ['path' => $data['read']->sertifikatPeserta->file_path]) }}"><i class="las la-download text-primary" style="font-size: 2em;" title="download sertifikat"></i></a>
+                                            @endif
                                         </div>
                                         <a href="javascript:;" class="text-body">Sertifikat {{ $data['read']->judul }}</a>&nbsp;
                                     </h5>

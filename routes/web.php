@@ -700,7 +700,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::put('/mata/{id}/sertifikat/internal/{sertifikatId}', 'Sertifikasi\SertifikatInternalController@update')
         ->name('sertifikat.internal.update')
         ->middleware('role:administrator|internal|mitra');
-    Route::get('/mata/{id}/sertifikat/internal/cetak', 'Sertifikasi\SertifikatInternalController@cetak')
+    Route::post('/mata/{id}/sertifikat/internal/{sertifikatId}/cetak', 'Sertifikasi\SertifikatInternalController@cetak')
         ->name('sertifikat.internal.cetak')
         ->middleware('role:peserta_internal|peserta_mitra');
     //external

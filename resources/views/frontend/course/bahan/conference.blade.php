@@ -13,20 +13,6 @@
                @endif
            </td>
         </tr>
-        @if (!auth()->user()->hasRole('peserta_internal|peserta_mitra') && $data['bahan']->conference->tipe == 1 && $data['bahan']->conference->status == 1)
-        <tr>
-            <th style="width: 150px;">Konfirmasi</th>
-            <td>
-                <a href="javascript:;" class="btn btn-success icon-btn-only-sm btn-sm close-vidcon" title="klik untuk menutup conference">
-                    Tutup Video Conference
-                    <form action="{{ route('conference.finish', ['id' => $data['bahan']->conference->id])}}" method="POST" id="form-close">
-                        @csrf
-                        @method('PUT')
-                    </form>
-                </a>
-            </td>
-        </tr>
-        @endif
         <tr>
             <th style="width: 150px;">Status</th>
             <td>
@@ -99,6 +85,20 @@
                 </a>
             </td>
          </tr>
+         @if ($data['bahan']->conference->status == 1 && count($data['bahan']->conference->api) != 0)
+        <tr>
+            <th style="width: 150px;">Konfirmasi</th>
+            <td>
+                <a href="javascript:;" class="btn btn-danger icon-btn-only-sm btn-sm close-vidcon" title="klik untuk menutup conference">
+                    Tutup Video Conference
+                    <form action="{{ route('conference.finish', ['id' => $data['bahan']->conference->id])}}" method="POST" id="form-close">
+                        @csrf
+                        @method('PUT')
+                    </form>
+                </a>
+            </td>
+        </tr>
+        @endif
          @endif
          @if ($data['bahan']->conference->status < 2)
          <tr>

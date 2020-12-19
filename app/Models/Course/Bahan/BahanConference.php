@@ -16,6 +16,7 @@ class BahanConference extends Model
     protected $casts = [
         'start_time' => 'datetime',
         'end_time' => 'datetime',
+        'api' => 'array'
     ];
     protected $dates = [
         'tanggal',

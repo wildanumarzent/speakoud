@@ -66,6 +66,7 @@
                 </div>
             </div>
             @endif
+            @if (empty(Request::get('q')))
             @foreach ($data['directories'] as $key => $value)
             <div class="file-item">
                 <a href="{{ route('bank.data', ['type' => Request::segment(3), 'path' => $value['path']]) }}">
@@ -88,6 +89,7 @@
                 @endif
             </div>
             @endforeach
+            @endif
             @foreach ($data['files'] as $key => $file)
             <div class="file-item only">
                 @if ($file->file_type == 'mp3' || $file->file_type == 'wav' || $file->file_type == 'pptx' || $file->file_type == 'ppt' || $file->file_type == 'pdf')
@@ -125,11 +127,11 @@
                 @endif
             </div>
             @endforeach
-            @if (count($data['directories']) == 0 && count($data['files']) == 0)
+            @if (empty(Request::get('q')) ? count($data['directories']) == 0 && count($data['files']) == 0 : count($data['files']) == 0)
             <div class="file-item">
                 <div class="file-item-icon las la-ban text-danger"></div>
                 <div class="file-item-name">
-                  Data kosong
+                  File kosong
                 </div>
             </div>
             @endif

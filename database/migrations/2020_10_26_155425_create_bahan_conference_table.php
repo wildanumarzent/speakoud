@@ -26,6 +26,7 @@ class CreateBahanConferenceTable extends Migration
             $table->text('meeting_link');
             $table->boolean('tipe')->default(false);
             $table->tinyInteger('status')->default(0);
+            $table->text('api')->nullable();
             $table->timestamps();
 
             $table->foreign('program_id')->references('id')

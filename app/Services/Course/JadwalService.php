@@ -3,6 +3,7 @@
 namespace App\Services\Course;
 
 use App\Models\Course\JadwalPelatihan;
+use App\Models\Event;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
@@ -92,6 +93,15 @@ class JadwalService
         ];
         $jadwal->publish = (bool)$request->publish;
         $jadwal->save();
+
+        $event = new Event;
+        $event->title = $request->judul;
+        $event->description = strip_tags($request->keterangan);
+        $event->className = 'fc-event-primary';
+        $event->start = $request->start_date;
+        $event->end = $request->end_date;
+        $event->allDay = 1;
+        $event->save();
 
         return $jadwal;
     }

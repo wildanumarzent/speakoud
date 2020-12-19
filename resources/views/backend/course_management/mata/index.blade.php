@@ -154,23 +154,25 @@
                 <tr>
                     <th>Enroll</th>
                     <td>
-                        <a href="{{ route('mata.instruktur', ['id' => $item->id]) }}" class="btn btn-warning btn-sm btn-block" title="klik untuk melihat instruktur">
-                            <i class="las la-user-tie"></i> Instruktur
-                        </a>
-                        <a href="{{ route('mata.peserta', ['id' => $item->id]) }}" class="btn btn-warning btn-sm btn-block" title="klik untuk melihat peserta">
-                            <i class="las la-user"></i> Peserta
-                        </a>
+                        <div class="btn-group dropdown ml-2">
+                            <button type="button" class="btn btn-success btn-sm btn-block dropdown-toggle hide-arrow" data-toggle="dropdown" title="klik untuk melihat user enroll"><i class="las la-users"></i><span>Users</span></button>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a href="{{ route('mata.instruktur', ['id' => $item->id]) }}" class="dropdown-item" ><i class="las la-user-tie"></i><span>Instruktur</span></a>
+                                <a href="{{ route('mata.peserta', ['id' => $item->id]) }}" class="dropdown-item" ><i class="las la-user"></i><span>Peserta</span></a>
+                            </div>
+                        </div>
                     </td>
                 </tr>
                 <tr>
                     <th>Sertifikasi</th>
                     <td>
-                        <a href="{{ route('sertifikat.internal.form', ['id' => $item->id]) }}" class="btn btn-primary btn-sm btn-block" title="Sertifikat internal">
-                            <i class="las la-certificate"></i> Sertifikat Internal
-                        </a>
-                        <a href="{{ route('sertifikat.external.peserta', ['id' => $item->id]) }}" class="btn btn-primary btn-sm btn-block" title="Sertitifikat External">
-                            <i class="las la-certificate"></i> Sertifikat External
-                        </a>
+                        <div class="btn-group dropdown ml-2">
+                            <button type="button" class="btn btn-primary btn-sm btn-block dropdown-toggle hide-arrow" data-toggle="dropdown" title="klik untuk mengatur sertifikat"><i class="las la-certificate"></i><span>Sertifikat</span></button>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a href="{{ route('sertifikat.internal.form', ['id' => $item->id]) }}" class="dropdown-item" ><i class="las la-tags"></i><span>Internal</span></a>
+                                <a href="{{ route('sertifikat.external.peserta', ['id' => $item->id]) }}" class="dropdown-item" ><i class="las la-tags"></i><span>External</span></a>
+                            </div>
+                        </div>
                     </td>
                 </tr>
           </table>
