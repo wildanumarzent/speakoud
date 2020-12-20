@@ -65,7 +65,7 @@
                     <th>Unit Kerja</th>
                     <th>Kedeputian</th>
                     {{-- <th>Surat Izin</th> --}}
-                    <th style="width: 80px;">Action</th>
+                    <th style="width: 80px;">Aksi</th>
                 </tr>
             </thead>
             <tbody>

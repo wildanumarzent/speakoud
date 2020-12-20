@@ -5,20 +5,23 @@ namespace App\Services\Course\Bahan;
 use App\Models\Course\Bahan\BahanQuiz;
 use App\Models\Course\Bahan\BahanQuizItem;
 use App\Models\Course\Bahan\BahanQuizItemTracker;
+use App\Models\Soal\Soal;
 
 class BahanQuizItemService
 {
-    private $model, $modelQuiz, $modelTracker;
+    private $model, $modelQuiz, $modelTracker, $modelSoal;
 
     public function __construct(
         BahanQuizItem $model,
         BahanQuiz $modelQuiz,
-        BahanQuizItemTracker $modelTracker
+        BahanQuizItemTracker $modelTracker,
+        Soal $modelSoal
         )
     {
         $this->model = $model;
         $this->modelQuiz = $modelQuiz;
         $this->modelTracker = $modelTracker;
+        $this->modelSoal = $modelSoal;
     }
 
     public function getItemList($request, int $quizId)
@@ -36,6 +39,17 @@ class BahanQuizItemService
         }
 
         $result = $query->paginate(20);
+
+        return $result;
+    }
+
+    public function getItem(int $quizId)
+    {
+        $query = $this->model->query();
+
+        $query->where('quiz_id', $quizId);
+
+        $result = $query->get();
 
         return $result;
     }
@@ -113,6 +127,32 @@ class BahanQuizItemService
         $item->save();
 
         return $item;
+    }
+
+    public function storeFromBank($request, int $quizId)
+    {
+        $soal = $this->modelSoal->whereIn('id', $request->soal_id)->get();
+        $quiz = $this->findQuiz($quizId);
+
+        foreach ($soal as $key => $value) {
+            $item = new BahanQuizItem;
+            $item->program_id = $quiz->program_id;
+            $item->mata_id = $quiz->mata_id;
+            $item->materi_id = $quiz->materi_id;
+            $item->bahan_id = $quiz->bahan_id;
+            $item->quiz_id = $quizId;
+            $item->creator_id = auth()->user()->id;
+            $item->pertanyaan = $value->pertanyaan;
+            $item->tipe_jawaban = $value->tipe_jawaban;
+            if ($value->tipe_jawaban == 0) {
+                $item->pilihan = $value->pilihan;
+                $item->jawaban = $value->jawaban;
+    
+            } elseif ($value->tipe_jawaban == 1 || $value->tipe_jawaban == 3) {
+                $item->jawaban = $value->jawaban;
+            }
+            $item->save();
+        }
     }
 
     public function updateItem($request, int $id)

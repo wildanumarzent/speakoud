@@ -27,11 +27,20 @@
 </div>
 <!-- / Filters -->
 
+<div class="text-left">
+@role ('instruktur_internal|instruktur_mitra')
+    <button type="button" onclick="goBack()" class="btn btn-secondary rounded-pill" title="kembali ke list soal"><i class="las la-arrow-left"></i>Kembali</button>
+@else    
+    <a href="{{ route('mata.index', ['id' => $data['mata']->program_id]) }}" class="btn btn-secondary rounded-pill" title="kembali ke list program"><i class="las la-arrow-left"></i>Kembali</a>
+@endrole
+</div>
+<br>
+
 <div class="card">
     <div class="card-header with-elements">
         <h5 class="card-header-title mt-1 mb-0">Kategori Soal List</h5>
         <div class="card-header-elements ml-auto">
-            <a href="{{ route('soal.kategori.create') }}" class="btn btn-primary icon-btn-only-sm" title="klik untuk menambah kategori soal">
+            <a href="{{ route('soal.kategori.create', ['id' => $data['mata']->id]) }}" class="btn btn-primary icon-btn-only-sm" title="klik untuk menambah kategori soal">
                 <i class="las la-plus"></i><span>Tambah</span>
             </a>
         </div>
@@ -43,10 +52,11 @@
                     <th style="width: 10px;">No</th>
                     <th>Judul</th>
                     <th>Keterangan</th>
-                    <th style="width: 210px;">Creator</th>
-                    <th style="width: 230px;">Created</th>
-                    <th style="width: 230px;">Updated</th>
-                    <th style="width: 140px;">Action</th>
+                    <th style="width: 120px;">Jumlah Soal</th>
+                    <th style="width: 210px;">Pembuat</th>
+                    <th style="width: 230px;">Tanggal Dibuat</th>
+                    <th style="width: 230px;">Tanggal Diperbarui</th>
+                    <th style="width: 140px;">Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -68,19 +78,29 @@
                     <td>{{ $data['number']++ }}</td>
                     <td>{{ $item->judul }}</td>
                     <td>{{ $item->keterangan ?? '-' }}</td>
+                    <td class="text-center"><span class="badge badge-primary"><strong>{{ $item->soal->count() }}</strong></span></td>
                     <td>{{ $item->creator->name }}</td>
                     <td>{{ $item->created_at->format('d F Y (H:i A)') }}</td>
                     <td>{{ $item->updated_at->format('d F Y (H:i A)') }}</td>
                     <td>
-                        <a href="{{ route('soal.index', ['id' => $item->id]) }}" class="btn icon-btn btn-sm btn-success" title="klik untuk melihat list soal">
+                        <a href="{{ route('soal.index', ['id' => $item->mata_id, 'kategoriId' => $item->id]) }}" class="btn icon-btn btn-sm btn-success" title="klik untuk melihat list soal">
                             <i class="las la-list"></i>
                         </a>
-                        <a href="{{ route('soal.kategori.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-sm btn-primary" title="klik untuk mengedit kategori soal">
+                        @if (!auth()->user()->hasRole('instruktur_internal|instruktur_mitra') || auth()->user()->hasRole('instruktur_internal|instruktur_mitra') && $item->creator_id == auth()->user()->id)    
+                        <a href="{{ route('soal.kategori.edit', ['id' => $item->mata_id, 'kategoriId' => $item->id]) }}" class="btn icon-btn btn-sm btn-primary" title="klik untuk mengedit kategori soal">
                             <i class="las la-pen"></i>
                         </a>
-                        <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-sm btn-danger js-sa2-delete" title="klik untuk menghapus kategori soal">
+                        <a href="javascript:;" data-mataid="{{ $item->mata_id }}" data-id="{{ $item->id }}" class="btn icon-btn btn-sm btn-danger js-sa2-delete" title="klik untuk menghapus kategori soal">
                             <i class="las la-trash"></i>
                         </a>
+                        @else
+                        <button type="button" class="btn icon-btn btn-sm btn-secondary" title="klik untuk mengedit kategori soal" disabled>
+                            <i class="las la-pen"></i>
+                        </button>
+                        <button type="button" class="btn icon-btn btn-sm btn-secondary" title="klik untuk menghapus kategori soal" disabled>
+                            <i class="las la-trash"></i>
+                        </button>
+                        @endif
                     </td>
                 </tr>
                 @endforeach
@@ -119,15 +139,24 @@
 
                                 <div class="item-table m-0">
                                     <div class="desc-table text-right">
-                                        <a href="{{ route('soal.index', ['id' => $item->id]) }}" class="btn icon-btn btn-sm btn-success" title="klik untuk melihat list soal">
+                                        <a href="{{ route('soal.index', ['id' => $item->mata_id, 'kategoriId' => $item->id]) }}" class="btn icon-btn btn-sm btn-success" title="klik untuk melihat list soal">
                                             <i class="las la-list"></i>
                                         </a>
-                                        <a href="{{ route('soal.kategori.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-sm btn-primary" title="klik untuk mengedit kategori soal">
+                                        @if (!auth()->user()->hasRole('instruktur_internal|instruktur_mitra') || auth()->user()->hasRole('instruktur_internal|instruktur_mitra') && $item->creator_id == auth()->user()->id)    
+                                        <a href="{{ route('soal.kategori.edit', ['id' => $item->mata_id, 'kategoriId' => $item->id]) }}" class="btn icon-btn btn-sm btn-primary" title="klik untuk mengedit kategori soal">
                                             <i class="las la-pen"></i>
                                         </a>
-                                        <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-sm btn-danger js-sa2-delete" title="klik untuk menghapus kategori soal">
+                                        <a href="javascript:;" data-mataid="{{ $item->mata_id }}" data-id="{{ $item->id }}" class="btn icon-btn btn-sm btn-danger js-sa2-delete" title="klik untuk menghapus kategori soal">
                                             <i class="las la-trash"></i>
                                         </a>
+                                        @else
+                                        <button type="button" class="btn icon-btn btn-sm btn-secondary" title="klik untuk mengedit kategori soal" disabled>
+                                            <i class="las la-pen"></i>
+                                        </button>
+                                        <button type="button" class="btn icon-btn btn-sm btn-secondary" title="klik untuk menghapus kategori soal" disabled>
+                                            <i class="las la-trash"></i>
+                                        </button>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -141,7 +170,7 @@
     <div class="card-footer">
         <div class="row align-items-center">
             <div class="col-lg-6 m--valign-middle">
-                Showing : <strong>{{ $data['kategori']->firstItem() }}</strong> - <strong>{{ $data['kategori']->lastItem() }}</strong> of
+                Menampilkan : <strong>{{ $data['kategori']->firstItem() }}</strong> - <strong>{{ $data['kategori']->lastItem() }}</strong> dari
                 <strong>{{ $data['kategori']->total() }}</strong>
             </div>
             <div class="col-lg-6 m--align-right">
@@ -160,6 +189,7 @@
 <script>
 $(document).ready(function () {
     $('.js-sa2-delete').on('click', function () {
+        var mata_id = $(this).attr('data-mataid');
         var id = $(this).attr('data-id');
         Swal.fire({
             title: "Apakah anda yakin?",
@@ -176,7 +206,7 @@ $(document).ready(function () {
             cancelButtonText: "Tidak, terima kasih",
             preConfirm: () => {
                 return $.ajax({
-                    url: "/soal/kategori/" + id,
+                    url: "/mata/"+ mata_id +"/soal/kategori/" + id,
                     method: 'DELETE',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -213,6 +243,10 @@ $(document).ready(function () {
         });
     })
 });
+
+function goBack() {
+    window.history.back();
+}
 </script>
 
 @include('components.toastr')

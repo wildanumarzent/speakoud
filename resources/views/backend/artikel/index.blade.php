@@ -55,9 +55,9 @@
                     <th>Judul</th>
                     <th style="width: 40px;">Viewer</th>
                     <th style="width: 70px;">Status</th>
-                    <th style="width: 210px;">Created</th>
-                    <th style="width: 210px;">Updated</th>
-                    <th style="width: 120px;">Action</th>
+                    <th style="width: 210px;">Tanggal Dibuat</th>
+                    <th style="width: 210px;">Tanggal Diperbarui</th>
+                    <th style="width: 120px;">Aksi</th>
                 </tr>
             </thead>
             <tbody>

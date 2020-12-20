@@ -39,13 +39,13 @@
          </tr>
          @if (auth()->user()->hasRole('peserta_internal|peserta_mitra') && !empty($data['bahan']->conference->trackByUser) && $data['bahan']->conference->status == 2)
          <tr>
-            <th style="width: 150px;">Join</th>
+            <th style="width: 150px;">Masuk</th>
             <td>
                 {{ $data['bahan']->conference->trackByUser->join->format('d F Y (H:i A)') }}
             </td>
          </tr>
          <tr>
-            <th style="width: 150px;">Leave</th>
+            <th style="width: 150px;">Keluar</th>
             <td>
                 {{ !empty($data['bahan']->conference->trackByUser->leave) ? $data['bahan']->conference->trackByUser->leave->format('d F Y (H:i A)') : '-' }}
             </td>

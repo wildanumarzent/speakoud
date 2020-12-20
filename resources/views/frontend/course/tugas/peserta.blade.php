@@ -58,7 +58,7 @@
                     <th>Nama</th>
                     <th>Keterangan</th>
                     <th>Tanggal Pengumpulan</th>
-                    <th style="width: 120px;">Action</th>
+                    <th style="width: 120px;">Aksi</th>
                 </tr>
             </thead>
             <tbody>

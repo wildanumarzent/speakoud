@@ -124,14 +124,14 @@
                                             <i class="las la-user"></i>
                                             <span>{{ $mata->peserta->count() }}</span>
                                         </div>
-                                        <span>Enrolled</span>
+                                        <span>Enroll</span>
                                     </div>
                                     <div class="item-info">
                                         <div class="data-info">
                                             <i class="las la-comment"></i>
                                             <span>{{ $mata->materi->count() }}</span>
                                         </div>
-                                        <span>Topics</span>
+                                        <span>Topik</span>
                                     </div>
                                 </div>
                             </div>

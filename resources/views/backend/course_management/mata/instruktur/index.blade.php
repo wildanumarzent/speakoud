@@ -66,7 +66,7 @@
                     <th>Jabatan</th>
                     <th>Materi Upload</th>
                     <th style="width: 200px;">Kode Evaluasi</th>
-                    <th style="width: 80px;">Action</th>
+                    <th style="width: 80px;">Aksi</th>
                 </tr>
             </thead>
             <tbody>

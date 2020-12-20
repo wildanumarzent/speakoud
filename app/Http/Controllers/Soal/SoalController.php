@@ -21,7 +21,7 @@ class SoalController extends Controller
         $this->serviceKategori = $serviceKategori;
     }
 
-    public function index(Request $request, $kategoriId)
+    public function index(Request $request, $mataId, $kategoriId)
     {
         $t = '';
         $q = '';
@@ -30,7 +30,7 @@ class SoalController extends Controller
             $q = '&q='.$request->q;
         }
 
-        $data['soal'] = $this->service->getSoalList($request, $kategoriId);
+        $data['soal'] = $this->service->getSoalList($request, $mataId, $kategoriId);
         $data['number'] = $data['soal']->firstItem();
         $data['soal']->withPath(url()->current().$t.$q);
         $data['kategori'] = $this->serviceKategori->findKategoriSoal($kategoriId);
@@ -38,65 +38,81 @@ class SoalController extends Controller
         return view('backend.bank_soal.index', compact('data'), [
             'title' => 'Bank Soal - Soal',
             'breadcrumbsBackend' => [
-                'Bank Soal' => '',
-                'Kategori' => route('soal.kategori'),
+                'Program' => route('mata.index', ['id' => $data['kategori']->mata->program_id]),
+                'Kategori' => route('soal.kategori', ['id' => $mataId]),
                 'Soal' => '',
             ],
         ]);
     }
 
-    public function create($kategoriId)
+    public function create($mataId, $kategoriId)
     {
         $data['kategori'] = $this->serviceKategori->findKategoriSoal($kategoriId);
 
         return view('backend.bank_soal.form', compact('data'), [
             'title' => 'Soal - Tambah',
             'breadcrumbsBackend' => [
-                'Bank Soal' => '',
-                'Kategori' => route('soal.kategori'),
-                'Soal' => route('soal.index', ['id' => $kategoriId]),
+                'Program' => route('mata.index', ['id' => $data['kategori']->mata->program_id]),
+                'Kategori' => route('soal.kategori', ['id' => $mataId]),
+                'Soal' => route('soal.index', ['id' => $mataId, 'kategoriId' => $kategoriId]),
                 'Tambah' => ''
             ],
         ]);
     }
 
-    public function store(SoalRequest $request, $kategoriId)
+    public function store(SoalRequest $request, $mataId, $kategoriId)
     {
-        $this->service->storeSoal($request, $kategoriId);
+        $this->service->storeSoal($request, $mataId, $kategoriId);
 
-        return redirect()->route('soal.index', ['id' => $kategoriId])->with('success', 'Soal berhasil ditambahkan');
+        return redirect()->route('soal.index', ['id' => $mataId, 'kategoriId' => $kategoriId])
+            ->with('success', 'Soal berhasil ditambahkan');
     }
 
-    public function edit($kategoriId, $id)
+    public function edit($mataId, $kategoriId, $id)
     {
         $data['soal'] = $this->service->findSoal($id);
         $data['kategori'] = $this->serviceKategori->findKategoriSoal($kategoriId);
 
+        $this->checkCreator($data['soal']->creator_id);
+
         return view('backend.bank_soal.form-edit', compact('data'), [
             'title' => 'Kategori Soal - Edit',
             'breadcrumbsBackend' => [
-                'Bank Soal' => '',
-                'Kategori' => route('soal.kategori'),
-                'Soal' => route('soal.index', ['id' => $kategoriId]),
+                'Program' => route('mata.index', ['id' => $data['kategori']->mata->program_id]),
+                'Kategori' => route('soal.kategori', ['id' => $mataId]),
+                'Soal' => route('soal.index', ['id' => $mataId, 'kategoriId' => $kategoriId]),
                 'Edit' => ''
             ],
         ]);
     }
 
-    public function update(SoalRequest $request, $kategoriId, $id)
+    public function update(SoalRequest $request, $mataId, $kategoriId, $id)
     {
         $this->service->updateSoal($request, $id);
 
-        return redirect()->route('soal.index', ['id' => $kategoriId])->with('success', 'Soal berhasil diedit');
+        return redirect()->route('soal.index', ['id' => $mataId, 'kategoriId' => $kategoriId])
+            ->with('success', 'Soal berhasil diedit');
     }
 
-    public function destroy($kategoriId, $id)
+    public function destroy($mataId, $kategoriId, $id)
     {
+        $soal = $this->service->findSoal($id);
+        $this->checkCreator($soal->creator_id);
+
         $this->service->deleteSoal($id);
 
         return response()->json([
             'success' => 1,
             'message' => ''
         ], 200);
+    }
+
+    public function checkCreator($creatorId)
+    {
+        if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra')) {
+            if ($creatorId != auth()->user()->id) {
+                return abort(403);
+            }
+        }
     }
 }

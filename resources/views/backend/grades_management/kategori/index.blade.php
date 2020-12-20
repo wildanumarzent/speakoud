@@ -43,10 +43,10 @@
                     <th style="width: 10px;">No</th>
                     <th>Nama</th>
                     <th>Keterangan</th>
-                    <th style="width: 210px;">Creator</th>
-                    <th style="width: 230px;">Created</th>
-                    <th style="width: 230px;">Updated</th>
-                    <th style="width: 140px;">Action</th>
+                    <th style="width: 210px;">Pembuat</th>
+                    <th style="width: 230px;">Tanggal Dibuat</th>
+                    <th style="width: 230px;">Tanggal Diperbarui</th>
+                    <th style="width: 140px;">Aksi</th>
                 </tr>
             </thead>
             <tbody>

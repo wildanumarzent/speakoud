@@ -32,7 +32,7 @@
         <h5 class="card-header-title mt-1 mb-0">Inquiry Kontak List</h5>
         <div class="card-header-elements ml-auto">
             <a href="{{ route('inquiry.edit', ['id' => 1]) }}" class="btn btn-warning icon-btn-only-sm" title="klik untuk setting inquiry" data-toggle="tooltip">
-                <i class="las la-cog"></i><span>Setting</span>
+                <i class="las la-cog"></i><span>Pengaturan</span>
             </a>
         </div>
     </div>
@@ -44,9 +44,9 @@
                     <th>IP Address</th>
                     <th>Nama</th>
                     <th>Email</th>
-                    <th>Subject</th>
-                    <th style="width: 220px;">Submit Time</th>
-                    <th style="width: 110px;">Action</th>
+                    <th>Subjek</th>
+                    <th style="width: 220px;">Tanggal Dikirim</th>
+                    <th style="width: 110px;">Aksi</th>
                 </tr>
             </thead>
             <tbody>

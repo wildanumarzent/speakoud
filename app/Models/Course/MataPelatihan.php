@@ -7,6 +7,8 @@ use App\Models\Course\Bahan\BahanPelatihan;
 use App\Models\Sertifikasi\SertifikatExternal;
 use App\Models\Sertifikasi\SertifikatInternal;
 use App\Models\Sertifikasi\SertifikatPeserta;
+use App\Models\Soal\Soal;
+use App\Models\Soal\SoalKategori;
 use App\Models\Users\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -67,6 +69,16 @@ class MataPelatihan extends Model
     public function peserta()
     {
         return $this->hasMany(MataPeserta::class, 'mata_id');
+    }
+
+    public function soalKategori()
+    {
+        return $this->hasMany(SoalKategori::class, 'mata_id');
+    }
+
+    public function soal()
+    {
+        return $this->hasMany(Soal::class, 'mata_id');
     }
 
     public function materi()

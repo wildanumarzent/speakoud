@@ -19,7 +19,7 @@
                         @if (Request::get('path') != null)
                             <input type="hidden" name="path" value="{{ Request::get('path') }}">
                         @endif
-                        <input type="text" class="form-control" name="q" value="{{ Request::get('q') }}" placeholder="Filename...">
+                        <input type="text" class="form-control" name="q" value="{{ Request::get('q') }}" placeholder="Nama File...">
                         <div class="input-group-append">
                             <button type="submit" class="btn btn-warning" title="klik untuk mencari"><i class="las la-search"></i></button>
                         </div>

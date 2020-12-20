@@ -13,16 +13,21 @@ class SoalService
         $this->model = $model;
     }
 
-    public function getSoalList($request, int $kategoriId)
+    public function getSoalList($request, int $mataId, int $kategoriId)
     {
         $query = $this->model->query();
 
+        $query->where('mata_id', $mataId);
         $query->where('kategori_id', $kategoriId);
         $query->when($request->q, function ($query, $q) {
             $query->where(function ($query) use ($q) {
                 $query->where('pertanyaan', 'like', '%'.$q.'%');
             });
         });
+
+        if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra')) {
+            $query->where('creator_id', auth()->user()->id);
+        }
 
         if (isset($request->t)) {
             $query->where('tipe_jawaban', $request->t);
@@ -33,14 +38,34 @@ class SoalService
         return $result;
     }
 
+    public function getSoalByMata(int $mataId, $notIn = null)
+    {
+        $query = $this->model->query();
+
+        $query->where('mata_id', $mataId);
+
+        if (!empty($notIn)) {
+            $query->whereNotIn('pertanyaan', $notIn);
+        }
+
+        if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra')) {
+            $query->where('creator_id', auth()->user()->id);
+        }
+
+        $result = $query->get();
+
+        return $result;
+    }
+
     public function findSoal(int $id)
     {
         return $this->model->findOrFail($id);
     }
 
-    public function storeSoal($request, int $kategoriId)
+    public function storeSoal($request, int $mataId, int $kategoriId)
     {
         $soal = new Soal($request->only(['pertanyaan']));
+        $soal->mata_id = $mataId;
         $soal->kategori_id = $kategoriId;
         $soal->creator_id = auth()->user()->id;
         $soal->tipe_jawaban = $request->get('tipe');

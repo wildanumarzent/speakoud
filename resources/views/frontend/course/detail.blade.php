@@ -35,12 +35,12 @@
                     <div class="media-body ml-3">
                       <h5 class="mb-1"><a href="javascript:void(0)" class="text-body">{!! $data['read']->judul !!}</a></h5>
                       {{-- <div class="text-muted small">Last Updated {{ $data['read']->updated_at->format('d F Y') }}</div> --}}
-                      <div class="text-muted small"><i class="las la-user"></i> <strong>{{ $data['read']->peserta->count() }}</strong> students enrolled <i class="las la-comment ml-3"></i> <strong>{{ $data['read']->materi->count() }}</strong> topics</div>
+                      <div class="text-muted small"><i class="las la-user"></i> <strong>{{ $data['read']->peserta->count() }}</strong> Peserta Enroll <i class="las la-comment ml-3"></i> <strong>{{ $data['read']->materi->count() }}</strong> Topik</div>
                     </div>
                 </div>
                 <div class="card-header-elements ml-auto">
                     <div class="btn-group float-right dropdown ml-2">
-                        <button type="button" class="btn btn-primary dropdown-toggle hide-arrow icon-btn-only-sm btn-sm" data-toggle="dropdown"><i class="las la-share-alt"></i><span>Share</span></button>
+                        <button type="button" class="btn btn-primary dropdown-toggle hide-arrow icon-btn-only-sm btn-sm" data-toggle="dropdown"><i class="las la-share-alt"></i><span>Bagikan</span></button>
                         <div class="dropdown-menu dropdown-menu-right">
                             <a href="https://www.facebook.com/share.php?u={{ url()->full() }}&title={!! $data['read']->judul !!}" class="dropdown-item" target="_blank">
                                 <i class="lab la-facebook" style="color:#3b5998;"></i><span>Facebook</span>
@@ -69,7 +69,7 @@
             </div>
         </div>
         <hr class="mt-2 mb-4">
-        <h6 class="font-weight-semibold mb-4">Course</h6>
+        <h6 class="font-weight-semibold mb-4">Pelatihan</h6>
         <div id="accordion">
             @foreach ($data['materi'] as $materi)
             <div class="card mb-2">
@@ -211,7 +211,7 @@
         @if ($data['read']->show_feedback == 1)
         <div class="card mb-4">
             <h6 class="card-header with-elements">
-                <span class="card-header-title"> Student Feedback</span>
+                <span class="card-header-title"> Rating</span>
             </h6>
             @php
                 // dd($data['read']->rating('per_rating', 5))
@@ -231,7 +231,7 @@
                     <h3 class="badge badge-primary" style="font-size: 20px;">
                         {{ $data['read']->rating->count() > 0 ? round($data['read']->getRating('review'), 2) : 0 }}
                     </h3><br>
-                    {{ $data['read']->getRating('student_rating') }} Student Ratings
+                    {{ $data['read']->getRating('student_rating') }} Rating Peserta
                 </div>
             </div>
             <div class="card-footer">
@@ -261,7 +261,7 @@
         @if ($data['read']->show_comment == 1)
         <div class="card mb-4">
             <h6 class="card-header with-elements">
-                <span class="card-header-title"> Comment & Review</span>
+                <span class="card-header-title"> Komentar</span>
             </h6>
             <form action="{{ route('course.comment', ['id' => $data['read']->id]) }}" method="POST" id="form-comment">
                 @csrf
@@ -272,7 +272,7 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                    <button type="submit" class="btn btn-primary">Comment</button>
+                    <button type="submit" class="btn btn-primary">Kirim</button>
                 </div>
             </form>
         </div>
@@ -282,7 +282,7 @@
         @if ($data['read']->show_comment == 1)
         <div class="col-md-9">
             <hr class="mt-2 mb-4">
-            <h6 class="font-weight-semibold mb-4">Comment</h6>
+            <h6 class="font-weight-semibold mb-4">Komentar</h6>
             @foreach ($data['read']->comment as $comment)
             <div class="card mb-3">
                 <div class="card-body">

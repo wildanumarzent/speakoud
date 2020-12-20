@@ -8,21 +8,24 @@ use App\Models\Course\Bahan\BahanQuizItem;
 use App\Services\Course\Bahan\BahanQuizItemService;
 use App\Services\Course\Bahan\BahanQuizService;
 use App\Services\Course\Bahan\BahanService;
+use App\Services\Soal\SoalService;
 use Illuminate\Http\Request;
 
 class BahanQuizItemController extends Controller
 {
-    private $service, $serviceBahan, $serviceQuiz;
+    private $service, $serviceBahan, $serviceQuiz, $serviceSoal;
 
     public function __construct(
         BahanQuizItemService $service,
         BahanService $serviceBahan,
-        BahanQuizService $serviceQuiz
+        BahanQuizService $serviceQuiz,
+        SoalService $serviceSoal
     )
     {
         $this->service = $service;
         $this->serviceBahan = $serviceBahan;
         $this->serviceQuiz = $serviceQuiz;
+        $this->serviceSoal = $serviceSoal;
     }
 
     public function index(Request $request, $quizId)
@@ -38,6 +41,15 @@ class BahanQuizItemController extends Controller
         $data['number'] = $data['quiz_item']->firstItem();
         $data['quiz_item']->withPath(url()->current().$t.$q);
         $data['quiz'] = $this->service->findQuiz($quizId);
+
+        $soal = null;
+        if ($data['quiz_item']->total() > 0) {
+            $collectSoal = collect($this->service->getItem($quizId));
+            $soal = $collectSoal->map(function($item, $key) {
+                return $item->pertanyaan;
+            })->all();
+        }
+        $data['soal'] = $this->serviceSoal->getSoalByMata($data['quiz']->mata_id, $soal);
 
         $this->serviceBahan->checkInstruktur($data['quiz']->materi_id);
 
@@ -193,6 +205,19 @@ class BahanQuizItemController extends Controller
 
         return redirect()->route('quiz.item', ['id' => $quizId])
             ->with('success', 'Soal Quiz berhasil ditambahkan');
+    }
+
+    public function storeFromBank(Request $request, $quizId)
+    {
+        if ($request->soal_id == null) {
+            return back()->with('warning', 'soal harus dipilih');
+        } else {
+            
+            $this->service->storeFromBank($request, $quizId);
+
+            return back()->with('success', 'soal berhasil ditambahkan');
+        }
+        
     }
 
     public function edit($quizId, $id)

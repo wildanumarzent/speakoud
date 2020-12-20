@@ -15,6 +15,7 @@ class CreateBankSoalTable extends Migration
     {
         Schema::create('bank_soal', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('mata_id');
             $table->unsignedBigInteger('kategori_id');
             $table->unsignedBigInteger('creator_id');
             $table->text('pertanyaan');
@@ -25,10 +26,12 @@ class CreateBankSoalTable extends Migration
                 ->comment('Kosong untuk essay, Array jawaban untuk Exact');
             $table->timestamps();
 
+            $table->foreign('mata_id')->references('id')->on('mata_pelatihan')
+                ->cascadeOnDelete();
+            $table->foreign('kategori_id')->references('id')->on('bank_soal_kategori')
+                ->cascadeOnDelete();
             $table->foreign('creator_id')->references('id')->on('users')
                 ->cascadeOnDelete();
-            $table->foreign('kategori_id')->references('id')
-                ->on('bank_soal_kategori')->cascadeOnDelete();
         });
     }
 

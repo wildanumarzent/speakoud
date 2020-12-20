@@ -46,9 +46,9 @@
                     <th style="width: 10px;">No</th>
                     <th>Judul</th>
                     <th>Keterangan</th>
-                    <th style="width: 200px;">Created</th>
-                    <th style="width: 200px;">Updated</th>
-                    <th style="width: 140px;">Action</th>
+                    <th style="width: 210px;">Tanggal Dibuat</th>
+                    <th style="width: 210px;">Tanggal Diperbarui</th>
+                    <th style="width: 140px;">Aksi</th>
                 </tr>
             </thead>
             <tbody>

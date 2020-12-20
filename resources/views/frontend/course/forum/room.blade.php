@@ -56,7 +56,7 @@
                     </form>
                   </a>
                   <a href="{{ route('forum.topik.edit', ['id' => $data['topik']->forum_id, 'topikId' => $data['topik']->id]) }}" class="dropdown-item" title="Edit topik">
-                    <i class="las la-pen"></i> Edit
+                    <i class="las la-pen"></i> Ubah
                   </a>
                   <a href="javascript:;" data-forumid="{{ $data['topik']->forum_id }}" data-id="{{ $data['topik']->id }}" class="dropdown-item js-sa2-delete" title="Hapus topik">
                     <i class="las la-trash"></i> Hapus
@@ -97,7 +97,7 @@
                 <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" data-trigger="hover" aria-expanded="false">Action</button>
                 <div class="dropdown-menu" x-placement="bottom-start">
                   <a href="{{ route('forum.topik.reply.edit', ['id' => $data['topik']->forum_id, 'topikId' => $data['topik']->id, 'replyId' => $diskusi->id]) }}" class="dropdown-item" title="Edit diskusi">
-                    <i class="las la-pen"></i> Edit
+                    <i class="las la-pen"></i> Ubah
                   </a>
                   <a href="javascript:;" data-forumid="{{ $data['topik']->forum_id }}" data-topikid="{{ $data['topik']->id }}" data-id="{{ $diskusi->id }}" class="dropdown-item js-sa3-delete" title="Hapus diskusi">
                     <i class="las la-trash"></i> Hapus

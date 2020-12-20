@@ -56,11 +56,11 @@
                     <th style="width: 10px;">No</th>
                     <th>NIP</th>
                     <th>Nama</th>
-                    <th>Join</th>
+                    <th>Masuk</th>
                     <th>Check In</th>
                     <th>Verifikasi</th>
-                    <th>Leave</th>
-                    <th style="width: 90px;">Action</th>
+                    <th>Keluar</th>
+                    <th style="width: 90px;">Aksi</th>
                 </tr>
             </thead>
             <tbody>

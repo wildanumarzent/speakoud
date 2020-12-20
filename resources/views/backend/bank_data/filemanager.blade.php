@@ -24,7 +24,7 @@
                         <input type="hidden" name="type-file" value="{{ Request::get('type-file') }}">
                         <input type="hidden" name="view" value="{{ Request::get('view') }}">
                         <input type="hidden" name="path" value="{{ Request::get('path') }}">
-                        <input type="text" class="form-control" name="q" value="{{ Request::get('q') }}" placeholder="Filename...">
+                        <input type="text" class="form-control" name="q" value="{{ Request::get('q') }}" placeholder="Nama File...">
                         <div class="input-group-append">
                             <button type="submit" class="btn btn-warning" title="klik untuk mencari"><i class="las la-search"></i></button>
                         </div>

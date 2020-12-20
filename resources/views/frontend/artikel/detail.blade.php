@@ -22,7 +22,7 @@
             <div class="post-info justify-content-center">
                 <div class="box-info mb-3">
                     <div class="item-info text-left">
-                        <span class="ml-4">Create</span>
+                        <span class="ml-4">Dibuat Oleh</span>
                         <div class="data-info">
                             <i class="las la-user-edit"></i>
                             <span>{!! $data['read']->userCreated['name'] !!}</span>
@@ -37,7 +37,7 @@
                                 <span class="ml-1">{{$tag->parent->nama.","}}</span>
                                 @endforeach
                             @else
-                            <span>No Tags</span>
+                            <span>Tidak ada tags</span>
                             @endif
                         </div>
                     </div>

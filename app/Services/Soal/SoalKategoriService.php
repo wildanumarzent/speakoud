@@ -13,15 +13,20 @@ class SoalKategoriService
         $this->model = $model;
     }
 
-    public function getSoalKategoriList($request)
+    public function getSoalKategoriList($request, int $mataId)
     {
         $query = $this->model->query();
 
+        $query->where('mata_id', $mataId);
         $query->when($request->q, function ($query, $q) {
             $query->where(function ($query) use ($q) {
                 $query->where('judul', 'like', '%'.$q.'%');
             });
         });
+
+        if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra')) {
+            $query->where('creator_id', auth()->user()->id);
+        }
 
         $result = $query->paginate(20);
 
@@ -33,9 +38,10 @@ class SoalKategoriService
         return $this->model->findOrFail($id);
     }
 
-    public function storeKategoriSoal($request)
+    public function storeKategoriSoal($request, int $mataId)
     {
         $kategori = new SoalKategori($request->only(['judul']));
+        $kategori->mata_id = $mataId;
         $kategori->creator_id = auth()->user()->id;
         $kategori->keterangan = $request->keterangan ?? null;
         $kategori->save();

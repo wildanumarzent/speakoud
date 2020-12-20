@@ -51,7 +51,7 @@
         <div class="card-body pb-3">
           <table class="table table-bordered mb-0">
                 <tr>
-                    <th style="width: 200px;">Creator</th>
+                    <th style="width: 200px;">Pembuat</th>
                     <td>{{ $item->creator['name'] }}</td>
                 </tr>
                 <tr>
@@ -67,7 +67,7 @@
                     <td><span class="badge badge-outline-{{ $item->publish == 1 ? 'primary' : 'warning' }}">{{ $item->publish == 1 ? 'Publish' : 'Draft' }}</span></td>
                 </tr>
                 <tr>
-                    <th>Action</th>
+                    <th>Aksi</th>
                     <td>
                         <a class="btn btn-primary btn-block btn-sm" href="{{ route('course.detail', ['id' => $item->id]) }}" title="klik untuk melihat detail course">
                             Detail Pelatihan <i class="las la-external-link-alt ml-1"></i>
@@ -80,11 +80,11 @@
         <div class="card-body pt-0">
           <div class="row">
             <div class="col">
-              <div class="text-muted small">Created</div>
+              <div class="text-muted small">Tanggal Dibuat</div>
               <div class="font-weight-bold">{{ $item->created_at->format('d/m/Y H:i') }}</div>
             </div>
             <div class="col">
-              <div class="text-muted small">Updated</div>
+              <div class="text-muted small">Tanggal Diperbarui</div>
               <div class="font-weight-bold">{{ $item->updated_at->format('d/m/Y H:i') }}</div>
             </div>
           </div>

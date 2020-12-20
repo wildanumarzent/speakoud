@@ -43,18 +43,33 @@
 </div>
 <br>
 
+@if ($data['quiz']->trackItem()->count() > 0)
+<div class="alert alert-warning alert-dismissible fade show">
+    <button type="button" class="close" data-dismiss="alert"><i class="las la-times"></i></button>
+    <i class="las la-exclamation"></i> Tidak dapat <strong>menambah, mengedit / menghapuas soal</strong> dikarenakan sudah ada peserta yang mengerjakan!
+  </div>
+@endif
+
 <div class="card">
     <div class="card-header with-elements">
         <h5 class="card-header-title mt-1 mb-0">Soal List</h5>
         <div class="card-header-elements ml-auto">
-            <div class="btn-group float-right dropdown ml-2">
+            <a href="{{ route('soal.kategori', ['id' => $data['quiz']->mata_id]) }}" class="btn btn-success icon-btn-only-sm" title="manage soal">
+                <i class="las la-spell-check"></i><span>Bank Soal</span>
+            </a>
+            @if ($data['quiz']->trackItem()->count() == 0)
+            <button type="button" class="btn btn-primary icon-btn-only-sm" data-toggle="modal" data-target="#modals-soal" title="pilih soal dari bank data">
+                <i class="las la-list-alt"></i><span>Pilih Soal</span>
+            </button>
+            @endif
+            {{-- <div class="btn-group float-right dropdown ml-2">
                 <button type="button" class="btn btn-primary dropdown-toggle hide-arrow icon-btn-only-sm" data-toggle="dropdown"><i class="las la-plus"></i><span>Tambah</span></button>
                 <div class="dropdown-menu dropdown-menu-right">
                     @foreach (config('addon.label.quiz_item_tipe') as $key => $tipe)
                     <a href="{{ route('quiz.item.create', ['id' => $data['quiz']->id, 'tipe' => $key]) }}" class="dropdown-item" ><i class="las la-circle"></i><span>{{ $tipe['title'] }}</span></a>
                     @endforeach
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
     <div class="table-responsive table-mobile-responsive">
@@ -95,12 +110,21 @@
                     <td>{{ $item->created_at->format('d F Y - (H:i)') }}</td>
                     <td>{{ $item->updated_at->format('d F Y - (H:i)') }}</td>
                     <td>
+                        @if ($data['quiz']->trackItem()->count() == 0)
                         <a href="{{ route('quiz.item.edit', ['id' => $item->quiz_id, 'itemId' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengedit soal" data-toggle="tooltip">
                                 <i class="las la-pen"></i>
                         </a>
                         <a href="javascript:;" data-quizid="{{ $item->quiz_id }}" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus soal" data-toggle="tooltip">
                             <i class="las la-trash-alt"></i>
                         </a>
+                        @else
+                        <button type="button" class="btn icon-btn btn-sm btn-secondary" title="klik untuk mengedit soal" disabled>
+                            <i class="las la-pen"></i>
+                        </button>
+                        <button type="button" class="btn icon-btn btn-sm btn-secondary" title="klik untuk menghapus soal" disabled>
+                            <i class="las la-trash"></i>
+                        </button>
+                        @endif
                     </td>
                 </tr>
                 @endforeach
@@ -149,12 +173,21 @@
 
                                 <div class="item-table m-0">
                                     <div class="desc-table text-right">
+                                        @if ($data['quiz']->trackItem()->count() == 0)
                                         <a href="{{ route('quiz.item.edit', ['id' => $item->quiz_id, 'itemId' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengedit soal" data-toggle="tooltip">
-                                            <i class="las la-pen"></i>
+                                                <i class="las la-pen"></i>
                                         </a>
                                         <a href="javascript:;" data-quizid="{{ $item->quiz_id }}" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus soal" data-toggle="tooltip">
                                             <i class="las la-trash-alt"></i>
                                         </a>
+                                        @else
+                                        <button type="button" class="btn icon-btn btn-sm btn-secondary" title="klik untuk mengedit soal" disabled>
+                                            <i class="las la-pen"></i>
+                                        </button>
+                                        <button type="button" class="btn icon-btn btn-sm btn-secondary" title="klik untuk menghapus soal" disabled>
+                                            <i class="las la-trash"></i>
+                                        </button>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -177,6 +210,8 @@
         </div>
     </div>
 </div>
+
+@include('backend.course_management.bahan.quiz.modal-soal')
 @endsection
 
 @section('scripts')

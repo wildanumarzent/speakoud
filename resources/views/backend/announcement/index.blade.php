@@ -43,12 +43,12 @@
                 <tr>
                     <th style="width: 10px;">No</th>
                     <th>Title</th>
-                    <th>Creator</th>
+                    <th>Pembuat</th>
                     <th>Attachment</th>
                     <th>Status</th>
-                    <th style="width: 200px;">Created</th>
-                    <th style="width: 200px;">Updated</th>
-                    <th>Action</th>
+                    <th style="width: 200px;">Tnaggal Dibuat</th>
+                    <th style="width: 200px;">Tanggal Diperbarui</th>
+                    <th>Aksi</th>
                 </tr>
             </thead>
             <tbody>

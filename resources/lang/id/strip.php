@@ -1,7 +1,7 @@
 <?php 
 
 return [
-	'title_header' => 'BELSs',
+	'title_header' => 'BELS',
 	'banner_welcome' => 'Selamat datang di',
 	'widget_1_title' => 'Program Pelatihan',
 	'widget_1_description' => 'Beragam pilihan program pelatihan e-learning yang tersedia saat ini',

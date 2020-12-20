@@ -9,7 +9,7 @@
     <h6 class="card-header">
       Form Soal
     </h6>
-    <form action="{{ route('soal.update', ['id' => $data['kategori']->id, 'soalId' => $data['soal']->id]) }}" method="POST">
+    <form action="{{ route('soal.update', ['id' => $data['kategori']->mata_id, 'kategoriId' => $data['kategori']->id, 'soalId' => $data['soal']->id]) }}" method="POST">
         @csrf
         @method('PUT')
         <div class="card-body">
@@ -103,7 +103,7 @@
         <div class="card-footer">
             <div class="row">
               <div class="col-md-10 ml-sm-auto text-md-left text-right">
-                <a href="{{ route('soal.index', ['id' => $data['kategori']->id]) }}" class="btn btn-danger" title="klik untuk kembali ke list" data-toggle="tooltip">Kembali</a>
+                <a href="{{ route('soal.index', ['id' => $data['kategori']->mata_id, 'kategoriId' => $data['kategori']->id,]) }}" class="btn btn-danger" title="klik untuk kembali ke list" data-toggle="tooltip">Kembali</a>
                 <button type="submit" class="btn btn-primary" name="action" value="save" title="klik untuk menyimpan" data-toggle="tooltip">Simpan Perubahan</button>
               </div>
             </div>

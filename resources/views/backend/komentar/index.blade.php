@@ -38,12 +38,12 @@
             <thead>
                 <tr>
                     <th style="width: 10px;">No</th>
-                    <th>Creator</th>
-                    <th  style="width: 500px;">Komentar</th>
+                    <th>Pembuat</th>
+                    <th style="width: 500px;">Komentar</th>
                     <th>Model</th>
                     <th>Model Item</th>
-                    <th style="width: 200px;">Created</th>
-                    <th>Action</th>
+                    <th style="width: 200px;">Tanggal Dibuat</th>
+                    <th>Aksi</th>
                 </tr>
             </thead>
             <tbody>

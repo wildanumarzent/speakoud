@@ -50,7 +50,7 @@
                     <th>Unit Kerja</th>
                     <th>Kedeputian</th>
                     <th>Jabatan</th>
-                    <th style="width: 110px;">Action</th>
+                    <th style="width: 110px;">Aksi</th>
                 </tr>
             </thead>
             <tbody>

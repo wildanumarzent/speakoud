@@ -71,7 +71,7 @@
                 <i class="las la-book"></i> Program Pelatihan
               </a>
               <a class="dropdown-item" href="{{ route('program.edit', ['id' => $item->id]) }}" title="klik untuk mengedit kategori pelatihan">
-                <i class="las la-pen"></i> Edit
+                <i class="las la-pen"></i> Ubah
               </a>
               @if (auth()->user()->hasRole('developer|administrator') || $item->creator_id == auth()->user()->id)
               <a class="dropdown-item js-sa2-delete" href="javascript:void(0);" data-id="{{ $item->id }}" title="klik untuk menghapus kategori pelatihan">
@@ -84,7 +84,7 @@
         <div class="card-body pb-3">
           <table class="table table-bordered mb-2">
                 <tr>
-                    <th style="width: 200px;">Creator</th>
+                    <th style="width: 200px;">Pembuat</th>
                     <td>{{ $item->creator['name'] }}</td>
                 </tr>
                 <tr>
@@ -119,13 +119,13 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>Action</th>
+                    <th>Aksi</th>
                     <td>
                         <a class="btn btn-success btn-sm btn-block" href="{{ route('mata.index', ['id' => $item->id]) }}" title="klik untuk melihat program pelatihan">
                             <i class="las la-book"></i> Program Pelatihan
                         </a><br>
                         <a class="btn btn-info btn-sm btn-block" href="{{ route('program.edit', ['id' => $item->id]) }}" title="klik untuk mengedit kategori pelatihan">
-                          <i class="las la-pen"></i> Edit
+                          <i class="las la-pen"></i> Ubah
                         </a>
                         @if (auth()->user()->hasRole('developer|administrator') || $item->creator_id == auth()->user()->id)
                         <br>
@@ -150,11 +150,11 @@
         <div class="card-body pt-0">
           <div class="row">
             <div class="col">
-              <div class="text-muted small">Created</div>
+              <div class="text-muted small">Tanggal Dibuat</div>
               <div class="font-weight-bold">{{ $item->created_at->format('d/m/Y H:i') }}</div>
             </div>
             <div class="col">
-              <div class="text-muted small">Updated</div>
+              <div class="text-muted small">Tanggal Diperbarui</div>
               <div class="font-weight-bold">{{ $item->updated_at->format('d/m/Y H:i') }}</div>
             </div>
           </div>

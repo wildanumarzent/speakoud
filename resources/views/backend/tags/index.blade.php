@@ -46,9 +46,9 @@
                     <th>Standar</th>
                     <th>Pantas</th>
                     <th>Related</th>
-                    <th style="width: 200px;">Created</th>
-                    <th style="width: 200px;">Updated</th>
-                    <th style="width: 110px;">Action</th>
+                    <th style="width: 200px;">Tanggal Dibuat</th>
+                    <th style="width: 200px;">Tanggal Diperbarui</th>
+                    <th style="width: 110px;">Aksi</th>
                 </tr>
             </thead>
             <tbody>

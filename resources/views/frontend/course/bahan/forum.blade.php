@@ -23,13 +23,13 @@
         <thead>
             <tr>
                 <th style="width: 105px;">
-                    Star / Pin
+                    Pin
                 </th>
                 <th>Topik</th>
-                <th style="width: 190px;">Started By</th>
-                <th style="width: 190px;">Latest Post</th>
+                <th style="width: 190px;">Dibuat</th>
+                <th style="width: 190px;">Post Terakhir</th>
                 <th style="width: 15px;">Replies</th>
-                <th style="width: 180px;">Action</th>
+                <th style="width: 180px;">Aksi</th>
             </tr>
         </thead>
         <tbody>
@@ -70,7 +70,7 @@
                 <td>
                     <a href="{{ route('forum.topik.room', ['id' => $item->forum_id, 'topikId' => $item->id]) }}" class="text-big">{!! $item->subject !!}</a>
                     @if ($item->lock == 1)
-                    <span class="badge badge-danger align-text-bottom ml-1">Locked</span>
+                    <span class="badge badge-danger align-text-bottom ml-1">Dikunci</span>
                     @endif
                 </td>
                 <td>
@@ -83,13 +83,13 @@
                     @if ($item->lastPost()->count() > 0)
                         @foreach ($item->lastPost as $last)
                         <a class="text-muted small text-truncate">
-                            by <strong>{{ Str::limit($last->user['name'], 15) }}</strong> <br>
+                            Oleh <strong>{{ Str::limit($last->user['name'], 15) }}</strong> <br>
                             {{ $last->created_at->diffForHumans() }}
                         </a>
                         @endforeach
                     @else
                         <a class="text-muted small text-truncate">
-                            by <strong>{{ Str::limit($item->creator['name'], 15) }}</strong> <br>
+                            Oleh <strong>{{ Str::limit($item->creator['name'], 15) }}</strong> <br>
                             {{ $item->created_at->diffForHumans() }}
                         </a>
                     @endif

@@ -70,7 +70,7 @@
               </a>
               @endif
               <a class="dropdown-item" href="{{ route('bahan.edit', ['id' => $item->materi_id, 'bahanId' => $item->id, 'type' => $item->type($item)['tipe']]) }}" title="klik untuk mengedit materi pelatihan">
-                <i class="las la-pen"></i> Edit
+                <i class="las la-pen"></i> Ubah
               </a>
               <a class="dropdown-item js-sa2-delete" href="javascript:void(0);" data-materiid="{{ $item->materi_id }}" data-id="{{ $item->id }}" title="klik untuk menghapus materi pelatihan">
                 <i class="las la-trash-alt"></i> Hapus
@@ -127,7 +127,7 @@
                 @endif
 
                 <tr>
-                    <th>Creator</th>
+                    <th>Pembuat</th>
                     <td>{{ $item->creator['name'] }}</td>
                 </tr>
                 <tr>
@@ -162,7 +162,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>Action</th>
+                    <th>Aksi</th>
                     <td>
                         @if ($item->type($item)['tipe'] == 'quiz')
                         <a class="btn btn-success btn-block btn-sm" href="{{ route('quiz.item', ['id' => $item->quiz->id]) }}" title="klik untuk melihat soal">
@@ -170,7 +170,7 @@
                         </a>
                         @endif
                         <a class="btn btn-info btn-block btn-sm" href="{{ route('bahan.edit', ['id' => $item->materi_id, 'bahanId' => $item->id, 'type' => $item->type($item)['tipe']]) }}" title="klik untuk mengedit bahan pelatihan">
-                          <i class="las la-pen"></i> Edit
+                          <i class="las la-pen"></i> Ubah
                         </a>
                         <a class="btn btn-danger btn-block btn-sm js-sa2-delete" href="javascript:void(0);" data-materiid="{{ $item->materi_id }}" data-id="{{ $item->id }}" title="klik untuk menghapus bahan pelatihan">
                           <i class="las la-trash-alt"></i> Hapus
@@ -193,11 +193,11 @@
         <div class="card-body pt-0">
           <div class="row">
             <div class="col">
-              <div class="text-muted small">Created</div>
+              <div class="text-muted small">Tanggal Dibuat</div>
               <div class="font-weight-bold">{{ $item->created_at->format('d/m/Y H:i') }}</div>
             </div>
             <div class="col">
-              <div class="text-muted small">Updated</div>
+              <div class="text-muted small">Tanggal Diperbarui</div>
               <div class="font-weight-bold">{{ $item->updated_at->format('d/m/Y H:i') }}</div>
             </div>
           </div>

@@ -5,7 +5,7 @@
     <h6 class="card-header">
       Form Kategori Soal
     </h6>
-    <form action="{{ !isset($data['kategori']) ? route('soal.kategori.store') : route('soal.kategori.update', ['id' => $data['kategori']->id]) }}" method="POST">
+    <form action="{{ !isset($data['kategori']) ? route('soal.kategori.store', ['id' => $data['mata']->id]) : route('soal.kategori.update', ['id' => $data['kategori']->mata_id, 'kategoriId' => $data['kategori']->id]) }}" method="POST">
         @csrf
         @if (isset($data['kategori']))
             @method('PUT')
@@ -34,7 +34,7 @@
         <div class="card-footer">
             <div class="row">
               <div class="col-md-10 ml-sm-auto text-md-left text-right">
-                <a href="{{ route('soal.kategori') }}" class="btn btn-danger" title="klik untuk kembali ke list">Kembali</a>
+                <a href="{{ route('soal.kategori', ['id' => $data['mata']->id]) }}" class="btn btn-danger" title="klik untuk kembali ke list">Kembali</a>
                 <button type="submit" class="btn btn-primary" name="action" value="save" title="klik untuk menyimpan">{{ isset($data['kategori']) ? 'Simpan perubahan' : 'Simpan' }}</button>
               </div>
             </div>

@@ -29,13 +29,13 @@
 
         <!-- Module -->
         <li class="sidenav-divider mb-1"></li>
-        <li class="sidenav-header small font-weight-semibold">MODULE</li>
+        <li class="sidenav-header small font-weight-semibold">BELS MODULE</li>
 
         @role ('developer|administrator|internal|mitra')
         <!-- Data Master -->
         <li class="sidenav-item{{ $masterOpen ? ' active open' : '' }}">
-          <a href="javascript:void(0)" class="sidenav-link sidenav-toggle" title="Data Master"><i class="sidenav-icon las la-database"></i>
-            <div>Data Master</div>
+          <a href="javascript:void(0)" class="sidenav-link sidenav-toggle" title="Master Data"><i class="sidenav-icon las la-database"></i>
+            <div>Master Data</div>
           </a>
             <ul class="sidenav-menu">
                 @role ('developer|administrator|internal')
@@ -63,10 +63,10 @@
                     </ul>
                 </li>
                 @endrole
-                <!-- User Management -->
+                <!-- Manajemen User -->
                 <li class="sidenav-item{{ $userOpen ? ' active open' : '' }}">
-                  <a href="javascript:void(0)" class="sidenav-link sidenav-toggle" title="User Management">
-                    <div>User Management</div>
+                  <a href="javascript:void(0)" class="sidenav-link sidenav-toggle" title="Manajemen User">
+                    <div>Manajemen User</div>
                   </a>
 
                   <ul class="sidenav-menu">
@@ -111,8 +111,8 @@
                 @role ('developer|administrator')
                 <!-- grades -->
                 <li class="sidenav-item{{ Request::is('grades*') ? ' active' : '' }}">
-                    <a href="{{ route('grades.index') }}" class="sidenav-link" title="Grades Management">
-                      <div>Grades Management</div>
+                    <a href="{{ route('grades.index') }}" class="sidenav-link" title="Manajemen Nilai">
+                      <div>Manajemen Nilai</div>
                     </a>
                 </li>
                 <!-- tags -->
@@ -160,10 +160,10 @@
         </li>
         @endrole
 
-        @role ('administrator|internal|mitra')
+        @role ('administrator|internal|mitra|instruktur_internal|instruktur_mitra')
         <!-- bank soal -->
-        <li class="sidenav-item{{ Request::is('soal*') ? ' active' : '' }}">
-            <a href="{{ route('soal.kategori') }}" class="sidenav-link" title="Bank Soal"><i class="sidenav-icon las la-spell-check"></i>
+        <li class="sidenav-item{{ (Request::is('bank/soal*') || Request::is('mata*') && Request::segment(4) == 'kategori') ? ' active' : '' }}">
+            <a href="{{ route('soal.mata') }}" class="sidenav-link" title="Bank Soal"><i class="sidenav-icon las la-spell-check"></i>
               <div>Bank Soal</div>
             </a>
         </li>
@@ -171,8 +171,8 @@
 
         <!-- courses -->
         <li class="sidenav-item{{ $course ? ' active open' : '' }}">
-          <a href="javascript:void(0)" class="sidenav-link sidenav-toggle" title="Course Management"><i class="sidenav-icon las la-book-open"></i>
-            <div>Course Management</div>
+          <a href="javascript:void(0)" class="sidenav-link sidenav-toggle" title="Manajemen DIKLAT"><i class="sidenav-icon las la-book-open"></i>
+            <div>Manajemen DIKLAT</div>
           </a>
           @php
               if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra|peserta_internal|peserta_mitra')) {
@@ -244,7 +244,7 @@
         <!-- announcement -->
         <li class="sidenav-item {{ Request::is('announcement*') ? ' active' : '' }}">
             <a href="{{route('announcement.index')}}" class="sidenav-link" title="Announcement"><i class="sidenav-icon las la-bullhorn"></i>
-              <div>Announcement</div>
+              <div>Pengumuman</div>
             </a>
         </li>
 
@@ -252,7 +252,7 @@
         <!-- aktivitas -->
         <li class="sidenav-item{{ (Request::is('statistic') || Request::is('log*')) ? ' active open' : '' }}">
             <a href="javascript:void(0)" class="sidenav-link sidenav-toggle" title="Aktivitas"><i class="sidenav-icon las la-calendar-day"></i>
-              <div>Reports</div>
+              <div>Laporan</div>
             </a>
 
             <ul class="sidenav-menu">
@@ -279,13 +279,13 @@
 
                         <li class="sidenav-item{{ (Request::is('log') && !empty(Request::get('q'))) ? ' active' : '' }}">
                             <a href="{{route('log.index')}}?q={{ \Carbon\Carbon::now()->format('Y-m-d')}}" class="sidenav-link" title="Aktif">
-                            <div>Today Log</div>
+                            <div>Hari Ini</div>
                             </a>
                         </li>
 
                         <li class="sidenav-item{{ (Request::is('log') && empty(Request::get('q'))) ? ' active' : '' }}">
                             <a href="{{ route('log.index') }}" class="sidenav-link" title="Aktif">
-                            <div>All Log</div>
+                            <div>Semua</div>
                             </a>
                         </li>
                     </ul>
@@ -297,12 +297,12 @@
         @role ('developer|administrator')
         <!-- website -->
         <li class="sidenav-divider mb-1"></li>
-        <li class="sidenav-header small font-weight-semibold">WEBSITE</li>
+        <li class="sidenav-header small font-weight-semibold">BELS WEBSITE</li>
 
         <!-- pages -->
         <li class="sidenav-item{{ (Request::is('page*')) ? ' active' : '' }}">
             <a href="{{ route('page.index') }}" class="sidenav-link" title="Pages"><i class="sidenav-icon las la-list"></i>
-              <div>Pages</div>
+              <div>Halaman</div>
             </a>
         </li>
         <!-- artikel -->
