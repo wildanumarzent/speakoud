@@ -83,6 +83,9 @@
               <a class="dropdown-item" href="{{ route('report.activity', ['materiId' => $item->id]) }}" title="klik untuk melihat report aktivitas">
                 <i class="las la-file"></i> Activity Report
               </a>
+              <a class="dropdown-item" href="{{ route('report.compare', ['materiId' => $item->id]) }}" title="klik untuk melihat Test Comparison Report">
+                <i class="ion ion-ios-git-compare"></i> Test Comparison Report
+              </a>
               @endif
             </div>
           </div>
@@ -159,6 +162,10 @@
                         <a class="btn btn-warning btn-block btn-sm" href="{{ route('report.activity', ['materiId' => $item->id]) }}" title="klik untuk melihat report aktivitas">
                             <i class="las la-file"></i> Activity Report
                             </a>
+
+                            <a class="btn btn-warning btn-block btn-sm" href="{{ route('report.compare', ['materiId' => $item->id]) }}" title="klik untuk melihat Test Comparison Report">
+                                <i class="ion ion-ios-git-compare"></i> Test Comparison Report
+                              </a>
 
                     </td>
                 </tr>

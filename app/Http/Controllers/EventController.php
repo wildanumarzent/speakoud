@@ -55,14 +55,14 @@ class EventController extends Controller
                     Alert::error('Error !',$validator->messages()->first());
                     return redirect()->back();
                 }else{
-                    if(isset($request['id'])){
-                        Event::updateOrCreate(
-                            ['id' => $request->id],
-                            $request->except('action')
-                        );
+                    if($request['id'] !=  null){
+
+                        $event  = Event::query();
+                        $event->find($request['id']);
+                        $event->update($request->except(['action','_token']));
                     }else{
                         Event::create(
-                            $request->except('action')
+                            $request->except(['action','id'])
                         );
                     }
                     Alert::success('Success','Sukses Menyimpan Event');
