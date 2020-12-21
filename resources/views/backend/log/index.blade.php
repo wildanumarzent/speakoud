@@ -27,7 +27,17 @@
     </div>
 </div>
 <!-- / Filters -->
-
+<div class="row">
+    @if($data['type'] == 'time')
+    <div class="col-md-12">
+    @livewire('chart.log-time',['date' => $data['date']] )
+    </div>
+    @else
+    <div class="col-md-12">
+    @livewire('chart.log-date')
+    </div>
+    @endif
+    </div>
 <div class="card">
     <div class="card-header with-elements">
         <h5 class="card-header-title mt-1 mb-0">Activity Logs List</h5>
