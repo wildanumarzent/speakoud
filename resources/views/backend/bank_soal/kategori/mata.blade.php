@@ -37,7 +37,7 @@
                 @endif
                 @foreach ($data['mata'] as $item)
                 <tr>
-                    <td>{{ $data['number'] }}</td>
+                    <td>{{ $data['number']++ }}</td>
                     <td>{{ $item->judul }}</td>
                     <td>{{ $item->publish_start->format('d F Y (H:i)') }}</td>
                     <td>{{ $item->publish_end->format('d F Y (H:i)') }}</td>

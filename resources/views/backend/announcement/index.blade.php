@@ -15,7 +15,7 @@
                     <div class="form-group">
                         <label class="form-label">Cari</label>
                         <div class="input-group">
-                            <input type="text" class="form-control" name="q" value="{{ Request::get('q') }}" placeholder="Nama Announcement...">
+                            <input type="text" class="form-control" name="q" value="{{ Request::get('q') }}" placeholder="Nama Pengumuman...">
                             <div class="input-group-append">
                                 <button type="submit" class="btn btn-warning" title="klik untuk filter"><i class="las la-search"></i></button>
                             </div>
@@ -30,7 +30,7 @@
 
 <div class="card">
     <div class="card-header with-elements">
-        <h5 class="card-header-title mt-1 mb-0">Announcement List</h5>
+        <h5 class="card-header-title mt-1 mb-0">Pengumuman List</h5>
         <div class="card-header-elements ml-auto">
             <a href="{{ route('announcement.create') }}" class="btn btn-primary icon-btn-only-sm" title="klik untuk menambah artikel">
                 <i class="las la-plus"></i><span>Tambah</span>
@@ -42,11 +42,11 @@
             <thead>
                 <tr>
                     <th style="width: 10px;">No</th>
-                    <th>Title</th>
+                    <th>Judul</th>
                     <th>Pembuat</th>
                     <th>Attachment</th>
                     <th>Status</th>
-                    <th style="width: 200px;">Tnaggal Dibuat</th>
+                    <th style="width: 200px;">Tanggal Dibuat</th>
                     <th style="width: 200px;">Tanggal Diperbarui</th>
                     <th>Aksi</th>
                 </tr>
@@ -55,13 +55,13 @@
                 @forelse ($data['announcement'] as $item)
                 <tr>
                     <td>{{ $data['number']++ }}</td>
-                    <td><strong>{!! Str::limit($item->title, 90) !!}</strong> @if($item->statu != 0)<a href="{{ route('announcement.show', ['announcement' => $item->id]) }}" title="view announcement" target="_blank"><i class="las la-external-link-alt"></i></a>@endif</td>
+                    <td><strong>{!! Str::limit($item->title, 90) !!}</strong> @if($item->statu != 0)<a href="{{ route('announcement.show', ['announcement' => $item->id]) }}" title="lihat pengumuman" target="_blank"><i class="las la-external-link-alt"></i></a>@endif</td>
                     <td >{{ $item->user->name ?? '-' }}</td>
 
                     <td >@if(!empty($item->attachment))<a href="{{$item->attachment}}" download>download</a>@endif</td>
                     <td>
                         <a href="javascript:void(0);" onclick="$(this).find('form').submit();" class="badge badge-{{ $item->status == 1 ? 'primary' : 'warning' }}"
-                            title="Click to publish Announcement">
+                            title="klik unutk publish/draft Pengumuman">
                             {{ config('addon.label.publish.'.$item->status) }}
                             <form action="{{ route('announcement.publish', ['id' => $item->id]) }}" method="POST">
                                 @csrf
@@ -72,23 +72,23 @@
                     <td >{{ $item->created_at->format('d F Y - (H:i)') }}</td>
                     <td >{{ $item->updated_at->format('d F Y - (H:i)') }}</td>
                     <td>
-                        <a href="{{ route('announcement.edit', ['announcement' => $item->id]) }}" class="btn icon-btn btn-sm btn-primary" title="klik untuk mengedit announcement">
+                        <a href="{{ route('announcement.edit', ['announcement' => $item->id]) }}" class="btn icon-btn btn-sm btn-primary" title="klik untuk mengedit pengumuman">
                             <i class="las la-pen"></i>
                         </a>
-                        <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus anno" data-toggle="tooltip">
+                        <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus pengumuman" data-toggle="tooltip">
                             <i class="las la-trash-alt"></i>
                         </a>
                     </td>
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="7" align="center">
+                    <td colspan="8" align="center">
                         <i>
                             <strong style="color:red;">
                             @if (Request::get('q'))
-                            ! Announcement tidak ditemukan !
+                            ! Pengumuman tidak ditemukan !
                             @else
-                            ! Data Announcement kosong !
+                            ! Data Pengumuman kosong !
                             @endif
                             </strong>
                         </i>
@@ -160,7 +160,7 @@
                 if (response.value.success) {
                     Swal.fire({
                         type: 'success',
-                        text: 'Announcement berhasil dihapus'
+                        text: 'Pengumuman berhasil dihapus'
                     }).then(() => {
                         window.location.reload();
                     })

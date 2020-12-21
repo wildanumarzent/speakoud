@@ -88,7 +88,7 @@
         <div class="card-body pb-3">
           <table class="table table-bordered mb-0">
                 <tr>
-                    <th style="width: 200px;">Tipe Bahan</th>
+                    <th>Tipe Bahan</th>
                     <td>
                         <i class="las la-{{ $item->type($item)['icon'] }} mr-2" style="font-size: 1.5em;"></i> <strong>{{ $item->type($item)['title'] }}</strong>
                     </td>

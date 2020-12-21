@@ -35,9 +35,9 @@ class AnnouncementController extends Controller
 
 
        return view('backend.announcement.index', compact('data'), [
-           'title' => 'Announcement',
+           'title' => 'Pengumuman',
            'breadcrumbsBackend' => [
-               'Announcement' => '',
+               'Pengumuman' => '',
            ],
        ]);
    }
@@ -52,10 +52,10 @@ class AnnouncementController extends Controller
         $data['role'] = Role::all();
         $data['user'] = $this->user->getAllUser();
         return view('backend.announcement.form', compact('data'), [
-            'title' => 'Announcement',
+            'title' => 'Pengumuman',
             'breadcrumbsBackend' => [
-                'Announcement' => route('announcement.index'),
-                'Create' => '',
+                'Pengumuman' => route('announcement.index'),
+                'Tambah' => '',
             ],
         ]);
     }
@@ -80,7 +80,7 @@ class AnnouncementController extends Controller
             return redirect()->back();
         }
         $this->announcement->annoStore($request);
-        return redirect()->route('announcement.index')->with('success', 'Announcement berhasil ditambahkan');
+        return redirect()->route('announcement.index')->with('success', 'Pengumuman berhasil ditambahkan');
     }
 
     /**
@@ -96,10 +96,10 @@ class AnnouncementController extends Controller
             return redirect()->back();
         }
         return view('backend.announcement.detail', compact('data'), [
-            'title' => 'Announcement',
+            'title' => 'Pengumuman',
             'breadcrumbsBackend' => [
-                'Announcement' => route('announcement.index'),
-                'Edit' => '',
+                'Pengumuman' => route('announcement.index'),
+                'Detail' => '',
             ],
         ]);
     }
@@ -116,9 +116,9 @@ class AnnouncementController extends Controller
         $data['user'] = $this->user->getAllUser();
         $data['announcement'] = $announcement;
         return view('backend.announcement.form', compact('data'), [
-            'title' => 'Announcement',
+            'title' => 'Pengumuman',
             'breadcrumbsBackend' => [
-                'Announcement' => route('announcement.index'),
+                'Pengumuman' => route('announcement.index'),
                 'Edit' => '',
             ],
         ]);
@@ -149,7 +149,7 @@ class AnnouncementController extends Controller
             return redirect()->back();
         }
         $this->announcement->annoUpdate($request,$request['id']);
-        return redirect()->route('announcement.index')->with('success', 'Announcement berhasil diupdate');
+        return redirect()->route('announcement.index')->with('success', 'Pengumuman berhasil diupdate');
     }
 
     /**

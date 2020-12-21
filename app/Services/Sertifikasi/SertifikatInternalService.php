@@ -82,7 +82,7 @@ class SertifikatInternalService
 
         $userName = str_replace(' ', '-', auth()->user()->name);
         $judul = str_replace(' ', '-', $mata->judul);
-        $certName = 'Certificate-'.$userName.'-'.$judul.'.docx';
+        $certName = 'Certificate-'.$judul.'.docx';
         $dir = storage_path('/app/bank_data/sertifikat_internal/'.auth()->user()->peserta->id);
         if(!file_exists($dir)){
             Storage::makeDirectory('/bank_data/sertifikat_internal/'.auth()->user()->peserta->id);

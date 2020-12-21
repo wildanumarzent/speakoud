@@ -83,7 +83,7 @@
         <div class="card-body pb-3">
           <table class="table table-bordered mb-0">
                 <tr>
-                    <th style="width: 200px;">Pembuat</th>
+                    <th>Pembuat</th>
                     <td>{{ $item->creator['name'] }}</td>
                 </tr>
                 <tr>
