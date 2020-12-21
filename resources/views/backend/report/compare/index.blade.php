@@ -40,7 +40,7 @@
                     <th>Email</th>
                     <th>Nilai Hasil Pretest</th>
                     <th>Nilai Hasil Postest</th>
-                    <th>Nilai Akhir</th>
+                    <th>Nilai Akhir <b> <br> [ ( (postest - pretest) - postest) * 100% ]</b></th>
                 </tr>
             </thead>
             <tbody>
