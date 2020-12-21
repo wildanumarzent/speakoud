@@ -30,7 +30,7 @@
 <div class="text-left">
 @role ('instruktur_internal|instruktur_mitra')
     <button type="button" onclick="goBack()" class="btn btn-secondary rounded-pill" title="kembali ke list soal"><i class="las la-arrow-left"></i>Kembali</button>
-@else    
+@else
     <a href="{{ route('mata.index', ['id' => $data['mata']->program_id]) }}" class="btn btn-secondary rounded-pill" title="kembali ke list program"><i class="las la-arrow-left"></i>Kembali</a>
 @endrole
 </div>
@@ -62,7 +62,7 @@
             <tbody>
                 @if ($data['kategori']->total() == 0)
                 <tr>
-                    <td colspan="7" align="center">
+                    <td colspan="8" align="center">
                         <i><strong style="color:red;">
                         @if (Request::get('q'))
                         ! Kategori soal tidak ditemukan !
@@ -86,7 +86,7 @@
                         <a href="{{ route('soal.index', ['id' => $item->mata_id, 'kategoriId' => $item->id]) }}" class="btn icon-btn btn-sm btn-success" title="klik untuk melihat list soal">
                             <i class="las la-list"></i>
                         </a>
-                        @if (!auth()->user()->hasRole('instruktur_internal|instruktur_mitra') || auth()->user()->hasRole('instruktur_internal|instruktur_mitra') && $item->creator_id == auth()->user()->id)    
+                        @if (!auth()->user()->hasRole('instruktur_internal|instruktur_mitra') || auth()->user()->hasRole('instruktur_internal|instruktur_mitra') && $item->creator_id == auth()->user()->id)
                         <a href="{{ route('soal.kategori.edit', ['id' => $item->mata_id, 'kategoriId' => $item->id]) }}" class="btn icon-btn btn-sm btn-primary" title="klik untuk mengedit kategori soal">
                             <i class="las la-pen"></i>
                         </a>
@@ -108,7 +108,7 @@
             <tbody class="tbody-responsive">
                 @if ($data['kategori']->total() == 0)
                 <tr>
-                    <td colspan="7" align="center">
+                    <td colspan="8" align="center">
                         <i><strong style="color:red;">
                         @if (Request::get('q'))
                         ! Kategori soal tidak ditemukan !
@@ -142,7 +142,7 @@
                                         <a href="{{ route('soal.index', ['id' => $item->mata_id, 'kategoriId' => $item->id]) }}" class="btn icon-btn btn-sm btn-success" title="klik untuk melihat list soal">
                                             <i class="las la-list"></i>
                                         </a>
-                                        @if (!auth()->user()->hasRole('instruktur_internal|instruktur_mitra') || auth()->user()->hasRole('instruktur_internal|instruktur_mitra') && $item->creator_id == auth()->user()->id)    
+                                        @if (!auth()->user()->hasRole('instruktur_internal|instruktur_mitra') || auth()->user()->hasRole('instruktur_internal|instruktur_mitra') && $item->creator_id == auth()->user()->id)
                                         <a href="{{ route('soal.kategori.edit', ['id' => $item->mata_id, 'kategoriId' => $item->id]) }}" class="btn icon-btn btn-sm btn-primary" title="klik untuk mengedit kategori soal">
                                             <i class="las la-pen"></i>
                                         </a>

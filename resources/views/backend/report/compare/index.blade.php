@@ -46,8 +46,17 @@
             <tbody>
                 @forelse ($data['peserta'] as $item)
                 @php
-                $pretest = ($data['pretestR']->where('user_id',$item->peserta->user->id)->count() / $data['pretestA']->where('user_id',$item->peserta->user->id)->count() ) * 100;
-                $postest = ($data['postestR']->where('user_id',$item->peserta->user->id)->count() / $data['postestA']->where('user_id',$item->peserta->user->id)->count()) * 100;
+                if ($data['pretestR']->where('user_id',$item->peserta->user->id)->count() > 0) {
+                    $pretest = ($data['pretestR']->where('user_id',$item->peserta->user->id)->count() / $data['pretestA']->where('user_id',$item->peserta->user->id)->count() ) * 100;
+                } else {
+                    $pretest = 0;
+                }
+
+                if ($data['postestR']->where('user_id',$item->peserta->user->id)->count() > 0) {
+                    $postest = ($data['postestR']->where('user_id',$item->peserta->user->id)->count() / $data['postestA']->where('user_id',$item->peserta->user->id)->count()) * 100;
+                } else {
+                    $postest = 0;
+                }
                 if($postest < 1){
                     $postest = 1;
                     $pretest += 1;
