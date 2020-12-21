@@ -213,7 +213,10 @@ class BahanService
             $this->quiz->updateQuiz($request, $bahan);
         }
         if ($request->type == 'scorm') {
-            $this->scorm->updateScorm($request, $bahan);
+            $scorm = $this->scorm->updateScorm($request, $bahan);
+            if($scorm == false){
+                return false;
+            }
         }
         if ($request->type == 'audio') {
             $this->audio->updateAudio($request, $bahan);
