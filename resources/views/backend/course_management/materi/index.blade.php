@@ -70,9 +70,6 @@
               <a class="dropdown-item js-sa2-delete" href="javascript:void(0);" data-mataid="{{ $item->mata_id }}" data-id="{{ $item->id }}" title="klik untuk menghapus mata pelatihan">
                 <i class="las la-trash-alt"></i> Hapus
               </a>
-              <a class="dropdown-item" href="{{ route('report.activity', ['materiId' => $item->id]) }}" title="klik untuk melihat report aktivitas">
-                <i class="las la-file"></i> Activity Report
-              </a>
               @endif
               <a class="dropdown-item" href="javascript:void(0);" onclick="$(this).find('form').submit();" title="klik untuk {{ $item->publish == 0 ? 'publish' : 'draft' }} mata pelatihan">
                   <i class="las la-{{ $item->publish == 0 ? 'eye' : 'eye-slash' }} "></i> {{ $item->publish == 1 ? 'Draft' : 'Publish' }}
@@ -81,6 +78,12 @@
                     @method('PUT')
                 </form>
               </a>
+              @if (auth()->user()->hasRole('developer|administrator') || $item->creator_id == auth()->user()->id)
+              <hr>
+              <a class="dropdown-item" href="{{ route('report.activity', ['materiId' => $item->id]) }}" title="klik untuk melihat report aktivitas">
+                <i class="las la-file"></i> Activity Report
+              </a>
+              @endif
             </div>
           </div>
         </div>
@@ -138,9 +141,6 @@
                         <a class="btn btn-danger btn-block btn-sm js-sa2-delete" href="javascript:void(0);" data-mataid="{{ $item->mata_id }}" data-id="{{ $item->id }}" title="klik untuk menghapus mata pelatihan">
                         <i class="las la-trash-alt"></i> Hapus
                         </a>
-                        <a class="btn btn-warning btn-block btn-sm" href="{{ route('report.activity', ['materiId' => $item->id]) }}" title="klik untuk melihat report aktivitas">
-                            <i class="las la-file"></i> Activity Report
-                            </a>
                         @endif
                         <a class="btn btn-secondary btn-block btn-sm" href="javascript:void(0);" onclick="$(this).find('form').submit();" title="klik untuk {{ $item->publish == 0 ? 'publish' : 'draft' }} mata pelatihan">
                             <i class="las la-{{ $item->publish == 0 ? 'eye' : 'eye-slash' }}"></i> {{ $item->publish == 0 ? 'Publish' : 'Draft' }}
@@ -151,6 +151,18 @@
                         </a>
                     </td>
                 </tr>
+                @if (auth()->user()->hasRole('developer|administrator') || $item->creator_id == auth()->user()->id)
+                <tr>
+                    <th>Report</th>
+                    <td>
+
+                        <a class="btn btn-warning btn-block btn-sm" href="{{ route('report.activity', ['materiId' => $item->id]) }}" title="klik untuk melihat report aktivitas">
+                            <i class="las la-file"></i> Activity Report
+                            </a>
+
+                    </td>
+                </tr>
+                @endif
           </table>
         </div>
         <hr class="m-0 mb-2">
