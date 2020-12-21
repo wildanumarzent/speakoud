@@ -178,8 +178,10 @@ class BahanService
 
         $bahan->segmenable()->associate($segmen);
         $bahan->save();
-        if($segmen == false){
-        $bahan->delete();
+        if ($request->type == 'scorm') {
+            if($segmen == false){
+                $bahan->delete();
+            }
         }
 
         return $bahan;
