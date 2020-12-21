@@ -41,7 +41,6 @@
                     <th>Nilai Hasil Pretest</th>
                     <th>Nilai Hasil Postest</th>
                     <th>Nilai Akhir</th>
-                    <th>Nilai Rata Rata</th>
                 </tr>
             </thead>
             <tbody>
@@ -61,7 +60,6 @@
                     <td>{{$item->peserta->user->email}}</td>
                     <td>{{$pretest}}</td>
                     <td>{{$postest}}</td>
-                    <td>{{$final}}</td>
                     <td>{{$final}}</td>
 
                 </tr>
