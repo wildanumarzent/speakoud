@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Log;
 use Illuminate\Http\Request;
 use App\Services\LogService;
+use Carbon\Carbon;
 
 class LogController extends Controller
 {
@@ -21,8 +22,12 @@ class LogController extends Controller
     public function index(Request $request)
     {
         $q = '';
+        $data['type'] = 'date';
+        $data['date'] = Carbon::now()->format('Y-m-d');
         if (isset($request->q)) {
             $q = '?q='.$request->q;
+            $data['date'] = $request->q;
+            $data['type'] = 'time';
         }
 
         $data['log'] = $this->log->list($request);

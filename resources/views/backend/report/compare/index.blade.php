@@ -40,7 +40,7 @@
                     <th>Email</th>
                     <th>Nilai Hasil Pretest</th>
                     <th>Nilai Hasil Postest</th>
-                    <th>Nilai Akhir</th>
+                    <th>Nilai Akhir <b> <br> [ ( (postest - pretest) - postest) * 100% ]</b></th>
                 </tr>
             </thead>
             <tbody>
@@ -52,7 +52,7 @@
                     $postest = 1;
                     $pretest += 1;
                 }
-                $final = (($postest - $pretest) / $postest) * 100;
+                $final = ((($postest - $pretest) / $postest) * 100) / 100;
                 @endphp
                 <tr>
                     <td>{{ $loop->iteration }}</td>
@@ -60,7 +60,7 @@
                     <td>{{$item->peserta->user->email}}</td>
                     <td>{{$pretest}}</td>
                     <td>{{$postest}}</td>
-                    <td>{{$final}}</td>
+                    <td>{{$final}}%</td>
 
                 </tr>
                 @empty
