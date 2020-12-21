@@ -179,10 +179,10 @@ class BahanController extends Controller
 
     public function store(BahanRequest $request, $materiId)
     {
-        $data = $this->service->storeBahan($request, $materiId);
-        if($data == false){
-            return redirect()->back()->with('failed', 'This Package is not Scorm Compliant');
-        }
+        $this->service->storeBahan($request, $materiId);
+        // if($data == false){
+        //     return redirect()->back()->with('failed', 'This Package is not Scorm Compliant');
+        // }
         return redirect()->route('bahan.index', ['id' => $materiId])
             ->with('success', 'Materi pelatihan berhasil ditambahkan');
     }

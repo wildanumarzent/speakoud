@@ -139,7 +139,7 @@
           @if ($item->publish == 0 && $item->mata()->count() > 0 && $item->materi()->count() > 0)
           <a href="javascript:;" class="btn btn-success btn-block publish" title="klik untuk publish">
             PUBLISH
-            <form action="{{ route('program.publish', ['id' => $item->id])}}" method="POST" id="form-publish">
+            <form action="{{ route('program.publish', ['id' => $item->id])}}" method="POST" class="form-publish">
                 @csrf
                 @method('PUT')
             </form>
@@ -293,7 +293,7 @@
         cancelButtonText: "Tidak, terima kasih",
         }).then((result) => {
         if (result.value) {
-            $("#form-publish").submit();
+            $(".form-publish").submit();
         }
         })
     });
