@@ -17,8 +17,8 @@
     </h6>
     <div class="mt-3">
       <div style="height:200px;">
-          <livewire:livewire-column-chart
-              :column-chart-model="$chart"
+          <livewire:livewire-line-chart
+              :line-chart-model="$chart"
           />
       </div>
     </div>
