@@ -55,16 +55,16 @@ class EventController extends Controller
                     Alert::error('Error !',$validator->messages()->first());
                     return redirect()->back();
                 }else{
-                    $data['extendedProps'] = [
-                        'description' => $request->description ?? null,
-                        'link' => $request->link ?? null,
-                    ];
+                    if(isset($request['id'])){
                         Event::updateOrCreate(
                             ['id' => $request->id],
                             $request->except('action')
                         );
-
-
+                    }else{
+                        Event::create(
+                            $request->except('action')
+                        );
+                    }
                     Alert::success('Success','Sukses Menyimpan Event');
                 }
             break;

@@ -41,7 +41,7 @@
                     <th>Pembuat</th>
                     <th style="width: 500px;">Komentar</th>
                     <th>Model</th>
-                    <th>Model Item</th>
+                    <th>Model ID</th>
                     <th style="width: 200px;">Tanggal Dibuat</th>
                     <th>Aksi</th>
                 </tr>

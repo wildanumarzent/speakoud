@@ -23,11 +23,7 @@
         </div>
 
     <div class="col-md-9">
-    <div class="card">
-    <div class="card-body" style="background-color: #ffeaa7">
-    @livewire('komentar-form',['model' => $data['announcement']])
-    </div>
-    </div>
+        @livewire('komentar-form',['model' => $data['announcement']])
     </div>
     <div class="col-md-3">
         <!-- Attached files -->

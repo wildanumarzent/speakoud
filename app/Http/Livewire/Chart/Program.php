@@ -3,21 +3,22 @@
 namespace App\Http\Livewire\Chart;
 
 use Livewire\Component;
-use App\Models\Artikel;
+use App\Models\Course\MataPelatihan;
+use App\Models\Course\ProgramPelatihan;
 use Asantibanez\LivewireCharts\Models\ColumnChartModel;
+use Carbon\Carbon;
 
-class KeywordView extends Component
+class Program extends Component
 {
 
-    public $artikel,$data,$max,$min;
-    public function mount(Artikel $artikel){
-        $this->artikel = $artikel;
-        $this->max = $this->artikel->query()->orderby('viewer','desc')->first();
-        $this->min = $this->artikel->query()->orderby('viewer','asc')->first();
+    public $mata,$data,$max,$min;
+    public function mount(MataPelatihan $mata,ProgramPelatihan $program){
+        $this->program = $program;
+        $this->mata = $mata;
     }
     public function render()
     {
-        $artikel = $this->artikel->get();
+
         $color = [["#69D2E7","#A7DBD8","#E0E4CC","#F38630","#FA6900"],
 		["#FE4365","#FC9D9A","#F9CDAD","#C8C8A9","#83AF9B"],
 		["#ECD078","#D95B43","#C02942","#542437","#53777A"],
@@ -211,14 +212,20 @@ class KeywordView extends Component
 		["#26251C","#EB0A44","#F2643D","#F2A73D","#A0E8B7"],
 		["#4B3E4D","#1E8C93","#DBD8A2","#C4AC30","#D74F33"],
 		["#8D7966","#A8A39D","#D8C8B8","#E2DDD9","#F8F1E9"],
-		["#F2E8C4","#98D9B6","#3EC9A7","#2B879E","#616668"]];
+        ["#F2E8C4","#98D9B6","#3EC9A7","#2B879E","#616668"]];
+
+        $mataTahun = $this->mata->get()->groupBy(function($date) {
+            return Carbon::parse($date->publish_start)->format('Y'); // grouping by years
+            });
+        $tahun = $mataTahun->pluck('publish_start');
         $chart = (new ColumnChartModel());
 
-        foreach($artikel as $a){
+        foreach($tahun as $a){
         $section = array_rand($color);
+        $mataCount = $this->mata->whereYear('publish_start',$a)->count();
         $colors = $color[$section][array_rand($color[$section])];
-        $chart->addColumn($a->judul,$a->viewer, $colors);
+        $chart->addColumn($a,$mataCount, $colors);
         }
-        return view('livewire.chart.keyword-view',compact('chart'));
+        return view('livewire.chart.program',compact('chart'));
     }
 }

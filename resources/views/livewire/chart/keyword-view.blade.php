@@ -1,6 +1,6 @@
     <div class="card mb-4">
       <h6 class="card-header with-elements border-0 pr-0 pb-0">
-        <div class="card-header-title">Most Viewed Keywords</div>
+        <div class="card-header-title">Most Viewed Artikel</div>
         <div class="card-header-elements ml-auto">
             {{-- Header Element --}}
             {{-- <div class="btn-group mr-3">
@@ -16,9 +16,9 @@
         </div>
       </h6>
       <div class="mt-3">
-        <div style="height:200px;">
-            <livewire:livewire-pie-chart
-                :pie-chart-model="$chart"
+        <div style="height:400px;">
+            <livewire:livewire-column-chart
+                :column-chart-model="$chart"
             />
         </div>
       </div>

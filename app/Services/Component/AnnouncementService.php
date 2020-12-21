@@ -21,7 +21,7 @@ class AnnouncementService{
         $anno = Announcement::query();
         $anno->when($request->q, function ($query, $q) {
             $query->where(function ($query) use ($q) {
-                $query->where('komentar', 'like', '%'.$q.'%');
+                $query->where('title', 'like', '%'.$q.'%');
             });
         });
         $result = $anno->orderby('created_at','desc')->paginate(20);

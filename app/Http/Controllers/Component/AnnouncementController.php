@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use App\Services\Component\AnnouncementService;
 use App\Services\Users\UserService;
 use \Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Validator;
+use RealRashid\SweetAlert\Facades\Alert;
 class AnnouncementController extends Controller
 {
     /**
@@ -66,6 +68,17 @@ class AnnouncementController extends Controller
      */
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(),[
+            'title' => 'required',
+            'content' => 'required',
+            'sub_content' => 'required',
+            'attachment' => 'nullable|mimes:txt,doc,docx,xls,xlsx,png,jpeg,jpg,rar,zip',
+        ]);
+
+        if($validator->fails()){
+            Alert::error('Error !',$validator->messages()->first());
+            return redirect()->back();
+        }
         $this->announcement->annoStore($request);
         return redirect()->route('announcement.index')->with('success', 'Announcement berhasil ditambahkan');
     }
@@ -125,6 +138,16 @@ class AnnouncementController extends Controller
      */
     public function update(Request $request, Announcement $announcement)
     {
+        $validator = Validator::make($request->all(),[
+            'title' => 'required',
+            'content' => 'required',
+            'sub_content' => 'required',
+            'attachment' => 'nullable|mimes:txt,doc,docx,xls,xlsx,png,jpeg,jpg,rar,zip',
+        ]);
+        if($validator->fails()){
+            Alert::error('Error !',$validator->messages()->first());
+            return redirect()->back();
+        }
         $this->announcement->annoUpdate($request,$request['id']);
         return redirect()->route('announcement.index')->with('success', 'Announcement berhasil diupdate');
     }

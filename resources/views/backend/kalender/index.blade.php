@@ -65,10 +65,10 @@
                     <a id="ulink" target="_blank" href="#"></a>
                     <input id="link" type="text" class="form-control" name="link" placeholder="Url Link">
                 </div>
-                <div class="form-group">
+                {{-- <div class="form-group">
                     <label class="form-label">Sepanjang Hari</label>
                     <input type="checkbox" class="" name="allDay" id="allDay" value="1">Yes
-                </div>
+                </div> --}}
             </div>
             <div class="modal-footer">
                 <button type="submit" id="delete" name="action" value="destroy" class="btn btn-danger md-btn-flat" disabled>Delete</button>
@@ -157,7 +157,7 @@ var eventList = [];
 
     header: {
       left: 'title',
-      center: 'dayGridMonth,timeGridWeek,timeGridDay',
+    //   center: 'dayGridMonth,timeGridWeek,timeGridDay',
       right: 'prev,next today'
     },
     timeZone: 'Asia/Jakarta',

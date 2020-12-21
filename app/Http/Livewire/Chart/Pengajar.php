@@ -3,21 +3,23 @@
 namespace App\Http\Livewire\Chart;
 
 use Livewire\Component;
-use App\Models\Artikel;
-use Asantibanez\LivewireCharts\Models\ColumnChartModel;
+use App\Models\Course\MataPelatihan;
+use App\Models\Course\ProgramPelatihan;
+use App\Models\Course\MataInstruktur;
+use Asantibanez\LivewireCharts\Models\PieChartModel;
 
-class KeywordView extends Component
+class Pengajar extends Component
 {
 
-    public $artikel,$data,$max,$min;
-    public function mount(Artikel $artikel){
-        $this->artikel = $artikel;
-        $this->max = $this->artikel->query()->orderby('viewer','desc')->first();
-        $this->min = $this->artikel->query()->orderby('viewer','asc')->first();
+    public $mata,$data,$max,$min;
+    public function mount(MataPelatihan $mata, MataInstruktur $instruktur,ProgramPelatihan $program){
+        $this->program = $program;
+        $this->mata = $mata;
+        $this->instruktur = $instruktur;
     }
     public function render()
     {
-        $artikel = $this->artikel->get();
+
         $color = [["#69D2E7","#A7DBD8","#E0E4CC","#F38630","#FA6900"],
 		["#FE4365","#FC9D9A","#F9CDAD","#C8C8A9","#83AF9B"],
 		["#ECD078","#D95B43","#C02942","#542437","#53777A"],
@@ -211,14 +213,18 @@ class KeywordView extends Component
 		["#26251C","#EB0A44","#F2643D","#F2A73D","#A0E8B7"],
 		["#4B3E4D","#1E8C93","#DBD8A2","#C4AC30","#D74F33"],
 		["#8D7966","#A8A39D","#D8C8B8","#E2DDD9","#F8F1E9"],
-		["#F2E8C4","#98D9B6","#3EC9A7","#2B879E","#616668"]];
-        $chart = (new ColumnChartModel());
+        ["#F2E8C4","#98D9B6","#3EC9A7","#2B879E","#616668"]];
 
-        foreach($artikel as $a){
+        $program = $this->program->get();
+        $chart = (new PieChartModel());
+
+        foreach($program as $a){
         $section = array_rand($color);
+        $mataId = $this->mata->where('program_id',$a->id)->pluck('id');
+        $instruktur = $this->instruktur->whereIn('mata_id',$mataId)->count();
         $colors = $color[$section][array_rand($color[$section])];
-        $chart->addColumn($a->judul,$a->viewer, $colors);
+        $chart->addSlice($a->judul,$instruktur, $colors);
         }
-        return view('livewire.chart.keyword-view',compact('chart'));
+        return view('livewire.chart.pengajar',compact('chart'));
     }
 }

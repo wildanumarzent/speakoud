@@ -10,6 +10,7 @@
 @endsection
 
 @section('content')
+@include('sweetalert::alert')
 <div class="card">
     <h6 class="card-header">
       Form Announcement
@@ -42,8 +43,7 @@
                     <a href="{{asset('user_folder'.'/'.@$data['announcement']->sender_id.'/'.'AnnouncementFile'.'/'.@$data['announcement']->attachment)}}" download>{{@$data['announcement']->attachment}}</a>
                     <hr>
                     <input type="file" name="attachment">
-
-                    <small class="form-text text-muted">Masukan File Lampiran</small>
+                    <small class="form-text text-muted">Masukan File Lampiran | Max 5mb | txt,doc,xls,png,jpeg,rar,zip</small>
                 </div>
                 <div class="form-group">
                       <label class="col-form-label text-sm-right">Status</label>
