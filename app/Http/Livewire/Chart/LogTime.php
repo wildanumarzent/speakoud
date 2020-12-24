@@ -222,7 +222,11 @@ class LogTime extends Component
         $time = Carbon::parse($a)->format('H:i');
         $section = array_rand($color);
         $colors = $color[$section][array_rand($color[$section])];
-        $logCount = $this->log->whereTime('created_at','<=',$a)->count();
+        $logCount = $this->log
+                ->whereDate('created_at',$this->date)
+                ->whereTime('created_at','<',Carbon::parse($a)->addMinutes(1)->format('H:i'))
+                ->whereTime('created_at','>=',$a)
+                ->count();
         $chart->addColumn($time,$logCount,$colors);
         }
         return view('livewire.chart.log-time',compact('chart'));
