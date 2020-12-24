@@ -3,7 +3,9 @@
 namespace App\Services\Users;
 
 use App\Models\BankData;
+use App\Models\Course\MataPeserta;
 use App\Models\Users\Peserta;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -27,29 +29,39 @@ class PesertaService
     {
         $query = $this->model->query();
 
-        $query->when($request->q, function ($query, $q) {
-            $query->where(function ($query) use ($q) {
-                $query->where('nip', 'like', '%'.$q.'%')
-                ->orWhere('unit_kerja', 'like', '%'.$q.'%')
-                ->orWhere('kedeputian', 'like', '%'.$q.'%')
-                ->orWhere('pangkat', 'like', '%'.$q.'%')
-                ->orWhere('alamat', 'like', '%'.$q.'%');
+        $query->when($request->t, function ($query, $t) {
+            $query->whereHas('user', function ($queryB) use ($t) {
+                $queryB->whereHas('roles', function ($queryC) use ($t) {
+                    $queryC->where('id', $t);
+                });
+            });
+        })->when($request->j, function ($query, $j) {
+            $query->where(function ($query) use ($j) {
+                $query->where('pangkat', $j);
+            });
+        })->when($request->q, function ($query, $q) {
+            $query->where(function ($queryA) use ($q) {
+                $queryA->whereHas('user', function (Builder $queryB) use ($q) {
+                    $queryB->where('name', 'ilike', '%'.$q.'%')
+                        ->orWhere('username', 'ilike', '%'.$q.'%');
+                })->orWhere('nip', 'ilike', '%'.$q.'%')
+                    ->orWhere('kedeputian', 'ilike', '%'.$q.'%');
             });
         });
 
         if (auth()->user()->hasRole('internal')) {
-            $query->whereHas('user', function ($queryB) {
-                $queryB->whereHas('roles', function ($queryC) {
-                    $queryC->where('name', 'peserta_internal');
+            $query->whereHas('user', function ($queryC) {
+                $queryC->whereHas('roles', function ($queryD) {
+                    $queryD->where('name', 'peserta_internal');
                 });
             });
         }
 
         if (auth()->user()->hasRole('mitra')) {
             $query->where('mitra_id', auth()->user()->mitra->id);
-            $query->whereHas('user', function ($queryB) {
-                $queryB->whereHas('roles', function ($queryC) {
-                    $queryC->where('name', 'peserta_mitra');
+            $query->whereHas('user', function ($queryE) {
+                $queryE->whereHas('roles', function ($queryF) {
+                    $queryF->where('name', 'peserta_mitra');
                 });
             });
         }
@@ -269,6 +281,23 @@ class PesertaService
         ];
 
         return $peserta;
+    }
+
+    public function softDeletePeserta(int $id)
+    {
+        $checkProgram = MataPeserta::where('peserta_id', $id)->count();
+        
+        if ($checkProgram > 0) {
+            
+            return false;
+        } else {
+            
+            $peserta = $this->findPeserta($id);
+            $peserta->user->delete();
+            $peserta->delete();
+
+            return true;
+        }
     }
 
     public function deletePeserta(int $id)

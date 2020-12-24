@@ -29,14 +29,16 @@ class InstrukturController extends Controller
 
     public function index(Request $request)
     {
+        $t = '';
         $q = '';
-        if (isset($request->q)) {
-            $q = '?q='.$request->q;
+        if (isset($request->t) || isset($request->q)) {
+            $t = '?t='.$request->t;
+            $q = '&q='.$request->q;
         }
 
         $data['instruktur'] = $this->service->getInstrukturList($request);
         $data['number'] = $data['instruktur']->firstItem();
-        $data['instruktur']->withPath(url()->current().$q);
+        $data['instruktur']->withPath(url()->current().$t.$q);
 
         return view('backend.user_management.instruktur.index', compact('data'), [
             'title' => 'Instruktur',
@@ -103,6 +105,27 @@ class InstrukturController extends Controller
 
         return redirect()->route('instruktur.index')
             ->with('success', 'User instruktur berhasil diedit');
+    }
+
+    public function softDelete($id)
+    {
+        $delete = $this->service->softDeleteInstruktur($id);
+
+        if ($delete == true) {
+
+            return response()->json([
+                'success' => 1,
+                'message' => ''
+            ], 200);
+
+        } else {
+            
+            return response()->json([
+                'success' => 0,
+                'message' => 'Instruktur ini sudah ter enroll di beberapa program'
+            ], 200);
+        }
+        
     }
 
     public function destroy($id)

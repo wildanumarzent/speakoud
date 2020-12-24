@@ -5,9 +5,12 @@ namespace App\Models\Users;
 use App\Models\Instansi\InstansiInternal;
 use App\Models\Instansi\InstansiMitra;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Peserta extends Model
 {
+    use SoftDeletes;
+
     protected $table = 'peserta';
     protected $guarded = [];
 

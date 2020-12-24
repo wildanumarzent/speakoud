@@ -3,38 +3,46 @@
 namespace App\Services\Users;
 
 use App\Models\BankData;
+use App\Models\Course\ProgramPelatihan;
+use App\Models\Instansi\InstansiInternal;
+use App\Models\Instansi\InstansiMitra;
+use App\Models\Users\Instruktur;
+use App\Models\Users\Internal;
+use App\Models\Users\Mitra;
+use App\Models\Users\Peserta;
 use App\Models\Users\User;
 use App\Models\Users\UserInformation;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
 
 class UserService
 {
-    private $model, $modelBankData, $modelInformation;
+    private $model;
 
-    public function __construct(
-        User $model,
-        BankData $modelBankData,
-        UserInformation $modelInformation
-    )
+    public function __construct(User $model)
     {
         $this->model = $model;
-        $this->modelBankData = $modelBankData;
-        $this->modelInformation = $modelInformation;
     }
 
-    public function getAllUser(){
+    public function getAllUser()
+    {
         $query = $this->model->query();
+
         $query->with('roles');
+        
         $result = $query->orderBy('id', 'ASC')->get();
+
         return $result;
     }
 
-    public function getUserList($request)
+    public function getUserList($request, $trash = false)
     {
         $query = $this->model->query();
+
+        if ($trash == true) {
+            $query->onlyTrashed();
+        }
 
         $query->when($request->r, function ($query, $r) {
             return $query->whereHas('roles', function ($query) use ($r) {
@@ -42,15 +50,16 @@ class UserService
             });
         })->when($request->q, function ($query, $q) {
             $query->where(function ($query) use ($q) {
-                $query->where('name', 'like', '%'.$q.'%')
-                ->orWhere('email', 'like', '%'.$q.'%')
-                ->orWhere('username', 'like', '%'.$q.'%');
+                $query->where('name', 'ilike', '%'.$q.'%')
+                ->orWhere('email', 'ilike', '%'.$q.'%')
+                ->orWhere('username', 'ilike', '%'.$q.'%');
             });
         });
 
         if (isset($request->a)) {
             $query->where('active', $request->a);
         }
+
         $query->with('roles');
 
         $result = $query->orderBy('id', 'ASC')->paginate(20);
@@ -217,10 +226,59 @@ class UserService
         return $user;
     }
 
+    public function softDeleteUser(int $id)
+    {
+        $instansiInternal = InstansiInternal::where('creator_id', $id)->count();
+        $instansiMitra = InstansiMitra::where('creator_id', $id)->count();
+        $internal = Internal::where('creator_id', $id)->count();
+        $mitra = Mitra::where('creator_id', $id)->count();
+        $instruktur = Instruktur::where('creator_id', $id)->count();
+        $peserta = Peserta::where('creator_id', $id)->count();
+        $files = BankData::where('owner_id', $id)->count();
+        $program = ProgramPelatihan::where('creator_id', $id)->count();
+
+        if ($instansiInternal > 0 || $instansiMitra > 0 || $internal > 0 ||
+            $mitra > 0 || $instruktur > 0 || $peserta > 0 || $files > 0 ||
+            $program > 0) {
+
+            return false;
+        } else {
+
+            $user = $this->findUser($id);
+            $user->delete();
+
+            return true;
+        }
+    }
+
+    public function restoreUser(int $id)
+    {
+        $user = $this->model->onlyTrashed()->where('id', $id);
+
+        if ($user->first()->hasRole('internal')) {
+            $user->first()->internal()->onlyTrashed()->restore();
+        }
+
+        if ($user->first()->hasRole('mitra')) {
+            $user->first()->mitra()->onlyTrashed()->restore();
+        }
+
+        if ($user->first()->hasRole('instruktur_internal|instruktur_mitra')) {
+            $user->first()->instruktur()->onlyTrashed()->restore();
+        }
+
+        if ($user->first()->hasRole('peserta_internal|peserta_mitra')) {
+            $user->first()->peserta()->onlyTrashed()->restore();
+        }
+
+        $user->restore();
+
+        return $user;
+    }
+
     public function deleteUser(int $id)
     {
         $user = $this->findUser($id);
-        $bankData = $this->modelBankData->where('owner_id', $id);
 
         if ($user->information()->count() > 0) {
             $user->information()->delete();
@@ -230,39 +288,9 @@ class UserService
             $this->deletePhotoFromPath($user->photo['filename']);
         }
 
-        if ($bankData->count() > 0) {
-            foreach ($bankData->get() as $value) {
-                Storage::disk('bank_data')->delete($value->file_path);
-                if ($value->thumbnail != null) {
-                    Storage::disk('bank_data')->delete($value->thumbnail);
-                }
-                $value->delete();
-            }
-        }
-
-        if ($user->hasRole('internal')) {
-            $user->internal()->delete();
-        }
-
-        if ($user->hasRole('mitra')) {
-            $user->mitra()->delete();
-        }
-
-        if ($user->hasRole('instruktur_internal|instruktur_mitra')) {
-            $user->instruktur()->delete();
-        }
-
-        if ($user->hasRole('peserta_internal|peserta_mitra')) {
-            $user->peserta()->delete();
-        }
-
         $user->delete();
 
-        if ($user->hasRole('developer|administrator')) {
-            return $user;
-        } else {
-            return false;
-        }
+        return $user;
     }
 
     public function deletePhotoFromPath($fileName)

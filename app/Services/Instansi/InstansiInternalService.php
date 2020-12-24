@@ -29,13 +29,13 @@ class InstansiInternalService
 
         $query->when($request->q, function ($query, $q) {
             $query->where(function ($query) use ($q) {
-                $query->where('kode_instansi', 'like', '%'.$q.'%')
-                ->orWhere('nip_pimpinan', 'like', '%'.$q.'%')
-                ->orWhere('nama_pimpinan', 'like', '%'.$q.'%')
-                ->orWhere('nama_instansi', 'like', '%'.$q.'%')
-                ->orWhere('jabatan', 'like', '%'.$q.'%')
-                ->orWhere('telpon', 'like', '%'.$q.'%')
-                ->orWhere('fax', 'like', '%'.$q.'%');
+                $query->where('kode_instansi', 'ilike', '%'.$q.'%')
+                ->orWhere('nip_pimpinan', 'ilike', '%'.$q.'%')
+                ->orWhere('nama_pimpinan', 'ilike', '%'.$q.'%')
+                ->orWhere('nama_instansi', 'ilike', '%'.$q.'%')
+                ->orWhere('jabatan', 'ilike', '%'.$q.'%')
+                ->orWhere('telpon', 'ilike', '%'.$q.'%')
+                ->orWhere('fax', 'ilike', '%'.$q.'%');
             });
         });
 

@@ -11,6 +11,9 @@
         <div class="form-row align-items-center">
             <div class="col-md">
                 <form action="" method="GET">
+                @if (Request::get('trash') == 'deleted')
+                <input type="hidden" name="trash" value="deleted">
+                @endif
                 <div class="form-group">
                     <label class="form-label">Roles</label>
                     <select class="role custom-select form-control" name="r">
@@ -55,6 +58,9 @@
     <div class="card-header with-elements">
         <h5 class="card-header-title mt-1 mb-0">Users List</h5>
         <div class="card-header-elements ml-auto">
+            <a href="{{ route('user.trash') }}" class="btn btn-secondary icon-btn-only-sm" title="klik untuk melihat tong sampah user">
+                <i class="las la-trash"></i><span>Tong Sampah</span>
+            </a>
             <a href="{{ route('user.create') }}" class="btn btn-primary icon-btn-only-sm" title="klik untuk menambah user">
                 <i class="las la-plus"></i><span>Tambah</span>
             </a>
@@ -246,7 +252,7 @@
             var id = $(this).attr('data-id');
             Swal.fire({
                 title: "Apakah anda yakin?",
-                text: "Anda akan menghapus user ini, data yang bersangkutan dengan user ini akan terhapus. Data yang sudah dihapus tidak dapat dikembalikan!",
+                text: "Anda akan menghapus user ini, jika user memiliki data yang bersangkutan, user tidak akan terhapus!",
                 type: "warning",
                 confirmButtonText: "Ya, hapus!",
                 customClass: {
@@ -259,8 +265,8 @@
                 cancelButtonText: "Tidak, terima kasih",
                 preConfirm: () => {
                     return $.ajax({
-                        url: "/user/" + id,
-                        method: 'DELETE',
+                        url: "/user/" + id + '/soft',
+                        method: 'GET',
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },

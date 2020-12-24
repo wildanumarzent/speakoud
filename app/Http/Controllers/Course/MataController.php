@@ -369,14 +369,16 @@ class MataController extends Controller
         $mata = $this->service->findMata($id);
         $this->checkCreator($id);
 
-        if ($mata->bahan()->count() > 0) {
+        $delete = $this->service->deleteMata($id);
+
+        if ($delete == false) {
+
             return response()->json([
                 'success' => 0,
                 'message' => 'Program pelatihan gagal dihapus dikarenakan'.
-                            ' masih ada bahan pelatihan didalamnya'
+                            ' masih memiliki mata pelatihan & data yang bersangkutan'
             ], 200);
         } else {
-            $this->service->deleteMata($id);
 
             return response()->json([
                 'success' => 1,
@@ -393,7 +395,7 @@ class MataController extends Controller
             return response()->json([
                 'success' => 0,
                 'message' => 'Instruktur pelatihan gagal dihapus dikarenakan'.
-                            ' masih memiliki bahan pelatihan'
+                            ' masih memiliki materi pelatihan'
             ], 200);
         } else {
 
@@ -412,7 +414,7 @@ class MataController extends Controller
             return response()->json([
                 'success' => 0,
                 'message' => 'Peserta pelatihan gagal dihapus dikarenakan'.
-                            ' masih memiliki bahan pelatihan'
+                            ' sudah memiliki aktifitas di pelatihan ini'
             ], 200);
         } else {
 

@@ -19,7 +19,7 @@ class GradesKategoriService
 
         $query->when($request->q, function ($query, $q) {
             $query->where(function ($query) use ($q) {
-                $query->where('nama', 'like', '%'.$q.'%');
+                $query->where('nama', 'ilike', '%'.$q.'%');
             });
         });
 
@@ -57,8 +57,14 @@ class GradesKategoriService
     public function deleteGradesKategori(int $id)
     {
         $kategori = $this->findGradesKategori($id);
-        $kategori->nilai()->delete();
-        $kategori->delete();
+        // $kategori->nilai()->delete();
+
+        if ($kategori->nilai->count() == 0) {
+            $kategori->delete();
+        } else {
+            return false;
+        }
+        
 
         return $kategori;
     }

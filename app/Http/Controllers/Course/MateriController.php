@@ -29,17 +29,20 @@ class MateriController extends Controller
 
     public function index(Request $request, $mataId)
     {
+        $i = '';
         $p = '';
         $q = '';
-        if (isset($request->p) || isset($request->q)) {
-            $p = '?p='.$request->p;
+        if (isset($request->i) || isset($request->p) || isset($request->q)) {
+            $i = '?i='.$request->i;
+            $p = '&p='.$request->p;
             $q = '&q='.$request->q;
         }
 
         $data['materi'] = $this->service->getMateriList($request, $mataId);
         $data['number'] = $data['materi']->firstItem();
-        $data['materi']->withPath(url()->current().$p.$q);
+        $data['materi']->withPath(url()->current().$i.$p.$q);
         $data['mata'] = $this->serviceMata->findMata($mataId);
+        $data['instruktur'] = $this->serviceMata->getInstrukturList($request, $mataId);
 
         $this->serviceProgram->checkAdmin($data['mata']->program_id);
 
@@ -138,18 +141,21 @@ class MateriController extends Controller
     {
         $materi = $this->service->findMateri($id);
 
-        if ($materi->bahan()->count() > 0) {
-            return response()->json([
-                'success' => 0,
-                'message' => 'Mata pelatihan gagal dihapus dikarenakan'.
-                            ' masih ada bahan pelatihan didalamnya'
-            ], 200);
-        } else {
-            $this->service->deleteMateri($id);
+        $delete = $this->service->deleteMateri($id);
 
+        if ($delete == true) {
+            
             return response()->json([
                 'success' => 1,
                 'message' => ''
+            ], 200);
+
+        } else {
+            
+            return response()->json([
+                'success' => 0,
+                'message' => 'Mata pelatihan gagal dihapus dikarenakan'.
+                            ' masih memiliki materi pelatihan'
             ], 200);
         }
     }

@@ -3,6 +3,9 @@
 namespace App\Services;
 
 use App\Models\BankData;
+use App\Models\Course\Bahan\BahanAudio;
+use App\Models\Course\Bahan\BahanFile;
+use App\Models\Course\Bahan\BahanVideo;
 use Dotenv\Store\File\Paths;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -55,8 +58,8 @@ class BankDataService
             $query = $this->model->query();
             $query->when($request->q, function ($query, $q) {
                 $query->where(function ($query) use ($q) {
-                    $query->where('file_path', 'like', '%'.$q.'%');
-                    $query->orWhere('filename', 'like', '%'.$q.'%');
+                    $query->where('file_path', 'ilike', '%'.$q.'%');
+                    $query->orWhere('filename', 'ilike', '%'.$q.'%');
                 });
             });
 
@@ -157,13 +160,17 @@ class BankDataService
         $files = $this->model->where('file_path', 'like', '%'.$name.'%')
             ->get();
 
-        foreach ($files as $key) {
-            Storage::disk('bank_data')->delete($key->file_path);
-            Storage::disk('bank_data')->delete($key->thumbnail);
-            $key->delete();
-        }
+        // foreach ($files as $key) {
+        //     Storage::disk('bank_data')->delete($key->file_path);
+        //     Storage::disk('bank_data')->delete($key->thumbnail);
+        //     $key->delete();
+        // }
 
-        $directory = Storage::disk('bank_data')->deleteDirectory($name);
+        if ($files->count() == 0) {
+            $directory = Storage::disk('bank_data')->deleteDirectory($name);
+        } else {
+            return false;
+        }
 
         return $directory;
     }
@@ -278,11 +285,21 @@ class BankDataService
     {
         $file = $this->findFile($id);
 
-        Storage::disk('bank_data')->delete($file->file_path);
-        if ($file->thumbnail != null) {
-            Storage::disk('bank_data')->delete($file->thumbnail);
+        $dokumen = BahanFile::where('bank_data_id', $id)->count();
+        $audio = BahanAudio::where('bank_data_id', $id)->count();
+        $video = BahanVideo::where('bank_data_id', $id)->count();
+
+        if ($dokumen == 0 || $audio == 0 || $video == 0) {
+            
+            Storage::disk('bank_data')->delete($file->file_path);
+            if ($file->thumbnail != null) {
+                Storage::disk('bank_data')->delete($file->thumbnail);
+            }
+            $file->delete();
+
+        } else {
+            return false;
         }
-        $file->delete();
 
         return $file;
     }

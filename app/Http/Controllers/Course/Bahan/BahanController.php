@@ -244,11 +244,22 @@ class BahanController extends Controller
 
     public function destroy($materiId, $id)
     {
-        $this->service->deleteBahan($id);
+        $delete = $this->service->deleteBahan($id);
 
-        return response()->json([
-            'success' => 1,
-            'message' => ''
-        ], 200);
+        if ($delete == false) {
+
+            return response()->json([
+                'success' => 0,
+                'message' => 'Materi pelatihan gagal dihapus dikarenakan'.
+                            ' sudah memiliki aktifitas di pelatihan ini'
+            ], 200);
+
+        } else {
+
+            return response()->json([
+                'success' => 1,
+                'message' => ''
+            ], 200);
+        }
     }
 }

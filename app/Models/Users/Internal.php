@@ -4,9 +4,12 @@ namespace App\Models\Users;
 
 use App\Models\Instansi\InstansiInternal;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Internal extends Model
 {
+    use SoftDeletes;
+
     protected $table = 'internal';
     protected $guarded = [];
 

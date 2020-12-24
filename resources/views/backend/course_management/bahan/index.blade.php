@@ -49,160 +49,123 @@
 </div>
 <br>
 
-<div class="row drag">
+<div class="drag">
 
     @foreach ($data['bahan'] as $item)
-    <div class="col-sm-6 col-xl-4" id="{{ $item->id }}" style="cursor: move;" title="geser untuk merubah urutan">
-      <div class="card card-list">
-        <div class="card-body d-flex justify-content-between align-items-start pb-1">
-          <div>
-            <a href="{{ route('course.bahan', ['id' => $item->mata_id, 'bahanId' => $item->id, 'tipe' => $item->type($item)['tipe']]) }}" class="text-body text-big font-weight-semibold" title="{!! $item->judul !!}">{!! Str::limit($item->judul, 80) !!}</a>
-          </div>
-
-          <div class="btn-group project-actions dropdown">
-            <button type="button" class="btn btn-sm btn-default icon-btn dropdown-toggle hide-arrow  btn-toggle-radius" data-toggle="dropdown" aria-expanded="false">
-              <i class="ion ion-ios-more"></i>
-            </button>
-            <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; will-change: top, left; top: 26px; left: 26px;">
-              @if ($item->type($item)['tipe'] == 'quiz')
-              <a class="dropdown-item" href="{{ route('quiz.item', ['id' => $item->quiz->id]) }}" title="klik untuk melihat soal">
-                <i class="las la-list-ol"></i> Soal
-              </a>
-              @endif
-              <a class="dropdown-item" href="{{ route('bahan.edit', ['id' => $item->materi_id, 'bahanId' => $item->id, 'type' => $item->type($item)['tipe']]) }}" title="klik untuk mengedit materi pelatihan">
-                <i class="las la-pen"></i> Ubah
-              </a>
-              <a class="dropdown-item js-sa2-delete" href="javascript:void(0);" data-materiid="{{ $item->materi_id }}" data-id="{{ $item->id }}" title="klik untuk menghapus materi pelatihan">
-                <i class="las la-trash-alt"></i> Hapus
-              </a>
-              <a class="dropdown-item" href="javascript:void(0);" onclick="$(this).find('form').submit();" title="klik untuk {{ $item->publish == 0 ? 'publish' : 'draft' }} materi pelatihan">
-                  <i class="las la-{{ $item->publish == 0 ? 'eye' : 'eye-slash' }} "></i> {{ $item->publish == 1 ? 'Draft' : 'Publish' }}
-                  <form action="{{ route('bahan.publish', ['id' => $item->materi_id, 'bahanId' => $item->id]) }}" method="POST">
-                    @csrf
-                    @method('PUT')
-                </form>
-              </a>
-            </div>
-          </div>
-        </div>
-        <div class="card-body pb-3">
-          <table class="table table-bordered mb-0">
-                <tr>
-                    <th>Tipe Bahan</th>
-                    <td>
-                        <i class="las la-{{ $item->type($item)['icon'] }} mr-2" style="font-size: 1.5em;"></i> <strong>{{ $item->type($item)['title'] }}</strong>
-                    </td>
-                </tr>
-                @if ($item->type($item)['tipe'] == 'forum')
-                <tr>
-                    <th>Topik</th>
-                    <td>{{ config('addon.label.forum_tipe.'.$item->forum->tipe)['title'] }}</td>
-                </tr>
+    <div class="card mb-3" id="{{ $item->id }}" style="cursor: move;" title="geser untuk merubah urutan">
+        <div class="card-body">
+            <div class="media align-items-center">
+              <div class="d-flex flex-column justify-content-center align-items-center">
+                @if ($item->min('urutan') != $item->urutan)
+                    <a href="javascript:void(0)" onclick="$(this).find('form').submit();" class="d-block text-primary text-big line-height-1" title="klik untuk menaikan posisi">
+                        <i class="ion ion-ios-arrow-up"></i>
+                        <form action="{{ route('bahan.position', ['id' => $item->materi_id, 'bahanId' => $item->id, 'position' => ($item->urutan - 1)]) }}" method="POST">
+                            @csrf
+                            @method('PUT')
+                        </form>
+                    </a>
+                @else
+                <a href="javascript:void(0)" class="d-block text-primary text-big line-height-1"><i class="ion ion-ios-arrow-up"></i></a>
                 @endif
-                @if ($item->type($item)['tipe'] == 'dokumen')
-                <tr>
-                    <th>Tipe File</th>
-                    <td><i class="las la-file-{{ $item->dokumen->bankData->icon($item->dokumen->bankData->file_type) }} mr-2" style="font-size: 1.5em;"></i> {{ strtoupper($item->dokumen->bankData->file_type) }}</td>
-                </tr>
+                <div class="text-xlarge font-weight-bolder line-height-1 my-2">{{ $data['number']++ }}</div>
+                @if ($item->max('urutan') != $item->urutan)
+                    <a href="javascript:void(0)" onclick="$(this).find('form').submit();" class="d-block text-primary text-big line-height-1" title="klik untuk menurunkan posisi">
+                        <i class="ion ion-ios-arrow-down"></i>
+                        <form action="{{ route('bahan.position', ['id' => $item->materi_id, 'bahanId' => $item->id, 'position' => ($item->urutan + 1)]) }}" method="POST">
+                            @csrf
+                            @method('PUT')
+                        </form>
+                    </a>
+                @else
+                    <a href="javascript:void(0)" class="d-block text-primary text-big line-height-1"><i class="ion ion-ios-arrow-down"></i></a>
                 @endif
-                @if ($item->type($item)['tipe'] == 'conference')
-                <tr>
-                    <th>Tipe Meeting</th>
-                    <td>
-                        @if ($item->conference->tipe == 0)
-                            BPPT Conference
-                        @else
-                            Platform
-                        @endif
-                    </td>
-                </tr>
-                @endif
-                @if ($item->type($item)['tipe'] == 'quiz')
-                <tr>
-                    <th>Tipe Quiz</th>
-                    <td>
-                        {{ config('addon.label.quiz_tipe.'.$item->quiz->tipe) }}
-                    </td>
-                </tr>
-                @endif
-
-                <tr>
-                    <th>Pembuat</th>
-                    <td>{{ $item->creator['name'] }}</td>
-                </tr>
-                <tr>
-                    <th>Status</th>
-                    <td><span class="badge badge-outline-{{ $item->publish == 1 ? 'primary' : 'warning' }}">{{ $item->publish == 1 ? 'Publish' : 'Draft' }}</span></td>
-                </tr>
-                <tr>
-                    <th>Urutan</th>
-                    <td>
-                        @if ($item->min('urutan') != $item->urutan)
-                            <a href="javascript:;" onclick="$(this).find('form').submit();" class="btn icon-btn btn-sm btn-secondary" title="klik untuk mengatur posisi">
-                                <i class="las la-long-arrow-alt-up"></i>
-                                <form action="{{ route('bahan.position', ['id' => $item->materi_id, 'bahanId' => $item->id, 'position' => ($item->urutan - 1)]) }}" method="POST">
-                                    @csrf
-                                    @method('PUT')
-                                </form>
+              </div>
+              <div class="media-body ml-4">
+                <a href="{{ route('course.bahan', ['id' => $item->mata_id, 'bahanId' => $item->id, 'tipe' => $item->type($item)['tipe']]) }}" class="text-big">{!! $item->judul !!} <span class="badge badge-secondary">{{ $item->publish == 1 ? 'PUBLISH' : 'DRAFT' }}</span></a>
+                <div class="my-2">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <table class="table table-bordered mb-0" style="width: 300px;">
+                                <tr>
+                                    <th>Tipe</th>
+                                    <td>
+                                        <i class="las la-{{ $item->type($item)['icon'] }} mr-2" style="font-size: 1.5em;"></i> <strong>{{ $item->type($item)['title'] }}</strong>
+                                    </td>
+                                </tr>
+                                @if ($item->type($item)['tipe'] == 'forum')
+                                <tr>
+                                    <th>Topik</th>
+                                    <td>{{ config('addon.label.forum_tipe.'.$item->forum->tipe)['title'] }}</td>
+                                </tr>
+                                @endif
+                                @if ($item->type($item)['tipe'] == 'dokumen')
+                                <tr>
+                                    <th>File</th>
+                                    <td><i class="las la-file-{{ $item->dokumen->bankData->icon($item->dokumen->bankData->file_type) }} mr-2" style="font-size: 1.5em;"></i> {{ strtoupper($item->dokumen->bankData->file_type) }}</td>
+                                </tr>
+                                @endif
+                                @if ($item->type($item)['tipe'] == 'conference')
+                                <tr>
+                                    <th>Tipe Meeting</th>
+                                    <td>
+                                        @if ($item->conference->tipe == 0)
+                                            BPPT Conference
+                                        @else
+                                            Platform
+                                        @endif
+                                    </td>
+                                </tr>
+                                @endif
+                                @if ($item->type($item)['tipe'] == 'quiz')
+                                <tr>
+                                    <th>Tipe Quiz</th>
+                                    <td>
+                                        {{ config('addon.label.quiz_tipe.'.$item->quiz->tipe) }}
+                                    </td>
+                                </tr>
+                                @endif
+                            </table>
+                        </div>
+                        <div class="col-md-4 text-right">
+                            @if ($item->type($item)['tipe'] == 'quiz')
+                            <a class="btn btn-success btn-sm icon-btn-only-sm mr-1" href="{{ route('quiz.item', ['id' => $item->quiz->id]) }}" title="klik untuk melihat soal">
+                                <i class="las la-list-ol"></i> Soal
                             </a>
-                        @else
-                            <button type="button" class="btn icon-btn btn-default btn-sm" disabled><i class="las la-long-arrow-alt-up"></i></button>
-                        @endif
-                        @if ($item->max('urutan') != $item->urutan)
-                            <a href="javascript:;" onclick="$(this).find('form').submit();" class="btn icon-btn btn-sm btn-secondary" title="klik untuk mengatur posisi">
-                                <i class="las la-long-arrow-alt-down"></i>
-                                <form action="{{ route('bahan.position', ['id' => $item->materi_id, 'bahanId' => $item->id, 'position' => ($item->urutan + 1)]) }}" method="POST">
-                                    @csrf
-                                    @method('PUT')
-                                </form>
+                            @endif
+                            <a class="btn btn-primary btn-sm icon-btn-only-sm" href="{{ route('course.bahan', ['id' => $item->mata_id, 'bahanId' => $item->id, 'tipe' => $item->type($item)['tipe']]) }}" title="klik untuk melihat preview">
+                                <span>Detail</span> <i class="las la-external-link-alt ml-1"></i>
                             </a>
-                        @else
-                            <button type="button" class="btn icon-btn btn-default btn-sm" disabled><i class="las la-long-arrow-alt-down"></i></button>
-                        @endif
-                    </td>
-                </tr>
-                <tr>
-                    <th>Aksi</th>
-                    <td>
-                        @if ($item->type($item)['tipe'] == 'quiz')
-                        <a class="btn btn-success btn-block btn-sm" href="{{ route('quiz.item', ['id' => $item->quiz->id]) }}" title="klik untuk melihat soal">
-                          <i class="las la-list-ol"></i> Soal
-                        </a>
-                        @endif
-                        <a class="btn btn-info btn-block btn-sm" href="{{ route('bahan.edit', ['id' => $item->materi_id, 'bahanId' => $item->id, 'type' => $item->type($item)['tipe']]) }}" title="klik untuk mengedit bahan pelatihan">
-                          <i class="las la-pen"></i> Ubah
-                        </a>
-                        <a class="btn btn-danger btn-block btn-sm js-sa2-delete" href="javascript:void(0);" data-materiid="{{ $item->materi_id }}" data-id="{{ $item->id }}" title="klik untuk menghapus bahan pelatihan">
-                          <i class="las la-trash-alt"></i> Hapus
-                        </a>
-                        <a class="btn btn-secondary btn-block btn-sm" href="javascript:void(0);" onclick="$(this).find('form').submit();" title="klik untuk {{ $item->publish == 0 ? 'publish' : 'draft' }} bahan pelatihan">
-                            <i class="las la-{{ $item->publish == 0 ? 'eye' : 'eye-slash' }} "></i> {{ $item->publish == 0 ? 'Publish' : 'Draft' }}
-                            <form action="{{ route('bahan.publish', ['id' => $item->materi_id, 'bahanId' => $item->id]) }}" method="POST">
-                              @csrf
-                              @method('PUT')
-                          </form>
-                        </a>
-                        <a class="btn btn-primary btn-block btn-sm" href="{{ route('course.bahan', ['id' => $item->mata_id, 'bahanId' => $item->id, 'tipe' => $item->type($item)['tipe']]) }}" title="klik untuk melihat preview">
-                            Detail Materi <i class="las la-external-link-alt"></i>
-                        </a>
-                    </td>
-                </tr>
-          </table>
-        </div>
-        <hr class="m-0 mb-2">
-        <div class="card-body pt-0">
-          <div class="row">
-            <div class="col">
-              <div class="text-muted small">Tanggal Dibuat</div>
-              <div class="font-weight-bold">{{ $item->created_at->format('d/m/Y H:i') }}</div>
+                            <div class="btn-group dropdown">
+                                <button type="button" class="btn btn-warning btn-sm icon-btn-only-sm dropdown-toggle hide-arrow" data-toggle="dropdown" title="klik untuk melakukan aksi"><i class="las la-ellipsis-v"></i><span>Aksi</span></button>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a href="{{ route('bahan.edit', ['id' => $item->materi_id, 'bahanId' => $item->id, 'type' => $item->type($item)['tipe']]) }}" class="dropdown-item" title="klik untuk mengedit materi pelatihan">
+                                        <i class="las la-pen"></i><span>Ubah</span>
+                                    </a>
+                                    @if (auth()->user()->hasRole('developer|administrator') || $item->creator_id == auth()->user()->id)
+                                    <a href="javascript:void(0);" data-materiid="{{ $item->materi_id }}" data-id="{{ $item->id }}" class="dropdown-item js-sa2-delete" title="klik untuk menghapus materi pelatihan">
+                                        <i class="las la-trash-alt"></i><span>Hapus</span>
+                                    </a>
+                                    @endif
+                                    <a href="javascript:void(0);" onclick="$(this).find('form').submit();" class="dropdown-item" title="klik untuk {{ $item->publish == 0 ? 'publish' : 'draft' }} materi pelatihan">
+                                        <i class="las la-{{ $item->publish == 0 ? 'eye' : 'eye-slash' }} "></i> <span>{{ $item->publish == 0 ? 'Publish' : 'Draft' }}</span>
+                                        <form action="{{ route('bahan.publish', ['id' => $item->materi_id, 'bahanId' => $item->id]) }}" method="POST">
+                                            @csrf
+                                            @method('PUT')
+                                        </form>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="small">
+                    <span class="text-muted ml-3"><i class="las la-user text-lighter text-big align-middle"></i>&nbsp; {{ $item->creator->name }}</span>
+                    <span class="text-muted ml-3"><i class="las la-calendar text-lighter text-big align-middle"></i>&nbsp; {{ $item->created_at->format('d/m/Y H:i') }}</span>
+                    <span class="text-muted ml-3"><i class="las la-calendar text-lighter text-big align-middle"></i>&nbsp; {{ $item->updated_at->format('d/m/Y H:i') }}</span>
+                </div>
+              </div>
             </div>
-            <div class="col">
-              <div class="text-muted small">Tanggal Diperbarui</div>
-              <div class="font-weight-bold">{{ $item->updated_at->format('d/m/Y H:i') }}</div>
-            </div>
-          </div>
         </div>
-      </div>
     </div>
     @endforeach
 

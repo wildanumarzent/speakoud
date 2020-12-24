@@ -50,8 +50,7 @@ class BahanService
         if(!empty($request)){
         $query->when($request->q, function ($query, $q) {
             $query->where(function ($query) use ($q) {
-                $query->where('judul', 'like', '%'.$q.'%')
-                    ->orWhere('keterangan', 'like', '%'.$q.'%');
+                $query->where('judul', 'ilike', '%'.$q.'%');
             });
         });
     }
@@ -279,7 +278,12 @@ class BahanService
         $bahan = $this->findBahan($id);
 
         if ($bahan->forum()->count() == 1) {
-            $bahan->forum()->delete();
+
+            if ($bahan->forum->topik->count() > 0) {
+                return false;
+            } else {
+                $bahan->forum()->delete();
+            }
         }
         if ($bahan->dokumen()->count() == 1) {
             $bahan->dokumen()->delete();

@@ -288,6 +288,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/user', 'Users\UserController@index')
         ->name('user.index')
         ->middleware('role:developer|administrator');
+    Route::get('/user/trash', 'Users\UserController@trash')
+        ->name('user.trash')
+        ->middleware('role:developer|administrator');
     Route::get('/user/create', 'Users\UserController@create')
         ->name('user.create')
         ->middleware('role:developer|administrator');
@@ -305,6 +308,12 @@ Route::group(['middleware' => ['auth']], function () {
         ->middleware('role:developer|administrator');
     Route::delete('/user/{id}', 'Users\UserController@destroy')
         ->name('user.destroy')
+        ->middleware('role:developer|administrator');
+    Route::get('user/{id}/soft', 'Users\UserController@softDelete')
+        ->name('user.destroy.soft')
+        ->middleware('role:developer|administrator');
+    Route::get('user/{id}/restore', 'Users\UserController@restore')
+        ->name('user.destroy.restore')
         ->middleware('role:developer|administrator');
 
     //internal
@@ -326,6 +335,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::delete('/internal/{id}', 'Users\InternalController@destroy')
         ->name('internal.destroy')
         ->middleware('role:developer|administrator');
+    Route::get('/internal/{id}/soft', 'Users\InternalController@softDelete')
+        ->name('internal.destroy.soft')
+        ->middleware('role:developer|administrator');
 
     //mitra
     Route::get('/mitra', 'Users\MitraController@index')
@@ -346,6 +358,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::delete('/mitra/{id}', 'Users\MitraController@destroy')
         ->name('mitra.destroy')
         ->middleware('role:developer|administrator|internal');
+    Route::get('/mitra/{id}/soft', 'Users\MitraController@softDelete')
+        ->name('mitra.destroy.soft')
+        ->middleware('role:developer|administrator|internal');
 
     //instruktur
     Route::get('/instruktur', 'Users\InstrukturController@index')
@@ -365,7 +380,10 @@ Route::group(['middleware' => ['auth']], function () {
         ->middleware('role:developer|administrator|internal|mitra');
     Route::delete('/instruktur/{id}', 'Users\InstrukturController@destroy')
         ->name('instruktur.destroy')
-        ->middleware('role:developer|administrator');
+        ->middleware('role:developer|administrator|internal|mitra');
+    Route::get('/instruktur/{id}/soft', 'Users\InstrukturController@softDelete')
+        ->name('instruktur.destroy.soft')
+        ->middleware('role:developer|administrator|internal|mitra');
 
     //peserta
     Route::get('/peserta', 'Users\PesertaController@index')
@@ -385,7 +403,10 @@ Route::group(['middleware' => ['auth']], function () {
         ->middleware('role:developer|administrator|internal|mitra');
     Route::delete('/peserta/{id}', 'Users\PesertaController@destroy')
         ->name('peserta.destroy')
-        ->middleware('role:developer|administrator');
+        ->middleware('role:developer|administrator|internal|mitra');
+    Route::get('/peserta/{id}/soft', 'Users\PesertaController@softDelete')
+        ->name('peserta.destroy.soft')
+        ->middleware('role:developer|administrator|internal|mitra');
 
     //--- grades management
     //kategori

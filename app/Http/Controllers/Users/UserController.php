@@ -35,7 +35,7 @@ class UserController extends Controller
             $q = '&q='.$request->q;
         }
 
-        $data['users'] = $this->service->getUserList($request);
+        $data['users'] = $this->service->getUserList($request, false);
         $data['roles'] = $this->serviceRole->getAllRole();
         $data['number'] = $data['users']->firstItem();
         $data['users']->withPath(url()->current().$r.$a.$q);
@@ -44,6 +44,31 @@ class UserController extends Controller
             'title' => 'Users',
             'breadcrumbsBackend' => [
                 'Users' => '',
+            ],
+        ]);
+    }
+
+    public function trash(Request $request)
+    {
+        $r = '';
+        $a = '';
+        $q = '';
+        if (isset($request->r) || isset($request->a) || isset($request->q)) {
+            $r = '?r='.$request->r;
+            $a = '&a='.$request->a;
+            $q = '&q='.$request->q;
+        }
+
+        $data['users'] = $this->service->getUserList($request, true);
+        $data['roles'] = $this->serviceRole->getAllRole();
+        $data['number'] = $data['users']->firstItem();
+        $data['users']->withPath(url()->current().$r.$a.$q);
+
+        return view('backend.user_management.users.trash', compact('data'), [
+            'title' => 'Users - Tong Sampan',
+            'breadcrumbsBackend' => [
+                'Users' => route('user.index'),
+                'Tong Sampah' => ''
             ],
         ]);
     }
@@ -124,7 +149,7 @@ class UserController extends Controller
     {
         $this->service->updateProfile($request, auth()->user()->id);
 
-        return back()->with('success', 'Profile updated');
+        return back()->with('success', 'Profile berhasil diubah');
     }
 
     public function activate($id)
@@ -155,13 +180,54 @@ class UserController extends Controller
         return redirect()->route('profile')->with('success', 'Email berhasil diverifikasi');
     }
 
-    public function destroy($id)
+    public function softDelete($id)
     {
-        $this->service->deleteUser($id);
+        $delete = $this->service->softDeleteUser($id);
+
+        if ($delete == true) {
+
+            return response()->json([
+                'success' => 1,
+                'message' => ''
+            ], 200);
+
+        } else {
+            
+            return response()->json([
+                'success' => 0,
+                'message' => 'User tidak bisa dihapus, dikarenakan masih memiliki data yang bersangkutan'
+            ], 200);
+        }
+    }
+
+    public function restore($id)
+    {
+        $this->service->restoreUser($id);
 
         return response()->json([
             'success' => 1,
             'message' => ''
         ], 200);
+    }
+
+    public function destroy($id)
+    {
+        $delete = $this->service->deleteUser($id);
+
+        if ($delete == true) {
+            
+            return response()->json([
+                'success' => 1,
+                'message' => ''
+            ], 200);
+
+        } else {
+            
+            return response()->json([
+                'success' => 0,
+                'message' => 'User tidak bisa dihapus, dikarenakan masih memiliki data yang bersangkutan'
+            ], 200);
+        }
+
     }
 }

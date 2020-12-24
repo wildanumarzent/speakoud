@@ -26,6 +26,7 @@ class CreateInternalTable extends Migration
             $table->json('sk_golongan')->nullable();
             $table->json('sk_jabatan')->nullable();
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('user_id')->references('id')->on('users')
                 ->cascadeOnDelete();

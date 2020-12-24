@@ -28,6 +28,7 @@ class CreatePesertaTable extends Migration
             $table->json('sk_jabatan')->nullable();
             $table->json('surat_ijin_atasan')->nullable();
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('user_id')->references('id')->on('users')
                 ->cascadeOnDelete();

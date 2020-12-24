@@ -27,12 +27,15 @@ class MateriService
         $query->where('mata_id', $mataId);
         $query->when($request->q, function ($query, $q) {
             $query->where(function ($query) use ($q) {
-                $query->where('judul', 'like', '%'.$q.'%')
-                    ->orWhere('keterangan', 'like', '%'.$q.'%');
+                $query->where('judul', 'ilike', '%'.$q.'%')
+                    ->orWhere('keterangan', 'ilike', '%'.$q.'%');
             });
         });
         if (isset($request->p)) {
             $query->where('publish', $request->p);
+        }
+        if (isset($request->i)) {
+            $query->where('instruktur_id', $request->i);
         }
 
         $result = $query->orderBy('urutan', 'ASC')->paginate(9);
@@ -156,8 +159,14 @@ class MateriService
     {
         $materi = $this->findMateri($id);
 
-        $materi->delete();
-
-        return $materi;
+        if ($materi->bahan->count() > 0) {
+            
+            return false;
+        } else {
+            
+            $materi->delete();
+    
+            return true;
+        }
     }
 }

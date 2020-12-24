@@ -54,80 +54,112 @@
 </div>
 <br>
 
-<div class="drag">
+<div class="row drag">
     @foreach ($data['program'] as $item)
-    <div class="card mb-3" id="{{ $item->id }}" style="cursor: move;" title="geser untuk merubah urutan">
-        <div class="card-body">
-          <div class="media align-items-center">
-            <div class="d-flex flex-column justify-content-center align-items-center">
-              @if ($item->min('urutan') != $item->urutan)
-                <a href="javascript:void(0)" onclick="$(this).find('form').submit();" class="d-block text-primary text-big line-height-1" title="klik untuk menaikan posisi">
-                    <i class="ion ion-ios-arrow-up"></i>
-                    <form action="{{ route('program.position', ['id' => $item->id, 'position' => ($item->urutan - 1)]) }}" method="POST">
-                        @csrf
-                        @method('PUT')
-                    </form>
-                </a>
-              @else
-              <a href="javascript:void(0)" class="d-block text-primary text-big line-height-1"><i class="ion ion-ios-arrow-up"></i></a>
+    <div class="col-sm-6 col-xl-4" id="{{ $item->id }}" style="cursor: move;" title="geser untuk merubah urutan">
+      <div class="card card-list">
+        <div class="card-body d-flex justify-content-between align-items-start pb-1">
+          <div>
+            <a href="{{ route('mata.index', ['id' => $item->id]) }}" class="text-body text-big font-weight-semibold" title="{!! $item->judul !!}">{!! Str::limit($item->judul, 80) !!}</a>
+          </div>
+          <div class="btn-group project-actions dropdown">
+            <button type="button" class="btn btn-sm btn-default icon-btn dropdown-toggle hide-arrow  btn-toggle-radius" data-toggle="dropdown" aria-expanded="false">
+              <i class="ion ion-ios-more"></i>
+            </button>
+            <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; will-change: top, left; top: 26px; left: 26px;">
+              <a class="dropdown-item" href="{{ route('mata.index', ['id' => $item->id]) }}" title="klik untuk melihat program pelatihan">
+                <i class="las la-book"></i> Program Pelatihan
+              </a>
+              <a class="dropdown-item" href="{{ route('program.edit', ['id' => $item->id]) }}" title="klik untuk mengedit kategori pelatihan">
+                <i class="las la-pen"></i> Ubah
+              </a>
+              @if (auth()->user()->hasRole('developer|administrator') || $item->creator_id == auth()->user()->id)
+              <a class="dropdown-item js-sa2-delete" href="javascript:void(0);" data-id="{{ $item->id }}" title="klik untuk menghapus kategori pelatihan">
+                <i class="las la-trash-alt"></i> Hapus
+              </a>
               @endif
-              <div class="text-xlarge font-weight-bolder line-height-1 my-2">{{ $data['number']++ }}</div>
-              @if ($item->max('urutan') != $item->urutan)
-                <a href="javascript:void(0)" onclick="$(this).find('form').submit();" class="d-block text-primary text-big line-height-1" title="klik untuk menurunkan posisi">
-                    <i class="ion ion-ios-arrow-down"></i>
-                    <form action="{{ route('program.position', ['id' => $item->id, 'position' => ($item->urutan + 1)]) }}" method="POST">
-                        @csrf
-                        @method('PUT')
-                    </form>
-                </a>
-              @else
-                <a href="javascript:void(0)" class="d-block text-primary text-big line-height-1"><i class="ion ion-ios-arrow-down"></i></a>
-              @endif
-            </div>
-            <div class="media-body ml-4">
-              <a href="{{ route('mata.index', ['id' => $item->id]) }}" class="text-big">{!! $item->judul !!} <span class="badge badge-secondary">{{ $item->publish == 1 ? 'PUBLISH' : 'DRAFT' }}</span></a>
-              <div class="my-2">
-                <div class="row">
-                    <div class="col-md-8">
-                        {!! !empty($item->keterangan) ? Str::limit(strip_tags($item->keterangan), 120) : '-' !!}
-                    </div>
-                    <div class="col-md-4 text-right">
-                        @if ($item->publish == 0 && $item->mata()->count() > 0 && $item->materi()->count() > 0)
-                        <a href="javascript:;" class="btn btn-primary btn-sm icon-btn-only-sm publish" title="klik untuk publish">
-                            <i class="las la-plane"></i> <span>PUBLISH</span>
-                            <form action="{{ route('program.publish', ['id' => $item->id])}}" method="POST" class="form-publish">
-                                @csrf
-                                @method('PUT')
-                            </form>
-                        </a>
-                        @endif
-                        <a class="btn btn-success btn-sm icon-btn-only-sm mr-1" href="{{ route('mata.index', ['id' => $item->id]) }}" title="klik untuk melihat program pelatihan">
-                            <i class="las la-book"></i> <span>Program</span>
-                        </a>
-                        <div class="btn-group dropdown ml-2">
-                            <button type="button" class="btn btn-warning btn-sm dropdown-toggle hide-arrow" data-toggle="dropdown" title="klik untuk melihat user enroll"><i class="las la-ellipsis-v"></i><span>Aksi</span></button>
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <a href="{{ route('program.edit', ['id' => $item->id]) }}" class="dropdown-item" title="klik untuk mengedit kategori pelatihan">
-                                    <i class="las la-pen"></i><span>Ubah</span>
-                                </a>
-                                @if (auth()->user()->hasRole('developer|administrator') || $item->creator_id == auth()->user()->id)
-                                <a href="javascript:void(0);" class="dropdown-item js-sa2-delete" data-id="{{ $item->id }}" title="klik untuk menghapus kategori pelatihan">
-                                    <i class="las la-trash-alt"></i> <span>Hapus</span>
-                                </a>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-                </div>
-              </div>
-              <div class="small">
-                <span class="text-muted ml-3"><i class="las la-user text-lighter text-big align-middle"></i>&nbsp; {{ $item->creator->name }}</span>
-                <span class="text-muted ml-3"><i class="las la-calendar text-lighter text-big align-middle"></i>&nbsp; {{ $item->created_at->format('d/m/Y H:i') }}</span>
-                <span class="text-muted ml-3"><i class="las la-calendar text-lighter text-big align-middle"></i>&nbsp; {{ $item->updated_at->format('d/m/Y H:i') }}</span>
-              </div>
             </div>
           </div>
         </div>
+        <div class="card-body pb-3">
+          <table class="table table-bordered mb-2">
+                <tr>
+                    <th>Pembuat</th>
+                    <td>{{ $item->creator['name'] }}</td>
+                </tr>
+                <tr>
+                    <th>Status</th>
+                    <td><span class="badge badge-outline-{{ $item->publish == 1 ? 'primary' : 'warning' }}">{{ $item->publish == 1 ? 'Publish' : 'Draft' }}</span></td>
+                </tr>
+                <tr>
+                    <th>Urutan</th>
+                    <td>
+                        @if ($item->min('urutan') != $item->urutan)
+                            <a href="javascript:;" onclick="$(this).find('form').submit();" class="btn icon-btn btn-sm btn-secondary" title="klik untuk mengatur posisi">
+                                <i class="las la-long-arrow-alt-up"></i>
+                                <form action="{{ route('program.position', ['id' => $item->id, 'position' => ($item->urutan - 1)]) }}" method="POST">
+                                    @csrf
+                                    @method('PUT')
+                                </form>
+                            </a>
+                        @else
+                            <button type="button" class="btn icon-btn btn-default btn-sm" disabled><i class="las la-long-arrow-alt-up"></i></button>
+                        @endif
+                        @if ($item->max('urutan') != $item->urutan)
+                            <a href="javascript:;" onclick="$(this).find('form').submit();" class="btn icon-btn btn-sm btn-secondary" title="klik untuk mengatur posisi">
+                                <i class="las la-long-arrow-alt-down"></i>
+                                <form action="{{ route('program.position', ['id' => $item->id, 'position' => ($item->urutan + 1)]) }}" method="POST">
+                                    @csrf
+                                    @method('PUT')
+                                </form>
+                            </a>
+                        @else
+                            <button type="button" class="btn icon-btn btn-default btn-sm" disabled><i class="las la-long-arrow-alt-down"></i></button>
+                        @endif
+                    </td>
+                </tr>
+                <tr>
+                    <th>Aksi</th>
+                    <td>
+                        <a class="btn btn-success btn-sm btn-block" href="{{ route('mata.index', ['id' => $item->id]) }}" title="klik untuk melihat program pelatihan">
+                            <i class="las la-book"></i> Program Pelatihan
+                        </a><br>
+                        <a class="btn btn-info btn-sm btn-block" href="{{ route('program.edit', ['id' => $item->id]) }}" title="klik untuk mengedit kategori pelatihan">
+                          <i class="las la-pen"></i> Ubah
+                        </a>
+                        @if (auth()->user()->hasRole('developer|administrator') || $item->creator_id == auth()->user()->id)
+                        <br>
+                        <a class="btn btn-danger btn-sm btn-block js-sa2-delete" href="javascript:void(0);" data-id="{{ $item->id }}" title="klik untuk menghapus kategori pelatihan">
+                          <i class="las la-trash-alt"></i> Hapus
+                        </a>
+                        @endif
+                    </td>
+                </tr>
+          </table>
+          @if ($item->publish == 0 && $item->mata()->count() > 0 && $item->materi()->count() > 0)
+          <a href="javascript:;" class="btn btn-success btn-block publish" title="klik untuk publish">
+            PUBLISH
+            <form action="{{ route('program.publish', ['id' => $item->id])}}" method="POST" class="form-publish">
+                @csrf
+                @method('PUT')
+            </form>
+          </a>
+          @endif
+        </div>
+        <hr class="m-0 mb-2">
+        <div class="card-body pt-0">
+          <div class="row">
+            <div class="col">
+              <div class="text-muted small">Tanggal Dibuat</div>
+              <div class="font-weight-bold">{{ $item->created_at->format('d/m/Y H:i') }}</div>
+            </div>
+            <div class="col">
+              <div class="text-muted small">Tanggal Diperbarui</div>
+              <div class="font-weight-bold">{{ $item->updated_at->format('d/m/Y H:i') }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     @endforeach
 </div>

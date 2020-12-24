@@ -1,6 +1,8 @@
 @extends('layouts.backend.layout')
 
 @section('styles')
+<link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-datepicker/bootstrap-datepicker.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-daterangepicker/bootstrap-daterangepicker.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/sweetalert2/sweetalert2.css') }}">
 @endsection
 
@@ -23,6 +25,18 @@
                     </select>
                 </div>
             </div>
+            {{-- <div class="col-md">
+                <div class="form-group">
+                    <label class="form-label">Tanggal Diklat</label>
+                    <div class="input-daterange input-group datepicker">
+                        <input type="text" class="form-control" name="f" value="{{ Request::get('f') }}">
+                        <div class="input-group-append input-group-prepend">
+                          <span class="input-group-text">sampai</span>
+                        </div>
+                        <input type="text" class="form-control" name="t" value="{{ Request::get('t') }}">
+                    </div>
+                </div>
+            </div> --}}
             <div class="col-md">
                 <div class="form-group">
                     <label class="form-label">Cari</label>
@@ -45,155 +59,107 @@
 </div>
 <br>
 
-<div class="row drag">
+<div class="drag">
 
     @foreach ($data['mata'] as $item)
-    <div class="col-sm-6 col-xl-4" id="{{ $item->id }}" style="cursor: move;" title="geser untuk merubah urutan">
-      <div class="card card-list">
-        <div class="card-body d-flex justify-content-between align-items-start pb-1">
-          <div>
-            <a href="{{ route('materi.index', ['id' => $item->id]) }}" class="text-body text-big font-weight-semibold" title="{!! $item->judul !!}">{!! Str::limit($item->judul, 80) !!}</a>
-          </div>
-          <div class="btn-group project-actions dropdown">
-            <button type="button" class="btn btn-sm btn-default icon-btn dropdown-toggle hide-arrow  btn-toggle-radius" data-toggle="dropdown" aria-expanded="false">
-              <i class="ion ion-ios-more"></i>
-            </button>
-            <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; will-change: top, left; top: 26px; left: 26px;">
-              <a class="dropdown-item" href="{{ route('materi.index', ['id' => $item->id]) }}" title="klik untuk melihat mata pelatihan">
-                <i class="las la-swatchbook"></i> Mata Pelatihan
-              </a>
-              <a class="dropdown-item" href="{{ route('mata.edit', ['id' => $item->program_id, 'mataId' => $item->id]) }}" title="klik untuk mengedit program pelatihan">
-                <i class="las la-pen"></i> Ubah
-              </a>
-              @if (auth()->user()->hasRole('developer|administrator') || $item->creator_id == auth()->user()->id)
-              <a class="dropdown-item js-sa2-delete" href="javascript:void(0);" data-programid="{{ $item->program_id }}" data-id="{{ $item->id }}" title="klik untuk menghapus program pelatihan">
-                <i class="las la-trash-alt"></i> Hapus
-              </a>
+    <div class="card mb-3" id="{{ $item->id }}" style="cursor: move;" title="geser untuk merubah urutan">
+        <div class="card-body">
+          <div class="media align-items-center">
+            <div class="d-flex flex-column justify-content-center align-items-center">
+              @if ($item->min('urutan') != $item->urutan)
+                <a href="javascript:void(0)" onclick="$(this).find('form').submit();" class="d-block text-primary text-big line-height-1" title="klik untuk menaikan posisi">
+                    <i class="ion ion-ios-arrow-up"></i>
+                    <form action="{{ route('mata.position', ['id' => $item->program_id, 'mataId' => $item->id, 'position' => ($item->urutan - 1)]) }}" method="POST">
+                        @csrf
+                        @method('PUT')
+                    </form>
+                </a>
+              @else
+              <a href="javascript:void(0)" class="d-block text-primary text-big line-height-1"><i class="ion ion-ios-arrow-up"></i></a>
               @endif
-              <a class="dropdown-item" href="javascript:void(0);" onclick="$(this).find('form').submit();" title="klik untuk {{ $item->publish == 0 ? 'publish' : 'draft' }} program pelatihan">
-                  <i class="las la-{{ $item->publish == 0 ? 'eye' : 'eye-slash' }} "></i> {{ $item->publish == 1 ? 'Draft' : 'Publish' }}
-                  <form action="{{ route('mata.publish', ['id' => $item->program_id, 'mataId' => $item->id]) }}" method="POST">
-                    @csrf
-                    @method('PUT')
-                </form>
-              </a>
+              <div class="text-xlarge font-weight-bolder line-height-1 my-2">{{ $data['number']++ }}</div>
+              @if ($item->max('urutan') != $item->urutan)
+                <a href="javascript:void(0)" onclick="$(this).find('form').submit();" class="d-block text-primary text-big line-height-1" title="klik untuk menurunkan posisi">
+                    <i class="ion ion-ios-arrow-down"></i>
+                    <form action="{{ route('mata.position', ['id' => $item->program_id, 'mataId' => $item->id, 'position' => ($item->urutan + 1)]) }}" method="POST">
+                        @csrf
+                        @method('PUT')
+                    </form>
+                </a>
+              @else
+                <a href="javascript:void(0)" class="d-block text-primary text-big line-height-1"><i class="ion ion-ios-arrow-down"></i></a>
+              @endif
+            </div>
+            <div class="media-body ml-4">
+              <a href="{{ route('materi.index', ['id' => $item->id]) }}" class="text-big">{!! $item->judul !!} <span class="badge badge-secondary">{{ $item->publish == 1 ? 'Publish' : 'Draft' }}</span></a>
+              <div class="my-2">
+                <div class="row">
+                    <div class="col-md-4">
+                        Tanggal Mulai : <strong>{{ $item->publish_start->format('d F Y H:i') }}</strong> <em>s/d</em> <strong>{{ $item->publish_end->format('d F Y H:i') }}</strong>
+                        <table class="table table-bordered mb-0" style="width: 200px;">
+                            <tr>
+                                <td>
+                                    <div class="btn-group dropdown">
+                                        <button type="button" class="btn btn-success btn-sm btn-block dropdown-toggle hide-arrow" data-toggle="dropdown" title="klik untuk melihat user enroll"><i class="las la-users"></i><span>Enroll</span></button>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <a href="{{ route('mata.instruktur', ['id' => $item->id]) }}" class="dropdown-item" ><i class="las la-user-tie"></i><span>Instruktur</span></a>
+                                            <a href="{{ route('mata.peserta', ['id' => $item->id]) }}" class="dropdown-item" ><i class="las la-user"></i><span>Peserta</span></a>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="btn-group dropdown">
+                                        <button type="button" class="btn btn-primary btn-sm btn-block dropdown-toggle hide-arrow" data-toggle="dropdown" title="klik untuk mengatur sertifikat"><i class="las la-certificate"></i><span>Sertifikat</span></button>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <a href="{{ route('sertifikat.internal.form', ['id' => $item->id]) }}" class="dropdown-item" ><i class="las la-tags"></i><span>Internal</span></a>
+                                            <a href="{{ route('sertifikat.external.peserta', ['id' => $item->id]) }}" class="dropdown-item" ><i class="las la-tags"></i><span>External</span></a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-md-8 text-right">
+                        <a class="btn btn-success btn-sm icon-btn-only-sm mr-1" href="{{ route('materi.index', ['id' => $item->id]) }}" title="klik untuk melihat mata pelatihan">
+                            <i class="las la-swatchbook"></i> <span>Mata</span>
+                        </a>
+                        <a class="btn btn-primary btn-sm icon-btn-only-sm mr-1" href="{{ route('soal.kategori', ['id' => $item->id]) }}" title="klik untuk melihat bank soal">
+                            <i class="las la-spell-check"></i> <span>Bank Soal</span>
+                        </a>
+                        <a class="btn btn-info btn-sm icon-btn-only-sm mr-1" href="{{ route('course.detail', ['id' => $item->id]) }}" title="klik untuk melihat detail course">
+                            <span>Detail</span> <i class="las la-external-link-alt ml-1"></i>
+                        </a>
+                        <div class="btn-group dropdown">
+                            <button type="button" class="btn btn-warning btn-sm icon-btn-only-sm dropdown-toggle hide-arrow" data-toggle="dropdown" title="klik untuk melakukan aksi"><i class="las la-ellipsis-v"></i><span>Aksi</span></button>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a href="{{ route('mata.edit', ['id' => $item->program_id, 'mataId' => $item->id]) }}" class="dropdown-item" title="klik untuk mengedit program pelatihan">
+                                    <i class="las la-pen"></i><span>Ubah</span>
+                                </a>
+                                @if (auth()->user()->hasRole('developer|administrator') || $item->creator_id == auth()->user()->id)
+                                <a href="javascript:void(0);" data-programid="{{ $item->program_id }}" data-id="{{ $item->id }}" class="dropdown-item js-sa2-delete" title="klik untuk menghapus program pelatihan">
+                                    <i class="las la-trash-alt"></i><span>Hapus</span>
+                                </a>
+                                @endif
+                                <a href="javascript:void(0);" onclick="$(this).find('form').submit();" class="dropdown-item" title="klik untuk {{ $item->publish == 0 ? 'publish' : 'draft' }} program pelatihan">
+                                    <i class="las la-{{ $item->publish == 0 ? 'eye' : 'eye-slash' }} "></i> <span>{{ $item->publish == 0 ? 'Publish' : 'Draft' }}</span>
+                                    <form action="{{ route('mata.publish', ['id' => $item->program_id, 'mataId' => $item->id]) }}" method="POST">
+                                        @csrf
+                                        @method('PUT')
+                                    </form>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              </div>
+              <div class="small">
+                <span class="text-muted ml-3"><i class="las la-user text-lighter text-big align-middle"></i>&nbsp; {{ $item->creator->name }}</span>
+                <span class="text-muted ml-3"><i class="las la-calendar text-lighter text-big align-middle"></i>&nbsp; {{ $item->created_at->format('d/m/Y H:i') }}</span>
+                <span class="text-muted ml-3"><i class="las la-calendar text-lighter text-big align-middle"></i>&nbsp; {{ $item->updated_at->format('d/m/Y H:i') }}</span>
+              </div>
             </div>
           </div>
         </div>
-        <div class="card-body pb-3">
-          <table class="table table-bordered mb-0">
-                <tr>
-                    <th>Pembuat</th>
-                    <td>{{ $item->creator['name'] }}</td>
-                </tr>
-                <tr>
-                    <th>Tanggal Mulai</th>
-                    <td>{{ $item->publish_start->format('d F Y H:i') }}</td>
-                </tr>
-                <tr>
-                    <th>Tanggal Selesai</th>
-                    <td>{{ !empty($item->publish_end) ? $item->publish_end->format('d F Y H:i') : '-' }}</td>
-                </tr>
-                <tr>
-                    <th>Status</th>
-                    <td><span class="badge badge-outline-{{ $item->publish == 1 ? 'primary' : 'warning' }}">{{ $item->publish == 1 ? 'Publish' : 'Draft' }}</span></td>
-                </tr>
-                <tr>
-                    <th>Urutan</th>
-                    <td>
-                        @if ($item->min('urutan') != $item->urutan)
-                            <a href="javascript:;" onclick="$(this).find('form').submit();" class="btn icon-btn btn-sm btn-secondary" title="klik untuk mengatur posisi">
-                                <i class="las la-long-arrow-alt-up"></i>
-                                <form action="{{ route('mata.position', ['id' => $item->program_id, 'mataId' => $item->id, 'position' => ($item->urutan - 1)]) }}" method="POST">
-                                    @csrf
-                                    @method('PUT')
-                                </form>
-                            </a>
-                        @else
-                            <button type="button" class="btn icon-btn btn-default btn-sm" disabled><i class="las la-long-arrow-alt-up"></i></button>
-                        @endif
-                        @if ($item->max('urutan') != $item->urutan)
-                            <a href="javascript:;" onclick="$(this).find('form').submit();" class="btn icon-btn btn-sm btn-secondary" title="klik untuk mengatur posisi">
-                                <i class="las la-long-arrow-alt-down"></i>
-                                <form action="{{ route('mata.position', ['id' => $item->program_id, 'mataId' => $item->id, 'position' => ($item->urutan + 1)]) }}" method="POST">
-                                    @csrf
-                                    @method('PUT')
-                                </form>
-                            </a>
-                        @else
-                            <button type="button" class="btn icon-btn btn-default btn-sm" disabled><i class="las la-long-arrow-alt-down"></i></button>
-                        @endif
-                    </td>
-                </tr>
-                <tr>
-                    <th>Aksi</th>
-                    <td>
-                        <a class="btn btn-success btn-block btn-sm" href="{{ route('materi.index', ['id' => $item->id]) }}" title="klik untuk melihat mata pelatihan">
-                            <i class="las la-swatchbook"></i> Mata Pelatihan
-                        </a>
-                        <a class="btn btn-success btn-block btn-sm" href="{{ route('soal.kategori', ['id' => $item->id]) }}" title="manage soal">
-                            <i class="las la-spell-check"></i> Bank Soal
-                        </a>
-                        <a class="btn btn-info btn-block btn-sm" href="{{ route('mata.edit', ['id' => $item->program_id, 'mataId' => $item->id]) }}" title="klik untuk mengedit program pelatihan">
-                            <i class="las la-pen"></i> Ubah
-                        </a>
-                        @if (auth()->user()->hasRole('developer|administrator') || $item->creator_id == auth()->user()->id)
-                        <a class="btn btn-danger btn-block btn-sm js-sa2-delete" href="javascript:void(0);" data-programid="{{ $item->program_id }}" data-id="{{ $item->id }}" title="klik untuk menghapus program pelatihan">
-                            <i class="las la-trash-alt"></i> Hapus
-                        </a>
-                        @endif
-                        <a class="btn btn-secondary btn-block btn-sm" href="javascript:void(0);" onclick="$(this).find('form').submit();" title="klik untuk {{ $item->publish == 0 ? 'publish' : 'draft' }} program pelatihan">
-                            <i class="las la-{{ $item->publish == 0 ? 'eye' : 'eye-slash' }} "></i> {{ $item->publish == 0 ? 'Publish' : 'Draft' }}
-                            <form action="{{ route('mata.publish', ['id' => $item->program_id, 'mataId' => $item->id]) }}" method="POST">
-                                @csrf
-                                @method('PUT')
-                            </form>
-                        </a>
-                        <a class="btn btn-primary btn-block btn-sm" href="{{ route('course.detail', ['id' => $item->id]) }}" title="klik untuk melihat detail course">
-                            Detail Pelatihan <i class="las la-external-link-alt ml-1"></i>
-                        </a>
-                    </td>
-                </tr>
-                <tr>
-                    <th>Enroll</th>
-                    <td>
-                        <div class="btn-group dropdown ml-2">
-                            <button type="button" class="btn btn-success btn-sm btn-block dropdown-toggle hide-arrow" data-toggle="dropdown" title="klik untuk melihat user enroll"><i class="las la-users"></i><span>Users</span></button>
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <a href="{{ route('mata.instruktur', ['id' => $item->id]) }}" class="dropdown-item" ><i class="las la-user-tie"></i><span>Instruktur</span></a>
-                                <a href="{{ route('mata.peserta', ['id' => $item->id]) }}" class="dropdown-item" ><i class="las la-user"></i><span>Peserta</span></a>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <th>Sertifikasi</th>
-                    <td>
-                        <div class="btn-group dropdown ml-2">
-                            <button type="button" class="btn btn-primary btn-sm btn-block dropdown-toggle hide-arrow" data-toggle="dropdown" title="klik untuk mengatur sertifikat"><i class="las la-certificate"></i><span>Sertifikat</span></button>
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <a href="{{ route('sertifikat.internal.form', ['id' => $item->id]) }}" class="dropdown-item" ><i class="las la-tags"></i><span>Internal</span></a>
-                                <a href="{{ route('sertifikat.external.peserta', ['id' => $item->id]) }}" class="dropdown-item" ><i class="las la-tags"></i><span>External</span></a>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-          </table>
-        </div>
-        <hr class="m-0 mb-2">
-        <div class="card-body pt-0">
-          <div class="row">
-            <div class="col">
-              <div class="text-muted small">Tanggal Dibuat</div>
-              <div class="font-weight-bold">{{ $item->created_at->format('d/m/Y H:i') }}</div>
-            </div>
-            <div class="col">
-              <div class="text-muted small">Tanggal Diperbarui</div>
-              <div class="font-weight-bold">{{ $item->updated_at->format('d/m/Y H:i') }}</div>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
     @endforeach
 
@@ -231,12 +197,24 @@
 @endsection
 
 @section('scripts')
+<script src="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-datepicker/bootstrap-datepicker.js') }}"></script>
+<script src="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-daterangepicker/bootstrap-daterangepicker.js') }}"></script>
 <script src="{{ asset('assets/tmplts_backend/vendor/libs/sweetalert2/sweetalert2.js') }}"></script>
 @endsection
 
 @section('jsbody')
 <script src="{{ asset('assets/tmplts_backend/jquery-ui.js') }}"></script>
 <script>
+    // Bootstrap Datepicker
+    $(function() {
+        var isRtl = $('html').attr('dir') === 'rtl';
+
+        $('.datepicker').datepicker({
+            orientation: isRtl ? 'auto right' : 'auto left',
+            format: 'yyyy-mm-dd',
+            todayHighlight: true,
+        });
+    });
     //sort
     $(function () {
         $(".drag").sortable({

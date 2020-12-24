@@ -20,9 +20,9 @@ class GradesNilaiService
         $query->where('kategori_id', $kategoriId);
         $query->when($request->q, function ($query, $q) {
             $query->where(function ($query) use ($q) {
-                $query->where('minimum', 'like', '%'.$q.'%')
-                ->orWhere('maksimum', 'like', '%'.$q.'%')
-                ->orWhere('keterangan', 'like', '%'.$q.'%');
+                $query->where('minimum', 'ilike', '%'.$q.'%')
+                ->orWhere('maksimum', 'ilike', '%'.$q.'%')
+                ->orWhere('keterangan', 'ilike', '%'.$q.'%');
             });
         });
 

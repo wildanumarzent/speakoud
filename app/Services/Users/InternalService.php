@@ -3,7 +3,13 @@
 namespace App\Services\Users;
 
 use App\Models\BankData;
+use App\Models\Course\ProgramPelatihan;
+use App\Models\Instansi\InstansiMitra;
+use App\Models\Users\Instruktur;
 use App\Models\Users\Internal;
+use App\Models\Users\Mitra;
+use App\Models\Users\Peserta;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -27,12 +33,19 @@ class InternalService
     {
         $query = $this->model->query();
 
-        $query->when($request->q, function ($query, $q) {
-            $query->where(function ($query) use ($q) {
-                $query->where('nip', 'like', '%'.$q.'%')
-                ->orWhere('kedeputian', 'like', '%'.$q.'%')
-                ->orWhere('pangkat', 'like', '%'.$q.'%')
-                ->orWhere('alamat', 'like', '%'.$q.'%');
+        $query->when($request->j, function ($query, $j) {
+            $query->where(function ($query) use ($j) {
+                $query->where('pangkat', $j);
+            });
+        })->when($request->q, function ($query, $q) {
+            $query->where(function ($queryA) use ($q) {
+                $queryA->whereHas('user', function (Builder $queryB) use ($q) {
+                    $queryB->where('name', 'ilike', '%'.$q.'%')
+                        ->orWhere('username', 'ilike', '%'.$q.'%');
+                })->orWhereHas('instansi', function (Builder $queryC) use ($q) {
+                    $queryC->orWhere('nama_instansi', 'ilike', '%'.$q.'%');
+                })->orWhere('nip', 'ilike', '%'.$q.'%')
+                ->orWhere('kedeputian', 'ilike', '%'.$q.'%');
             });
         });
 
@@ -165,6 +178,28 @@ class InternalService
         ];
 
         return $internal;
+    }
+
+    public function softDeleteInternal(int $id)
+    {
+        $internal = $this->findInternal($id);
+        $instansiMitra = InstansiMitra::where('creator_id', $internal->user_id)->count();
+        $mitra = Mitra::where('creator_id', $internal->user_id)->count();
+        $instruktur = Instruktur::where('creator_id', $internal->user_id)->count();
+        $peserta = Peserta::where('creator_id', $internal->user_id)->count();
+        $files = BankData::where('owner_id', $internal->user_id)->count();
+        $program = ProgramPelatihan::where('creator_id', $internal->user_id)->count();
+
+        if ($instansiMitra > 0 || $mitra > 0 || $instruktur > 0 || $peserta > 0 || 
+            $files > 0 || $program > 0) {
+
+            return false;
+        } else {
+            $internal->user->delete();
+            $internal->delete();
+
+            return true;
+        }
     }
 
     public function deleteInternal(int $id)

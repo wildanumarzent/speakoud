@@ -138,7 +138,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">+62</span>
                                 </div>
-                                <input type="text" class="form-control @error('phone') is-invalid @enderror" name="phone"
+                                <input type="number" class="form-control @error('phone') is-invalid @enderror" name="phone"
                                     value="{{ (isset($data['instruktur'])) ? old('phone', $data['instruktur']->user->information->phone) : old('phone') }}" placeholder="masukan nomor telpon...">
                                 @include('components.field-error', ['field' => 'phone'])
                             </div>

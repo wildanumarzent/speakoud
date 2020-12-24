@@ -23,14 +23,16 @@ class InternalController extends Controller
 
     public function index(Request $request)
     {
+        $j = '';
         $q = '';
-        if (isset($request->q)) {
-            $q = '?q='.$request->q;
+        if (isset($request->j) || isset($request->q)) {
+            $j = '?j='.$request->j;
+            $q = '&q='.$request->q;
         }
 
         $data['internal'] = $this->service->getInternalList($request);
         $data['number'] = $data['internal']->firstItem();
-        $data['internal']->withPath(url()->current().$q);
+        $data['internal']->withPath(url()->current().$j.$q);
 
         return view('backend.user_management.internal.index', compact('data'), [
             'title' => 'User BPPT',
@@ -84,6 +86,26 @@ class InternalController extends Controller
 
         return redirect()->route('internal.index')
             ->with('success', 'User internal berhasil diedit');
+    }
+
+    public function softDelete($id)
+    {
+        $delete = $this->service->softDeleteInternal($id);
+
+        if ($delete == true) {
+            
+            return response()->json([
+                'success' => 1,
+                'message' => ''
+            ], 200);
+
+        } else {
+            
+            return response()->json([
+                'success' => 0,
+                'message' => 'User tidak bisa dihapus, dikarenakan masih memiliki data yang bersangkutan'
+            ], 200);
+        }
     }
 
     public function destroy($id)

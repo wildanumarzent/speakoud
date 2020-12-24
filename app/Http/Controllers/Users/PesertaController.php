@@ -29,14 +29,18 @@ class PesertaController extends Controller
 
     public function index(Request $request)
     {
+        $t = '';
+        $j = '';
         $q = '';
-        if (isset($request->q)) {
-            $q = '?q='.$request->q;
+        if (isset($request->t) || isset($request->j) || isset($request->q)) {
+            $t = '?t='.$request->t;
+            $j = '&j='.$request->j;
+            $q = '&q='.$request->q;
         }
 
         $data['peserta'] = $this->service->getPesertaList($request);
         $data['number'] = $data['peserta']->firstItem();
-        $data['peserta']->withPath(url()->current().$q);
+        $data['peserta']->withPath(url()->current().$t.$j.$q);
 
         return view('backend.user_management.peserta.index', compact('data'), [
             'title' => 'Peserta',
@@ -103,6 +107,27 @@ class PesertaController extends Controller
 
         return redirect()->route('peserta.index')
             ->with('success', 'User peserta berhasil diedit');
+    }
+
+    public function softDelete($id)
+    {
+        $delete = $this->service->softDeletePeserta($id);
+
+        if ($delete == true) {
+
+            return response()->json([
+                'success' => 1,
+                'message' => ''
+            ], 200);
+
+        } else {
+            
+            return response()->json([
+                'success' => 0,
+                'message' => 'peserta ini sudah ter enroll di beberapa program'
+            ], 200);
+        }
+        
     }
 
     public function destroy($id)

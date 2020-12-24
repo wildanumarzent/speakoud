@@ -3,7 +3,11 @@
 namespace App\Services\Users;
 
 use App\Models\BankData;
+use App\Models\Course\ProgramPelatihan;
+use App\Models\Users\Instruktur;
 use App\Models\Users\Mitra;
+use App\Models\Users\Peserta;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -40,12 +44,19 @@ class MitraService
     {
         $query = $this->model->query();
 
-        $query->when($request->q, function ($query, $q) {
-            $query->where(function ($query) use ($q) {
-                $query->where('nip', 'like', '%'.$q.'%')
-                ->orWhere('kedeputian', 'like', '%'.$q.'%')
-                ->orWhere('pangkat', 'like', '%'.$q.'%')
-                ->orWhere('alamat', 'like', '%'.$q.'%');
+        $query->when($request->j, function ($query, $j) {
+            $query->where(function ($query) use ($j) {
+                $query->where('pangkat', $j);
+            });
+        })->when($request->q, function ($query, $q) {
+            $query->where(function ($queryA) use ($q) {
+                $queryA->whereHas('user', function (Builder $queryB) use ($q) {
+                    $queryB->where('name', 'ilike', '%'.$q.'%')
+                        ->orWhere('username', 'ilike', '%'.$q.'%');
+                })->orWhereHas('instansi', function (Builder $queryC) use ($q) {
+                    $queryC->orWhere('nama_instansi', 'ilike', '%'.$q.'%');
+                })->orWhere('nip', 'ilike', '%'.$q.'%')
+                ->orWhere('kedeputian', 'ilike', '%'.$q.'%');
             });
         });
 
@@ -178,6 +189,26 @@ class MitraService
         ];
 
         return $mitra;
+    }
+
+    public function softDeleteMitra(int $id)
+    {
+        $mitra = $this->findMitra($id);
+        $instruktur = Instruktur::where('creator_id', $mitra->user_id)->count();
+        $peserta = Peserta::where('creator_id', $mitra->user_id)->count();
+        $files = BankData::where('owner_id', $mitra->user_id)->count();
+        $program = ProgramPelatihan::where('creator_id', $mitra->user_id)->count();
+
+        if ($instruktur > 0 || $peserta > 0 || $files > 0 || $program > 0) {
+
+            return false;
+        } else {
+
+            $mitra->user->delete();
+            $mitra->delete();
+
+            return true;
+        }
     }
 
     public function deleteMitra(int $id)

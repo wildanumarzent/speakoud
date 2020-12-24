@@ -11,6 +11,16 @@
         <div class="form-row align-items-center">
             <div class="col-md">
                 <form action="" method="GET">
+                <div class="form-group">
+                    <label class="form-label">Tipe</label>
+                    <select class="status custom-select form-control" name="t">
+                        <option value=" " selected>Semua</option>
+                        <option value="5" {{ Request::get('t') == '5' ? 'selected' : '' }}>Internal</option>
+                        <option value="6" {{ Request::get('t') == '6' ? 'selected' : '' }}>Mitra</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md">
                     <div class="form-group">
                         <label class="form-label">Cari</label>
                         <div class="input-group">
@@ -206,7 +216,7 @@
             var id = $(this).attr('data-id');
             Swal.fire({
                 title: "Apakah anda yakin?",
-                text: "Anda akan menghapus instruktur ini, data yang bersangkutan dengan instruktur ini akan terhapus. Data yang sudah dihapus tidak dapat dikembalikan!",
+                text: "Anda akan menghapus user ini, jika user memiliki data yang bersangkutan, user tidak akan terhapus!",
                 type: "warning",
                 confirmButtonText: "Ya, hapus!",
                 customClass: {
@@ -219,8 +229,8 @@
                 cancelButtonText: "Tidak, terima kasih",
                 preConfirm: () => {
                     return $.ajax({
-                        url: "/instruktur/" + id,
-                        method: 'DELETE',
+                        url: "/instruktur/" + id + "/soft",
+                        method: 'GET',
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },

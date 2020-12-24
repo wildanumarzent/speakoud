@@ -115,9 +115,9 @@
                 <div class="file-item-actions btn-group dropdown">
                     <button type="button" class="btn btn-sm btn-default icon-btn dropdown-toggle btn-toggle-radius hide-arrow" data-toggle="dropdown"><i class="ion ion-ios-more"></i></button>
                     <div class="dropdown-menu dropdown-menu-right">
-                      <a href="javascript:;" class="dropdown-item modals-edit" data-toggle="modal" data-target="#modals-edit-file" title="klik untuk mengedit file" data-id="{{ $file->id }}" data-thumbnail="{{ $file->thumbnail }}" data-filename="{{ $file->filename }}"
+                      <a href="javascript:;" class="dropdown-item modals-edit" data-toggle="modal" data-target="#modals-edit-file" title="klik untuk mengubah file" data-id="{{ $file->id }}" data-thumbnail="{{ $file->thumbnail }}" data-filename="{{ $file->filename }}"
                         data-keterangan="{{ $file->keterangan }}" data-is-video="{{ $file->is_video }}" data-thumb-default="{{ asset(config('addon.images.thumbnail')) }}">
-                        <i class="las la-pen"></i> Edit
+                        <i class="las la-pen"></i> Ubah
                       </a>
                       <a class="dropdown-item js-sa2-delete-file" href="javascript:void(0)" data-file-id="{{ $file->id }}" title="klik untuk menghapus file">
                         <i class="las la-trash-alt"></i> Hapus
@@ -221,7 +221,7 @@ $(document).ready(function () {
         var data_url = $(this).attr('data-url');
         Swal.fire({
             title: "Apakah anda yakin?",
-            text: "Anda akan menghapus folder ini, file yang bersangkutan dengan folder ini akan terhapus. Data yang sudah dihapus tidak dapat dikembalikan!",
+            text: "Anda akan menghapus folder ini. Data yang sudah dihapus tidak dapat dikembalikan!",
             type: "warning",
             confirmButtonText: "Ya, hapus!",
             customClass: {

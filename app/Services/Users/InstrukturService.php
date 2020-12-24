@@ -6,6 +6,7 @@ use App\Models\BankData;
 use App\Models\Course\MataInstruktur;
 use App\Models\Users\Instruktur;
 use App\Services\Course\ProgramService;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -31,28 +32,36 @@ class InstrukturService
     {
         $query = $this->model->query();
 
-        $query->when($request->q, function ($query, $q) {
-            $query->where(function ($query) use ($q) {
-                $query->where('nip', 'like', '%'.$q.'%')
-                ->orWhere('kedeputian', 'like', '%'.$q.'%')
-                ->orWhere('pangkat', 'like', '%'.$q.'%')
-                ->orWhere('alamat', 'like', '%'.$q.'%');
+        $query->when($request->t, function ($query, $t) {
+            $query->whereHas('user', function ($queryB) use ($t) {
+                $queryB->whereHas('roles', function ($queryC) use ($t) {
+                    $queryC->where('id', $t);
+                });
+            });
+        })->when($request->q, function ($query, $q) {
+            $query->where(function ($queryA) use ($q) {
+                $queryA->whereHas('user', function (Builder $queryB) use ($q) {
+                    $queryB->where('name', 'ilike', '%'.$q.'%')
+                        ->orWhere('username', 'ilike', '%'.$q.'%');
+                })->orWhere('nip', 'ilike', '%'.$q.'%')
+                ->orWhere('kedeputian', 'ilike', '%'.$q.'%')
+                ->orWhere('pangkat', 'ilike', '%'.$q.'%');
             });
         });
 
         if (auth()->user()->hasRole('internal')) {
-            $query->whereHas('user', function ($queryB) {
-                $queryB->whereHas('roles', function ($queryC) {
-                    $queryC->where('name', 'instruktur_internal');
+            $query->whereHas('user', function ($queryC) {
+                $queryC->whereHas('roles', function ($queryD) {
+                    $queryD->where('name', 'instruktur_internal');
                 });
             });
         }
 
         if (auth()->user()->hasRole('mitra')) {
             $query->where('mitra_id', auth()->user()->mitra->id);
-            $query->whereHas('user', function ($queryB) {
-                $queryB->whereHas('roles', function ($queryC) {
-                    $queryC->where('name', 'instruktur_mitra');
+            $query->whereHas('user', function ($queryE) {
+                $queryE->whereHas('roles', function ($queryF) {
+                    $queryF->where('name', 'instruktur_mitra');
                 });
             });
         }
@@ -255,6 +264,22 @@ class InstrukturService
         $instruktur->cv =  !empty($request->cv) ? $path.$cv : ($type == 'store' ? null : $find->cv);
 
         return $instruktur;
+    }
+
+    public function softDeleteInstruktur(int $id)
+    {
+        $checkProgram = MataInstruktur::where('instruktur_id', $id)->count();
+        
+        if ($checkProgram > 0) {
+
+            return false;
+        } else {
+            $instruktur = $this->findInstruktur($id);
+            $instruktur->user->delete();
+            $instruktur->delete();
+
+            return true;
+        }
     }
 
     public function deleteInstruktur(int $id)

@@ -137,14 +137,16 @@ class ProgramController extends Controller
         $program = $this->service->findProgram($id);
         $this->checkRole($program);
 
-        if ($program->bahan()->count() > 0) {
+        $delete = $this->service->deleteProgram($id);
+
+        if ($delete == false) {
+
             return response()->json([
                 'success' => 0,
-                'message' => 'Kategori kegiatan gagal dihapus dikarenakan'.
-                            ' masih ada bahan pelatihan didalamnya'
+                'message' => 'Kategori pelatihan gagal dihapus dikarenakan'.
+                            ' masih memiliki program pelatihan didalamnya'
             ], 200);
         } else {
-            $this->service->deleteProgram($id);
 
             return response()->json([
                 'success' => 1,

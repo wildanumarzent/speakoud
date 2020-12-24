@@ -4,9 +4,12 @@ namespace App\Models\Users;
 
 use App\Models\Instansi\InstansiMitra;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Mitra extends Model
 {
+    use SoftDeletes;
+    
     protected $table = 'mitra';
     protected $guarded = [];
 

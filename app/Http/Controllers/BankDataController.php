@@ -65,12 +65,22 @@ class BankDataController extends Controller
 
     public function destroyDirectory(Request $request)
     {
-        $this->service->deleteDirectory($request->path);
+        $delete = $this->service->deleteDirectory($request->path);
 
-        return response()->json([
-            'success' => 1,
-            'message' => ''
-        ], 200);
+        if ($delete == true) {
+            
+            return response()->json([
+                'success' => 1,
+                'message' => ''
+            ], 200);
+
+        } else {
+            
+            return response()->json([
+                'success' => 0,
+                'message' => 'Folder tidak bisa dihapus, karena masih memiliki file'
+            ], 200);
+        }
     }
 
     //files
@@ -98,14 +108,27 @@ class BankDataController extends Controller
         $owner = $this->service->findFile($id)->owner_id;
 
         if ($owner != auth()->user()->id) {
-            return back()->with('danger', 'Access denide');
+            return response()->json([
+                'success' => 0,
+                'message' => 'Anda tidak memiliki akses untuk menghapus file user lain'
+            ], 200);
         }
 
-        $this->service->deleteFile($id);
+        $delete = $this->service->deleteFile($id);
 
-        return response()->json([
-            'success' => 1,
-            'message' => ''
-        ], 200);
+        if ($delete == true) {
+            
+            return response()->json([
+                'success' => 1,
+                'message' => ''
+            ], 200);
+
+        } else {
+            
+            return response()->json([
+                'success' => 0,
+                'message' => 'File masih dipakai di materi pelatihan'
+            ], 200);
+        }
     }
 }

@@ -80,11 +80,21 @@ class GradesKategoriController extends Controller
 
     public function destroy($id)
     {
-        $this->service->deleteGradesKategori($id);
+        $delete = $this->service->deleteGradesKategori($id);
 
-        return response()->json([
-            'success' => 1,
-            'message' => ''
-        ], 200);
+        if ($delete == true) {
+            
+            return response()->json([
+                'success' => 1,
+                'message' => ''
+            ], 200);
+
+        } else {
+
+            return response()->json([
+                'success' => 0,
+                'message' => 'Kategori masih memiliki list nilai'
+            ], 200);
+        }
     }
 }

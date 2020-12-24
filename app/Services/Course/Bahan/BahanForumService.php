@@ -40,9 +40,7 @@ class BahanForumService
         $forum->bahan_id = $bahan->id;
         $forum->creator_id = auth()->user()->id;
         $forum->tipe = $request->tipe;
-        if ($forum->tipe == 1) {
-            $forum->limit_topik = $request->limit_topik ?? null;
-        }
+        $forum->limit_topik = ($forum->tipe == 1) ? $request->limit_topik : null;
         $forum->save();
 
         return $forum;
@@ -52,9 +50,7 @@ class BahanForumService
     {
         $forum = $bahan->forum;
         $forum->tipe = $request->tipe;
-        if ($forum->tipe == 1) {
-            $forum->limit_topik = $request->limit_topik ?? null;
-        }
+        $forum->limit_topik = ($forum->tipe == 1) ? $request->limit_topik : null;
         $forum->save();
 
         return $forum;

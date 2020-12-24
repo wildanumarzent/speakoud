@@ -17,7 +17,7 @@
                 </div>
                 <div class="col-md-10">
                     <div class="input-group">
-                        <input type="text" class="form-control @error('maksimum') is-invalid @enderror" name="maksimum"
+                        <input type="number" class="form-control @error('maksimum') is-invalid @enderror" name="maksimum"
                             value="{{ (isset($data['nilai'])) ? old('maksimum', $data['nilai']->maksimum) : old('maksimum') }}" placeholder="masukan nilai maksimum...">
                         <div class="input-group-append">
                             <span class="input-group-text">%</span>
@@ -32,7 +32,7 @@
                 </div>
                 <div class="col-md-10">
                     <div class="input-group">
-                        <input type="text" class="form-control @error('minimum') is-invalid @enderror" name="minimum"
+                        <input type="number" class="form-control @error('minimum') is-invalid @enderror" name="minimum"
                           value="{{ (isset($data['nilai'])) ? old('minimum', $data['nilai']->minimum) : old('minimum') }}" placeholder="masukan nilai minimum..." autofocus>
                         <div class="input-group-append">
                             <span class="input-group-text">%</span>

@@ -49,6 +49,11 @@ class MataPelatihan extends Model
         return $this->hasOne(SertifikatInternal::class, 'mata_id');
     }
 
+    public function sertifikatExternal()
+    {
+        return $this->hasOne(SertifikatExternal::class, 'mata_id');
+    }
+
     public function sertifikatPeserta()
     {
         return $this->hasOne(SertifikatPeserta::class, 'mata_id')

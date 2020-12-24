@@ -2,6 +2,14 @@
 
 namespace App\Services\Course;
 
+use App\Models\Course\ApiEvaluasi;
+use App\Models\Course\Bahan\ActivityCompletion;
+use App\Models\Course\Bahan\BahanConferencePeserta;
+use App\Models\Course\Bahan\BahanEvaluasiPengajar;
+use App\Models\Course\Bahan\BahanForumTopik;
+use App\Models\Course\Bahan\BahanForumTopikDiskusi;
+use App\Models\Course\Bahan\BahanQuizUserTracker;
+use App\Models\Course\Bahan\BahanTugasRespon;
 use App\Models\Course\MataBobotNilai;
 use App\Models\Course\MataInstruktur;
 use App\Models\Course\MataPelatihan;
@@ -11,6 +19,7 @@ use App\Models\Course\MateriPelatihan;
 use App\Services\Component\KomentarService;
 use App\Services\Course\Bahan\BahanEvaluasiPengajarService;
 use App\Services\Users\PesertaService;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
@@ -71,15 +80,18 @@ class MataService
         $query = $this->model->query();
 
         $query->where('program_id', $programId);
-        $query->where('publish_end', '>=', now());
+        $query->where('publish_end', '>=', now()->format('Y-m-d H:i:s'));
         $query->when($request->q, function ($query, $q) {
             $query->where(function ($query) use ($q) {
-                $query->where('judul', 'like', '%'.$q.'%')
-                    ->orWhere('intro', 'like', '%'.$q.'%');
+                $query->where('judul', 'ilike', '%'.$q.'%');
             });
         });
         if (isset($request->p)) {
             $query->where('publish', $request->p);
+        }
+
+        if (isset($request->f) && isset($request->t)) {
+            $query->whereBetween('publish_start', [$request->f, $request->t]);
         }
 
         if (auth()->user()->hasRole('internal')) {
@@ -487,17 +499,21 @@ class MataService
     {
         $mata = $this->findMata($id);
 
-        if (!empty($mata->cover['filename'])) {
-            $this->deleteCoverFromPath($mata->cover['filename']);
+        if ($mata->materi->count() > 0 || $mata->instruktur->count() > 0 || $mata->peserta->count() > 0 ||
+            $mata->soalKategori->count() > 0 || $mata->soal->count() > 0 ||
+            $mata->sertifikatInternal->count() > 0 || $mata->sertifikatExternal->count() > 0 ||
+            $mata->rating->count() > 0 || $mata->comment->count() > 0) {
+            
+            return false;
+        } else {
+            
+            if (!empty($mata->cover['filename'])) {
+                $this->deleteCoverFromPath($mata->cover['filename']);
+            }
+            $mata->delete();
+    
+            return true;
         }
-        $mata->instruktur()->delete();
-        $mata->peserta()->delete();
-        $mata->materi()->delete();
-        $mata->comment()->delete();
-        $mata->bobot()->delete();
-        $mata->delete();
-
-        return $mata;
     }
 
     public function deleteInstruktur(int $mataId, $id)
@@ -505,13 +521,18 @@ class MataService
         $mata = $this->findMata($mataId);
         $instruktur = $this->modelInstruktur->findOrFail($id);
 
-        $checkBahan = $mata->bahan()->where('creator_id', $instruktur->instruktur->user_id)->count();
-        if ($checkBahan > 0) {
+        $materi = $mata->materi->where('instruktur_id', $id)->count();
+        $bahan = $mata->bahan()->where('creator_id', $instruktur->instruktur->user_id)->count();
+        $evaluasi = BahanEvaluasiPengajar::where('mata_id', $mataId)
+            ->where('mata_instruktur_id', $mata->instruktur->where('instruktur_id', $id)->first()->id)->count();
+
+        if ($materi > 0 || $bahan > 0 || $evaluasi > 0) {
             return false;
         } else {
+
             $instruktur->delete();
 
-            return $instruktur;
+            return true;
         }
     }
 
@@ -519,9 +540,41 @@ class MataService
     {
         $mata = $this->findMata($mataId);
         $peserta = $this->modelPeserta->findOrFail($id);
-        $peserta->delete();
 
-        return $peserta;
+        $activity = ActivityCompletion::where('mata_id', $mataId)
+            ->where('user_id', $peserta->peserta->user->id)->count();
+        $evaluasi = ApiEvaluasi::where('mata_id', $mataId)
+            ->where('user_id', $peserta->peserta->user->id)->count();
+        $topik = BahanForumTopik::where('mata_id', $mataId)
+            ->where('creator_id', $peserta->peserta->user->id)->count();
+        $topikDiskusi = BahanForumTopikDiskusi::where('mata_id', $mataId)
+            ->where('user_id', $peserta->peserta->user->id)->count();
+        $tugas = BahanTugasRespon::whereHas('tugas', function ($queryA) use ($mataId) {
+            $queryA->whereHas('mata', function ($queryB) use ($mataId) {
+                $queryB->where('id', $mataId);
+            });
+        })->where('user_id', $peserta->peserta->user->id)->count();
+        $conference = BahanConferencePeserta::whereHas('conference', function ($queryA) use ($mataId) {
+            $queryA->whereHas('mata', function ($queryB) use ($mataId) {
+                $queryB->where('id', $mataId);
+            });
+        })->where('user_id', $peserta->peserta->user->id)->count();
+        $quiz = BahanQuizUserTracker::whereHas('quiz', function ($queryA) use ($mataId) {
+            $queryA->whereHas('mata', function ($queryB) use ($mataId) {
+                $queryB->where('id', $mataId);
+            });
+        })->where('user_id', $peserta->peserta->user->id)->count();
+
+        if ($activity > 0 || $evaluasi > 0 || $topik > 0 || $topikDiskusi ||
+            $tugas > 0 || $conference > 0 || $quiz > 0) {
+            
+            return false;
+        } else {
+            
+            $peserta->delete();
+    
+            return true;
+        }
     }
 
     public function deleteCoverFromPath($fileName)

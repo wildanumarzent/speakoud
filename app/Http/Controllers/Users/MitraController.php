@@ -23,14 +23,16 @@ class MitraController extends Controller
 
     public function index(Request $request)
     {
+        $j = '';
         $q = '';
-        if (isset($request->q)) {
-            $q = '?q='.$request->q;
+        if (isset($request->j) || isset($request->q)) {
+            $j = '?j='.$request->j;
+            $q = '&q='.$request->q;
         }
 
         $data['mitra'] = $this->service->getMitraList($request);
         $data['number'] = $data['mitra']->firstItem();
-        $data['mitra']->withPath(url()->current().$q);
+        $data['mitra']->withPath(url()->current().$j.$q);
 
         return view('backend.user_management.mitra.index', compact('data'), [
             'title' => 'Mitra',
@@ -81,6 +83,26 @@ class MitraController extends Controller
 
         return redirect()->route('mitra.index')
             ->with('success', 'User mitra berhasil diedit');
+    }
+
+    public function softDelete($id)
+    {
+        $delete = $this->service->softDeleteMitra($id);
+
+        if ($delete == true) {
+            
+            return response()->json([
+                'success' => 1,
+                'message' => ''
+            ], 200);
+
+        } else {
+            
+            return response()->json([
+                'success' => 0,
+                'message' => 'User tidak bisa dihapus, dikarenakan masih memiliki data yang bersangkutan'
+            ], 200);
+        }
     }
 
     public function destroy($id)

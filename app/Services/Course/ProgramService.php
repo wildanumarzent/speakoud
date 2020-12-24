@@ -20,8 +20,8 @@ class ProgramService
 
         $query->when($request->q, function ($query, $q) {
             $query->where(function ($query) use ($q) {
-                $query->where('judul', 'like', '%'.$q.'%')
-                    ->orWhere('keterangan', 'like', '%'.$q.'%');
+                $query->where('judul', 'ilike', '%'.$q.'%')
+                    ->orWhere('keterangan', 'ilike', '%'.$q.'%');
             });
         });
 
@@ -142,17 +142,14 @@ class ProgramService
     {
         $program = $this->findProgram($id);
 
-        $program->materi()->delete();
-        if ($program->mata()->count() > 0) {
-            foreach ($program->mata as $value) {
-                $path = public_path('userfile/cover/'.$value->cover['filename']) ;
-                File::delete($path);
-            }
-        }
-        $program->mata()->delete();
-        $program->delete();
+        if ($program->mata->count() > 0) {
+            return false;
+        } else {
+            
+            $program->delete();
 
-        return $program;
+            return true;
+        }
     }
 
     public function checkInstruktur(int $id)

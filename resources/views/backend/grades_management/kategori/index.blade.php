@@ -163,7 +163,7 @@ $(document).ready(function () {
         var id = $(this).attr('data-id');
         Swal.fire({
             title: "Apakah anda yakin?",
-            text: "Anda akan menghapus kategori soal ini, data yang bersangkutan dengan kategori soal ini akan terhapus. Data yang sudah dihapus tidak dapat dikembalikan!",
+            text: "Anda akan menghapus kategori ini. Data yang sudah dihapus tidak dapat dikembalikan!",
             type: "warning",
             confirmButtonText: "Ya, hapus!",
             customClass: {
