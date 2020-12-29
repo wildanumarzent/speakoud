@@ -13,7 +13,7 @@
     </div>
     <div class="col-md-10">
         <label class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="tipe" value="0" {{ isset($data['bahan']) ? (old('tipe', $data['bahan']->conference->tipe == '0') ? 'checked' : '') : (old('tipe') ? 'checked' : 'checked') }}>
+            <input class="form-check-input" type="radio" name="tipe" value="0" {{ isset($data['bahan']) ? (old('tipe', $data['bahan']->conference->tipe == '0') ? 'checked' : 'checked') : (old('tipe') ? 'checked' : 'checked') }}>
             <span class="form-check-label">
                 BPPT Conference
             </span>
@@ -34,7 +34,7 @@
     <div class="col-sm-10">
         <div class="input-group">
         <input type="text" class="form-control @error('meeting_link') is-invalid @enderror" name="meeting_link"
-            value="{{ (isset($data['bahan'])) ? old('meeting_link', $data['bahan']->conference->meeting_link) : old('meeting_link') }}" placeholder="masukan link meeting...">
+            value="{{ (isset($data['bahan']) && $data['bahan']->conference->tipe == 1) ? old('meeting_link', $data['bahan']->conference->meeting_link) : old('meeting_link') }}" placeholder="masukan link meeting...">
         @include('components.field-error', ['field' => 'meeting_link'])
         </div>
     </div>
@@ -91,4 +91,37 @@ $(function() {
     });
 });
 </script>
+
+@if (!isset($data['bahan']))
+<script>
+    $(document).ready(function() {
+        $('#meeting-link').hide();
+        $('input[type=radio][name=tipe]').change(function() {
+            if (this.value == 1) {
+                $('#meeting-link').toggle('slow');
+            } else {
+                $('#meeting-link').hide();
+            }
+        });
+    });
+</script>
+@else
+<script>
+    $(document).ready(function() {
+        var tipe = "{{ $data['bahan']->conference->tipe }}";
+        if (tipe == 1) {
+            $('#meeting-link').show();
+        } else {
+            $('#meeting-link').hide();
+        }
+        $('input[type=radio][name=tipe]').change(function() {
+            if (this.value == 1) {
+                $('#meeting-link').toggle('slow');
+            } else {
+                $('#meeting-link').hide();
+            }
+        });
+    });
+</script>
+@endif
 @endsection

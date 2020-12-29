@@ -92,10 +92,10 @@ class UserController extends Controller
         $data['information'] = $data['user']->information;
 
         return view('backend.user_management.profile-form', compact('data'), [
-            'title' => 'Profile - Edit',
+            'title' => 'Profile - Ubah',
             'breadcrumbsBackend' => [
                 'Profile' => '',
-                'Edit' => ''
+                'Ubah' => ''
             ],
         ]);
     }
@@ -129,10 +129,10 @@ class UserController extends Controller
             ->roles[0]->id);
 
         return view('backend.user_management.users.form', compact('data'), [
-            'title' => 'User - Edit',
+            'title' => 'User - Ubah',
             'breadcrumbsBackend' => [
                 'Users' => route('user.index'),
-                'Edit' => ''
+                'Ubah' => ''
             ],
         ]);
     }
@@ -142,7 +142,7 @@ class UserController extends Controller
         $this->service->updateUser($request, $id);
 
         return redirect()->route('user.index')
-            ->with('success', 'User berhasil diedit');
+            ->with('success', 'User berhasil diubah');
     }
 
     public function updateProfile(ProfileRequest $request)
@@ -192,7 +192,7 @@ class UserController extends Controller
             ], 200);
 
         } else {
-            
+
             return response()->json([
                 'success' => 0,
                 'message' => 'User tidak bisa dihapus, dikarenakan masih memiliki data yang bersangkutan'
@@ -215,14 +215,14 @@ class UserController extends Controller
         $delete = $this->service->deleteUser($id);
 
         if ($delete == true) {
-            
+
             return response()->json([
                 'success' => 1,
                 'message' => ''
             ], 200);
 
         } else {
-            
+
             return response()->json([
                 'success' => 0,
                 'message' => 'User tidak bisa dihapus, dikarenakan masih memiliki data yang bersangkutan'

@@ -3,7 +3,7 @@
                     Request::is('instruktur*') || Request::is('peserta*') || Request::is('grades*') || Request::is('tags*') || Request::is('komentar*'));
     $userOpen = (Request::is('user*') || Request::is('internal*') || Request::is('mitra*') ||
                     Request::is('instruktur*') || Request::is('peserta*'));
-    $course = (Request::is('program*') || Request::is('mata*') || Request::is('materi*') || Request::is('course*') || Request::is('jadwal*') || Request::is('kalender*'));
+    $course = (Request::is('program*') || Request::is('mata*') || Request::is('materi*') || Request::is('quiz*') || Request::is('course*') || Request::is('jadwal*') || Request::is('kalender*'));
 @endphp
 <div id="layout-sidenav" class="{{ isset($layout_sidenav_horizontal) ? 'layout-sidenav-horizontal sidenav-horizontal container-p-x flex-grow-0' : 'layout-sidenav sidenav-vertical' }} sidenav bg-sidenav-theme">
 
@@ -116,11 +116,11 @@
                     </a>
                 </li>
                 <!-- tags -->
-                <li class="sidenav-item{{ Request::is('tags*') ? ' active' : '' }}">
+                {{-- <li class="sidenav-item{{ Request::is('tags*') ? ' active' : '' }}">
                     <a href="{{ route('tags.index') }}" class="sidenav-link" title="Tags">
                       <div>Tags</div>
                     </a>
-                </li>
+                </li> --}}
                 <!-- komentar -->
                 <li class="sidenav-item{{ Request::is('komentar*') ? ' active' : '' }}">
                     <a href="{{ route('komentar.index') }}" class="sidenav-link" title="Komentar">
@@ -185,14 +185,14 @@
           @endphp
           <ul class="sidenav-menu">
             <!-- program pelatihan -->
-            <li class="sidenav-item{{ (Request::is('program*') || Request::is('mata*') || Request::is('materi*') || Request::is('course*')) ? ' active open' : '' }}">
+            <li class="sidenav-item{{ (Request::is('program*') || Request::is('mata*') || Request::is('materi*') || Request::is('quiz*') || Request::is('course*')) ? ' active open' : '' }}">
                 <a href="javascript:void(0)" class="sidenav-link sidenav-toggle" title="Program Pelatihan">
                   <div>Program Pelatihan</div>
                 </a>
 
                 <ul class="sidenav-menu">
                     <!-- aktif -->
-                    <li class="sidenav-item{{ (Request::is('program*') && Request::segment(2) != 'history' || Request::is('mata*') || Request::is('materi*') || Request::is('course*')) ? ' active' : '' }}">
+                    <li class="sidenav-item{{ (Request::is('program*') && Request::segment(2) != 'history' || Request::is('mata*') || Request::is('materi*') || Request::is('quiz*') || Request::is('course*')) ? ' active' : '' }}">
                         <a href="{{ route($program) }}" class="sidenav-link" title="Aktif">
                           <div>Aktif</div>
                         </a>
@@ -306,7 +306,7 @@
             </a>
         </li>
         <!-- artikel -->
-        <li class="sidenav-item{{ (Request::is('artikel*')) ? ' active' : '' }}">
+        <li class="sidenav-item{{ (Request::is('artikel*') || Request::is('tags*')) ? ' active' : '' }}">
             <a href="{{ route('artikel.index') }}" class="sidenav-link" title="Artikel"><i class="sidenav-icon las la-newspaper"></i>
               <div>Artikel</div>
             </a>

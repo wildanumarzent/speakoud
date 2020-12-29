@@ -41,21 +41,18 @@ class BahanForumController extends Controller
                 $data['forum']->materi->publish == 0|| $data['forum']->bahan->publish == 0) {
                 return abort(404);
             }
-            if (!empty($data['forum']->bahan->publish_start) && !empty($data['forum']->bahan->publish_end)) {
-                if (now() < $data['forum']->bahan->publish_start) {
-                    return back()->with('warning', 'Materi dibuka tanggal '.$data['forum']->bahan->publish_start->format('d F Y H:i'));
-                }
-
-                if (now() > $data['forum']->bahan->publish_end) {
-                    return back()->with('warning', 'Materi sudah ditutup tanggal '.$data['forum']->bahan->publish_end->format('d F Y H:i'));
-                }
-            }
         }
         if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
             if ($this->serviceMata->checkUserEnroll($data['forum']->mata_id) == 0) {
                 return back()->with('warning', 'anda tidak terdaftar di course '.$data['forum']->mata->judul.'');
             }
+
+            $restrict = $this->serviceBahan->restrictAccess($data['forum']->bahan_id);
+            if (!empty($restrict)) {
+                return back()->with('warning', $restrict);
+            }
         }
+
         $this->serviceBahan->checkInstruktur($data['forum']->materi_id);
 
 
@@ -89,6 +86,11 @@ class BahanForumController extends Controller
                     return back()->with('warning', 'Forum dilimit '.$data['forum']->limit_topik.' Topik');
                 }
             }
+
+            $restrict = $this->serviceBahan->restrictAccess($data['forum']->bahan_id);
+            if (!empty($restrict)) {
+                return back()->with('warning', $restrict);
+            }
         }
 
         $this->serviceBahan->checkInstruktur($data['forum']->materi_id);
@@ -111,6 +113,13 @@ class BahanForumController extends Controller
     public function storeTopik(ForumTopikRequest $request, $forumId)
     {
         $forum = $this->service->findForum($forumId);
+
+        if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
+            $restrict = $this->serviceBahan->restrictAccess($forum->bahan_id);
+            if (!empty($restrict)) {
+                return back()->with('warning', $restrict);
+            }
+        }
 
         $this->service->storeTopik($request, $forumId);
 
@@ -179,12 +188,34 @@ class BahanForumController extends Controller
 
     public function destroyTopik($forumId, $id)
     {
-        $this->service->deleteTopik($id);
+        $topik = $this->service->findTopik($id);
 
-        return response()->json([
-            'success' => 1,
-            'message' => ''
-        ], 200);
+        if ($topik->lock == 1) {
+
+            return response()->json([
+                'success' => 0,
+                'message' => 'Topik tidak bisa dihapus dikarenakan sudah dikunci'
+            ], 200);
+
+        }
+
+        $delete = $this->service->deleteTopik($id);
+
+        if ($delete == true) {
+
+            return response()->json([
+                'success' => 1,
+                'message' => ''
+            ], 200);
+
+        } else {
+
+            return response()->json([
+                'success' => 0,
+                'message' => 'Topik tidak bisa dihapus dikarenakan sudah memiliki diskusi didalamnya'
+            ], 200);
+        }
+
     }
 
     //reply
@@ -196,6 +227,12 @@ class BahanForumController extends Controller
             $data['diskusi'] = $this->service->findDiskusi($request->parent);
         }
 
+        $this->checkLockTopik($data['topik']);
+
+        if ($data['topik']->lock == 1) {
+            return back()->with('warning', 'Topik sudah dikucin');
+        }
+
         if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
             if ($data['forum']->program->publish == 0 || $data['forum']->bahan->publish == 0) {
                 return abort(404);
@@ -203,6 +240,11 @@ class BahanForumController extends Controller
 
             if (!empty($data['topik']->limit_reply) && $data['topik']->diskusiByUser()->count() >= $data['topik']->limit_reply) {
                 return back()->with('warning', 'Topik dilimit '.$data['topik']->limit_reply.' Reply');
+            }
+
+            $restrict = $this->serviceBahan->restrictAccess($data['forum']->bahan_id);
+            if (!empty($restrict)) {
+                return back()->with('warning', $restrict);
             }
         }
 
@@ -227,13 +269,16 @@ class BahanForumController extends Controller
         $forum = $this->service->findForum($forumId);
         $topik = $this->service->findTopik($topikId);
 
-        try {
-            //code...
-            $this->service->storeReply($request, $forumId, $topikId);
-        } catch (\Throwable $th) {
-            //throw $th;
-            dd($th->getMessage());
+        $this->checkLockTopik($topik);
+
+        if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
+            $restrict = $this->serviceBahan->restrictAccess($forum->bahan_id);
+            if (!empty($restrict)) {
+                return back()->with('warning', $restrict);
+            }
         }
+
+        $this->service->storeReply($request, $forumId, $topikId);
 
         return redirect()->route('forum.topik.room', ['id' => $forumId, 'topikId' => $topikId])
             ->with('success', 'Berhasil mereply topik');
@@ -244,6 +289,8 @@ class BahanForumController extends Controller
         $data['forum'] = $this->service->findForum($forumId);
         $data['topik'] = $this->service->findTopik($topikId);
         $data['diskusi'] = $this->service->findDiskusi($id);
+
+        $this->checkLockTopik($data['topik']);
 
         if (auth()->user()->hasRole('peserta_internal|peserta_mitra') && $data['diskusi']->user_id != auth()->user()->id) {
             return abort(404);
@@ -271,6 +318,8 @@ class BahanForumController extends Controller
         $forum = $this->service->findForum($forumId);
         $topik = $this->service->findTopik($topikId);
 
+        $this->checkLockTopik($topik);
+
         $this->service->updateReply($request, $id);
 
         return redirect()->route('forum.topik.room', ['id' => $forumId, 'topikId' => $topikId])
@@ -279,11 +328,22 @@ class BahanForumController extends Controller
 
     public function destroyReply($forumId, $topikId, $id)
     {
+        $topik = $this->service->findTopik($topikId);
+
+        $this->checkLockTopik($topik);
+
         $this->service->deleteReply($id);
 
         return response()->json([
             'success' => 1,
             'message' => ''
         ], 200);
+    }
+
+    public function checkLockTopik($topik)
+    {
+        if ($topik->lock == 1) {
+            return back()->with('warning', 'Topik sudah dikunci');
+        }
     }
 }

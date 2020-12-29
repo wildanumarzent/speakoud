@@ -61,11 +61,11 @@ class InstansiInternalController extends Controller
         $data['instansi'] = $this->service->findInstansi($id);
 
         return view('backend.instansi.internal.form', compact('data'), [
-            'title' => 'Instansi Internal - Edit',
+            'title' => 'Instansi Internal - Ubah',
             'breadcrumbsBackend' => [
                 'Instansi' => route('instansi.internal.index'),
                 'Internal' => '',
-                'Edit' => ''
+                'Ubah' => ''
             ],
         ]);
     }
@@ -75,7 +75,7 @@ class InstansiInternalController extends Controller
         $this->service->updateInstansi($request, $id);
 
         return redirect()->route('instansi.internal.index')
-            ->with('success', 'Instansi berhasil diedit');
+            ->with('success', 'Instansi berhasil diubah');
     }
 
     public function destroy($id)

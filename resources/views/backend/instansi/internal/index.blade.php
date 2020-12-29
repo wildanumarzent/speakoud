@@ -82,7 +82,7 @@
                     <td>{{ $item->created_at->format('d F Y - (H:i)') }}</td>
                     <td>{{ $item->updated_at->format('d F Y - (H:i)') }}</td>
                     <td>
-                        <a href="{{ route('instansi.internal.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengedit Instansi">
+                        <a href="{{ route('instansi.internal.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengubah Instansi">
                                 <i class="las la-pen"></i>
                         </a>
                         <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus Instansi">
@@ -144,7 +144,7 @@
 
                                 <div class="item-table m-0">
                                     <div class="desc-table text-right">
-                                        <a href="{{ route('instansi.internal.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengedit Instansi">
+                                        <a href="{{ route('instansi.internal.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengubah Instansi">
                                                 <i class="las la-pen"></i>
                                         </a>
                                         <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus Instansi">
@@ -163,7 +163,7 @@
     <div class="card-footer">
         <div class="row align-items-center">
             <div class="col-lg-6 m--valign-middle">
-                @lang('global.pagination.title') : <strong>{{ $data['instansi']->firstItem() }}</strong> - <strong>{{ $data['instansi']->lastItem() }}</strong> @lang('global.pagination.from')
+                Menampilkan : <strong>{{ $data['instansi']->firstItem() }}</strong> - <strong>{{ $data['instansi']->lastItem() }}</strong> dari
                 <strong>{{ $data['instansi']->total() }}</strong>
             </div>
             <div class="col-lg-6 m--align-right">

@@ -27,9 +27,19 @@
             <div class="card-header with-elements">
                 <h5 class="card-header-title mt-1 mb-0">{!! $data['bahan']->judul !!}</h5>
                 <div class="card-header-elements ml-auto">
+                    @role('peserta_internal|peserta_mitra')
+                        @if (empty($data['bahan']->activityCompletionByUser->track_end) && $data['bahan']->completion_type == 1 || empty($data['bahan']->activityCompletionByUser->track_end) && $data['bahan']->completion_type == 3)
+                        <button id="show-complete" class="btn btn-primary btn-sm icon-btn-only-sm complete" title="klik untuk konfirmasi telah menyelesaikan materi">
+                            <span>Complete</span> <i class="las la-check ml-2"></i>
+                            <form action="{{ route('activity.complete', ['bahanId' => $data['bahan']->id])}}" method="POST" class="form-complete">
+                                @csrf
+                            </form>
+                        </button>
+                        @endif
+                    @endrole
                 </div>
             </div>
-            <div class="card-body">
+            <div class="card-body" id="on-load">
                 {!! $data['bahan']->keterangan !!}
                 @yield('content-view')
             </div>
@@ -151,7 +161,61 @@
         }
         return false;
     });
+
+    $('.complete').click(function(e) {
+        e.preventDefault();
+        var url = $(this).attr('href');
+        Swal.fire({
+        title: "Apakah anda yakin sudah menyelesaikan materi ini ?",
+        text: "",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Ya, sudah!',
+        cancelButtonText: "Tidak, belum",
+        }).then((result) => {
+            if (result.value) {
+                $(".form-complete").submit();
+            }
+        })
+    });
 </script>
+@if ($data['bahan']->completion_type == 2)
+<script>
+    $( document ).ready(function() {
+        $.ajax({
+            type : "POST",
+            url : "/activity/{{ $data['bahan']->id }}/complete?is_ajax=yes",
+        });
+    });
+</script>
+@endif
+
+@if ($data['bahan']->completion_type == 3)
+@if (now() > $data['timer'])
+<script>
+    $("#show-complete").show();
+</script>
+@else
+<script>
+    $("#show-complete").hide();
+    var timer2 = "{{ $data['countdown'] }}";
+    var interval = setInterval(function() {
+        var timer = timer2.split(':');
+        var minutes = parseInt(timer[0], 10);
+        var seconds = parseInt(timer[1], 10);
+        --seconds;
+        minutes = (seconds < 0) ? --minutes : minutes;
+        if (minutes < 0) {
+            $("#show-complete").show();
+            clearInterval(interval);
+        }
+
+    }, 1000);
+</script>
+@endif
+@endif
 
 @include('components.toastr')
 @endsection

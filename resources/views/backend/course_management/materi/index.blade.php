@@ -92,7 +92,7 @@
               <div class="my-2">
                 <div class="row">
                     <div class="col-md-4">
-                        {!! !empty($item->keterangan) ? Str::limit(strip_tags($item->keterangan), 120) : '-' !!}
+                        {!! Str::limit(strip_tags($item->keterangan), 120) !!}
                     </div>
                     <div class="col-md-8 text-right">
                         <a class="btn btn-success btn-sm icon-btn-only-sm mr-1" href="{{ route('bahan.index', ['id' => $item->id]) }}" title="klik untuk melihat materi pelatihan">
@@ -136,6 +136,7 @@
               </div>
               <div class="small">
                 <span class="text-muted ml-3"><i class="las la-user text-lighter text-big align-middle"></i>&nbsp; {{ $item->creator->name }}</span>
+                <span class="text-muted ml-3"><i class="las la-user-tie text-lighter text-big align-middle"></i>&nbsp; {{ $item->instruktur->user->name }}</span>
                 <span class="text-muted ml-3"><i class="las la-calendar text-lighter text-big align-middle"></i>&nbsp; {{ $item->created_at->format('d/m/Y H:i') }}</span>
                 <span class="text-muted ml-3"><i class="las la-calendar text-lighter text-big align-middle"></i>&nbsp; {{ $item->updated_at->format('d/m/Y H:i') }}</span>
               </div>
@@ -151,7 +152,7 @@
 <div class="card">
     <div class="card-body text-center">
         <strong style="color: red;">
-            @if (Request::get('p') || Request::get('q'))
+            @if (Request::get('i') || Request::get('p') || Request::get('q'))
             ! Mata Pelatihan tidak ditemukan !
             @else
             ! Mata Pelatihan kosong !

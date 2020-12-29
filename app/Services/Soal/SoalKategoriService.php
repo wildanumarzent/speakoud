@@ -13,6 +13,17 @@ class SoalKategoriService
         $this->model = $model;
     }
 
+    public function getSoalKategori(int $mataId)
+    {
+        $query = $this->model->query();
+
+        $query->where('mata_id', $mataId);
+
+        $result = $query->get();
+
+        return $result;
+    }
+
     public function getSoalKategoriList($request, int $mataId)
     {
         $query = $this->model->query();
@@ -62,9 +73,13 @@ class SoalKategoriService
     public function deleteKategoriSoal(int $id)
     {
         $kategori = $this->findKategoriSoal($id);
-        $kategori->soal()->delete();
-        $kategori->delete();
 
-        return $kategori;
+        if ($kategori->soal->count() > 0) {
+            return false;
+        } else {
+            $kategori->delete();
+
+            return true;
+        }
     }
 }

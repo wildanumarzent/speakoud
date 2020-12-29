@@ -54,8 +54,8 @@
                 Silahkan klik dokumen dibawah untuk mengunduh tugas yang diberikan. Selamat mengerjakan!
                 <div style="margin-top:20px;min-height:200px;border:1px solid #ddd;padding:20px;">
                     <ol>
-                        @foreach ($data['bahan']->tugas->files as $key => $file)
-                        <li><i class="las la-file" style="font-size:1.2em;"></i> <a href="{{ route('bank.data.stream', ['path' => $file]) }}">{{ collect(explode("/", $file))->last() }}</a></li>
+                        @foreach ($data['bahan']->tugas->files($data['bahan']->tugas->bank_data_id) as $key => $file)
+                        <li><i class="las la-file" style="font-size:1.2em;"></i> <a href="{{ route('bank.data.stream', ['path' => $file->file_path]) }}">{{ collect(explode("/", $file->file_path))->last() }}</a></li>
                         @endforeach
                     </ol>
                 </div>
@@ -71,13 +71,23 @@
             </td>
         </tr>
         @endif
-        @if (auth()->user()->hasRole('peserta_internal|peserta_mitra') && empty($data['bahan']->tugas->responByUser))
-        <tr>
-            <th colspan="2">
-                Klik tombol dibawah untuk mengirim hasil tugas!
-                <button type="button" class="btn btn-primary btn-block mt-2" data-toggle="modal" data-target="#modals-upload-file"><i class="las la-upload"></i> Upload Tugas</button>
-            </th>
-        </tr>
+        @if (auth()->user()->hasRole('peserta_internal|peserta_mitra'))
+            @if ($data['bahan']->tugas->approval == 0 && empty($data['bahan']->tugas->responByUser))
+            <tr>
+                <th colspan="2">
+                    Klik tombol dibawah untuk mengirim hasil tugas!
+                    <button type="button" class="btn btn-primary btn-block mt-2" data-toggle="modal" data-target="#modals-upload-file"><i class="las la-upload"></i> Upload Tugas</button>
+                </th>
+            </tr>
+            @endif
+            @if ($data['bahan']->tugas->approval == 1 && empty($data['bahan']->tugas->responByUser) || $data['bahan']->tugas->approval == 1 && !empty($data['bahan']->tugas->responByUser) && $data['bahan']->tugas->responByUser->approval == '0')
+            <tr>
+                <th colspan="2">
+                    Klik tombol dibawah untuk mengirim hasil tugas!
+                    <button type="button" class="btn btn-primary btn-block mt-2" data-toggle="modal" data-target="#modals-upload-file"><i class="las la-upload"></i> Upload Tugas</button>
+                </th>
+            </tr>
+            @endif
         @endif
     </table>
 </div>
@@ -85,6 +95,9 @@
 @if (auth()->user()->hasRole('peserta_internal|peserta_mitra') && !empty($data['bahan']->tugas->responByUser))
 <hr>
 <h5>Tugas Saya</h5>
+@if ($data['bahan']->tugas->responByUser->approval == '0')
+<p><em>*Mohon untuk upload ulang tugas</em></p>
+@endif
 <div class="card-datatable table-responsive d-flex justify-content-center mb-4">
     <table class="table table-striped table-bordered mb-0">
         <tr>
@@ -93,15 +106,41 @@
        </tr>
        <tr>
             <th style="width: 200px;">Keterangan</th>
-            <td>{{ $data['bahan']->tugas->responByUser->keterangan }}</td>
+            <td>{{ $data['bahan']->tugas->responByUser->keterangan ?? '-' }}</td>
        </tr>
+       @if ($data['bahan']->tugas->approval == 1)
+       <tr>
+            <th style="width: 200px;">Approval</th>
+            <td>
+                @if ($data['bahan']->tugas->responByUser->approval == '0')
+                    <span class="badge badge-danger">Di Tolak</span>
+                @elseif ($data['bahan']->tugas->responByUser->approval == '1')
+                    <span class="badge badge-success">Di Approve</span>
+                @else
+                    <span class="badge badge-secondary">Belum di Approve</span>
+                @endif
+            </td>
+        </tr>
+        @if ($data['bahan']->tugas->responByUser->approval >= '0')
+        <tr>
+            <th style="width: 200px;">Di Approve / Tolak Oleh</th>
+            <td>{{ $data['bahan']->tugas->responByUser->approvedBy->name }}</td>
+        </tr>
+        @endif
+        @if ($data['bahan']->tugas->responByUser->approval == '1')
+        <tr>
+            <th style="width: 200px;">Tanggal di Approve</th>
+            <td>{{ $data['bahan']->tugas->responByUser->approval_time->format('d F Y H:i') }}</td>
+        </tr>
+        @endif
+       @endif
        <tr>
         <th style="width: 150px;">Dokumen Tugas</th>
         <td>
             <div style="margin-top:20px;min-height:200px;border:1px solid #ddd;padding:20px;">
                 <ol>
-                    @foreach ($data['bahan']->tugas->responByUser->files as $key => $file)
-                    <li><i class="las la-file" style="font-size:1.2em;"></i> <a href="{{ route('bank.data.stream', ['path' => $file]) }}">{{ collect(explode("/", $file))->last() }}</a></li>
+                    @foreach ($data['bahan']->tugas->responByUser->files($data['bahan']->tugas->responByUser->bank_data_id) as $key => $file)
+                    <li><i class="las la-file" style="font-size:1.2em;"></i> <a href="{{ route('bank.data.stream', ['path' => $file->file_path]) }}">{{ collect(explode("/", $file->file_path))->last() }}</a></li>
                     @endforeach
                 </ol>
             </div>

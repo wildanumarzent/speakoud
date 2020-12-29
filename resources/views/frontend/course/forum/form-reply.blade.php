@@ -75,6 +75,10 @@
 @endsection
 
 @section('jsbody')
-@include('includes.tiny-mce-with-fileman')
+@role ('peserta_internal|peserta_mitra')
+    @include('includes.tiny-mce')
+@else
+    @include('includes.tiny-mce-with-fileman')
+@endrole
 @include('components.toastr')
 @endsection

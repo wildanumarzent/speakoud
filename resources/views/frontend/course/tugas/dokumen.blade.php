@@ -13,17 +13,17 @@
         </div>
         <div class="modal-body">
             <div class="row no-gutters">
-                @foreach ($item->files as $key => $file)
+                @foreach ($item->files($item->bank_data_id) as $key => $file)
                 <div class="col-md-6 col-lg-12 col-xl-6 p-1">
                     <div class="project-attachment ui-bordered p-2">
                         <div class="project-attachment-file display-4">
                         <i class="las la-file"></i>
                         </div>
                         <div class="media-body ml-3">
-                        <strong class="project-attachment-filename">{{ collect(explode("/", $file))->last() }}</strong>
+                        <strong class="project-attachment-filename">{{ collect(explode("/", $file->file_path))->last() }}</strong>
                         <div class="text-muted small"></div>
                             <div>
-                                <a href="{{ route('bank.data.stream', ['path' => $file]) }}">Download</a>
+                                <a href="{{ route('bank.data.stream', ['path' => $file->file_path]) }}">Download</a>
                             </div>
                         </div>
                     </div>

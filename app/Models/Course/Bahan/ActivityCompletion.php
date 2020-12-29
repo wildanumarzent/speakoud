@@ -13,6 +13,11 @@ class ActivityCompletion extends Model
     protected $table = 'activity_completion';
     protected $guarded = [];
 
+    protected $casts = [
+        'track_start' => 'datetime',
+        'track_end' => 'datetime',
+    ];
+
     public function program()
     {
         return $this->belongsTo(ProgramPelatihan::class, 'program_id');
@@ -36,5 +41,10 @@ class ActivityCompletion extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function completed()
+    {
+        return $this->belongsTo(User::class, 'completed_by');
     }
 }

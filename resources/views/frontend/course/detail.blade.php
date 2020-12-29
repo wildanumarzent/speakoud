@@ -70,79 +70,92 @@
         </div>
         <hr class="mt-2 mb-4">
         <h6 class="font-weight-semibold mb-4">Pelatihan</h6>
-        <div id="accordion">
-            @foreach ($data['materi'] as $materi)
+        <div id="accordion2">
+            @foreach ($data['materi'] as $key => $materi)
             <div class="card mb-2">
-              <div class="card-header with-elements">
-                <a class="collapsed text-body card-header-title mt-1 mb-0" data-toggle="collapse" href="#materi-{{ $materi->id }}">
-                    <i class="las la-thumbtack"></i> {!! $materi->judul !!}
-                </a>
-                @if (!auth()->user()->hasRole('peserta_internal|peserta_mitra'))
-                <div class="card-header-elements ml-auto">
-                    <a href="{{ route('bahan.index', ['id' => $materi->id]) }}" class="btn btn-success rounded-pill btn-sm" title="manajemen bahan"><i class="las la-folder"></i>Materi</a>
+                <div class="card-header">
+                  <a class="d-flex justify-content-between text-body collapsed" data-toggle="collapse" href="#materi-{{ $key }}" aria-expanded="false">
+                    <strong>{!! $materi->judul !!}</strong>
+                    <div class="collapse-icon"></div>
+                  </a>
                 </div>
-                @endif
-              </div>
-              <div id="materi-{{ $materi->id }}" class="collapse" data-parent="#accordion">
-                <div class="card-body">
+                <div id="materi-{{ $key }}" class="collapse" data-parent="#accordion2" style="">
+                  <div class="card-body">
+                    @if (!auth()->user()->hasRole('peserta_internal|peserta_mitra'))
+                    <a href="{{ route('bahan.index', ['id' => $materi->id]) }}" class="btn btn-success rounded-pill btn-sm mb-2" title="manajemen bahan"><i class="las la-folder"></i>Materi</a>
+                    @endif
+
                     {!! $materi->keterangan !!}
+
                     <ul class="list-group list-group-flush mt-2">
                         @foreach ($materi->bahanPublish as $bahan)
                         <li class="list-group-item py-4">
-                          <div class="media flex-wrap">
-                            <div class="d-none d-sm-block ui-w-120 text-center">
-                                @if ($bahan->type($bahan)['tipe'] == 'dokumen')
-                                <i class="las la-file-{{ $bahan->dokumen->bankData->icon($bahan->dokumen->bankData->file_type) }} mr-2" style="font-size: 4em;"></i>
-                                @elseif ($bahan->type($bahan)['tipe'] == 'video')
-                                    @if (!empty($bahan->video->bankData->thumbnail))
-                                        <div class="d-block ui-rect-67 ui-bg-cover" style="background-image: url({{ route('bank.data.stream', ['path' => $bahan->video->bankData->thumbnail]) }});"></div>
+                            <div class="media flex-wrap">
+                                <div class="d-none d-sm-block ui-w-120 text-center">
+                                    @if ($bahan->type($bahan)['tipe'] == 'dokumen')
+                                    <i class="las la-file-{{ $bahan->dokumen->bankData->icon($bahan->dokumen->bankData->file_type) }} mr-2" style="font-size: 4em;"></i>
+                                    @elseif ($bahan->type($bahan)['tipe'] == 'video')
+                                        @if (!empty($bahan->video->bankData->thumbnail))
+                                            <div class="d-block ui-rect-67 ui-bg-cover" style="background-image: url({{ route('bank.data.stream', ['path' => $bahan->video->bankData->thumbnail]) }});"></div>
+                                        @else
+                                            <i class="las la-{{ $bahan->type($bahan)['icon'] }} mr-2" style="font-size: 4em;"></i>
+                                        @endif
                                     @else
-                                        <i class="las la-{{ $bahan->type($bahan)['icon'] }} mr-2" style="font-size: 4em;"></i>
-                                    @endif
-                                @else
-                                <i class="las la-{{ $bahan->type($bahan)['icon'] }} mr-2" style="font-size: 4em;"></i>
-                                @endif
-                            </div>
-                            <div class="media-body ml-sm-2">
-                              <h5 class="mb-2">
-                                @role ('peserta_internal|peserta_mitra')
-                                <div class="float-right font-weight-semibold ml-3">
-                                    @if ($bahan->activityCompletionByUser()->count() == 1)
-                                    <i class="las la-check-square text-success" style="font-size: 2em;" title="anda sudah mengakses materi ini"></i>
-                                    @else
-                                    <i class="las la-stop text-danger" style="font-size: 2em;" title="anda belum mengakses materi ini"></i>
+                                    <i class="las la-{{ $bahan->type($bahan)['icon'] }} mr-2" style="font-size: 4em;"></i>
                                     @endif
                                 </div>
-                                @endrole
-                                <a href="{{ route('course.bahan', ['id' => $data['read']->id, 'bahanId' => $bahan->id, 'tipe' => $bahan->type($bahan)['tipe']]) }}" class="text-body">{!! $bahan->judul !!}</a>&nbsp;
-                              </h5>
-                              <div class="d-flex flex-wrap align-items-center mb-2">
-                                <div class="text-muted small">
-                                  <i class="las la-calendar text-primary"></i>
-                                  <span>{{ !empty($bahan->publish_start) && !empty($bahan->publish_end) ? $bahan->publish_start->format('d F Y (H:i A)').' s/d '.$bahan->publish_end->format('d F Y (H:i A)') : 'Tidak dibatasi' }}</span>
+                                <div class="media-body ml-sm-2">
+                                    <h5 class="mb-2">
+                                        @role ('peserta_internal|peserta_mitra')
+                                        @if ($bahan->completion_type > 0)
+                                        <div class="float-right font-weight-semibold ml-3">
+                                            @if ($bahan->activityCompletionByUser()->count() == 1 && !empty($bahan->activityCompletionByUser->track_end))
+                                                @if ($bahan->activityCompletionByUser->status == 1)
+                                                    <i class="las la-check-square text-success" style="font-size: 2em;" title="anda sudah menyelesaikan materi ini"></i>
+                                                @else
+                                                    <i class="las la-check-square text-danger" style="font-size: 2em;" title="materi telah diselesaikan (Check by : {{ $bahan->activityCompletionByUser->completed->name }})"></i>
+                                                @endif
+                                            @else
+                                            <i class="las la-stop text-secondary" style="font-size: 2em;" title="anda belum menyelesaikan materi ini"></i>
+                                            @endif
+                                        </div>
+                                        @endif
+                                        @endrole
+                                        <a href="{{ route('course.bahan', ['id' => $data['read']->id, 'bahanId' => $bahan->id, 'tipe' => $bahan->type($bahan)['tipe']]) }}" class="text-body">{!! $bahan->judul !!}</a>&nbsp;
+                                    </h5>
+                                    <div class="d-flex flex-wrap align-items-center mb-2">
+                                        <div class="text-muted small">
+                                            @if ($bahan->restrict_access == 1)
+                                                <i class="las la-calendar text-primary"></i>
+                                                <span>Tanggal : <strong>{{ $bahan->publish_start->format('d F Y H:i (A)') }}</strong> s/d <strong>{{ $bahan->publish_end->format('d F Y H:i (A)') }}</strong></span>
+                                            @endif
+                                            @if ($bahan->restrict_access == '0')
+                                                <i class="las la-folder text-danger"></i>
+                                                <span>Materi ini tidak bisa diakses sebelum menyelesaikan materi <strong class="badge badge-danger">{{ $bahan->restrictBahan($bahan->requirement)->judul }}</strong></span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div>{!! strip_tags(Str::limit($bahan->keterangan, 120)) !!}</div>
                                 </div>
-                              </div>
-                              <div>{!! strip_tags(Str::limit($bahan->keterangan, 120)) !!}</div>
                             </div>
-                          </div>
                         </li>
                         @endforeach
                     </ul>
+                  </div>
                 </div>
-              </div>
             </div>
             @endforeach
             @if (!auth()->user()->hasRole('instruktur_internal|instruktur_mitra') && !empty($data['read']->kode_evaluasi) && $data['checkKode'] == true)
-            {{-- evaluasi penyelenggara --}}
             <div class="card mb-2">
                 <div class="card-header">
-                    <a class="collapsed text-body" data-toggle="collapse" href="#evaluasi-penyelenggara">
-                        <i class="las la-thumbtack"></i> Evaluasi Penyelenggaraan Diklat
-                    </a>
+                  <a class="d-flex justify-content-between text-body collapsed" data-toggle="collapse" href="#evaluasi-penyelenggara" aria-expanded="false">
+                    <strong>Evaluasi Penyelenggaraan Diklat</strong>
+                    <div class="collapse-icon"></div>
+                  </a>
                 </div>
-                <div id="evaluasi-penyelenggara" class="collapse" data-parent="#accordion">
+                <div id="evaluasi-penyelenggara" class="collapse" data-parent="#accordion2" style="">
                     <div class="card-body">
-                        <ul class="list-group list-group-flush mt-2">
+                        <ul class="list-group list-group-flush">
                             <li class="list-group-item py-4">
                                 <div class="media flex-wrap">
                                     <div class="d-none d-sm-block ui-w-120 text-center">
@@ -155,7 +168,7 @@
                                             @if (!empty($data['apiUser']) && $data['apiUser']->is_complete == 1)
                                             <i class="las la-check-square text-success" style="font-size: 2em;" title="anda sudah mengisi evaluasi ini"></i>
                                             @else
-                                            <i class="las la-stop text-danger" style="font-size: 2em;" title="anda belum mengisi evaluasi ini"></i>
+                                            <i class="las la-stop text-secondary" style="font-size: 2em;" title="anda belum mengisi evaluasi ini"></i>
                                             @endif
                                         </div>
                                         @endrole

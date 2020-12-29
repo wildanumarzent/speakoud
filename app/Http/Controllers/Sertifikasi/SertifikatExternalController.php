@@ -66,4 +66,14 @@ class SertifikatExternalController extends Controller
 
         return back()->with('success', 'upload sertifikat berhasil');
     }
+
+    public function destroy($mataId, $pesertaId, $id)
+    {
+        $this->service->deleteSertifikat($id);
+
+        return response()->json([
+            'success' => 1,
+            'message' => ''
+        ], 200);
+    }
 }

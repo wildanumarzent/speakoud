@@ -1,7 +1,14 @@
-@if (auth()->user()->hasRole('peserta_internal|peserta_mitra') && empty($data['bahan']->tugas->responByUser))
+@if (auth()->user()->hasRole('peserta_internal|peserta_mitra'))
+@php
+    if (!empty($data['bahan']->tugas->responByUser) && $data['bahan']->tugas->responByUser->approval == '0') {
+        $re = 'yes';
+    } else {
+        $re = 'no';
+    }
+@endphp
 <div class="modal fade" id="modals-upload-file">
     <div class="modal-dialog">
-        <form class="modal-content" action="{{ route('tugas.send', ['id' => $data['bahan']->tugas->id]) }}" method="POST" enctype="multipart/form-data">
+        <form class="modal-content" action="{{ route('tugas.send', ['id' => $data['bahan']->tugas->id, 'reupload' => $re]) }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="modal-header">
             <h5 class="modal-title">

@@ -32,7 +32,8 @@ class ProfileRequest extends FormRequest
                             auth()->user()->id,
                 'current_password' => 'required|min:8',
                 'password' => 'nullable|confirmed|min:8',
-                'file' => 'nullable|mimes:'.config('addon.mimes.photo.m')
+                'file' => 'nullable|mimes:'.config('addon.mimes.photo.m'),
+                'foto_sertifikat' => 'nullable|mimes:'.config('addon.mimes.photo.m'),
             ];
         } else {
             return [
@@ -41,7 +42,8 @@ class ProfileRequest extends FormRequest
                             auth()->user()->id,
                 'username' => 'required|unique:users,username,'.
                             auth()->user()->id,
-                'file' => 'nullable|mimes:'.config('addon.mimes.photo.m')
+                'file' => 'nullable|mimes:'.config('addon.mimes.photo.m'),
+                'foto_sertifikat' => 'nullable|mimes:'.config('addon.mimes.photo.m'),
             ];
         }
     }
@@ -54,7 +56,8 @@ class ProfileRequest extends FormRequest
             'username' => 'Username',
             'current_password' => 'Current Password',
             'password' => 'Password',
-            'file' => 'Photo'
+            'file' => 'Photo',
+            'foto_sertifikat' => 'Foto Sertifikat',
         ];
     }
 
@@ -74,6 +77,7 @@ class ProfileRequest extends FormRequest
                                     'password',
             'password.min' => ':attribute minimal :min karakter',
             'file.mimes' => 'Tipe :attribute harus :values.',
+            'foto_sertifikat.mimes' => 'Tipe :attribute harus :values.',
         ];
     }
 }

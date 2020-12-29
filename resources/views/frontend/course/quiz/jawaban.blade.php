@@ -23,7 +23,11 @@
     <div class="media-body ml-4">
       <h4 class="font-weight-bold mb-0">{{ $data['peserta']->user->name }} <span class="text-muted font-weight-normal">{{ $data['peserta']->user->email }}</span></h4>
       <div class="text-muted mb-2">ID: {{ $data['peserta']->user->id }}</div>
+      @role ('peserta_internal|peserta_mitra')
+      <a href="{{ route('course.bahan', ['id' => $data['quiz']->mata_id, 'bahanId' => $data['quiz']->bahan_id, 'tipe' => 'quiz']) }}" class="btn btn-default btn-sm"><i class="las la-arrow-left"></i> Kembali</a>
+      @else
       <a href="{{ route('quiz.peserta', ['id' => $data['quiz']->id]) }}" class="btn btn-default btn-sm"><i class="las la-arrow-left"></i> Kembali</a>
+      @endrole
     </div>
 </div>
 
@@ -57,7 +61,7 @@
                         }
                     @endphp
                     <label class="custom-control custom-radio">
-                        <input type="radio" class="custom-control-input" {{ $item->jawaban == $key ? 'checked' : '' }} disabled disabled>
+                        <input type="radio" class="custom-control-input" {{ $item->jawaban == $key ? 'checked' : '' }} disabled>
                         <span class="custom-control-label" style="color: {{ $item->item->jawaban == $key ? 'green' : $color }}">{{ $value }} <i class="{{ $item->item->jawaban == $key ? 'las la-check' : $icon }}"></i></span>
                     </label>
                     <br>
@@ -76,6 +80,26 @@
                     @foreach ($jawaban as $jwb)
                     <span class="badge badge-success">{{ $jwb }}</span>
                     @endforeach
+                @elseif ($item->item->tipe_jawaban == 3)
+                @foreach (config('addon.label.quiz_item_tipe')[3]['choice'] as $keyT => $valT)
+                @php
+                    if ($item->jawaban == $item->item->jawaban && $item->jawaban == $keyT) {
+                        $color = 'green';
+                        $icon = 'las la-check';
+                    } elseif ($item->jawaban != $item->item->jawaban && $item->jawaban == $keyT) {
+                        $color = 'red';
+                        $icon = 'las la-times';
+                    } else {
+                        $color = '';
+                        $icon = '';
+                    }
+                @endphp
+                <label class="custom-control custom-radio">
+                    <input type="radio" class="custom-control-input" {{ $item->jawaban == $keyT ? 'checked' : '' }} disabled>
+                    <span class="custom-control-label" style="color: {{ $item->item->jawaban == $keyT ? 'green' : $color }}">{{ $valT }} <i class="{{ $item->item->jawaban == $keyT ? 'las la-check' : $icon }}"></i></span>
+                </label>
+                &nbsp;
+                @endforeach
                 @else
                 <div class="position-relative">
                     @php

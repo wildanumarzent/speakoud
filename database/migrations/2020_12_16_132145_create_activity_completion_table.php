@@ -20,7 +20,10 @@ class CreateActivityCompletionTable extends Migration
             $table->unsignedBigInteger('materi_id');
             $table->unsignedBigInteger('bahan_id');
             $table->unsignedBigInteger('user_id');
-            $table->tinyInteger('status')->default(1);
+            $table->timestamp('track_start')->nullable();
+            $table->timestamp('track_end')->nullable();
+            $table->tinyInteger('status')->nullable();
+            $table->unsignedBigInteger('completed_by')->nullable();
             $table->timestamps();
 
             $table->foreign('program_id')->references('id')
@@ -38,6 +41,9 @@ class CreateActivityCompletionTable extends Migration
             $table->foreign('user_id')->references('id')
                 ->on('users')
                 ->cascadeOnDelete();
+            $table->foreign('completed_by')->references('id')
+                ->on('users')
+                ->onDelete('set null');
         });
     }
 

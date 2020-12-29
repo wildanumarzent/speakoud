@@ -18,15 +18,18 @@ class CreateBahanTugasResponTable extends Migration
             $table->unsignedBigInteger('tugas_id');
             $table->unsignedBigInteger('user_id');
             $table->text('keterangan')->nullable();
-            $table->json('files')->nullable();
+            $table->json('bank_data_id')->nullable();
             $table->boolean('approval')->nullable();
             $table->timestamp('approval_time')->nullable();
+            $table->unsignedBigInteger('approval_by')->nullable();
             $table->timestamps();
 
             $table->foreign('tugas_id')->references('id')->on('bahan_tugas')
                 ->cascadeOnDelete();
             $table->foreign('user_id')->references('id')->on('users')
                 ->cascadeOnDelete();
+            $table->foreign('approval_by')->references('id')->on('users')
+                ->onDelete('SET NULL');
         });
     }
 

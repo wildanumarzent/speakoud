@@ -2,6 +2,8 @@
 
 namespace App\Services\Course\Bahan;
 
+use App\Models\BankData;
+use App\Models\Course\ApiEvaluasi;
 use App\Models\Course\Bahan\ActivityCompletion;
 use App\Models\Course\Bahan\BahanPelatihan;
 use App\Services\Course\MateriService;
@@ -11,7 +13,7 @@ use Illuminate\Support\Facades\Storage;
 class BahanService
 {
     private $model, $materi, $forum, $file, $conference, $quiz, $scorm, $audio,
-     $video, $tugas, $evaluasiPengajar, $completion;
+     $video, $tugas, $evaluasiPengajar;
 
     public function __construct(
         BahanPelatihan $model,
@@ -24,8 +26,7 @@ class BahanService
         BahanAudioService $audio,
         BahanVideoService $video,
         BahanTugasService $tugas,
-        BahanEvaluasiPengajarService $evaluasiPengajar,
-        ActivityCompletion $completion
+        BahanEvaluasiPengajarService $evaluasiPengajar
     )
     {
         $this->model = $model;
@@ -39,7 +40,27 @@ class BahanService
         $this->video = $video;
         $this->tugas = $tugas;
         $this->evaluasiPengajar = $evaluasiPengajar;
-        $this->completion = $completion;
+    }
+
+
+    public function getBahan(int $materiId, $notIn = null)
+    {
+        $materi = $this->materi->findMateri($materiId);
+
+        $query = $this->model->query();
+
+        $query->where('mata_id', $materi->mata_id);
+        $query->where('completion_type', '>', 0);
+        $query->whereHas('materi', function ($query) use ($materi) {
+            $query->where('urutan', '<=', $materi->urutan);
+        });
+        if (!empty($notIn)) {
+            $query->whereNotIn('id', [$notIn]);
+        }
+
+        $result = $query->orderBy('urutan', 'ASC')->get();
+
+        return $result;
     }
 
     public function getBahanList($request, int $materiId)
@@ -48,17 +69,17 @@ class BahanService
 
         $query->where('materi_id', $materiId);
         if(!empty($request)){
-        $query->when($request->q, function ($query, $q) {
-            $query->where(function ($query) use ($q) {
-                $query->where('judul', 'ilike', '%'.$q.'%');
+            $query->when($request->q, function ($query, $q) {
+                $query->where(function ($query) use ($q) {
+                    $query->where('judul', 'ilike', '%'.$q.'%');
+                });
             });
-        });
-    }
+        }
         if (isset($request->p)) {
             $query->where('publish', $request->p);
         }
 
-        $result = $query->orderBy('urutan', 'ASC')->paginate(9);
+        $result = $query->orderBy('urutan', 'ASC')->paginate(10);
 
         return $result;
     }
@@ -134,13 +155,30 @@ class BahanService
         $bahan->creator_id = auth()->user()->id;
         $bahan->keterangan = $request->keterangan ?? null;
         $bahan->publish = (bool)$request->publish;
-        if ((bool)$request->batas_tanggal == 1) {
-            $bahan->publish_start = $request->publish_start ?? null;
-            $bahan->publish_end = $request->publish_end ?? null;
+        $bahan->completion_type = $request->completion_type;
+        $bahan->restrict_access = $request->restrict_access;
+
+        if ($request->completion_type == 3) {
+            $bahan->completion_parameter = [
+                'timer' => $request->completion_duration,
+            ];
+        } else {
+            $bahan->completion_parameter = null;
+        }
+
+        if ($request->restrict_access == '0') {
+            $bahan->requirement = $request->requirement;
+        } else {
+            $bahan->requirement = null;
+        }
+        if ($request->restrict_access == 1) {
+            $bahan->publish_start = $request->publish_start;
+            $bahan->publish_end = $request->publish_end;
         } else {
             $bahan->publish_start = null;
             $bahan->publish_end = null;
         }
+
         $bahan->urutan = ($this->model->where('materi_id', $materiId)->max('urutan') + 1);
         $bahan->save();
 
@@ -192,13 +230,30 @@ class BahanService
         $bahan->fill($request->only(['judul']));
         $bahan->keterangan = $request->keterangan ?? null;
         $bahan->publish = (bool)$request->publish;
-        if ((bool)$request->batas_tanggal == 1) {
-            $bahan->publish_start = $request->publish_start ?? null;
-            $bahan->publish_end = $request->publish_end ?? null;
+        $bahan->completion_type = $request->completion_type;
+        $bahan->restrict_access = $request->restrict_access;
+
+        if ($request->completion_type == 3) {
+            $bahan->completion_parameter = [
+                'timer' => $request->completion_duration,
+            ];
+        } else {
+            $bahan->completion_parameter = null;
+        }
+
+        if ($request->restrict_access == '0') {
+            $bahan->requirement = $request->requirement;
+        } else {
+            $bahan->requirement = null;
+        }
+        if ($request->restrict_access == 1) {
+            $bahan->publish_start = $request->publish_start;
+            $bahan->publish_end = $request->publish_end;
         } else {
             $bahan->publish_start = null;
             $bahan->publish_end = null;
         }
+
         $bahan->save();
 
         if ($request->type == 'forum') {
@@ -276,72 +331,96 @@ class BahanService
     public function deleteBahan(int $id)
     {
         $bahan = $this->findBahan($id);
+        $activity = ActivityCompletion::where('bahan_id', $id)->count();
 
         if ($bahan->forum()->count() == 1) {
 
-            if ($bahan->forum->topik->count() > 0) {
+            if ($bahan->forum->topik->count() > 0 || $activity > 0) {
                 return false;
             } else {
                 $bahan->forum()->delete();
             }
         }
         if ($bahan->dokumen()->count() == 1) {
-            $bahan->dokumen()->delete();
+            if ($activity > 0) {
+                return false;
+            } else {
+                $bahan->dokumen()->delete();
+            }
         }
         if ($bahan->conference()->count() == 1) {
-            $bahan->conference()->delete();
+            if ($bahan->conference->status > 0 || $bahan->conference->peserta->count() > 0 ||
+                $activity > 0) {
+                return false;
+            } else {
+                $bahan->conference()->delete();
+            }
         }
         if ($bahan->quiz()->count() == 1) {
-            $bahan->quiz()->delete();
-            $bahan->quiz->item()->delete();
+            if ($bahan->quiz->item->count() > 0 || $bahan->quiz->trackUser->count() > 0 ||
+                $bahan->quiz->trackItem->count() > 0 || $activity > 0) {
+                return false;
+            } else {
+                $bahan->quiz()->delete();
+            }
+            // $bahan->quiz->item()->delete();
         }
         if ($bahan->scorm()->count() == 1) {
-            $oldFile = public_path('userfile/scorm/'.$bahan->scorm->materi_id.'/zip/'.$bahan->scorm->package_name.'.zip') ;
-            $oldDir =  public_path('userfile/scorm/'.$bahan->scorm->materi_id.'/'.$bahan->scorm->package_name);
-            File::delete($oldFile);
-            File::deleteDirectory($oldDir);
-            $bahan->scorm()->delete();
+
+            if ($activity > 0) {
+                return false;
+            } else {
+
+                $oldFile = public_path('userfile/scorm/'.$bahan->scorm->materi_id.'/zip/'.$bahan->scorm->package_name.'.zip') ;
+                $oldDir =  public_path('userfile/scorm/'.$bahan->scorm->materi_id.'/'.$bahan->scorm->package_name);
+                File::delete($oldFile);
+                File::deleteDirectory($oldDir);
+                $bahan->scorm()->delete();
+            }
         }
         if ($bahan->audio()->count() == 1) {
-            $bahan->audio()->delete();
+            if ($activity > 0) {
+                return false;
+            } else {
+                $bahan->audio()->delete();
+            }
         }
         if ($bahan->video()->count() == 1) {
-            $bahan->video()->delete();
+            if ($activity > 0) {
+                return false;
+            } else {
+                $bahan->video()->delete();
+            }
         }
         if ($bahan->tugas()->count() == 1) {
 
-            foreach ($bahan->tugas->files as $file) {
-                Storage::disk('bank_data')->delete($file);
-            }
+            if ($bahan->tugas->respon->count() > 0 || $activity > 0) {
+                return false;
+            } else {
 
-            $bahan->tugas()->delete();
+                $bankData = BankData::whereIn('id', $bahan->tugas->bank_data_id)->get();
+                foreach ($bankData as $file) {
+                    Storage::disk('bank_data')->delete($file->file_path);
+                    Storage::disk('bank_data')->deleteDirectory($bahan->tugas->creator->name);
+                    Storage::disk('bank_data')->deleteDirectory($bahan->tugas->materi->judul);
+
+                    $file->delete();
+                }
+
+                $bahan->tugas()->delete();
+            }
         }
         if ($bahan->evaluasiPengajar()->count() == 1) {
-            $bahan->evaluasiPengajar()->delete();
+            if (ApiEvaluasi::where('bahan_id', $id)->count() > 0 || $activity > 0) {
+                return false;
+            } else {
+                $bahan->evaluasiPengajar()->delete();
+            }
         }
 
         $bahan->delete();
 
         return $bahan;
-    }
-
-    public function recordActivity(int $id)
-    {
-        $bahan = $this->findBahan($id);
-
-        return $this->completion->updateOrCreate([
-            'program_id' => $bahan->program_id,
-            'mata_id' => $bahan->mata_id,
-            'materi_id' => $bahan->materi_id,
-            'bahan_id' => $id,
-            'user_id' => auth()->user()->id,
-        ], [
-            'program_id' => $bahan->program_id,
-            'mata_id' => $bahan->mata_id,
-            'materi_id' => $bahan->materi_id,
-            'bahan_id' => $id,
-            'user_id' => auth()->user()->id,
-        ]);
     }
 
     public function checkInstruktur($materiId)
@@ -351,6 +430,29 @@ class BahanService
         if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra')) {
             if ($materi->instruktur_id != auth()->user()->instruktur->id) {
                 return abort(403);
+            }
+        }
+    }
+
+    public function restrictAccess(int $id)
+    {
+        $bahan = $this->findBahan($id);
+
+        if ($bahan->restrict_access == '0') {
+            $checkMateri = $this->serviceActivity->restrict($bahan->requirement);
+            if ($checkMateri == 0) {
+                return 'Materi tidak bisa diakses sebelum anda menyelesaikan materi '.
+                $bahan->restrictBahan($bahan->requirement)->judul;
+            }
+        }
+
+        if ($bahan->restrict_access == 1) {
+            if (now() < $bahan->publish_start) {
+                return 'Materi tidak bisa diakses karena belum memasuki tanggal yang sudah ditentukan';
+            }
+
+            if (now() > $bahan->publish_end) {
+                return 'Materi tidak bisa diakses karena sudah melebihi tanggal yang sudah ditentukan';
             }
         }
     }

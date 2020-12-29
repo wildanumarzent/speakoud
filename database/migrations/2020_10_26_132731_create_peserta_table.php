@@ -27,6 +27,7 @@ class CreatePesertaTable extends Migration
             $table->json('sk_golongan')->nullable();
             $table->json('sk_jabatan')->nullable();
             $table->json('surat_ijin_atasan')->nullable();
+            $table->text('foto_sertifikat')->nullable();
             $table->timestamps();
             $table->softDeletes();
 

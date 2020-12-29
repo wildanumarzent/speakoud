@@ -139,6 +139,9 @@ Route::get('/quiz/{id}/test', 'Course\Bahan\BahanQuizItemController@room')
 Route::post('/quiz/{id}/track/jawaban', 'Course\Bahan\BahanQuizItemController@trackJawaban')
     ->name('quiz.track.jawaban')
     ->middleware(['auth', 'role:peserta_internal|peserta_mitra']);
+Route::delete('/quiz/{id}/user/{userId}', 'Course\Bahan\BahanQuizItemController@ulangi')
+    ->name('quiz.ulangi')
+    ->middleware(['auth', 'role:peserta_internal|peserta_mitra']);
 Route::post('/quiz/{id}/finish', 'Course\Bahan\BahanQuizItemController@finishQuiz')
     ->name('quiz.finish')
     ->middleware(['auth', 'role:peserta_internal|peserta_mitra']);
@@ -159,6 +162,9 @@ Route::put('/peserta/{id}/cek', 'Course\Bahan\BahanQuizItemController@checkPeser
 Route::post('/tugas/{id}/kirim', 'Course\Bahan\BahanTugasController@sendTugas')
     ->name('tugas.send')
     ->middleware(['auth', 'role:peserta_internal|peserta_mitra']);
+Route::put('/tugas/{id}/respon/{responId}/{status}', 'Course\Bahan\BahanTugasController@approval')
+    ->name('tugas.approval')
+    ->middleware(['auth', 'role:administrator|internal|mitra|instruktur_internal|instruktur_mitra']);
 Route::get('/tugas/{id}/peserta', 'Course\Bahan\BahanTugasController@peserta')
     ->name('tugas.peserta')
     ->middleware(['auth', 'role:administrator|internal|mitra|instruktur_internal|instruktur_mitra']);
@@ -503,6 +509,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('mata/{id}/soal/kategori/{kategoriId}', 'Soal\SoalController@index')
         ->name('soal.index')
         ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
+    Route::get('soal/kategori/json/{quizId}', 'Soal\SoalController@soalByKategori')
+        ->name('soal.json')
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
     Route::get('mata/{id}/soal/kategori/{kategoriId}/create', 'Soal\SoalController@create')
         ->name('soal.create')
         ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
@@ -608,6 +617,22 @@ Route::group(['middleware' => ['auth']], function () {
         ->name('mata.peserta.destroy')
         ->middleware('role:administrator|internal|mitra');
 
+    //mata laporan
+    #-- pembobotan nilai
+    Route::get('mata/{id}/pembobotan', 'Course\MataActivityController@pembobotan')
+        ->name('mata.pembobotan')
+        ->middleware('role:administrator|internal|mitra');
+    #-- activity completion
+    Route::get('mata/{id}/completion', 'Course\MataActivityController@completion')
+        ->name('mata.completion')
+        ->middleware('role:administrator|internal|mitra');
+    Route::post('completion/submit/{bahanId}/{userId}', 'Course\MataActivityController@submitCompletion')
+        ->name('mata.completion.submit')
+        ->middleware('role:administrator|internal|mitra');
+    Route::put('completion/{id}/status', 'Course\MataActivityController@statusCompletion')
+        ->name('mata.completion.status')
+        ->middleware('role:administrator|internal|mitra');
+
     //materi pelatihan
     Route::get('/mata/{id}/materi', 'Course\MateriController@index')
         ->name('materi.index')
@@ -693,6 +718,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/scorm/{id}','Course\Bahan\BahanScormController@show')->name('scorm.detail');
     Route::post('scorm/checkpoint/store', 'Course\Bahan\BahanScormController@store');
 
+    //activity
+    Route::post('/activity/{bahanId}/complete', 'Course\Bahan\BahanController@activityComplete')
+        ->name('activity.complete');
+
     //jadwal pelatihan
     Route::get('/jadwal', 'Course\JadwalController@index')
         ->name('jadwal.index')
@@ -739,6 +768,9 @@ Route::group(['middleware' => ['auth']], function () {
         ->middleware('role:administrator|internal|mitra');
     Route::get('/mata/{id}/sertifikat/external/peserta/{pesertaId}/detail', 'Sertifikasi\SertifikatExternalController@detail')
         ->name('sertifikat.external.peserta.detail')
+        ->middleware('role:administrator|internal|mitra');
+    Route::delete('/mata/{id}/sertifikat/external/peserta/{pesertaId}/detail/{sertifikatId}', 'Sertifikasi\SertifikatExternalController@destroy')
+        ->name('sertifikat.external.peserta.destroy')
         ->middleware('role:administrator|internal|mitra');
 
     /**Website module */

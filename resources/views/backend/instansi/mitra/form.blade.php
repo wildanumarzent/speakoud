@@ -61,17 +61,19 @@
                 </div>
                 @if (isset($data['instansi']))
                     <input type="hidden" name="old_logo" value="{{ $data['instansi']->logo }}">
-                    <div class="col-md-1">
-                        <a href="{{ $data['instansi']->getLogo($data['instansi']->logo) }}" data-fancybox="gallery">
-                            <div class="ui-bg-cover" style="width: 100px;height: 100px;background-image: url('{{ $data['instansi']->getLogo($data['instansi']->logo) }}');"></div>
-                        </a>
-                    </div>
                 @endif
-                <div class="col-md-{{ isset($data['instansi']) ? '9' : '10' }}">
+                <div class="col-md-10">
                     <label class="custom-file-label" for="upload-2"></label>
                     <input class="form-control custom-file-input file @error('logo') is-invalid @enderror" type="file" id="upload-2" lang="en" name="logo" placeholder="masukan logo...">
                     @include('components.field-error', ['field' => 'logo'])
                     <small class="text-muted">Tipe File : <strong>{{ strtoupper(config('addon.mimes.logo_instansi.m')) }}</strong></small>
+                    @if (isset($data['instansi']))
+                        <div class="col-md-1">
+                            <a href="{{ $data['instansi']->getLogo($data['instansi']->logo) }}" data-fancybox="gallery">
+                                <div class="ui-bg-cover" style="width: 100px;height: 100px;background-image: url('{{ $data['instansi']->getLogo($data['instansi']->logo) }}');"></div>
+                            </a>
+                        </div>
+                    @endif
                 </div>
             </div>
             <hr>

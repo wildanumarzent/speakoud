@@ -25,7 +25,7 @@ class ArtikelService
 
         $query->when($request->q, function ($query, $q) {
             $query->where(function ($query) use ($q) {
-                $query->where('title', 'like', '%'.$q.'%');
+                $query->where('judul', 'ilike', '%'.$q.'%');
             });
         });
 
@@ -80,7 +80,7 @@ class ArtikelService
     public function storeArtikel($request)
     {
         if ($request->hasFile('cover_file')) {
-            $fileName = str_replace(' ', '-', Str::random(5).'-'.$request->file('cover_file')
+            $fileName = str_replace(' ', '-', $request->file('cover_file')
                 ->getClientOriginalName());
             $request->file('cover_file')->move(public_path('userfile/cover'), $fileName);
         }
@@ -117,7 +117,7 @@ class ArtikelService
     public function updateArtikel($request, int $id)
     {
         if ($request->hasFile('cover_file')) {
-            $fileName = str_replace(' ', '-', Str::random(5).'-'.$request->file('cover_file')
+            $fileName = str_replace(' ', '-', $request->file('cover_file')
                 ->getClientOriginalName());
             $this->deleteCoverFromPath($request->old_cover_file);
             $request->file('cover_file')->move(public_path('userfile/cover'), $fileName);

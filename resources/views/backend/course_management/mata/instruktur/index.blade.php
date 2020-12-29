@@ -65,7 +65,7 @@
                     <th>Unit Kerja</th>
                     <th>Jabatan</th>
                     <th>Materi Upload</th>
-                    <th style="width: 200px;">Kode Evaluasi</th>
+                    <th style="width: 300px;">Kode Evaluasi</th>
                     <th style="width: 80px;">Aksi</th>
                 </tr>
             </thead>
@@ -91,11 +91,19 @@
                     <td>{{ $item->instruktur->nip }}</td>
                     <td>{{ $item->instruktur->user->name }}</td>
                     <td>{{ $item->instruktur->instansi($item->instruktur)->nama_instansi }}</td>
-                    <td>{{ config('addon.label.jabatan.'.$item->instruktur->pangkat) ?? '-' }}</td>
+                    <td>{{ $item->instruktur->pangkat }}</td>
                     <td>{{ $item->mata->bahan()->where('creator_id', $item->instruktur->user->id)->count() }}</td>
                     <td>
                         @if (!empty($item->kode_evaluasi))
                         {{ $item->kode_evaluasi }}
+                        <button type="button" class="btn btn-primary icon-btn btn-sm modals-evaluasi" data-toggle="modal" data-target="#modals-evaluasi-form" title="klik untuk mengubah kode evaluasi"
+                            data-id="{{ $item->id }}"
+                            data-mataid="{{ $item->mata_id }}"
+                            data-name="{{ $item->instruktur->user->name  }}"
+                            data-evaluasi="{{ $item->kode_evaluasi  }}"
+                        >
+                            <i class="las la-pen"></i>
+                        </button>
                         @else
                         <button type="button" class="btn btn-primary btn-sm modals-evaluasi" data-toggle="modal" data-target="#modals-evaluasi-form" title="klik untuk menambahkan kode evaluasi"
                             data-id="{{ $item->id }}"
@@ -148,6 +156,10 @@
                                     <div class="desc-table">{{ $item->instruktur->instansi($item->instruktur)->nama_instansi }}</div>
                                 </div>
                                 <div class="item-table">
+                                    <div class="data-table">Jabatan</div>
+                                    <div class="desc-table">{{ $item->instruktur->pangkat }}</div>
+                                </div>
+                                <div class="item-table">
                                     <div class="data-table">Materi Upload</div>
                                     <div class="desc-table">{{ $item->mata->bahan()->where('creator_id', $item->instruktur->user->id)->count() }}</div>
                                 </div>
@@ -156,6 +168,14 @@
                                     <div class="desc-table">
                                         @if (!empty($item->kode_evaluasi))
                                         {{ $item->kode_evaluasi }}
+                                        <button type="button" class="btn btn-primary icon-btn btn-sm modals-evaluasi" data-toggle="modal" data-target="#modals-evaluasi-form" title="klik untuk mengubah kode evaluasi"
+                                            data-id="{{ $item->id }}"
+                                            data-mataid="{{ $item->mata_id }}"
+                                            data-name="{{ $item->instruktur->user->name  }}"
+                                            data-evaluasi="{{ $item->kode_evaluasi  }}"
+                                        >
+                                            <i class="las la-pen"></i>
+                                        </button>
                                         @else
                                         <button type="button" class="btn btn-primary btn-sm modals-evaluasi" data-toggle="modal" data-target="#modals-evaluasi-form" title="klik untuk menambahkan kode evaluasi"
                                             data-id="{{ $item->id }}"
@@ -275,10 +295,12 @@
         var id = $(this).data('id');
         var mata_id = $(this).data('mataid');
         var name = $(this).data('name');
+        var evaluasi = $(this).data('evaluasi');
         var url = '/mata/'+ mata_id +'/instruktur/' + id;
 
         $(".modal-dialog #form-evaluasi").attr('action', url);
         $('.modal-body #name').val(name);
+        $('.modal-body #kode_evaluasi').val(evaluasi);
     });
 </script>
 

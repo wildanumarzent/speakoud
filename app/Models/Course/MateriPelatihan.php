@@ -3,6 +3,7 @@
 namespace App\Models\Course;
 
 use App\Models\Course\Bahan\BahanPelatihan;
+use App\Models\Course\Bahan\BahanQuiz;
 use App\Models\Users\Instruktur;
 use App\Models\Users\User;
 use Illuminate\Database\Eloquent\Model;
@@ -41,6 +42,11 @@ class MateriPelatihan extends Model
     public function bahan()
     {
         return $this->hasMany(BahanPelatihan::class, 'materi_id');
+    }
+
+    public function quiz()
+    {
+        return $this->hasMany(BahanQuiz::class, 'materi_id');
     }
 
     public function bahanPublish($tipe = null)

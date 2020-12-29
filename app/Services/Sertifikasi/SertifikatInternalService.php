@@ -76,6 +76,7 @@ class SertifikatInternalService
         $GLOBALS['tanggal'] = $mata->sertifikatInternal->tanggal->format('d F Y');
         $GLOBALS['nama_pimpinan'] = $mata->sertifikatInternal->nama_pimpinan;
         $GLOBALS['jabatan'] = $mata->sertifikatInternal->jabatan;
+        $GLOBALS['foto'] = public_path('userfile/photo/sertifikat/'.auth()->user()->peserta->foto_sertifikat);
 
         $template = public_path('userfile\certificate\template-A.docx');
         $TBS->LoadTemplate($template, OPENTBS_ALREADY_UTF8);

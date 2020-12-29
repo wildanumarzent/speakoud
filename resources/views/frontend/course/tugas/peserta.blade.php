@@ -58,13 +58,19 @@
                     <th>Nama</th>
                     <th>Keterangan</th>
                     <th>Tanggal Pengumpulan</th>
+                    @if ($data['tugas']->approval == 1)
+                    <th>Status</th>
+                    <th>Tanggal Approve</th>
+                    <th>Di Approve Oleh</th>
+                    <th style="width: 115px;">Approval</th>
+                    @endif
                     <th style="width: 120px;">Aksi</th>
                 </tr>
             </thead>
             <tbody>
                 @if ($data['peserta']->total() == 0)
                 <tr>
-                    <td colspan="6" align="center">
+                    <td colspan="9" align="center">
                         <i><strong style="color:red;">
                         @if (Request::get('q'))
                         ! Peserta tidak ditemukan !
@@ -82,6 +88,44 @@
                     <td>{{ $item->user->name }}</td>
                     <td>{{ $item->keterangan ?? '-' }}</td>
                     <td>{{ $item->created_at->format('d F Y (H:i A)') }}</td>
+                    @if ($data['tugas']->approval == 1)
+                    <td>
+                        @if ($item->approval == '0')
+                            <span class="badge badge-danger">Di Tolak</span>
+                        @elseif ($item->approval == '1')
+                            <span class="badge badge-success">Di Approve</span>
+                        @else
+                            <span class="badge badge-secondary">Belum di Approve</span>
+                        @endif
+                    </td>
+                    <td>{{ !empty($item->approval_time) ? $item->approval_time->format('d F Y H:i') : '-' }}</td>
+                    <td>{{ !empty($item->approval_by) ? $item->approvedBy->name : '-' }}</td>
+                    <td>
+                        @if ($data['tugas']->approval == 1 && $item->approval >= '0')
+                        <a href="javascript:void(0);" class="btn icon-btn btn-secondary btn-sm" title="klik untuk approve" disabled>
+                            <i class="las la-check"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="btn icon-btn btn-secondary btn-sm" title="klik untuk tolak" disabled>
+                            <i class="las la-times"></i>
+                        </a>
+                        @else
+                        <a href="javascript:void(0);" class="btn icon-btn btn-success btn-sm approve" title="klik untuk approve">
+                            <i class="las la-check"></i>
+                            <form action="{{ route('tugas.approval', ['id' => $item->tugas_id, 'responId' => $item->id, 'status' => 1]) }}" method="POST" class="form-approve">
+                                @csrf
+                                @method('PUT')
+                            </form>
+                        </a>
+                        <a href="javascript:void(0);" class="btn icon-btn btn-danger btn-sm tolak" title="klik untuk tolak">
+                            <i class="las la-times"></i>
+                            <form action="{{ route('tugas.approval', ['id' => $item->tugas_id, 'responId' => $item->id, 'status' => 0]) }}" method="POST" class="form-tolak">
+                                @csrf
+                                @method('PUT')
+                            </form>
+                        </a>
+                        @endif
+                    </td>
+                    @endif
                     <td>
                         <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modals-dokumen-{{ $item->id }}" title="klik untuk melihat tugas">
                             <i class="las la-file"></i> <span>Dokumen</span>
@@ -112,6 +156,47 @@
 <script src="{{ asset('assets/tmplts_backend/vendor/libs/sweetalert2/sweetalert2.js') }}"></script>
 @endsection
 @section('jsbody')
+<script>
+    $('.approve').click(function(e)
+    {
+        e.preventDefault();
+        var url = $(this).attr('href');
+        Swal.fire({
+        title: "Apakah anda yakin akan approve tugas ini ?",
+        text: "",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Ya, Approve!',
+        cancelButtonText: "Tidak, terima kasih",
+        }).then((result) => {
+        if (result.value) {
+            $(".form-approve").submit();
+        }
+        })
+    });
+
+    $('.tolak').click(function(e)
+    {
+        e.preventDefault();
+        var url = $(this).attr('href');
+        Swal.fire({
+        title: "Apakah anda yakin akan tolak tugas ini ?",
+        text: "",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Ya, Tolak!',
+        cancelButtonText: "Tidak, terima kasih",
+        }).then((result) => {
+        if (result.value) {
+            $(".form-tolak").submit();
+        }
+        })
+    });
+</script>
 @include('components.toastr')
 @endsection
 

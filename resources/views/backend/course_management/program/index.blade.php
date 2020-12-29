@@ -89,7 +89,7 @@
               <div class="my-2">
                 <div class="row">
                     <div class="col-md-8">
-                        {!! !empty($item->keterangan) ? Str::limit(strip_tags($item->keterangan), 120) : '-' !!}
+                        {!! Str::limit(strip_tags($item->keterangan), 120) !!}
                     </div>
                     <div class="col-md-4 text-right">
                         @if ($item->publish == 0 && $item->mata()->count() > 0 && $item->materi()->count() > 0)
@@ -122,6 +122,7 @@
               </div>
               <div class="small">
                 <span class="text-muted ml-3"><i class="las la-user text-lighter text-big align-middle"></i>&nbsp; {{ $item->creator->name }}</span>
+                <span class="text-muted ml-3"><i class="las la-book-open text-lighter text-big align-middle"></i>&nbsp; {{ $item->tipe == 0 ? 'BPPT' : 'Mitra' }}</span>
                 <span class="text-muted ml-3"><i class="las la-calendar text-lighter text-big align-middle"></i>&nbsp; {{ $item->created_at->format('d/m/Y H:i') }}</span>
                 <span class="text-muted ml-3"><i class="las la-calendar text-lighter text-big align-middle"></i>&nbsp; {{ $item->updated_at->format('d/m/Y H:i') }}</span>
               </div>

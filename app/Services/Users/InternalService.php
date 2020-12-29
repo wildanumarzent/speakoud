@@ -42,8 +42,6 @@ class InternalService
                 $queryA->whereHas('user', function (Builder $queryB) use ($q) {
                     $queryB->where('name', 'ilike', '%'.$q.'%')
                         ->orWhere('username', 'ilike', '%'.$q.'%');
-                })->orWhereHas('instansi', function (Builder $queryC) use ($q) {
-                    $queryC->orWhere('nama_instansi', 'ilike', '%'.$q.'%');
                 })->orWhere('nip', 'ilike', '%'.$q.'%')
                 ->orWhere('kedeputian', 'ilike', '%'.$q.'%');
             });
@@ -190,7 +188,7 @@ class InternalService
         $files = BankData::where('owner_id', $internal->user_id)->count();
         $program = ProgramPelatihan::where('creator_id', $internal->user_id)->count();
 
-        if ($instansiMitra > 0 || $mitra > 0 || $instruktur > 0 || $peserta > 0 || 
+        if ($instansiMitra > 0 || $mitra > 0 || $instruktur > 0 || $peserta > 0 ||
             $files > 0 || $program > 0) {
 
             return false;

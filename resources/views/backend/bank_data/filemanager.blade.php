@@ -57,6 +57,7 @@
             </div>
         </div>
         @endif
+        @if (empty(Request::get('q')))
         @foreach ($data['directories'] as $key => $value)
         <div class="file-item">
             <a href="{{ route('bank.data.filemanager', ['type-file' => Request::get('type-file'), 'view' => Request::get('view'), 'path' => $value['path']]) }}">
@@ -67,6 +68,7 @@
             </a>
         </div>
         @endforeach
+        @endif
         @foreach ($data['files'] as $key => $file)
         <div class="file-item only">
             @if (Request::get('view') == 'text-editor')
@@ -89,7 +91,7 @@
             </a>
         </div>
         @endforeach
-        @if (count($data['directories']) == 0 && count($data['files']) == 0)
+        @if (empty(Request::get('q')) ? count($data['directories']) == 0 && count($data['files']) == 0 : count($data['files']) == 0)
         <div class="file-item">
             <div class="file-item-icon las la-ban text-danger"></div>
             <div class="file-item-name">

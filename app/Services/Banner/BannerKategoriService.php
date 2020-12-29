@@ -20,7 +20,7 @@ class BannerKategoriService
 
         $query->when($request->q, function ($query, $q) {
             $query->where(function ($query) use ($q) {
-                $query->where('judul', 'like', '%'.$q.'%');
+                $query->where('judul', 'ilike', '%'.$q.'%');
             });
         });
 
@@ -58,15 +58,20 @@ class BannerKategoriService
     {
         $kategori = $this->findBannerKategori($id);
 
-        $banner = $kategori->banner;
-        foreach ($banner as $key) {
-            $path = public_path('userfile/banner/'.$id.'/'.$key->file) ;
-            File::delete($path);
+        if ($kategori->banner->count() > 0) {
+            return false;
+        } else {
+            $banner = $kategori->banner;
+            foreach ($banner as $key) {
+                $path = public_path('userfile/banner/'.$id.'/'.$key->file) ;
+                File::delete($path);
+            }
+
+            $kategori->banner()->delete();
+            $kategori->delete();
+
+            return true;
         }
 
-        $kategori->banner()->delete();
-        $kategori->delete();
-
-        return $kategori;
     }
 }

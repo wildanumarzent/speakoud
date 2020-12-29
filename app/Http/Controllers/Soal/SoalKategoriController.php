@@ -107,12 +107,22 @@ class SoalKategoriController extends Controller
         $kategori = $this->service->findKategoriSoal($id);
         $this->checkCreator($kategori->creator_id);
 
-        $this->service->deleteKategoriSoal($id);
+        $delete = $this->service->deleteKategoriSoal($id);
 
-        return response()->json([
-            'success' => 1,
-            'message' => ''
-        ], 200);
+        if ($delete == true) {
+
+            return response()->json([
+                'success' => 1,
+                'message' => ''
+            ], 200);
+
+        } else {
+
+            return response()->json([
+                'success' => 0,
+                'message' => 'Kategori tidak bisa dihapus dikarenakan masih memiliki soal didalamnya'
+            ], 200);
+        }
     }
 
     public function checkCreator($creatorId)

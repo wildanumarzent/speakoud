@@ -24,9 +24,8 @@ class UploadTugasRequest extends FormRequest
     public function rules()
     {
         return [
-            // 'keterangan' => 'required',
             'files' => 'required|array',
-            'files.*' => 'required|distinct|max:50000|mimes:'.config('addon.mimes.tugas.m'),
+            'files.*' => 'required|max:50000|distinct|mimes:'.config('addon.mimes.tugas.m'),
         ];
     }
 

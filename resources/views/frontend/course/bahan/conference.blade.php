@@ -104,7 +104,7 @@
          <tr>
              <th colspan="2" class="text-center">
                 <strong class="text-center">Klik tombol dibawah untuk {{ auth()->user()->hasRole('peserta_internal|peserta_mitra') ? 'mengikuti' : 'memulai' }} video conference!</strong><br>
-                @if (now()->format('Y-m-d') < $data['bahan']->conference->tanggal && now() < $data['bahan']->conference->start_time || now()->format('Y-m-d') < $data['bahan']->conference->tanggal && now() >= $data['bahan']->conference->end_time)
+                @if (now()->format('Y-m-d') < $data['bahan']->conference->tanggal && now() < $data['bahan']->conference->start_time || now() >= $data['bahan']->conference->end_time )
                 <button class="btn btn-secondary btn-block" type="button" disabled><i class="las la-play-circle"></i> Mulai</button>
                 @else
                     @if ($data['bahan']->conference->tipe == 0)

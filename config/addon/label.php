@@ -18,56 +18,86 @@ return [
             'title' => 'Forum',
             'get' => 'forum',
             'description' => '',
-            'icon' => 'comments'
+            'icon' => 'comments',
+            'child' => '',
         ],
         1 => [
             'title' => 'Dokumen',
             'get' => 'dokumen',
             'description' => '',
-            'icon' => 'file'
+            'icon' => 'file',
+            'child' => '',
         ],
         2 => [
             'title' => 'Video Conference',
             'get' => 'conference',
             'description' => '',
-            'icon' => 'video'
+            'icon' => 'video',
+            'child' => '',
         ],
         3 => [
             'title' => 'Quiz',
             'get' => 'quiz',
             'description' => '',
-            'icon' => 'spell-check'
+            'icon' => 'spell-check',
+            'child' => [
+                0 => [
+                    'title' => 'Pre Test',
+                    'get' => 1,
+                    'icon' => 'project-diagram',
+                ],
+                1 => [
+                    'title' => 'Post Test',
+                    'get' => 2,
+                    'icon' => 'project-diagram',
+                ]
+            ]
         ],
         4 => [
             'title' => 'Scorm Package',
             'get' => 'scorm',
             'description' => '',
-            'icon' => 'archive'
+            'icon' => 'archive',
+            'child' => '',
         ],
         5 => [
             'title' => 'Audio',
             'get' => 'audio',
             'description' => '',
-            'icon' => 'file-audio'
+            'icon' => 'file-audio',
+            'child' => '',
         ],
         6 => [
             'title' => 'Video',
             'get' => 'video',
             'description' => '',
-            'icon' => 'file-video'
+            'icon' => 'file-video',
+            'child' => '',
         ],
         7 => [
             'title' => 'Tugas',
             'get' => 'tugas',
             'description' => '',
-            'icon' => 'briefcase'
+            'icon' => 'briefcase',
+            'child' => '',
         ],
         8 => [
             'title' => 'Evaluasi Pengajar',
             'get' => 'evaluasi-pengajar',
             'description' => '',
-            'icon' => 'user-tie'
+            'icon' => 'user-tie',
+            'child' => '',
         ],
+    ],
+    'bahan_completion' => [
+        0 => 'No Condition',
+        1 => 'Manual User Action',
+        2 => 'On View',
+        3 => 'Timer',
+    ],
+    'bahan_restrict' => [
+        0 => 'Requirement',
+        1 => 'Tanggal',
     ],
     'forum_tipe' => [
         0 => [
@@ -80,13 +110,14 @@ return [
         ],
     ],
     'quiz_kategori' => [
-        0 => 'PRE TEST',
-        1 => 'PROGRESS TEST',
-        2 => 'POST TEST'
+        1 => 'PRE TEST',
+        2 => 'POST TEST',
+        3 => 'PROGRESS TEST',
+        4 => 'LATIHAN'
     ],
     'quiz_tipe' => [
+        1 => 'Tidak bisa diulang',
         0 => 'Bisa diulang',
-        1 => 'Tidak bisa diulang'
     ],
     'quiz_item_tipe' => [
         0 => [
@@ -104,6 +135,10 @@ return [
         3 => [
             'code' => 'true_false',
             'title' => 'True / False',
+            'choice' => [
+                1 => 'TRUE',
+                0 => 'FALSE',
+            ]
         ],
     ],
     'quiz_view' => [

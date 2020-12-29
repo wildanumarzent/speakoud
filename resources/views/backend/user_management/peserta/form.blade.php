@@ -155,6 +155,23 @@
                     </div>
                     <div class="form-group row">
                         <div class="col-md-2 text-md-right">
+                          <label class="col-form-label text-sm-right">Foto Sertifikat</label>
+                        </div>
+                        <div class="col-md-10">
+                            <label class="custom-file-label mt-1" for="file-6"></label>
+                            @if (isset($data['peserta']))
+                                <input type="hidden" name="old_foto_sertifikat" value="{{ $data['peserta']->foto_sertifikat }}">
+                                @if (!empty($data['peserta']->foto_sertifikat))
+                                <small class="text-muted">File Sebelumnya : <a href="{{ asset('userfile/photo/sertifikat/'.$data['peserta']->foto_sertifikat)}}">Download</a></small><br>
+                                @endif
+                            @endif
+                            <input type="file" class="form-control custom-file-input file @error('foto_sertifikat') is-invalid @enderror" type="file" id="file-6" lang="en" name="foto_sertifikat" value="browse...">
+                            @include('components.field-error', ['field' => 'foto_sertifikat'])
+                            <small class="text-muted">Tipe Foto Sertifikat : <strong>{{ strtoupper(config('addon.mimes.photo.m')) }}</strong>, Maksimal Upload <strong>1 MB</strong>, Latar harus berwarna merah</small>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-2 text-md-right">
                           <label class="col-form-label text-sm-right">Surat Keterangan CPNS</label>
                         </div>
                         <div class="col-md-10">

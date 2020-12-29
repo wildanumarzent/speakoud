@@ -1,11 +1,11 @@
-<?php 
+<?php
 
 return [
 	'title_header' => 'BELS',
 	'banner_welcome' => 'Selamat datang di',
 	'widget_1_title' => 'Program Pelatihan',
 	'widget_1_description' => 'Beragam pilihan program pelatihan e-learning yang tersedia saat ini',
-	'widget_1_button' => 'Ikuti',
+	'widget_1_button' => 'Detail',
 	'widget_1_button_2' => 'Lihat Lainnya',
 	'widget_2_title' => 'Acara Mendatang',
 	'widget_2_title_2' => 'Jadwal Pelatihan',

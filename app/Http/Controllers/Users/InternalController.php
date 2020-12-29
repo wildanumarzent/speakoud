@@ -85,7 +85,7 @@ class InternalController extends Controller
         $this->service->updateInternal($request, $id);
 
         return redirect()->route('internal.index')
-            ->with('success', 'User internal berhasil diedit');
+            ->with('success', 'User internal berhasil diubah');
     }
 
     public function softDelete($id)
@@ -93,14 +93,14 @@ class InternalController extends Controller
         $delete = $this->service->softDeleteInternal($id);
 
         if ($delete == true) {
-            
+
             return response()->json([
                 'success' => 1,
                 'message' => ''
             ], 200);
 
         } else {
-            
+
             return response()->json([
                 'success' => 0,
                 'message' => 'User tidak bisa dihapus, dikarenakan masih memiliki data yang bersangkutan'

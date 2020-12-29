@@ -38,7 +38,7 @@ class MateriService
             $query->where('instruktur_id', $request->i);
         }
 
-        $result = $query->orderBy('urutan', 'ASC')->paginate(9);
+        $result = $query->orderBy('urutan', 'ASC')->paginate(10);
 
         return $result;
     }
@@ -160,12 +160,12 @@ class MateriService
         $materi = $this->findMateri($id);
 
         if ($materi->bahan->count() > 0) {
-            
+
             return false;
         } else {
-            
+
             $materi->delete();
-    
+
             return true;
         }
     }

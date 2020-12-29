@@ -75,7 +75,7 @@
                 </td>
                 <td>
                     <a class="text-muted small text-truncate">
-                        by <strong>{{ Str::limit($item->creator['name'], 20) }}</strong> <br>
+                        Oleh <strong>{{ Str::limit($item->creator['name'], 20) }}</strong> <br>
                         {{ $item->created_at->diffForHumans() }}
                     </a>
                 </td>
@@ -200,5 +200,9 @@
         })
     });
 </script>
-@include('includes.tiny-mce-with-fileman')
+@role ('peserta_internal|peserta_mitra')
+    @include('includes.tiny-mce')
+@else
+    @include('includes.tiny-mce-with-fileman')
+@endrole
 @endsection

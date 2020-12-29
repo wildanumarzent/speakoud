@@ -41,108 +41,54 @@
 </div>
 <br>
 
-<div class="row">
-
-    @foreach ($data['jadwal'] as $item)
-    <div class="col-sm-6 col-xl-4">
-        <div class="card card-list">
-            <div class="card-body d-flex justify-content-between align-items-start pb-1">
-                <div>
-                    <a href="javascript:;" class="text-body text-big font-weight-semibold" title="{!! $item->judul !!}">{!! Str::limit($item->judul, 80) !!}</a>
-                </div>
-                <div class="btn-group project-actions dropdown">
-                    <button type="button" class="btn btn-sm btn-default icon-btn dropdown-toggle hide-arrow  btn-toggle-radius" data-toggle="dropdown" aria-expanded="false">
-                        <i class="ion ion-ios-more"></i>
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; will-change: top, left; top: 26px; left: 26px;">
-                        <a class="dropdown-item" href="{{ route('jadwal.edit', ['id' => $item->id]) }}" title="klik untuk mengedit jadwal pelatihan">
-                          <i class="las la-pen"></i> Ubah
-                        </a>
-                        @if (auth()->user()->hasRole('developer|administrator') || $item->creator_id == auth()->user()->id)
-                        <a class="dropdown-item js-sa2-delete" href="javascript:void(0);" data-id="{{ $item->id }}" title="klik untuk menghapus jadwal pelatihan">
-                          <i class="las la-trash-alt"></i> Hapus
-                        </a>
-                        @endif
-                        <a class="dropdown-item" href="javascript:void(0);" onclick="$(this).find('form').submit();" title="klik untuk {{ $item->publish == 0 ? 'publish' : 'draft' }} jadwal pelatihan">
-                            <i class="las la-{{ $item->publish == 0 ? 'eye' : 'eye-slash' }} "></i> {{ $item->publish == 1 ? 'Draft' : 'Publish' }}
-                            <form action="{{ route('jadwal.publish', ['id' => $item->id]) }}" method="POST">
-                              @csrf
-                              @method('PUT')
-                            </form>
-                        </a>
+@foreach ($data['jadwal'] as $item)
+<div class="card">
+    <div class="p-4 p-md-5 d-xl-flex justify-content-between align-items-center">
+        <div class="box-pertemuan">
+            <a href="javascript:;" class="text-body text-large font-weight-semibold" title="{!! $item->judul !!}">{!! Str::limit($item->judul, 80) !!} <span class="badge badge-secondary">{{ $item->publish == 1 ? 'Publish' : 'Draft' }}</span></a>
+            <div class="d-flex flex-wrap mt-3">
+                <div class="mr-3"><i class="vacancy-tooltip las la-user text-light"></i>&nbsp; {{ $item->creator->name }}</div>
+                <div class="mr-3"><i class="vacancy-tooltip las la-eye text-light"></i>&nbsp; {{ $item->mata->judul }}</div>
+                <div class="mr-3"><i class="vacancy-tooltip las la-map-pin text-light"></i>&nbsp; {{ $item->lokasi ?? '-' }}</div>
+            </div>
+            <hr class="">
+            <div class="mt-3 mb-4">
+                <div class="row">
+                    <div class="col-4 col-md-4">
+                        <span class="text-muted small">Tanggal Mulai :</span><br>
+                        <span><strong>{{ $item->start_date->format('d F Y') }}</strong></span>
+                    </div>
+                    <div class="col-4 col-md-4">
+                        <span class="text-muted small">Tanggal Selesai :</span><br>
+                        <span><strong>{{ $item->end_date->format('d F Y') }}</strong></span>
+                    </div>
+                    <div class="col-4 col-md-4">
+                        <span class="text-muted small">Jam :</span><br>
+                        <span><strong>{{ \Carbon\Carbon::parse($item->start_time)->format('H:i').' s/d '.\Carbon\Carbon::parse($item->end_time)->format('H:i') }}</strong></span>
                     </div>
                 </div>
             </div>
-            <div class="card-body pb-3">
-                <table class="table table-bordered mb-2">
-                    <tr>
-                        <th style="width:150px;">Pembuat</th>
-                        <td>{{ $item->creator['name'] }}</td>
-                    </tr>
-                    <tr>
-                        <th style="width:150px;">Mata Pelatihan</th>
-                        <td>{{ $item->mata->judul }}</td>
-                    </tr>
-                    <tr>
-                        <th style="width:150px;">Tanggal Mulai</th>
-                        <td>{{ $item->start_date->format('d F Y') }}</td>
-                    </tr>
-                    <tr>
-                        <th style="width:150px;">Tanggal Selesai</th>
-                        <td>{{ $item->end_date->format('d F Y') }}</td>
-                    </tr>
-                    <tr>
-                        <th style="width:150px;">Jam</th>
-                        <td>{{ \Carbon\Carbon::parse($item->start_time)->format('H:i').' s/d '.\Carbon\Carbon::parse($item->end_time)->format('H:i') }}</td>
-                    </tr>
-                    <tr>
-                        <th style="width:150px;">Lokasi</th>
-                        <td>{{ $item->lokasi ?? '-' }}</td>
-                    </tr>
-                    <tr>
-                        <th>Status</th>
-                        <td><span class="badge badge-outline-{{ $item->publish == 1 ? 'primary' : 'warning' }}">{{ $item->publish == 1 ? 'Publish' : 'Draft' }}</span></td>
-                    </tr>
-                    <tr>
-                        <th>Aksi</th>
-                        <td>
-                            <a class="btn btn-info btn-block btn-sm" href="{{ route('jadwal.edit', ['id' => $item->id]) }}" title="klik untuk mengedit jadwal pelatihan">
-                                <i class="las la-pen"></i> Ubah
-                            </a>
-                            @if (auth()->user()->hasRole('developer|administrator') || $item->creator_id == auth()->user()->id)
-                            <a class="btn btn-danger btn-block btn-sm js-sa2-delete" href="javascript:void(0);" data-id="{{ $item->id }}" title="klik untuk menghapus jadwal pelatihan">
-                                <i class="las la-trash-alt"></i> Hapus
-                            </a>
-                            @endif
-                            <a class="btn btn-secondary btn-block btn-sm" href="javascript:void(0);" onclick="$(this).find('form').submit();" title="klik untuk {{ $item->publish == 0 ? 'publish' : 'draft' }} jadwal pelatihan">
-                                <i class="las la-{{ $item->publish == 0 ? 'eye' : 'eye-slash' }} "></i> {{ $item->publish == 0 ? 'Publish' : 'Draft' }}
-                                <form action="{{ route('jadwal.publish', ['id' => $item->id]) }}" method="POST">
-                                @csrf
-                                @method('PUT')
-                                </form>
-                            </a>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-            <hr class="m-0 mb-2">
-            <div class="card-body pt-0">
-                <div class="row">
-                  <div class="col">
-                    <div class="text-muted small">Tanggal Dibuat</div>
-                    <div class="font-weight-bold">{{ $item->created_at->format('d/m/Y H:i') }}</div>
-                  </div>
-                  <div class="col">
-                    <div class="text-muted small">Tanggal Diperbarui</div>
-                    <div class="font-weight-bold">{{ $item->updated_at->format('d/m/Y H:i') }}</div>
-                  </div>
-                </div>
-            </div>
+        </div>
+        <div class="box-btn text-right">
+            <a class="btn btn-info icon-btn-only-sm btn-sm-only" href="{{ route('jadwal.edit', ['id' => $item->id]) }}" title="klik untuk mengedit jadwal pelatihan">
+                <i class="las la-pen"></i> Ubah
+            </a>
+            @if (auth()->user()->hasRole('developer|administrator') || $item->creator_id == auth()->user()->id)
+            <a class="btn btn-danger icon-btn-only-sm btn-sm-only js-sa2-delete" href="javascript:void(0);" data-id="{{ $item->id }}" title="klik untuk menghapus jadwal pelatihan">
+                <i class="las la-trash-alt"></i> Hapus
+            </a>
+            @endif
+            <a class="btn btn-secondary icon-btn-only-sm btn-sm-only" href="javascript:void(0);" onclick="$(this).find('form').submit();" title="klik untuk {{ $item->publish == 0 ? 'publish' : 'draft' }} jadwal pelatihan">
+                <i class="las la-{{ $item->publish == 0 ? 'eye' : 'eye-slash' }} "></i> {{ $item->publish == 0 ? 'Publish' : 'Draft' }}
+                <form action="{{ route('jadwal.publish', ['id' => $item->id]) }}" method="POST">
+                @csrf
+                @method('PUT')
+                </form>
+            </a>
         </div>
     </div>
-    @endforeach
-
 </div>
+@endforeach
 
 @if ($data['jadwal']->total() == 0)
 <div class="card">

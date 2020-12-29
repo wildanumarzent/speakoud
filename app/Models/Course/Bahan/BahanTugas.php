@@ -2,6 +2,7 @@
 
 namespace App\Models\Course\Bahan;
 
+use App\Models\BankData;
 use App\Models\Course\MataPelatihan;
 use App\Models\Course\MateriPelatihan;
 use App\Models\Course\ProgramPelatihan;
@@ -14,7 +15,7 @@ class BahanTugas extends Model
     protected $guarded = [];
 
     protected $casts = [
-        'files' => 'array',
+        'bank_data_id' => 'array',
     ];
 
     public function creator()
@@ -50,5 +51,10 @@ class BahanTugas extends Model
     public function responByUser()
     {
         return $this->hasOne(BahanTugasRespon::class, 'tugas_id')->where('user_id', auth()->user()->id);
+    }
+
+    public function files($bankDataId)
+    {
+        return BankData::whereIn('id', $bankDataId)->get();
     }
 }

@@ -12,29 +12,42 @@
             </div>
             <div class="modal-body">
                 @foreach (config('addon.label.bahan_tipe') as $key => $value)
-                @if ($value['get'] != 'evaluasi-pengajar')
-                <a href="{{ route('bahan.create', ['id' => $data['materi']->id, 'type' => $value['get']]) }}" class="media text-body px-3" title="create bahan dengan tipe forum">
-                    <div class="box-materi py-3">
-                        <div class="dot-circle"></div>
-                        <div class="media-body ml-3">
-                          <h6 class="mb-1"><i class="las la-{{ $value['icon'] }} mr-2" style="font-size: 2em;"></i> {{ $value['title'] }}</h6>
-                          <div class="text-muted small">{{ $value['description'] }}</div>
+                    @if ($value['get'] != 'evaluasi-pengajar')
+                    <a href="{{ route('bahan.create', ['id' => $data['materi']->id, 'type' => $value['get']]) }}" class="media text-body px-3" title="create bahan dengan tipe forum">
+                        <div class="box-materi py-3">
+                            <div class="dot-circle"></div>
+                            <div class="media-body ml-3">
+                            <h6 class="mb-1"><i class="las la-{{ $value['icon'] }} mr-2" style="font-size: 2em;"></i> {{ $value['title'] }}</h6>
+                            <div class="text-muted small">{{ $value['description'] }}</div>
+                            </div>
                         </div>
-                    </div>
-                </a>
-                @else
-                @role ('administrator|internal|mitra')
-                <a href="{{ route('bahan.create', ['id' => $data['materi']->id, 'type' => $value['get']]) }}" class="media text-body px-3" title="create bahan dengan tipe forum">
-                    <div class="box-materi py-3">
-                        <div class="dot-circle"></div>
-                        <div class="media-body ml-3">
-                          <h6 class="mb-1"><i class="las la-{{ $value['icon'] }} mr-2" style="font-size: 2em;"></i> {{ $value['title'] }}</h6>
-                          <div class="text-muted small">{{ $value['description'] }}</div>
-                        </div>
-                    </div>
-                </a>
-                @endrole
-                @endif
+                    </a>
+                    @if (!empty($value['child']))
+                        @foreach ($value['child'] as $keyT => $valT)
+                        <a href="{{ route('bahan.create', ['id' => $data['materi']->id, 'type' => $value['get'], 'kategori' => $valT['get']]) }}" class="media text-body px-3" title="create bahan tipe quiz dengan kategori {{ $valT['title'] }}">
+                            <div class="box-materi py-3">
+                                <div class="dot-circle"></div>
+                                <div class="media-body ml-3">
+                                <h6 class="mb-1"><i class="las la-{{ $valT['icon'] }} mr-2" style="font-size: 2em;"></i> -----<em>{{ $valT['title'] }}</em></h6>
+                                <div class="text-muted small"></div>
+                                </div>
+                            </div>
+                        </a>
+                        @endforeach
+                    @endif
+                    @else
+                        @role ('administrator|internal|mitra')
+                        <a href="{{ route('bahan.create', ['id' => $data['materi']->id, 'type' => $value['get']]) }}" class="media text-body px-3" title="create bahan dengan tipe forum">
+                            <div class="box-materi py-3">
+                                <div class="dot-circle"></div>
+                                <div class="media-body ml-3">
+                                <h6 class="mb-1"><i class="las la-{{ $value['icon'] }} mr-2" style="font-size: 2em;"></i> {{ $value['title'] }}</h6>
+                                <div class="text-muted small">{{ $value['description'] }}</div>
+                                </div>
+                            </div>
+                        </a>
+                        @endrole
+                    @endif
                 @endforeach
             </div>
             <div class="modal-footer">

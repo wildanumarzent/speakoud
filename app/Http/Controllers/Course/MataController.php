@@ -157,6 +157,10 @@ class MataController extends Controller
             if ($data['read']->program->publish == 0 || $data['read']->publish == 0) {
                 return abort(404);
             }
+
+            if (now() < $data['read']->publish_start) {
+                return abort(404);
+            }
         }
 
         $this->serviceProgram->checkAdmin($data['read']->program_id);
@@ -177,9 +181,6 @@ class MataController extends Controller
                 }
             }
         }
-
-        // $ins = $data['read']->materi()->select('instruktur_id')->groupBy('instruktur_id')->get();
-        // dd($ins);
 
         return view('frontend.course.detail', compact('data'), [
             'title' => $data['read']->judul,

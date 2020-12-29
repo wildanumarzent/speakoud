@@ -58,6 +58,10 @@ class SertifikatInternalController extends Controller
 
     public function cetak($mataId, $sertifikatId)
     {
+        if (empty(auth()->user()->peserta->foto_sertifikat)) {
+            return back()->with('warning', 'Upload foto sertifikat terlebih dahulu di profile anda');
+        }
+
         $this->service->cetakSertifikat($mataId, $sertifikatId);
 
         return back()->with('success', 'berhasil cetak sertifikat, silahkan untuk mendownload');

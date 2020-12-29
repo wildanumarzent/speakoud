@@ -85,17 +85,19 @@
                 </div>
                 @if (isset($data['page']))
                     <input type="hidden" name="old_cover_file" value="{{ $data['page']->cover['filename'] }}">
-                    <div class="col-md-1">
-                        <a href="{{ $data['page']->getCover($data['page']->cover['filename']) }}" data-fancybox="gallery">
-                            <div class="ui-bg-cover" style="width: 100px;height: 100px;background-image: url('{{ $data['page']->getCover($data['page']->cover['filename']) }}');"></div>
-                        </a>
-                    </div>
                 @endif
-                <div class="col-md-{{ isset($data['page']) ? '9' : '10' }}">
+                <div class="col-md-10">
                     <label class="custom-file-label" for="upload-2"></label>
                     <input class="form-control custom-file-input file @error('cover_file') is-invalid @enderror" type="file" id="upload-2" lang="en" name="cover_file" placeholder="masukan cover...">
                     @include('components.field-error', ['field' => 'cover_file'])
                     <small class="text-muted">Tipe File : <strong>{{ strtoupper(config('addon.mimes.cover.m')) }}</strong></small>
+                    @if (isset($data['page']))
+                        <div class="col-md-1">
+                            <a href="{{ $data['page']->getCover($data['page']->cover['filename']) }}" data-fancybox="gallery">
+                                <div class="ui-bg-cover" style="width: 100px;height: 100px;background-image: url('{{ $data['page']->getCover($data['page']->cover['filename']) }}');"></div>
+                            </a>
+                        </div>
+                    @endif
                     <div class="row mt-3 hide-meta">
                         <div class="col-md-6">
                             <input type="text" class="form-control" name="cover_title" value="{{ isset($data['page']) ? old('cover_title', $data['page']->cover['title']) : old('cover_title') }}" placeholder="title cover...">

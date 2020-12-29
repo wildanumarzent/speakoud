@@ -54,13 +54,15 @@
 </div>
 <!-- / Filters -->
 
-<div class="card">
+<a href="{{ route('user.index') }}" class="btn btn-secondary icon-btn-only-sm" title="klik untuk kembali ke list user">
+    <i class="las la-arrow-left"></i><span>Kembali</span>
+</a>
+
+<div class="card mt-2">
     <div class="card-header with-elements">
         <h5 class="card-header-title mt-1 mb-0">Tong Sampah Users</h5>
         <div class="card-header-elements ml-auto">
-            <a href="{{ route('user.index') }}" class="btn btn-secondary icon-btn-only-sm" title="klik untuk kembali ke list user">
-                <i class="las la-arrow-left"></i><span>Kembali</span>
-            </a>
+
         </div>
     </div>
     <div class="table-responsive table-mobile-responsive">

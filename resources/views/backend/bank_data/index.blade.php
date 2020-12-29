@@ -140,7 +140,7 @@
             <div class="dropzone needsclick" id="dropzone-upload">
                 <div class="dz-message needsclick">
                   Drop files disini atau klik untuk upload
-                  <span class="note needsclick">(Tipe File : <strong>{{ strtoupper(config('addon.mimes.bank_data.m')) }}</strong>, Max Upload Size : <strong>{{ ini_get('upload_max_filesize') }}</strong>)</span>
+                  <span class="note needsclick">(Tipe File : <strong>{{ strtoupper(config('addon.mimes.bank_data.m')) }}</strong>, Max Upload File <strong>10</strong>, Max Upload Size : <strong>{{ ini_get('upload_max_filesize') }}</strong>)</span>
                 </div>
                 <div class="fallback">
                   <input name="file" type="file" multiple>
@@ -183,6 +183,7 @@ $(document).ready(function () {
         },
         parallelUploads: 2,
         maxFilesize: 0,
+        maxFiles: 10,
         filesizeBase: 1000,
         // acceptedFiles:"image/*",
         paramName:"file_path",

@@ -44,7 +44,7 @@
                         <div class="text-muted small mt-1">Kelompok Soal : {{ $soal->kelompok_soal }}</div>
                     </div>
                 </div>
-                <div class="card-body pb-3">
+                <div class="card-body table-responsive pb-3">
                     <table class="table table-bordered mb-2" style="width: 400px;">
                         <tr>
                             <th>Tidak Baik</th>

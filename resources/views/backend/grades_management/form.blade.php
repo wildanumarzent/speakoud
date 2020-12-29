@@ -33,7 +33,7 @@
                 <div class="col-md-10">
                     <div class="input-group">
                         <input type="number" class="form-control @error('minimum') is-invalid @enderror" name="minimum"
-                          value="{{ (isset($data['nilai'])) ? old('minimum', $data['nilai']->minimum) : old('minimum') }}" placeholder="masukan nilai minimum..." autofocus>
+                          value="{{ (isset($data['nilai'])) ? old('minimum', $data['nilai']->minimum) : old('minimum') }}" placeholder="masukan nilai minimum...">
                         <div class="input-group-append">
                             <span class="input-group-text">%</span>
                         </div>

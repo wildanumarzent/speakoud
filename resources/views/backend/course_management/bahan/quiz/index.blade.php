@@ -1,6 +1,7 @@
 @extends('layouts.backend.layout')
 
 @section('styles')
+<link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/select2/select2.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/sweetalert2/sweetalert2.css') }}">
 @endsection
 
@@ -46,7 +47,7 @@
 @if ($data['quiz']->trackItem()->count() > 0)
 <div class="alert alert-warning alert-dismissible fade show">
     <button type="button" class="close" data-dismiss="alert"><i class="las la-times"></i></button>
-    <i class="las la-exclamation"></i> Tidak dapat <strong>menambah, mengedit / menghapuas soal</strong> dikarenakan sudah ada peserta yang mengerjakan!
+    <i class="las la-exclamation"></i> Tidak dapat <strong>menambah, mengedit / menghapus soal</strong> dikarenakan sudah ada peserta yang mengerjakan!
   </div>
 @endif
 
@@ -215,11 +216,81 @@
 @endsection
 
 @section('scripts')
+<script src="{{ asset('assets/tmplts_backend/vendor/libs/select2/select2.js') }}"></script>
 <script src="{{ asset('assets/tmplts_backend/vendor/libs/sweetalert2/sweetalert2.js') }}"></script>
 @endsection
 
 @section('jsbody')
 <script>
+    //select 2
+    $('.select2').select2({
+        width: '100%',
+        dropdownParent: $('#modals-soal')
+    });
+    function stripHtml(html){
+        var temporalDivElement = document.createElement("div");
+        temporalDivElement.innerHTML = html;
+        return temporalDivElement.textContent || temporalDivElement.innerText || "";
+    }
+    $('#form-random').hide();
+    $('#kategori').change(function() {
+        var id = $(this).val();
+        if (id > 0) {
+            $('#form-random').toggle('slow');
+        }
+        if (id) {
+            $.ajax({
+                type : "GET",
+                url : "/soal/kategori/json/{{ $data['quiz']->id }}?kategori_id=" + id,
+                success : function(cat) {
+                    if(cat){
+                        $("#soal").empty();
+                        if (cat.length == 0) {
+                            $("#soal").append(`
+                                <tr>
+                                    <td colspan="2" class="text-center">
+                                        <i>
+                                            <strong style="color:red;">
+                                            ! Soal kosong !
+                                            </strong>
+                                        </i>
+                                    </td>
+                                </tr>
+                            `);
+                        } else {
+                            $.each(cat, function(key, value){
+                                $("#soal").append(`
+                                <tr>
+                                    <td>
+                                        <label class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input child" name="soal_id[]" value="`+key+`">
+                                            <span class="custom-control-label"></span>
+                                        </label>
+                                    </td>
+                                    <td>`+stripHtml(value)+`</td>
+                                </tr>
+                                `);
+                            });
+                        }
+
+                    } else {
+                        $("#soal").append(`
+                            <tr>
+                                <td colspan="2" class="text-center">
+                                    <i>
+                                        <strong style="color:red;">
+                                        ! Soal tidak ditemukan !
+                                        </strong>
+                                    </i>
+                                </td>
+                            </tr>
+                        `);
+                    }
+                },
+            });
+        }
+    });
+
     //delete
     $(document).ready(function () {
         $('.js-sa2-delete').on('click', function () {

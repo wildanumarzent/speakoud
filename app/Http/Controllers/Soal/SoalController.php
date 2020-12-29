@@ -45,6 +45,11 @@ class SoalController extends Controller
         ]);
     }
 
+    public function soalByKategori(Request $request, $quizId)
+    {
+        return response()->json($this->service->getSoalForQuiz($request, $quizId));
+    }
+
     public function create($mataId, $kategoriId)
     {
         $data['kategori'] = $this->serviceKategori->findKategoriSoal($kategoriId);
@@ -99,12 +104,22 @@ class SoalController extends Controller
         $soal = $this->service->findSoal($id);
         $this->checkCreator($soal->creator_id);
 
-        $this->service->deleteSoal($id);
+        $delete = $this->service->deleteSoal($id);
 
-        return response()->json([
-            'success' => 1,
-            'message' => ''
-        ], 200);
+        if ($delete == true) {
+
+            return response()->json([
+                'success' => 1,
+                'message' => ''
+            ], 200);
+
+        } else {
+
+            return response()->json([
+                'success' => 0,
+                'message' => 'Soal tidak bisa dihapus dikarenakan sudah terpakai di quiz'
+            ], 200);
+        }
     }
 
     public function checkCreator($creatorId)

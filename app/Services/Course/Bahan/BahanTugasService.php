@@ -2,8 +2,10 @@
 
 namespace App\Services\Course\Bahan;
 
+use App\Models\BankData;
 use App\Models\Course\Bahan\BahanTugas;
 use App\Models\Course\Bahan\BahanTugasRespon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -27,12 +29,13 @@ class BahanTugasService
         $query->where('tugas_id', $tugasId);
 
         $query->when($request->q, function ($query, $q) {
-            return $query->whereHas('user', function ($query) use ($q) {
-                $query->where('name', $q);
-            });
-        })->when($request->q, function ($query, $q) {
-            $query->where(function ($query) use ($q) {
-                $query->where('keterangan', 'like', '%'.$q.'%');
+            $query->where(function ($queryA) use ($q) {
+                $queryA->whereHas('user', function (Builder $queryB) use ($q) {
+                    $queryB->where('name', 'ilike', '%'.$q.'%')
+                        ->orWhereHas('peserta', function (Builder $queryC) use ($q) {
+                            $queryC->orWhere('nip', 'ilike', '%'.$q.'%');
+                        });
+                })->orWhere('keterangan', 'like', '%'.$q.'%');
             });
         });
 
@@ -44,6 +47,11 @@ class BahanTugasService
     public function findTugas(int $id)
     {
         return $this->model->findOrFail($id);
+    }
+
+    public function findRespon(int $id)
+    {
+        return $this->modelRespon->findOrFail($id);
     }
 
     public function storeTugas($request, $materi, $bahan)
@@ -59,13 +67,30 @@ class BahanTugasService
 
             foreach ($request->file('files') as $file) {
 
-                $replace = str_replace(' ', '-', $file->getClientOriginalName());
-                $files[] = 'tugas/'.$materi->id.'/'.auth()->user()->id.'/'.$replace;
+                $fileName = str_replace(' ', '-', $file->getClientOriginalName());
+                $extesion = $file->getClientOriginalExtension();
 
-                Storage::disk('bank_data')->put('tugas/'.$materi->id.'/'.auth()->user()->id.'/'.$replace, file_get_contents($file));
+                if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra')) {
+                    $path = 'personal/'.auth()->user()->id.'/tugas/'.$materi->judul.'/'.$request->judul.'/';
+                } else {
+                    $path = 'global/tugas/'.$materi->judul.'/'.$request->judul.'/'.auth()->user()->name.'/';
+                }
+
+                $bankData = new BankData;
+                $bankData->file_path = $path.$fileName;
+                $bankData->file_type = $extesion;
+                $bankData->file_size = $file->getSize();
+                $bankData->owner_id = auth()->user()->id;
+                $bankData->is_video = 0;
+                $bankData->save();
+
+                $bankDataId[] = $bankData->id;
+
+                Storage::disk('bank_data')->put($path.$fileName, file_get_contents($file));
             }
 
-            $tugas->files = $files;
+            $tugas->bank_data_id = $bankDataId;
+            $tugas->approval = (bool)$request->approval;
             $tugas->save();
 
         } else {
@@ -76,33 +101,71 @@ class BahanTugasService
     public function updateTugas($request, $bahan)
     {
         $tugas = $bahan->tugas;
+        $tugas->approval = (bool)$request->approval;
         $tugas->save();
 
         return $tugas;
     }
 
-    public function sendTugas($request, $tugasId)
+    public function sendTugas($request, int $tugasId)
     {
         $tugas = $this->findTugas($tugasId);
 
         if ($request->hasFile('files')) {
+
+            if ($request->reupload == 'yes') {
+                $bankData = BankData::whereIn('id', $tugas->responByUser->bank_data_id)->get();
+                foreach ($bankData as $file) {
+                    Storage::disk('bank_data')->delete($file->file_path);
+                }
+                $tugas->responByUser()->delete();
+            }
 
             $respon = new BahanTugasRespon($request->only(['keterangan']));
             $respon->tugas_id = $tugasId;
             $respon->user_id = auth()->user()->id;
             foreach ($request->file('files') as $file) {
 
-                $replace = str_replace(' ', '-', $file->getClientOriginalName());
-                $files[] = 'tugas/'.$tugas->materi_id.'/'.auth()->user()->id.'/'.$replace;
+                $fileName = str_replace(' ', '-', $file->getClientOriginalName());
+                $extesion = $file->getClientOriginalExtension();
 
-                Storage::disk('bank_data')->put('tugas/'.$tugas->materi_id.'/'.$tugas->creator_id.'/respon/'.auth()->user()->id.'/'.$replace, file_get_contents($file));
+                if ($tugas->creator->roles[0] == 'instruktur_internal' || $tugas->creator->roles[0] == 'instruktur_mitra') {
+                    $path = 'personal/'.$tugas->creator->id.'/tugas/'.$tugas->materi->judul.'/'.auth()->user()->name.'/'.$tugas->bahan->judul.'/';
+                } else {
+                    $path = 'global/tugas/'.$tugas->materi->judul.'/'.$tugas->creator->name.'/'.auth()->user()->name.'/'.$tugas->bahan->judul.'/';
+                }
+
+                $bankData = new BankData;
+                $bankData->file_path = $path.$fileName;
+                $bankData->file_type = $extesion;
+                $bankData->file_size = $file->getSize();
+                $bankData->owner_id = $tugas->creator->id;
+                $bankData->is_video = 0;
+                $bankData->save();
+
+                $bankDataId[] = $bankData->id;
+
+                Storage::disk('bank_data')->put($path.$fileName, file_get_contents($file));
             }
 
-            $respon->files = $files;
+            $respon->bank_data_id = $bankDataId;
             $respon->save();
 
         } else {
             return false;
         }
+    }
+
+    public function approval(int $responId, $status)
+    {
+        $tugas = $this->findRespon($responId);
+        $tugas->approval = $status;
+        if ($status == 1) {
+            $tugas->approval_time = now();
+        }
+        $tugas->approval_by = auth()->user()->id;
+        $tugas->save();
+
+        return $tugas;
     }
 }

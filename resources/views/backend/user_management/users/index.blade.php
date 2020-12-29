@@ -131,7 +131,7 @@
                     <td>{{ $item->updated_at->format('d F Y - (H:i)') }}</td>
                     <td>{{ $item->last_login != null ? $item->last_login->format('d F Y - (H:i)') : '-' }}</td>
                     <td>
-                        @if ($item->id == auth()->user()->id || $item->roles[0]->id <=  auth()->user()->roles[0]->id)
+                        @if ($item->id == auth()->user()->id || $item->roles[0]->id < auth()->user()->roles[0]->id)
                         <button class="btn icon-btn btn-secondary btn-sm" disabled>
                             <i class="las la-pen"></i>
                         </button>
@@ -139,18 +139,18 @@
                             <i class="las la-trash-alt"></i>
                         </button>
                         @else
-                        <a href="{{ route('user.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengedit user">
+                        <a href="{{ route('user.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengubah user">
                                 <i class="las la-pen"></i>
                         </a>
-                        @if ($item->hasRole('internal|mitra|instruktur_internal|instruktur_mitra|peserta_internal|peserta_mitra'))
-                        <button class="btn icon-btn btn-secondary btn-sm" disabled>
-                            <i class="las la-trash-alt"></i>
-                        </button>
-                        @else
-                            <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus user">
+                            @if ($item->hasRole('internal|mitra|instruktur_internal|instruktur_mitra|peserta_internal|peserta_mitra'))
+                            <button class="btn icon-btn btn-secondary btn-sm" disabled>
                                 <i class="las la-trash-alt"></i>
-                            </a>
-                        @endif
+                            </button>
+                            @else
+                                <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus user">
+                                    <i class="las la-trash-alt"></i>
+                                </a>
+                            @endif
                         @endif
                     </td>
                 </tr>
@@ -195,7 +195,7 @@
                                 </div>
                                 <div class="item-table m-0">
                                     <div class="desc-table text-right">
-                                        @if ($item->id == auth()->user()->id || $item->roles[0]->id <=  auth()->user()->roles[0]->id)
+                                        @if ($item->id == auth()->user()->id || $item->roles[0]->id < auth()->user()->roles[0]->id)
                                         <button class="btn icon-btn btn-secondary btn-sm" disabled>
                                             <i class="las la-pen"></i>
                                         </button>
@@ -203,18 +203,18 @@
                                             <i class="las la-trash-alt"></i>
                                         </button>
                                         @else
-                                        <a href="{{ route('user.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengedit user">
+                                        <a href="{{ route('user.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengubah user">
                                                 <i class="las la-pen"></i>
                                         </a>
-                                        @if ($item->hasRole('internal|mitra|instruktur_internal|instruktur_mitra|peserta_internal|peserta_mitra'))
-                                        <button class="btn icon-btn btn-secondary btn-sm" disabled>
-                                            <i class="las la-trash-alt"></i>
-                                        </button>
-                                        @else
-                                            <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus user">
+                                            @if ($item->hasRole('internal|mitra|instruktur_internal|instruktur_mitra|peserta_internal|peserta_mitra'))
+                                            <button class="btn icon-btn btn-secondary btn-sm" disabled>
                                                 <i class="las la-trash-alt"></i>
-                                            </a>
-                                        @endif
+                                            </button>
+                                            @else
+                                                <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus user">
+                                                    <i class="las la-trash-alt"></i>
+                                                </a>
+                                            @endif
                                         @endif
                                     </div>
                                 </div>

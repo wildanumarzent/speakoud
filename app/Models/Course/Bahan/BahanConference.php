@@ -47,6 +47,11 @@ class BahanConference extends Model
         return $this->belongsTo(BahanPelatihan::class, 'bahan_id');
     }
 
+    public function peserta()
+    {
+        return $this->hasMany(BahanConferencePeserta::class, 'conference_id');
+    }
+
     public function trackByUser()
     {
         return $this->hasOne(BahanConferencePeserta::class, 'conference_id')

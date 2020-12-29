@@ -116,6 +116,11 @@
                                         </div>
                                     </div>
                                 </td>
+                                <td>
+                                    <a class="btn btn-info btn-sm icon-btn-only-sm mr-1" href="{{ route('mata.pembobotan', ['id' => $item->id]) }}" title="klik untuk melihat laporan program">
+                                        <i class="las la-chart-line"></i> <span>Aktivitas</span>
+                                    </a>
+                                </td>
                             </tr>
                         </table>
                     </div>

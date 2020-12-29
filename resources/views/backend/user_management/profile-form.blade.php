@@ -147,7 +147,24 @@
                                 </label>
                             </div>
                         </div>
-                        <div class="form-group">
+                        @role ('peserta_internal|peserta_mitra')
+                        <div class="form-group media" style="min-height:1px">
+                            <div class="ui-bg-cover" style="width: 100px;height: 100px;background-image: url('{{ $data['user']->peserta->getFotoSertifikat($data['user']->peserta->foto_sertifikat) }}');"></div>
+                            <div class="media-body ml-3">
+                                <label class="form-label">
+                                    Ganti foto sertifikat :
+                                </label><br>
+                                <small class="text-muted">Tipe Foto Sertifikat : <strong>{{ strtoupper(config('addon.mimes.photo.m')) }}</strong>, Maksimal Upload <strong>1 MB</strong>, Latar harus berwarna merah</small>
+                                <label class="custom-file mt-3">
+                                    <label class="custom-file-label mt-1" for="file-2"></label>
+                                    <input type="hidden" name="old_photo" value="{{ $data['user']->peserta->foto_sertifikat }}">
+                                    <input class="form-control custom-file-input file @error('foto_sertifikat') is-invalid @enderror" type="file" id="file-2" lang="en" name="foto_sertifikat">
+                                    @include('components.field-error', ['field' => 'foto_sertifikat'])
+                                </label>
+                            </div>
+                        </div>
+                        @endrole
+                        <div class="form-group" id="desk-foto">
                             <label class="form-label">Deskripsi foto</label>
                             <input type="text" class="form-control mb-1 @error('photo_description') is-invalid @enderror" name="photo_description" value="{{ old('photo_description', $data['user']->photo['description']) }}" placeholder="Masukan deskripsi...">
                             @include('components.field-error', ['field' => 'photo_description'])
@@ -291,6 +308,7 @@
 
 <script>
 $(".hide-collapse").show();
+$("#desk-foto").hide();
 
 $(".toggle-current-password, .toggle-password, .toggle-password-confirm").click(function() {
     $(this).toggleClass("fa-eye fa-eye-slash");

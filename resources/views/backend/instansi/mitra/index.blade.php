@@ -81,7 +81,7 @@
                     <td>{{ $item->created_at->format('d F Y - (H:i)') }}</td>
                     <td>{{ $item->updated_at->format('d F Y - (H:i)') }}</td>
                     <td>
-                        <a href="{{ route('instansi.mitra.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengedit Instansi">
+                        <a href="{{ route('instansi.mitra.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengubah Instansi">
                                 <i class="las la-pen"></i>
                         </a>
                         <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus Instansi">
@@ -139,7 +139,7 @@
 
                                 <div class="item-table m-0">
                                     <div class="desc-table text-right">
-                                        <a href="{{ route('instansi.mitra.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengedit Instansi">
+                                        <a href="{{ route('instansi.mitra.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengubah Instansi">
                                                 <i class="las la-pen"></i>
                                         </a>
                                         <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus Instansi">

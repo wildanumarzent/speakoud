@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Course\Bahan;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BahanRequest;
+use App\Services\Course\Bahan\ActivityService;
 use App\Services\Course\Bahan\BahanConferenceService;
 use App\Services\Course\Bahan\BahanForumService;
 use App\Services\Course\Bahan\BahanScormService;
@@ -17,7 +18,7 @@ use Illuminate\Http\Request;
 class BahanController extends Controller
 {
     private $service, $serviceMateri, $serviceMata, $serviceProgram, $serviceBahanForum,
-        $serviceConference, $serviceEvaluasi;
+        $serviceConference, $serviceEvaluasi, $serviceActivity;
 
     public function __construct(
         BahanService $service,
@@ -27,7 +28,8 @@ class BahanController extends Controller
         BahanForumService $serviceBahanForum,
         BahanConferenceService $serviceConference,
         BahanScormService $serviceScorm,
-        EvaluasiService $serviceEvaluasi
+        EvaluasiService $serviceEvaluasi,
+        ActivityService $serviceActivity
     )
     {
         $this->service = $service;
@@ -38,6 +40,7 @@ class BahanController extends Controller
         $this->serviceConference = $serviceConference;
         $this->serviceScorm = $serviceScorm;
         $this->serviceEvaluasi = $serviceEvaluasi;
+        $this->serviceActivity = $serviceActivity;
     }
 
     public function index(Request $request, $materiId)
@@ -79,26 +82,62 @@ class BahanController extends Controller
 
         //check data
         if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
+            //publish
             if ($data['bahan']->program->publish == 0 || $data['bahan']->mata->publish == 0 ||
                 $data['bahan']->materi->publish == 0 || $data['bahan']->publish == 0) {
                 return abort(404);
             }
-            if (!empty($data['bahan']->publish_start) && !empty($data['bahan']->publish_end)) {
-                if (now() < $data['bahan']->publish_start) {
-                    return back()->with('warning', 'Materi dibuka tanggal '.$data['bahan']->publish_start->format('d F Y H:i'));
-                }
 
-                if (now() > $data['bahan']->publish_end) {
-                    return back()->with('warning', 'Materi sudah ditutup tanggal '.$data['bahan']->publish_end->format('d F Y H:i'));
-                }
-            }
+            //enroll
             if ($this->serviceMata->checkUserEnroll($mataId) == 0) {
                 return back()->with('warning', 'anda tidak terdaftar di course '.$data['read']->judul.'');
             }
 
-            $this->service->recordActivity($id);
+            //restrict
+            if ($data['bahan']->restrict_access >= '0') {
+                if ($data['bahan']->restrict_access == '0') {
+                    $checkMateri = $this->serviceActivity->restrict($data['bahan']->requirement);
+                    if ($checkMateri == 0) {
+                        return back()->with('warning', 'Materi tidak bisa diakses sebelum anda menyelesaikan materi '.
+                            $data['bahan']->restrictBahan($data['bahan']->requirement)->judul);
+                    }
+                }
+
+                if ($data['bahan']->restrict_access == 1) {
+                    if ($tipe == 'dokumen' || $tipe == 'scorm' || $tipe == 'audio' || $tipe == 'video') {
+                        if (now() < $data['bahan']->publish_start) {
+                            return back()->with('warning', 'Materi tidak bisa diakses karena belum memasuki tanggal yang sudah ditentukan');
+                        }
+
+                        if (now() > $data['bahan']->publish_end) {
+                            return back()->with('warning', 'Materi tidak bisa diakses karena sudah melebihi tanggal yang sudah ditentukan');
+                        }
+                    }
+                }
+            }
+
+            //record completion
+            if (empty($data['bahan']->activityCompletionByUser) && $data['bahan']->completion_type > 0) {
+                $this->serviceActivity->recordActivity($id);
+
+                return redirect()->route('course.bahan', ['id' => $mataId, 'bahanId' => $id, 'tipe' => $data['bahan']->type($data['bahan'])['tipe']]);
+            }
+
+            //completion time
+            if ($data['bahan']->completion_type == 3 && !empty($data['bahan']->completion_parameter) &&
+                !empty($data['bahan']->activityCompletionByUser)) {
+
+                $durasi = $data['bahan']->completion_parameter['timer'];
+                $data['timer'] = $data['bahan']->activityCompletionByUser->track_start->addMinutes($durasi);
+                $now = now()->format('is');
+                $kurang = $data['timer']->diffInSeconds(now());
+                $menit = floor($kurang/60);
+                $detik = $kurang-($menit*60);
+                $data['countdown'] = $menit.':'.$detik;
+            }
         }
 
+        //check user
         $this->serviceProgram->checkAdmin($data['mata']->program_id);
         $this->serviceProgram->checkPeserta($data['mata']->program_id);
         $this->service->checkInstruktur($data['bahan']->materi_id);
@@ -161,6 +200,7 @@ class BahanController extends Controller
 
         $data['materi'] = $this->serviceMateri->findMateri($materiId);
         $data['instruktur'] = $this->serviceMata->getInstrukturEnroll($data['materi']->mata_id);
+        $data['bahan_list'] = $this->service->getBahan($materiId);
 
         $this->serviceProgram->checkAdmin($data['materi']->program_id);
         $this->service->checkInstruktur($materiId);
@@ -179,10 +219,24 @@ class BahanController extends Controller
 
     public function store(BahanRequest $request, $materiId)
     {
+        $materi = $this->serviceMateri->findMateri($materiId);
+
+        if ($request->type == 'quiz') {
+            if ($request->kategori <= 2) {
+                $pre = $materi->quiz->where('kategori', 1)->count();
+                $post = $materi->quiz->where('kategori', 2)->count();
+                if ($pre > 0) {
+                    return back()->with('warning', 'Pre Test sudah ada, tidak bisa ditambahkan lagi');
+                }
+
+                if ($post > 0) {
+                    return back()->with('warning', 'Post Test sudah ada, tidak bisa ditambahkan lagi');
+                }
+            }
+        }
+
         $this->service->storeBahan($request, $materiId);
-        // if($data == false){
-        //     return redirect()->back()->with('failed', 'This Package is not Scorm Compliant');
-        // }
+
         return redirect()->route('bahan.index', ['id' => $materiId])
             ->with('success', 'Materi pelatihan berhasil ditambahkan');
     }
@@ -195,6 +249,7 @@ class BahanController extends Controller
         $data['scorm'] = $this->serviceScorm->getMaster();
         $data['bahan'] = $this->service->findBahan($id);
         $data['materi'] = $this->serviceMateri->findMateri($materiId);
+        $data['bahan_list'] = $this->service->getBahan($materiId, $id);
 
         $this->service->checkInstruktur($materiId);
 
@@ -260,6 +315,55 @@ class BahanController extends Controller
                 'success' => 1,
                 'message' => ''
             ], 200);
+        }
+    }
+
+    //activity
+    public function activityComplete(Request $request, $id)
+    {
+        $bahan = $this->service->findBahan($id);
+
+        if ($bahan->type($bahan)['tipe'] == 'forum') {
+            if (!empty($bahan->forum->limit_topik) && $bahan->forum->topikByUser->count() < $bahan->forum->limit_topik) {
+                return back()->with('warning', 'Anda belum membuat '.$bahan->forum->limit_topik.' topik');
+            }
+        }
+
+        if ($bahan->type($bahan)['tipe'] == 'conference') {
+            if ($bahan->conference->status < 2) {
+                return back()->with('warning', 'Anda harus mengikuti meeting sampai selesai');
+            }
+
+            if (empty($bahan->conference->trackByUser)) {
+                return back()->with('warning', 'Anda tidak mengikuti meeting ini');
+            }
+        }
+
+        if ($bahan->type($bahan)['tipe'] == 'quiz') {
+            if (empty($bahan->quiz->trackUserIn)) {
+                return back()->with('warning', 'Anda belum menyelesaikan quiz ini');
+            }
+        }
+
+        if ($bahan->type($bahan)['tipe'] == 'tugas') {
+            if (empty($bahan->tugas->responByUser)) {
+                return back()->with('warning', 'Anda belum mengupload tugas');
+            }
+
+            if ($bahan->tugas->approval == 1 && $bahan->tugas->responByUser->approval == 0) {
+                return back()->with('warning', 'Tugas anda belum di approve pengajar');
+            }
+        }
+
+        $this->serviceActivity->complete($id);
+
+        if ($request->is_ajax == 'yes') {
+            return response()->json([
+                'success' => 1,
+                'message' => 'Activity Completed'
+            ], 200);
+        } else {
+            return back()->with('success', 'Activity Completed');
         }
     }
 }

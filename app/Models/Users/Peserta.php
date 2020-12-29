@@ -45,4 +45,15 @@ class Peserta extends Model
             return InstansiMitra::find($item->instansi_id);
         }
     }
+
+    public function getFotoSertifikat($value)
+    {
+        if (!empty($value)) {
+            $photo = asset(config('addon.images.path.photo').'sertifikat/'.$value);
+        } else {
+            $photo = asset(config('addon.images.photo'));
+        }
+
+        return $photo;
+    }
 }

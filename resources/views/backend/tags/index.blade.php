@@ -28,10 +28,17 @@
 </div>
 <!-- / Filters -->
 
-<div class="card">
+<a href="{{ route('artikel.index') }}" class="btn btn-secondary icon-btn-only-sm" title="klik untuk kembali ke artikel">
+    <i class="las la-arrow-left"></i><span>Kembali</span>
+</a>
+<br>
+
+<div class="card mt-2">
     <div class="card-header with-elements">
         <h5 class="card-header-title mt-1 mb-0">Tags List</h5>
+        <div class="card-header-elements ml-auto">
 
+        </div>
     </div>
     <div class="table-responsive table-mobile-responsive">
         <table class="table card-table table-striped table-bordered table-hover">

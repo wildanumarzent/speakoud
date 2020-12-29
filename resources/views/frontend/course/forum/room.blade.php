@@ -77,7 +77,7 @@
           @endif
       </div>
       <div class="px-4 pt-3">
-          @if (!auth()->user()->hasRole('peserta_internal|peserta_mitra') || auth()->user()->hasRole('peserta_internal|peserta_mitra') && empty($data['topik']->limit_reply) || !empty($data['topik']->limit_reply) && $data['topik']->diskusiByUser()->count() < $data['topik']->limit_reply)
+          @if (!auth()->user()->hasRole('peserta_internal|peserta_mitra') && $data['topik']->lock == 0 || auth()->user()->hasRole('peserta_internal|peserta_mitra') && $data['topik']->lock == 0 && empty($data['topik']->limit_reply) || !empty($data['topik']->limit_reply) && $data['topik']->diskusiByUser()->count() < $data['topik']->limit_reply)
           <button type="button" class="btn btn-primary reply" data-toggle="modal" data-target="#form-reply" data-parent="0"><i class="ion ion-md-create"></i>&nbsp; Reply</button>
           @endif
       </div>
@@ -116,7 +116,7 @@
             @endif
           </div>
           <div class="small mt-2">
-            @if (!auth()->user()->hasRole('peserta_internal|peserta_mitra') || auth()->user()->hasRole('peserta_internal|peserta_mitra') && empty($data['topik']->limit_reply) || !empty($data['topik']->limit_reply) && $data['topik']->diskusiByUser()->count() < $data['topik']->limit_reply)
+            @if (!auth()->user()->hasRole('peserta_internal|peserta_mitra') && $data['topik']->lock == 0 || auth()->user()->hasRole('peserta_internal|peserta_mitra') && $data['topik']->lock == 0 && empty($data['topik']->limit_reply) || !empty($data['topik']->limit_reply) && $data['topik']->diskusiByUser()->count() < $data['topik']->limit_reply || $data['topik']->lock == 0)
             <a href="javascript:void(0)" class="text-light reply" data-toggle="modal" data-target="#form-reply" data-parent="{{ $diskusi->id }}">Reply</a>
             @endif
           </div>
@@ -256,6 +256,10 @@ $('.reply').click(function() {
 });
 </script>
 
-@include('includes.tiny-mce-with-fileman')
+@role ('peserta_internal|peserta_mitra')
+    @include('includes.tiny-mce')
+@else
+    @include('includes.tiny-mce-with-fileman')
+@endrole
 @include('components.toastr')
 @endsection

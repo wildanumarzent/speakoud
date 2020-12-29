@@ -87,13 +87,13 @@
                 @foreach ($data['soal'] as $item)
                 <tr>
                     <td>{{ $data['number']++ }}</td>
-                    <td>{!! $item->pertanyaan !!}</td>
+                    <td>{!! strip_tags($item->pertanyaan) !!}</td>
                     <td><span class="badge badge-{{ $item->tipe($item->tipe_jawaban)['color'] }}">{{ $item->tipe($item->tipe_jawaban)['title'] }}</span></td>
                     <td>{{ $item->creator->name }}</td>
                     <td>{{ $item->created_at->format('d F Y (H:i A)') }}</td>
                     <td>{{ $item->updated_at->format('d F Y (H:i A)') }}</td>
                     <td>
-                        @if (!auth()->user()->hasRole('instruktur_internal|instruktur_mitra') || auth()->user()->hasRole('instruktur_internal|instruktur_mitra') && $item->creator_id == auth()->user()->id)    
+                        @if (!auth()->user()->hasRole('instruktur_internal|instruktur_mitra') || auth()->user()->hasRole('instruktur_internal|instruktur_mitra') && $item->creator_id == auth()->user()->id)
                         <a href="{{ route('soal.edit', ['id' => $item->mata_id, 'kategoriId' => $item->kategori_id, 'soalId' => $item->id]) }}" class="btn icon-btn btn-sm btn-primary" title="klik untuk mengedit soal">
                             <i class="las la-pen"></i>
                         </a>
@@ -146,7 +146,7 @@
 
                                 <div class="item-table m-0">
                                     <div class="desc-table text-right">
-                                        @if (!auth()->user()->hasRole('instruktur_internal|instruktur_mitra') || auth()->user()->hasRole('instruktur_internal|instruktur_mitra') && $item->creator_id == auth()->user()->id)    
+                                        @if (!auth()->user()->hasRole('instruktur_internal|instruktur_mitra') || auth()->user()->hasRole('instruktur_internal|instruktur_mitra') && $item->creator_id == auth()->user()->id)
                                         <a href="{{ route('soal.edit', ['id' => $item->mata_id, 'kategoriId' => $item->kategori_id, 'soalId' => $item->id]) }}" class="btn icon-btn btn-sm btn-primary" title="klik untuk mengedit soal">
                                             <i class="las la-pen"></i>
                                         </a>

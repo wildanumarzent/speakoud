@@ -22,6 +22,10 @@ class CreateBahanPelatihanTable extends Migration
             $table->string('judul');
             $table->text('keterangan')->nullable();
             $table->boolean('publish')->default(false);
+            $table->tinyInteger('completion_type')->default(0);
+            $table->json('completion_parameter')->nullable();
+            $table->boolean('restrict_access')->nullable();
+            $table->unsignedBigInteger('requirement')->nullable();
             $table->timestamp('publish_start')->nullable();
             $table->timestamp('publish_end')->nullable();
             $table->integer('urutan')->default(0);

@@ -61,11 +61,11 @@ class InstansiMitraController extends Controller
         $data['instansi'] = $this->service->findInstansi($id);
 
         return view('backend.instansi.mitra.form', compact('data'), [
-            'title' => 'Instansi Mitra - Edit',
+            'title' => 'Instansi Mitra - Ubah',
             'breadcrumbsBackend' => [
                 'Instansi' => route('instansi.mitra.index'),
                 'Mitra' => '',
-                'Edit' => ''
+                'Ubah' => ''
             ],
         ]);
     }
@@ -75,7 +75,7 @@ class InstansiMitraController extends Controller
         $this->service->updateInstansi($request, $id);
 
         return redirect()->route('instansi.mitra.index')
-            ->with('success', 'Instansi berhasil diedit');
+            ->with('success', 'Instansi berhasil diubah');
     }
 
     public function destroy($id)

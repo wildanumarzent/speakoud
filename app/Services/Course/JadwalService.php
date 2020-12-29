@@ -22,8 +22,8 @@ class JadwalService
 
         $query->when($request->q, function ($query, $q) {
             $query->where(function ($query) use ($q) {
-                $query->where('judul', 'like', '%'.$q.'%')
-                    ->orWhere('keterangan', 'like', '%'.$q.'%');
+                $query->where('judul', 'ilike', '%'.$q.'%')
+                    ->orWhere('keterangan', 'ilike', '%'.$q.'%');
             });
         });
         if (auth()->user()->hasRole('internal')) {
@@ -45,7 +45,7 @@ class JadwalService
             $query->where('publish', $request->p);
         }
 
-        $result = $query->paginate(9);
+        $result = $query->paginate(10);
 
         return $result;
     }

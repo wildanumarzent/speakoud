@@ -17,6 +17,7 @@ class BahanPelatihan extends Model
     protected $casts = [
         'publish_start' => 'datetime',
         'publish_end' => 'datetime',
+        'completion_parameter' => 'array',
     ];
 
     public function segmenable()
@@ -97,6 +98,11 @@ class BahanPelatihan extends Model
     public function activityCompletionByUser()
     {
         return $this->hasOne(ActivityCompletion::class, 'bahan_id')->where('user_id', auth()->user()->id);
+    }
+
+    public function restrictBahan($id)
+    {
+        return BahanPelatihan::find($id);
     }
 
     public function type($bahan)

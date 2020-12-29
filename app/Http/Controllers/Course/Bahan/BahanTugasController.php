@@ -50,8 +50,27 @@ class BahanTugasController extends Controller
 
     public function sendTugas(UploadTugasRequest $request, $tugasId)
     {
+        $tugas = $this->service->findTugas($tugasId);
+
+        $restrict = $this->serviceBahan->restrictAccess($tugas->bahan_id);
+        if (!empty($restrict)) {
+            return back()->with('warning', $restrict);
+        }
+
         $this->service->sendTugas($request, $tugasId);
 
         return back()->with('success', 'Tugas berhasil dikirim');
+    }
+
+    public function approval($tugasId, $responId, $status)
+    {
+        $this->service->approval($responId, $status);
+
+        if ($status == 0) {
+            return back()->with('success', 'Tugas berhasil ditolak');
+        } else {
+            return back()->with('success', 'Tugas berhasil diapprove');
+        }
+
     }
 }

@@ -1,6 +1,17 @@
 @extends('backend.course_management.bahan.form')
 
 @section('content-bahan')
+<div class="form-group row">
+    <div class="col-md-2 text-md-right">
+        <label class="col-form-label">Approval</label>
+    </div>
+    <div class="col-sm-10">
+        <label class="custom-control custom-checkbox">
+            <input type="checkbox" name="approval" class="custom-control-input" value="1" {{ isset($data['bahan']) ? (old('approval', $data['bahan']->tugas->approval == '1') ? 'checked' : '') : (old('approval') ? '' : '') }}>
+            <span class="custom-control-label">Ya</span>
+        </label>
+    </div>
+</div>
 @if (!isset($data['bahan']))
 <div id="list">
     <div class="form-group row">

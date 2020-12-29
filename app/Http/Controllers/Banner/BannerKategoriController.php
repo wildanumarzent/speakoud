@@ -80,11 +80,21 @@ class BannerKategoriController extends Controller
 
     public function destroy($id)
     {
-        $this->service->deleteBannerKategori($id);
+        $delete = $this->service->deleteBannerKategori($id);
 
-        return response()->json([
-            'success' => 1,
-            'message' => ''
-        ], 200);
+        if ($delete == true) {
+
+            return response()->json([
+                'success' => 1,
+                'message' => ''
+            ], 200);
+
+        } else {
+
+            return response()->json([
+                'success' => 0,
+                'message' => 'Kategori masih memiliki file banner'
+            ], 200);
+        }
     }
 }

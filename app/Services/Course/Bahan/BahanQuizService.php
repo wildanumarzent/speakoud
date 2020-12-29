@@ -4,6 +4,7 @@ namespace App\Services\Course\Bahan;
 
 use App\Models\Course\Bahan\BahanQuiz;
 use App\Models\Course\Bahan\BahanQuizUserTracker;
+use Illuminate\Database\Eloquent\Builder;
 
 class BahanQuizService
 {
@@ -24,8 +25,13 @@ class BahanQuizService
 
         $query->where('quiz_id', $quizId);
         $query->when($request->q, function ($query, $q) {
-            return $query->whereHas('user', function ($query) use ($q) {
-                $query->where('name', $q);
+            $query->where(function ($queryA) use ($q) {
+                $queryA->whereHas('user', function (Builder $queryB) use ($q) {
+                    $queryB->where('name', 'ilike', '%'.$q.'%')
+                        ->orWhereHas('peserta', function (Builder $queryC) use ($q) {
+                            $queryC->orWhere('nip', 'ilike', '%'.$q.'%');
+                        });
+                });
             });
         });
 
@@ -58,10 +64,12 @@ class BahanQuizService
         $quiz->materi_id = $materi->id;
         $quiz->bahan_id = $bahan->id;
         $quiz->creator_id = auth()->user()->id;
+        $quiz->is_mandatory = (bool)$request->is_mandatory;
         $quiz->kategori = $request->kategori;
         $quiz->durasi = $request->durasi ?? null;
         $quiz->tipe = $request->tipe;
         $quiz->view = $request->view;
+        $quiz->hasil = (bool)$request->hasil;
         $quiz->save();
 
         return $quiz;
@@ -70,10 +78,12 @@ class BahanQuizService
     public function updateQuiz($request, $bahan)
     {
         $quiz = $bahan->quiz;
+        $quiz->is_mandatory = (bool)$request->is_mandatory;
         $quiz->kategori = $request->kategori;
         $quiz->durasi = $request->durasi ?? null;
         $quiz->tipe = $request->tipe;
         $quiz->view = $request->view;
+        $quiz->hasil = (bool)$request->hasil;
         $quiz->save();
 
         return $quiz;

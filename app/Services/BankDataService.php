@@ -195,8 +195,8 @@ class BankDataService
             $query = $this->model->query();
             $query->when($request->q, function ($query, $q) {
                 $query->where(function ($query) use ($q) {
-                    $query->where('file_path', 'like', '%'.$q.'%');
-                    $query->orWhere('filename', 'like', '%'.$q.'%');
+                    $query->where('file_path', 'ilike', '%'.$q.'%');
+                    $query->orWhere('filename', 'ilike', '%'.$q.'%');
                 });
             });
 
@@ -289,19 +289,19 @@ class BankDataService
         $audio = BahanAudio::where('bank_data_id', $id)->count();
         $video = BahanVideo::where('bank_data_id', $id)->count();
 
-        if ($dokumen == 0 || $audio == 0 || $video == 0) {
-            
+        if ($dokumen > 0 || $audio > 0 || $video > 0) {
+
+            return false;
+
+        } else {
             Storage::disk('bank_data')->delete($file->file_path);
             if ($file->thumbnail != null) {
                 Storage::disk('bank_data')->delete($file->thumbnail);
             }
             $file->delete();
 
-        } else {
-            return false;
+            return true;
         }
-
-        return $file;
     }
 
     //path

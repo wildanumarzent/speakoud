@@ -259,6 +259,15 @@ class PesertaService
             Storage::disk('bank_data')->put($path.$atasan, file_get_contents($file));
         }
 
+        if ($request->hasFile('foto_sertifikat')) {
+            $fotoSertifikat = str_replace(' ', '-', $request->file('foto_sertifikat')
+                ->getClientOriginalName());
+            $request->file('foto_sertifikat')->move(public_path('userfile/photo/sertifikat'), $fotoSertifikat);
+
+            $path = public_path('userfile/photo/sertifikat/'.$request->old_foto_sertifikat) ;
+            File::delete($path);
+        }
+
         $peserta->sk_cpns = [
             'file' => !empty($request->sk_cpns) ? $path.$cpns : ($type == 'store' ? null : $find->sk_cpns['file']),
             'keterangan' => $request->keterangan_cpns ?? ($type == 'store' ? null : $find->sk_cpns['keterangan']),
@@ -279,6 +288,7 @@ class PesertaService
             'file' => !empty($request->surat_ijin_atasan) ? $path.$atasan : ($type == 'store' ? null : $find->surat_ijin_atasan['file']),
             'keterangan' => $request->keterangan_atasan ?? ($type == 'store' ? null : $find->surat_ijin_atasan['keterangan']),
         ];
+        $peserta->foto_sertifikat = !empty($request->foto_sertifikat) ? $fotoSertifikat : ($type == 'store' ? null : $find->foto_sertifikat);
 
         return $peserta;
     }
@@ -286,12 +296,12 @@ class PesertaService
     public function softDeletePeserta(int $id)
     {
         $checkProgram = MataPeserta::where('peserta_id', $id)->count();
-        
+
         if ($checkProgram > 0) {
-            
+
             return false;
         } else {
-            
+
             $peserta = $this->findPeserta($id);
             $peserta->user->delete();
             $peserta->delete();

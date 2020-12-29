@@ -5,6 +5,7 @@ namespace App\Services\Course\Bahan;
 use App\Models\Course\Bahan\BahanQuiz;
 use App\Models\Course\Bahan\BahanQuizItem;
 use App\Models\Course\Bahan\BahanQuizItemTracker;
+use App\Models\Course\Bahan\BahanQuizUserTracker;
 use App\Models\Soal\Soal;
 
 class BahanQuizItemService
@@ -131,7 +132,15 @@ class BahanQuizItemService
 
     public function storeFromBank($request, int $quizId)
     {
-        $soal = $this->modelSoal->whereIn('id', $request->soal_id)->get();
+        $random = (bool)$request->random;
+
+        if ($random == 0) {
+            $soal = $this->modelSoal->whereIn('id', $request->soal_id)->get();
+        } else {
+            $soal = $this->modelSoal->where('kategori_id', $request->kategori_id)
+                ->inRandomOrder()->limit($request->jml_soal)->get();
+        }
+
         $quiz = $this->findQuiz($quizId);
 
         foreach ($soal as $key => $value) {
@@ -147,7 +156,7 @@ class BahanQuizItemService
             if ($value->tipe_jawaban == 0) {
                 $item->pilihan = $value->pilihan;
                 $item->jawaban = $value->jawaban;
-    
+
             } elseif ($value->tipe_jawaban == 1 || $value->tipe_jawaban == 3) {
                 $item->jawaban = $value->jawaban;
             }
@@ -221,5 +230,25 @@ class BahanQuizItemService
         $essay->save();
 
         return $essay;
+    }
+
+    public function ulangi(int $quizId, int $pesertaId)
+    {
+        $quiz = $this->findQuiz($quizId);
+
+        if ($quiz->trackUserIn->cek == 1) {
+
+            return false;
+
+        } else {
+
+            $userTracker = BahanQuizUserTracker::where('quiz_id', $quizId)
+                ->where('user_id', $pesertaId)->delete();
+            $itemTracker = BahanQuizItemTracker::where('quiz_id', $quizId)
+                ->where('user_id', $pesertaId)->delete();
+
+            return true;
+        }
+
     }
 }

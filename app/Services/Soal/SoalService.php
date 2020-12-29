@@ -2,6 +2,7 @@
 
 namespace App\Services\Soal;
 
+use App\Models\Course\Bahan\BahanQuizItem;
 use App\Models\Soal\Soal;
 
 class SoalService
@@ -57,6 +58,36 @@ class SoalService
         return $result;
     }
 
+    public function getSoalByKategori(int $kategoriId)
+    {
+        $query = $this->model->query();
+
+        $query->where('kategori_id', $kategoriId);
+
+        $result = $query->get();
+
+        return $result;
+    }
+
+    public function getSoalForQuiz($request, int $quizId)
+    {
+        $item = BahanQuizItem::where('quiz_id', $quizId);
+
+        if ($item->count() > 0) {
+            $collectSoal = collect($item->get());
+            $soal = $collectSoal->map(function($item, $key) {
+                return $item->pertanyaan;
+            })->all();
+            $query = $this->model->where('kategori_id', $request->kategori_id)
+                ->whereNotIn('pertanyaan', $soal)->pluck('pertanyaan', 'id');
+        } else {
+            $query = $this->model->where('kategori_id', $request->kategori_id)->pluck('pertanyaan', 'id');
+        }
+
+
+        return $query;
+    }
+
     public function findSoal(int $id)
     {
         return $this->model->findOrFail($id);
@@ -100,8 +131,16 @@ class SoalService
     public function deleteSoal(int $id)
     {
         $soal = $this->findSoal($id);
-        $soal->delete();
+        $quizItem = BahanQuizItem::where('mata_id', $soal->mata_id)
+            ->where('pertanyaan', $soal->pertanyaan)->count();
 
-        return $soal;
+        if ($quizItem > 0) {
+            return false;
+        } else {
+
+            $soal->delete();
+
+            return true;
+        }
     }
 }

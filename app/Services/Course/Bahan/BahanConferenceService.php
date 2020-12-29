@@ -4,6 +4,7 @@ namespace App\Services\Course\Bahan;
 
 use App\Models\Course\Bahan\BahanConference;
 use App\Models\Course\Bahan\BahanConferencePeserta;
+use Illuminate\Database\Eloquent\Builder;
 
 class BahanConferenceService
 {
@@ -24,8 +25,13 @@ class BahanConferenceService
 
         $query->where('conference_id', $id);
         $query->when($request->q, function ($query, $q) {
-            return $query->whereHas('user', function ($query) use ($q) {
-                $query->where('name', $q);
+            $query->where(function ($queryA) use ($q) {
+                $queryA->whereHas('user', function (Builder $queryB) use ($q) {
+                    $queryB->where('name', 'ilike', '%'.$q.'%')
+                        ->orWhereHas('peserta', function (Builder $queryC) use ($q) {
+                            $queryC->orWhere('nip', 'ilike', '%'.$q.'%');
+                        });
+                });
             });
         });
 
@@ -142,6 +148,34 @@ class BahanConferenceService
 
     public function updatuConferece($request, $bahan)
     {
+        if ($request->tipe == 0) {
+            $client = new \GuzzleHttp\Client();
+            $url = config('addon.api.conference.end_point');
+
+            $parameter = [
+                'title' => $request->judul,
+                'description' => $request->keterangan,
+                'schedule' => [
+                    'startDate' => $request->tanggal,
+                    'start' => $request->start_time,
+                    'end' => $request->end_time,
+                ],
+            ];
+
+            $response = $client->request('POST', $url, [
+                'headers' => [
+                    'Content-Type' => 'application/json',
+                    'Accept' => 'application/json',
+                    'X-BPPT-Secret' => 'u7x!A%C*F-JaNdRgUkXp2s5v8y/B?E(G+KbPeShVmYq3t6w9z$C&F)J@McQfTjWn',
+                ],
+                'body' => json_encode($parameter),
+            ]);
+
+            $getBody = $response->getBody();
+        } else {
+            $getBody = null;
+        }
+
         $conference = $bahan->conference;
         $conference->tipe = (bool)$request->tipe;
         $conference->tanggal = $request->tanggal;
@@ -149,6 +183,7 @@ class BahanConferenceService
         $conference->end_time = $request->tanggal.' '.$request->end_time;
         $conference->meeting_link = ($request->tipe == 0) ? $this->generateRandomString() :
             $request->meeting_link;
+        $conference->api = $getBody;
         $conference->save();
 
         return $conference;

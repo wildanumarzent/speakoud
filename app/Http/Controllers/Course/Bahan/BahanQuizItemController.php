@@ -8,23 +8,26 @@ use App\Models\Course\Bahan\BahanQuizItem;
 use App\Services\Course\Bahan\BahanQuizItemService;
 use App\Services\Course\Bahan\BahanQuizService;
 use App\Services\Course\Bahan\BahanService;
+use App\Services\Soal\SoalKategoriService;
 use App\Services\Soal\SoalService;
 use Illuminate\Http\Request;
 
 class BahanQuizItemController extends Controller
 {
-    private $service, $serviceBahan, $serviceQuiz, $serviceSoal;
+    private $service, $serviceBahan, $serviceQuiz, $serviceSoalKategori, $serviceSoal;
 
     public function __construct(
         BahanQuizItemService $service,
         BahanService $serviceBahan,
         BahanQuizService $serviceQuiz,
+        SoalKategoriService $serviceSoalKategori,
         SoalService $serviceSoal
     )
     {
         $this->service = $service;
         $this->serviceBahan = $serviceBahan;
         $this->serviceQuiz = $serviceQuiz;
+        $this->serviceSoalKategori = $serviceSoalKategori;
         $this->serviceSoal = $serviceSoal;
     }
 
@@ -42,6 +45,7 @@ class BahanQuizItemController extends Controller
         $data['quiz_item']->withPath(url()->current().$t.$q);
         $data['quiz'] = $this->service->findQuiz($quizId);
 
+        $data['soal_kategori'] = $this->serviceSoalKategori->getSoalKategori($data['quiz']->mata_id);
         $soal = null;
         if ($data['quiz_item']->total() > 0) {
             $collectSoal = collect($this->service->getItem($quizId));
@@ -77,6 +81,12 @@ class BahanQuizItemController extends Controller
             return back()->with('warning', 'Tidak ada soal');
         }
 
+
+        $restrict = $this->serviceBahan->restrictAccess($data['quiz']->bahan_id);
+        if (!empty($restrict)) {
+            return back()->with('warning', $restrict);
+        }
+
         if ($data['quiz']->trackUserIn()->count() == 0) {
             $this->serviceQuiz->trackUserIn($quizId);
             return redirect()->route('quiz.room', ['id' => $quizId]);
@@ -89,14 +99,12 @@ class BahanQuizItemController extends Controller
             $detik = $kurang-($menit*60);
             $data['countdown'] = $menit.':'.$detik;
 
-            if ($data['quiz']->tipe == 1) {
-                if ($data['quiz']->trackUserIn->status == 2) {
-                    return back()->with('info', 'Anda sudah menyelesaikan quiz ini');
-                }
-                if (now()->format('Y-m-d H:i:s') > $data['quiz']->trackUserIn->start_time->addMinutes($data['quiz']->durasi)->format('Y-m-d H:i:s')) {
-                    return redirect()->route('course.bahan', ['id' => $data['quiz']->mata_id, 'bahanId' => $data['quiz']->bahan_id, 'tipe' => 'quiz'])
-                        ->with('warning', 'Durasi sudah habis');
-                }
+            if ($data['quiz']->trackUserIn->status == 2) {
+                return back()->with('info', 'Anda sudah menyelesaikan quiz ini');
+            }
+            if (now()->format('Y-m-d H:i:s') > $data['quiz']->trackUserIn->start_time->addMinutes($data['quiz']->durasi)->format('Y-m-d H:i:s')) {
+                return redirect()->route('course.bahan', ['id' => $data['quiz']->mata_id, 'bahanId' => $data['quiz']->bahan_id, 'tipe' => 'quiz'])
+                    ->with('warning', 'Durasi sudah habis');
             }
         }
 
@@ -164,6 +172,15 @@ class BahanQuizItemController extends Controller
         $data['item'] = $this->service->jawabanPeserta($quizId, $pesertaId);
         $data['quiz'] = $this->service->findQuiz($quizId);
 
+        if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
+            if ($data['quiz']->hasil == 0) {
+                return back()->with('warning', 'Anda tidak diperbolehkan melihat hasil quiz');
+            }
+            if ($pesertaId != auth()->user()->id) {
+                return abort(404);
+            }
+        }
+
         $this->serviceBahan->checkInstruktur($data['quiz']->materi_id);
 
         return view('frontend.course.quiz.jawaban', compact('data'), [
@@ -209,15 +226,29 @@ class BahanQuizItemController extends Controller
 
     public function storeFromBank(Request $request, $quizId)
     {
-        if ($request->soal_id == null) {
+        if ((bool)$request->random == 0 && $request->soal_id == null) {
             return back()->with('warning', 'soal harus dipilih');
-        } else {
-            
-            $this->service->storeFromBank($request, $quizId);
-
-            return back()->with('success', 'soal berhasil ditambahkan');
         }
-        
+
+        if ((bool)$request->random == 1) {
+            if (empty($request->jml_soal)) {
+                return back()->with('warning', 'jumlah soal harus diisi');
+            }
+            if (!empty($request->jml_soal)) {
+                $soal = $this->serviceSoal->getSoalByKategori($request->kategori_id)->count();
+                if ($soal == 0) {
+                    return back()->with('warning', 'jumlah soal dikategori yang dipilih kosong');
+                }
+                if ($request->jml_soal > $soal) {
+                    return back()->with('warning', 'jumlah soal maksimal '.$soal);
+                }
+            }
+        }
+
+        $this->service->storeFromBank($request, $quizId);
+
+        return back()->with('success', 'soal berhasil ditambahkan');
+
     }
 
     public function edit($quizId, $id)
@@ -288,6 +319,26 @@ class BahanQuizItemController extends Controller
         $this->serviceQuiz->cekPeserta($id);
 
         return back();
+    }
+
+    public function ulangi($quizId, $pesertaId)
+    {
+        $ulangi = $this->service->ulangi($quizId, $pesertaId);
+
+        if ($ulangi == true) {
+
+            return response()->json([
+                'success' => 1,
+                'message' => ''
+            ], 200);
+
+        } else {
+
+            return response()->json([
+                'success' => 0,
+                'message' => 'anda tidak bisa mengulangi quiz karena jawaban sudah dicek pengajar'
+            ], 200);
+        }
     }
 
     public function destroy($quizId, $id)

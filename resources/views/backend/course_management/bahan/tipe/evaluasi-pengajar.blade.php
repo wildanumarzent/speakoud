@@ -1,9 +1,5 @@
 @extends('backend.course_management.bahan.form')
 
-@section('style')
-<link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/select2/select2.css') }}">
-@endsection
-
 @section('content-bahan')
 @if (!isset($data['bahan']))
 <div class="form-group row">
@@ -32,14 +28,4 @@
     </div>
 </div>
 @endif
-@endsection
-
-@section('script')
-<script src="{{ asset('assets/tmplts_backend/vendor/libs/select2/select2.js') }}"></script>
-@endsection
-
-@section('body')
-<script>
-    $('.select2').select2();
-</script>
 @endsection

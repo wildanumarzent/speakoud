@@ -120,7 +120,7 @@
                                 <tr>
                                     <th>Tipe Quiz</th>
                                     <td>
-                                        {{ config('addon.label.quiz_tipe.'.$item->quiz->tipe) }}
+                                        {{ config('addon.label.quiz_kategori.'.$item->quiz->kategori) }}
                                     </td>
                                 </tr>
                                 @endif

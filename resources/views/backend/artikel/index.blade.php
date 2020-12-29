@@ -42,6 +42,9 @@
     <div class="card-header with-elements">
         <h5 class="card-header-title mt-1 mb-0">Artikel List</h5>
         <div class="card-header-elements ml-auto">
+            <a href="{{ route('tags.index') }}" class="btn btn-success icon-btn-only-sm" title="klik untuk melihat tags">
+                <i class="las la-tag"></i><span>Tags</span>
+            </a>
             <a href="{{ route('artikel.create') }}" class="btn btn-primary icon-btn-only-sm" title="klik untuk menambah artikel">
                 <i class="las la-plus"></i><span>Tambah</span>
             </a>

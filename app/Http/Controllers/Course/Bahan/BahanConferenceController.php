@@ -45,6 +45,11 @@ class BahanConferenceController extends Controller
                 return back()->with('warning', 'Pengajar sudah mengakhiri video conference');
             }
 
+            $restrict = $this->serviceBahan->restrictAccess($data['conference']->bahan_id);
+            if (!empty($restrict)) {
+                return back()->with('warning', $restrict);
+            }
+
             if ($this->service->checkPesertaJoin($id) == 0) {
                 $this->service->trackPesertaJoin($id);
             }

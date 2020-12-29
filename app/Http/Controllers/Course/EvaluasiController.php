@@ -115,6 +115,11 @@ class EvaluasiController extends Controller
             }
         }
 
+        $restrict = $this->serviceBahan->restrictAccess($bahanId);
+        if (!empty($restrict)) {
+            return back()->with('warning', $restrict);
+        }
+
         if (now() < $data['preview']->waktu_mulai) {
             return back()->with('warning', 'evaluasi tidak bisa dibuka dikarenakan belum memasuki waktu yang ditentukan');
         }
@@ -213,6 +218,11 @@ class EvaluasiController extends Controller
 
     public function submitPengajar(Request $request, $mataId, $bahanId)
     {
+        $restrict = $this->serviceBahan->restrictAccess($bahanId);
+        if (!empty($restrict)) {
+            return back()->with('warning', $restrict);
+        }
+
         $submit = $this->service->submitAnswerPengajar($request, $mataId, $bahanId);
 
         if ($submit == true) {

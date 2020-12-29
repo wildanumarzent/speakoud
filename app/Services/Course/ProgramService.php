@@ -40,7 +40,7 @@ class ProgramService
                 ->where('tipe', 1);
         }
 
-        $result = $query->orderBy('urutan', 'ASC')->paginate(9);
+        $result = $query->orderBy('urutan', 'ASC')->paginate(10);
 
         return $result;
     }
@@ -145,7 +145,7 @@ class ProgramService
         if ($program->mata->count() > 0) {
             return false;
         } else {
-            
+
             $program->delete();
 
             return true;

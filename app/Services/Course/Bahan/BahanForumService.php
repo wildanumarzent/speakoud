@@ -177,16 +177,19 @@ class BahanForumService
     {
         $topik = $this->findTopik($id);
 
-        if (!empty($topik->attachment)) {
-            $path = public_path('userfile/attachment/forum/'.$topik->forum_id.'/'.$topik->attachment) ;
-            File::delete($path);
+        if ($topik->diskusi->count() > 0) {
+            return false;
+        } else {
+            if (!empty($topik->attachment)) {
+                $path = public_path('userfile/attachment/forum/'.$topik->forum_id.'/'.$topik->attachment) ;
+                File::delete($path);
+            }
+
+            $topik->starUser()->delete();
+            $topik->delete();
+
+            return true;
         }
-
-        $topik->diskusi()->delete();
-        $topik->starUser()->delete();
-        $topik->delete();
-
-        return $topik;
     }
 
     //diskusi

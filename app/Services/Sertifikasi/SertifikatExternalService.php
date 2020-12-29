@@ -30,6 +30,11 @@ class SertifikatExternalService
         return $result;
     }
 
+    public function findSertifikat(int $id)
+    {
+        return $this->model->findOrFail($id);
+    }
+
     public function uploadSertifikat($request, int $mataId)
     {
         if ($request->hasFile('sertifikat')) {
@@ -50,5 +55,14 @@ class SertifikatExternalService
         } else {
             return false;
         }
+    }
+
+    public function deleteSertifikat(int $id)
+    {
+        $sertifikat = $this->findSertifikat($id);
+        Storage::disk('bank_data')->delete($sertifikat->sertifikat);
+        $sertifikat->delete();
+
+        return $sertifikat;
     }
 }

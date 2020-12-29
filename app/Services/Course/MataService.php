@@ -107,7 +107,7 @@ class MataService
             });
         }
 
-        $result = $query->orderBy('urutan', 'ASC')->paginate(9);
+        $result = $query->orderBy('urutan', 'ASC')->paginate(10);
 
         return $result;
     }
@@ -149,7 +149,8 @@ class MataService
             $query->whereHas('program', function ($query) {
                 $query->publish();
             });
-            $query->publish();
+            $query->publish()->where('publish_start', '<=', now())
+            ->where('publish_end', '>=', now());
         }
 
         $result = $query->orderBy($order, $by)->paginate($limit);
@@ -503,15 +504,15 @@ class MataService
             $mata->soalKategori->count() > 0 || $mata->soal->count() > 0 ||
             $mata->sertifikatInternal->count() > 0 || $mata->sertifikatExternal->count() > 0 ||
             $mata->rating->count() > 0 || $mata->comment->count() > 0) {
-            
+
             return false;
         } else {
-            
+
             if (!empty($mata->cover['filename'])) {
                 $this->deleteCoverFromPath($mata->cover['filename']);
             }
             $mata->delete();
-    
+
             return true;
         }
     }
@@ -567,12 +568,12 @@ class MataService
 
         if ($activity > 0 || $evaluasi > 0 || $topik > 0 || $topikDiskusi ||
             $tugas > 0 || $conference > 0 || $quiz > 0) {
-            
+
             return false;
         } else {
-            
+
             $peserta->delete();
-    
+
             return true;
         }
     }

@@ -30,7 +30,7 @@ class UserService
         $query = $this->model->query();
 
         $query->with('roles');
-        
+
         $result = $query->orderBy('id', 'ASC')->get();
 
         return $result;
@@ -220,6 +220,19 @@ class UserService
             'description' => $request->photo_description ?? null,
         ];
         $user->save();
+
+        if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
+            if ($request->hasFile('foto_sertifikat')) {
+                $fotoSertifikat = str_replace(' ', '-', $request->file('foto_sertifikat')
+                    ->getClientOriginalName());
+                $path = public_path('userfile/photo/'.$request->old_foto_sertifikat) ;
+                File::delete($path);
+                $request->file('foto_sertifikat')->move(public_path('userfile/photo/sertifikat'), $fotoSertifikat);
+            }
+            $peserta = $user->peserta;
+            $peserta->foto_sertifikat = ($request->foto_sertifikat != null) ? $fotoSertifikat : $peserta->foto_sertifikat;
+            $peserta->save();
+        }
 
         $this->updateInformation($request, $id);
 
