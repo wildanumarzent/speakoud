@@ -933,6 +933,23 @@ Route::group(['middleware' => ['auth']], function () {
      //Logs
      Route::get('/log','LogController@index')->name('log.index');
 
+    //Competency
+    Route::get('/competency','CompetencyController@index')->name('competency.index');
+    Route::get('/competency/create','CompetencyController@create')->name('competency.create');
+    Route::get('/competency/edit/{competency}','CompetencyController@create')->name('competency.edit');
+    Route::post('/competency/store','CompetencyController@store')->name('competency.store');
+    Route::post('/competency/{id}/delete','CompetencyController@delete')->name('competency.delete');
+
+     //Journey
+    Route::get('/journey','JourneyController@index')->name('journey.index');
+    Route::get('/journey/{journey}','JourneyController@show')->name('journey.show');
+    Route::get('/journey/create','JourneyController@create')->name('journey.create');
+    Route::get('/journey/edit/{journey}','JourneyController@create')->name('journey.edit');
+    Route::post('/journey/store','JourneyController@store')->name('journey.store');
+    Route::post('/journey/{id}/delete','JourneyController@delete')->name('journey.delete');
+
+     //Learning Journey
+
 
       // Statistic
     Route::get('/statistic','Component\StatisticController@index')->name('statistic.index');

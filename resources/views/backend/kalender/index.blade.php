@@ -50,14 +50,14 @@
                     <textarea cols="30" rows="10" id="description" class="form-control  @error('description') is-invalid @enderror" name="description" placeholder="masukan description..."></textarea>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Color Type</label>
+                    <label class="form-label">Tipe Warna</label>
                     <select class="custom-select" name="className" id="className">
-                        <option value="" selected>Default</option>
-                        <option value="fc-event-success">Success</option>
-                        <option value="fc-event-info">Info</option>
-                        <option value="fc-event-warning">Warning</option>
-                        <option value="fc-event-danger">Danger</option>
-                        <option value="fc-event-dark">Dark</option>
+                        <option value="" selected>Biru</option>
+                        <option value="fc-event-success">Hijau</option>
+                        <option value="fc-event-info">Hijau Muda</option>
+                        <option value="fc-event-warning">Kuning</option>
+                        <option value="fc-event-danger">Merah</option>
+                        <option value="fc-event-dark">Hitam</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -71,9 +71,9 @@
                 </div> --}}
             </div>
             <div class="modal-footer">
-                <button type="submit" id="delete" name="action" value="destroy" class="btn btn-danger md-btn-flat" disabled>Delete</button>
-                <button type="button" class="btn btn-default md-btn-flat" data-dismiss="modal">Close</button>
-                <button type="submit" id="save" name="action" value="submit" class="btn btn-primary md-btn-flat">Save</button>
+                <button type="submit" id="delete" name="action" value="destroy" class="btn btn-danger md-btn-flat" disabled>Hapus</button>
+                <button type="button" class="btn btn-default md-btn-flat" data-dismiss="modal">Tutup</button>
+                <button type="submit" id="save" name="action" value="submit" class="btn btn-primary md-btn-flat">Simpan</button>
 
             </div>
         </div>

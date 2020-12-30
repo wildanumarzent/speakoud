@@ -247,6 +247,25 @@
               <div>Pengumuman</div>
             </a>
         </li>
+         {{-- <!-- badge -->
+         <li class="sidenav-item {{ Request::is('badge*') ? ' active' : '' }}">
+            <a href="{{route('announcement.index')}}" class="sidenav-link" title="Announcement"><i class="sidenav-icon oi oi-badge "></i>
+              <div>Badges</div>
+            </a>
+        </li> --}}
+
+         <!-- journey -->
+         <li class="sidenav-item {{ Request::is('journey*') ? ' active' : '' }}">
+            <a href="{{route('journey.index')}}" class="sidenav-link" title="Announcement"><i class="sidenav-icon ion ion-md-bookmarks"></i>
+              <div>Learning Journey</div>
+            </a>
+        </li>
+         <!-- competency -->
+         <li class="sidenav-item {{ Request::is('competency*') ? ' active' : '' }}">
+            <a href="{{route('competency.index')}}" class="sidenav-link" title="Announcement"><i class="sidenav-icon fas fa-chalkboard-teacher"></i>
+              <div>Competency</div>
+            </a>
+        </li>
 
         @role ('developer|administrator|internal')
         <!-- aktivitas -->
