@@ -38,20 +38,20 @@
                 <a class="nav-link dropdown-toggle hide-arrow" href="#" data-toggle="dropdown">
                   <i class="las la-bell navbar-icon align-middle"></i>
                   <span class="badge badge-primary badge-dot indicator"></span>
-                  <span class="d-lg-none align-middle">&nbsp; Notifications</span>
+                  <span class="d-lg-none align-middle">&nbsp; Notifikasi</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">
                   <div class="bg-primary text-center text-white font-weight-bold p-3">
-                    4 New Notifications
+                    4 Notifikasi Baru
                   </div>
                   <div class="list-group list-group-flush">
 
                     <a href="javascript:void(0)" class="list-group-item list-group-item-action media d-flex align-items-center">
-                      <div class="ui-icon ui-icon-sm ion ion-md-warning bg-warning border-0 text-body"></div>
+                      <div class="ui-icon ui-icon-sm las la-bell bg-warning border-0 text-body"></div>
                       <div class="media-body line-height-condenced ml-3">
-                        <div class="text-body">99% server load</div>
+                        <div class="text-body">Dummy notifikasi</div>
                         <div class="text-light small mt-1">
-                          Etiam nec fringilla magna. Donec mi metus.
+                          Under construction
                         </div>
                         <div class="text-light small mt-1">
                           20h ago
@@ -61,7 +61,7 @@
 
                   </div>
 
-                  <a href="javascript:void(0)" class="d-block text-center text-light small p-2 my-1">Show all notifications</a>
+                  <a href="javascript:void(0)" class="d-block text-center text-light small p-2 my-1">Tampilkan semua notifikasi</a>
                 </div>
             </div>
 

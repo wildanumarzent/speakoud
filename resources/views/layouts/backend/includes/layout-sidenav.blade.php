@@ -229,14 +229,14 @@
             <ul class="sidenav-menu">
               <!-- bppt -->
               <li class="sidenav-item">
-                <a href="" class="sidenav-link" title="Internal BPPT">
-                  <div>Sertifikat Internal</div>
+                <a href="" class="sidenav-link" title="Internal">
+                  <div>Internal</div>
                 </a>
               </li>
               <!-- lan -->
               <li class="sidenav-item">
                   <a href="" class="sidenav-link" title="External">
-                    <div>Sertifikat External</div>
+                    <div>External</div>
                   </a>
               </li>
             </ul>

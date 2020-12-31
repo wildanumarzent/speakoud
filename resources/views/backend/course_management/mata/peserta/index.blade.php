@@ -34,11 +34,17 @@
 </div>
 <br>
 
+@if (session()->has('failures'))
+<div class="alert alert-danger alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert"><i class="las la-times"></i></button>
+    gagal import data. <a href="{{ route('dosen.index') }}"><em>Kembali ke list</em></a>
+</div>
+@endif
 @if ($errors->any())
   <div class="alert alert-danger alert-dismissible fade show">
     <button type="button" class="close" data-dismiss="alert"><i class="las la-times"></i></button>
     @foreach ($errors->all() as $error)
-        <i class="las la-ban"></i> {{ $error }} <br>
+        <i class="las la-thumbtack"></i> {{ $error }} <br>
     @endforeach
   </div>
 @endif
@@ -47,14 +53,44 @@
     <div class="card-header with-elements">
         <h5 class="card-header-title mt-1 mb-0">Peserta List</h5>
         <div class="card-header-elements ml-auto">
-            <button type="button" class="btn btn-success icon-btn-only-sm" data-toggle="modal" data-target="#modals-import-peserta" title="klik untuk import peserta ke program">
-                <i class="las la-file-import"></i> <span>Import</span>
+            <button type="button" class="btn icon-btn-only-sm btn-success" title="klik untuk import data peserta" data-toggle="modal" data-target="#modals-import">
+                <i class="las la-file-import"></i><span>Import</span>
             </button>
             <button type="button" class="btn btn-primary icon-btn-only-sm" data-toggle="modal" data-target="#modals-add-peserta" title="klik untuk menambahkan peserta ke program">
                 <i class="las la-plus"></i> <span>Tambah</span>
             </button>
         </div>
     </div>
+    @if (session()->has('failures'))
+    <div class="table-responsive table-mobile-responsive">
+        <table class="table card-table table-striped table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Row</th>
+                    <th>Attribute</th>
+                    <th>Errors</th>
+                    <th>Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (session()->get('failures') as $validation)
+                <tr class="table-danger">
+                    <td>{{ $validation->row() }}</td>
+                    <td>{{ $validation->attribute() }}</td>
+                    <td>
+                        <ul>
+                            @foreach ($validation->errors() as $e)
+                                <li>{{ $e }}</li>
+                            @endforeach
+                        </ul>
+                    </td>
+                    <td>{{ $validation->values()[$validation->attribute()] }}</td>
+                </tr>
+            @endforeach
+            </tbody>
+        </table>
+    </div>
+    @else
     <div class="table-responsive table-mobile-responsive">
         <table id="user-list" class="table card-table table-striped table-bordered table-hover">
             <thead>
@@ -102,6 +138,7 @@
             </tbody>
         </table>
     </div>
+    @endif
     <div class="card-footer">
         <div class="row align-items-center">
             <div class="col-lg-6 m--valign-middle">
@@ -116,6 +153,7 @@
 </div>
 
 @include('backend.course_management.mata.peserta.modal-create')
+@include('backend.course_management.mata.peserta.modal-import')
 @endsection
 
 @section('scripts')

@@ -98,7 +98,7 @@
                         <a class="btn btn-success btn-sm icon-btn-only-sm mr-1" href="{{ route('bahan.index', ['id' => $item->id]) }}" title="klik untuk melihat materi pelatihan">
                             <i class="las la-folder"></i> <span>Materi</span>
                         </a>
-                        @if (auth()->user()->hasRole('developer|administrator') || $item->creator_id == auth()->user()->id)
+                        {{-- @if (auth()->user()->hasRole('developer|administrator') || $item->creator_id == auth()->user()->id)
                         <div class="btn-group dropdown">
                             <button type="button" class="btn btn-primary btn-sm icon-btn-only-sm dropdown-toggle hide-arrow" data-toggle="dropdown" title="klik untuk melihat activity"><i class="las la-chart-pie"></i><span>Activity</span></button>
                             <div class="dropdown-menu dropdown-menu-right">
@@ -110,7 +110,7 @@
                                 </a>
                             </div>
                         </div>
-                        @endif
+                        @endif --}}
                         <div class="btn-group dropdown">
                             <button type="button" class="btn btn-warning btn-sm icon-btn-only-sm dropdown-toggle hide-arrow" data-toggle="dropdown" title="klik untuk melakukan aksi"><i class="las la-ellipsis-v"></i><span>Aksi</span></button>
                             <div class="dropdown-menu dropdown-menu-right">

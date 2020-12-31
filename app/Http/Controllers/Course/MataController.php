@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Course;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ImportEnrollRequest;
 use App\Http\Requests\KodeEvaluasiInstrukturRequest;
 use App\Http\Requests\KomentarRequest;
 use App\Http\Requests\MataInstrukturRequest;
 use App\Http\Requests\MataPesertaRequest;
 use App\Http\Requests\MataRequest;
+use App\Imports\InstrukturProgramImport;
+use App\Imports\PesertaProgramImport;
 use App\Services\Course\EvaluasiService;
 use App\Services\Course\MataService;
 use App\Services\Course\MateriService;
@@ -194,15 +197,19 @@ class MataController extends Controller
     public function history(Request $request)
     {
         $p = '';
+        $f = '';
+        $t = '';
         $q = '';
-        if (isset($request->p) || isset($request->q)) {
+        if (isset($request->p) || isset($request->f) || isset($request->t) || isset($request->q)) {
             $p = '?p='.$request->p;
+            $f = '&f='.$request->f;
+            $t = '&t='.$request->t;
             $q = '&q='.$request->q;
         }
 
         $data['mata'] = $this->service->getMataHistory($request);
         $data['number'] = $data['mata']->firstItem();
-        $data['mata']->withPath(url()->current().$p.$q);
+        $data['mata']->withPath(url()->current().$p.$f.$t.$q);
 
         return view('backend.course_management.mata.history', compact('data'), [
             'title' => 'Histori - Program Pelatihan',
@@ -260,6 +267,21 @@ class MataController extends Controller
             ->with('success', 'Instruktur pelatihan berhasil ditambahkan');
     }
 
+    public function importInstruktur(ImportEnrollRequest $request, $mataId)
+    {
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $import = new InstrukturProgramImport;
+            $import->import($file);
+
+            if ($import->failures()->isNotEmpty()) {
+                return back()->withFailures($import->failures());
+            }
+
+            return back()->with('success', 'Instruktur berhasil ditambahkan');
+        }
+    }
+
     public function kodeEvaluasiInstruktur(KodeEvaluasiInstrukturRequest $request, $mataId, $id)
     {
         if (!empty($request->kode_evaluasi)) {
@@ -281,6 +303,21 @@ class MataController extends Controller
 
         return redirect()->route('mata.peserta', ['id' => $mataId])
             ->with('success', 'Peserta pelatihan berhasil ditambahkan');
+    }
+
+    public function importPeserta(ImportEnrollRequest $request, $mataId)
+    {
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $import = new PesertaProgramImport;
+            $import->import($file);
+
+            if ($import->failures()->isNotEmpty()) {
+                return back()->withFailures($import->failures());
+            }
+
+            return back()->with('success', 'Peserta berhasil ditambahkan');
+        }
     }
 
     public function edit($programId, $id)

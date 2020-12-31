@@ -53,8 +53,8 @@
                         $track = $data['track']->where('bahan_id', $bahan->id)->where('user_id', $item->peserta->user->id)->first();
                     @endphp
                     @if($data['track']->where('bahan_id', $bahan->id)->where('user_id', $item->peserta->user->id)->count() > 0)
-                        <td>
-                            <a href="javascript:;" class="btn icon-btn btn-sm btn-outline-{{ $track->status == '0' ? 'danger' : (!empty($track->track_end) ? 'success' : 'danger') }}" onclick="$(this).find('#form-update').submit();" title="klik untuk update status">
+                        <td style="text-align: center;">
+                            <a href="javascript:;" class="btn icon-btn btn-sm btn-{{ $track->status == '0' ? 'danger' : (!empty($track->track_end) ? 'success' : 'danger') }}" onclick="$(this).find('#form-update').submit();" title="klik untuk update status">
                                 <span class="las la-{{ !empty($track->track_end) ? 'check' : 'stop' }}"></span>
                                 <form action="{{ route('mata.completion.status', ['id' => $track->id]) }}" method="POST" id="form-update">
                                     @csrf
@@ -63,8 +63,8 @@
                             </a>
                         </td>
                     @else
-                        <td>
-                            <a href="javascript:;" class="btn icon-btn btn-sm btn-outline-secondary" onclick="$(this).find('#form-submit').submit();" title="klik untuk menyelesaikan completion">
+                        <td style="text-align: center;">
+                            <a href="javascript:;" class="btn icon-btn btn-sm btn-secondary" onclick="$(this).find('#form-submit').submit();" title="klik untuk menyelesaikan completion">
                                 <span class="las la-stop"></span>
                                 <form action="{{ route('mata.completion.submit',['bahanId' => $bahan->id, 'userId' => $item->peserta->user->id]) }}" method="POST" id="form-submit">
                                     @csrf

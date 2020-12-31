@@ -8,18 +8,27 @@
                 <th rowspan="3" style="width: 10px;">NO</th>
                 <th rowspan="3">NIP</th>
                 <th rowspan="3">NAMA</th>
-                <th colspan="1" style="text-align:center;">KEHADIRAN</th>
-                <th colspan="3" style="text-align:center;">KEAKTIFAN</th>
-                <th colspan="2" style="text-align:center;">TUGAS</th>
-                <th rowspan="3">POST TEST</th>
+                <th colspan="1" style="text-align:center;">
+                    KEHADIRAN ({{ $data['mata']->bobot->join_vidconf.'%' }})
+                </th>
+                <th colspan="3" style="text-align:center;">
+                    KEAKTIFAN ({{ ($data['mata']->bobot->activity_completion+$data['mata']->bobot->forum_diskusi+$data['mata']->bobot->webinar).'%' }})
+                </th>
+                <th colspan="2" style="text-align:center;">
+                    TUGAS ({{ !empty($data['mata']->bobot->progress_test) ? ($data['mata']->bobot->progress_test+$data['mata']->bobot->quiz).'%' : ($data['mata']->bobot->quiz).'%' }})
+                </th>
+                <th rowspan="3" style="text-align:center;">POST TEST ({{ $data['mata']->bobot->post_test.'%' }})</th>
+                <th rowspan="3" style="text-align:center;">TOTAL</th>
               </tr>
               <tr style="text-align:center;">
                   <th rowspan="2">Join Video Conference</th>
-                  <th rowspan="2">Activity Completion</th>
-                  <th rowspan="2">Forum Diskusi</th>
-                  <th rowspan="2">Webinar</th>
-                  <th rowspan="2">Progress Test</th>
-                  <th rowspan="2">Quiz</th>
+                  <th rowspan="2">Activity Completion ({{ $data['mata']->bobot->activity_completion.'%' }})</th>
+                  <th rowspan="2">Forum Diskusi ({{ $data['mata']->bobot->forum_diskusi.'%' }})</th>
+                  <th rowspan="2">Webinar ({{ $data['mata']->bobot->webinar.'%' }})</th>
+                  <th rowspan="2">
+                      {!! !empty($data['mata']->bobot->progress_test) ? 'Progress Test' : '<s>Progress Test</s>' !!} {{ !empty($data['mata']->bobot->progress_test) ? '('.$data['mata']->bobot->progress_test.'%)' : '' }}
+                    </th>
+                  <th rowspan="2">Quiz ({{ $data['mata']->bobot->quiz.'%' }})</th>
               </tr>
         </thead>
         <tbody>
@@ -43,13 +52,34 @@
                 <td>{{ $data['number']++ }}</td>
                 <td>{{ $item->peserta->nip }}</td>
                 <td>{{ $item->peserta->user->name }}</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td style="text-align:center;">
+                    <strong>{{ $item->mata->bobot->bobotVidConf($item->mata_id, $item->peserta->user->id) }}%</strong>
+                </td>
+                <td style="text-align:center;">
+                    <strong>{{ $item->mata->bobot->bobotActivity($item->mata_id, $item->peserta->user->id) }}%</strong>
+                </td>
+                <td style="text-align:center;">
+                    <strong>{{ $item->mata->bobot->bobotForum($item->mata_id, $item->peserta->user->id) }}%</strong>
+                </td>
+                <td style="text-align:center;">
+                    <strong>{{ $item->mata->bobot->bobotWebinar($item->mata_id, $item->peserta->user->id) }}%</strong>
+                </td>
+                <td style="text-align:center;">
+                    @if (!empty($data['mata']->bobot->progress_test))
+                    <strong>{{ $item->mata->bobot->bobotProgress($item->mata_id, $item->peserta->user->id) }}</strong>
+                    @else
+                        <em>Tidak diaktifkan</em>
+                    @endif
+                </td>
+                <td style="text-align:center;">
+                    <strong>{{ $item->mata->bobot->bobotQuiz($item->mata_id, $item->peserta->user->id) }}%</strong>
+                </td>
+                <td style="text-align:center;">
+                    <strong>{{ $item->mata->bobot->bobotPost($item->mata_id, $item->peserta->user->id) }}%</strong>
+                </td>
+                <td style="text-align:center;">
+                    <strong>{{ $item->mata->bobot->totalBobot($item->mata_id, $item->peserta->user->id) }}%</strong>
+                </td>
             </tr>
             @endforeach
         </tbody>

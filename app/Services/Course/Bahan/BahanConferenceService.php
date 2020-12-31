@@ -252,4 +252,15 @@ class BahanConferenceService
 
         return $peserta;
     }
+
+    public function penilaian($request, int $id)
+    {
+        $peserta = $this->modelPeserta->findOrFail($id);
+        $peserta->nilai = $request->nilai;
+        $peserta->catatan = $request->catatan ?? null;
+        $peserta->konfirmasi = (bool)$request->konfirmasi;
+        $peserta->save();
+
+        return $peserta;
+    }
 }

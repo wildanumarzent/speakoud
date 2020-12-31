@@ -24,4 +24,9 @@ class SertifikatInternal extends Model
     {
         return $this->belongsTo(MataPelatihan::class, 'mata_id');
     }
+
+    public function peserta()
+    {
+        return $this->hasMany(SertifikatPeserta::class, 'sertifikat_id');
+    }
 }

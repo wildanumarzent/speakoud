@@ -51,6 +51,12 @@ class SertifikatInternalController extends Controller
 
     public function update(SertifikatInternalRequest $request, $mataId, $id)
     {
+        $sertifikat = $this->service->findSertifikat($id);
+
+        if ($sertifikat->peserta->count() > 0) {
+            return back()->with('success', 'sertifikat tidak bisa diubah, dikarenakan sudah ada peserta yang sudah generate');
+        }
+
         $this->service->updateSertifikat($request, $id);
 
         return back()->with('success', 'sertifikat berhasil diubah');
@@ -58,6 +64,12 @@ class SertifikatInternalController extends Controller
 
     public function cetak($mataId, $sertifikatId)
     {
+        $mata = $this->serviceMata->findMata($mataId);
+
+        if ($mata->bobot->bobotActivity($mataId, auth()->user()->id) < 10) {
+            return back()->with('warning', 'Anda harus menyelesaikan semua materi');
+        }
+
         if (empty(auth()->user()->peserta->foto_sertifikat)) {
             return back()->with('warning', 'Upload foto sertifikat terlebih dahulu di profile anda');
         }

@@ -60,7 +60,7 @@ return [
             'konten' => 'Konten',
             'strip' => 'Strip Text',
         ],
-        'home' => 'Home',
+        'home' => 'Beranda',
         'login' => 'Login',
         'register' => 'Register',
         'forgot_password' => 'Forgot Password?'

@@ -91,6 +91,20 @@
                             </div>
                         </div>
                     </div>
+                    <div class="form-group row">
+                        <div class="col-md-2 text-md-right">
+                          <label class="col-form-label text-sm-right">Total Jam Pelatihan</label>
+                        </div>
+                        <div class="col-md-10">
+                            <div class="input-group">
+                                <input type="number" class="form-control @error('jam_pelatihan') is-invalid @enderror" name="jam_pelatihan"
+                                    value="{{ isset($data['mata']) ? old('jam_pelatihan', $data['mata']->jam_pelatihan) : old('jam_pelatihan') }}" placeholder="masukan jam pelatihan...">
+                                <div class="input-group-append">
+                                    <span class="input-group-text">JAM</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <hr>
                     <div class="form-group row">
                         <div class="col-md-2 text-md-right">

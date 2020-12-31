@@ -21,6 +21,9 @@ class CreateConferenceUserTrackerTable extends Migration
             $table->timestamp('check_in')->nullable();
             $table->boolean('check_in_verified')->nullable();
             $table->timestamp('leave')->nullable();
+            $table->integer('nilai')->nullable();
+            $table->text('catatan')->nullable();
+            $table->boolean('konfirmasi')->nullable();
             $table->timestamps();
 
             $table->foreign('conference_id')->references('id')->on('bahan_conference')
