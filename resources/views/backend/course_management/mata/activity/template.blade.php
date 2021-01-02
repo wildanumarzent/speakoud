@@ -37,7 +37,7 @@
     <div class="list-group list-group-flush account-settings-links flex-row">
         <a class="list-group-item list-group-item-action {{ Request::segment(3) == 'pembobotan' ? 'active' : '' }}" href="{{ route('mata.pembobotan', ['id' => $data['mata']->id]) }}">Pembobotan Nilai</a>
         <a class="list-group-item list-group-item-action {{ Request::segment(3) == 'completion' ? 'active' : '' }}" href="{{ route('mata.completion', ['id' => $data['mata']->id]) }}">Activity Completion</a>
-        <a class="list-group-item list-group-item-action" href="">Test Compare</a>
+        <a class="list-group-item list-group-item-action {{ Request::segment(3) == 'compare' ? 'active' : '' }}" href="{{ route('mata.compare', ['id' => $data['mata']->id]) }}">Compare Test</a>
     </div>
     <div class="card-body">
         @yield('content-view')

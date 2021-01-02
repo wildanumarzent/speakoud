@@ -93,9 +93,9 @@
                     </div>
                     <div class="col-md-4 text-right">
                         @if ($item->publish == 0 && $item->mata()->count() > 0 && $item->materi()->count() > 0)
-                        <a href="javascript:;" class="btn btn-primary btn-sm icon-btn-only-sm publish" title="klik untuk publish">
-                            <i class="las la-plane"></i> <span>PUBLISH</span>
-                            <form action="{{ route('program.publish', ['id' => $item->id])}}" method="POST" class="form-publish">
+                        <a href="javascript:;" onclick="$(this).find('#form-publish').submit();" class="btn btn-{{ $item->publish == 0 ? 'primary' : 'secondary' }} btn-sm icon-btn-only-sm" title="klik {{ $item->publish == 0 ? 'publish' : 'draft' }} kategori">
+                            <i class="las la-{{ $item->publish == 0 ? 'eye' : 'eye-slash' }} "></i> <span>{{ $item->publish == 0 ? 'PUBLISH' : 'DRAFT' }}</span>
+                            <form action="{{ route('program.publish', ['id' => $item->id])}}" method="POST" id="form-publish">
                                 @csrf
                                 @method('PUT')
                             </form>
@@ -262,7 +262,7 @@
         cancelButtonText: "Tidak, terima kasih",
         }).then((result) => {
         if (result.value) {
-            $(".form-publish").submit();
+            $("#form-publish").submit();
         }
         })
     });

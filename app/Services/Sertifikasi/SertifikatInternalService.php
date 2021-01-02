@@ -70,7 +70,9 @@ class SertifikatInternalService
         $GLOBALS['nomor'] = $generateNomor;
         $GLOBALS['nama'] = auth()->user()->name;
         $GLOBALS['program'] = $mata->judul;
-        $GLOBALS['jam'] = '92 hours';
+        if (!empty($mata->jam_pelatihan)) {
+            $GLOBALS['jam'] = $mata->jam_pelatihan;
+        }
         $GLOBALS['start'] = $mata->publish_start->format('F jS');
         $GLOBALS['end'] = $mata->publish_end->format('F jS, Y');
         $GLOBALS['tanggal'] = $mata->sertifikatInternal->tanggal->format('d F Y');
@@ -78,7 +80,7 @@ class SertifikatInternalService
         $GLOBALS['jabatan'] = $mata->sertifikatInternal->jabatan;
         $GLOBALS['foto'] = public_path('userfile/photo/sertifikat/'.auth()->user()->peserta->foto_sertifikat);
 
-        $template = public_path('userfile\certificate\template-A.docx');
+        $template = public_path('userfile/certificate/template-internal.docx');
         $TBS->LoadTemplate($template, OPENTBS_ALREADY_UTF8);
 
         $userName = str_replace(' ', '-', auth()->user()->name);

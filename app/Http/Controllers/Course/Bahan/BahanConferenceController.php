@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Course\Bahan;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\NilaiConferenceRequest;
 use App\Services\Course\Bahan\BahanConferenceService;
 use App\Services\Course\Bahan\BahanService;
 use Illuminate\Http\Request;
@@ -205,5 +206,12 @@ class BahanConferenceController extends Controller
         $this->service->statusMeet($id, 2);
 
         return back()->with('success', 'Video Conference berhasil ditutup');
+    }
+
+    public function penilaian(NilaiConferenceRequest $request, $coferenceId, $id)
+    {
+        $this->service->penilaian($request, $id);
+
+        return back()->with('success', 'berhasil memberikan penilaian untuk webinar');
     }
 }

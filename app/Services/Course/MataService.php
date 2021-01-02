@@ -80,7 +80,7 @@ class MataService
         $query = $this->model->query();
 
         $query->where('program_id', $programId);
-        $query->where('publish_end', '>=', now()->format('Y-m-d H:i:s'));
+        // $query->where('publish_end', '>=', now());
         $query->when($request->q, function ($query, $q) {
             $query->where(function ($query) use ($q) {
                 $query->where('judul', 'ilike', '%'.$q.'%');
@@ -206,6 +206,10 @@ class MataService
         }
 
         $query->where('publish_end', '<', now());
+
+        if (isset($request->f) && isset($request->t)) {
+            $query->whereBetween('publish_end', [$request->f, $request->t]);
+        }
 
         $query->publish();
 
@@ -339,6 +343,7 @@ class MataService
         $mata->publish = (bool)$request->publish;
         $mata->publish_start = $request->publish_start ?? null;
         $mata->publish_end = ($request->enable == 1 ? $request->publish_end : null);
+        $mata->jam_pelatihan = $request->jam_pelatihan ?? null;
         $mata->urutan = ($this->model->where('program_id', $programId)->max('urutan') + 1);
         $mata->show_feedback = (bool)$request->show_feedback;
         $mata->show_comment = (bool)$request->show_comment;
@@ -411,6 +416,7 @@ class MataService
         $mata->publish = (bool)$request->publish;
         $mata->publish_start = $request->publish_start ?? null;
         $mata->publish_end = $request->publish_end ?? null;
+        $mata->jam_pelatihan = $request->jam_pelatihan ?? null;
         $mata->show_feedback = (bool)$request->show_feedback;
         $mata->show_comment = (bool)$request->show_comment;
         $mata->save();
@@ -525,7 +531,7 @@ class MataService
         $materi = $mata->materi->where('instruktur_id', $id)->count();
         $bahan = $mata->bahan()->where('creator_id', $instruktur->instruktur->user_id)->count();
         $evaluasi = BahanEvaluasiPengajar::where('mata_id', $mataId)
-            ->where('mata_instruktur_id', $mata->instruktur->where('instruktur_id', $id)->first()->id)->count();
+            ->where('mata_instruktur_id', $id)->count();
 
         if ($materi > 0 || $bahan > 0 || $evaluasi > 0) {
             return false;

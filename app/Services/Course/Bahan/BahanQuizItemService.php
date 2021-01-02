@@ -91,6 +91,19 @@ class BahanQuizItemService
         return $result;
     }
 
+    public function nilaiTest(int $mataId, $kategori)
+    {
+        $quiz = $this->modelQuiz->where('mata_id', $mataId)
+            ->where('kategori', $kategori)->pluck('id');
+
+        $test = $this->modelTracker->query();
+        $test->whereIn('quiz_id', $quiz);
+
+        $result = $test->get();
+
+        return $result;
+    }
+
     public function findItem(int $id)
     {
         return $this->model->findOrFail($id);

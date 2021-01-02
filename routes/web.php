@@ -131,6 +131,9 @@ Route::put('/conference/{id}/join/{trackId}/verification', 'Course\Bahan\BahanCo
 Route::put('/conference/{id}/finish', 'Course\Bahan\BahanConferenceController@finishConference')
     ->name('conference.finish')
     ->middleware(['auth', 'role:administrator|internal|mitra|instruktur_internal|instruktur_mitra']);
+Route::put('/conference/{id}/{trackId}/penilaian', 'Course\Bahan\BahanConferenceController@penilaian')
+    ->name('conference.penilaian')
+    ->middleware(['auth', 'role:administrator|internal|mitra|instruktur_internal|instruktur_mitra']);
 
 //quiz
 Route::get('/quiz/{id}/test', 'Course\Bahan\BahanQuizItemController@room')
@@ -597,6 +600,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('mata/{id}/instruktur', 'Course\MataController@storeInstruktur')
         ->name('mata.instruktur.store')
         ->middleware('role:administrator|internal|mitra');
+    Route::post('mata/{id}/instruktur/import', 'Course\MataController@importInstruktur')
+        ->name('mata.instruktur.import')
+        ->middleware('role:administrator|internal|mitra');
     Route::put('mata/{id}/instruktur/{instrukturId}', 'Course\MataController@kodeEvaluasiInstruktur')
         ->name('mata.instruktur.evaluasi')
         ->middleware('role:administrator|internal|mitra');
@@ -609,6 +615,9 @@ Route::group(['middleware' => ['auth']], function () {
         ->middleware('role:administrator|internal|mitra');
     Route::post('mata/{id}/peserta', 'Course\MataController@storePeserta')
         ->name('mata.peserta.store')
+        ->middleware('role:administrator|internal|mitra');
+    Route::post('mata/{id}/peserta/import', 'Course\MataController@importPeserta')
+        ->name('mata.peserta.import')
         ->middleware('role:administrator|internal|mitra');
     Route::put('peserta/{id}/approval/{status}', 'Course\MataController@approvalPeserta')
         ->name('mata.peserta.approval')
@@ -631,6 +640,10 @@ Route::group(['middleware' => ['auth']], function () {
         ->middleware('role:administrator|internal|mitra');
     Route::put('completion/{id}/status', 'Course\MataActivityController@statusCompletion')
         ->name('mata.completion.status')
+        ->middleware('role:administrator|internal|mitra');
+    #-- compare test
+    Route::get('mata/{id}/compare', 'Course\MataActivityController@compare')
+        ->name('mata.compare')
         ->middleware('role:administrator|internal|mitra');
 
     //materi pelatihan

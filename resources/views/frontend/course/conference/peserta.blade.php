@@ -38,6 +38,8 @@
     </div>
 </div>
 
+@include('components.alert-any')
+
 <div class="text-left">
     <a href="{{ route('course.bahan', ['id' => $data['conference']->mata_id, 'bahanId' => $data['conference']->bahan_id,  'tipe' => 'conference']) }}" class="btn btn-secondary rounded-pill" title="kembali ke conference"><i class="las la-arrow-left"></i>Kembali</a>
 </div>
@@ -60,7 +62,7 @@
                     <th>Check In</th>
                     <th>Verifikasi</th>
                     <th>Keluar</th>
-                    <th style="width: 90px;">Aksi</th>
+                    <th style="width: 115px;">Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -104,6 +106,15 @@
                         @else
                         <button type="button" class="btn btn-secondary icon-btn btn-sm" disabled><i class="las la-check"></i></button>
                         @endif
+                        <button type="button" class="btn btn-primary icon-btn btn-sm modals-nilai" data-toggle="modal" data-target="#modals-nilai-form" title="klik untuk memberikan nilai"
+                            data-id="{{ $item->id }}",
+                            data-conferenceid="{{ $item->conference_id }}"
+                            data-nilai="{{ $item->nilai }}"
+                            data-catatan="{{ $item->catatan }}"
+                            data-konfirmasi="{{ $item->konfirmasi }}"
+                        >
+                            <i class="las la-pen-alt"></i>
+                        </button>
                     </td>
                 </tr>
                 @endforeach
@@ -122,6 +133,8 @@
         </div>
     </div>
 </div>
+
+@include('frontend.course.conference.modal-nilai')
 @endsection
 
 @section('scripts')
@@ -149,6 +162,23 @@
             $("#form-check").submit();
         }
         })
+    });
+
+    //modal
+    $('.modals-nilai').click(function() {
+        var id = $(this).data('id');
+        var conference_id = $(this).data('conferenceid');
+        var nilai = $(this).data('nilai');
+        var catatan = $(this).data('catatan');
+        var konfirmasi = $(this).data('konfirmasi');
+        var url = '/conference/'+ conference_id +'/'+ id +'/penilaian';
+
+        $(".modal-dialog #form-nilai").attr('action', url);
+        $('.modal-body #nilai').val(nilai);
+        $('.modal-body #catatan').html(catatan);
+        if (konfirmasi == 1) {
+            $('.modal-body #konfirmasi').attr('checked', 'checked');
+        }
     });
 </script>
 @include('components.toastr')

@@ -3,7 +3,7 @@
         <div class="container-fluid">
             <div class="menubar-flex">
                 <div class="menubar-left">
-                    <a href="{{ route('home') }}" class="main-logo" title="Beranda">
+                    <a href="{{ route('home') }}" class="main-logo" title="@lang('layout.menu.home')">
                         <div class="logo">
                             <img src="{{ asset(config('addon.images.logo')) }}" alt="Logo BPPT">
                         </div>
@@ -13,17 +13,17 @@
                 <div class="menubar-center">
                     <nav class="main-nav">
                         <ul class="list-nav">
-                            <li class="{{ empty(Request::segment(1)) ? 'current-nav' : '' }}"><a href="{{ route('home') }}" title="Home">Home</a></li>
+                            <li class="{{ empty(Request::segment(1)) ? 'current-nav' : '' }}"><a href="{{ route('home') }}" title="@lang('layout.menu.home')">@lang('layout.menu.home')</a></li>
 
                             <li class="has-dropdown {{ Request::is('course/list*') ? 'current-nav' : '' }}">
                                 <a href="#!" title="Program Pelatihan">Program Pelatihan</a>
                                 <ul class="dropdown">
-                                    <li class="btn-back"><a href="#!" title="kembali">back</a></li>
+                                    <li class="btn-back"><a href="#!" title="kembali">kembali</a></li>
                                     @foreach ($menu['program_pelatihan'] as $program)
                                     <li class="has-sub-dropdown is-hidden">
                                         <a href="#!" title="{!! $program->judul !!}">{!! $program->judul !!}</a>
                                         <ul class="sub-dropdown">
-                                            <li class="btn-back"><a href="#!">back</a></li>
+                                            <li class="btn-back"><a href="#!">kembali</a></li>
                                             @foreach ($program->mataPublish as $mata)
                                             <li><a href="{{ route('course.detail', ['id' => $mata->id]) }}" title="{!! $mata->judul !!}">{!! $mata->judul !!}</a></li>
                                             @endforeach

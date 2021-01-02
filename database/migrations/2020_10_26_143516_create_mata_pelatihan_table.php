@@ -25,6 +25,7 @@ class CreateMataPelatihanTable extends Migration
             $table->boolean('publish')->default(false);
             $table->timestamp('publish_start')->nullable();
             $table->timestamp('publish_end')->nullable();
+            $table->integer('jam_pelatihan')->nullable();
             $table->integer('urutan')->default(0);
             $table->boolean('show_feedback')->default(true);
             $table->boolean('show_comment')->default(true);
