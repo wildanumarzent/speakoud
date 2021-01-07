@@ -363,6 +363,15 @@ class MataController extends Controller
 
     public function publish($programId, $id)
     {
+        $mata = $this->service->findMata($id);
+
+        $materi = $mata->materi->count();
+        $bahan = $mata->bahan->count();
+
+        if ($materi == 0 && $bahan == 0) {
+            return back()->with('warning', 'Untuk publish program, mata & materi pelatihan minimal memiliki 1 data');
+        }
+
         $this->service->publishMata($id);
 
         return back()->with('success', 'Status berhasil diubah');

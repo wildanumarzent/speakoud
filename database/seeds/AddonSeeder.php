@@ -23,13 +23,15 @@ class AddonSeeder extends Seeder
         #--- instansi
         $instansiInternal = InstansiInternal::create([
             'creator_id' => 2,
+            'kode_instansi' => '15017',
             'nip_pimpinan' => '012345',
-            'nama_pimpinan' => 'Dr. Ir. Hammam Riza, M.Sc.',
-            'nama_instansi' => 'Badan Pengkajian & Penelitian Teknologi',
-            'jabatan' => 'Kepala BPPT'
+            'nama_pimpinan' => 'Dr. Aton Yulianto, SSi. M. Eng.',
+            'nama_instansi' => 'Pusat Pembinaan, Pendidikan dan Pelatihan BPPT',
+            'jabatan' => 'Kepala Pusbindiklat'
         ]);
         $instansiMitra = InstansiMitra::create([
             'creator_id' => 2,
+            'kode_instansi' => '42007',
             'nama_pimpinan' => 'Muhammad Ihsan Firdaus',
             'nama_instansi' => 'CAA Telco',
             'jabatan' => 'CTO'
@@ -37,11 +39,11 @@ class AddonSeeder extends Seeder
 
         #-- user bppt
         $userInternal = User::create([
-            'name' => 'Internal',
-            'email' => 'internal@gmai.com',
+            'name' => 'Sakina Rahmania',
+            'email' => 'sakina@gmail.com',
             'email_verified' => 1,
             'email_verified_at' => now(),
-            'username' => 'internal',
+            'username' => 'sakina',
             'password' => Hash::make('admin123'),
             'active' => 1,
             'active_at' => now(),
@@ -53,38 +55,14 @@ class AddonSeeder extends Seeder
         $userInternal->assignRole('internal');
         $informasiInternal = UserInformation::create([
             'user_id' => $userInternal->id,
-            'general' => [
-                'city' => null,
-                'description' => null,
-            ],
-            'additional_name' => [
-                'first_name' => null,
-                'sur_name' => null,
-                'middle_name' => null,
-                'alternate_name' => null,
-            ],
-            'optional' => [
-                'web_page' => null,
-                'icq_number' => null,
-                'skype_id' => null,
-                'aim_id' => null,
-                'yahoo_id' => null,
-                'msn_id' => null,
-                'id_number' => null,
-                'institution' => null,
-                'departement' => null,
-                'phone' => null,
-                'mobile_phone' => null,
-                'address' => null,
-            ],
         ]);
         $internal = Internal::create([
             'user_id' => $userInternal->id,
             'creator_id' => 2,
             'instansi_id' => $instansiInternal->id,
-            'nip' => '201828010014',
-            'kedeputian' => 'BPTT',
-            'pangkat' => 'Kepala BELS',
+            'nip' => '001',
+            'kedeputian' => 'KABPPT',
+            'pangkat' => 0,
             'sk_cpns' => [
                 'file' => null,
                 'keterangan' => null,
@@ -103,13 +81,13 @@ class AddonSeeder extends Seeder
             ],
         ]);
 
-        #-- mitra
+        #-- user mitra
         $userMitra = User::create([
-            'name' => 'Mitra',
-            'email' => 'mitra@gmai.com',
+            'name' => 'Sholeh Effendy',
+            'email' => 'sholeh@gmail.com',
             'email_verified' => 1,
             'email_verified_at' => now(),
-            'username' => 'mitra',
+            'username' => 'sholeh',
             'password' => Hash::make('admin123'),
             'active' => 1,
             'active_at' => now(),
@@ -121,38 +99,14 @@ class AddonSeeder extends Seeder
         $userMitra->assignRole('mitra');
         $informasiMitra = UserInformation::create([
             'user_id' => $userMitra->id,
-            'general' => [
-                'city' => null,
-                'description' => null,
-            ],
-            'additional_name' => [
-                'first_name' => null,
-                'sur_name' => null,
-                'middle_name' => null,
-                'alternate_name' => null,
-            ],
-            'optional' => [
-                'web_page' => null,
-                'icq_number' => null,
-                'skype_id' => null,
-                'aim_id' => null,
-                'yahoo_id' => null,
-                'msn_id' => null,
-                'id_number' => null,
-                'institution' => null,
-                'departement' => null,
-                'phone' => null,
-                'mobile_phone' => null,
-                'address' => null,
-            ],
         ]);
         $mitra = Mitra::create([
             'user_id' => $userMitra->id,
             'creator_id' => 2,
             'instansi_id' => $instansiMitra->id,
-            'nip' => '201828010014',
-            'kedeputian' => 'CAA',
-            'pangkat' => 'Kepala CAA',
+            'nip' => '002',
+            'kedeputian' => 'Project Division',
+            'pangkat' => 0,
             'sk_cpns' => [
                 'file' => null,
                 'keterangan' => null,
@@ -171,13 +125,13 @@ class AddonSeeder extends Seeder
             ],
         ]);
 
-        #-- instruktur
-        $userInstruktur = User::create([
-            'name' => 'Instruktur',
-            'email' => 'instruktur@gmai.com',
+        #--instruktur 1
+        $userInstruktur1 = User::create([
+            'name' => 'Budi Setiadi Sadikin',
+            'email' => 'budi@gmail.com',
             'email_verified' => 1,
             'email_verified_at' => now(),
-            'username' => 'instruktur',
+            'username' => 'budi.setiadi',
             'password' => Hash::make('admin123'),
             'active' => 1,
             'active_at' => now(),
@@ -186,41 +140,17 @@ class AddonSeeder extends Seeder
                 'description' => null,
             ],
         ]);
-        $userInstruktur->assignRole('instruktur_internal');
-        $informasiInstruktur = UserInformation::create([
-            'user_id' => $userInstruktur->id,
-            'general' => [
-                'city' => null,
-                'description' => null,
-            ],
-            'additional_name' => [
-                'first_name' => null,
-                'sur_name' => null,
-                'middle_name' => null,
-                'alternate_name' => null,
-            ],
-            'optional' => [
-                'web_page' => null,
-                'icq_number' => null,
-                'skype_id' => null,
-                'aim_id' => null,
-                'yahoo_id' => null,
-                'msn_id' => null,
-                'id_number' => null,
-                'institution' => null,
-                'departement' => null,
-                'phone' => null,
-                'mobile_phone' => null,
-                'address' => null,
-            ],
+        $userInstruktur1->assignRole('instruktur_internal');
+        $informasiInstruktur1 = UserInformation::create([
+            'user_id' => $userInstruktur1->id,
         ]);
-        $instruktur = Instruktur::create([
-            'user_id' => $userInstruktur->id,
+        $instruktur1 = Instruktur::create([
+            'user_id' => $userInstruktur1->id,
             'creator_id' => 2,
-            'nip' => '201828010014',
-            'unit_kerja' => 'BPPT',
-            'kedeputian' => 'BPPT',
-            'pangkat' => 'Pengajar',
+            'instansi_id' => $instansiInternal->id,
+            'nip' => '003',
+            'kedeputian' => null,
+            'pangkat' => 'Fungsional',
             'sk_cpns' => [
                 'file' => null,
                 'keterangan' => null,
@@ -239,13 +169,13 @@ class AddonSeeder extends Seeder
             ],
         ]);
 
-        #-- peserta
-        $userPeserta = User::create([
-            'name' => 'Peserta',
-            'email' => 'peserta@gmai.com',
+        #--instruktur 2
+        $userInstruktur2 = User::create([
+            'name' => 'Prafitri Dimarmayasari, M. Psi',
+            'email' => 'prafitri@gmail.com',
             'email_verified' => 1,
             'email_verified_at' => now(),
-            'username' => 'peserta',
+            'username' => 'prafitri',
             'password' => Hash::make('admin123'),
             'active' => 1,
             'active_at' => now(),
@@ -254,41 +184,109 @@ class AddonSeeder extends Seeder
                 'description' => null,
             ],
         ]);
-        $userPeserta->assignRole('peserta_internal');
-        $informasiPeserta = UserInformation::create([
-            'user_id' => $userPeserta->id,
-            'general' => [
-                'city' => null,
-                'description' => null,
+        $userInstruktur2->assignRole('instruktur_internal');
+        $informasiInstruktur2 = UserInformation::create([
+            'user_id' => $userInstruktur2->id,
+        ]);
+        $instruktur1 = Instruktur::create([
+            'user_id' => $userInstruktur2->id,
+            'creator_id' => 2,
+            'instansi_id' => $instansiInternal->id,
+            'nip' => '004',
+            'kedeputian' => null,
+            'pangkat' => 'Fungsional',
+            'sk_cpns' => [
+                'file' => null,
+                'keterangan' => null,
             ],
-            'additional_name' => [
-                'first_name' => null,
-                'sur_name' => null,
-                'middle_name' => null,
-                'alternate_name' => null,
+            'sk_pengangkatan' => [
+                'file' => null,
+                'keterangan' => null,
             ],
-            'optional' => [
-                'web_page' => null,
-                'icq_number' => null,
-                'skype_id' => null,
-                'aim_id' => null,
-                'yahoo_id' => null,
-                'msn_id' => null,
-                'id_number' => null,
-                'institution' => null,
-                'departement' => null,
-                'phone' => null,
-                'mobile_phone' => null,
-                'address' => null,
+            'sk_golongan' => [
+                'file' => null,
+                'keterangan' => null,
+            ],
+            'sk_jabatan' => [
+                'file' => null,
+                'keterangan' => null,
             ],
         ]);
-        $peserta = Peserta::create([
-            'user_id' => $userPeserta->id,
+
+        #--peserta 1
+        $userPeserta1 = User::create([
+            'name' => 'Agus Dwiono',
+            'email' => 'agus@gmail.com',
+            'email_verified' => 1,
+            'email_verified_at' => now(),
+            'username' => 'agus.dwiono',
+            'password' => Hash::make('admin123'),
+            'active' => 1,
+            'active_at' => now(),
+            'photo' => [
+                'filename' => null,
+                'description' => null,
+            ],
+        ]);
+        $userPeserta1->assignRole('peserta_internal');
+        $informasiPeserta1 = UserInformation::create([
+            'user_id' => $userPeserta1->id,
+        ]);
+        $peserta1 = Peserta::create([
+            'user_id' => $userPeserta1->id,
             'creator_id' => 2,
-            'nip' => '201828010014',
-            'unit_kerja' => 'BPPT',
-            'kedeputian' => 'BPPT',
-            'pangkat' => 'Peserta',
+            'instansi_id' => $instansiInternal->id,
+            'nip' => '005',
+            'kedeputian' => 'KABPPT',
+            'pangkat' => 0,
+            'sk_cpns' => [
+                'file' => null,
+                'keterangan' => null,
+            ],
+            'sk_pengangkatan' => [
+                'file' => null,
+                'keterangan' => null,
+            ],
+            'sk_golongan' => [
+                'file' => null,
+                'keterangan' => null,
+            ],
+            'sk_jabatan' => [
+                'file' => null,
+                'keterangan' => null,
+            ],
+            'surat_ijin_atasan' => [
+                'file' => null,
+                'keterangan' => null,
+            ],
+        ]);
+
+        #--peserta 2
+        $userPeserta2 = User::create([
+            'name' => 'Junita, S.IP., M.E',
+            'email' => 'junita@gmail.com',
+            'email_verified' => 1,
+            'email_verified_at' => now(),
+            'username' => 'junita',
+            'password' => Hash::make('admin123'),
+            'active' => 1,
+            'active_at' => now(),
+            'photo' => [
+                'filename' => null,
+                'description' => null,
+            ],
+        ]);
+        $userPeserta2->assignRole('peserta_internal');
+        $informasiPeserta2 = UserInformation::create([
+            'user_id' => $userPeserta2->id,
+        ]);
+        $peserta2 = Peserta::create([
+            'user_id' => $userPeserta2->id,
+            'creator_id' => 2,
+            'instansi_id' => $instansiInternal->id,
+            'nip' => '006',
+            'kedeputian' => 'KABPPT',
+            'pangkat' => 0,
             'sk_cpns' => [
                 'file' => null,
                 'keterangan' => null,

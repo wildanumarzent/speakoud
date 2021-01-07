@@ -87,6 +87,7 @@ class ProgramService
         $program->mitra_id = $mitra;
         $program->keterangan = $request->keterangan ?? null;
         $program->urutan = ($this->model->max('urutan') + 1);
+        $program->publish = 1;
         $program->tipe = $tipe;
         $program->save();
 

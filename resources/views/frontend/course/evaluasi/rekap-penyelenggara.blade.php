@@ -26,6 +26,7 @@
 
 <div class="text-left">
     <a href="{{ route('evaluasi.penyelenggara', ['id' => $data['mata']->id]) }}" class="btn btn-secondary rounded-pill" title="kembali ke evaluasi"><i class="las la-arrow-left"></i>Kembali</a>
+    <a href="" class="btn btn-success rounded-pill" title="export data evaluasi"><i class="las la-file-excel"></i>Export</a>
 </div>
 <br>
 

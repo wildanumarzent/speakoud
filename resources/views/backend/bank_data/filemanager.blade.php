@@ -1,6 +1,7 @@
 @extends('layouts.backend.application')
 
 @section('styles')
+<link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/dropzone/dropzone.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/css/pages/file-manager.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/sweetalert2/sweetalert2.css') }}">
 @endsection
@@ -32,14 +33,27 @@
                 </form>
             </div>
         </div>
-        {{-- <div class="card-header-elements ml-auto">
+        <div class="card-header-elements ml-auto">
             <div class="file-manager-actions">
-                <a href="{{ route('bank.data', ['type' => 'global']) }}" class="btn btn-primary icon-btn-only-sm mr-2" title="klik untuk upload file">
-                    <i class="las la-upload"></i>
-                    <span>Upload</span>
-                </a>
+                <button type="button" class="btn btn-warning icon-btn-only-sm mr-2" data-toggle="modal" data-target="#modals-form-folder" title="klik untuk membuat folder">
+                    <i class="las la-folder-plus"></i>
+                    <span>Folder</span>
+                </button>
+                <div class="btn-group float-right dropdown ml-2">
+                    <button type="button" class="btn btn-primary dropdown-toggle hide-arrow icon-btn-only-sm" data-toggle="dropdown"><i class="las la-upload"></i><span>Upload</span></button>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a href="javascript:;" class="dropdown-item" data-toggle="modal" data-target="#modals-add-file" title="klik untuk mengupload file">
+                            <i class="las la-file-upload"></i>
+                            <span>Form</span>
+                        </a>
+                        <a href="javascript:;" id="upload" class="dropdown-item" title="klik untuk mengupload file">
+                            <i class="las la-hand-pointer"></i>
+                            <span>Drag / Drop</span>
+                        </a>
+                    </div>
+                </div>
             </div>
-        </div> --}}
+        </div>
     </div>
 </div>
 <div class="card-body">
@@ -100,10 +114,25 @@
         </div>
         @endif
     </div>
+    <div id="dropzone">
+        <div class="dropzone needsclick" id="dropzone-upload">
+            <div class="dz-message needsclick">
+              Drop files disini atau klik untuk upload
+              <span class="note needsclick">(Tipe File : <strong>{{ strtoupper(config('addon.mimes.bank_data.m')) }}</strong>, Max Upload File <strong>10</strong>, Max Upload Size : <strong>{{ ini_get('upload_max_filesize') }}</strong>)</span>
+            </div>
+            <div class="fallback">
+              <input name="file" type="file" multiple>
+            </div>
+        </div>
+    </div>
 </div>
+
+@include('backend.bank_data.form-folder')
+@include('backend.bank_data.form-add-file')
 @endsection
 
 @section('scripts')
+<script src="{{ asset('assets/tmplts_backend/vendor/libs/dropzone/dropzone.js') }}"></script>
 <script src="{{ asset('assets/tmplts_backend/vendor/libs/sweetalert2/sweetalert2.js') }}"></script>
 @endsection
 
@@ -132,5 +161,59 @@
     }
 </script>
 @endif
+<script>
+    $(document).ready(function () {
+    //form upload
+    $('#files').show();
+    $("#dropzone").hide();
+    $('#upload').click(function(){
+        $('#files').toggle('slow');
+        $("#dropzone").toggle('slow');
+    });
+    //dropzone
+    $('#dropzone-upload').dropzone({
+        url: '/files?path={{ Request::get('path') }}&view={{ Request::get('view') }}',
+        method:'POST',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        parallelUploads: 2,
+        maxFilesize: 0,
+        maxFiles: 10,
+        filesizeBase: 1000,
+        // acceptedFiles:"image/*",
+        paramName:"file_path",
+        dictInvalidFileType:"Type file ini tidak dizinkan",
+        addRemoveLinks: true,
+
+        init : function () {
+            this.on('complete', function () {
+                if (this.getUploadingFiles().length === 0 && this.getQueuedFiles().length === 0) {
+                    toastr.options = {
+                        "closeButton": true,
+                        "debug": false,
+                        "newestOnTop": false,
+                        "progressBar": false,
+                        "positionClass": "toast-top-center",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "timeOut": "5000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                    };
+                    toastr.success('Berhasil upload file', 'Success');
+
+                    setTimeout(() => window.location.reload(), 1500);
+                }
+            });
+        }
+    });
+});
+</script>
 @include('components.toastr')
 @endsection

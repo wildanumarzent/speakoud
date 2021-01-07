@@ -12,6 +12,10 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="las la-times"></i></button>
         </div>
         <div class="modal-body">
+            <div class="alert alert-warning alert-dismissible">
+                {{-- <button type="button" class="close" data-dismiss="alert">×</button> --}}
+                Pastikan data peserta yang akan di import <strong>sudah tersedia di aplikasi & belum tersedia di enroll program ini</strong>
+            </div>
           <div class="form-row">
             <div class="form-group col">
               <label class="form-label">File</label>

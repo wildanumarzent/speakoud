@@ -65,6 +65,7 @@
                     <div class="col-md-4">
                         Tanggal Mulai : <strong>{{ $item->publish_start->format('d F Y H:i') }}</strong> <em>s/d</em> <strong>{{ $item->publish_end->format('d F Y H:i') }}</strong>
                         <table class="table table-bordered mb-0" style="width: 200px;">
+                            @role ('administrator|internal|mitra')
                             <tr>
                                 <td>
                                     <div class="btn-group dropdown">
@@ -90,6 +91,7 @@
                                     </a>
                                 </td>
                             </tr>
+                            @endrole
                             <tr>
                                 <td style="text-align: center;">INSTRUKTUR <br> <strong>{{ $item->instruktur->count() }}</strong></td>
                                 <td style="text-align: center;">PESERTA <br> <strong>{{ $item->peserta->count() }}</strong></td>

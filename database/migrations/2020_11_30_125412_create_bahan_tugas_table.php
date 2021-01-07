@@ -21,7 +21,7 @@ class CreateBahanTugasTable extends Migration
             $table->unsignedBigInteger('bahan_id');
             $table->unsignedBigInteger('creator_id');
             $table->json('bank_data_id')->nullable();
-            $table->boolean('approval')->default(0);
+            $table->boolean('approval')->default(false);
             $table->timestamps();
 
             $table->foreign('program_id')->references('id')

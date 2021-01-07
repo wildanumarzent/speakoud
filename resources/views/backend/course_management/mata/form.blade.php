@@ -43,7 +43,7 @@
                           @include('components.field-error', ['field' => 'kode_evaluasi'])
                         </div>
                     </div>
-                    <div class="form-group row">
+                    {{-- <div class="form-group row">
                         <div class="col-md-2 text-md-right">
                           <label class="col-form-label text-sm-right">Status</label>
                         </div>
@@ -54,7 +54,7 @@
                                 @endforeach
                             </select>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="form-group row">
                         <div class="col-md-2 text-md-right">
                           <label class="col-form-label text-sm-right">Tanggal Mulai</label>
