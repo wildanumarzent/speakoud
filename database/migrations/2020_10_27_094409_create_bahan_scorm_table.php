@@ -21,7 +21,7 @@ class CreateBahanScormTable extends Migration
             $table->unsignedBigInteger('bahan_id');
             $table->unsignedBigInteger('creator_id');
             $table->unsignedBigInteger('scorm_id');
-            $table->boolean('repeatable')->default(0);
+            $table->boolean('repeatable')->default(false);
             $table->timestamps();
 
             $table->foreign('program_id')->references('id')

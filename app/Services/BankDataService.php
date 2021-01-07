@@ -24,7 +24,7 @@ class BankDataService
         $global = Storage::disk('bank_data')->directories('global/'.$request->path);
         $personal = Storage::disk('bank_data')->directories('personal/'.
             auth()->user()->id.'/'.$request->path);
-        $type = ['global/'.$request->path, 'personal/'.auth()->user()->id.'/'.$request->path];
+        $type = ['global/', 'personal/'.auth()->user()->id.'/'];
 
         $directories = array_merge($global, $personal);
 
@@ -323,10 +323,26 @@ class BankDataService
             $directory = $path.'/';
         }
 
-        if (auth()->user()->hasRole('developer|administrator|internal')) {
-            $dir = 'global'.$directory;
+        if (!empty(request()->get('view'))) {
+            if (auth()->user()->hasRole('developer|administrator|internal')) {
+                if ($path == null) {
+                    $dir = 'global/'.$path;
+                } else {
+                    $dir = 'global/'.$directory;
+                }
+            } else {
+                if ($path == null) {
+                    $dir = 'personal/'.auth()->user()->id.'/'.$path;
+                } else {
+                    $dir = 'personal/'.auth()->user()->id.'/'.$directory;
+                }
+            }
         } else {
-            $dir = 'personal/'.auth()->user()->id.$directory;
+            if (auth()->user()->hasRole('developer|administrator|internal')) {
+                $dir = 'global'.$directory;
+            } else {
+                $dir = 'personal/'.auth()->user()->id.$directory;
+            }
         }
 
         return $dir;

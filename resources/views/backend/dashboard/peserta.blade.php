@@ -160,7 +160,7 @@
                     @foreach ($data['latestArticle'] as $art)
                     <tr>
                         <td>{!! $art->judul !!}</td>
-                        <td>{{ $art->creator->name }}</td>
+                        <td>{{ $art->userCreated->name }}</td>
                         <td>{{ $art->created_at->format('d F Y') }}</td>
                         <td><span class="badge badge-info">{{ $art->viewer }}</span></td>
                         <td>

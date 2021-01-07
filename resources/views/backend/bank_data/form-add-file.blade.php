@@ -1,7 +1,7 @@
 <!-- Modal template -->
 <div class="modal fade" id="modals-add-file">
     <div class="modal-dialog">
-        <form class="modal-content" action="{{ route('bank.data.files.store', ['path' => Request::get('path')]) }}" method="POST" enctype="multipart/form-data" id="form-edit-file">
+        <form class="modal-content" action="{{ route('bank.data.files.store', ['path' => Request::get('path'), 'view' => Request::get('view')]) }}" method="POST" enctype="multipart/form-data" id="form-edit-file">
         @csrf
         <div class="modal-header">
             <h5 class="modal-title">

@@ -20,12 +20,12 @@ class CreateBahanQuizTable extends Migration
             $table->unsignedBigInteger('materi_id');
             $table->unsignedBigInteger('bahan_id');
             $table->unsignedBigInteger('creator_id');
-            $table->boolean('is_mandatory')->default(0);
+            $table->boolean('is_mandatory')->default(false);
             $table->tinyInteger('kategori');
             $table->integer('durasi')->nullable();
             $table->boolean('tipe')->default(false);
             $table->boolean('view')->default(false);
-            $table->boolean('hasil')->default(0);
+            $table->boolean('hasil')->default(false);
             $table->timestamps();
 
             $table->foreign('program_id')->references('id')

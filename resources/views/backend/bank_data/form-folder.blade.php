@@ -1,7 +1,7 @@
 <!-- Modal template -->
 <div class="modal fade" id="modals-form-folder">
     <div class="modal-dialog">
-      <form class="modal-content" action="{{ route('bank.data.directory.store', ['path' => Request::get('path')]) }}" method="POST">
+      <form class="modal-content" action="{{ route('bank.data.directory.store', ['path' => Request::get('path'), 'view' => Request::get('view')]) }}" method="POST">
         @csrf
         <div class="modal-header">
           <h5 class="modal-title">

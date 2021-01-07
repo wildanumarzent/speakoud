@@ -34,7 +34,7 @@
         <tbody>
             @if ($data['peserta']->total() == 0)
             <tr>
-                <td colspan="7" align="center">
+                <td colspan="11" align="center">
                     <i>
                         <strong style="color:red;">
                         @if (Request::get('q'))

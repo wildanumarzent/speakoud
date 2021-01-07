@@ -191,15 +191,23 @@
                 </a>
 
                 <ul class="sidenav-menu">
+                    {{-- @role ('administrator|internal|mitra')
+                    <!-- templating -->
+                    <li class="sidenav-item{{ (Request::is('templating*')) ? ' active' : '' }}">
+                        <a href="" class="sidenav-link" title="Templating Program Pelatihan">
+                            <div>Templating</div>
+                        </a>
+                    </li>
+                    @endrole --}}
                     <!-- aktif -->
                     <li class="sidenav-item{{ (Request::is('program*') && Request::segment(2) != 'history' || Request::is('mata*') || Request::is('materi*') || Request::is('quiz*') || Request::is('course*')) ? ' active' : '' }}">
-                        <a href="{{ route($program) }}" class="sidenav-link" title="Aktif">
+                        <a href="{{ route($program) }}" class="sidenav-link" title="Program Pelatihan Aktif">
                           <div>Aktif</div>
                         </a>
                     </li>
                     <!-- histori -->
                     <li class="sidenav-item{{ (Request::is('program*') && Request::segment(2) == 'history') ? ' active' : '' }}">
-                        <a href="{{ route('mata.history') }}" class="sidenav-link" title="Histori">
+                        <a href="{{ route('mata.history') }}" class="sidenav-link" title="Histori Program Pelatihan">
                           <div>Histori</div>
                         </a>
                     </li>

@@ -85,14 +85,16 @@
               @endif
             </div>
             <div class="media-body ml-4">
-              <a href="{{ route('mata.index', ['id' => $item->id]) }}" class="text-big">{!! $item->judul !!} <span class="badge badge-secondary">{{ $item->publish == 1 ? 'PUBLISH' : 'DRAFT' }}</span></a>
+              <a href="{{ route('mata.index', ['id' => $item->id]) }}" class="text-big">{!! $item->judul !!}
+                <span class="badge badge-secondary">{{ $item->publish == 1 ? 'PUBLISH' : 'DRAFT' }}</span>
+              </a>
               <div class="my-2">
                 <div class="row">
                     <div class="col-md-8">
                         {!! Str::limit(strip_tags($item->keterangan), 120) !!}
                     </div>
                     <div class="col-md-4 text-right">
-                        @if ($item->publish == 0 && $item->mata()->count() > 0 && $item->materi()->count() > 0)
+                        {{-- @if ($item->publish == 0 && $item->mata()->count() > 0 && $item->materi()->count() > 0)
                         <a href="javascript:;" onclick="$(this).find('#form-publish').submit();" class="btn btn-{{ $item->publish == 0 ? 'primary' : 'secondary' }} btn-sm icon-btn-only-sm" title="klik {{ $item->publish == 0 ? 'publish' : 'draft' }} kategori">
                             <i class="las la-{{ $item->publish == 0 ? 'eye' : 'eye-slash' }} "></i> <span>{{ $item->publish == 0 ? 'PUBLISH' : 'DRAFT' }}</span>
                             <form action="{{ route('program.publish', ['id' => $item->id])}}" method="POST" id="form-publish">
@@ -100,19 +102,26 @@
                                 @method('PUT')
                             </form>
                         </a>
-                        @endif
+                        @endif --}}
                         <a class="btn btn-success btn-sm icon-btn-only-sm mr-1" href="{{ route('mata.index', ['id' => $item->id]) }}" title="klik untuk melihat program pelatihan">
                             <i class="las la-book"></i> <span>Program</span>
                         </a>
                         <div class="btn-group dropdown ml-2">
                             <button type="button" class="btn btn-warning btn-sm dropdown-toggle hide-arrow" data-toggle="dropdown" title="klik untuk melihat user enroll"><i class="las la-ellipsis-v"></i><span>Aksi</span></button>
                             <div class="dropdown-menu dropdown-menu-right">
+                                @if (auth()->user()->hasRole('developer|administrator|internal') || $item->creator_id == auth()->user()->id)
                                 <a href="{{ route('program.edit', ['id' => $item->id]) }}" class="dropdown-item" title="klik untuk mengedit kategori pelatihan">
                                     <i class="las la-pen"></i><span>Ubah</span>
                                 </a>
-                                @if (auth()->user()->hasRole('developer|administrator') || $item->creator_id == auth()->user()->id)
                                 <a href="javascript:void(0);" class="dropdown-item js-sa2-delete" data-id="{{ $item->id }}" title="klik untuk menghapus kategori pelatihan">
                                     <i class="las la-trash-alt"></i> <span>Hapus</span>
+                                </a>
+                                <a href="javascript:void(0);" onclick="$(this).find('form').submit();" class="dropdown-item" title="klik untuk {{ $item->publish == 0 ? 'publish' : 'draft' }} kategori pelatihan">
+                                    <i class="las la-{{ $item->publish == 0 ? 'eye' : 'eye-slash' }} "></i> <span>{{ $item->publish == 0 ? 'Publish' : 'Draft' }}</span>
+                                    <form action="{{ route('program.publish', ['id' => $item->id]) }}" method="POST">
+                                        @csrf
+                                        @method('PUT')
+                                    </form>
                                 </a>
                                 @endif
                             </div>
