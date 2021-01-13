@@ -321,7 +321,7 @@ class MataService
         return $this->model->findOrFail($id);
     }
 
-    public function storeMata($request, int $programId)
+    public function storeMata($request, int $programId, $templateId = null)
     {
         if ($request->hasFile('cover_file')) {
             $fileName = str_replace(' ', '-', $request->file('cover_file')
@@ -330,6 +330,9 @@ class MataService
         }
 
         $mata = new MataPelatihan($request->only(['judul']));
+        if ($templateId != null) {
+            $mata->template_id = $templateId;
+        }
         $mata->program_id = $programId;
         $mata->creator_id = auth()->user()->id;
         $mata->kode_evaluasi = $request->kode_evaluasi ?? null;

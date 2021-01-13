@@ -33,6 +33,7 @@
                           @include('components.field-error', ['field' => 'judul'])
                         </div>
                     </div>
+                    @role('administrator|internal')
                     <div class="form-group row">
                         <div class="col-md-2 text-md-right">
                           <label class="col-form-label text-sm-right">Kode Evaluasi Penyelenggara</label>
@@ -43,6 +44,7 @@
                           @include('components.field-error', ['field' => 'kode_evaluasi'])
                         </div>
                     </div>
+                    @endrole
                     {{-- <div class="form-group row">
                         <div class="col-md-2 text-md-right">
                           <label class="col-form-label text-sm-right">Status</label>

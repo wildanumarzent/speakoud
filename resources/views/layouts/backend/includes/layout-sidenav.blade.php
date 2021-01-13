@@ -3,7 +3,7 @@
                     Request::is('instruktur*') || Request::is('peserta*') || Request::is('grades*') || Request::is('tags*') || Request::is('komentar*'));
     $userOpen = (Request::is('user*') || Request::is('internal*') || Request::is('mitra*') ||
                     Request::is('instruktur*') || Request::is('peserta*'));
-    $course = (Request::is('program*') || Request::is('mata*') || Request::is('materi*') || Request::is('quiz*') || Request::is('course*') || Request::is('jadwal*') || Request::is('kalender*'));
+    $course = (Request::is('template*') || Request::is('program*') || Request::is('mata*') || Request::is('materi*') || Request::is('quiz*') || Request::is('course*') || Request::is('jadwal*') || Request::is('kalender*'));
 @endphp
 <div id="layout-sidenav" class="{{ isset($layout_sidenav_horizontal) ? 'layout-sidenav-horizontal sidenav-horizontal container-p-x flex-grow-0' : 'layout-sidenav sidenav-vertical' }} sidenav bg-sidenav-theme">
 
@@ -185,20 +185,20 @@
           @endphp
           <ul class="sidenav-menu">
             <!-- program pelatihan -->
-            <li class="sidenav-item{{ (Request::is('program*') || Request::is('mata*') || Request::is('materi*') || Request::is('quiz*') || Request::is('course*')) ? ' active open' : '' }}">
+            <li class="sidenav-item{{ (Request::is('template*') || Request::is('program*') || Request::is('mata*') || Request::is('materi*') || Request::is('quiz*') || Request::is('course*')) ? ' active open' : '' }}">
                 <a href="javascript:void(0)" class="sidenav-link sidenav-toggle" title="Program Pelatihan">
                   <div>Program Pelatihan</div>
                 </a>
 
                 <ul class="sidenav-menu">
-                    {{-- @role ('administrator|internal|mitra')
+                    @role ('administrator|internal')
                     <!-- templating -->
-                    <li class="sidenav-item{{ (Request::is('templating*')) ? ' active' : '' }}">
-                        <a href="" class="sidenav-link" title="Templating Program Pelatihan">
-                            <div>Templating</div>
+                    <li class="sidenav-item{{ (Request::is('template*')) ? ' active' : '' }}">
+                        <a href="{{ route('template.mata.index') }}" class="sidenav-link" title="Templating Program Pelatihan">
+                            <div>Template</div>
                         </a>
                     </li>
-                    @endrole --}}
+                    @endrole
                     <!-- aktif -->
                     <li class="sidenav-item{{ (Request::is('program*') && Request::segment(2) != 'history' || Request::is('mata*') || Request::is('materi*') || Request::is('quiz*') || Request::is('course*')) ? ' active' : '' }}">
                         <a href="{{ route($program) }}" class="sidenav-link" title="Program Pelatihan Aktif">

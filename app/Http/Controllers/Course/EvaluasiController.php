@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Course;
 
+use App\Exports\EvaluasiPengajarExport;
+use App\Exports\EvaluasiPenyelenggaraExport;
 use App\Http\Controllers\Controller;
 use App\Services\Course\Bahan\BahanService;
 use App\Services\Course\EvaluasiService;
 use App\Services\Course\MataService;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class EvaluasiController extends Controller
 {
@@ -237,5 +240,106 @@ class EvaluasiController extends Controller
         } else {
             return redirect()->route('course.bahan', ['id' => $mataId, 'bahanId' => $bahanId, 'tipe' => 'evaluasi-pengajar'])->with('warning', 'Token tidak valid');
         }
+    }
+
+    public function exportPenyelenggara(Request $request, $mataId)
+    {
+        $mata = $this->serviceMata->findMata($mataId);
+        $evaluasi = $this->service->result($mata->kode_evaluasi);
+        $detail = $evaluasi->evaluasi;
+
+        $pg = [];
+        foreach ($evaluasi->result_detail as $keyP => $valueP) {
+            $json = json_encode($valueP);
+            $nilai = json_decode($json, true);
+
+            $pg[$keyP] = [
+                'pertanyaan' => $valueP->Pertanyaan,
+                'kelompok_soal' => $valueP->kelompok_soal,
+                'tidak_baik' => $nilai['Tidak Baik'],
+                'kurang_baik' => $nilai['Kurang Baik'],
+                'cukup' => $nilai['Cukup'],
+                'baik' => $nilai['Baik'],
+                'sangat_baik' => $nilai['Sangat Baik'],
+                'total_nilai' => $nilai['Total Nilai'],
+                'jumlah_peserta' => $nilai['Jumlah Peserta'],
+                'skor' => $valueP->Skor,
+            ];
+        }
+
+        $essay = [];
+        foreach ($evaluasi->result_essai as $keyE => $valueE) {
+
+            $jawaban = [];
+            foreach ($valueE->jawabans as $jK => $jV) {
+                $json = json_encode($jV);
+                $nilai = json_decode($json, true);
+
+                $jawaban[$jK] = [
+                    'kode_peserta' => $nilai['kode_peserta'],
+                    'jawab' => $nilai['jawab']
+                ];
+            }
+
+            $essay[$keyE] = [
+                'pertanyaan' => $valueE->Pertanyaan,
+                'kelompok_soal' => $valueE->kelompok_soal,
+                'jawaban' => $jawaban
+            ];
+        }
+
+        return Excel::download(new EvaluasiPenyelenggaraExport($mata, $detail, $pg, $essay),
+            'rekap-penyelenggara-'.$mata->kode_evaluasi.'.xlsx');
+    }
+
+    public function exportPengajar(Request $request, $mataId, $bahanId)
+    {
+        $mata = $this->serviceMata->findMata($mataId);
+        $bahan = $this->serviceBahan->findBahan($bahanId);
+        $evaluasi = $this->service->result($bahan->evaluasiPengajar->mataInstruktur->kode_evaluasi);
+        $detail = $evaluasi->evaluasi;
+
+        $pg = [];
+        foreach ($evaluasi->result_detail as $keyP => $valueP) {
+            $json = json_encode($valueP);
+            $nilai = json_decode($json, true);
+
+            $pg[$keyP] = [
+                'pertanyaan' => $valueP->Pertanyaan,
+                'kelompok_soal' => $valueP->kelompok_soal,
+                'tidak_baik' => $nilai['Tidak Baik'],
+                'kurang_baik' => $nilai['Kurang Baik'],
+                'cukup' => $nilai['Cukup'],
+                'baik' => $nilai['Baik'],
+                'sangat_baik' => $nilai['Sangat Baik'],
+                'total_nilai' => $nilai['Total Nilai'],
+                'jumlah_peserta' => $nilai['Jumlah Peserta'],
+                'skor' => $valueP->Skor,
+            ];
+        }
+
+        $essay = [];
+        foreach ($evaluasi->result_essai as $keyE => $valueE) {
+
+            $jawaban = [];
+            foreach ($valueE->jawabans as $jK => $jV) {
+                $json = json_encode($jV);
+                $nilai = json_decode($json, true);
+
+                $jawaban[$jK] = [
+                    'kode_peserta' => $nilai['kode_peserta'],
+                    'jawab' => $nilai['jawab']
+                ];
+            }
+
+            $essay[$keyE] = [
+                'pertanyaan' => $valueE->Pertanyaan,
+                'kelompok_soal' => $valueE->kelompok_soal,
+                'jawaban' => $jawaban
+            ];
+        }
+
+        return Excel::download(new EvaluasiPengajarExport($mata, $bahan, $detail, $pg, $essay),
+            'rekap-pengajar-'.$bahan->evaluasiPengajar->mataInstruktur->kode_evaluasi.'.xlsx');
     }
 }

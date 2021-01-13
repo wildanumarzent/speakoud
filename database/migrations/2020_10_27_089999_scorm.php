@@ -16,10 +16,14 @@ class Scorm extends Migration
         Schema::create('scorm', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('creator_id');
+            $table->unsignedBigInteger('bank_data_id');
             $table->text('package')->nullable();
             $table->text('version')->nullable();
             $table->text('package_name')->nullable();
             $table->timestamps();
+
+            $table->foreign('bank_data_id')->references('id')->on('bank_data')
+                ->cascadeOnDelete();
             $table->foreign('creator_id')->references('id')->on('users')
                 ->cascadeOnDelete();
         });

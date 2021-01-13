@@ -105,7 +105,7 @@ class BahanRequest extends FormRequest
                 ];
             } else {
                 $quiz = [
-                    'kategori' => 'required',
+                    'durasi' => 'required',
                 ];
             }
 

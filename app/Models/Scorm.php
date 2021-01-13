@@ -14,4 +14,9 @@ class Scorm extends Model
     {
         return $this->belongsTo(User::class, 'foreign_key', 'other_key');
     }
+
+    public function bankData()
+    {
+        return $this->belongsTo(BankData::class, 'bank_data_id');
+    }
 }

@@ -263,7 +263,7 @@ class BahanService
             $this->file->updateFile($request, $bahan);
         }
         if ($request->type == 'conference') {
-            $this->conference->updatuConferece($request, $bahan);
+            $this->conference->updateConferece($request, $bahan);
         }
         if ($request->type == 'quiz') {
             $this->quiz->updateQuiz($request, $bahan);

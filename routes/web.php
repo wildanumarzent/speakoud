@@ -186,6 +186,9 @@ Route::get('/course/{id}/evaluasi/penyelenggara/rekap', 'Course\EvaluasiControll
 Route::post('/course/{id}/evaluasi/penyelenggara', 'Course\EvaluasiController@submitPenyelenggara')
     ->name('evaluasi.penyelenggara.submit')
     ->middleware(['auth', 'role:peserta_internal|peserta_mitra']);
+Route::get('/course/{id}/evaluasi/penyelenggara/export', 'Course\EvaluasiController@exportPenyelenggara')
+    ->name('evaluasi.penyelenggara.export')
+    ->middleware(['auth', 'role:administrator|internal|mitra|instruktur_internal|instruktur_mitra']);
 #--pengajar
 Route::get('/course/{id}/bahan/{bahanId}/evaluasi/pengajar/form', 'Course\EvaluasiController@formPengajar')
     ->name('evaluasi.pengajar.form')
@@ -196,6 +199,9 @@ Route::get('/course/{id}/bahan/{bahanId}/evaluasi/pengajar/rekap', 'Course\Evalu
 Route::post('/course/{id}/bahan/{bahanId}/evaluasi/pengajar', 'Course\EvaluasiController@submitPengajar')
     ->name('evaluasi.pengajar.submit')
     ->middleware(['auth', 'role:peserta_internal|peserta_mitra']);
+Route::get('/course/{id}/bahan/{bahanId}/evaluasi/pengajar/export', 'Course\EvaluasiController@exportPengajar')
+    ->name('evaluasi.pengajar.export')
+    ->middleware(['auth', 'role:administrator|internal|mitra|instruktur_internal|instruktur_mitra']);
 
 /**
  * authentication
@@ -734,6 +740,171 @@ Route::group(['middleware' => ['auth']], function () {
     //activity
     Route::post('/activity/{bahanId}/complete', 'Course\Bahan\BahanController@activityComplete')
         ->name('activity.complete');
+
+    // template mata
+    Route::get('/template/mata', 'Course\Template\TemplateMataController@index')
+        ->name('template.mata.index')
+        ->middleware('role:administrator|internal');
+    Route::get('/template/mata/create', 'Course\Template\TemplateMataController@create')
+        ->name('template.mata.create')
+        ->middleware('role:administrator|internal');
+    Route::post('/template/mata', 'Course\Template\TemplateMataController@store')
+        ->name('template.mata.store')
+        ->middleware('role:administrator|internal');
+    Route::get('/template/mata/{id}/edit', 'Course\Template\TemplateMataController@edit')
+        ->name('template.mata.edit')
+        ->middleware('role:administrator|internal');
+    Route::put('/template/mata/{id}', 'Course\Template\TemplateMataController@update')
+        ->name('template.mata.update')
+        ->middleware('role:administrator|internal');
+    Route::put('/template/mata/{id}/position/{position}', 'Course\Template\TemplateMataController@position')
+        ->name('template.mata.position')
+        ->middleware('role:developer|administrator|internal');
+    Route::put('/template/mata/{id}/publish', 'Course\Template\TemplateMataController@publish')
+        ->name('template.mata.publish')
+        ->middleware('role:developer|administrator|internal');
+    Route::post('/template/mata/sort', 'Course\Template\TemplateMataController@sort')
+        ->name('template.mata.sort')
+        ->middleware('role:developer|administrator|internal|mitra');
+    Route::delete('/template/mata/{id}', 'Course\Template\TemplateMataController@destroy')
+        ->name('template.mata.destroy')
+        ->middleware('role:administrator|internal');
+
+    /**template bank soal */
+    //template kategori
+    Route::get('/template/mata/{id}/soal/kategori', 'Course\Template\TemplateSoalKategoriController@index')
+        ->name('template.soal.kategori')
+        ->middleware('role:developer|administrator|internal');
+    Route::get('/template/mata/{id}/soal/kategori/create', 'Course\Template\TemplateSoalKategoriController@create')
+        ->name('template.soal.kategori.create')
+        ->middleware('role:developer|administrator|internal');
+    Route::post('/template/mata/{id}/soal/kategori', 'Course\Template\TemplateSoalKategoriController@store')
+        ->name('template.soal.kategori.store')
+        ->middleware('role:developer|administrator|internal');
+    Route::get('/template/mata/{id}/soal/kategori/{kategoriId}/edit', 'Course\Template\TemplateSoalKategoriController@edit')
+        ->name('template.soal.kategori.edit')
+        ->middleware('role:developer|administrator|internal');
+    Route::put('/template/mata/{id}/soal/kategori/{kategoriId}', 'Course\Template\TemplateSoalKategoriController@update')
+        ->name('template.soal.kategori.update')
+        ->middleware('role:developer|administrator|internal');
+    Route::delete('/template/mata/{id}/soal/kategori/{kategoriId}', 'Course\Template\TemplateSoalKategoriController@destroy')
+        ->name('template.soal.kategori.destroy')
+        ->middleware('role:developer|administrator|internal');
+
+    //template soal
+    Route::get('/template/mata/{id}/soal/kategori/{kategoriId}', 'Course\Template\TemplateSoalController@index')
+        ->name('template.soal.index')
+        ->middleware('role:developer|administrator|internal');
+    Route::get('/template/soal/kategori/json/{quizId}', 'Course\Template\TemplateSoalController@soalByKategori')
+        ->name('template.soal.json')
+        ->middleware('role:developer|administrator|internal');
+    Route::get('/template/mata/{id}/soal/kategori/{kategoriId}/create', 'Course\Template\TemplateSoalController@create')
+        ->name('template.soal.create')
+        ->middleware('role:developer|administrator|internal');
+    Route::post('/template/mata/{id}/soal/kategori/{kategoriId}', 'Course\Template\TemplateSoalController@store')
+        ->name('template.soal.store')
+        ->middleware('role:developer|administrator|internal');
+    Route::get('/template/mata/{id}/soal/kategori/{kategoriId}/edit/{soalId}', 'Course\Template\TemplateSoalController@edit')
+        ->name('template.soal.edit')
+        ->middleware('role:developer|administrator|internal');
+    Route::put('/template/mata/{id}/soal/kategori/{kategoriId}/{soalId}', 'Course\Template\TemplateSoalController@update')
+        ->name('template.soal.update')
+        ->middleware('role:developer|administrator|internal');
+    Route::delete('/template/mata/{id}/soal/kategori/{kategoriId}/{soalId}', 'Course\Template\TemplateSoalController@destroy')
+        ->name('template.soal.destroy')
+        ->middleware('role:developer|administrator|internal');
+
+    // template materi
+    Route::get('/template/mata/{id}/materi', 'Course\Template\TemplateMateriController@index')
+        ->name('template.materi.index')
+        ->middleware('role:administrator|internal');
+    Route::get('/template/mata/{id}/materi/create', 'Course\Template\TemplateMateriController@create')
+        ->name('template.materi.create')
+        ->middleware('role:administrator|internal');
+    Route::post('/template/mata/{id}', 'Course\Template\TemplateMateriController@store')
+        ->name('template.materi.store')
+        ->middleware('role:administrator|internal');
+    Route::get('/template/mata/{id}/materi/{materiId}/edit', 'Course\Template\TemplateMateriController@edit')
+        ->name('template.materi.edit')
+        ->middleware('role:administrator|internal');
+    Route::put('/template/mata/{id}/materi/{materiId}', 'Course\Template\TemplateMateriController@update')
+        ->name('template.materi.update')
+        ->middleware('role:administrator|internal');
+    Route::put('/template/mata/{id}/materi/{materiId}/position/{position}', 'Course\Template\TemplateMateriController@position')
+        ->name('template.materi.position')
+        ->middleware('role:developer|administrator|internal');
+    Route::post('/template/mata/{id}/materi/sort', 'Course\Template\TemplateMateriController@sort')
+        ->name('template.materi.sort')
+        ->middleware('role:developer|administrator|internal');
+    Route::delete('/template/mata/{id}/materi/{materiId}', 'Course\Template\TemplateMateriController@destroy')
+        ->name('template.materi.destroy')
+        ->middleware('role:administrator|internal');
+
+    //template bahan
+    Route::get('/template/materi/{id}/bahan', 'Course\Template\TemplateBahanController@index')
+        ->name('template.bahan.index')
+        ->middleware('role:administrator|internal');
+    Route::get('/template/materi/{id}/bahan/create', 'Course\Template\TemplateBahanController@create')
+        ->name('template.bahan.create')
+        ->middleware('role:administrator|internal');
+    Route::post('/template/materi/{id}/bahan', 'Course\Template\TemplateBahanController@store')
+        ->name('template.bahan.store')
+        ->middleware('role:administrator|internal');
+    Route::get('/template/materi/{id}/bahan/{bahanId}/edit', 'Course\Template\TemplateBahanController@edit')
+        ->name('template.bahan.edit')
+        ->middleware('role:administrator|internal');
+    Route::put('/template/materi/{id}/bahan/{bahanId}', 'Course\Template\TemplateBahanController@update')
+        ->name('template.bahan.update')
+        ->middleware('role:administrator|internal');
+    Route::delete('/template/materi/{id}/bahan/{bahanId}', 'Course\Template\TemplateBahanController@destroy')
+        ->name('template.bahan.destroy')
+        ->middleware('role:administrator|internal');
+
+    //template bahan quiz item
+    Route::get('/template/quiz/{id}/item', 'Course\Template\TemplateBahanQuizItemController@index')
+        ->name('template.quiz.item')
+        ->middleware('role:developer|administrator|internal');
+    Route::get('/template/quiz/{id}/item/create', 'Course\Template\TemplateBahanQuizItemController@create')
+        ->name('template.quiz.item.create')
+        ->middleware('role:developer|administrator|internal');
+    Route::post('/template/quiz/{id}/item/store', 'Course\Template\TemplateBahanQuizItemController@store')
+        ->name('template.quiz.item.store')
+        ->middleware('role:developer|administrator|internal');
+    Route::post('/template/quiz/{id}/item/input', 'Course\Template\TemplateBahanQuizItemController@storeFromBank')
+        ->name('template.quiz.item.input')
+        ->middleware('role:developer|administrator|internal');
+    Route::get('/template/quiz/{id}/item/{itemId}/edit', 'Course\Template\TemplateBahanQuizItemController@edit')
+        ->name('template.quiz.item.edit')
+        ->middleware('role:developer|administrator|internal');
+    Route::put('/template/quiz/{id}/item/{itemId}', 'Course\Template\TemplateBahanQuizItemController@update')
+        ->name('template.quiz.item.update')
+        ->middleware('role:developer|administrator|internal');
+    Route::delete('/template/quiz/{id}/item/{itemId}', 'Course\Template\TemplateBahanQuizItemController@destroy')
+        ->name('template.quiz.item.destroy')
+        ->middleware('role:developer|administrator|internal');
+
+    //templating
+    Route::post('/template/{id}/mata/copy', 'Course\TemplatingController@copyAsTemplate')
+        ->name('template.mata.copy')
+        ->middleware('role:developer|administrator|internal');
+    //mata
+    Route::get('/program/{id}/mata/template/{templateId}/create', 'Course\TemplatingController@createMata')
+        ->name('mata.create.template')
+        ->middleware('role:developer|administrator|internal');
+    Route::post('/program/{id}/mata/template/{templateId}', 'Course\TemplatingController@storeMata')
+        ->name('mata.store.template')
+        ->middleware('role:developer|administrator|internal');
+    //enroll
+    Route::get('/mata/{id}/enroll/template/{templateId}/create', 'Course\TemplatingController@createEnroll')
+        ->name('enroll.create.template')
+        ->middleware('role:developer|administrator|internal');
+    Route::post('/mata/{id}/enroll/template/{templateId}/store', 'Course\TemplatingController@storeEnroll')
+        ->name('enroll.store.template')
+        ->middleware('role:developer|administrator|internal');
+    //materi
+    Route::get('/mata/{id}/materi/template/{templateId}/create', 'Course\TemplatingController@createMateri')
+        ->name('materi.create.template')
+        ->middleware('role:developer|administrator|internal');
 
     //jadwal pelatihan
     Route::get('/jadwal', 'Course\JadwalController@index')

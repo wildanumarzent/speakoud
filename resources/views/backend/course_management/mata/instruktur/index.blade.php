@@ -101,14 +101,16 @@
                     <th>Unit Kerja</th>
                     <th>Jabatan</th>
                     <th>Materi Upload</th>
+                    @role('administrator|internal')
                     <th style="width: 300px;">Kode Evaluasi</th>
+                    @endrole
                     <th style="width: 80px;">Aksi</th>
                 </tr>
             </thead>
             <tbody>
                 @if ($data['instruktur']->total() == 0)
                 <tr>
-                    <td colspan="8" align="center">
+                    <td colspan="@role('administrator|internal') 8 @else 7 @endrole" align="center">
                         <i>
                             <strong style="color:red;">
                             @if (Request::get('q'))
@@ -129,6 +131,7 @@
                     <td>{{ $item->instruktur->instansi($item->instruktur)->nama_instansi }}</td>
                     <td>{{ $item->instruktur->pangkat }}</td>
                     <td>{{ $item->mata->bahan()->where('creator_id', $item->instruktur->user->id)->count() }}</td>
+                    @role('administrator|internal')
                     <td>
                         @if (!empty($item->kode_evaluasi))
                         {{ $item->kode_evaluasi }}
@@ -150,6 +153,7 @@
                         </button>
                         @endif
                     </td>
+                    @endrole
                     <td>
                         <a href="javascript:void(0);" class="btn btn-danger icon-btn btn-sm js-sa2-delete" data-mataid="{{ $item->mata_id }}" data-id="{{ $item->id }}" title="klik untuk menghapus instruktur pelatihan">
                             <i class="las la-trash-alt"></i>
@@ -199,6 +203,7 @@
                                     <div class="data-table">Materi Upload</div>
                                     <div class="desc-table">{{ $item->mata->bahan()->where('creator_id', $item->instruktur->user->id)->count() }}</div>
                                 </div>
+                                @role('administrator|internal')
                                 <div class="item-table">
                                     <div class="data-table">Kode Evaluasi</div>
                                     <div class="desc-table">
@@ -223,7 +228,7 @@
                                         @endif
                                     </div>
                                 </div>
-
+                                @endrole
                                 <div class="item-table m-0">
                                     <div class="desc-table text-right">
                                         <a href="javascript:void(0);" class="btn btn-danger icon-btn btn-sm js-sa2-delete" data-mataid="{{ $item->mata_id }}" data-id="{{ $item->id }}" title="klik untuk menghapus instruktur pelatihan">

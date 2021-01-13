@@ -15,6 +15,7 @@ use App\Services\Course\EvaluasiService;
 use App\Services\Course\MataService;
 use App\Services\Course\MateriService;
 use App\Services\Course\ProgramService;
+use App\Services\Course\TemplatingService;
 use App\Services\KonfigurasiService;
 use App\Services\Users\InstrukturService;
 use App\Services\Users\PesertaService;
@@ -24,7 +25,7 @@ use Illuminate\Support\Facades\Session;
 class MataController extends Controller
 {
     private $service, $serviceProgram, $serviceMateri, $serviceInstruktur,
-        $servicePeserta, $serviceKonfig, $serviceEvaluasi;
+        $servicePeserta, $serviceKonfig, $serviceEvaluasi, $serviceTemplate;
 
     public function __construct(
         MataService $service,
@@ -33,7 +34,8 @@ class MataController extends Controller
         InstrukturService $serviceInstruktur,
         PesertaService $servicePeserta,
         KonfigurasiService $serviceKonfig,
-        EvaluasiService $serviceEvaluasi
+        EvaluasiService $serviceEvaluasi,
+        TemplatingService $serviceTemplate
     )
     {
         $this->service = $service;
@@ -43,6 +45,7 @@ class MataController extends Controller
         $this->servicePeserta = $servicePeserta;
         $this->serviceKonfig = $serviceKonfig;
         $this->serviceEvaluasi = $serviceEvaluasi;
+        $this->serviceTemplate = $serviceTemplate;
     }
 
     public function index(Request $request, $programId)
@@ -58,6 +61,7 @@ class MataController extends Controller
         $data['number'] = $data['mata']->firstItem();
         $data['mata']->withPath(url()->current().$p.$q);
         $data['program'] = $this->serviceProgram->findProgram($programId);
+        $data['template'] = $this->serviceTemplate->getTemplate();
 
         $this->serviceProgram->checkAdmin($programId);
 
@@ -368,8 +372,8 @@ class MataController extends Controller
         $materi = $mata->materi->count();
         $bahan = $mata->bahan->count();
 
-        if ($materi == 0 && $bahan == 0) {
-            return back()->with('warning', 'Untuk publish program, mata & materi pelatihan minimal memiliki 1 data');
+        if ($materi == 0 || $bahan == 0) {
+            return back()->with('warning', 'Program pelatihan belum memiliki mata & bahan');
         }
 
         $this->service->publishMata($id);

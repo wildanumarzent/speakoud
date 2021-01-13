@@ -64,7 +64,7 @@
                     </div>
                 </div>
                 @endforeach
-            @elseif ($data['soal']->tipe_jawaban == 3)
+            @elseif ($data['quiz_item']->tipe_jawaban == 3)
                 <fieldset class="form-group">
                     <div class="row">
                     <div class="col-md-2 text-md-right  pt-sm-0">

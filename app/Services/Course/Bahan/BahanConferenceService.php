@@ -146,7 +146,7 @@ class BahanConferenceService
 
     }
 
-    public function updatuConferece($request, $bahan)
+    public function updateConferece($request, $bahan)
     {
         if ($request->tipe == 0) {
             $client = new \GuzzleHttp\Client();

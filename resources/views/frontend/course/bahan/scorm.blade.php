@@ -5,7 +5,7 @@
 @if($data['bahan']->scorm->repeatable == 0)
 @if(empty(@$data['cpData']))
 @if(@$data['cpData']['core']['lesson_status'] != 'completed')
-<button id="playButton" type="button" data-uid="{{auth()->user()->id}}" data-sid="{{$data['bahan']->scorm->id}}" data-uname="{{auth()->user()->name}}" data-version="2004 3rd Generation" data-src="{{ url($data['bahan']->scorm->scorm->package) }}" class="btn btn-sm btn-primary scorm-play" title="klik untuk mulai"  data-checkpoint="{{$data['checkpoint']->checkpoint ?? 0}}">
+<button id="playButton" type="button" data-uid="{{auth()->user()->id}}" data-sid="{{$data['bahan']->scorm->id}}" data-uname="{{auth()->user()->name}}" data-version="2004 3rd Generation" data-src="{{ asset($data['bahan']->scorm->scorm->bankData->file_path) }}" class="btn btn-sm btn-primary scorm-play" title="klik untuk mulai"  data-checkpoint="{{$data['checkpoint']->checkpoint ?? 0}}">
     Mulai
 </button>
  <button type="button" class="btn btn-sm btn-success scorm-exit">
@@ -15,7 +15,7 @@
  @endif
 @endif
 @else
-<button id="playButton" type="button" data-uid="{{auth()->user()->id}}" data-sid="{{$data['bahan']->scorm->id}}" data-uname="{{auth()->user()->name}}" data-version="2004 3rd Generation" data-src="{{ url($data['bahan']->scorm->scorm->package) }}" class="btn btn-sm btn-primary scorm-play" title="klik untuk mulai"  data-checkpoint="{{$data['checkpoint']->checkpoint ?? 0}}">
+<button id="playButton" type="button" data-uid="{{auth()->user()->id}}" data-sid="{{$data['bahan']->scorm->id}}" data-uname="{{auth()->user()->name}}" data-version="2004 3rd Generation" data-src="{{ asset($data['bahan']->scorm->scorm->bankData->file_path) }}" class="btn btn-sm btn-primary scorm-play" title="klik untuk mulai"  data-checkpoint="{{$data['checkpoint']->checkpoint ?? 0}}">
     Mulai
 </button>
  <button type="button" class="btn btn-sm btn-success scorm-exit" disabled>
