@@ -7,7 +7,7 @@ use App\Models\Course\MateriPelatihan;
 use App\Models\Course\ProgramPelatihan;
 use App\Models\Users\User;
 use Illuminate\Database\Eloquent\Model;
-
+use App\Models\Badge\Badge;
 class BahanForumTopik extends Model
 {
     protected $table = 'bahan_forum_topik';
@@ -17,6 +17,18 @@ class BahanForumTopik extends Model
         'publish_start' => 'datetime',
         'publish_end' => 'datetime',
     ];
+
+    public function badge()
+    {
+        return $this->hasMany(Badge::class, 'tipe_id', 'id')->where('tipe','topic');
+    }
+    public static function boot() {
+        parent::boot();
+        static::deleting(function($bahan) { // before delete() method call this
+             $bahan->badge()->delete();
+             // do the rest of the cleanup...
+        });
+    }
 
     public function creator()
     {

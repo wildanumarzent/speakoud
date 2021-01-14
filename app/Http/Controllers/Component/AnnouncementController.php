@@ -91,9 +91,10 @@ class AnnouncementController extends Controller
      */
     public function show(Announcement $announcement)
     {
-        $data['announcement'] = $announcement;
-        if($announcement->status == 0){
-            return redirect()->back();
+        $data['announcement'] = $this->announcement->annoGet($announcement->id,true);
+
+        if($announcement->status == 0 || $data['announcement'] == false){
+            return redirect()->route('dashboard')->with('warning','Anda Tidak Memiliki Akses Pada Pengumuman Ini');
         }
         return view('backend.announcement.detail', compact('data'), [
             'title' => 'Pengumuman',

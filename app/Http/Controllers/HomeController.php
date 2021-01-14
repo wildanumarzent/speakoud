@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Sertifikasi\SertifikatPeserta;
 use App\Services\ArtikelService;
+use App\Services\Badge\BadgeService;
 use App\Services\Banner\BannerKategoriService;
 use App\Services\Course\Bahan\BahanConferenceService;
 use App\Services\Course\Bahan\BahanService;
@@ -10,6 +12,8 @@ use App\Services\Course\JadwalService;
 use App\Services\Course\MataService;
 use App\Services\Course\MateriService;
 use App\Services\Course\ProgramService;
+use App\Services\LearningCompetency\JourneyService;
+use App\Services\LearningCompetency\KompetensiService;
 use App\Services\PageService;
 use App\Services\Users\InstrukturService;
 use App\Services\Users\InternalService;
@@ -31,13 +35,17 @@ class HomeController extends Controller
         BannerKategoriService $banner,
         PageService $page,
         MataService $mata,
-        JadwalService $jadwal
+        JadwalService $jadwal,
+        BadgeService $badge,
+        KompetensiService $kompetensi
     )
     {
         $this->banner = $banner;
         $this->page = $page;
         $this->mata = $mata;
         $this->jadwal = $jadwal;
+        $this->badge = $badge;
+        $this->kompetensi = $kompetensi;
 
         if (request()->segment(1) != null) {
             $this->middleware('auth');
@@ -72,6 +80,17 @@ class HomeController extends Controller
             'course_mata' => app()->make(MateriService::class)->countMateri(),
             'course_materi' => app()->make(BahanService::class)->countBahan(),
         ];
+        if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
+            $data['counter'] = [
+                'peserta_badge' => app()->make(BadgeService::class)->countBadge(auth()->user()->peserta->id),
+                'peserta_sertifikat' => SertifikatPeserta::where('peserta_id',auth()->user()->peserta->id)->count(),
+                'peserta_mata' => app()->make(MataService::class)->countMataPeserta(auth()->user()->peserta->id),
+                'peserta_journey' => app()->make(JourneyService::class)->countJourney(auth()->user()->peserta->id),
+            ];
+            $data['myBadge'] = $this->badge->getBadgePeserta(auth()->user()->peserta->id);
+            $data['rekomendasi'] = $this->kompetensi->getRekomendasiMata(auth()->user()->peserta->id);
+            $data['kompetensiMata'] = $this->kompetensi->getKompetensiMata();
+            }
         $data['latestCourse'] = app()->make(MataService::class)->getLatestMata();
         $data['jadwalPelatihan'] = app()->make(JadwalService::class)->getJadwal(5);
         $data['videoConference'] = app()->make(BahanConferenceService::class)->latestConference();

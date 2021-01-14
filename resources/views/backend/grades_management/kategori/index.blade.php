@@ -141,7 +141,7 @@
     <div class="card-footer">
         <div class="row align-items-center">
             <div class="col-lg-6 m--valign-middle">
-                Showing : <strong>{{ $data['kategori']->firstItem() }}</strong> - <strong>{{ $data['kategori']->lastItem() }}</strong> of
+                Menampilkan : <strong>{{ $data['kategori']->firstItem() }}</strong> - <strong>{{ $data['kategori']->lastItem() }}</strong> dari
                 <strong>{{ $data['kategori']->total() }}</strong>
             </div>
             <div class="col-lg-6 m--align-right">

@@ -13,16 +13,22 @@ class CreateBadgesTable extends Migration
      */
     public function up()
     {
-        Schema::create('badges', function (Blueprint $table) {
+        Schema::create('badge', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->longText('description');
-            $table->longtext('image');
-            $table->tinyInteger('status')->default(0)->comment('1 = publish , 0 = unpublish');
+            $table->unsignedBigInteger('mata_id')->nullable();
+            $table->string('nama');
+            $table->longText('deskripsi')->nullable();
+            $table->longtext('icon');
             $table->unsignedBigInteger('creator_id')->nullable();
+            $table->unsignedBigInteger('tipe_id')->nullable();
+            $table->tinyInteger('tipe_utama')->default(1)->comment('0 = activity 1 = completion');
+            $table->string('tipe');
+            $table->bigInteger('nilai_minimal');
             $table->timestamps();
-
             $table->foreign('creator_id')->references('id')->on('users')
+            ->cascadeOnDelete();
+            $table->foreign('mata_id')->references('id')
+            ->on('mata_pelatihan')
             ->cascadeOnDelete();
         });
     }
@@ -34,6 +40,6 @@ class CreateBadgesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('badges');
+        Schema::dropIfExists('badge');
     }
 }

@@ -11,6 +11,8 @@ class ActivityTrack extends Model
     protected $table = 'track_aktivitas';
     protected $guarded = [''];
 
+   
+
     public function materi()
     {
         return $this->belongsTo(MateriPelatihan::class, 'materi_id');

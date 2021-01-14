@@ -67,6 +67,18 @@ class BahanForumService
 
         return $result;
     }
+    public function getForumForMata($mataId){
+        $query = $this->model->query();
+        $query->where('mata_id',$mataId);
+        $result = $query->get();
+        return $result;
+    }
+    public function getTopikForMata($mataId){
+        $query = $this->modelTopik->query();
+        $query->where('mata_id',$mataId);
+        $result = $query->get();
+        return $result;
+    }
 
     public function findTopik(int $id)
     {

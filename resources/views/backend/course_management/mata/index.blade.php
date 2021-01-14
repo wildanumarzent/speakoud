@@ -107,6 +107,7 @@
                                         </div>
                                     </div>
                                 </td>
+
                                 <td>
                                     <div class="btn-group dropdown">
                                         <button type="button" class="btn btn-primary btn-sm btn-block dropdown-toggle hide-arrow" data-toggle="dropdown" title="klik untuk mengatur sertifikat"><i class="las la-certificate"></i><span>Sertifikat</span></button>
@@ -121,6 +122,13 @@
                                         <i class="las la-chart-line"></i> <span>Aktivitas</span>
                                     </a>
                                 </td>
+
+                                <td>
+                                    <a class="btn btn-warning btn-sm icon-btn-only-sm mr-1" href="{{ route('badge.list', ['mataID' => $item->id]) }}" title="klik untuk melihat badge">
+                                        <i class="las la-medal"></i> <span>Badge</span>
+                                    </a>
+                                </td>
+                                @include('backend.badge.create',['mataID' => $item->id])
                             </tr>
                         </table>
                     </div>
@@ -166,6 +174,7 @@
           </div>
         </div>
     </div>
+
     @endforeach
 
 </div>
@@ -199,6 +208,7 @@
     </div>
 </div>
 @endif
+
 @endsection
 
 @section('scripts')

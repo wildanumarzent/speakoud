@@ -251,7 +251,7 @@
         </li> --}}
         <!-- announcement -->
         <li class="sidenav-item {{ Request::is('announcement*') ? ' active' : '' }}">
-            <a href="{{route('announcement.index')}}" class="sidenav-link" title="Announcement"><i class="sidenav-icon las la-bullhorn"></i>
+            <a href="{{route('announcement.index')}}" class="sidenav-link" title="Pengumuman"><i class="sidenav-icon las la-bullhorn"></i>
               <div>Pengumuman</div>
             </a>
         </li>
@@ -264,28 +264,37 @@
 
          <!-- journey -->
          <li class="sidenav-item {{ Request::is('journey*') ? ' active' : '' }}">
-            <a href="{{route('journey.index')}}" class="sidenav-link" title="Announcement"><i class="sidenav-icon ion ion-md-bookmarks"></i>
+            <a href="{{route('journey.index')}}" class="sidenav-link" title="Learning Journey"><i class="sidenav-icon ion ion-md-bookmarks"></i>
               <div>Learning Journey</div>
             </a>
         </li>
-         <!-- competency -->
-         <li class="sidenav-item {{ Request::is('competency*') ? ' active' : '' }}">
-            <a href="{{route('competency.index')}}" class="sidenav-link" title="Announcement"><i class="sidenav-icon fas fa-chalkboard-teacher"></i>
-              <div>Competency</div>
+         <!-- badge -->
+         @role ('peserta_mitra|peserta_internal')
+         <li class="sidenav-item {{ Request::is('badge.my.') ? ' active' : '' }}">
+            <a href="{{route('badge.my.index')}}" class="sidenav-link" title="Badge Saya"><i class="sidenav-icon ion ion-md-medal"></i>
+              <div>Badge Saya</div>
             </a>
         </li>
+        @endrole
+
 
         @role ('developer|administrator|internal')
+          <!-- kompetensi -->
+          <li class="sidenav-item {{ Request::is('kompetensi*') ? ' active' : '' }}">
+            <a href="{{route('kompetensi.index')}}" class="sidenav-link" title="Kompetensi"><i class="sidenav-icon fas fa-chalkboard-teacher"></i>
+              <div>Kompetensi</div>
+            </a>
+        </li>
         <!-- aktivitas -->
         <li class="sidenav-item{{ (Request::is('statistic') || Request::is('log*')) ? ' active open' : '' }}">
-            <a href="javascript:void(0)" class="sidenav-link sidenav-toggle" title="Aktivitas"><i class="sidenav-icon las la-calendar-day"></i>
+            <a href="javascript:void(0)" class="sidenav-link sidenav-toggle" title="Laporan"><i class="sidenav-icon las la-calendar-day"></i>
               <div>Laporan</div>
             </a>
 
             <ul class="sidenav-menu">
                 <!-- Activity Report -->
                {{-- <li class="sidenav-item {{ Request::is('report.activity*') ? ' active' : '' }}">
-                <a href="#" class="sidenav-link" title="Activity Report">
+                <a href="#" class="sidenav-link" title="Activity Completion">
                   <div>Activity Completion</div>
                 </a>
             </li> --}}
@@ -305,13 +314,13 @@
                     <ul class="sidenav-menu">
 
                         <li class="sidenav-item{{ (Request::is('log') && !empty(Request::get('q'))) ? ' active' : '' }}">
-                            <a href="{{route('log.index')}}?q={{ \Carbon\Carbon::now()->format('Y-m-d')}}" class="sidenav-link" title="Aktif">
+                            <a href="{{route('log.index')}}?q={{ \Carbon\Carbon::now()->format('Y-m-d')}}" class="sidenav-link" title="Log Hari ini">
                             <div>Hari Ini</div>
                             </a>
                         </li>
 
                         <li class="sidenav-item{{ (Request::is('log') && empty(Request::get('q'))) ? ' active' : '' }}">
-                            <a href="{{ route('log.index') }}" class="sidenav-link" title="Aktif">
+                            <a href="{{ route('log.index') }}" class="sidenav-link" title="Semua Log">
                             <div>Semua</div>
                             </a>
                         </li>

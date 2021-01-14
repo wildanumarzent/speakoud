@@ -18,8 +18,7 @@ class CreateBadgePesertasTable extends Migration
             $table->unsignedBigInteger('badge_id');
             $table->unsignedBigInteger('peserta_id');
             $table->timestamps();
-
-            $table->foreign('badge_id')->references('id')->on('badges')
+            $table->foreign('badge_id')->references('id')->on('badge')
             ->cascadeOnDelete();
         $table->foreign('peserta_id')->references('id')->on('peserta')
             ->cascadeOnDelete();

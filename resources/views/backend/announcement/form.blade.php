@@ -13,7 +13,7 @@
 @include('sweetalert::alert')
 <div class="card">
     <h6 class="card-header">
-      Form Announcement
+      Form Pengumuman
     </h6>
     <form action="{{ !isset($data['announcement']) ? route('announcement.store') : route('announcement.update', ['id' => $data['announcement']->id]) }}" method="POST" enctype="multipart/form-data">
         @csrf
@@ -24,8 +24,8 @@
         @endif
         <div class="card-body">
             <div class="form-group">
-                <label class="form-label">Judul Announcement</label>
-                    <input type="text" name="title" class="form-control {{ $errors->has('title')?' is-invalid':'' }}" value="{{ old('title')  ?? @$data['announcement']->title }}"placeholder="Masukan Judul Laporan">
+                <label class="form-label">Judul Pengumuman</label>
+                    <input type="text" name="title" class="form-control {{ $errors->has('title')?' is-invalid':'' }}" value="{{ old('title')  ?? @$data['announcement']->title }}"placeholder="Masukan Judul Pengumuman">
                     {!! $errors->first('title', '<small class="form-text text-danger">:message</small>') !!}
                 </div>
                 <div class="form-group">
@@ -55,23 +55,23 @@
                         </select>
 
                 </div>
+                <div class="form-group">
+                   <label class="form-label w-100">Kirim Kepada :</label>
+                   <select class="select2-demo form-control" name="receiver[]" multiple style="width: 100%" required auto>
+                       @php
+                       $role = explode('|',@$data['announcement']->receiver);
+                       @endphp
+                           @foreach($data['role'] as $value)
+                           <option value="{{ $value->name }}" @if(!empty($data['announcement']) && in_array($value->name,$role)) selected @endif> {{ str_replace('_', ' ', ucwords($value->name)) }}</option>
+                           @endforeach
+                   </select>
+               </div>
+                <div class="form-group">
+                    <label class="form-label">Masa Berlaku Pengumuman</label>
+                        <input required type="date" name="end_date" class="form-control {{ $errors->has('end_date')?' is-invalid':'' }}" value="{{ old('end_date')  ?? @$data['announcement']->end_date }}"placeholder="Tentukan Masa Berlaku Pengumuman">
+                        {!! $errors->first('end_date', '<small class="form-text text-danger">:message</small>') !!}
+                    </div>
 
-                {{-- <div class="form-group">
-                    <label class="form-label w-100">Kirim Kepada :</label>
-                    <select class="select2-demo form-control" multiple style="width: 100%">
-                        @php
-                        $value_id = explode(',',@$data['data']->receiver);
-                        $a = 'Hallo';
-                        @endphp
-                            @foreach($data['role'] as $value)
-                            @if (isset($data['announcement']))
-                        <option value="{{$value->id}}" @foreach($value_id as $u) {{$value->id == $u ? 'selected' : ''}} @endforeach>{{$value->name}}</option>
-                            @else
-                            <option value="{{$value->id}}">{{$value->name}}</option>
-                            @endif
-                            @endforeach
-                    </select>
-                </div> --}}
 
 
 

@@ -47,6 +47,7 @@ class MataService
         $this->komentar = $komentar;
         $this->peserta = $peserta;
         $this->bahanEvaluasi = $bahanEvaluasi;
+
     }
 
     public function getAllMata()
@@ -313,6 +314,37 @@ class MataService
 
         $result = $query->count();
 
+        return $result;
+    }
+
+    public function countMataPeserta($pesertaID){
+        $query = $this->model->query();
+        if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
+
+            $query->where('publish_start', '<=', now())
+                ->where('publish_end', '>=', now());
+
+            $query->whereHas('program', function ($query) {
+                $query->publish();
+                if (auth()->user()->hasRole('peserta_mitra')) {
+                    $query->where('tipe', 1)->where('mitra_id', auth()->user()->peserta->mitra_id);
+                } else {
+                    $query->where('tipe', 0);
+                }
+            });
+            $query->publish();
+            $query->whereHas('peserta', function ($query) {
+                $query->where('peserta_id', auth()->user()->peserta->id);
+            });
+        }
+        $result = $query->count();
+        return $result;
+    }
+    public function getMataPeserta($pesertaID){
+
+        $query = $this->modelPeserta->query();
+        $query->where('peserta_id',$pesertaID);
+        $result = $query->get();
         return $result;
     }
 

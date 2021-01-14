@@ -2,6 +2,7 @@
 
 namespace App\Models\Course\Bahan;
 
+use App\Events\ActivitySaved;
 use App\Models\Course\MataPelatihan;
 use App\Models\Course\MateriPelatihan;
 use App\Models\Course\ProgramPelatihan;
@@ -17,6 +18,10 @@ class ActivityCompletion extends Model
         'track_start' => 'datetime',
         'track_end' => 'datetime',
     ];
+
+    // protected $dispatchesEvents = [
+    //     'saved' => ActivitySaved::class,
+    // ];
 
     public function program()
     {

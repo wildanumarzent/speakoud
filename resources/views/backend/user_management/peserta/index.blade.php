@@ -83,6 +83,7 @@
                     <th style="width: 120px; text-align: center;">Tipe</th>
                     <th style="width: 200px;">Tanggal Dibuat</th>
                     <th style="width: 200px;">Tanggal Diperbarui</th>
+                    <th>Learning Journey</th>
                     <th style="width: 110px;">Aksi</th>
                 </tr>
             </thead>
@@ -118,6 +119,11 @@
                     </td>
                     <td>{{ $item->created_at->format('d F Y - (H:i)') }}</td>
                     <td>{{ $item->updated_at->format('d F Y - (H:i)') }}</td>
+                    <td>
+                        <a href="{{ route('journey.peserta', ['id' => $item->id]) }}" target="_blank" class="btn btn-primary icon-btn btn-sm" title="klik untuk melihat learning journey">
+                            <i class="las la-external-link-alt"></i>
+                        </a>
+                    </td>
                     <td>
                         <a href="{{ route('peserta.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengedit peserta">
                                 <i class="las la-pen"></i>

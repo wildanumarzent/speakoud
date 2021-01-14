@@ -31,7 +31,6 @@ class FrontendServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-
             View::share([
                 'configuration' => [
                     //group 1

@@ -213,7 +213,7 @@ class ArtikelController extends Controller
     //         'title' => 'Artikel',
     //         'breadcrumbsBackend' => [
     //             'Artikel' => route('artikel.index'),
-    //             'Create' => '',
+    //             'Tambah' => '',
     //         ],
     //     ]);
     // }

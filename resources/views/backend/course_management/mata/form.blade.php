@@ -5,6 +5,7 @@
 <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-material-datetimepicker/bootstrap-material-datetimepicker.css') }}">
 <script src="{{ asset('assets/tmplts_backend/wysiwyg/tinymce.min.js') }}"></script>
 <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/fancybox/fancybox.min.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/select2/select2.css') }}">
 @endsection
 
 @section('content')
@@ -151,6 +152,23 @@
                             </div>
                         </div>
                     </div>
+                    <hr>
+                    <div class="form-group row">
+                        <div class="col-md-2 text-md-right">
+                            <label class="col-form-label text-sm-right">Kompetensi</label>
+                          </div>
+                          <div class="col-md-10">
+                            <div class="select2-primary">
+                            <select class="select2-demo form-control @error('kompetensi_id') is-invalid @enderror" name="kompetensi_id[]" data-style="btn-default" multiple>
+                                <option disabled>Pilih Kompetensi</option>
+                                @foreach ($data['kompetensi'] as $k)
+                                    <option value="{{ $k->id }}" @if(!empty($data['kompetensiMata']) && in_array($k->id,$data['kompetensiMata']->pluck('kompetensi_id')->toArray())) selected @endif> {{ ucwords($k->judul) }}</option>
+                                @endforeach
+                            </select>
+                            </div>
+                          </div>
+                    </div>
+
                     <hr>
                     <div class="form-group row">
                         <label class="col-form-label col-sm-2 text-sm-right">Tampilkan Rating Peserta</label>
@@ -309,6 +327,9 @@
 @section('scripts')
 <script src="{{ asset('assets/tmplts_backend/vendor/libs/moment/moment.js') }}"></script>
 <script src="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-material-datetimepicker/bootstrap-material-datetimepicker.js') }}"></script>
+
+<script src="{{ asset('assets/tmplts_backend/vendor/libs/select2/select2.js') }}"></script>
+<script src="{{ asset('assets/tmplts_backend/js/forms_selects.js') }}"></script>
 
 <script src="{{ asset('assets/tmplts_backend/fancybox/fancybox.min.js') }}"></script>
 @endsection

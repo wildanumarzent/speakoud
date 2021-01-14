@@ -4,6 +4,7 @@ namespace App\Models\Course;
 
 use App\Models\Component\Komentar;
 use App\Models\Course\Bahan\BahanPelatihan;
+use App\Models\Kompetensi\KompetensiMata;
 use App\Models\Sertifikasi\SertifikatExternal;
 use App\Models\Sertifikasi\SertifikatInternal;
 use App\Models\Sertifikasi\SertifikatPeserta;
@@ -12,6 +13,8 @@ use App\Models\Soal\SoalKategori;
 use App\Models\Users\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use App\Models\Badge\Badge;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class MataPelatihan extends Model
 {
@@ -27,11 +30,25 @@ class MataPelatihan extends Model
     public static function boot(){
         parent::boot();
         MataPelatihan::observe(new \App\Observers\LogObserver);
+        static::deleting(function($bahan) { // before delete() method call this
+            $bahan->badge()->delete();
+            // do the rest of the cleanup...
+       });
         }
+
+            public function badge()
+            {
+                return $this->hasMany(Badge::class, 'tipe_id', 'id')->where('tipe','program');
+            }
 
     public function creator()
     {
         return $this->belongsTo(User::class, 'creator_id');
+    }
+
+    public function hasKompetensi()
+    {
+        return $this->hasMany(KompetensiMata::class,'mata_id');
     }
 
     public function program()
@@ -155,5 +172,9 @@ class MataPelatihan extends Model
         }
 
         return $cover;
+    }
+    public function kompetensiMata()
+    {
+        return $this->hasMany(KompetensiMata::class, 'mata_id');
     }
 }

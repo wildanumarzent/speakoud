@@ -2,13 +2,14 @@
 
 namespace App\Models\Course\Bahan;
 
+use App\Models\Badge\Badge;
 use App\Models\Course\ApiEvaluasi;
 use App\Models\Course\MataPelatihan;
 use App\Models\Course\MateriPelatihan;
 use App\Models\Course\ProgramPelatihan;
 use App\Models\Users\User;
+use App\Observers\LogObserver;
 use Illuminate\Database\Eloquent\Model;
-
 class BahanPelatihan extends Model
 {
     protected $table = 'bahan_pelatihan';
@@ -19,6 +20,19 @@ class BahanPelatihan extends Model
         'publish_end' => 'datetime',
         'completion_parameter' => 'array',
     ];
+
+    public function badge()
+    {
+        return $this->hasMany(Badge::class, 'tipe_id', 'id')->where('tipe','materi');
+    }
+    public static function boot() {
+        parent::boot();
+        BahanPelatihan::observe(new \App\Observers\LogObserver);
+        static::deleting(function($bahan) { // before delete() method call this
+             $bahan->badge()->delete();
+             // do the rest of the cleanup...
+        });
+    }
 
     public function segmenable()
     {

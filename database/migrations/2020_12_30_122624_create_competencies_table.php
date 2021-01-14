@@ -13,12 +13,10 @@ class CreateCompetenciesTable extends Migration
      */
     public function up()
     {
-        Schema::create('competency', function (Blueprint $table) {
+        Schema::create('kompetensi', function (Blueprint $table) {
             $table->id();
             $table->string('judul');
             $table->longtext('deskripsi')->nullable();
-            $table->bigInteger('persentase')->default(100);
-            $table->string('mata');
             $table->unsignedBigInteger('creator_id');
             $table->timestamps();
             $table->foreign('creator_id')->references('id')->on('users')
@@ -33,6 +31,6 @@ class CreateCompetenciesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('competency');
+        Schema::dropIfExists('kompetensi');
     }
 }

@@ -6,7 +6,7 @@ use App\Models\Log;
 use Illuminate\Http\Request;
 use App\Services\LogService;
 use Carbon\Carbon;
-
+use Illuminate\Support\Facades\Artisan;
 class LogController extends Controller
 {
     /**
@@ -107,5 +107,11 @@ class LogController extends Controller
     public function destroy(Log $log)
     {
         //
+    }
+
+    public function backup()
+    {
+        Artisan::call('log:delete');
+        return redirect()->back()->with('success','Log Berhasil Di Backup');
     }
 }

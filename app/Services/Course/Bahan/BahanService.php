@@ -6,6 +6,7 @@ use App\Models\BankData;
 use App\Models\Course\ApiEvaluasi;
 use App\Models\Course\Bahan\ActivityCompletion;
 use App\Models\Course\Bahan\BahanPelatihan;
+use App\Services\Badge\BadgeService;
 use App\Services\Course\MateriService;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
@@ -81,6 +82,13 @@ class BahanService
 
         $result = $query->orderBy('urutan', 'ASC')->paginate(10);
 
+        return $result;
+    }
+
+    public function getBahanForMata($materiID = []){
+        $query = $this->model->query();
+        $query->whereIn('materi_id', $materiID);
+        $result = $query->orderBy('materi_id', 'ASC')->get();
         return $result;
     }
 
@@ -417,7 +425,6 @@ class BahanService
                 $bahan->evaluasiPengajar()->delete();
             }
         }
-
         $bahan->delete();
 
         return $bahan;

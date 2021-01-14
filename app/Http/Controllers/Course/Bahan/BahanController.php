@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Course\Bahan;
 
+use App\Events\ActivitySaved;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BahanRequest;
 use App\Services\Course\Bahan\ActivityService;
@@ -358,7 +359,6 @@ class BahanController extends Controller
         }
 
         $this->serviceActivity->complete($id);
-
         if ($request->is_ajax == 'yes') {
             return response()->json([
                 'success' => 1,

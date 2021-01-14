@@ -31,11 +31,13 @@
 <div class="card">
     <div class="card-header with-elements">
         <h5 class="card-header-title mt-1 mb-0">Pengumuman List</h5>
+        @role ('developer|administrator|internal')
         <div class="card-header-elements ml-auto">
             <a href="{{ route('announcement.create') }}" class="btn btn-primary icon-btn-only-sm" title="klik untuk menambah artikel">
                 <i class="las la-plus"></i><span>Tambah</span>
             </a>
         </div>
+        @endrole
     </div>
     <div class="table-responsive">
         <table class="table card-table table-striped table-bordered table-hover table-sm">

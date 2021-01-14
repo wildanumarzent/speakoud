@@ -17,7 +17,6 @@ class CreateJourneysTable extends Migration
             $table->id();
             $table->string('judul');
             $table->longtext('deskripsi')->nullable();
-            $table->string('competency');
             $table->unsignedBigInteger('creator_id');
             $table->timestamps();
             $table->foreign('creator_id')->references('id')->on('users')

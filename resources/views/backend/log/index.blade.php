@@ -38,9 +38,16 @@
     </div>
     @endif
     </div>
+
 <div class="card">
     <div class="card-header with-elements">
         <h5 class="card-header-title mt-1 mb-0">Activity Logs List</h5>
+        @if($data['type'] != 'time' && $data['log']->count() > 0)
+        <a class="btn btn-sm btn-warning pull-right ml-3" href="{{route('log.backup')}}">Backup and Delete Log</a>
+        @endif
+        @if(file_exists('logs/activity.log'))
+        <a class="btn btn-sm btn-secondary pull-right ml-3" href="{{asset('logs/activity.log')}}" download>Download Log</a>
+        @endif
     </div>
     <div class="table-responsive">
         <table class="table card-table table-striped table-bordered table-hover table-sm">
@@ -98,6 +105,7 @@
 <script src="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-sortable/bootstrap-sortable.js') }}"></script>
 @endsection
 
-
+@section('jsbody')
 @include('components.toastr')
+@endsection
 @endsection

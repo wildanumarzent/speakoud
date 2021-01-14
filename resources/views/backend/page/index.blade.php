@@ -142,7 +142,7 @@
     <div class="card-footer">
         <div class="row align-items-center">
             <div class="col-lg-6 m--valign-middle">
-                Showing : <strong>{{ $data['pages']->firstItem() }}</strong> - <strong>{{ $data['pages']->lastItem() }}</strong> of
+                Menampilkan : <strong>{{ $data['pages']->firstItem() }}</strong> - <strong>{{ $data['pages']->lastItem() }}</strong> dari
                 <strong>{{ $data['pages']->total() }}</strong>
             </div>
             <div class="col-lg-6 m--align-right">
