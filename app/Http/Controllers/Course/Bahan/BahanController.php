@@ -221,17 +221,18 @@ class BahanController extends Controller
     public function store(BahanRequest $request, $materiId)
     {
         $materi = $this->serviceMateri->findMateri($materiId);
+        $mata = $this->serviceMata->findMata($materi->mata_id);
 
         if ($request->type == 'quiz') {
             if ($request->kategori == 1) {
-                $pre = $materi->quiz->where('kategori', 1)->count();
+                $pre = $mata->quiz->where('kategori', 1)->count();
                 if ($pre > 0) {
                     return back()->with('warning', 'Pre Test sudah ada, tidak bisa ditambahkan lagi');
                 }
             }
 
             if ($request->kategori == 2) {
-                $post = $materi->quiz->where('kategori', 2)->count();
+                $post = $mata->quiz->where('kategori', 2)->count();
                 if ($post > 0) {
                     return back()->with('warning', 'Post Test sudah ada, tidak bisa ditambahkan lagi');
                 }

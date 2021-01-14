@@ -1,6 +1,7 @@
 @extends('backend.course_management.bahan.form')
 
 @section('content-bahan')
+@if(!isset($data['bahan']))
 <div class="form-group row">
     <div class="col-md-2 text-md-right">
         <label class="col-form-label">Scorm Package</label>
@@ -19,6 +20,7 @@
             @enderror
     </div>
 </div>
+@endif
 @if(isset($data['bahan']))
 @if($data['scorm']->count() > 0)
 {{-- <input type="hidden" name="package" value="{{asset('userfile/scorm/default.zip')}}">

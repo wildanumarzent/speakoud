@@ -5,6 +5,7 @@ namespace App\Models\Course;
 use App\Models\Component\Komentar;
 use App\Models\Course\Bahan\BahanPelatihan;
 use App\Models\Kompetensi\KompetensiMata;
+use App\Models\Course\Bahan\BahanQuiz;
 use App\Models\Sertifikasi\SertifikatExternal;
 use App\Models\Sertifikasi\SertifikatInternal;
 use App\Models\Sertifikasi\SertifikatPeserta;
@@ -117,6 +118,11 @@ class MataPelatihan extends Model
     public function bahan()
     {
         return $this->hasMany(BahanPelatihan::class, 'mata_id');
+    }
+
+    public function quiz()
+    {
+        return $this->hasMany(BahanQuiz::class, 'mata_id');
     }
 
     public function evaluasiByUser()

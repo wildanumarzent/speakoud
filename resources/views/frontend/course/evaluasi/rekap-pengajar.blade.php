@@ -26,7 +26,9 @@
 
 <div class="text-left">
     <a href="{{ route('course.bahan', ['id' => $data['mata']->id, 'bahanId' => $data['bahan']->id, 'tipe' => 'evaluasi-pengajar']) }}" class="btn btn-secondary rounded-pill" title="kembali ke evaluasi"><i class="las la-arrow-left"></i>Kembali</a>
-    <a href="" class="btn btn-success rounded-pill" title="export data evaluasi"><i class="las la-file-excel"></i>Export</a>
+    @if (count($data['result']->result_detail) > 0 || count($data['result']->result_essai) > 0)
+    <a href="{{ route('evaluasi.pengajar.export', ['id' => $data['mata']->id, 'bahanId' => $data['bahan']->id]) }}" class="btn btn-success rounded-pill" title="export data evaluasi"><i class="las la-file-excel"></i>Export</a>
+    @endif
 </div>
 <br>
 

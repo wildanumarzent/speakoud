@@ -235,7 +235,7 @@
     $('#form-random').hide();
     $('#kategori').change(function() {
         var id = $(this).val();
-        if (id > 0) {
+        if (id >= 0) {
             $('#form-random').toggle('slow');
         }
         if (id) {

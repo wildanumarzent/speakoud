@@ -205,8 +205,8 @@
               <span class="card-header-title"> Pengajar</span>
             </h6>
             <ul class="list-group list-group-flush">
-                {{-- @foreach ($data['read']->instruktur as $ins) --}}
-                @foreach ($data['read']->materi()->select('instruktur_id')->groupBy('instruktur_id')->get() as $ins)
+                @foreach ($data['read']->instruktur as $ins)
+                {{-- @foreach ($data['read']->materi()->select('instruktur_id')->groupBy('instruktur_id')->get() as $ins) --}}
                 <li class="list-group-item">
                   <div class="media align-items-center">
                     <a href="{{ $ins->instruktur->user->getPhoto($ins->instruktur->user->photo['filename']) }}" data-fancybox="gallery">

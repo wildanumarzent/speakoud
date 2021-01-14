@@ -2,6 +2,7 @@
 
 namespace App\Services\Soal;
 
+use App\Models\Course\Bahan\BahanQuiz;
 use App\Models\Course\Bahan\BahanQuizItem;
 use App\Models\Soal\Soal;
 
@@ -71,21 +72,28 @@ class SoalService
 
     public function getSoalForQuiz($request, int $quizId)
     {
+        $quiz = BahanQuiz::find($quizId);
         $item = BahanQuizItem::where('quiz_id', $quizId);
+
+        $query = $this->model->query();
+
+        if ($request->kategori_id == 0) {
+            $query->where('mata_id', $quiz->mata_id);
+        } else {
+            $query->where('kategori_id', $request->kategori_id);
+        }
 
         if ($item->count() > 0) {
             $collectSoal = collect($item->get());
             $soal = $collectSoal->map(function($item, $key) {
                 return $item->pertanyaan;
             })->all();
-            $query = $this->model->where('kategori_id', $request->kategori_id)
-                ->whereNotIn('pertanyaan', $soal)->pluck('pertanyaan', 'id');
-        } else {
-            $query = $this->model->where('kategori_id', $request->kategori_id)->pluck('pertanyaan', 'id');
+            $query->whereNotIn('pertanyaan', $soal)->pluck('pertanyaan', 'id');
         }
 
+        $result = $query->pluck('pertanyaan', 'id');
 
-        return $query;
+        return $result;
     }
 
     public function findSoal(int $id)

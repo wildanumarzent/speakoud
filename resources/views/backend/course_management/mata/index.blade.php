@@ -1,6 +1,7 @@
 @extends('layouts.backend.layout')
 
 @section('styles')
+<link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/select2/select2.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-datepicker/bootstrap-datepicker.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-daterangepicker/bootstrap-daterangepicker.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/sweetalert2/sweetalert2.css') }}">
@@ -55,7 +56,11 @@
 <!-- / Filters -->
 <div class="text-left">
     <a href="{{ route('program.index') }}" class="btn btn-secondary rounded-pill" title="kembali ke list kategori"><i class="las la-arrow-left"></i>Kembali</a>
+    @role('administrator|internal')
+    <button type="button" class="btn btn-primary rounded-pill" data-toggle="modal" data-target="#modals-tipe" title="klik untuk menambah program pelatihan"><i class="las la-plus"></i>Tambah</button>
+    @else
     <a href="{{ route('mata.create', ['id' => $data['program']->id]) }}" class="btn btn-primary rounded-pill" title="klik untuk menambah program pelatihan"><i class="las la-plus"></i>Tambah</a>
+    @endrole
 </div>
 <br>
 
@@ -160,6 +165,14 @@
                                         @method('PUT')
                                     </form>
                                 </a>
+                                @role ('administrator|internal')
+                                <a href="javascript:void(0);" onclick="$(this).find('#form-publish').submit();" class="dropdown-item copy" data-id="{{ $item->id }}" title="klik untuk copy program ke template">
+                                    <i class="las la-clipboard"></i> <span>Copy sebagai template</span>
+                                    <form action="{{ route('template.mata.copy', ['id' => $item->id]) }}" method="POST" id="form-copy-{{ $item->id }}">
+                                        @csrf
+                                    </form>
+                                </a>
+                                @endrole
                             </div>
                         </div>
                     </div>
@@ -209,9 +222,52 @@
 </div>
 @endif
 
+<div class="modal fade" id="modals-tipe">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">
+            Pilih Tipe
+            <span class="font-weight-light">Tambah Program</span>
+            <br>
+          </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="las la-times"></i></button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-md-6 ml-sm-auto text-center">
+                    <a href="{{ route('mata.create', ['id' => $data['program']->id]) }}" class="btn btn-success rounded-pill" title="klik untuk menambah program pelatihan"><i class="las la-plus"></i> Buat Baru</a>
+                </div>
+                <div class="col-md-6 ml-sm-auto text-center">
+                    <button type="button" class="btn btn-primary rounded-pill from-template" title="klik untuk menampilkan template"><i class="las la-clipboard"></i>Dari Template</button>
+                </div>
+            </div>
+            <div id="template">
+                <hr>
+                <div class="form-row">
+                    <div class="form-group col">
+                        <label class="form-label">Template</label>
+                        <select class="select2 show-tick select-template" name="template_id" data-id="{{ $data['program']->id }}" data-style="btn-default">
+                            <option value=" " selected disabled>Pilih</option>
+                            @foreach ($data['template'] as $item)
+                                <option value="{{ $item->id }}">{!! $item->judul !!}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal" title="klik untuk menutup">Tutup</button>
+        </div>
+      </div>
+    </div>
+</div>
+
 @endsection
 
 @section('scripts')
+<script src="{{ asset('assets/tmplts_backend/vendor/libs/select2/select2.js') }}"></script>
 <script src="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-datepicker/bootstrap-datepicker.js') }}"></script>
 <script src="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-daterangepicker/bootstrap-daterangepicker.js') }}"></script>
 <script src="{{ asset('assets/tmplts_backend/vendor/libs/sweetalert2/sweetalert2.js') }}"></script>
@@ -220,6 +276,23 @@
 @section('jsbody')
 <script src="{{ asset('assets/tmplts_backend/jquery-ui.js') }}"></script>
 <script>
+    $('.select2').select2({
+        width: '100%',
+        dropdownParent: $('#modals-tipe')
+    });
+    $("#template").hide();
+    $('.from-template').click(function(e) {
+        $("#template").toggle('slow');
+    });
+    $('.select-template').on('change', function () {
+        var id = $(this).attr('data-id');
+        var templateId = $(this).val();
+        if (templateId) {
+            window.location = "/program/"+ id +"/mata/template/"+ templateId +"/create";
+        }
+        return false;
+        //$('form').submit();
+    });
     // Bootstrap Datepicker
     $(function() {
         var isRtl = $('html').attr('dir') === 'rtl';
@@ -307,6 +380,29 @@
                 }
             });
         })
+    });
+
+    //copy
+    $(document).ready(function () {
+        $('.copy').click(function(e) {
+            e.preventDefault();
+            var id = $(this).attr('data-id');
+            var url = $(this).attr('href');
+            Swal.fire({
+            title: "Apakah anda yakin ?",
+            text: "Data Materi, Bahan Pelatihan tidak boleh kosong",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, copy!',
+            cancelButtonText: "Tidak, terima kasih",
+            }).then((result) => {
+            if (result.value) {
+                $("#form-copy-"+id).submit();
+            }
+            })
+        });
     });
 </script>
 

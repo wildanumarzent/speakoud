@@ -20,6 +20,7 @@
                     <label class="form-label">Kategori</label>
                     <select id="kategori" class="select2 show-tick" name="kategori_id" data-style="btn-default">
                         <option value=" " selected disabled>Pilih</option>
+                        <option value="0">Semua Soal</option>
                         @foreach ($data['soal_kategori'] as $kategori)
                             <option value="{{ $kategori->id }}"> {{ $kategori->judul }} ({{ $kategori->soal->count() }})</option>
                         @endforeach
