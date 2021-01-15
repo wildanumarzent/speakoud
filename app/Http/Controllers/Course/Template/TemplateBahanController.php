@@ -35,6 +35,7 @@ class TemplateBahanController extends Controller
         $data['number'] = $data['bahan']->firstItem();
         $data['bahan']->withPath(url()->current().$q);
         $data['materi'] = $this->serviceMateri->findTemplateMateri($materiId);
+        $data['materi_lain'] = $this->serviceMateri->templateMateriJump($data['materi']->template_mata_id, $materiId);
 
         return view('backend.course_management.template.bahan.index', compact('data'), [
             'title' => 'Template - Bahan',

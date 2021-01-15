@@ -1,6 +1,7 @@
 @extends('layouts.backend.layout')
 
 @section('styles')
+<link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/select2/select2.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/sweetalert2/sweetalert2.css') }}">
 @endsection
 
@@ -34,6 +35,17 @@
                     </div>
                 </div>
                 </form>
+            </div>
+            <div class="col-md">
+                <div class="form-group">
+                    <label class="form-label">Mata Lain</label>
+                    <select class="jump select2 show-tick" data-mataid="{{ $data['materi']->template_mata_id }}" data-style="btn-default">
+                        <option value="" selected disabled>Pilih</option>
+                        @foreach ($data['materi_lain'] as $materi)
+                            <option value="{{ $materi->id }}">{!! $materi->judul !!}</option>
+                        @endforeach
+                    </select>
+                </div>
             </div>
         </div>
     </div>
@@ -135,17 +147,16 @@
                             <a class="btn btn-primary btn-sm icon-btn-only-sm" href="{{ route('course.bahan', ['id' => $item->mata_id, 'bahanId' => $item->id, 'tipe' => $item->type($item)['tipe']]) }}" title="klik untuk melihat preview">
                                 <span>Detail</span> <i class="las la-external-link-alt ml-1"></i>
                             </a>
+                            @if (auth()->user()->hasRole('developer|administrator') || $item->creator_id == auth()->user()->id)
                             <div class="btn-group dropdown">
                                 <button type="button" class="btn btn-warning btn-sm icon-btn-only-sm dropdown-toggle hide-arrow" data-toggle="dropdown" title="klik untuk melakukan aksi"><i class="las la-ellipsis-v"></i><span>Aksi</span></button>
                                 <div class="dropdown-menu dropdown-menu-right">
                                     <a href="{{ route('bahan.edit', ['id' => $item->materi_id, 'bahanId' => $item->id, 'type' => $item->type($item)['tipe']]) }}" class="dropdown-item" title="klik untuk mengedit materi pelatihan">
                                         <i class="las la-pen"></i><span>Ubah</span>
                                     </a>
-                                    @if (auth()->user()->hasRole('developer|administrator') || $item->creator_id == auth()->user()->id)
                                     <a href="javascript:void(0);" data-materiid="{{ $item->materi_id }}" data-id="{{ $item->id }}" class="dropdown-item js-sa2-delete" title="klik untuk menghapus materi pelatihan">
                                         <i class="las la-trash-alt"></i><span>Hapus</span>
                                     </a>
-                                    @endif
                                     <a href="javascript:void(0);" onclick="$(this).find('form').submit();" class="dropdown-item" title="klik untuk {{ $item->publish == 0 ? 'publish' : 'draft' }} materi pelatihan">
                                         <i class="las la-{{ $item->publish == 0 ? 'eye' : 'eye-slash' }} "></i> <span>{{ $item->publish == 0 ? 'Publish' : 'Draft' }}</span>
                                         <form action="{{ route('bahan.publish', ['id' => $item->materi_id, 'bahanId' => $item->id]) }}" method="POST">
@@ -155,6 +166,7 @@
                                     </a>
                                 </div>
                             </div>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -204,6 +216,7 @@
 @endsection
 
 @section('scripts')
+<script src="{{ asset('assets/tmplts_backend/vendor/libs/select2/select2.js') }}"></script>
 <script src="{{ asset('assets/tmplts_backend/vendor/libs/sweetalert2/sweetalert2.js') }}"></script>
 @endsection
 
@@ -211,6 +224,19 @@
 <script src="{{ asset('assets/tmplts_backend/jquery-ui.js') }}"></script>
 <script src="{{ asset('assets/tmplts_backend/js/ui_modals.js') }}"></script>
 <script>
+    $('.select2').select2();
+
+    $('.jump').on('change', function () {
+
+        var mataid = $(this).attr('data-mataid');
+        var id = $(this).val();
+
+        if (id) {
+            window.location = '/materi/'+ id +'/bahan'
+        }
+        return false;
+    });
+
     //sort
     $(function () {
         $(".drag").sortable({

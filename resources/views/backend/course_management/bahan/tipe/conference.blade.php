@@ -44,7 +44,7 @@
         <label class="col-form-label">Tanggal</label>
     </div>
    <div class="col-md-10">
-     <input type="text" class="date-picker form-control @error('tanggal') is-invalid @enderror" name="tanggal" value="{{ (isset($data['bahan'])) ? old('tanggal', $data['bahan']->conference->tanggal->format('Y-m-d')) : old('tanggal') }}" placeholder="masukan tanggal...">
+     <input type="text" class="date-picker form-control @error('tanggal') is-invalid @enderror" name="tanggal" value="{{ (isset($data['bahan']) && !empty($data['bahan']->conference->tanggal)) ? old('tanggal', $data['bahan']->conference->tanggal->format('Y-m-d')) : old('tanggal') }}" placeholder="masukan tanggal...">
      @include('components.field-error', ['field' => 'tanggal'])
    </div>
 </div>
@@ -53,7 +53,7 @@
         <label class="col-form-label">Jam Mulai</label>
     </div>
     <div class="col-md-10">
-        <input type="text" class="time-picker form-control @error('start_time') is-invalid @enderror" name="start_time" value="{{ (isset($data['bahan'])) ? old('start_time', $data['bahan']->conference->start_time->format('H:i:s')) : old('start_time') }}" placeholder="masukan jam mulai...">
+        <input type="text" class="time-picker form-control @error('start_time') is-invalid @enderror" name="start_time" value="{{ (isset($data['bahan']) && $data['bahan']->conference->start_time) ? old('start_time', $data['bahan']->conference->start_time->format('H:i:s')) : old('start_time') }}" placeholder="masukan jam mulai...">
         @include('components.field-error', ['field' => 'start_time'])
     </div>
 </div>
@@ -63,7 +63,7 @@
     </div>
 
     <div class="col-md-10">
-      <input type="text" class="time-picker form-control @error('end_time') is-invalid @enderror" name="end_time" value="{{ (isset($data['bahan'])) ? old('end_time', $data['bahan']->conference->end_time->format('H:i:s')) : old('end_time') }}" placeholder="masukan jam selesai...">
+      <input type="text" class="time-picker form-control @error('end_time') is-invalid @enderror" name="end_time" value="{{ (isset($data['bahan'])  && $data['bahan']->conference->end_time) ? old('end_time', $data['bahan']->conference->end_time->format('H:i:s')) : old('end_time') }}" placeholder="masukan jam selesai...">
       @include('components.field-error', ['field' => 'end_time'])
     </div>
 </div>

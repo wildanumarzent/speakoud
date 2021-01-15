@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Course;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MataInstrukturRequest;
 use App\Http\Requests\MataRequest;
+use App\Http\Requests\SetInstrukturRequest;
 use App\Services\Course\EvaluasiService;
 use App\Services\Course\MataService;
 use App\Services\Course\ProgramService;
@@ -42,7 +43,7 @@ class TemplatingController extends Controller
         if ($check == true) {
            return back()->with('success', 'Berhasil mengcopy program ke template');
         } else {
-            return back()->with('danger', 'Program harus memiliki Mata & Bahan terlebih dahulu');
+            return back()->with('failed', 'Program harus memiliki Mata & Bahan terlebih dahulu');
         }
     }
 
@@ -79,6 +80,7 @@ class TemplatingController extends Controller
         }
 
         $mata = $this->serviceMata->storeMata($request, $programId, $templateId);
+        $this->service->copyBankSoal($mata->id, $templateId);
 
         return redirect()->route('enroll.create.template', ['id' => $mata->id, 'templateId' => $templateId])
             ->with('success', 'Program pelatihan berhasil ditambahkan');
@@ -104,7 +106,7 @@ class TemplatingController extends Controller
             'title' => 'Enroll - Template - Tambah',
             'breadcrumbsBackend' => [
                 'Kategori' => route('program.index'),
-                'Program Pelatihan' => route('mata.index', ['id' => $mataId]),
+                'Program Pelatihan' => route('mata.index', ['id' => $data['mata']->program_id]),
                 'Enroll' => '',
                 'Tambah' => ''
             ],
@@ -119,10 +121,11 @@ class TemplatingController extends Controller
             ->with('success', 'Instruktur berhasil ditambahkan');
     }
 
-    public function createMateri($mataId, $templateId)
+    public function createMateri(Request $request, $mataId, $templateId)
     {
         $data['mata'] = $this->serviceMata->findMata($mataId);
         $data['tMata'] = $this->serviceTMata->findTemplateMata($templateId);
+        $data['instruktur'] = $this->serviceMata->getInstrukturList($request, $mataId);
 
         if ($data['mata']->materi->count() > 0) {
             return abort(404);
@@ -132,10 +135,20 @@ class TemplatingController extends Controller
             'title' => 'Materi - Template - Tambah',
             'breadcrumbsBackend' => [
                 'Kategori' => route('program.index'),
-                'Program Pelatihan' => route('mata.index', ['id' => $mataId]),
+                'Program Pelatihan' => route('mata.index', ['id' => $data['mata']->program_id]),
                 'Materi' => '',
                 'Tambah' => ''
             ],
         ]);
+    }
+
+    public function storeMateri(SetInstrukturRequest $request, $mataId, $templateId)
+    {
+        $data['mata'] = $this->serviceMata->findMata($mataId);
+
+        $this->service->copyMateri($request, $mataId, $templateId);
+
+        return redirect()->route('mata.index', ['id' => $data['mata']->program_id])
+            ->with('success', 'Program pelatihan dari template berhasil ditambahkan');
     }
 }

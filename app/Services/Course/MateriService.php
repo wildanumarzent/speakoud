@@ -70,6 +70,18 @@ class MateriService
         return $result;
     }
 
+    public function materiJump(int $mataId, int $id)
+    {
+        $query = $this->model->query();
+
+        $query->where('mata_id', $mataId);
+        $query->whereNotIn('id', [$id]);
+
+        $result = $query->orderBy('urutan', 'ASC')->get();
+
+        return $result;
+    }
+
     public function countMateri()
     {
         $query = $this->model->query();

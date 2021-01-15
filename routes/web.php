@@ -904,6 +904,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/mata/{id}/materi/template/{templateId}/create', 'Course\TemplatingController@createMateri')
         ->name('materi.create.template')
         ->middleware('role:developer|administrator|internal');
+    Route::post('/mata/{id}/materi/template/{templateId}', 'Course\TemplatingController@storeMateri')
+        ->name('materi.store.template')
+        ->middleware('role:developer|administrator|internal');
 
     //jadwal pelatihan
     Route::get('/jadwal', 'Course\JadwalController@index')

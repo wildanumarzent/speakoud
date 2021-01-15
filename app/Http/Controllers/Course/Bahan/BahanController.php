@@ -56,6 +56,7 @@ class BahanController extends Controller
         $data['number'] = $data['bahan']->firstItem();
         $data['bahan']->withPath(url()->current().$p.$q);
         $data['materi'] = $this->serviceMateri->findMateri($materiId);
+        $data['materi_lain'] = $this->serviceMateri->materiJump($data['materi']->mata_id, $materiId);
 
         $this->service->checkInstruktur($materiId);
         $this->serviceProgram->checkAdmin($data['materi']->program_id);
@@ -77,7 +78,7 @@ class BahanController extends Controller
         $data['bahan'] = $this->service->findBahan($id);
         $data['materi'] = $this->serviceMateri->findMateri($data['bahan']->materi_id);
         $data['materi_lain'] = $this->serviceMateri->getMateriByMata($data['bahan']->mata_id);
-        $data['jump'] = $this->service->bahanJump($id);
+        $data['jump'] = $this->service->bahanJump($mataId, $id);
         $data['prev'] = $this->service->bahanPrevNext($data['materi']->id, $data['bahan']->urutan, 'prev');
         $data['next'] = $this->service->bahanPrevNext($data['materi']->id, $data['bahan']->urutan, 'next');
 
@@ -279,6 +280,14 @@ class BahanController extends Controller
 
     public function publish($materiId, $id)
     {
+        $bahan = $this->service->findBahan($id);
+
+        if ($bahan->type($bahan)['tipe'] == 'conference') {
+            if (empty($bahan->conference->tanggal)) {
+                return redirect()->back()->with('warning', 'tanggal & jam meeting harus diisi terlebih dahulu');
+            }
+        }
+
         $this->service->publishBahan($id);
 
         return redirect()->back()->with('success', 'Status berhasil diubah');
