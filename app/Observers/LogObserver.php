@@ -19,7 +19,7 @@ class LogObserver
         } else {
             $oldNama = $model->getOriginal('judul') ?? $model->getOriginal('title') ?? $model->getOriginal('nama') ?? $model->getOriginal('name');
             $event = "updated";
-            $deskripsi = "Merubah Data {$model->getTable()} : {$oldNama}";
+            $deskripsi = "Merubah Data {$model->getTable()} : {$oldNama} new {$event}";
         }
 
         if (Auth::check()) {

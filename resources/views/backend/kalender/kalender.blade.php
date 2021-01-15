@@ -178,7 +178,9 @@ var eventList = [];
       start: '9:00',
       end: '18:00',
     },
+    @role ('developer|administrator|internal')
     editable: true,
+    @endrole
     eventLimit: true, // allow "more" link when too many events
     events: "{{route('event.list')}}",
 

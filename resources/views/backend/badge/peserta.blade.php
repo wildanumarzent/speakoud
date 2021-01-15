@@ -18,7 +18,7 @@ $myBadge = $data['myBadge']->where('badge_id',$item->id)->first();
 @endphp
 <div class="contacts-col col-md-2">
 
-    <div class="card mb-4">
+    <div class="card card-list mb-4">
         <div class="card-body">
             <div class="contacts-dropdown dropdown btn-group">
 

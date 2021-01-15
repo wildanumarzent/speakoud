@@ -115,7 +115,7 @@
                                 @role ('developer|administrator|internal')
                                  <div class="dropdown dropdown-right ml-2">
                                     <button type="button" class="btn btn-sm btn-warning borderless rounded-pill md-btn-flat dropdown-toggle hide-arrow" data-toggle="dropdown">
-                                        Aksi&nbsp;&nbsp;<i class="ion ion-ios-more"></i>
+                                        <i class="las la-ellipsis-v"></i>&nbsp;&nbsp;Aksi
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-right">
                                         <a href="{{ route('journey.edit', ['journey' => $item->id]) }}" class="dropdown-item" title="klik untuk mengedit kategori pelatihan">
