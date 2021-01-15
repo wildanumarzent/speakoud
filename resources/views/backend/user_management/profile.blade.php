@@ -37,6 +37,7 @@
                         </a>
                     </div>
                 </div>
+
                 @role ('internal|mitra|instruktur_internal|instruktur_mitra|peserta_internal|peserta_mitra')
                 <div class="col-md-6">
                     <div class="form-group">
@@ -102,6 +103,7 @@
                         <h6 class="title">1. Akun</h6>
                     </div>
                 </div>
+
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Username</label>
@@ -153,6 +155,22 @@
                         <p><strong>{!! $data['user']->ip_address ?? '-' !!}</strong></p>
                     </div>
                 </div>
+                @role('peserta_internal|peserta_mitra')
+                <div class="col-md-12">
+                    <div class="form-group mt-4">
+                        <h6 class="title">3. Complete Learning Journey</h6>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <ul class="list-group">
+                           @foreach($data['myJourney'] as $j)
+                           <li class="list-group-item">{{$j->journey->judul}}</li>
+                           @endforeach
+                        </ul>
+                    </div>
+                </div>
+                @endrole
                 <div class="col-md-12">
                     <div class="box-btn text-right">
                        <a href="{{ route('profile.edit') }}" class="btn btn-primary">Edit Profile</a>

@@ -18,7 +18,7 @@
                         @foreach ($data['mata'] as $item)
                         <option value="{{ $item->id }}" {{ Request::get('p') == ''.$item->id.'' ? 'selected' : '' }}>{{ $item->judul }}</option>
                         @endforeach
-                        <option value="null" {{ Request::get('p') == 'null' ? 'selected' : '' }}>Belum Terkait</option>
+                        <option value="0" {{ Request::get('p') == 'null' ? 'selected' : '' }}>Belum Terkait</option>
                     </select>
                 </div>
             </div>
@@ -69,8 +69,8 @@
                                     </div>
                                     <div class="col-2">
                                         <div class="btn-group dropdown dropdown-right mr-3">
-                                            <button type="button" class="btn btn-sm btn-default icon-btn borderless rounded-pill md-btn-flat dropdown-toggle hide-arrow" data-toggle="dropdown">
-                                                <i class="ion ion-ios-more"></i>
+                                            <button type="button" class="btn btn-sm btn-warning borderless rounded-pill md-btn-flat dropdown-toggle hide-arrow" data-toggle="dropdown">
+                                                Aksi&nbsp;&nbsp;<i class="ion ion-ios-more"></i>
                                             </button>
                                             <div class="dropdown-menu dropdown-menu-right">
                                                 <a href="{{ route('kompetensi.edit', ['kompetensi' => $item->id]) }}" class="dropdown-item" title="klik untuk mengedit kategori pelatihan">
@@ -94,7 +94,7 @@
                                 <div class="small">
                                     <a href="javascript:void(0)" class="text-muted"><i class="las la-user text-lighter text-big align-middle"></i>&nbsp; {{$item->user->name}}</a>
                                     <span class="text-muted ml-3"><i class="ion ion-md-time text-lighter text-big align-middle"></i>&nbsp; {{$item->created_at->format('Y-m-d H:i:s')}}</span>
-                                    <small class="text-muted ml-3">Program Pelatihan : @forelse($data['listMata'] as $list) {{$list->mata->judul}}&nbsp; @empty Belum Terkait Program Pelatihan @endforelse</small>
+                                    <small class="text-muted ml-3">Program Pelatihan : @forelse($data['listMata']->where('kompetensi_id',$item->id) as $list) {{$list->mata->judul}}&nbsp; @empty Belum Terkait Program Pelatihan @endforelse</small>
                                 </div>
                             </div>
                         </div>

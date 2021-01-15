@@ -46,7 +46,7 @@
                     <th style="width: 10px;">No</th>
                     <th>Judul</th>
                     <th>Pembuat</th>
-                    <th>Attachment</th>
+                    {{-- <th>Attachment</th> --}}
                     <th>Status</th>
                     <th style="width: 200px;">Tanggal Dibuat</th>
                     <th style="width: 200px;">Tanggal Diperbarui</th>
@@ -57,10 +57,10 @@
                 @forelse ($data['announcement'] as $item)
                 <tr>
                     <td>{{ $data['number']++ }}</td>
-                    <td><strong>{!! Str::limit($item->title, 90) !!}</strong> @if($item->statu != 0)<a href="{{ route('announcement.show', ['announcement' => $item->id]) }}" title="lihat pengumuman" target="_blank"><i class="las la-external-link-alt"></i></a>@endif</td>
+                    <td><a href="{{ route('announcement.show', ['announcement' => $item->id]) }}" target="_blank"><strong>{!! Str::limit($item->title, 90) !!}</strong> @if($item->statu != 0)<a href="{{ route('announcement.show', ['announcement' => $item->id]) }}" title="lihat pengumuman" target="_blank"><i class="las la-external-link-alt"></i></a>@endif</a></td>
                     <td >{{ $item->user->name ?? '-' }}</td>
 
-                    <td >@if(!empty($item->attachment))<a href="{{$item->attachment}}" download>download</a>@endif</td>
+                    {{-- <td >@if(!empty($item->attachment))<a href="{{$item->attachment}}" download>download</a>@endif</td> --}}
                     <td>
                         <a href="javascript:void(0);" onclick="$(this).find('form').submit();" class="badge badge-{{ $item->status == 1 ? 'primary' : 'warning' }}"
                             title="klik unutk publish/draft Pengumuman">
@@ -73,6 +73,13 @@
                     </td>
                     <td >{{ $item->created_at->format('d F Y - (H:i)') }}</td>
                     <td >{{ $item->updated_at->format('d F Y - (H:i)') }}</td>
+                    @role('peserta_mitra|peserta_internal')
+                    <td>
+                        <a href="{{ route('announcement.show', ['announcement' => $item->id]) }}" target="_blank" class="btn icon-btn btn-sm btn-success" title="klik untuk melihat pengumuman">
+                            <i class="las la-eye"></i>
+                        </a>
+                    </td>
+                    @else
                     <td>
                         <a href="{{ route('announcement.edit', ['announcement' => $item->id]) }}" class="btn icon-btn btn-sm btn-primary" title="klik untuk mengedit pengumuman">
                             <i class="las la-pen"></i>
@@ -81,6 +88,7 @@
                             <i class="las la-trash-alt"></i>
                         </a>
                     </td>
+                    @endrole
                 </tr>
                 @empty
                 <tr>

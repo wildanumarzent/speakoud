@@ -30,6 +30,7 @@ class GiveReplyBadge
      */
     public function handle(ReplySaved $event)
     {
+        if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
         $pesertaId = Auth::user()->peserta->id;
         $jumlahReply = BahanForumTopikDiskusi::where('mata_id',$event->reply['mata_id'])->where('user_id',Auth::user()->id)->count();
         $badge = Badge::where('mata_id',$event->reply['mata_id'])->where('tipe_utama',0)->where('tipe','topic')->get();
@@ -50,4 +51,5 @@ class GiveReplyBadge
          }
      }
     }
+}
 }
