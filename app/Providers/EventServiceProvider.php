@@ -7,7 +7,6 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
-use App\Events\CompleteBahan;
 use App\Events\ForumSaved;
 use App\Events\ReplySaved;
 use App\Listeners\GiveBadge;
@@ -43,6 +42,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         'Illuminate\Auth\Events\Logout' => [
             'App\Listeners\Users\PreviousLogin',
+        ],
+        'App\Events\BadgeSaved' => [
+            'App\Listeners\SendBadgeNotification',
         ],
     ];
 

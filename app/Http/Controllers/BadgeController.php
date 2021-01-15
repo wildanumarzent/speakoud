@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\BadgeSaved;
 use Illuminate\Http\Request;
 use App\Services\Badge\BadgeService;
 use App\Services\Course\MataService;
@@ -60,6 +61,7 @@ class BadgeController extends Controller
         $data['myBadge'] = $this->badge->getBadgePeserta(auth()->user()->peserta->id);
         $data['count']['badge'] = $this->badge->countBadge(auth()->user()->peserta->id);
         $data['mata'] = $this->mata->getMataPeserta(auth()->user()->peserta->id);
+        event(new BadgeSaved);
         return view('backend.badge.peserta', compact('data'), [
             'title' => 'Badge',
             'breadcrumbsBackend' => [
