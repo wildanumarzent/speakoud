@@ -92,11 +92,11 @@ class BahanService
         return $result;
     }
 
-    public function bahanJump($id)
+    public function bahanJump(int $mataId, int $id)
     {
         $query = $this->model->query();
 
-        $query->where('publish', 1);
+        $query->where('mata_id', $mataId)->where('publish', 1);
         $query->whereNotIn('id', [$id]);
 
         $result = $query->orderBy('urutan', 'ASC')->get();

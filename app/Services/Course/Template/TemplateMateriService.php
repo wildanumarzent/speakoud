@@ -32,6 +32,18 @@ class TemplateMateriService
         return $result;
     }
 
+    public function templateMateriJump(int $mataId, int $id)
+    {
+        $query = $this->model->query();
+
+        $query->where('template_mata_id', $mataId);
+        $query->whereNotIn('id', [$id]);
+
+        $result = $query->orderBy('urutan', 'ASC')->get();
+
+        return $result;
+    }
+
     public function findTemplateMateri(int $id)
     {
         return $this->model->findOrFail($id);

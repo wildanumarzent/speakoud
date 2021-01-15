@@ -228,6 +228,30 @@
           </ul>
         </li>
 
+        <!-- journey -->
+        <li class="sidenav-item {{ Request::is('journey*') ? ' active' : '' }}">
+            <a href="{{route('journey.index')}}" class="sidenav-link" title="Learning Journey"><i class="sidenav-icon las la-bookmark"></i>
+              <div>Learning Journey</div>
+            </a>
+        </li>
+         <!-- badge -->
+         @role ('peserta_mitra|peserta_internal')
+         <li class="sidenav-item {{ Request::is('badge.my.') ? ' active' : '' }}">
+            <a href="{{route('badge.my.index')}}" class="sidenav-link" title="Badge Saya"><i class="sidenav-icon las la-medal"></i>
+              <div>Badge Saya</div>
+            </a>
+        </li>
+        @endrole
+
+        @role ('developer|administrator|internal')
+        <!-- kompetensi -->
+        <li class="sidenav-item {{ Request::is('kompetensi*') ? ' active' : '' }}">
+            <a href="{{route('kompetensi.index')}}" class="sidenav-link" title="Kompetensi"><i class="sidenav-icon las la-chalkboard-teacher"></i>
+              <div>Kompetensi</div>
+            </a>
+        </li>
+        @endrole
+
         <!-- sertifikasi -->
         {{-- <li class="sidenav-item">
             <a href="javascript:void(0)" class="sidenav-link sidenav-toggle" title="Sertifikasi"><i class="sidenav-icon las la-certificate"></i>
@@ -262,29 +286,7 @@
             </a>
         </li> --}}
 
-         <!-- journey -->
-         <li class="sidenav-item {{ Request::is('journey*') ? ' active' : '' }}">
-            <a href="{{route('journey.index')}}" class="sidenav-link" title="Learning Journey"><i class="sidenav-icon ion ion-md-bookmarks"></i>
-              <div>Learning Journey</div>
-            </a>
-        </li>
-         <!-- badge -->
-         @role ('peserta_mitra|peserta_internal')
-         <li class="sidenav-item {{ Request::is('badge.my.') ? ' active' : '' }}">
-            <a href="{{route('badge.my.index')}}" class="sidenav-link" title="Badge Saya"><i class="sidenav-icon ion ion-md-medal"></i>
-              <div>Badge Saya</div>
-            </a>
-        </li>
-        @endrole
-
-
         @role ('developer|administrator|internal')
-          <!-- kompetensi -->
-          <li class="sidenav-item {{ Request::is('kompetensi*') ? ' active' : '' }}">
-            <a href="{{route('kompetensi.index')}}" class="sidenav-link" title="Kompetensi"><i class="sidenav-icon fas fa-chalkboard-teacher"></i>
-              <div>Kompetensi</div>
-            </a>
-        </li>
         <!-- aktivitas -->
         <li class="sidenav-item{{ (Request::is('statistic') || Request::is('log*')) ? ' active open' : '' }}">
             <a href="javascript:void(0)" class="sidenav-link sidenav-toggle" title="Laporan"><i class="sidenav-icon las la-calendar-day"></i>

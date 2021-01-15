@@ -5,6 +5,7 @@
 /public/userfile/logo_instansi
 /public/userfile/photo
 /public/userfile/scorm
+/public/userfile/badge
 /storage/app
 /storage/logs
 /storage/app/framework/laravel-excel

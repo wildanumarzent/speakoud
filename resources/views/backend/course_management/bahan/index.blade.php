@@ -1,6 +1,7 @@
 @extends('layouts.backend.layout')
 
 @section('styles')
+<link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/select2/select2.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/sweetalert2/sweetalert2.css') }}">
 @endsection
 
@@ -34,6 +35,17 @@
                     </div>
                 </div>
                 </form>
+            </div>
+            <div class="col-md">
+                <div class="form-group">
+                    <label class="form-label">Mata Lain</label>
+                    <select class="jump select2 show-tick" data-mataid="{{ $data['materi']->template_mata_id }}" data-style="btn-default">
+                        <option value="" selected disabled>Pilih</option>
+                        @foreach ($data['materi_lain'] as $materi)
+                            <option value="{{ $materi->id }}">{!! $materi->judul !!}</option>
+                        @endforeach
+                    </select>
+                </div>
             </div>
         </div>
     </div>
@@ -204,6 +216,7 @@
 @endsection
 
 @section('scripts')
+<script src="{{ asset('assets/tmplts_backend/vendor/libs/select2/select2.js') }}"></script>
 <script src="{{ asset('assets/tmplts_backend/vendor/libs/sweetalert2/sweetalert2.js') }}"></script>
 @endsection
 
@@ -211,6 +224,19 @@
 <script src="{{ asset('assets/tmplts_backend/jquery-ui.js') }}"></script>
 <script src="{{ asset('assets/tmplts_backend/js/ui_modals.js') }}"></script>
 <script>
+    $('.select2').select2();
+
+    $('.jump').on('change', function () {
+
+        var mataid = $(this).attr('data-mataid');
+        var id = $(this).val();
+
+        if (id) {
+            window.location = '/materi/'+ id +'/bahan'
+        }
+        return false;
+    });
+
     //sort
     $(function () {
         $(".drag").sortable({
