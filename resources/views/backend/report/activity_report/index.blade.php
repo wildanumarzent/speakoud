@@ -53,7 +53,7 @@
 <!-- / Filters -->
 <div class="card">
     <div class="card-header with-elements">
-        <h5 class="card-header-title mt-1 mb-0">Activity Report</h5>
+        <h5 class="card-header-title mt-1 mb-0">Activity Completion</h5>
     </div>
     <div class="table-responsive">
         <table class="table card-table table-striped table-bordered table-hover table-sm">

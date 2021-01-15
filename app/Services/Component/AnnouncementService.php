@@ -16,7 +16,7 @@ class AnnouncementService{
         $this->notifikasi = $notifikasi;
     }
 
-    public function annoList($request){
+    public function annoList($request,$sortExpired = false){
 
         $anno = Announcement::query();
         $anno->when($request->q, function ($query, $q) {
@@ -24,6 +24,9 @@ class AnnouncementService{
                 $query->where('title', 'like', '%'.$q.'%');
             });
         });
+        if($sortExpired == true){
+        $anno->whereDate('end_date','>',Carbon::now());
+        }
         $result = $anno->orderby('created_at','desc')->paginate(20);
         return $result;
     }
@@ -34,11 +37,19 @@ class AnnouncementService{
         return $result;
     }
 
-    public function annoGet($data){
+    public function annoGet($data,$withRole = false){
         $query = Announcement::query();
         $query->where('id',$data);
         $result = $query->first();
-        return $result;
+        if($withRole == true){
+        if (auth()->user()->hasRole($result['receiver'])){
+
+        }else{
+            return false;
+        }
+
+    }
+    return $result;
     }
 
     public function annoStore($request){
@@ -50,6 +61,7 @@ class AnnouncementService{
             $filePath = 'userfile/announcement/attachment/'.$fileName;
         }
 
+        $receiver = implode('|',$request['receiver']);
         $query = Announcement::create(
             [
                 'title' => $request['title'],
@@ -57,6 +69,8 @@ class AnnouncementService{
                 'sub_content' => $request['sub_content'],
                 'status' => $request['status'],
                 'attachment' => $filePath,
+                'receiver' => $receiver,
+                'end_date' => $request['end_date'],
             ]
         );
         if($request['status'] == 1){
@@ -81,13 +95,15 @@ class AnnouncementService{
         }
 
         $anno = $this->annoGet($id);
-
+        $receiver = implode('|',$request['receiver']);
         $anno->update([
             'title' => $request['title'],
             'content' => $request['content'],
             'sub_content' => $request['sub_content'],
             'status' => $request['status'],
             'attachment' => $filePath,
+            'receiver' => $receiver,
+            'end_date' => $request['end_date'],
 
         ]);
         if($anno->status == 0){

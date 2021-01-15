@@ -9,6 +9,7 @@ use Alert;
 use Carbon\Carbon;
 use Spatie\CalendarLinks\Link;
 use Illuminate\Support\Facades\Validator;
+use App\Services\KalenderService;
 class EventController extends Controller
 {
     /**
@@ -16,6 +17,11 @@ class EventController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+     public function __construct(KalenderService $kalender)
+     {
+        $this->kalender = $kalender;
+     }
     public function index()
     {
         $data = [];
@@ -49,20 +55,29 @@ class EventController extends Controller
                     'title' => 'required',
                     'start' => 'required',
                     'end' => 'required',
+                    'start_time' => 'required',
+                    'end_time' => 'required',
                 ]);
 
                 if($validator->fails()){
                     Alert::error('Error !',$validator->messages()->first());
                     return redirect()->back();
                 }else{
+                    $data['event'] =  $request->except(['action','id','_token','start_time','end_time']);
+                    $startD = $data['event']['start'];
+                    $startT = $request['start_time'];
+                    $endD = $data['event']['end'];
+                    $endT = $request['end_time'];
+                    $data['event']['start'] = date('Y-m-d H:i:s', strtotime("$startD $startT"));
+                    $data['event']['end'] = date('Y-m-d H:i:s', strtotime("$endD $endT"));
                     if($request['id'] !=  null){
 
                         $event  = Event::query();
                         $event->find($request['id']);
-                        $event->update($request->except(['action','_token']));
+                        $event->update($data['event'] );
                     }else{
                         Event::create(
-                            $request->except(['action','id'])
+                            $data['event']
                         );
                     }
                     Alert::success('Success','Sukses Menyimpan Event');

@@ -145,4 +145,44 @@ return [
         0 => 'Tampilkan semua soal',
         1 => 'Tampilkan soal satu per satu'
     ],
+    'badge_tipe_completion' => [
+        0 => [
+            'title' => 'Penyelesaian Program',
+            'get' => 'program',
+            'description' => 'Tipe Badge ini Didapatkan Jika Peserta Menyelesaikan Program',
+            'icon' => 'medal',
+            'child' => '',
+        ],
+        1 => [
+            'title' => 'Penyelesaian Mata',
+            'get' => 'mata',
+            'description' => 'Tipe Badge ini Didapatkan Jika Peserta Menyelesaikan Suatu Mata',
+            'icon' => 'medal',
+            'child' => '',
+        ],
+        2 => [
+            'title' => 'Penyelesaian Materi',
+            'get' => 'materi',
+            'description' => 'Tipe Badge ini Didapatkan Jika Peserta Menyelesaikan Suatu Materi',
+            'icon' => 'medal',
+            'child' => '',
+        ],
+    ],
+    'badge_tipe_forum' => [
+        0 => [
+            'title' => 'Menambahkan Topik',
+            'get' => 'forum',
+            'description' => 'Tipe Badge ini Didapatkan Jika Peserta Menambahkan Sejumlah Topic pada Suatu Forum',
+            'icon' => 'medal',
+            'child' => '',
+        ],
+        1 => [
+            'title' => 'Reply Topic',
+            'get' => 'topic',
+            'description' => 'Tipe Badge ini Didapatkan Jika Menulis Sejumlah Reply pada Suatu Topic',
+            'icon' => 'medal',
+            'child' => '',
+        ],
+    ],
+
 ];

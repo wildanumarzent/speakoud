@@ -36,6 +36,7 @@ class MataRequest extends FormRequest
             // 'progress_test' => 'required',
             'quiz' => 'required',
             'post_test' => 'required',
+            'kompetensi_id' => 'nullable',
         ];
 
     }

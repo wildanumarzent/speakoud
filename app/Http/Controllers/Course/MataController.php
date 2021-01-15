@@ -17,6 +17,7 @@ use App\Services\Course\MateriService;
 use App\Services\Course\ProgramService;
 use App\Services\Course\TemplatingService;
 use App\Services\KonfigurasiService;
+use App\Services\LearningCompetency\KompetensiService;
 use App\Services\Users\InstrukturService;
 use App\Services\Users\PesertaService;
 use Illuminate\Http\Request;
@@ -35,6 +36,7 @@ class MataController extends Controller
         PesertaService $servicePeserta,
         KonfigurasiService $serviceKonfig,
         EvaluasiService $serviceEvaluasi,
+        KompetensiService $kompetensi,
         TemplatingService $serviceTemplate
     )
     {
@@ -45,6 +47,7 @@ class MataController extends Controller
         $this->servicePeserta = $servicePeserta;
         $this->serviceKonfig = $serviceKonfig;
         $this->serviceEvaluasi = $serviceEvaluasi;
+        $this->kompetensi = $kompetensi;
         $this->serviceTemplate = $serviceTemplate;
     }
 
@@ -227,7 +230,7 @@ class MataController extends Controller
     public function create($programId)
     {
         $data['program'] = $this->serviceProgram->findProgram($programId);
-
+        $data['kompetensi'] = $this->kompetensi->listAll();
         $this->serviceProgram->checkAdmin($programId);
 
         return view('backend.course_management.mata.form', compact('data'), [
@@ -249,6 +252,7 @@ class MataController extends Controller
             }
         }
 
+
         $bobot = ($request->join_vidconf + $request->activity_completion +
             $request->forum_diskusi + $request->webinar + $request->progress_test +
             $request->quiz + $request->post_test);
@@ -257,7 +261,12 @@ class MataController extends Controller
             return back()->with('warning', 'Bobot nilai harus memiliki jumlah keseluruhan 100%, tidak boleh kurang / lebih');
         }
 
-        $this->service->storeMata($request, $programId);
+        $storedMata = $this->service->storeMata($request, $programId);
+
+
+        if(isset($request['kompetensi_id'])){
+            $this->kompetensi->storeKompetensiMata($request['kompetensi_id'],$storedMata['id']);
+        }
 
         return redirect()->route('mata.index', ['id' => $programId])
             ->with('success', 'Program pelatihan berhasil ditambahkan');
@@ -328,7 +337,8 @@ class MataController extends Controller
     {
         $data['mata'] = $this->service->findMata($id);
         $data['program'] = $this->serviceProgram->findProgram($programId);
-
+        $data['kompetensi'] = $this->kompetensi->listAll();
+        $data['kompetensiMata'] = $this->kompetensi->listKompetensiMata(null,$id);
         $this->checkCreator($id);
 
         return view('backend.course_management.mata.form', compact('data'), [
@@ -350,6 +360,7 @@ class MataController extends Controller
                 return back()->with('warning', $cekApi->error_message[0]);
             }
         }
+            $this->kompetensi->storeKompetensiMata($request['kompetensi_id'],$id);
 
         $bobot = ($request->join_vidconf + $request->activity_completion +
             $request->forum_diskusi + $request->webinar + $request->progress_test +

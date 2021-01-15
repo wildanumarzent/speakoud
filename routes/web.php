@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -115,7 +114,7 @@ Route::get('/conference/{id}/leave', 'Course\Bahan\BahanConferenceController@lea
     ->name('conference.leave')
     ->middleware('auth');
 Route::put('/conference/{id}/leave', 'Course\Bahan\BahanConferenceController@leaveConfirm')
-    ->middleware(['auth', 'role:administrator|internal|mitra|instruktur_internal|instruktur_mitra']);;
+    ->middleware(['auth', 'role:administrator|internal|mitra|instruktur_internal|instruktur_mitra']);
 Route::get('/conference/{id}/platform/start', 'Course\Bahan\BahanConferenceController@startMeet')
     ->name('conference.platform.start')
     ->middleware('auth');
@@ -1108,21 +1107,49 @@ Route::group(['middleware' => ['auth']], function () {
      Route::delete('/tags/{id}','Component\TagsController@destroy')->name('tags.destroy');
 
      // Announcement
-     Route::get('/announcement','Component\AnnouncementController@index')->name('announcement.index');
-     Route::get('/announcement/create','Component\AnnouncementController@create')->name('announcement.create');
-     Route::get('/announcement/{announcement}','Component\AnnouncementController@edit')->name('announcement.edit');
-     Route::get('/announcement/{announcement}/show','Component\AnnouncementController@show')->name('announcement.show');
-     Route::post('/announcement','Component\AnnouncementController@store')->name('announcement.store');
-     Route::put('/announcement','Component\AnnouncementController@update')->name('announcement.update');
-     Route::put('/announcement/{id}','Component\AnnouncementController@publish')->name('announcement.publish');
-     Route::delete('/announcement/delete/{id}','Component\AnnouncementController@destroy')->name('announcement.destroy');
+     Route::get('/announcement','Component\AnnouncementController@index')->name('announcement.index')->middleware('auth');
+     Route::get('/announcement/create','Component\AnnouncementController@create')->name('announcement.create')->middleware('role:developer|administrator|internal');
+     Route::get('/announcement/{announcement}','Component\AnnouncementController@edit')->name('announcement.edit')->middleware('role:developer|administrator|internal');
+     Route::get('/announcement/{announcement}/show','Component\AnnouncementController@show')->name('announcement.show')->middleware('auth');
+     Route::post('/announcement','Component\AnnouncementController@store')->name('announcement.store')->middleware('role:developer|administrator|internal');
+     Route::put('/announcement','Component\AnnouncementController@update')->name('announcement.update')->middleware('role:developer|administrator|internal');
+     Route::put('/announcement/{id}','Component\AnnouncementController@publish')->name('announcement.publish')->middleware('role:developer|administrator|internal');
+     Route::delete('/announcement/delete/{id}','Component\AnnouncementController@destroy')->name('announcement.destroy')->middleware('role:developer|administrator|internal');
 
      //Logs
-     Route::get('/log','LogController@index')->name('log.index');
+     Route::get('/log','LogController@index')->name('log.index')->middleware('role:developer|administrator|internal');
+     Route::get('/log/backup','LogController@backup')->name('log.backup')->middleware('role:developer|administrator|internal');
+
+    //Kompetensi
+    Route::get('/kompetensi','KompetensiController@index')->name('kompetensi.index')->middleware('role:developer|administrator|internal');
+    Route::get('/kompetensi/create','KompetensiController@create')->name('kompetensi.create')->middleware('role:developer|administrator|internal');
+    Route::get('/kompetensi/edit/{kompetensi}','KompetensiController@edit')->name('kompetensi.edit')->middleware('role:developer|administrator|internal');
+    Route::post('/kompetensi/store','KompetensiController@store')->name('kompetensi.store')->middleware('role:developer|administrator|internal');
+    Route::PUT('/kompetensi/{id}/update','KompetensiController@update')->name('kompetensi.update')->middleware('role:developer|administrator|internal');
+    Route::delete('/kompetensi/{id}/delete','KompetensiController@destroy')->name('kompetensi.delete')->middleware('role:developer|administrator|internal');
+
+    // Journey
+    Route::get('/journey','JourneyController@index')->name('journey.index')->middleware('auth');
+    Route::post('/journey/{pesertaId}/assign','JourneyController@assign')->name('journey.assign')->middleware('auth');
+    Route::get('/journey/{id}/peserta','JourneyController@peserta')->name('journey.peserta')->middleware('role:developer|administrator|internal');
+    Route::get('/journey/create','JourneyController@create')->name('journey.create')->middleware('role:developer|administrator|internal');
+    Route::get('/journey/edit/{journey}','JourneyController@edit')->name('journey.edit')->middleware('role:developer|administrator|internal');
+    Route::post('/journey/store','JourneyController@store')->name('journey.store')->middleware('role:developer|administrator|internal');
+    Route::PUT('/journey/{id}/update','JourneyController@update')->middleware('role:developer|administrator|internal');
+    Route::delete('/journey/{id}/delete','JourneyController@destroy')->name('journey.delete')->middleware('role:developer|administrator|internal');
+
+     //Journey Kompetensi
+    Route::get('/journey/kompetensi/{journey}/create','JourneyKompetensiController@create')->name('journeyKompetensi.create')->middleware('role:developer|administrator|internal');
+    Route::get('/journey/kompetensi/{id}/edit','JourneyKompetensiController@edit')->name('journeyKompetensi.edit')->middleware('role:developer|administrator|internal');
+    Route::post('/journey/kompetensi/store','JourneyKompetensiController@store')->name('journeyKompetensi.store')->middleware('role:developer|administrator|internal');
+    Route::PUT('/journey/kompetensi/{id}/update','JourneyKompetensiController@update')->name('journeyKompetensi.update')->middleware('role:developer|administrator|internal');
+    Route::delete('/journey/kompetensi/{id}/delete','JourneyKompetensiController@destroy')->name('journeyKompetensi.delete')->middleware('role:developer|administrator|internal');
+
+     //Learning Journey
 
 
       // Statistic
-    Route::get('/statistic','Component\StatisticController@index')->name('statistic.index');
+    Route::get('/statistic','Component\StatisticController@index')->name('statistic.index')->middleware('role:developer|administrator|internal');
 
     /** Frontend Component */
     // Inquiry
@@ -1133,19 +1160,27 @@ Route::group(['middleware' => ['auth']], function () {
     // Route::delete('/inquiry/{id}','InquiryController@destroy')->name('inquiry.destroy');
 
     //fullcalender
-    Route::get('kalender','EventController@index')->name('kalender.index');
-    Route::get('event/list','EventController@list')->name('event.list');
-    Route::get('event/export/{media}','EventController@generateLink')->name('event.generate');
-    Route::post('event/store','EventController@store')->name('event.store');
-    Route::post('event/update','EventController@update')->name('event.update');
-    Route::post('event/delete','EventController@destroy')->name('event.delete');
+    Route::get('kalender','EventController@index')->name('kalender.index')->middleware('auth');
+    Route::get('event/list','EventController@list')->name('event.list')->middleware('auth');
+    Route::get('event/export/{media}','EventController@generateLink')->name('event.generate')->middleware('role:developer|administrator|internal');
+    Route::post('event/store','EventController@store')->name('event.store')->middleware('role:developer|administrator|internal');
+    Route::post('event/update','EventController@update')->name('event.update')->middleware('role:developer|administrator|internal');
+    Route::post('event/delete','EventController@destroy')->name('event.delete')->middleware('role:developer|administrator|internal');
 
-    //report
-    Route::get('report/activity/{materiId}','Course\Log\ActivityTrackController@index')->name('report.activity');
-    Route::post('report/activity/publish/{id}','Course\Log\ActivityTrackController@publish')->name('report.activity.publish');
-    Route::post('report/activity/submit/{userId}/{bahanId}','Course\Log\ActivityTrackController@submit')->name('report.activity.submit');
+    // report
+    Route::get('report/activity/{materiId}','Course\Log\ActivityTrackController@index')->name('report.activity')->middleware('role:developer|administrator|internal');
+    Route::post('report/activity/publish/{id}','Course\Log\ActivityTrackController@publish')->name('report.activity.publish')->middleware('role:developer|administrator|internal');
+    Route::post('report/activity/submit/{userId}/{bahanId}','Course\Log\ActivityTrackController@submit')->name('report.activity.submit')->middleware('role:developer|administrator|internal');
+    Route::get('report/compare/{materiId}','ReportController@compare')->name('report.compare')->middleware('role:developer|administrator|internal');
 
-    Route::get('report/compare/{materiId}','ReportController@compare')->name('report.compare');
+    // badge
+    Route::get('badges/{mataID}/list','BadgeController@list')->name('badge.list')->middleware('role:developer|administrator|internal');
+    Route::get('badges/myList','BadgeController@myBadge')->name('badge.my.index')->middleware(['auth', 'role:peserta_internal|peserta_mitra']);
+    Route::get('badges/{mataID}/create','BadgeController@create')->name('badge.create')->middleware('role:developer|administrator|internal');
+    Route::get('badges/{badge}/edit','BadgeController@edit')->name('badge.edit')->middleware('role:developer|administrator|internal');
+    Route::post('badges/store','BadgeController@store')->name('badge.store')->middleware('role:developer|administrator|internal');
+    Route::put('badges/update/{id}','BadgeController@update')->name('badge.update')->middleware('role:developer|administrator|internal');
+    Route::delete('badges/delete/{id}','BadgeController@destroy')->name('badge.delete')->middleware('role:developer|administrator|internal');
 
     //logout
     Route::post('/logout', 'Auth\LoginController@logout')

@@ -6,6 +6,11 @@
 <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/fullcalendar/fullcalendar.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/flatpickr/flatpickr.css') }}">
 <script src="{{ asset('assets/tmplts_backend/wysiwyg/tinymce.min.js') }}"></script>
+<link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-datepicker/bootstrap-datepicker.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-material-datetimepicker/bootstrap-material-datetimepicker.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/timepicker/timepicker.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/select2/select2.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/tmplts_backend/fancybox/fancybox.min.css') }}">
 @endsection
 
 @section('scripts')
@@ -15,7 +20,36 @@
 
 <script src="{{ asset('assets/tmplts_backend/vendor/libs/moment/moment.js') }}"></script>
 <script src="{{ asset('assets/tmplts_backend/vendor/libs/fullcalendar/fullcalendar.js') }}"></script>
+<script src="{{ asset('assets/tmplts_backend/vendor/libs/moment/moment.js') }}"></script>
+<script src="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-datepicker/bootstrap-datepicker.js') }}"></script>
+<script src="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-material-datetimepicker/bootstrap-material-datetimepicker.js') }}"></script>
+<script src="{{ asset('assets/tmplts_backend/vendor/libs/timepicker/timepicker.js') }}"></script>
+<script src="{{ asset('assets/tmplts_backend/vendor/libs/select2/select2.js') }}"></script>
+<script src="{{ asset('assets/tmplts_backend/fancybox/fancybox.min.js') }}"></script>
 {{-- <script src="{{ asset('assets/tmplts_backend/js/ui_fullcalendar.js') }}"></script> --}}
+@endsection
+
+@section('jsbody')
+<script>
+    $('.hide-meta').hide();
+    $('.select2').select2();
+    //datetime
+    $(function() {
+        var isRtl = $('body').attr('dir') === 'rtl' || $('html').attr('dir') === 'rtl';
+
+        $( ".date-picker" ).datepicker({
+            format: 'yyyy-mm-dd',
+            todayHighlight: true,
+        });
+
+        $('.time-picker').bootstrapMaterialDatePicker({
+            date: false,
+            shortTime: false,
+            format: 'HH:mm'
+        });
+    });
+</script>
+@include('components.toastr')
 @endsection
 
 @section('content')
@@ -50,14 +84,40 @@
                     <textarea cols="30" rows="10" id="description" class="form-control  @error('description') is-invalid @enderror" name="description" placeholder="masukan description..."></textarea>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Color Type</label>
+                      <label class="form-label">Jam Mulai</label>
+                        <div class="input-group">
+                            <input required type="text" class="time-picker form-control @error('start_time') is-invalid @enderror" name="start_time" id="startTime"
+                               placeholder="masukan jam mulai...">
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="las la-clock"></i></span>
+                            </div>
+                            @include('components.field-error', ['field' => 'start_time'])
+                        </div>
+                </div>
+                <div class="form-group">
+
+                      <label class="form-label">Jam Selesai</label>
+
+
+                        <div class="input-group">
+                            <input required type="text" class="time-picker form-control @error('end_time') is-invalid @enderror" name="end_time" id="endTime"
+                                placeholder="masukan jam selesai...">
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="las la-clock"></i></span>
+                            </div>
+                            @include('components.field-error', ['field' => 'end_time'])
+                        </div>
+
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Tipe Warna</label>
                     <select class="custom-select" name="className" id="className">
-                        <option value="" selected>Default</option>
-                        <option value="fc-event-success">Success</option>
-                        <option value="fc-event-info">Info</option>
-                        <option value="fc-event-warning">Warning</option>
-                        <option value="fc-event-danger">Danger</option>
-                        <option value="fc-event-dark">Dark</option>
+                        <option value="" selected>Biru</option>
+                        <option value="fc-event-success">Hijau</option>
+                        <option value="fc-event-info">Hijau Muda</option>
+                        <option value="fc-event-warning">Kuning</option>
+                        <option value="fc-event-danger">Merah</option>
+                        <option value="fc-event-dark">Hitam</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -71,9 +131,9 @@
                 </div> --}}
             </div>
             <div class="modal-footer">
-                <button type="submit" id="delete" name="action" value="destroy" class="btn btn-danger md-btn-flat" disabled>Delete</button>
-                <button type="button" class="btn btn-default md-btn-flat" data-dismiss="modal">Close</button>
-                <button type="submit" id="save" name="action" value="submit" class="btn btn-primary md-btn-flat">Save</button>
+                <button type="submit" id="delete" name="action" value="destroy" class="btn btn-danger md-btn-flat" disabled>Hapus</button>
+                <button type="button" class="btn btn-default md-btn-flat" data-dismiss="modal">Tutup</button>
+                <button type="submit" id="save" name="action" value="submit" class="btn btn-primary md-btn-flat">Simpan</button>
 
             </div>
         </div>
@@ -189,17 +249,17 @@ var eventList = [];
 
 
             document.getElementById("spatieCalendar").style.display = "block";
+
             $('.modal-title').text('Event'+' - '+calEvent.event.title);
             $('#description').text(calEvent.event.extendedProps.description);
             $('#judul').val(calEvent.event.title);
             $('#link').val(calEvent.event.extendedProps.link);
             $('#ulink').text(calEvent.event.extendedProps.link);
             $('#eventID').val(calEvent.event.id);
+            $('#startTime').val(moment(calEvent.event.start).format('HH:mm'));
+            $('#endTime').val(moment(calEvent.event.end).format('HH:mm'));
             $('.start').val(moment(calEvent.event.start).format('YYYY-MM-DD'));
             $('.end').val(moment(calEvent.event.end).format('YYYY-MM-DD'));
-            if (calEvent.event.allDay == 1) {
-                document.getElementById("allDay").checked = true;
-            }
             var className = document.getElementById("className").value  = calEvent.event.classNames;
 
             if(calEvent.event.extendedProps.link != null){

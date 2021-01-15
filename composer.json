@@ -26,6 +26,7 @@
         "spatie/calendar-links": "^1.4",
         "spatie/laravel-google-calendar": "^3.1",
         "spatie/laravel-permission": "^3.17",
+        "staudenmeir/laravel-upsert": "1.0",
         "tinybutstrong/opentbs": "^1.10"
     },
     "require-dev": {

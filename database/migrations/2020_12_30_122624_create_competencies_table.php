@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateEventTable extends Migration
+class CreateCompetenciesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,19 +13,14 @@ class CreateEventTable extends Migration
      */
     public function up()
     {
-        Schema::create('event', function (Blueprint $table) {
+        Schema::create('kompetensi', function (Blueprint $table) {
             $table->id();
+            $table->string('judul');
+            $table->longtext('deskripsi')->nullable();
             $table->unsignedBigInteger('creator_id');
-            $table->string('title');
-            $table->longText('description')->nullable();
-            $table->text('link')->nullable();
-            $table->text('className')->nullable();
-            $table->timestamp('start')->nullable();
-            $table->timestamp('end')->nullable();
-            $table->boolean('allDay')->default(true)->nullable();
             $table->timestamps();
             $table->foreign('creator_id')->references('id')->on('users')
-                ->cascadeOnDelete();
+            ->cascadeOnDelete();
         });
     }
 
@@ -36,6 +31,6 @@ class CreateEventTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('event');
+        Schema::dropIfExists('kompetensi');
     }
 }

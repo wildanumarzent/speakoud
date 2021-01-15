@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBadgeMatasTable extends Migration
+class JourneyKompetensi extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,15 @@ class CreateBadgeMatasTable extends Migration
      */
     public function up()
     {
-        Schema::create('badge_mata', function (Blueprint $table) {
+        Schema::create('journey_kompetensi', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('badge_id');
-            $table->unsignedBigInteger('mata_id');
             $table->timestamps();
-
-            $table->foreign('badge_id')->references('id')->on('badges')
+            $table->unsignedBigInteger('kompetensi_id');
+            $table->unsignedBigInteger('journey_id');
+            $table->bigInteger('minimal_poin')->default(1);
+            $table->foreign('journey_id')->references('id')->on('journey')
             ->cascadeOnDelete();
-
-            $table->foreign('mata_id')->references('id')
-            ->on('mata_pelatihan')
+            $table->foreign('kompetensi_id')->references('id')->on('kompetensi')
             ->cascadeOnDelete();
         });
     }
@@ -35,6 +33,6 @@ class CreateBadgeMatasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('badge_mata');
+        //
     }
 }

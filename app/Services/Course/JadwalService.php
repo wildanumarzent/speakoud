@@ -2,18 +2,21 @@
 
 namespace App\Services\Course;
 
+use App\Http\Controllers\Course\JadwalController;
 use App\Models\Course\JadwalPelatihan;
 use App\Models\Event;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
+use App\Services\KalenderService;
 
 class JadwalService
 {
     private $model;
 
-    public function __construct(JadwalPelatihan $model)
+    public function __construct(JadwalPelatihan $model , KalenderService $event)
     {
         $this->model = $model;
+        $this->event = $event;
     }
 
     public function getJadwalList($request)
@@ -93,16 +96,18 @@ class JadwalService
         ];
         $jadwal->publish = (bool)$request->publish;
         $jadwal->save();
-
-        $event = new Event;
-        $event->title = $request->judul;
-        $event->description = strip_tags($request->keterangan);
-        $event->className = 'fc-event-primary';
-        $event->start = $request->start_date;
-        $event->end = $request->end_date;
-        $event->allDay = 1;
-        $event->save();
-
+        if($jadwal['publis'] == 1){
+        $this->event->makeEvent(
+            $title = $request->judul,
+            $description = strip_tags($request->keterangan),
+            $start = $request->start_date,
+            $end = $request->end_date,
+            $start_time = $request->start_time,
+            $end_time = $request->end_time,
+            $link = action('Course\JadwalController@jadwalDetail', ['id' => $jadwal->id]),
+            $jadwalId = $jadwal->id,
+        );
+        }
         return $jadwal;
     }
 
@@ -131,6 +136,19 @@ class JadwalService
         ];
         $jadwal->publish = (bool)$request->publish;
         $jadwal->save();
+        $this->event->drop($jadwal['id']);
+        if($jadwal['publish'] == 1){
+            $this->event->makeEvent(
+                $title = $request->judul,
+                $description = strip_tags($request->keterangan),
+                $start = $request->start_date,
+                $end = $request->end_date,
+                $start_time = $request->start_time,
+                $end_time = $request->end_time,
+                $link = action('Course\JadwalController@jadwalDetail', ['id' => $jadwal->id]),
+                $jadwalId = $jadwal->id,
+            );
+            }
 
         return $jadwal;
     }

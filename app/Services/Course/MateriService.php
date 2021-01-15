@@ -18,6 +18,7 @@ class MateriService
         $this->model = $model;
         $this->mata = $mata;
         $this->instruktur = $instruktur;
+
     }
 
     public function getMateriList($request, int $mataId)
@@ -40,6 +41,14 @@ class MateriService
 
         $result = $query->orderBy('urutan', 'ASC')->paginate(10);
 
+        return $result;
+    }
+
+    public function getAllMateri(int $mataId)
+    {
+        $query = $this->model->query();
+        $query->where('mata_id', $mataId);
+        $result = $query->orderBy('judul', 'ASC')->get();
         return $result;
     }
 
@@ -163,7 +172,6 @@ class MateriService
 
             return false;
         } else {
-
             $materi->delete();
 
             return true;

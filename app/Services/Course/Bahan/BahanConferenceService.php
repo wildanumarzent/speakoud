@@ -4,6 +4,7 @@ namespace App\Services\Course\Bahan;
 
 use App\Models\Course\Bahan\BahanConference;
 use App\Models\Course\Bahan\BahanConferencePeserta;
+use App\Services\KalenderService;
 use Illuminate\Database\Eloquent\Builder;
 
 class BahanConferenceService
@@ -12,11 +13,13 @@ class BahanConferenceService
 
     public function __construct(
         BahanConference $model,
-        BahanConferencePeserta $modelPeserta
+        BahanConferencePeserta $modelPeserta,
+        KalenderService $event
     )
     {
         $this->model = $model;
         $this->modelPeserta = $modelPeserta;
+        $this->event = $event;
     }
 
     public function getPesertaList($request, int $id)
@@ -141,6 +144,15 @@ class BahanConferenceService
             $request->meeting_link;
         $conference->api = $getBody;
         $conference->save();
+
+        $this->event->makeEvent(
+            $title = $request->judul,
+            $description = strip_tags($request->keterangan),
+            $start = $request->tanggal,
+            $end = $request->tanggal,
+            $start_time = $request->start_time,
+            $end_time = $request->end_time,
+        );
 
         return $conference;
 

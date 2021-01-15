@@ -2,10 +2,18 @@
 
 namespace App\Providers;
 
+use App\Events\ActivitySaved;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
+use App\Events\CompleteBahan;
+use App\Events\ForumSaved;
+use App\Events\ReplySaved;
+use App\Listeners\GiveBadge;
+use App\Listeners\GivePoint;
+use App\Listeners\GivePostBadge;
+use App\Listeners\GiveReplyBadge;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -18,6 +26,18 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+        ActivitySaved::class => [
+            GivePoint::class,
+            GiveBadge::class,
+        ],
+        ForumSaved::class => [
+            GivePostBadge::class,
+        ],
+        ReplySaved::class => [
+            GiveReplyBadge::class,
+        ],
+
+
         'Illuminate\Auth\Events\Login' => [
             'App\Listeners\Users\LatestLogin',
         ],

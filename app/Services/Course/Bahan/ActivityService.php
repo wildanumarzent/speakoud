@@ -2,6 +2,7 @@
 
 namespace App\Services\Course\Bahan;
 
+use App\Events\ActivitySaved;
 use App\Models\Course\Bahan\ActivityCompletion;
 
 class ActivityService
@@ -77,7 +78,7 @@ class ActivityService
         $complete->status = $status;
         $complete->completed_by = auth()->user()->id;
         $complete->save();
-
+        event(new ActivitySaved($complete));
         return $complete;
     }
 
@@ -113,7 +114,7 @@ class ActivityService
         $activity->status = 0;
         $activity->completed_by = auth()->user()->id;
         $activity->save();
-
+        event(new ActivitySaved($complete));
         return $activity;
     }
 }

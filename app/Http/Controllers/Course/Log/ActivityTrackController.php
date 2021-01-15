@@ -41,7 +41,7 @@ class ActivityTrackController extends Controller
         $data['number'] = $data['peserta']->firstItem();
         $data['peserta']->withPath(url()->current().$q);
         return view('backend.report.activity_report.index', compact('data'), [
-            'title' => 'Activity Report',
+            'title' => 'Activity Completion',
             'breadcrumbsBackend' => [
                 $data['materi']->judul => route('bahan.index', ['id' => $data['materi']->id]),
             ],

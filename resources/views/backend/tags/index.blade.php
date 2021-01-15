@@ -40,7 +40,7 @@
 
         </div>
     </div>
-    <div class="table-responsive table-mobile-responsive">
+    <div class="table-responsive">
         <table class="table card-table table-striped table-bordered table-hover">
             <thead>
                 <tr>
@@ -49,12 +49,13 @@
                     <th>Hits
                         <small>(Jumlah Pemakaian)</small>
                     </th>
-                    <th>Keterangan</th>
+                    {{-- <th>Keterangan</th>
                     <th>Standar</th>
                     <th>Pantas</th>
                     <th>Related</th>
                     <th style="width: 200px;">Tanggal Dibuat</th>
-                    <th style="width: 200px;">Tanggal Diperbarui</th>
+                    <th style="width: 200px;">Tanggal Diperbarui</th> --}}
+                    <th style="width: 200px;">Tanggal Dibuat</th>
                     <th style="width: 110px;">Aksi</th>
                 </tr>
             </thead>
@@ -62,9 +63,10 @@
                 @forelse ($data['tags'] as $item)
                 <tr>
                     <td>{{ $data['number']++ }}</td>
-                    <td >{{ $item->nama ?? '-' }}</td>
+                     <td >{{ $item->nama ?? '-' }}</td>
                     <td >{{ $item->tagsTipe->count()}}</td>
-                    <td >{{ $item->keterangan ?? '-' }}</td>
+                    {{--
+                        <td >{{ $item->keterangan ?? '-' }}</td>
                     <td >
                         <span class="badge badge-outline-{{$item->standar ==1 ? 'success' : 'secondary'}}" name="{{$item->standar ==1 ? 't' : 'f'}}">
                             <i class="ion ion-{{$item->standar ==1 ? 'md-checkmark-circle-outline' : 'md-close-circle-outline'}}"></i>
@@ -77,11 +79,12 @@
                     </td>
                     <td >{{ $item->related ?? '-' }}</td>
                     <td >{{ $item->created_at->format('d F Y - (H:i)') }}</td>
-                    <td >{{ $item->updated_at->format('d F Y - (H:i)') }}</td>
+                    <td >{{ $item->updated_at->format('d F Y - (H:i)') }}</td> --}}
+                    <td >{{ $item->created_at->format('d F Y - (H:i)') }}</td>
                     <td >
-                        <a href="{{route('tags.edit',['tags' => $item->id])}}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengedit tags">
+                        {{-- <a href="{{route('tags.edit',['tags' => $item->id])}}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengedit tags">
                                 <i class="las la-pen"></i>
-                        </a>
+                        </a> --}}
                         <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus tags" data-toggle="tooltip">
                             <i class="las la-trash-alt"></i>
                         </a>
@@ -103,7 +106,7 @@
                 </tr>
                 @endforelse
             </tbody>
-            <tbody class="tbody-responsive">
+            {{-- <tbody class="tbody-responsive">
                 @forelse ($data['tags'] as $item)
                 <tr>
                     <td>
@@ -171,7 +174,7 @@
                     </td>
                 </tr>
                 @endforelse
-            <tbody>
+            </tbody> --}}
         </table>
     </div>
     <div class="card-footer">

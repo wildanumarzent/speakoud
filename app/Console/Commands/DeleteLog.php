@@ -41,7 +41,8 @@ class DeleteLog extends Command
     {
 
 
-        $log = Logs::where('created_at','<',Carbon::now()->subDays(30));
+        // $log = Logs::where('created_at','<',Carbon::now()->subDays(30));
+        $log = Logs::query();
         if($log != null){
         foreach($log->get() as $l){
         Log::channel('activity')->info('Activity Log :',[
@@ -54,7 +55,7 @@ class DeleteLog extends Command
         ]);
         }
     }
-        // $log->delete();
+        $log->delete();
         return true;
     }
 }
