@@ -57,7 +57,8 @@
                 </div>
                 <div class="form-group">
                    <label class="form-label w-100">Kirim Kepada :</label>
-                   <select class="select2-demo form-control" name="receiver[]" multiple style="width: 100%" required auto>
+                   <div class="collapse" id="kompetensi">
+                   <select class="select2-demo form-control" name="receiver[]" multiple style="width: 100%">
                        @php
                        $role = explode('|',@$data['announcement']->receiver);
                        @endphp
@@ -65,6 +66,12 @@
                            <option value="{{ $value->name }}" @if(!empty($data['announcement']) && in_array($value->name,$role)) selected @endif> {{ str_replace('_', ' ', ucwords($value->name)) }}</option>
                            @endforeach
                    </select>
+                </div>
+                   <label class="custom-control custom-checkbox">
+                    <input type="checkbox" name="receiver" value="all"  class="custom-control-input" data-toggle="collapse" data-target="#kompetensi">
+                    <span class="custom-control-label">Kirim Kepada Semua User</span>
+                  </label>
+
                </div>
                 <div class="form-group">
                     <label class="form-label">Masa Berlaku Pengumuman</label>
@@ -98,6 +105,9 @@
 @endsection
 
 @section('jsbody')
+<script>
+    $('.collapse').collapse()
+</script>
 <script>
 // Bootstrap Tagsinput
 $(function() {

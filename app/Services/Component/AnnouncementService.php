@@ -9,6 +9,8 @@ use Carbon\Carbon;
 use App\Services\Component\NotificationService;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
+use Spatie\Permission\Models\Role;
+
 class AnnouncementService{
 
     public function __construct(NotificationService $notifikasi)
@@ -60,8 +62,13 @@ class AnnouncementService{
             $request->file('attachment')->move(public_path('userfile/announcement/attachment'), $fileName);
             $filePath = 'userfile/announcement/attachment/'.$fileName;
         }
+        if($request['receiver'] == 'all'){
+            $data = Role::get()->pluck('name')->toArray();
+        }else{
+            $data = $request['receiver'];
+        }
 
-        $receiver = implode('|',$request['receiver']);
+        $receiver = implode('|',$data);
         $query = Announcement::create(
             [
                 'title' => $request['title'],
@@ -73,13 +80,13 @@ class AnnouncementService{
                 'end_date' => $request['end_date'],
             ]
         );
-        if($request['status'] == 1){
-        $this->notifikasi->make($model = $query,
-        $title = 'New Announcement - '.$query['title'],
-        $description = $query->sub_content,
+        // if($request['status'] == 1){
+        // $this->notifikasi->make($model = $query,
+        // $title = 'New Announcement - '.$query['title'],
+        // $description = $query->sub_content,
 
-        $to = '');
-        }
+        // $to = '');
+        // }
         return true;
     }
 
