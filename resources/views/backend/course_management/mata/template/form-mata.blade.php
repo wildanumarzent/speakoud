@@ -156,13 +156,14 @@
                                 </div>
                                 <div class="col-md-10">
                                     <div class="input-group">
-                                        <input type="number" class="form-control @error('join_vidconf') is-invalid @enderror" name="join_vidconf"
+                                        <input type="number" class="form-control @error('join_vidconf') is-invalid @enderror" name="join_vidconf" max="100"
                                             value="{{ old('join_vidconf', $data['tMata']->bobot->join_vidconf) }}" placeholder="masukan nilai">
                                         <div class="input-group-append">
                                             <span class="input-group-text">%</span>
                                         </div>
                                         @include('components.field-error', ['field' => 'join_vidconf'])
                                     </div>
+                                    <i>*<span class="text-muted">Input range <span class="badge badge-danger">0</span> - <span class="badge badge-success">100</span></span></i>
                                 </div>
                             </div>
                             {{-- keaktifan --}}
@@ -174,13 +175,14 @@
                                 </div>
                                 <div class="col-md-10">
                                     <div class="input-group">
-                                        <input type="number" class="form-control @error('activity_completion') is-invalid @enderror" name="activity_completion"
+                                        <input type="number" class="form-control @error('activity_completion') is-invalid @enderror" name="activity_completion" max="100"
                                             value="{{ old('activity_completion', $data['tMata']->bobot->activity_completion) }}" placeholder="masukan nilai">
                                         <div class="input-group-append">
                                             <span class="input-group-text">%</span>
                                         </div>
                                         @include('components.field-error', ['field' => 'activity_completion'])
                                     </div>
+                                    <i>*<span class="text-muted">Input range <span class="badge badge-danger">0</span> - <span class="badge badge-success">100</span></span></i>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -189,13 +191,14 @@
                                 </div>
                                 <div class="col-md-10">
                                     <div class="input-group">
-                                        <input type="number" class="form-control @error('forum_diskusi') is-invalid @enderror" name="forum_diskusi"
+                                        <input type="number" class="form-control @error('forum_diskusi') is-invalid @enderror" name="forum_diskusi" max="100"
                                             value="{{ old('forum_diskusi', $data['tMata']->bobot->forum_diskusi) }}" placeholder="masukan nilai">
                                         <div class="input-group-append">
                                             <span class="input-group-text">%</span>
                                         </div>
                                         @include('components.field-error', ['field' => 'forum_diskusi'])
                                     </div>
+                                    <i>*<span class="text-muted">Input range <span class="badge badge-danger">0</span> - <span class="badge badge-success">100</span></span></i>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -204,13 +207,14 @@
                                 </div>
                                 <div class="col-md-10">
                                     <div class="input-group">
-                                        <input type="number" class="form-control @error('webinar') is-invalid @enderror" name="webinar"
+                                        <input type="number" class="form-control @error('webinar') is-invalid @enderror" name="webinar" max="100"
                                             value="{{ old('webinar', $data['tMata']->bobot->webinar) }}" placeholder="masukan nilai">
                                         <div class="input-group-append">
                                             <span class="input-group-text">%</span>
                                         </div>
                                         @include('components.field-error', ['field' => 'webinar'])
                                     </div>
+                                    <i>*<span class="text-muted">Input range <span class="badge badge-danger">0</span> - <span class="badge badge-success">100</span></span></i>
                                 </div>
                             </div>
                             {{-- tugas --}}
@@ -222,7 +226,7 @@
                                 </div>
                                 <div class="col-md-10">
                                     <div class="input-group">
-                                        <input type="number" id="progress-test" class="form-control @error('progress_test') is-invalid @enderror" name="progress_test"
+                                        <input type="number" id="progress-test" class="form-control @error('progress_test') is-invalid @enderror" name="progress_test" max="100"
                                             value="{{ old('progress_test', $data['tMata']->bobot->progress_test) }}" placeholder="masukan nilai" disabled>
                                         <div class="input-group-append">
                                             <span class="input-group-text">%</span>
@@ -232,6 +236,7 @@
                                         </div>
                                         @include('components.field-error', ['field' => 'progress_test'])
                                     </div>
+                                    <i>*<span class="text-muted">Input range <span class="badge badge-danger">0</span> - <span class="badge badge-success">100</span></span></i>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -240,13 +245,14 @@
                                 </div>
                                 <div class="col-md-10">
                                     <div class="input-group">
-                                        <input type="number" class="form-control @error('quiz') is-invalid @enderror" name="quiz"
+                                        <input type="number" class="form-control @error('quiz') is-invalid @enderror" name="quiz" max="100"
                                             value="{{ old('quiz', $data['tMata']->bobot->quiz) }}" placeholder="masukan nilai">
                                         <div class="input-group-append">
                                             <span class="input-group-text">%</span>
                                         </div>
                                         @include('components.field-error', ['field' => 'quiz'])
                                     </div>
+                                    <i>*<span class="text-muted">Input range <span class="badge badge-danger">0</span> - <span class="badge badge-success">100</span></span></i>
                                 </div>
                             </div>
                             {{-- post test --}}
@@ -258,13 +264,14 @@
                                 </div>
                                 <div class="col-md-10">
                                     <div class="input-group">
-                                        <input type="number" id="post-test" class="form-control @error('post_test') is-invalid @enderror" name="post_test"
+                                        <input type="number" id="post-test" class="form-control @error('post_test') is-invalid @enderror" name="post_test" max="100"
                                             value="{{ old('post_test', $data['tMata']->bobot->post_test) }}" placeholder="masukan nilai">
                                         <div class="input-group-append">
                                             <span class="input-group-text">%</span>
                                         </div>
                                         @include('components.field-error', ['field' => 'post_test'])
                                     </div>
+                                    <i>*<span class="text-muted">Input range <span class="badge badge-danger">0</span> - <span class="badge badge-success">100</span></span></i>
                                 </div>
                             </div>
                         </div>
@@ -313,6 +320,16 @@
 
 
 $(document).ready(function () {
+
+    $('input[type=number][max]:not([max=""])').on('input', function(ev) {
+        var $this = $(this);
+        var maxlength = $this.attr('max').length;
+        var value = $this.val();
+        if (value && value.length >= maxlength) {
+            $this.val(value.substr(0, maxlength));
+        }
+    });
+
     $('#cp').click(function() {
         if ($('#cp').prop('checked') == true) {
             $('#progress-test').removeAttr('disabled');

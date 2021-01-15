@@ -26,7 +26,7 @@
 
 <div class="text-left">
     <a href="{{ route('course.bahan', ['id' => $data['mata']->id, 'bahanId' => $data['bahan']->id, 'tipe' => 'evaluasi-pengajar']) }}" class="btn btn-secondary rounded-pill" title="kembali ke evaluasi"><i class="las la-arrow-left"></i>Kembali</a>
-    @if (count($data['result']->result_detail) > 0 || count($data['result']->result_essai) > 0)
+    @if (auth()->user()->hasRole('administrator') && count($data['result']->result_detail) > 0 || count($data['result']->result_essai) > 0)
     <a href="{{ route('evaluasi.pengajar.export', ['id' => $data['mata']->id, 'bahanId' => $data['bahan']->id]) }}" class="btn btn-success rounded-pill" title="export data evaluasi"><i class="las la-file-excel"></i>Export</a>
     @endif
 </div>
@@ -106,14 +106,18 @@
                 <table class="table table-bordered mb-2">
                     <thead>
                         <tr>
+                            @role ('administrator')
                             <th>Kode Peserta</th>
+                            @endrole
                             <th>Jawaban</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($essai->jawabans as $item)
                         <tr>
+                            @role ('administrator')
                             <td>{{ $item->kode_peserta }}</td>
+                            @endrole
                             <td>{{ $item->jawab }}</td>
                         </tr>
                         @endforeach

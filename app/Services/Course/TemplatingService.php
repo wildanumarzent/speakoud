@@ -2,8 +2,19 @@
 
 namespace App\Services\Course;
 
+use App\Models\Course\Bahan\BahanAudio;
+use App\Models\Course\Bahan\BahanConference;
+use App\Models\Course\Bahan\BahanFile;
+use App\Models\Course\Bahan\BahanForum;
+use App\Models\Course\Bahan\BahanPelatihan;
+use App\Models\Course\Bahan\BahanQuiz;
+use App\Models\Course\Bahan\BahanQuizItem;
+use App\Models\Course\Bahan\BahanScorm;
+use App\Models\Course\Bahan\BahanTugas;
+use App\Models\Course\Bahan\BahanVideo;
 use App\Models\Course\MataBobotNilai;
 use App\Models\Course\MataPelatihan;
+use App\Models\Course\MateriPelatihan;
 use App\Models\Course\Template\Bahan\TemplateBahan;
 use App\Models\Course\Template\Bahan\TemplateBahanAudio;
 use App\Models\Course\Template\Bahan\TemplateBahanConference;
@@ -19,19 +30,24 @@ use App\Models\Course\Template\TemplateMataBobot;
 use App\Models\Course\Template\TemplateMateri;
 use App\Models\Course\Template\TemplateSoal;
 use App\Models\Course\Template\TemplateSoalKategori;
+use App\Models\Scorm;
+use App\Models\Soal\Soal;
+use App\Models\Soal\SoalKategori;
 use App\Services\Course\Template\TemplateMataService;
 
 class TemplatingService
 {
-    private $template, $program;
+    private $template, $program, $mata;
 
     public function __construct(
         TemplateMataService $template,
-        ProgramService $program
+        ProgramService $program,
+        MataService $mata
     )
     {
         $this->template = $template;
         $this->program = $program;
+        $this->mata = $mata;
     }
 
     public function getTemplate()
@@ -47,12 +63,12 @@ class TemplatingService
 
     public function copyAsTemplate(int $mataId)
     {
-        $mata = MataPelatihan::findOrFail($mataId);
+        $mata = $this->mata->findMata($mataId);
         $soalKategori = $mata->soalKategori;
         $materi = $mata->materi;
         $bahan = $mata->bahan;
 
-        if ($bahan->count() == 0) {
+        if ($bahan->count() > 0) {
             //mata
             $tMata = new TemplateMata;
             $tMata->creator_id = auth()->user()->id;
@@ -146,6 +162,7 @@ class TemplatingService
                                 $segmen->template_bahan_id = $tBahan->id;
                                 $segmen->creator_id = auth()->user()->id;
                                 $segmen->tipe = $valBah->forum->tipe;
+                                $segmen->limit_topik = $valBah->forum->limit_topik;
                                 $segmen->save();
                             }
 
@@ -260,6 +277,211 @@ class TemplatingService
             return true;
         } else {
             return false;
+        }
+    }
+
+    public function copyBankSoal(int $mataId, int $templateId)
+    {
+        $tMata = $this->template->findTemplateMata($templateId);
+        $soalKategori = $tMata->soalKategori;
+
+        //soal kategori
+        if ($soalKategori->count() > 0) {
+            foreach ($soalKategori as $keyKat => $valKat) {
+                $kategori = new SoalKategori;
+                $kategori->mata_id = $mataId;
+                $kategori->creator_id = auth()->user()->id;
+                $kategori->judul = $valKat->judul;
+                $kategori->keterangan = $valKat->keterangan;
+                $kategori->save();
+
+                //soal
+                if ($valKat->soal->count() > 0) {
+                    foreach ($valKat->soal as $keySo => $valSo) {
+                        $soal = new Soal;
+                        $soal->mata_id = $mataId;
+                        $soal->kategori_id = $kategori->id;
+                        $soal->creator_id = auth()->user()->id;
+                        $soal->pertanyaan = $valSo->pertanyaan;
+                        $soal->tipe_jawaban = $valSo->tipe_jawaban;
+                        $soal->pilihan = $valSo->pilihan;
+                        $soal->jawaban = $valSo->jawaban;
+                        $soal->save();
+                    }
+                }
+            }
+        }
+        return true;
+
+    }
+
+    public function copyMateri($request, int $mataId, int $templateId)
+    {
+        $mata = $this->mata->findMata($mataId);
+        $tMata = $this->template->findTemplateMata($templateId);
+
+        $collectMateri = collect($request->materi_id);
+        $collectInstruktur = collect($request->instruktur_id);
+        $tMateri = TemplateMateri::whereIn('id', $collectMateri)->get();
+
+        foreach ($tMateri as $keyMat => $valMat) {
+
+            $materi = new MateriPelatihan;
+            $materi->program_id = $mata->program_id;
+            $materi->mata_id = $mataId;
+            $materi->instruktur_id = $collectInstruktur[$keyMat];
+            $materi->creator_id = auth()->user()->id;
+            $materi->judul = $valMat->judul;
+            $materi->keterangan = $valMat->keterangan;
+            $materi->urutan = $valMat->urutan;
+            $materi->save();
+
+            foreach ($valMat->bahan as $keyBah => $valBah) {
+
+                $bahan = new BahanPelatihan;
+                $bahan->program_id = $mata->program_id;
+                $bahan->mata_id = $mataId;
+                $bahan->materi_id = $materi->id;
+                $bahan->creator_id = auth()->user()->id;
+                $bahan->judul = $valBah->judul;
+                $bahan->keterangan = $valBah->keterangan;
+                $bahan->completion_type = $valBah->completion_type;
+                $bahan->completion_parameter = $valBah->completion_parameter;
+                $bahan->restrict_access = $valBah->restrict_access;
+                $bahan->requirement = $valBah->requirement;
+                $bahan->urutan = (BahanPelatihan::where('materi_id', $materi->id)->max('urutan') + 1);
+                $bahan->save();
+
+                if ($valBah->type($valBah)['tipe'] == 'forum') {
+                    $segmen = new BahanForum();
+                    $segmen->program_id = $mata->program_id;
+                    $segmen->mata_id = $mataId;
+                    $segmen->materi_id = $materi->id;
+                    $segmen->bahan_id = $bahan->id;
+                    $segmen->creator_id = auth()->user()->id;
+                    $segmen->tipe = $valBah->forum->tipe;
+                    $segmen->limit_topik = $valBah->forum->limit_topik;
+                    $segmen->save();
+                }
+
+                if ($valBah->type($valBah)['tipe'] == 'dokumen') {
+                    $segmen = new BahanFile;
+                    $segmen->program_id = $mata->program_id;
+                    $segmen->mata_id = $mataId;
+                    $segmen->materi_id = $materi->id;
+                    $segmen->bahan_id = $bahan->id;
+                    $segmen->creator_id = auth()->user()->id;
+                    $segmen->bank_data_id = $valBah->dokumen->bank_data_id;
+                    $segmen->save();
+                }
+
+                if ($valBah->type($valBah)['tipe'] == 'conference') {
+                    $segmen = new BahanConference;
+                    $segmen->program_id = $mata->program_id;
+                    $segmen->mata_id = $mataId;
+                    $segmen->materi_id = $materi->id;
+                    $segmen->bahan_id = $bahan->id;
+                    $segmen->creator_id = auth()->user()->id;
+                    $segmen->tipe = $valBah->conference->tipe;
+                    $segmen->save();
+                }
+
+                if ($valBah->type($valBah)['tipe'] == 'quiz') {
+                    $segmen = new BahanQuiz;
+                    $segmen->program_id = $mata->program_id;
+                    $segmen->mata_id = $mataId;
+                    $segmen->materi_id = $materi->id;
+                    $segmen->bahan_id = $bahan->id;
+                    $segmen->creator_id = auth()->user()->id;
+                    $segmen->is_mandatory = $valBah->quiz->is_mandatory;
+                    $segmen->kategori = $valBah->quiz->kategori;
+                    $segmen->durasi = $valBah->quiz->durasi ?? null;
+                    $segmen->tipe = $valBah->quiz->tipe;
+                    $segmen->view = $valBah->quiz->view;
+                    $segmen->hasil = $valBah->quiz->hasil;
+                    $segmen->save();
+
+                    if ($valBah->quiz->item->count() > 0) {
+                        foreach ($valBah->quiz->item as $keyIt => $valIt) {
+                            $BahanQuizItem = new BahanQuizItem;
+                            $BahanQuizItem->program_id = $mata->program_id;
+                            $BahanQuizItem->mata_id = $mataId;
+                            $BahanQuizItem->materi_id = $materi->id;
+                            $BahanQuizItem->bahan_id = $bahan->id;
+                            $BahanQuizItem->quiz_id = $segmen->id;
+                            $BahanQuizItem->creator_id = auth()->user()->id;
+                            $BahanQuizItem->pertanyaan = $valIt->pertanyaan;
+                            $BahanQuizItem->tipe_jawaban = $valIt->tipe_jawaban;
+                            if ($valIt->tipe_jawaban == 0) {
+                                $BahanQuizItem->pilihan = $valIt->pilihan;
+                                $BahanQuizItem->jawaban = $valIt->jawaban;
+
+                            } elseif ($valIt->tipe_jawaban == 1 || $valIt->tipe_jawaban == 3) {
+                                $BahanQuizItem->jawaban = $valIt->jawaban;
+                            }
+                            $BahanQuizItem->save();
+                        }
+                    }
+                }
+
+                if ($valBah->type($valBah)['tipe'] == 'scorm') {
+
+                    $scorm = new Scorm;
+                    $scorm->creator_id = auth()->user()->id;
+                    $scorm->bank_data_id = $valBah->scorm->bank_data_id;
+                    $scorm->package = $valBah->scorm->package;
+                    $scorm->version = $valBah->scorm->version;
+                    $scorm->package_name = $valBah->scorm->package_name;
+                    $scorm->save();
+
+                    $segmen = new BahanScorm;
+                    $segmen->program_id = $mata->program_id;
+                    $segmen->mata_id = $mataId;
+                    $segmen->materi_id = $materi->id;
+                    $segmen->bahan_id = $bahan->id;
+                    $segmen->creator_id = auth()->user()->id;
+                    $segmen->scorm_id = $scorm->id;
+                    $segmen->repeatable = $valBah->scorm->repeatable;
+                    $segmen->save();
+                }
+
+                if ($valBah->type($valBah)['tipe'] == 'audio') {
+                    $segmen = new BahanAudio;
+                    $segmen->program_id = $mata->program_id;
+                    $segmen->mata_id = $mataId;
+                    $segmen->materi_id = $materi->id;
+                    $segmen->bahan_id = $bahan->id;
+                    $segmen->creator_id = auth()->user()->id;
+                    $segmen->bank_data_id = $valBah->audio->bank_data_id;
+                    $segmen->save();
+                }
+
+                if ($valBah->type($valBah)['tipe'] == 'video') {
+                    $segmen = new BahanVideo;
+                    $segmen->program_id = $mata->program_id;
+                    $segmen->mata_id = $mataId;
+                    $segmen->materi_id = $materi->id;
+                    $segmen->bahan_id = $bahan->id;
+                    $segmen->creator_id = auth()->user()->id;
+                    $segmen->bank_data_id = $valBah->video->bank_data_id;
+                    $segmen->save();
+                }
+
+                if ($valBah->type($valBah)['tipe'] == 'tugas') {
+                    $segmen = new BahanTugas;
+                    $segmen->program_id = $mata->program_id;
+                    $segmen->mata_id = $mataId;
+                    $segmen->materi_id = $materi->id;
+                    $segmen->bahan_id = $bahan->id;
+                    $segmen->creator_id = auth()->user()->id;
+                    $segmen->bank_data_id = $valBah->tugas->bank_data_id;
+                    $segmen->approval = $valBah->tugas->approval;
+                    $segmen->save();
+                }
+
+                $bahan->segmenable()->associate($segmen);
+                $bahan->save();
+            }
         }
     }
 }

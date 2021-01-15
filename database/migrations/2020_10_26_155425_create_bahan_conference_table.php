@@ -23,7 +23,7 @@ class CreateBahanConferenceTable extends Migration
             $table->date('tanggal')->nullable();
             $table->timestamp('start_time')->nullable();
             $table->timestamp('end_time')->nullable();
-            $table->text('meeting_link');
+            $table->text('meeting_link')->nullable();
             $table->boolean('tipe')->default(false);
             $table->tinyInteger('status')->default(0);
             $table->text('api')->nullable();

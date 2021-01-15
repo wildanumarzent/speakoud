@@ -4,6 +4,7 @@ namespace App\Services\Course\Template;
 
 use App\Models\BankData;
 use App\Models\Course\Template\Bahan\TemplateBahan;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
 class TemplateBahanService
@@ -232,6 +233,18 @@ class TemplateBahanService
 
         if ($bahan->quiz()->count() == 1) {
             $bahan->quiz()->delete();
+        }
+
+        if ($bahan->scorm()->count() == 1) {
+            $bankData = BankData::where('id', $bahan->scorm->bank_data_id)->get();
+
+            $oldFile = public_path('userfile/scorm/template/'.$bahan->scorm->materi_id.'/zip/'.$bahan->scorm->package_name.'.zip') ;
+            $oldDir =  public_path('userfile/scorm/template/'.$bahan->scorm->materi_id.'/'.$bahan->scorm->package_name);
+            File::delete($oldFile);
+            File::deleteDirectory($oldDir);
+
+            $bahan->scorm->bankData->delete();
+            $bahan->scorm()->delete();
         }
 
         if ($bahan->audio()->count() == 1) {

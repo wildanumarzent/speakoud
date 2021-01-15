@@ -371,10 +371,13 @@ class BahanService
                 return false;
             } else {
 
-                $oldFile = public_path('userfile/scorm/'.$bahan->scorm->materi_id.'/zip/'.$bahan->scorm->package_name.'.zip') ;
-                $oldDir =  public_path('userfile/scorm/'.$bahan->scorm->materi_id.'/'.$bahan->scorm->package_name);
+                $oldFile = public_path('userfile/scorm/'.$bahan->scorm->materi_id.'/zip/'.$bahan->scorm->scorm->package_name.'.zip') ;
+                $oldDir =  public_path('userfile/scorm/'.$bahan->scorm->materi_id.'/'.$bahan->scorm->scorm->package_name);
                 File::delete($oldFile);
                 File::deleteDirectory($oldDir);
+
+                $bahan->scorm->scorm->bankData->delete();
+                $bahan->scorm->scorm()->delete();
                 $bahan->scorm()->delete();
             }
         }
