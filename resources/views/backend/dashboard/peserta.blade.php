@@ -117,6 +117,7 @@
                 <thead>
                     <tr>
                         <th>Program Pelatihan</th>
+                        <th>Tanggal</th>
                         <th>Jam Pelatihan</th>
                         <th>Kompetensi Terkait</th>
                     </tr>
@@ -129,12 +130,13 @@
                         </td>
                     </tr>
                     @endif
-                    @foreach ($data['rekomendasi'] as $rek)
+                    @foreach ($data['rekomendasi'] as $key => $rek)
                     <tr>
                         <td>{{$rek->judul}}</td>
+                        <td>{{ $rek->publish_start->format('d F Y') }} - {{ $rek->publish_end->format('d F Y') }}</td>
                         <td>{{$rek->jam_pelatihan}} Jam</td>
                         <td>
-                            @foreach($data['kompetensiMata'] as $k)
+                            @foreach($data['kompetensiMata']->where('mata_id',$rek['kompetensiMata'][0]['mata_id']) as $k)
                             <span class="badge badge-default">{{$k->kompetensi->judul}}</span>
                             @endforeach
                         </td>
@@ -297,7 +299,7 @@
             <div id="icons-container" class="text-center">
                 @forelse($data['myBadge'] as $badge)
                 <div data-title="{{$badge->badge->nama}}" class="card icon-example  d-inline-flex justify-content-center align-items-center my-2 mx-2c shadow bg-white ml-2">
-                  <img src="{{asset($badge->badge->icon)}}" alt="{{$badge->badge->nama}}" style="width: 50px;height: 50px;object-fit:cover;">
+                  <img src="{{asset($badge->badge->icon)}}" alt="{{$badge->badge->nama}}" style="width: 50px;height: 50px;object-fit:cover;" class="rounded-circle">
                 </div>
                 @empty
                 <center><b>Anda Belum Mendapatkan Badge Apapun</b></center>

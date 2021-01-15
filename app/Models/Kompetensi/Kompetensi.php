@@ -15,4 +15,7 @@ class Kompetensi extends Model
     {
         return $this->belongsTo(User::class, 'creator_id');
     }
+    public function kompetensiMata(){
+        return $this->hasMany(KompetensiMata::class, 'kompetensi_id','id');
+    }
 }

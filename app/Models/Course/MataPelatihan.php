@@ -183,4 +183,9 @@ class MataPelatihan extends Model
     {
         return $this->hasMany(KompetensiMata::class, 'mata_id');
     }
+
+    public function badges()
+    {
+        return $this->belongsTo(Badge::class, 'tipe_id')->where('tipe','program');
+    }
 }

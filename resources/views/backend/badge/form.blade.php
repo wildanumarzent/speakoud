@@ -65,7 +65,7 @@
                     <div class="form-label">{{ucwords($data['tipe'])}}</div>
                     <select class="selectpicker" data-style="btn-default" data-live-search="true" name="tipe_id">
                         @foreach($data['data'] as $value)
-                        <option data-tokens="" value="{{$value->id}}">{{$value->judul ?? $value->subject ?? $value->bahan->judul}}</option>
+                        <option value="{{$value->id}}" @if(isset($data['badge']) && $value->id == $data['badge']->tipe_id) selected @endif>{{$value->judul ?? $value->subject ?? $value->bahan->judul}}</option>
                         @endforeach
                       </select>
                 </div>

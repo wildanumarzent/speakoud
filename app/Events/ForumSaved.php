@@ -3,6 +3,7 @@
 namespace App\Events;
 
 use App\Models\Course\Bahan\BahanForum;
+use App\Models\Course\Bahan\BahanForumTopik;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -21,7 +22,7 @@ class ForumSaved
      * @return void
      */
     public $forum;
-    public function __construct(BahanForum $forum)
+    public function __construct(BahanForumTopik $forum)
     {
         $this->forum = $forum;
     }

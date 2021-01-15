@@ -1127,7 +1127,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     // Journey
     Route::get('/journey','JourneyController@index')->name('journey.index')->middleware('auth');
-    Route::post('/journey/{pesertaId}/assign','JourneyController@assign')->name('journey.assign')->middleware('role:developer|administrator|internal');
+    Route::post('/journey/{pesertaId}/assign','JourneyController@assign')->name('journey.assign')->middleware('auth');
     Route::get('/journey/{id}/peserta','JourneyController@peserta')->name('journey.peserta')->middleware('role:developer|administrator|internal');
     Route::get('/journey/create','JourneyController@create')->name('journey.create')->middleware('role:developer|administrator|internal');
     Route::get('/journey/edit/{journey}','JourneyController@edit')->name('journey.edit')->middleware('role:developer|administrator|internal');

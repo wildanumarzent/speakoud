@@ -169,16 +169,16 @@ class BadgeController extends Controller
                 $mataList = $mata->pluck('id');
                 $data['data'] = $this->bahan->getBahanForMata($mataList);
                 break;
-            case 'forum':
-                $data['minimumLabel'] = 'Post Minimum';
-                $data['data'] =null;
-                $data['tipeUtama'] = '0';
-                break;
-            case 'topic':
-                $data['minimumLabel'] = 'Reply Minimum';
-                $data['data'] =null;
-                $data['tipeUtama'] = '0';
-                break;
+                case 'forum':
+                    $data['minimumLabel'] = 'Post Minimum';
+                    $data['data'] = $this->forum->getForumForMata($badge['mata_id']);
+                    $data['tipeUtama'] = '0';
+                    break;
+                case 'topic':
+                    $data['minimumLabel'] = 'Reply Minimum';
+                    $data['data'] = $this->forum->getTopikForMata($badge['mata_id']);
+                    $data['tipeUtama'] = '0';
+                    break;
 
         }
 

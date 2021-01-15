@@ -54,23 +54,26 @@ class GiveBadge
     {
         if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
         $pesertaId = Auth::user()->peserta->id;
-        $total = BahanPelatihan::where('mata_id',$event->activity['mata_id'])->where('publish',1)->count();
+
 
 
         $badge = Badge::where('mata_id',$event->activity['mata_id'])->where('tipe_utama',1)->get();
         foreach($badge as $b){
                     if($b['tipe'] == 'program'){
-                    $done = ActivityCompletion::where('mata_id',$event->activity['mata_id'])->where('status',1)->where('user_id',Auth::user()->id)->count();
+                    $total = BahanPelatihan::where('mata_id',$b->tipe_id)->where('publish',1)->count();
+                    $done = ActivityCompletion::where('mata_id',$b->tipe_id)->where('status',1)->where('user_id',Auth::user()->id)->count();
                     $hasilPersen = ($done/$total)*100;
                     }
 
                     if($b['tipe'] == 'mata'){
-                    $done = ActivityCompletion::where('materi_id',$event->activity['materi_id'])->where('status',1)->where('user_id',Auth::user()->id)->count();
+                     $total = BahanPelatihan::where('materi_id',$b->tipe_id)->where('publish',1)->count();
+                    $done = ActivityCompletion::where('materi_id',$b->tipe_id)->where('status',1)->where('user_id',Auth::user()->id)->count();
                     $hasilPersen = ($done/$total)*100;
                     }
 
                     if($b['tipe'] == 'materi'){
-                    $done = ActivityCompletion::where('bahan_id',$event->activity['bahan_id'])->where('status',1)->where('user_id',Auth::user()->id)->count();
+                         $total = BahanPelatihan::where('id',$b->tipe_id)->where('publish',1)->count();
+                    $done = ActivityCompletion::where('bahan_id',$b->tipe_id)->where('status',1)->where('user_id',Auth::user()->id)->count();
                     $hasilPersen = ($done/$total)*100;
                     }
 

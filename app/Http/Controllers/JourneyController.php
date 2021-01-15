@@ -33,13 +33,13 @@ class JourneyController extends Controller
         if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
         $data['poinKu'] = $this->kompetensi->getPoint(auth()->user()->peserta->id);
         $data['totalPoint'] = $this->journey->getTotalPoint();
+        $data['assigned'] = $this->journey->getAssign(auth()->user()->peserta->id);
         // return $data['totalPoint']->where('journey_id',4)->sum('minimal_poin');
         }
         if (isset($request->p) || isset($request->q)) {
             $p = '?p='.$request->p;
             $q = '&q='.$request->q;
         }
-
         $data['journey'] = $this->journey->list($request);
         $data['number'] = $data['journey']->firstItem();
         $data['journey']->withPath(url()->current().$p.$q);
@@ -68,7 +68,7 @@ class JourneyController extends Controller
         }
 
         $data['journey'] = $this->journey->listJourneyPeserta($request,$pesertaID);
-        
+
         $data['number'] = $data['journey']->firstItem();
         $data['journey']->withPath(url()->current().$p.$q);
         $data['pesertaId'] = $pesertaID;
@@ -85,8 +85,8 @@ class JourneyController extends Controller
 
     }
     public function assign(Request $request,$pesertaID){
-        $this->journey->assign($pesertaID,$request);
-        return redirect()->route('journey.peserta',['id' => $pesertaID])->with('success' , 'Journey Berhasil Diassign');
+        $data =$this->journey->assign($pesertaID,$request);
+        return redirect()->back()->with('success' , 'Journey Berhasil Diassign');
     }
 
     /**

@@ -91,6 +91,7 @@ class HomeController extends Controller
             $data['rekomendasi'] = $this->kompetensi->getRekomendasiMata(auth()->user()->peserta->id);
             $data['kompetensiMata'] = $this->kompetensi->getKompetensiMata();
             }
+            // return $data['rekomendasi'];
         $data['latestCourse'] = app()->make(MataService::class)->getLatestMata();
         $data['jadwalPelatihan'] = app()->make(JadwalService::class)->getJadwal(5);
         $data['videoConference'] = app()->make(BahanConferenceService::class)->latestConference();

@@ -2,6 +2,7 @@
 
 namespace App\Models\Course\Bahan;
 
+use App\Events\ReplySaved;
 use App\Models\Users\User;
 use Illuminate\Database\Eloquent\Model;
 
@@ -9,6 +10,10 @@ class BahanForumTopikDiskusi extends Model
 {
     protected $table = 'bahan_forum_topik_diskusi';
     protected $guarded = [];
+
+    protected $dispatchesEvents = [
+        'created' => ReplySaved::class,
+    ];
 
     public function user()
     {

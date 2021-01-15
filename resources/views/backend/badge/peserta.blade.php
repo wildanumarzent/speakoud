@@ -9,7 +9,7 @@
 @section('content')
 <br>
 @foreach($data['mata'] as $mata)
-<h3>{{$mata->mata->judul}}</h3>
+<h4>{{$mata->mata->judul}} </h4>
 <hr>
 <div class="row contacts-col-view">
 @foreach($data['badge']->where('mata_id',$mata->mata->id) as $item)
@@ -53,9 +53,9 @@ $myBadge = $data['myBadge']->where('badge_id',$item->id)->first();
                        <strong>Program Belum Dimulai !</strong>
                        <p><small>Anda Tidak Dapat Mengetahui Syarat Untuk Mendapatkan Badge Sekarang</small></p>
                        @else
-                       <p> @if(isset($myBadge))Telah Menyelesaikan @else Selesaikan @endif  {{$item->nilai_minimal}}@if($item->tipe_utama == 1)% di @elseif($item->tipe == 'forum') Post di @else Reply di @endif {{$item->tipe}}</p>
+                       <p> @if(isset($myBadge))Telah Menyelesaikan @else Selesaikan @endif  {{$item->nilai_minimal}}@if($item->tipe_utama == 1)% di @elseif($item->tipe == 'forum') Post di @else Reply di @endif {{ucwords($item->tipe)}}</p>
                        <strong>
-                         {{@$item->$tipe->judul ?? $item->$tipe->subject ?? $item->forum->bahan->judul}}
+                         {{ucwords(@$item->$tipe->judul ?? $item->$tipe->subject ?? $item->forum->bahan->judul)}}
                        </strong>
                        <hr>
 

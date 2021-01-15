@@ -43,9 +43,9 @@
                         @php
                         $tipe = $item->tipe;
                         @endphp
-                     Selesaikan {{$item->nilai_minimal}}@if($item->tipe_utama == 1)% di @elseif($item->tipe == 'forum') Post di @else Reply di @endif {{$item->tipe}}
+                     Selesaikan {{$item->nilai_minimal}}@if($item->tipe_utama == 1)% di @elseif($item->tipe == 'forum') Post di @else Reply di @endif {{ucwords($item->tipe)}}
                       <strong>
-                        {{@$item->$tipe->judul ?? $item->$tipe->subject ?? $item->forum->bahan->judul}}
+                        {{ucwords(@$item->$tipe->judul ?? $item->$tipe->subject ?? $item->forum->bahan->judul)}}
                       </strong>
 
                     </div>

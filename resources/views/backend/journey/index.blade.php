@@ -73,11 +73,48 @@
                             </div>
 
                             <div class="col-md-2 col-sm-4">
+                                <div class="btn-group">
                                 @if($data['listKompetensi']->where('journey_id',$item->id)->count() !=0)
                                  <button type="button" class="btn btn-primary btn-sm rounded-pill" data-toggle="collapse" data-target="#kompetensi-{{$item->id}}">Kompetensi</button>
                                 @endif
+                                @role ('peserta_mitra|peserta_internal')
+                                <form action="{{route('journey.assign',['pesertaId' => auth()->user()->peserta->id])}}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="journey_id" value="{{$item->id}}">
+                                    {{-- <input type="hidden" name="status" value="{{$item->journeyPeserta->status}}"> --}}
+
+
+                                @php
+                                   $totalPoint = $data['totalPoint']->where('journey_id',$item->id)->sum('minimal_poin');
+                                    $kompetensiId = $data['listKompetensi']->where('journey_id',$item->id)->pluck('kompetensi_id');
+                                    $myPoin = $data['poinKu']->whereIn('kompetensi_id',$kompetensiId)->sum('poin');
+                                    if($myPoin == null){
+                                    $myPoin = 0;
+                                    }
+                                    if($totalPoint > 0){
+                                    // $persentase = round(($myPoin/$totalPoint) * 100);
+                                    $persentase = 100;
+                                    }
+
+                                    $assigned = $data['assigned']->where('journey_id',$item->id)->first();
+                                @endphp
+
+                                @if(!empty($assigned) && $assigned->status == 1 && $persentase < 100)
+
+                                <button type="button" class="btn btn-secondary btn-sm rounded-pill ml-2" data-toggle="collapse">Assigned</button>
+                                @elseif(!empty($assigned) && $assigned->status == 1 && $assigned->complete == 0 && $persentase >= 100)
+                                <input type="hidden" name="complete" value="1">
+                                <button type="submit" class="btn btn-warning btn-sm rounded-pill ml-2" data-toggle="collapse" title="Klik to Complete">Selesaikan</button>
+                                @elseif(!empty($assigned) && $assigned->status == 1 && $assigned->complete == 1 && $persentase >= 100)
+                                <button type="button" class="btn btn-success btn-sm rounded-pill ml-2" data-toggle="collapse" title="Klik to Complete">Selesai</button>
+                                @endif
+
+
+
+                            </form>
+                            @endrole
                                 @role ('developer|administrator|internal')
-                                 <div class="btn-group dropdown dropdown-right mr-3">
+                                 <div class="dropdown dropdown-right ml-2">
                                     <button type="button" class="btn btn-sm btn-warning  icon-btn borderless rounded-pill md-btn-flat dropdown-toggle hide-arrow" data-toggle="dropdown">
                                         <i class="ion ion-ios-more"></i>
                                     </button>
@@ -95,7 +132,7 @@
                                 </div>
                                 @endrole
                             </div>
-
+                            </div>
                         </div>
                         <div class="d-flex flex-wrap mt-3">
                             <div class="mr-3"><i class="vacancy-tooltip ion ion-md-person text-light" title="Department"></i>&nbsp; {{$item->user->name}}</div>
@@ -109,16 +146,7 @@
                         </div>
                         <div class="collapse" id="kompetensi-{{$item->id}}">
                             @role ('peserta_internal|peserta_mitra')
-                            @php
-                            $totalPoint = $data['totalPoint']->where('journey_id',$item->id)->sum('minimal_poin');
-                            $myPoin = $data['poinKu']->sum('poin');
-                            if($myPoin == null){
-                                $myPoin = 0;
-                            }
-                            if($totalPoint > 0){
-                                $persentase = round(($myPoin/$totalPoint) * 100);
-                            }
-                            @endphp
+
                             @if($totalPoint != 0)
                             <div class="progress mt-3 mb-2">
                                 <div class="progress-bar" style="width: {{$persentase}}%;">{{$persentase}}%</div>
@@ -145,9 +173,11 @@
                             </li>
                             @else
                             @php
-                            $myPoin = $data['poinKu']->where('kompetensi_id',$k->kompetensi_id)->first()->poin;
+                            $myPoin = $data['poinKu']->where('kompetensi_id',$k->kompetensi_id)->first();
                             if($myPoin == null){
                                 $myPoin = 0;
+                            }else{
+                               $myPoin = $myPoin->poin;
                             }
                             @endphp
                             <li class="list-group-item d-flex justify-content-between align-items-center">{{$k->kompetensi->judul}}

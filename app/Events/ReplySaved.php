@@ -3,6 +3,7 @@
 namespace App\Events;
 
 use App\Models\Course\Bahan\BahanForumTopik;
+use App\Models\Course\Bahan\BahanForumTopikDiskusi;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -20,10 +21,10 @@ class ReplySaved
      *
      * @return void
      */
-    public $topik;
-    public function __construct(BahanForumTopik $topik)
+    public $reply;
+    public function __construct(BahanForumTopikDiskusi $reply)
     {
-        $this->topik = $topik;
+        $this->reply = $reply;
     }
 
     /**

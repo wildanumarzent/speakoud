@@ -7,6 +7,7 @@ use App\Models\Journey\JourneyPeserta;
 use App\Models\Kompetensi\Kompetensi;
 use App\Models\Kompetensi\KompetensiMata;
 use App\Models\Kompetensi\KompetensiPeserta;
+use App\Models\Course\MataPeserta;
 class KompetensiService
 {
     private $model;
@@ -52,14 +53,16 @@ class KompetensiService
     public function getRekomendasiMata($pesertaID){
 
         $query = $this->mata->query();
-        $query->where('publish',1);
-        $query->whereHas('kompetensiMata', function($q){
-            $q->whereHas('kompetensiPeserta', function($p) {
-                $p->whereHas('hasJourneyPeserta', function($o) {
-                    $o->where('status',1);
-                });
+        $query->with('kompetensiMata');
+        $query->whereDoesntHave('peserta', function($q) use($pesertaID) {
+            $q->where('peserta_id','!=',$pesertaID);
+        });
+        $query->whereHas('kompetensiMata', function($q) use($pesertaID) {
+            $q->whereHas('kompetensiPeserta', function($p) use($pesertaID) {
+                $p->where('peserta_id','=',$pesertaID);
             });
         });
+
         $result = $query->get();
         return $result;
         }

@@ -47,8 +47,7 @@ class JourneyService
                     break;
                  case 'notPotential':
                     $query->whereHas('journeyKompetensi', function($q) {
-                        $q->whereHas('kompetensiPeserta', function($p){
-                            $p->where('peserta_id','!=',auth()->user()->peserta->id);
+                        $q->whereDoesntHave('kompetensiPeserta', function($p){
                         });
                     });
                     break;
@@ -133,15 +132,19 @@ class JourneyService
         return $result;
      }
 
-     public function assign($pesertaId,$request,$status = 0){
+     public function assign($pesertaId,$request,$status = 1,$complete = 0){
          $query = new JourneyPeserta;
          $data = $request->all();
-         if(isset($request->status) && $request->status == 0){
-             $status = 1;
+         if(isset($request->status) && $request->status == 1){
+             $status = 0;
          }
+         if(isset($request->complete)){
+            $complete = 1;
+        }
+
          $query->updateOrCreate(
              ['peserta_id' => $pesertaId,'journey_id' => $request->journey_id],
-             ['status' => $status],
+             ['status' => $status,'peserta_id' => $pesertaId,'journey_id' => $request->journey_id,'complete' => $complete],
          );
 
      }

@@ -49,23 +49,27 @@
                                  <button type="button" class="btn btn-primary btn-sm rounded-pill" data-toggle="collapse" data-target="#kompetensi-{{$item->id}}">Kompetensi</button>
 
                                 <form action="{{route('journey.assign',['pesertaId' => $data['pesertaId']])}}" method="POST">
+                                    @csrf
                                     <input type="hidden" name="journey_id" value="{{$item->id}}">
                                     {{-- <input type="hidden" name="status" value="{{$item->journeyPeserta->status}}"> --}}
-                                @csrf
+
 
                                 @php
                                 $assigned = $data['assigned']->where('journey_id',$item->id)->first();
                                 @endphp
 
-                                @if(!empty($assigned))
+                                @if(!empty($assigned) && $assigned->status == 1)
+                                @if( $assigned->complete == 0)
                                 <input type="hidden" name="status" value="{{$assigned->status}}">
                                 <button type="submit" class="btn btn-secondary btn-sm rounded-pill ml-2" data-toggle="collapse">Un-Assign</button>
-
-                                </form>
                                 @else
-                                <button type="submit" class="btn btn-success btn-sm rounded-pill ml-2" data-toggle="collapse">Assign</button>
+                                <button type="button" class="btn btn-success btn-sm rounded-pill ml-2" data-toggle="collapse">Selesai</button>
+                                @endif
+                                @else
+                                <button type="submit" class="btn btn-warning btn-sm rounded-pill ml-2" data-toggle="collapse">Assign</button>
                                 @endif
                                 </div>
+                            </form>
                             </div>
 
                         </div>
@@ -83,7 +87,8 @@
 
                             @php
                             $totalPoint = $data['totalPoint']->where('journey_id',$item->id)->sum('minimal_poin');
-                            $myPoin = $data['poinKu']->sum('poin');
+                            $kompetensiId = $data['listKompetensi']->where('journey_id',$item->id)->pluck('kompetensi_id');
+                            $myPoin = $data['poinKu']->whereIn('kompetensi_id',$kompetensiId)->sum('poin');
                             if($myPoin == null){
                                 $myPoin = 0;
                             }
@@ -101,9 +106,11 @@
                             @foreach($data['listKompetensi']->where('journey_id',$item->id) as $k)
 
                             @php
-                            $myPoin = $data['poinKu']->first()->poin;
+                            $myPoin = $data['poinKu']->first();
                             if($myPoin == null){
                                 $myPoin = 0;
+                            }else{
+                                $myPoin =  $myPoin->poin;
                             }
                             @endphp
                             <li class="list-group-item d-flex justify-content-between align-items-center">{{$k->kompetensi->judul}}

@@ -2,6 +2,7 @@
 
 namespace App\Models\Course\Bahan;
 
+use App\Events\ForumSaved;
 use App\Models\Course\MataPelatihan;
 use App\Models\Course\MateriPelatihan;
 use App\Models\Course\ProgramPelatihan;
@@ -16,6 +17,10 @@ class BahanForumTopik extends Model
     protected $casts = [
         'publish_start' => 'datetime',
         'publish_end' => 'datetime',
+    ];
+
+     protected $dispatchesEvents = [
+        'created' => ForumSaved::class,
     ];
 
     public function badge()
