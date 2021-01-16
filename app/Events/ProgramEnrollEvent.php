@@ -11,7 +11,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class BadgeSaved implements ShouldQueue
+class ProgramEnrollEvent implements ShouldQueue
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -20,10 +20,10 @@ class BadgeSaved implements ShouldQueue
      *
      * @return void
      */
-    public $badge;
-    public function __construct($badge)
+    public $peserta;
+    public function __construct($peserta)
     {
-        $this->badge = $badge;
+        $this->peserta = $peserta;
     }
 
     /**
@@ -33,7 +33,6 @@ class BadgeSaved implements ShouldQueue
      */
     public function broadcastOn()
     {
-        // $id = auth()->user()->id;
-        // return new Channel("badge-recieved");
+        return new PrivateChannel('channel-name');
     }
 }

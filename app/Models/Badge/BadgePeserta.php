@@ -12,8 +12,8 @@ class BadgePeserta extends Model
     protected $table = 'badge_peserta';
 
 
-    protected $dispatchesEvents = [
-        'created' => BadgeSaved::class,
+    protected $dispatchesEvents  = [
+        'saved' => BadgeSaved::class,
     ];
 
 

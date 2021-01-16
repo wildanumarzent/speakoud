@@ -8,11 +8,13 @@ use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
 use App\Events\ForumSaved;
+use App\Events\ProgramEnrollEvent;
 use App\Events\ReplySaved;
 use App\Listeners\GiveBadge;
 use App\Listeners\GivePoint;
 use App\Listeners\GivePostBadge;
 use App\Listeners\GiveReplyBadge;
+use App\Listeners\SendProgramNotification;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -35,7 +37,9 @@ class EventServiceProvider extends ServiceProvider
         ReplySaved::class => [
             GiveReplyBadge::class,
         ],
-
+        ProgramEnrollEvent::class => [
+            SendProgramNotification::class,
+        ],
 
         'Illuminate\Auth\Events\Login' => [
             'App\Listeners\Users\LatestLogin',
