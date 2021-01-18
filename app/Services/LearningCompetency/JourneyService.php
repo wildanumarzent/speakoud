@@ -132,6 +132,14 @@ class JourneyService
         return $result;
      }
 
+     public function myJourney($pesertaID){
+        $query = $this->journeyP->query();
+        $query->where('complete',1);
+        $query->where('peserta_id',$pesertaID);
+        $result = $query->get();
+        return $result;
+     }
+
      public function assign($pesertaId,$request,$status = 1,$complete = 0){
          $query = new JourneyPeserta;
          $data = $request->all();

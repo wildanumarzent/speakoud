@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\BadgeSaved;
 use Illuminate\Http\Request;
 use App\Services\Badge\BadgeService;
 use App\Services\Course\MataService;

@@ -54,8 +54,9 @@
                 @if($data['tipe'] != 'materi')
                 <div class="form-group">
                     <div class="form-label">{{$data['minimumLabel']}}</div>
-                    <input type="number" name="nilai_minimal" class="form-control {{ $errors->has('nilai_minimal')?' is-invalid':'' }}" value="{{ old('nilai_minimal')  ?? @$data['badge']->nilai_minimal }}"placeholder="Masukan {{$data['minimumLabel']}}">
+                    <input type="number" min="1" max="100" name="nilai_minimal" class="form-control {{ $errors->has('nilai_minimal')?' is-invalid':'' }}" value="{{ old('nilai_minimal')  ?? @$data['badge']->nilai_minimal }}"placeholder="Masukan {{$data['minimumLabel']}}">
                     {!! $errors->first('nilai_minimal', '<small class="form-text text-danger">:message</small>') !!}
+                    <i>*<span class="text-muted">Input range <span class="badge badge-danger">0</span> - <span class="badge badge-success">100</span></span></i>
                 </div>
                 @else
                 <input type="hidden" name="nilai_minimal" value="100">

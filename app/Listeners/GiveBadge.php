@@ -2,6 +2,7 @@
 
 namespace App\Listeners;
 
+use App\Events\BadgeSaved;
 use App\Events\ActivitySaved;
 use App\Models\Badge\Badge;
 use App\Models\Badge\BadgePeserta;

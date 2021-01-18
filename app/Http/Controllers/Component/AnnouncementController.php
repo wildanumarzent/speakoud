@@ -73,6 +73,7 @@ class AnnouncementController extends Controller
             'content' => 'required',
             'sub_content' => 'required',
             'attachment' => 'nullable|mimes:txt,doc,docx,xls,xlsx,png,jpeg,jpg,rar,zip',
+            'receiver' => 'required',
         ]);
 
         if($validator->fails()){
@@ -144,6 +145,7 @@ class AnnouncementController extends Controller
             'content' => 'required',
             'sub_content' => 'required',
             'attachment' => 'nullable|mimes:txt,doc,docx,xls,xlsx,png,jpeg,jpg,rar,zip',
+            'receiver' => 'required',
         ]);
         if($validator->fails()){
             Alert::error('Error !',$validator->messages()->first());

@@ -160,6 +160,7 @@
                             <label class="col-form-label text-sm-right">Kompetensi</label>
                           </div>
                           <div class="col-md-10">
+
                             <div class="select2-primary">
                             <select class="select2-demo form-control @error('kompetensi_id') is-invalid @enderror" name="kompetensi_id[]" data-style="btn-default" multiple>
                                 <option disabled>Pilih Kompetensi</option>
@@ -168,7 +169,9 @@
                                 @endforeach
                             </select>
                             </div>
-                          </div>
+                        </div>
+
+
                     </div>
 
                     <hr>
@@ -344,8 +347,10 @@
 @endsection
 
 @section('jsbody')
+
 <script src="{{ asset('assets/tmplts_backend/js/pages_account-settings.js') }}"></script>
 <script>
+
     $('.hide-meta').hide();
     //datetime
     $('.datetime-picker').bootstrapMaterialDatePicker({

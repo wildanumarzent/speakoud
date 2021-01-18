@@ -13,6 +13,10 @@ class KalenderService{
     $startTime = '00:00:00',$endTime = '00:00:00',$link = null,
     $jadwalId = null){
 
+        if($start == $end){
+            $end = $end->addDays(1);
+        }
+
         $startDate = date('Y-m-d H:i:s', strtotime("$start $startTime"));
         $endDate = date('Y-m-d H:i:s', strtotime("$end $endTime"));
        $event =  Event::Create(
@@ -22,8 +26,9 @@ class KalenderService{
                 'start' => $startDate,
                 'end' => $endDate,
                 'link' => $link,
-                'className' => 'fc-event-warning',
+                'className' => 'fc-event-danger',
                 'jadwal_id' => $jadwalId,
+                'allDay' => 1,
             ]
         );
         return $event;

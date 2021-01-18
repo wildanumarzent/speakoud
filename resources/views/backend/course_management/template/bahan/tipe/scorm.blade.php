@@ -25,7 +25,7 @@
 <br>
 <div class="form-group row">
     <div class="col-md-2 text-md-right">
-        <label class="col-form-label">Repeatable</label>
+        <label class="col-form-label">Dapat Diulang</label>
     </div>
     <div class="col-sm-10">
         <label class="custom-control custom-checkbox">

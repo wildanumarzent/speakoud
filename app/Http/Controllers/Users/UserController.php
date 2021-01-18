@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Users;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProfileRequest;
 use App\Http\Requests\UserRequest;
+use App\Services\LearningCompetency\JourneyService;
 use App\Services\Users\RoleService;
 use App\Services\Users\UserService;
 use Illuminate\Http\Request;
@@ -17,11 +18,13 @@ class UserController extends Controller
 
     public function __construct(
         UserService $service,
-        RoleService $serviceRole
+        RoleService $serviceRole,
+        JourneyService $journey
     )
     {
         $this->service = $service;
         $this->serviceRole = $serviceRole;
+        $this->journey = $journey;
     }
 
     public function index(Request $request)
@@ -77,7 +80,9 @@ class UserController extends Controller
     {
         $data['user'] = auth()->user();
         $data['information'] = $data['user']->information;
-
+        if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
+        $data['myJourney'] = $this->journey->myJourney(auth()->user()->peserta->id);
+        }
         return view('backend.user_management.profile', compact('data'), [
             'title' => 'Profile',
             'breadcrumbsFrontend' => [

@@ -2,6 +2,7 @@
 
 namespace App\Models\Badge;
 
+use App\Events\BadgeSaved;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Users\Peserta;
 use App\Models\Badge\Badge;
@@ -9,6 +10,11 @@ class BadgePeserta extends Model
 {
     protected $guarded = [];
     protected $table = 'badge_peserta';
+
+
+    protected $dispatchesEvents  = [
+        'saved' => BadgeSaved::class,
+    ];
 
 
     public function badge()

@@ -96,7 +96,7 @@ class JadwalService
         ];
         $jadwal->publish = (bool)$request->publish;
         $jadwal->save();
-        if($jadwal['publis'] == 1){
+        if($jadwal['publish'] == 1){
         $this->event->makeEvent(
             $title = $request->judul,
             $description = strip_tags($request->keterangan),

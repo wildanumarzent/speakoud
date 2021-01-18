@@ -367,6 +367,19 @@ class BahanController extends Controller
                 return back()->with('warning', 'Tugas anda belum di approve pengajar');
             }
         }
+        if ($bahan->type($bahan)['tipe'] == 'scorm') {
+            $data['checkpoint'] = $this->serviceScorm->checkpoint(auth()->user()->id,$bahan->scorm->id);
+            if(isset($data['checkpoint'])){
+                $data['cpData'] = json_decode($data['checkpoint']->checkpoint,true);
+                $status = $data['cpData']['core']['lesson_status'];
+            }else{
+                $status = 'Belum Memulai Materi Scorm';
+            }
+            if ($status != 'completed') {
+                return back()->with('warning', "Status Materi Scorm Harus Completed");
+            }
+
+        }
 
         $this->serviceActivity->complete($id);
         if ($request->is_ajax == 'yes') {

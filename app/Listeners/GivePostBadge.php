@@ -33,6 +33,7 @@ class GivePostBadge
      */
     public function handle(ForumSaved $event)
     {
+        if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
        $pesertaId = Auth::user()->peserta->id;
        $jumlahPost = BahanForumTopik::where('mata_id',$event->forum['mata_id'])->where('creator_id',Auth::user()->id)->count();
        $badge = Badge::where('mata_id',$event->forum['mata_id'])->where('tipe_utama',0)->where('tipe','forum')->get();
@@ -52,5 +53,6 @@ class GivePostBadge
         BadgePeserta::insert($data);
         }
     }
+}
 }
 }

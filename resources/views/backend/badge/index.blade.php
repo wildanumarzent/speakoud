@@ -19,7 +19,7 @@
 @foreach($data['badge'] as $item)
 <div class="contacts-col col-md-2">
 
-    <div class="card mb-4">
+    <div class="card card-list mb-4">
         <div class="card-body">
             <div class="contacts-dropdown dropdown btn-group">
 
@@ -27,8 +27,8 @@
                     <i class="ion ion-ios-more"></i>
                 </button>
                 <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" href="{{route('badge.edit',['badge' => $item->id,'type' => $item->tipe])}}">Edit</a>
-                    <a class="dropdown-item js-sa2-delete" data-id="{{ $item->id }}" data-toggle="tooltip">Remove</a>
+                    <a class="dropdown-item" href="{{route('badge.edit',['badge' => $item->id,'type' => $item->tipe])}}">Ubah</a>
+                    <a class="dropdown-item js-sa2-delete" data-id="{{ $item->id }}" data-toggle="tooltip">Hapus</a>
                 </div>
             </div>
 

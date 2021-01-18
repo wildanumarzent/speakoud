@@ -2,6 +2,7 @@
 
 namespace App\Models\Course;
 
+use App\Events\ProgramEnrollEvent;
 use App\Models\Users\Peserta;
 use Illuminate\Database\Eloquent\Model;
 
@@ -9,6 +10,11 @@ class MataPeserta extends Model
 {
     protected $table = 'mata_peserta';
     protected $guarded = [];
+
+
+    protected $dispatchesEvents = [
+        'created' => ProgramEnrollEvent::class,
+    ];
 
     public function mata()
     {

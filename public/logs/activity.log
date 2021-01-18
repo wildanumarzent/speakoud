@@ -11,3 +11,50 @@
 [2021-01-14 00:49:16] local.INFO: Activity Log : {"action":"created","event":"program_pelatihan","creator_id":"2","creator":"Administrator","ip_address":"127.0.0.1"} 
 [2021-01-14 00:49:16] local.INFO: Activity Log : {"action":"created","event":"mata_pelatihan","creator_id":"2","creator":"Administrator","ip_address":"127.0.0.1"} 
 [2021-01-14 00:49:16] local.INFO: Activity Log : {"action":"created","event":"mata_pelatihan","creator_id":"2","creator":"Administrator","ip_address":"127.0.0.1"} 
+[2021-01-15 21:16:35] local.INFO: Activity Log : {"action":"created","event":"event","creator_id":"2","creator":"Administrator","ip_address":"127.0.0.1"} 
+[2021-01-15 21:16:35] local.INFO: Activity Log : {"action":"created","event":"event","creator_id":"2","creator":"Administrator","ip_address":"127.0.0.1"} 
+[2021-01-15 21:16:35] local.INFO: Activity Log : {"action":"created","event":"artikel","creator_id":"2","creator":"Administrator","ip_address":"127.0.0.1"} 
+[2021-01-15 21:16:35] local.INFO: Activity Log : {"action":"created","event":"tags","creator_id":"2","creator":"Administrator","ip_address":"127.0.0.1"} 
+[2021-01-15 21:16:35] local.INFO: Activity Log : {"action":"updated","event":"artikel","creator_id":"2","creator":"Administrator","ip_address":"127.0.0.1"} 
+[2021-01-15 21:16:35] local.INFO: Activity Log : {"action":"updated","event":"tags","creator_id":"2","creator":"Administrator","ip_address":"127.0.0.1"} 
+[2021-01-15 21:16:35] local.INFO: Activity Log : {"action":"deleted","event":"artikel","creator_id":"2","creator":"Administrator","ip_address":"127.0.0.1"} 
+[2021-01-15 21:16:35] local.INFO: Activity Log : {"action":"deleted","event":"tags","creator_id":"2","creator":"Administrator","ip_address":"127.0.0.1"} 
+[2021-01-15 21:16:35] local.INFO: Activity Log : {"action":"created","event":"template_mata","creator_id":"2","creator":"Administrator","ip_address":"127.0.0.1"} 
+[2021-01-15 21:16:35] local.INFO: Activity Log : {"action":"created","event":"template_materi","creator_id":"2","creator":"Administrator","ip_address":"127.0.0.1"} 
+[2021-01-15 21:16:35] local.INFO: Activity Log : {"action":"created","event":"program_pelatihan","creator_id":"2","creator":"Administrator","ip_address":"127.0.0.1"} 
+[2021-01-15 21:16:35] local.INFO: Activity Log : {"action":"created","event":"mata_pelatihan","creator_id":"2","creator":"Administrator","ip_address":"127.0.0.1"} 
+[2021-01-15 21:16:35] local.INFO: Activity Log : {"action":"created","event":"materi_pelatihan","creator_id":"2","creator":"Administrator","ip_address":"127.0.0.1"} 
+[2021-01-15 21:16:35] local.INFO: Activity Log : {"action":"created","event":"bahan_pelatihan","creator_id":"2","creator":"Administrator","ip_address":"127.0.0.1"} 
+[2021-01-15 21:16:35] local.INFO: Activity Log : {"action":"created","event":"bahan_pelatihan","creator_id":"2","creator":"Administrator","ip_address":"127.0.0.1"} 
+[2021-01-15 21:16:35] local.INFO: Activity Log : {"action":"created","event":"badge","creator_id":"2","creator":"Administrator","ip_address":"127.0.0.1"} 
+[2021-01-15 21:16:35] local.INFO: Activity Log : {"action":"updated","event":"users","creator_id":"2","creator":"Administrator","ip_address":"127.0.0.1"} 
+[2021-01-15 21:16:35] local.INFO: Activity Log : {"action":"updated","event":"users","creator_id":"7","creator":"Agus Dwiono","ip_address":"127.0.0.1"} 
+[2021-01-15 21:16:35] local.INFO: Activity Log : {"action":"updated","event":"users","creator_id":"7","creator":"Agus Dwiono","ip_address":"127.0.0.1"} 
+[2021-01-15 21:16:35] local.INFO: Activity Log : {"action":"updated","event":"users","creator_id":"2","creator":"Administrator","ip_address":"127.0.0.1"} 
+[2021-01-15 21:16:35] local.INFO: Activity Log : {"action":"updated","event":"mata_pelatihan","creator_id":"2","creator":"Administrator","ip_address":"127.0.0.1"} 
+[2021-01-15 21:16:35] local.INFO: Activity Log : {"action":"updated","event":"users","creator_id":"2","creator":"Administrator","ip_address":"127.0.0.1"} 
+[2021-01-15 21:16:35] local.INFO: Activity Log : {"action":"updated","event":"users","creator_id":"7","creator":"Agus Dwiono","ip_address":"127.0.0.1"} 
+[2021-01-15 21:16:35] local.INFO: Activity Log : {"action":"updated","event":"users","creator_id":"7","creator":"Agus Dwiono","ip_address":"127.0.0.1"} 
+[2021-01-15 21:16:35] local.INFO: Activity Log : {"action":"updated","event":"users","creator_id":"2","creator":"Administrator","ip_address":"127.0.0.1"} 
+[2021-01-15 21:16:35] local.INFO: Activity Log : {"action":"created","event":"jadwal_pelatihan","creator_id":"2","creator":"Administrator","ip_address":"127.0.0.1"} 
+[2021-01-15 21:16:35] local.INFO: Activity Log : {"action":"updated","event":"jadwal_pelatihan","creator_id":"2","creator":"Administrator","ip_address":"127.0.0.1"} 
+[2021-01-15 21:16:35] local.INFO: Activity Log : {"action":"created","event":"event","creator_id":"2","creator":"Administrator","ip_address":"127.0.0.1"} 
+[2021-01-15 21:16:35] local.INFO: Activity Log : {"action":"updated","event":"jadwal_pelatihan","creator_id":"2","creator":"Administrator","ip_address":"127.0.0.1"} 
+[2021-01-15 21:16:35] local.INFO: Activity Log : {"action":"created","event":"event","creator_id":"2","creator":"Administrator","ip_address":"127.0.0.1"} 
+[2021-01-15 21:16:35] local.INFO: Activity Log : {"action":"updated","event":"jadwal_pelatihan","creator_id":"2","creator":"Administrator","ip_address":"127.0.0.1"} 
+[2021-01-15 21:16:35] local.INFO: Activity Log : {"action":"created","event":"event","creator_id":"2","creator":"Administrator","ip_address":"127.0.0.1"} 
+[2021-01-15 21:16:35] local.INFO: Activity Log : {"action":"updated","event":"mata_pelatihan","creator_id":"2","creator":"Administrator","ip_address":"127.0.0.1"} 
+[2021-01-15 21:16:35] local.INFO: Activity Log : {"action":"created","event":"badge","creator_id":"2","creator":"Administrator","ip_address":"127.0.0.1"} 
+[2021-01-15 21:16:35] local.INFO: Activity Log : {"action":"updated","event":"badge","creator_id":"2","creator":"Administrator","ip_address":"127.0.0.1"} 
+[2021-01-15 21:16:35] local.INFO: Activity Log : {"action":"updated","event":"users","creator_id":"2","creator":"Administrator","ip_address":"127.0.0.1"} 
+[2021-01-15 21:16:35] local.INFO: Activity Log : {"action":"updated","event":"users","creator_id":"7","creator":"Agus Dwiono","ip_address":"127.0.0.1"} 
+[2021-01-15 21:16:35] local.INFO: Activity Log : {"action":"updated","event":"users","creator_id":"7","creator":"Agus Dwiono","ip_address":"127.0.0.1"} 
+[2021-01-15 21:16:35] local.INFO: Activity Log : {"action":"updated","event":"users","creator_id":"2","creator":"Administrator","ip_address":"127.0.0.1"} 
+[2021-01-15 21:16:35] local.INFO: Activity Log : {"action":"updated","event":"users","creator_id":"2","creator":"Administrator","ip_address":"127.0.0.1"} 
+[2021-01-15 21:16:35] local.INFO: Activity Log : {"action":"updated","event":"users","creator_id":"7","creator":"Agus Dwiono","ip_address":"127.0.0.1"} 
+[2021-01-15 21:16:35] local.INFO: Activity Log : {"action":"updated","event":"users","creator_id":"7","creator":"Agus Dwiono","ip_address":"127.0.0.1"} 
+[2021-01-15 21:16:35] local.INFO: Activity Log : {"action":"updated","event":"users","creator_id":"2","creator":"Administrator","ip_address":"127.0.0.1"} 
+[2021-01-15 22:13:15] local.INFO: Activity Log : {"action":"updated","event":"users","creator_id":"2","creator":"Administrator","ip_address":"127.0.0.1"} 
+[2021-01-15 22:13:15] local.INFO: Activity Log : {"action":"updated","event":"users","creator_id":"5","creator":"Budi Setiadi Sadikin","ip_address":"127.0.0.1"} 
+[2021-01-15 22:13:15] local.INFO: Activity Log : {"action":"updated","event":"users","creator_id":"5","creator":"Budi Setiadi Sadikin","ip_address":"127.0.0.1"} 
+[2021-01-15 22:13:15] local.INFO: Activity Log : {"action":"updated","event":"users","creator_id":"2","creator":"Administrator","ip_address":"127.0.0.1"} 

@@ -18,7 +18,7 @@ $myBadge = $data['myBadge']->where('badge_id',$item->id)->first();
 @endphp
 <div class="contacts-col col-md-2">
 
-    <div class="card mb-4">
+    <div class="card card-list mb-4">
         <div class="card-body">
             <div class="contacts-dropdown dropdown btn-group">
 
@@ -29,7 +29,7 @@ $myBadge = $data['myBadge']->where('badge_id',$item->id)->first();
 
             <div class="contact-content">
 
-               <center> <img src="{{asset($myBadge->badge->icon ?? 'userfile/badge/default.png')}}" style="width:max-220px;max-height:220px;object-fit:cover;" class="contact-content-img rounded-circle" alt=""></center>
+               <center> <img src="{{asset($myBadge->badge->icon ?? 'assets/tmplts_backend/images/default-logo.png')}}" style="width:max-220px;max-height:220px;object-fit:cover;" class="contact-content-img rounded-circle" alt=""></center>
                 <div class="contact-content-about">
                     <center>
 

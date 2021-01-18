@@ -54,7 +54,8 @@
             <thead>
                 <tr>
                     <th style="width: 10px;">No</th>
-                    <th>Activity</th>
+                    <th>Aktivitas</th>
+                    <th>Deskripsi</th>
                     <th>Causer Name</th>
                     <th>Causer IP</th>
                     <th style="width: 300px;">Created</th>
@@ -65,6 +66,7 @@
                 <tr>
                     <td>{{ $data['number']++ }}</td>
                     <td> <b>{{ str_replace('_', ' ', strtoupper(trans($item->logable_name))) }} (Id:{{$item->logable_id}}) :</b> {{$item->event}}  </td>
+                    <td>{{$item->deskripsi}}</td>
                     <td>{{$item->creator}}</td>
                     <td>{{$item->ip_address}}</td>
                     <td >{{ $item->created_at->format('d F Y - (H:i)') }}</td>

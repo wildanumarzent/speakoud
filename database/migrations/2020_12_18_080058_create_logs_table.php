@@ -21,6 +21,7 @@ class CreateLogsTable extends Migration
             $table->string('logable_id');
             $table->string('logable_type');
             $table->string('logable_name');
+            $table->longText('deskripsi')->nullable();
             $table->ipAddress('ip_address')->nullable();
             $table->timestamps();
         });

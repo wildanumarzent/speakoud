@@ -57,6 +57,7 @@ class EventController extends Controller
                     'end' => 'required',
                     'start_time' => 'required',
                     'end_time' => 'required',
+
                 ]);
 
                 if($validator->fails()){
@@ -68,6 +69,7 @@ class EventController extends Controller
                     $startT = $request['start_time'];
                     $endD = $data['event']['end'];
                     $endT = $request['end_time'];
+                    $data['event']['allDay'] = 1;
                     $data['event']['start'] = date('Y-m-d H:i:s', strtotime("$startD $startT"));
                     $data['event']['end'] = date('Y-m-d H:i:s', strtotime("$endD $endT"));
                     if($request['id'] !=  null){
