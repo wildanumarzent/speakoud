@@ -12,12 +12,12 @@ class CompeltingBadgeObserver
        $badge = Badge::where('mata_id',$model['mata_id'])->get();
        $jumlahBahan = BahanPelatihan::where('mata_id',$model['mata_id'])->count();
        $jumlahAktivitas = ActivityCompletion::where('mata_id',$mata['id'])->count();
-       
+
        foreach($badge as $key => $b){
            if($jumlahBahan)
            $data = array(
                ''
-           )
+           );
        }
     }
 }
