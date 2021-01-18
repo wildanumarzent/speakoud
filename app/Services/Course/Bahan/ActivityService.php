@@ -114,7 +114,7 @@ class ActivityService
         $activity->status = 0;
         $activity->completed_by = auth()->user()->id;
         $activity->save();
-        event(new ActivitySaved($complete));
+        event(new ActivitySaved($activity));
         return $activity;
     }
 }

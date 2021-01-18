@@ -108,7 +108,7 @@
                         <div class="file-item-icon las la-file-{{ $file->icon($file->file_type) }} text-secondary"></div>
                     @endif
                     <div class="desc-of-name">
-                        {{ $file->name($file) }}
+                        {{ $file->NameFile($file) }}
                     </div>
                 </a>
                 @if ($data['roles'] || $file->owner_id == auth()->user()->id)

@@ -24,7 +24,7 @@ class BankData extends Model
         return $query->where('is_video', 1);
     }
 
-    public function name($name)
+    public function NameFile($name)
     {
         $filename = $name->filename ?? collect(explode("/", $name->file_path))->last();
 
