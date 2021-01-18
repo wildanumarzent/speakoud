@@ -1,6 +1,7 @@
 /node_modules
 /public/hot
 /public/storage
+/public/logs
 /public/userfile/attachment
 /public/userfile/logo_instansi
 /public/userfile/photo
