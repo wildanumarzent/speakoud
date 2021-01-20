@@ -18,7 +18,7 @@
                 @csrf
                 <div class="card-body">
                     <div id="accordion2">
-                        @foreach ($data['tMata']->materi as $key => $materi)
+                        @foreach ($data['tMata']->materi()->orderBy('urutan', 'ASC')->get() as $key => $materi)
                         <div class="card mb-2">
                             <div class="card-header">
                               <a class="collapsed d-flex justify-content-between text-body" data-toggle="collapse" href="#mata-{{ $materi->id }}">

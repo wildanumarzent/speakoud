@@ -32,13 +32,43 @@
 </div>
 
 <div class="card">
+    <div class="card-body">
+        <table id="user-list" class="table card-table table-striped table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th colspan="5" style="text-align:center;">
+                        PRESENTASE NILAI : <span class="badge badge-primary" style="font-size: 15px;">{{ round(($data['item']->where('benar', 1)->count() / $data['item']->count()) * 100) }}</span>
+                    </th>
+                </tr>
+                <tr style="text-align:center;">
+                    <th rowspan="2">Jumlah Soal</th>
+                    <th rowspan="2">Soal Diisi</th>
+                    <th rowspan="2">Jawaban Benar</th>
+                    <th rowspan="2">Jawaban Salah</th>
+                    <th rowspan="2">Jawaban Belum dicek</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="text-center">
+                    <td><span class="badge badge-secondary">{{ $data['quiz']->item()->count() }}</span></td>
+                    <td><span class="badge badge-secondary">{{ $data['item']->count() }}</span></td>
+                    <td><span class="badge badge-success">{{ $data['item']->where('benar', 1)->count() }}</span></td>
+                    <td><span class="badge badge-danger">{{ $data['item']->where('benar', 0)->count() }}</span></td>
+                    <td><span class="badge badge-warning">{{ $data['item']->whereNull('benar')->count() }}</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="card">
     <div class="card-header with-elements">
         <h5 class="card-header-title mt-1 mb-0">Soal yang sudah diisi</h5>
     </div>
     <div class="card-body">
-        <h6 class="text-center text-muted">
+        {{-- <h6 class="text-center text-muted">
             Persentase Nilai : <span class="badge badge-primary">{{ round(($data['item']->where('benar', 1)->count() / $data['item']->count()) * 100) }}</span>
-        </h6>
+        </h6> --}}
         @foreach ($data['item'] as $item)
         <div class="card-body" style="border: 1px solid #e8e8e9; border-radius: .75rem;">
             <div class="form-group">

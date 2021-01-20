@@ -31,4 +31,9 @@ class TemplateBahanQuiz extends Model
     {
         return $this->belongsTo(TemplateBahan::class, 'template_bahan_id');
     }
+
+    public function item()
+    {
+        return $this->hasMany(TemplateBahanQuizItem::class, 'template_quiz_id');
+    }
 }

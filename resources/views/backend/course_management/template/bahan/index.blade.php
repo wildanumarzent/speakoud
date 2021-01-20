@@ -101,7 +101,7 @@
                     <div class="col-md-4 text-right">
                         @if ($item->type($item)['tipe'] == 'quiz')
                         <a class="btn btn-success btn-sm icon-btn-only-sm mr-1" href="{{ route('template.quiz.item', ['id' => $item->quiz->id]) }}" title="klik untuk melihat template soal">
-                            <i class="las la-list-ol"></i> Soal
+                            <i class="las la-list-ol"></i> <span>Soal</span>
                         </a>
                         @endif
                         <div class="btn-group dropdown">
@@ -136,9 +136,9 @@
     <div class="card-body text-center">
         <strong style="color: red;">
             @if (Request::get('q'))
-            ! Template Mata tidak ditemukan !
+            ! Template Materi tidak ditemukan !
             @else
-            ! Template Mata kosong !
+            ! Template Materi kosong !
             @endif
         </strong>
     </div>

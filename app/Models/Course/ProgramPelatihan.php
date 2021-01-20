@@ -36,6 +36,7 @@ class ProgramPelatihan extends Model
     {
         $query = $this->hasMany(MataPelatihan::class, 'program_id');
 
+        $query->publish();
         if (auth()->guard()->check() == true) {
             if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra')) {
                 $query->whereHas('instruktur', function ($query) {
@@ -43,7 +44,7 @@ class ProgramPelatihan extends Model
                 });
             }
             if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
-                $query->publish()->orderBy('urutan', 'ASC')->where('publish_start', '<=', now())
+                $query->orderBy('urutan', 'ASC')->where('publish_start', '<=', now())
                     ->where('publish_end', '>=', now());
                 $query->whereHas('program', function ($query) {
                     $query->publish();
@@ -58,7 +59,7 @@ class ProgramPelatihan extends Model
                 });
             }
         } else {
-            $query->publish()->orderBy('urutan', 'ASC')->where('publish_start', '<=', now())
+            $query->orderBy('urutan', 'ASC')->where('publish_start', '<=', now())
                 ->where('publish_end', '>=', now());
         }
 

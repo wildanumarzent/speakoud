@@ -145,7 +145,7 @@
                             <i class="las la-spell-check"></i> <span>Bank Soal</span>
                         </a>
                         <a class="btn btn-info btn-sm icon-btn-only-sm mr-1" href="{{ route('course.detail', ['id' => $item->id]) }}" title="klik untuk melihat detail course">
-                            <span>Detail</span> <i class="las la-external-link-alt ml-1"></i>
+                            <i class="las la-external-link-alt ml-1"></i> <span>Detail</span>
                         </a>
                         <div class="btn-group dropdown">
                             <button type="button" class="btn btn-warning btn-sm icon-btn-only-sm dropdown-toggle hide-arrow" data-toggle="dropdown" title="klik untuk melakukan aksi"><i class="las la-ellipsis-v"></i><span>Aksi</span></button>

@@ -118,6 +118,7 @@ class MataService
     {
         $query = $this->model->query();
 
+        $query->publish();
         if (auth()->guard()->check() == true) {
 
 
@@ -140,7 +141,6 @@ class MataService
                         $query->where('tipe', 0);
                     }
                 });
-                $query->publish();
                 $query->whereHas('peserta', function ($query) {
                     $query->where('peserta_id', auth()->user()->peserta->id);
                 });
@@ -151,7 +151,7 @@ class MataService
             $query->whereHas('program', function ($query) {
                 $query->publish();
             });
-            $query->publish()->where('publish_start', '<=', now())
+            $query->where('publish_start', '<=', now())
             ->where('publish_end', '>=', now());
         }
 

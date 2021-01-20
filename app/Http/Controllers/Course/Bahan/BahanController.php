@@ -83,6 +83,12 @@ class BahanController extends Controller
         $data['next'] = $this->service->bahanPrevNext($data['materi']->id, $data['bahan']->urutan, 'next');
 
         //check data
+        if (!auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
+            if ($tipe == 'conference' && $data['bahan']->publish == 0) {
+                return abort(404);
+            }
+        }
+
         if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
             //publish
             if ($data['bahan']->program->publish == 0 || $data['bahan']->mata->publish == 0 ||

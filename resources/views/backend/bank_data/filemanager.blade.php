@@ -60,9 +60,24 @@
     <div class="file-manager-container file-manager-col-view" id="files">
         @if (!empty(Request::get('path')))
         <div class="file-item">
+            @php
+                $lastPath = collect(explode("/", Request::get('path')))->last();
+                $path = str_replace('/'.$lastPath, '', Request::get('path'));
+                if (Request::get('view') == 'text-editor') {
+                    $route = route('bank.data.filemanager', ['view' => Request::get('view')]);
+                    if (!empty($path)) {
+                        $route = route('bank.data.filemanager', ['view' => Request::get('view'), 'path' => $path]);
+                    }
+                } else {
+                    $route = route('bank.data.filemanager', ['type-file' => Request::get('type-file'), 'view' => Request::get('view')]);
+                    if (!empty($path)) {
+                        $route = route('bank.data.filemanager', ['type-file' => Request::get('type-file'), 'view' => Request::get('view'), 'path' => $path]);
+                    }
+                }
+            @endphp
             <div class="file-item-select-bg bg-primary"></div>
-            <a href="javascript:history.back()" class="file-item-icon las la-level-up-alt text-secondary"></a>
-            <a href="javascript:history.back()" class="file-item-name">
+            <a href="{{ $route }}" class="file-item-icon las la-level-up-alt text-secondary"></a>
+            <a href="{{ $route }}" class="file-item-name">
             ..&nbsp;
             </a>
             <div class="file-item-changed">-</div>

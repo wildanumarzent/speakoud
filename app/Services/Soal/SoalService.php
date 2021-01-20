@@ -139,16 +139,16 @@ class SoalService
     public function deleteSoal(int $id)
     {
         $soal = $this->findSoal($id);
-        $quizItem = BahanQuizItem::where('mata_id', $soal->mata_id)
-            ->where('pertanyaan', $soal->pertanyaan)->count();
+        // $quizItem = BahanQuizItem::where('mata_id', $soal->mata_id)
+        //     ->where('pertanyaan', $soal->pertanyaan)->count();
 
-        if ($quizItem > 0) {
-            return false;
-        } else {
+        // if ($quizItem > 0) {
+        //     return false;
+        // } else {
 
             $soal->delete();
 
             return true;
-        }
+        // }
     }
 }

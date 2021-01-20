@@ -24,7 +24,7 @@ class BankDataService
         $global = Storage::disk('bank_data')->directories('global/'.$request->path);
         $personal = Storage::disk('bank_data')->directories('personal/'.
             auth()->user()->id.'/'.$request->path);
-        $type = ['global/', 'personal/'.auth()->user()->id.'/'];
+        $type = ['global', 'personal/'.auth()->user()->id];
 
         $directories = array_merge($global, $personal);
 
@@ -61,11 +61,15 @@ class BankDataService
                     $query->where('file_path', 'ilike', '%'.$q.'%');
                     $query->orWhere('filename', 'ilike', '%'.$q.'%');
                 });
+            })->when($request->path, function ($query, $path) {
+                $query->where(function ($query) use ($path) {
+                    $this->typeOfFile($path, $query);
+                });
             });
 
-            if ($type != null) {
-                $this->typeOfFile($type, $query);
-            }
+            // if ($type != null) {
+            //     $this->typeOfFile($type, $query);
+            // }
 
             $files[$key] = $value;
             $data = $query->whereIn('file_path', $files)->get();
@@ -234,7 +238,7 @@ class BankDataService
             }
 
             $upload = new BankData;
-            $upload->file_path = $path.$fileName;
+            $upload->file_path = str_replace('//', '/', $path.$fileName);
             $upload->thumbnail = !empty($request->thumbnail) ? $pathThumb.$fileNameThumb : null;
             $upload->file_type = $extesion;
             $upload->file_size = $file->getSize();

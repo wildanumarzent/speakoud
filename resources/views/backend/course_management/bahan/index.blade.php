@@ -141,7 +141,7 @@
                         <div class="col-md-4 text-right">
                             @if ($item->type($item)['tipe'] == 'quiz')
                             <a class="btn btn-success btn-sm icon-btn-only-sm mr-1" href="{{ route('quiz.item', ['id' => $item->quiz->id]) }}" title="klik untuk melihat soal">
-                                <i class="las la-list-ol"></i> Soal
+                                <i class="las la-list-ol"></i> <span>Soal</span>
                             </a>
                             @endif
                             <a class="btn btn-primary btn-sm icon-btn-only-sm" href="{{ route('course.bahan', ['id' => $item->mata_id, 'bahanId' => $item->id, 'tipe' => $item->type($item)['tipe']]) }}" title="klik untuk melihat preview">

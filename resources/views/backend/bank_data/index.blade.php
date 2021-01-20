@@ -55,9 +55,17 @@
         <div class="file-manager-container file-manager-col-view" id="files">
             @if (!empty(Request::get('path')))
             <div class="file-item">
+                @php
+                    $lastPath = collect(explode("/", Request::get('path')))->last();
+                    $path = str_replace('/'.$lastPath, '', Request::get('path'));
+                    $route = route('bank.data', ['type' => Request::segment(3)]);
+                    if (!empty($path)) {
+                        $route = route('bank.data', ['type' => Request::segment(3), 'path' => $path]);
+                    }
+                @endphp
                 <div class="file-item-select-bg bg-primary"></div>
-                <a href="javascript:history.back()" class="file-item-icon las la-level-up-alt text-secondary"></a>
-                <a href="javascript:history.back()" class="file-item-name">
+                <a href="{{ $route }}" class="file-item-icon las la-level-up-alt text-secondary"></a>
+                <a href="{{ $route }}" class="file-item-name">
                 ..&nbsp;
                 </a>
                 <div class="file-item-changed">-</div>
