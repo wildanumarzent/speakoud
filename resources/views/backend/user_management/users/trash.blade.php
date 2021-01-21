@@ -74,7 +74,7 @@
                     <th>Username</th>
                     <th>Email</th>
                     <th style="width: 120px; text-align: center;">Roles</th>
-                    <th style="width: 120px; text-align: center;">Status</th>
+                    {{-- <th style="width: 120px; text-align: center;">Status</th> --}}
                     <th style="width: 200px;">Tanggal Dibuat</th>
                     <th style="width: 200px;">Tanggal Diperbarui</th>
                     <th style="width: 200px;">Terakhir login</th>
@@ -84,7 +84,7 @@
             <tbody>
                 @if ($data['users']->total() == 0)
                 <tr>
-                    <td colspan="10" align="center">
+                    <td colspan="9" align="center">
                         <i>
                             <strong style="color:red;">
                             @if (Request::get('r') || Request::get('s') || Request::get('q'))
@@ -113,7 +113,7 @@
                     <td>
                         <span class="badge badge-outline-primary">{{ strtoupper(str_replace('_', ' ', $item->roles[0]->name)) }}</span>
                     </td>
-                    <td class="text-center">
+                    {{-- <td class="text-center">
                         @if ($item->id == auth()->user()->id || $item->roles[0]->id <=  auth()->user()->roles[0]->id)
                         <a href="#" class="badge badge-outline-secondary">AKTIF</a>
                         @else
@@ -125,7 +125,7 @@
                             </form>
                         </a>
                         @endif
-                    </td>
+                    </td> --}}
                     <td>{{ $item->created_at->format('d F Y - (H:i)') }}</td>
                     <td>{{ $item->updated_at->format('d F Y - (H:i)') }}</td>
                     <td>{{ $item->last_login != null ? $item->last_login->format('d F Y - (H:i)') : '-' }}</td>

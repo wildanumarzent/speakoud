@@ -59,7 +59,7 @@
         <h5 class="card-header-title mt-1 mb-0">Users List</h5>
         <div class="card-header-elements ml-auto">
             <a href="{{ route('user.trash') }}" class="btn btn-secondary icon-btn-only-sm" title="klik untuk melihat tong sampah user">
-                <i class="las la-trash"></i><span>Tong Sampah</span>
+                <i class="las la-trash"></i><span>Recycle Bin</span>
             </a>
             <a href="{{ route('user.create') }}" class="btn btn-primary icon-btn-only-sm" title="klik untuk menambah user">
                 <i class="las la-plus"></i><span>Tambah</span>

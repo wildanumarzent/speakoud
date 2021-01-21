@@ -86,13 +86,18 @@ class BahanRequest extends FormRequest
 
                 return array_merge($defaultBahan, $conference);
             } else {
-                $conference = [
-                    'tanggal' => 'required',
-                    'start_time' => 'required',
-                    'end_time' => 'required',
-                ];
+                if ($this->method() == 'POST') {
+                    $conference = [
+                        'tanggal' => 'required',
+                        'start_time' => 'required',
+                        'end_time' => 'required',
+                    ];
+                    return array_merge($defaultBahan, $conference);
+                } else {
+                    return array_merge($defaultBahan);
+                }
 
-                return array_merge($defaultBahan, $conference);
+
             }
         }
 

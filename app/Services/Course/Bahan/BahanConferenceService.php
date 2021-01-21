@@ -125,7 +125,7 @@ class BahanConferenceService
                 'body' => json_encode($parameter),
             ]);
 
-            $getBody = $response->getBody();
+            $getBody = $response->getBody()->getContents();
         } else {
             $getBody = null;
         }
@@ -160,42 +160,45 @@ class BahanConferenceService
 
     public function updateConferece($request, $bahan)
     {
-        if ($request->tipe == 0) {
-            $client = new \GuzzleHttp\Client();
-            $url = config('addon.api.conference.end_point');
+        // if ($request->tipe == 0) {
+        //     $client = new \GuzzleHttp\Client();
+        //     $url = config('addon.api.conference.end_point').'/'.$this->generateRandomString();
 
-            $parameter = [
-                'title' => $request->judul,
-                'description' => $request->keterangan,
-                'schedule' => [
-                    'startDate' => $request->tanggal,
-                    'start' => $request->start_time,
-                    'end' => $request->end_time,
-                ],
-            ];
+        //     $parameter = [
+        //         'title' => $request->judul,
+        //         'description' => $request->keterangan,
+        //         'schedule' => [
+        //             'startDate' => $request->tanggal,
+        //             'start' => $request->start_time,
+        //             'end' => $request->end_time,
+        //         ],
+        //     ];
 
-            $response = $client->request('POST', $url, [
-                'headers' => [
-                    'Content-Type' => 'application/json',
-                    'Accept' => 'application/json',
-                    'X-BPPT-Secret' => 'u7x!A%C*F-JaNdRgUkXp2s5v8y/B?E(G+KbPeShVmYq3t6w9z$C&F)J@McQfTjWn',
-                ],
-                'body' => json_encode($parameter),
-            ]);
+        //     $response = $client->request('POST', $url, [
+        //         'headers' => [
+        //             'Content-Type' => 'application/json',
+        //             'Accept' => 'application/json',
+        //             'X-BPPT-Secret' => 'u7x!A%C*F-JaNdRgUkXp2s5v8y/B?E(G+KbPeShVmYq3t6w9z$C&F)J@McQfTjWn',
+        //         ],
+        //         'body' => json_encode($parameter),
+        //     ]);
 
-            $getBody = $response->getBody();
-        } else {
-            $getBody = null;
-        }
+        //     $getBody = $response->getBody();
+        // } else {
+        //     $getBody = null;
+        // }
 
         $conference = $bahan->conference;
-        $conference->tipe = (bool)$request->tipe;
-        $conference->tanggal = $request->tanggal;
-        $conference->start_time = $request->tanggal.' '.$request->start_time;
-        $conference->end_time = $request->tanggal.' '.$request->end_time;
-        $conference->meeting_link = ($request->tipe == 0) ? $this->generateRandomString() :
-            $request->meeting_link;
-        $conference->api = $getBody;
+        // $conference->tipe = (bool)$request->tipe;
+        if ($conference->tipe == 1) {
+            $conference->tanggal = $request->tanggal;
+            $conference->start_time = $request->tanggal.' '.$request->start_time;
+            $conference->end_time = $request->tanggal.' '.$request->end_time;
+            $conference->meeting_link = $request->meeting_link;
+        }
+        // $conference->meeting_link = ($request->tipe == 0) ? $this->generateRandomString() :
+        //     $request->meeting_link;
+        // $conference->api = $getBody;
         $conference->save();
 
         return $conference;
