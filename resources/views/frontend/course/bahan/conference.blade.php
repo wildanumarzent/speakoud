@@ -1,10 +1,6 @@
 @extends('frontend.course.bahan')
 
 @section('content-view')
-@php
-    $decode = json_decode($data['conference']->api);
-    $api = $decode->data;
-@endphp
 <div class="card-datatable table-responsive d-flex justify-content-center mb-2">
     <table class="table table-striped table-bordered mb-0">
         <tr>
@@ -89,7 +85,7 @@
                 </a>
             </td>
          </tr>
-         @if ($data['bahan']->conference->status == 1)
+         @if ($data['bahan']->conference->status == 1 && !empty($bahan->conference->api))
         <tr>
             <th style="width: 150px;">Konfirmasi</th>
             <td>
