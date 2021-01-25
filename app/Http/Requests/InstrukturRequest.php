@@ -26,7 +26,7 @@ class InstrukturRequest extends FormRequest
         if ($this->method() == 'POST') {
             if (auth()->user()->hasRole('developer|administrator') && $this->roles == 'instruktur_mitra') {
                 return [
-                    'nip' => 'required',
+                    'nip' => 'required|unique:instruktur,nip',
                     'instansi_id' => 'required',
                     // 'kedeputian' => 'required',
                     // 'pangkat' => 'required',
@@ -45,7 +45,7 @@ class InstrukturRequest extends FormRequest
                 ];
             } else {
                 return [
-                    'nip' => 'required',
+                    'nip' => 'required|unique:instruktur,nip',
                     'instansi_id' => 'required',
                     // 'kedeputian' => 'required',
                     // 'pangkat' => 'required',
@@ -64,7 +64,7 @@ class InstrukturRequest extends FormRequest
             }
         } else {
             return [
-                'nip' => 'required',
+                'nip' => 'required|unique:instruktur,nip,'.$this->id,
                 'instansi_id' => 'required',
                 // 'kedeputian' => 'required',
                 // 'pangkat' => 'required',
@@ -111,6 +111,7 @@ class InstrukturRequest extends FormRequest
     {
         return [
             'nip.required' => ':attribute tidak boleh kosong',
+            'nip.unique' => ':attribute sudah terpakai',
             'instansi_id.required' => ':attribute tidak boleh kosong',
             'kedeputian.required' => ':attribute tidak boleh kosong',
             'pangkat.required' => ':attribute tidak boleh kosong',

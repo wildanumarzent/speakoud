@@ -24,9 +24,9 @@ class PesertaRequest extends FormRequest
     public function rules()
     {
         if ($this->method() == 'POST') {
-            if (auth()->user()->hasRole('developer|administrator') && $this->roles == 'instruktur_mitra') {
+            if (auth()->user()->hasRole('developer|administrator') && $this->roles == 'peserta_mitra') {
                 return [
-                    'nip' => 'required',
+                    'nip' => 'required|unique:peserta,nip',
                     'instansi_id' => 'required',
                     // 'kedeputian' => 'required',
                     // 'pangkat' => 'required',
@@ -46,7 +46,7 @@ class PesertaRequest extends FormRequest
                 ];
             } else {
                 return [
-                    'nip' => 'required',
+                    'nip' => 'required|unique:peserta,nip',
                     'instansi_id' => 'required',
                     // 'kedeputian' => 'required',
                     // 'pangkat' => 'required',
@@ -66,7 +66,7 @@ class PesertaRequest extends FormRequest
             }
         } else {
             return [
-                'nip' => 'required',
+                'nip' => 'required|unique:peserta,nip,'.$this->id,
                 'instansi_id' => 'required',
                 // 'kedeputian' => 'required',
                 // 'pangkat' => 'required',
@@ -115,6 +115,7 @@ class PesertaRequest extends FormRequest
     {
         return [
             'nip.required' => ':attribute tidak boleh kosong',
+            'nip.unique' => ':attribute sudah terpakai',
             'instansi_id.required' => ':attribute tidak boleh kosong',
             'kedeputian.required' => ':attribute tidak boleh kosong',
             'pangkat.required' => ':attribute tidak boleh kosong',

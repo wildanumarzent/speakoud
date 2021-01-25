@@ -25,7 +25,7 @@ class InternalRequest extends FormRequest
     {
         if ($this->method() == 'POST') {
             return [
-                'nip' => 'required',
+                'nip' => 'required|unique:internal,nip',
                 'instansi_id' => 'required',
                 // 'kedeputian' => 'required',
                 // 'pangkat' => 'required',
@@ -42,7 +42,7 @@ class InternalRequest extends FormRequest
             ];
         } else {
             return [
-                'nip' => 'required',
+                'nip' => 'required|unique:internal,nip,'.$this->id,
                 'instansi_id' => 'required',
                 // 'kedeputian' => 'required',
                 // 'pangkat' => 'required',
@@ -86,6 +86,7 @@ class InternalRequest extends FormRequest
     {
         return [
             'nip.required' => ':attribute tidak boleh kosong',
+            'nip.unique' => ':attribute sudah terpakai',
             'instansi_id.required' => ':attribute tidak boleh kosong',
             'kedeputian.required' => ':attribute tidak boleh kosong',
             'pangkat.required' => ':attribute tidak boleh kosong',

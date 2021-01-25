@@ -25,7 +25,7 @@ class MitraRequest extends FormRequest
     {
         if ($this->method() == 'POST') {
             return [
-                'nip' => 'required',
+                'nip' => 'required|unique:mitra,nip',
                 'instansi_id' => 'required|unique:mitra,instansi_id',
                 // 'kedeputian' => 'required',
                 // 'pangkat' => 'required',
@@ -42,7 +42,7 @@ class MitraRequest extends FormRequest
             ];
         } else {
             return [
-                'nip' => 'required',
+                'nip' => 'required|unique:mitra,nip,'.$this->id,
                 'instansi_id' => 'required|unique:mitra,instansi_id,'.$this->id,
                 // 'kedeputian' => 'required',
                 // 'pangkat' => 'required',
@@ -86,6 +86,7 @@ class MitraRequest extends FormRequest
     {
         return [
             'nip.required' => ':attribute tidak boleh kosong',
+            'nip.unique' => ':attribute sudah terpakai',
             'instansi_id.required' => ':attribute tidak boleh kosong',
             'instansi_id.unique' => ':attribute sudah terpakai',
             'kedeputian.required' => ':attribute tidak boleh kosong',
