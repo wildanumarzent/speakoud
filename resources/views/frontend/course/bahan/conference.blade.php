@@ -85,7 +85,7 @@
                 </a>
             </td>
          </tr>
-         @if ($data['bahan']->conference->status == 1 && !empty($bahan->conference->api))
+         @if ($data['bahan']->conference->status == 1 && !empty($data['bahan']->conference->api))
         <tr>
             <th style="width: 150px;">Konfirmasi</th>
             <td>
