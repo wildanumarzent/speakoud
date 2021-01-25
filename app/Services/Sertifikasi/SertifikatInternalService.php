@@ -71,7 +71,7 @@ class SertifikatInternalService
         $GLOBALS['nama'] = auth()->user()->name;
         $GLOBALS['program'] = $mata->judul;
         if (!empty($mata->jam_pelatihan)) {
-            $GLOBALS['jam'] = $mata->jam_pelatihan;
+            $GLOBALS['jam'] = $mata->jam_pelatihan.' Hours';
         }
         $GLOBALS['start'] = $mata->publish_start->format('F jS');
         $GLOBALS['end'] = $mata->publish_end->format('F jS, Y');
