@@ -145,14 +145,14 @@ class BahanConferenceService
         $conference->api = $getBody;
         $conference->save();
 
-        $this->event->makeEvent(
-            $title = $request->judul,
-            $description = strip_tags($request->keterangan),
-            $start = $request->tanggal,
-            $end = $request->tanggal,
-            $start_time = $request->start_time,
-            $end_time = $request->end_time,
-        );
+        // $this->event->makeEvent(
+        //     $title = $request->judul,
+        //     $description = strip_tags($request->keterangan),
+        //     $start = $request->tanggal,
+        //     $end = $request->tanggal,
+        //     $start_time = $request->start_time,
+        //     $end_time = $request->end_time,
+        // );
 
         return $conference;
 
