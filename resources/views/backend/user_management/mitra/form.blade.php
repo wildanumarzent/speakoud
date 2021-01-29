@@ -54,7 +54,7 @@
                                     <option value=" " selected disabled>Pilih</option>
                                     @foreach ($data['instansi'] as $instansi)
                                     <option value="{{ $instansi->id }}" {{ isset($data['mitra']) ? (old('instansi_id', $data['mitra']->instansi_id) == $instansi->id ? 'selected' : '') : (old('instansi_id') == $instansi->id ? 'selected' : '') }}>
-                                        {{ $instansi->nama_instansi }}
+                                        {{ $instansi->nama_instansi }} - ({{ $instansi->kode_instansi }})
                                     </option>
                                     @endforeach
                                 </select>

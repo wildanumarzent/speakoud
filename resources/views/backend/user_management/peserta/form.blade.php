@@ -51,7 +51,7 @@
                           <select class="select2 show-tick @error('mitra_id') is-invalid @enderror" name="mitra_id" data-style="btn-default">
                               <option value="" disabled selected>Pilih</option>
                               @foreach ($data['mitra'] as $mitra)
-                              <option value="{{ $mitra->id }}" {{ old('mitra_id') == $mitra->id ? 'selected' : '' }}>{{ $mitra->instansi['nama_instansi'] }}</option>
+                              <option value="{{ $mitra->id }}" {{ old('mitra_id') == $mitra->id ? 'selected' : '' }}>{{ $mitra->instansi['nama_instansi'] }} - ({{ $mitra->user->name }})</option>
                               @endforeach
                           </select>
                           @error('mitra_id')
@@ -85,7 +85,7 @@
                                     <option value=" " selected disabled>Pilih</option>
                                     @foreach ($data['instansi'] as $instansi)
                                     <option value="{{ $instansi->id }}" {{ isset($data['peserta']) ? (old('instansi_id', $data['peserta']->instansi_id) == $instansi->id ? 'selected' : '') : (old('instansi_id') == $instansi->id ? 'selected' : '') }}>
-                                        {{ $instansi->nama_instansi }}
+                                        {{ $instansi->nama_instansi }} - ({{ $instansi->kode_instansi }})
                                     </option>
                                     @endforeach
                                 </select>

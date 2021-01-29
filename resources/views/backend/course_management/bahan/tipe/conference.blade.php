@@ -6,6 +6,7 @@
 @endsection
 
 @section('content-bahan')
+@if (!isset($data['bahan']))
 <fieldset class="form-group">
     <div class="row">
     <div class="col-md-2 text-md-right  pt-sm-0">
@@ -27,6 +28,10 @@
     </div>
     </div>
 </fieldset>
+@else
+<input type="hidden" name="tipe" value="{{ $data['bahan']->conference->tipe }}">
+@endif
+@if (!isset($data['bahan']) || isset($data['bahan']) && $data['bahan']->conference->tipe == 1 || isset($data['bahan']) && empty($data['bahan']->conference->tanggal))
 <div class="form-group row" id="meeting-link">
     <div class="col-md-2 text-md-right">
         <label class="col-form-label">Meeting Link (jika tipe platform)</label>
@@ -67,6 +72,7 @@
       @include('components.field-error', ['field' => 'end_time'])
     </div>
 </div>
+@endif
 @endsection
 
 @section('script')

@@ -171,17 +171,19 @@
                                 </div>
                             </li>
                             @else
-                            @php
-                            $myPoin = $data['poinKu']->where('kompetensi_id',$k->kompetensi_id)->first();
-                            if($myPoin == null){
-                                $myPoin = 0;
-                            }else{
-                               $myPoin = $myPoin->poin;
-                            }
-                            @endphp
-                            <li class="list-group-item d-flex justify-content-between align-items-center">{{$k->kompetensi->judul}}
-                                <span class="badge badge-@if($myPoin == $k->minimal_poin)success @else default @endif">{{$myPoin}}/{{$k->minimal_poin}} @if($myPoin >= $k->minimal_poin)Complete @endif</span>
-                            </li>
+                                    @role ('peserta_internal|peserta_mitra')
+                                    @php
+                                    $myPoin = $data['poinKu']->where('kompetensi_id',$k->kompetensi_id)->first();
+                                    if($myPoin == null){
+                                        $myPoin = 0;
+                                    }else{
+                                    $myPoin = $myPoin->poin;
+                                    }
+                                    @endphp
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">{{$k->kompetensi->judul}}
+                                        <span class="badge badge-@if($myPoin == $k->minimal_poin)success @else default @endif">{{$myPoin}}/{{$k->minimal_poin}} @if($myPoin >= $k->minimal_poin)Complete @endif</span>
+                                    </li>
+                                    @endrole
                             @endrole
                             @endforeach
                         </ul>

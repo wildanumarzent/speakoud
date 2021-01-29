@@ -26,6 +26,10 @@
 @endsection
 
 @section('content')
+@php
+    $decode = json_decode($data['conference']->api);
+    $api = $decode->data;
+@endphp
 <div class="row">
     <div class="@role ('peserta_internal|peserta_mitra') col-xl-12 @else col-xl-8 @endrole">
         <div class="card">
@@ -33,13 +37,13 @@
                 <div class="card-header-title">Conference</div>
             </h6>
             <div class="card-body">
-                @if (count($data['conference']->api) == 0)
+                @if (empty($data['conference']->api))
                 <div id="meet"></div>
                 @else
                 @role ('administrator|internal|mitra|instruktur_internal|instruktur_mitra')
-                <iframe allow="camera; microphone; fullscreen; display-capture" src="https://meeting.bppt.go.id/bels/video/{{ $data['conference']->api['data']['roomName'] }}?displayName={{ auth()->user()->name }}&hostKey={{ $data['conference']->api['data']['hostKey'] }}" style="height: 800px; width: 100%; border: 0px;"></iframe>
+                <iframe allow="camera; microphone; fullscreen; display-capture" src="https://meeting.bppt.go.id/bels/video/{{ $api->roomName }}?displayName={{ auth()->user()->name }}&hostKey={{ $api->hostKey }}" style="height: 800px; width: 100%; border: 0px;"></iframe>
                 @else
-                <iframe allow="camera; microphone; fullscreen; display-capture" src="https://meeting.bppt.go.id/bels/video/{{ $data['conference']->api['data']['roomName'] }}?displayName={{ auth()->user()->name }}" style="height: 800px; width: 100%; border: 0px;"></iframe>
+                <iframe allow="camera; microphone; fullscreen; display-capture" src="https://meeting.bppt.go.id/bels/video/{{ $api->roomName }}?displayName={{ auth()->user()->name }}" style="height: 800px; width: 100%; border: 0px;"></iframe>
                 @endrole
                 @endif
             </div>
@@ -86,7 +90,7 @@
 @endsection
 
 @section('jsbody')
-@if (count($data['conference']->api) == 0)
+@if (empty($data['conference']->api))
 <script>
     const domain = 'meeting-dev.bppt.go.id';
     const options = {

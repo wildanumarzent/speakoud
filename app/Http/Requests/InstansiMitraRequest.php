@@ -23,20 +23,34 @@ class InstansiMitraRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'kode_instansi' => 'required',
-            'nama_pimpinan' => 'required',
-            'nama_instansi' => 'required',
-            'jabatan' => 'required',
-            'logo' => 'nullable|mimes:'.config('addon.mimes.logo_instansi.m'),
-        ];
+        if ($this->method() == 'POST') {
 
+            return [
+                'kode_instansi' => 'required|unique:instansi_mitra,kode_instansi',
+                'nama_pimpinan' => 'required',
+                'nama_instansi' => 'required',
+                'jabatan' => 'required',
+                'logo' => 'nullable|mimes:'.config('addon.mimes.logo_instansi.m'),
+            ];
+
+        } else {
+
+            return [
+                'kode_instansi' => 'required|unique:instansi_mitra,kode_instansi,'.$this->id,
+                'nama_pimpinan' => 'required',
+                'nama_instansi' => 'required',
+                'jabatan' => 'required',
+                'logo' => 'nullable|mimes:'.config('addon.mimes.logo_instansi.m'),
+            ];
+
+        }
     }
 
     public function attributes()
     {
         return [
             'kode_instansi' => 'Kode Mitra',
+            'kode_instansi.unique' => ':attribute sudah terpakai',
             'nama_pimpinan' => 'Nama Pimpinan',
             'nama_instansi' => 'Mitra',
             'jabatan' => 'Jabatan',

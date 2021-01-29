@@ -28,7 +28,7 @@
 <!-- / Filters -->
 
 <div class="text-left">
-    <a href="{{ route('mata.index', ['id' => $data['mata']->id]) }}" class="btn btn-secondary rounded-pill" title="kembali ke program"><i class="las la-arrow-left"></i>Kembali</a>
+    <a href="{{ route('mata.index', ['id' => $data['mata']->program_id]) }}" class="btn btn-secondary rounded-pill" title="kembali ke program"><i class="las la-arrow-left"></i>Kembali</a>
 </div>
 <br>
 

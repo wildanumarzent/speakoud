@@ -23,15 +23,29 @@ class InstansiInternalRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'kode_instansi' => 'required',
-            'nip_pimpinan' => 'required',
-            'nama_pimpinan' => 'required',
-            'nama_instansi' => 'required',
-            'jabatan' => 'required',
-            'logo' => 'nullable|mimes:'.config('addon.mimes.logo_instansi.m'),
-        ];
+        if ($this->method() == 'POST') {
 
+            return [
+                'kode_instansi' => 'required|unique:instansi_internal,kode_instansi',
+                'nip_pimpinan' => 'required',
+                'nama_pimpinan' => 'required',
+                'nama_instansi' => 'required',
+                'jabatan' => 'required',
+                'logo' => 'nullable|mimes:'.config('addon.mimes.logo_instansi.m'),
+            ];
+
+        } else {
+
+            return [
+                'kode_instansi' => 'required|unique:instansi_internal,kode_instansi,'.$this->id,
+                'nip_pimpinan' => 'required',
+                'nama_pimpinan' => 'required',
+                'nama_instansi' => 'required',
+                'jabatan' => 'required',
+                'logo' => 'nullable|mimes:'.config('addon.mimes.logo_instansi.m'),
+            ];
+
+        }
     }
 
     public function attributes()
@@ -50,6 +64,7 @@ class InstansiInternalRequest extends FormRequest
     {
         return [
             'kode_instansi.required' => ':attribute tidak boleh kosong',
+            'kode_instansi.unique' => ':attribute sudah terpakai',
             'nip_pimpinan.required' => ':attribute tidak boleh kosong',
             'nama_pimpinan.required' => ':attribute tidak boleh kosong',
             'nama_instansi.required' => ':attribute tidak boleh kosong',
