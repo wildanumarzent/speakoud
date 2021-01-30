@@ -650,6 +650,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('mata/{id}/compare', 'Course\MataActivityController@compare')
         ->name('mata.compare')
         ->middleware('role:administrator|internal|mitra');
+    // Export
+    Route::get('mata/{id}/export/activity','Course\MataActivityController@activityExport')
+    ->name('mata.export.activity')
+    ->middleware('role:administrator|internal|mitra');
 
     //materi pelatihan
     Route::get('/mata/{id}/materi', 'Course\MateriController@index')

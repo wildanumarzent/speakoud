@@ -39,7 +39,7 @@ return [
             'title' => 'Manage Courses',
             'program' => 'Program Pelatihan',
             'jadwal' => 'Jadwal Diklat',
-            'kalender' => 'Kalender Diklat',
+            'kalender' => 'Agenda Diklat',
             'evaluasi' => 'Evaluasi'
         ],
         'sertifikasi' => 'Sertifikasi',

@@ -30,10 +30,12 @@
 <!-- / Filters -->
 <div class="text-left">
     <a href="{{ route('mata.index', ['id' => $data['mata']->program_id]) }}" class="btn btn-secondary rounded-pill" title="kembali ke list program"><i class="las la-arrow-left"></i>Kembali</a>
+    <a class="btn btn-success" href={{route('mata.export.activity',['id'=> $data['mata']->id ])}}><i class="las la-download"></i>Export Activity Report</a>
 </div>
 <br>
 
 <div class="card">
+
     <div class="list-group list-group-flush account-settings-links flex-row">
         <a class="list-group-item list-group-item-action {{ Request::segment(3) == 'pembobotan' ? 'active' : '' }}" href="{{ route('mata.pembobotan', ['id' => $data['mata']->id]) }}">Pembobotan Nilai</a>
         <a class="list-group-item list-group-item-action {{ Request::segment(3) == 'completion' ? 'active' : '' }}" href="{{ route('mata.completion', ['id' => $data['mata']->id]) }}">Activity Completion</a>

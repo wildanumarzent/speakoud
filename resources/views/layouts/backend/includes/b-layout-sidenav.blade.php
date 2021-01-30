@@ -124,7 +124,7 @@
             </li>
             <li class="sidenav-item">
                 <a href="{{route('kalender.index')}}" class="sidenav-link">
-                  <div>Kalender Diklat</div>
+                  <div>Agenda Diklat</div>
                 </a>
             </li>
             <li class="sidenav-item">
