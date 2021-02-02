@@ -1,7 +1,7 @@
 @extends('backend.course_management.mata.activity.template')
 
 @section('content-view')
-<div class="table-responsive table-mobile-responsive">
+<div class="table-responsive">
     <table id="user-list" class="table card-table table-striped table-bordered table-hover">
         <thead>
             <tr>

@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Course;
 
+use App\Exports\ActivityExport;
 use App\Http\Controllers\Controller;
 use App\Services\Course\Bahan\ActivityService;
 use App\Services\Course\Bahan\BahanQuizItemService;
 use App\Services\Course\MataService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class MataActivityController extends Controller
 {
@@ -105,5 +108,17 @@ class MataActivityController extends Controller
         $this->serviceActivity->status($id);
 
         return back()->with('success', 'completion berhasil diubah');
+    }
+
+    public function activityExport($mataId)
+    {
+        $mata = $this->service->findMata($mataId);
+        $peserta = $this->service->getPesertaList(null, $mataId,$paginate = false);
+        $pre = $this->serviceQuizItem->nilaiTest($mataId, 1);
+        $post = $this->serviceQuizItem->nilaiTest($mataId, 2);
+        $track = $this->serviceActivity->getActivityByMata($mataId);
+        
+        return Excel::download(new ActivityExport($mata, $peserta, $track, $pre,$post),
+        'activity_export - '.$mata->judul.'.xlsx');
     }
 }

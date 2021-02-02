@@ -277,11 +277,12 @@ class MataService
         return $result;
     }
 
-    public function getPesertaList($request, int $mataId)
+    public function getPesertaList($request, int $mataId , $paginate = true)
     {
         $query = $this->modelPeserta->query();
 
         $query->where('mata_id', $mataId);
+        if(isset($request)){
         $query->whereHas('peserta', function ($query) use ($request) {
             $query->when($request->q, function ($query, $q) {
                 $query->where(function ($query) use ($q) {
@@ -290,9 +291,11 @@ class MataService
                 });
             });
         });
-
+        }
         $result = $query->paginate(20);
-
+        if($paginate == false){
+        $result = $query->get();
+        }
         return $result;
     }
 

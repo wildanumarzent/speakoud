@@ -229,7 +229,7 @@
             </li>
             <!-- kalender -->
             <li class="sidenav-item{{ (Request::is('kalender*')) ? ' active' : '' }}">
-                <a href="{{route('kalender.index')}}" class="sidenav-link" title="Kalender Diklat">
+                <a href="{{route('kalender.index')}}" class="sidenav-link" title="Agenda Diklat">
                   <div>Agenda Diklat</div>
                 </a>
             </li>

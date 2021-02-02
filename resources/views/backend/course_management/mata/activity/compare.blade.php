@@ -1,7 +1,7 @@
 @extends('backend.course_management.mata.activity.template')
 
 @section('content-view')
-<div class="table-responsive table-mobile-responsive">
+<div class="table-responsive">
     <table id="user-list" class="table card-table table-striped table-bordered table-hover">
         <thead>
             <tr>
@@ -10,7 +10,7 @@
                 <th>Nama</th>
                 <th style="text-align: center;">Nilai Pre Test</th>
                 <th style="text-align: center;">Nilai Post Test</th>
-                <th style="text-align: center; width: 300px;">Nilai Akhir</th>
+                <th style="text-align: center; width: 300px;">Rata-Rata Nilai Keseluruhan</th>
             </tr>
         </thead>
         <tbody>
