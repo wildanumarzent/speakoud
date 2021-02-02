@@ -9,10 +9,6 @@ return [
         '1' => 'PUBLISH',
         '0' => 'DRAFT'
     ],
-    'jabatan' => [
-        0 => 'Fungsional',
-        1 => 'Struktural (non fungsional)'
-    ],
     'bahan_tipe' => [
         0 => [
             'title' => 'Forum',

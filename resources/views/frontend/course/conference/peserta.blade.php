@@ -62,6 +62,7 @@
                     <th>Check In</th>
                     <th>Verifikasi</th>
                     <th>Keluar</th>
+                    <th style="width: 110px;">Nilai</th>
                     <th style="width: 115px;">Aksi</th>
                 </tr>
             </thead>
@@ -95,6 +96,18 @@
                     </td>
                     <td>{{ !empty($item->leave) ? $item->leave->format('l, j F Y H:i A') : '-' }}</td>
                     <td>
+                        <span class="badge badge-success">{{ $item->nilai }}</span>
+                        <button type="button" class="btn btn-primary icon-btn btn-sm modals-nilai" data-toggle="modal" data-target="#modals-nilai-form" title="klik untuk memberikan nilai"
+                            data-id="{{ $item->id }}",
+                            data-conferenceid="{{ $item->conference_id }}"
+                            data-nilai="{{ $item->nilai }}"
+                            data-catatan="{{ $item->catatan }}"
+                            data-konfirmasi="{{ $item->konfirmasi }}"
+                        >
+                            <i class="las la-pen-alt"></i>
+                        </button>
+                    </td>
+                    <td>
                         @if ($item->check_in_verified == 0)
                         <a href="javascript:;" class="btn btn-success icon-btn btn-sm check" title="Klik untuk verifikasi peserta">
                             <i class="las la-check"></i>
@@ -106,15 +119,6 @@
                         @else
                         <button type="button" class="btn btn-secondary icon-btn btn-sm" disabled><i class="las la-check"></i></button>
                         @endif
-                        <button type="button" class="btn btn-primary icon-btn btn-sm modals-nilai" data-toggle="modal" data-target="#modals-nilai-form" title="klik untuk memberikan nilai"
-                            data-id="{{ $item->id }}",
-                            data-conferenceid="{{ $item->conference_id }}"
-                            data-nilai="{{ $item->nilai }}"
-                            data-catatan="{{ $item->catatan }}"
-                            data-konfirmasi="{{ $item->konfirmasi }}"
-                        >
-                            <i class="las la-pen-alt"></i>
-                        </button>
                     </td>
                 </tr>
                 @endforeach
@@ -179,6 +183,17 @@
         if (konfirmasi == 1) {
             $('.modal-body #konfirmasi').attr('checked', 'checked');
         }
+    });
+
+    $(document).ready(function () {
+        $('input[type=number][max]:not([max=""])').on('input', function(ev) {
+            var $this = $(this);
+            var maxlength = $this.attr('max').length;
+            var value = $this.val();
+            if (value && value.length >= maxlength) {
+                $this.val(value.substr(0, maxlength));
+            }
+        });
     });
 </script>
 @include('components.toastr')

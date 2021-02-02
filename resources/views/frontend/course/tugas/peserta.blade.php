@@ -64,6 +64,7 @@
                     <th>Di Approve Oleh</th>
                     <th style="width: 115px;">Approval</th>
                     @endif
+                    <th style="width: 110px;">Nilai</th>
                     <th style="width: 120px;">Aksi</th>
                 </tr>
             </thead>
@@ -127,6 +128,16 @@
                     </td>
                     @endif
                     <td>
+                        <span class="badge badge-success">{{ $item->nilai }}</span>
+                        <button type="button" class="btn btn-primary icon-btn btn-sm modals-nilai" data-toggle="modal" data-target="#modals-nilai-form" title="klik untuk memberikan nilai"
+                            data-id="{{ $item->id }}",
+                            data-tugasid="{{ $item->tugas_id }}"
+                            data-nilai="{{ $item->nilai }}"
+                        >
+                            <i class="las la-pen-alt"></i>
+                        </button>
+                    </td>
+                    <td>
                         <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modals-dokumen-{{ $item->id }}" title="klik untuk melihat tugas">
                             <i class="las la-file"></i> <span>Dokumen</span>
                         </button>
@@ -149,6 +160,7 @@
     </div>
 </div>
 
+@include('frontend.course.tugas.modal-nilai')
 @include('frontend.course.tugas.dokumen')
 @endsection
 
@@ -195,6 +207,28 @@
             $(".form-tolak").submit();
         }
         })
+    });
+
+    //modal
+    $('.modals-nilai').click(function() {
+        var id = $(this).data('id');
+        var tugas_id = $(this).data('tugasid');
+        var nilai = $(this).data('nilai');
+        var url = '/tugas/'+ tugas_id +'/penilaian/'+ id;
+
+        $(".modal-dialog #form-nilai").attr('action', url);
+        $('.modal-body #nilai').val(nilai);
+    });
+
+    $(document).ready(function () {
+        $('input[type=number][max]:not([max=""])').on('input', function(ev) {
+            var $this = $(this);
+            var maxlength = $this.attr('max').length;
+            var value = $this.val();
+            if (value && value.length >= maxlength) {
+                $this.val(value.substr(0, maxlength));
+            }
+        });
     });
 </script>
 @include('components.toastr')

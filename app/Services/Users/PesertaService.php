@@ -130,9 +130,26 @@ class PesertaService
         $peserta->creator_id = auth()->user()->id;
         $peserta->mitra_id = $mitraId ?? null;
         $peserta->nip = $request->nip ?? null;
+        $peserta->jenis_peserta = $request->jenis_peserta ?? null;
+        $peserta->jenis_kelamin = $request->jenis_kelamin ?? null;
+        $peserta->agama = $request->agama ?? null;
+        $peserta->tempat_lahir = $request->tempat_lahir ?? null;
+        $peserta->tanggal_lahir = $request->tanggal_lahir ?? null;
+        $peserta->pangkat = $request->pangkat ?? null;
+        $peserta->golongan = $request->pangkat ?? null;
+        $peserta->jabatan_id = $request->jabatan_id ?? null;
+        $peserta->jenjang_jabatan = $request->jenjang_jabatan ?? null;
         $peserta->instansi_id = $request->instansi_id ?? null;
         $peserta->kedeputian = $request->kedeputian ?? null;
-        $peserta->pangkat = $request->pangkat ?? null;
+
+        if (!empty($request->kedeputian) && $request->pangkat >= 0 &&
+            !empty($request->tempat_lahir) && !empty($request->tanggal_lahir) &&
+            $request->jenis_peserta >= 0  && $request->agama >= 0 &&
+            $request->jenis_kelamin >= 0  && !empty($request->jabatan_id) &&
+            $request->jenjang_jabatan >= 0  && !empty($request->phone)) {
+            $peserta->status_profile = 1;
+        }
+
         $this->uploadFile($request, $peserta, $user->id, 'store');
         $peserta->save();
 
@@ -190,9 +207,28 @@ class PesertaService
     {
         $peserta = $this->findPeserta($id);
         $peserta->nip = $request->nip ?? null;
+        $peserta->jenis_peserta = $request->jenis_peserta ?? null;
+        $peserta->jenis_kelamin = $request->jenis_kelamin ?? null;
+        $peserta->agama = $request->agama ?? null;
+        $peserta->tempat_lahir = $request->tempat_lahir ?? null;
+        $peserta->tanggal_lahir = $request->tanggal_lahir ?? null;
+        $peserta->pangkat = $request->pangkat ?? null;
+        $peserta->golongan = $request->pangkat ?? null;
+        $peserta->jabatan_id = $request->jabatan_id ?? null;
+        $peserta->jenjang_jabatan = $request->jenjang_jabatan ?? null;
         $peserta->instansi_id = $request->instansi_id ?? null;
         $peserta->kedeputian = $request->kedeputian ?? null;
-        $peserta->pangkat = $request->pangkat ?? null;
+
+        if (!empty($request->kedeputian) && $request->pangkat >= 0 &&
+            !empty($request->tempat_lahir) && !empty($request->tanggal_lahir) &&
+            $request->jenis_peserta >= 0  && $request->agama >= 0 &&
+            $request->jenis_kelamin >= 0  && !empty($request->jabatan_id) &&
+            $request->jenjang_jabatan >= 0  && !empty($request->phone)) {
+            $peserta->status_profile = 1;
+        } else {
+            $peserta->status_profile = 0;
+        }
+
         $this->uploadFile($request, $peserta, $peserta->user_id, 'update', $id);
         $peserta->save();
 

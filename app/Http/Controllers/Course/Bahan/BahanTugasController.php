@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Course\Bahan;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\NilaiTugasRequest;
 use App\Http\Requests\UploadTugasRequest;
 use App\Services\Course\Bahan\BahanService;
 use App\Services\Course\Bahan\BahanTugasService;
@@ -72,5 +73,12 @@ class BahanTugasController extends Controller
             return back()->with('success', 'Tugas berhasil diapprove');
         }
 
+    }
+
+    public function penilaian(NilaiTugasRequest $request, $tugasId, $id)
+    {
+        $this->service->penilaian($request, $id);
+
+        return back()->with('success', 'berhasil memberikan penilaian untuk tugas');
     }
 }

@@ -67,7 +67,7 @@
                     @role ('mitra')
                     <div class="form-group row">
                         <div class="col-md-2 text-md-right">
-                          <label class="col-form-label text-sm-right">Unit kerja / Instansi / Perusahaan</label>
+                          <label class="col-form-label text-sm-right">Instansi / Perusahaan</label>
                         </div>
                         <div class="col-md-10">
                           <input type="hidden" name="instansi_id" value="{{ auth()->user()->mitra->instansi_id }}">
@@ -77,7 +77,7 @@
                     @else
                     <div class="form-group row">
                         <div class="col-md-2 text-md-right">
-                          <label class="col-form-label text-sm-right">Unit kerja / Instansi / Perusahaan</label>
+                          <label class="col-form-label text-sm-right">Instansi / Perusahaan</label>
                         </div>
                         <div class="col-md-10">
                             <div class="input-group">
@@ -98,11 +98,11 @@
                     @endrole
                     <div class="form-group row" id="kedeputian">
                         <div class="col-md-2 text-md-right">
-                          <label class="col-form-label text-sm-right">Kedeputian</label>
+                          <label class="col-form-label text-sm-right">Unit Kerja</label>
                         </div>
                         <div class="col-md-10">
                           <input type="text" class="form-control @error('kedeputian') is-invalid @enderror" name="kedeputian"
-                            value="{{ (isset($data['instruktur'])) ? old('kedeputian', $data['instruktur']->kedeputian) : old('kedeputian') }}" placeholder="masukan kedeputian...">
+                            value="{{ (isset($data['instruktur'])) ? old('kedeputian', $data['instruktur']->kedeputian) : old('kedeputian') }}" placeholder="masukan unit kerja...">
                           @include('components.field-error', ['field' => 'kedeputian'])
                         </div>
                     </div>

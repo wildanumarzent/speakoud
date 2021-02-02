@@ -13,7 +13,7 @@ return [
         'm' => 'jpg,jpeg,png,pdf,doc,docx'
     ],
     'bank_data' => [
-        'm' => 'jpg,jpeg,png,svg,webm,mp4,mp3,wav,pdf,ppt,pptx,doc,docx'
+        'm' => 'jpg,jpeg,png,svg,webm,mp4,mp3,wav,pdf,ppt,pptx,doc,docx,xls,xlsx'
     ],
     'logo_instansi' => [
         'm' => 'jpg,jpeg,png,svg',

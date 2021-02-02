@@ -25,7 +25,7 @@
                     <label class="form-label">Jabatan</label>
                     <select class="status custom-select form-control" name="j">
                         <option value=" " selected>Semua</option>
-                        @foreach (config('addon.label.jabatan') as $key => $value)
+                        @foreach (config('addon.master_data.jabatan') as $key => $value)
                         <option value="{{ $key }}" {{ Request::get('j') == ''.$key.'' ? 'selected' : '' }}>{{ $value }}</option>
                         @endforeach
                     </select>
@@ -75,8 +75,8 @@
                     <th>NIP</th>
                     <th>Nama</th>
                     <th>Username</th>
+                    <th>Instansi / Perusahaan</th>
                     <th>Unit Kerja</th>
-                    <th>Kedeputian</th>
                     <th>Jabatan</th>
                     <th>Telpon</th>
                     <th>Alamat</th>
@@ -111,7 +111,7 @@
                     <td>{{ $item->user->username }}</td>
                     <td>{{ $item->instansi($item)->nama_instansi ?? '-' }}</td>
                     <td>{{ $item->kedeputian ?? '-' }}</td>
-                    <td>{{ config('addon.label.jabatan.'.$item->pangkat) ?? '-' }}</td>
+                    <td>{{ !empty($item->jabatan->nama) ? $item->jabatan->nama : '-' }}</td>
                     <td>{{ $item->user->information->phone ?? '-' }}</td>
                     <td>{{ $item->user->information->address ?? '-' }}</td>
                     <td>

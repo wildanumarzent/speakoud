@@ -46,6 +46,8 @@ class TemplateMataService
         $mata->creator_id = auth()->user()->id;
         $mata->intro = $request->intro ?? null;
         $mata->content = $request->content ?? null;
+        $mata->pola_penyelenggaraan = $request->pola_penyelenggaraan ?? null;
+        $mata->sumber_anggaran = $request->sumber_anggaran ?? null;
         $mata->show_feedback = (bool)$request->show_feedback;
         $mata->show_comment = (bool)$request->show_comment;
         $mata->urutan = ($this->model->max('urutan') + 1);
@@ -71,6 +73,8 @@ class TemplateMataService
         $mata->fill($request->only(['judul']));
         $mata->intro = $request->intro ?? null;
         $mata->content = $request->content ?? null;
+        $mata->pola_penyelenggaraan = $request->pola_penyelenggaraan ?? null;
+        $mata->sumber_anggaran = $request->sumber_anggaran ?? null;
         $mata->show_feedback = (bool)$request->show_feedback;
         $mata->show_comment = (bool)$request->show_comment;
         $mata->save();

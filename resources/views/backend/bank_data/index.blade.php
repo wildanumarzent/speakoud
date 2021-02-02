@@ -52,6 +52,28 @@
         </div>
     </div>
     <div class="card-body">
+        @if (!empty(Request::get('path')))
+        @php
+            $getLast = collect(explode("/", Request::get('path')))->last();
+            $getCur = str_replace($getLast, '', Request::get('path'));
+            $rplc = Str::replaceFirst('/', '', Request::get('path'));
+            $pathFolder = explode('/', $rplc);
+        @endphp
+        <ol class="breadcrumb bg-lighter">
+            <li class="breadcrumb-item">
+                <a href="{{ route('bank.data', ['type' => Request::segment(3)]) }}">Bank Data</a>
+            </li>
+            @foreach ($pathFolder as $pf)
+                @if ($pf == $getLast)
+                    <li class="breadcrumb-item active">{!! Str::limit($pf, 15) !!}</li>
+                @else
+                    <li class="breadcrumb-item">
+                    <a href="{{ route('bank.data', ['type' => Request::segment(3), 'path' => Str::replaceLast('/', '', $getCur)]) }}">{!! Str::limit($pf, 15) !!}</a>
+                    </li>
+                @endif
+            @endforeach
+        </ol>
+        @endif
         <div class="file-manager-container file-manager-col-view" id="files">
             @if (!empty(Request::get('path')))
             <div class="file-item">

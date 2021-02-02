@@ -74,6 +74,7 @@ class InstansiMitraService
         $instansi->telpon = $request->telpon ?? null;
         $instansi->fax = $request->fax ?? null;
         $instansi->logo = $fileName ?? null;
+        $instansi->alamat = $request->alamat ?? null;
         $instansi->save();
 
         return $instansi;
@@ -96,6 +97,7 @@ class InstansiMitraService
         $instansi->telpon = $request->telpon ?? null;
         $instansi->fax = $request->fax ?? null;
         $instansi->logo = $fileName ?? $instansi->logo;
+        $instansi->alamat = $request->alamat ?? null;
         $instansi->save();
 
         return $instansi;

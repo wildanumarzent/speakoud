@@ -5,6 +5,9 @@
 <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/css/pages/account.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/fancybox/fancybox.min.css') }}">
 <script src="{{ asset('assets/tmplts_backend/wysiwyg/tinymce.min.js') }}"></script>
+<link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-select/bootstrap-select.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-datepicker/bootstrap-datepicker.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/select2/select2.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/sweetalert2/sweetalert2.css') }}">
 @endsection
 
@@ -17,18 +20,142 @@
         @csrf
         @method('PUT')
         <div class="card-body">
+            @role('peserta_internal|peserta_mitra')
+            @if ($data['user']->peserta->status_profile == 0 || empty($data['user']->peserta->foto_sertifikat))
+            <div class="row">
+                <div class="col-md-12">
+                <div class="alert alert-danger">
+                    <i class="las la-exclamation-triangle"></i> Data Profile anda belum lengkap, <strong>Lengkapi data dibawah ini</strong>.
+                </div>
+                </div>
+            </div>
+            @endif
+            @endrole
+
             <div class="bg-general ui-bordered mb-2">
-                <a href="#account" class="d-flex justify-content-between text-body py-3 px-4 collapsed" data-toggle="collapse" aria-expanded="true">
+                <a href="#general" class="d-flex justify-content-between text-body py-3 px-4 collapsed" data-toggle="collapse" aria-expanded="true">
                     <strong>Data</strong>
                     <span class="collapse-icon"></span>
                 </a>
                 <div id="general" class="text-muted collapse show">
                     <div class="card-body pb-2">
+                        @role ('peserta_internal|peserta_mitra')
+                        <div class="form-group">
+                            <label class="form-label">NIP</label>
+                            <input type="text" class="form-control mb-1" value="{{ $data['user']->peserta->nip }}" readonly>
+                        </div>
+                        @endrole
                         <div class="form-group">
                             <label class="form-label">Nama</label>
                             <input type="text" class="form-control mb-1 @error('name') is-invalid @enderror" name="name" value="{{ old('name', $data['user']->name) }}" placeholder="Masukan nama...">
                             @include('components.field-error', ['field' => 'name'])
                         </div>
+                        @role ('peserta_internal|peserta_mitra')
+                        <div class="form-group">
+                            <label class="form-label">Jenis Peserta</label>
+                            <select class="selectpicker show-tick" data-style="btn-default" name="jenis_peserta">
+                                <option value=" " selected>Pilih</option>
+                                @foreach (config('addon.master_data.jenis_peserta') as $key => $value)
+                                <option value="{{ $key }}" {{ old('jenis_peserta', $data['user']->peserta->jenis_peserta) == ''.$key.'' ? 'selected' : '' }}>{{ $value }}</option>
+                                @endforeach
+                            </select>
+                            @if ($data['user']->peserta->jenis_peserta < 0)
+                            <span style="color: red;">belum diisi</span>
+                            @endif
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Jenis Kelamin</label>
+                            <select class="selectpicker show-tick" data-style="btn-default" name="jenis_kelamin">
+                                <option value=" " selected>Pilih</option>
+                                @foreach (config('addon.master_data.jenis_kelamin') as $key => $value)
+                                <option value="{{ $key }}" {{ old('jenis_kelamin', $data['user']->peserta->jenis_kelamin) == ''.$key.'' ? 'selected' : '' }}>{{ $value }}</option>
+                                @endforeach
+                            </select>
+                            @if ($data['user']->peserta->jenis_kelamin < 0)
+                            <span style="color: red;">belum diisi</span>
+                            @endif
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Agama</label>
+                            <select class="selectpicker show-tick" data-style="btn-default" name="agama">
+                                <option value=" " selected>Pilih</option>
+                                @foreach (config('addon.master_data.agama') as $key => $value)
+                                <option value="{{ $key }}" {{ old('agama', $data['user']->peserta->agama) == ''.$key.'' ? 'selected' : '' }}>{{ $value }}</option>
+                                @endforeach
+                            </select>
+                            @if ($data['user']->peserta->agama < 0)
+                            <span style="color: red;">belum diisi</span>
+                            @endif
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Tempat Lahir</label>
+                            <input type="text" class="form-control mb-1 @error('tempat_lahir') is-invalid @enderror" name="tempat_lahir" value="{{ old('tempat_lahir', $data['user']->peserta->tempat_lahir) }}" placeholder="Masukan tempat lahir...">
+                            @if (empty($data['user']->peserta->tempat_lahir))
+                            <span style="color: red;">belum diisi</span>
+                            @endif
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Tanggal Lahir</label>
+                            <div class="input-group">
+                                <input type="text" class="date-picker form-control @error('tanggal_lahir') is-invalid @enderror" name="tanggal_lahir"
+                                    value="{{ !empty($data['user']->peserta->tanggal_lahir) ? old('tanggal_lahir', $data['user']->peserta->tanggal_lahir->format('Y-m-d')) : '' }}" placeholder="masukan tanggal lahir...">
+                                <div class="input-group-append">
+                                    <span class="input-group-text"><i class="las la-calendar"></i></span>
+                                </div>
+                                @include('components.field-error', ['field' => 'tanggal_lahir'])
+                            </div>
+                            @if (empty($data['user']->peserta->tanggal_lahir))
+                            <span style="color: red;">belum diisi</span>
+                            @endif
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Pangkat / Gol. Ruang</label>
+                            <select class="select2 show-tick" data-style="btn-default" name="pangkat">
+                                <option value=" " selected>Pilih</option>
+                                @foreach (config('addon.master_data.pangkat') as $key => $value)
+                                <option value="{{ $key }}" {{ old('pangkat', $data['user']->peserta->pangkat) == ''.$key.'' ? 'selected' : '' }}>{{ $value.' - '.config('addon.master_data.golongan.'.$key) }}</option>
+                                @endforeach
+                            </select>
+                            @if ($data['user']->peserta->pangkat < 0)
+                            <span style="color: red;">belum diisi</span>
+                            @endif
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Jabatan</label>
+                            <select class="select2 show-tick" data-style="btn-default" name="jabatan_id">
+                                <option value=" " selected>Pilih</option>
+                                @foreach ($data['jabatan'] as $jabatan)
+                                <option value="{{ $jabatan->id }}" {{ old('jabatan_id', $data['user']->peserta->jabatan_id) == $jabatan->id ? 'selected' : '' }}>{{ $jabatan->nama }}</option>
+                                @endforeach
+                            </select>
+                            @if (empty($data['user']->peserta->jabatan_id))
+                            <span style="color: red;">belum diisi</span>
+                            @endif
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Jenjang Jabatan</label>
+                            <select class="select2 show-tick" data-style="btn-default" name="jenjang_jabatan">
+                                <option value=" " selected>Pilih</option>
+                                @foreach (config('addon.master_data.jenjang_jabatan') as $key => $value)
+                                <option value="{{ $key }}" {{ old('jenjang_jabatan', $data['user']->peserta->jenjang_jabatan) == ''.$key.'' ? 'selected' : '' }}>{{ $value }}</option>
+                                @endforeach
+                            </select>
+                            @if ($data['user']->peserta->jenjang_jabatan < 0)
+                            <span style="color: red;">belum diisi</span>
+                            @endif
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Instansi</label>
+                            <input type="text" class="form-control mb-1" value="{{ $data['user']->peserta->instansi($data['user']->peserta)->nama_instansi }}" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Unit Kerja</label>
+                            <input type="text" class="form-control mb-1 @error('kedeputian') is-invalid @enderror" name="kedeputian" value="{{ old('kedeputian', $data['user']->peserta->kedeputian) }}" placeholder="Masukan unit kerja...">
+                            @if (empty($data['user']->peserta->kedeputian))
+                            <span style="color: red;">belum diisi</span>
+                            @endif
+                        </div>
+                        @endrole
                         <div class="form-group">
                             <label class="form-label">Telpon</label>
                             <div class="input-group">
@@ -38,6 +165,9 @@
                                 <input type="text" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ old('phone', $data['information']->phone) }}" placeholder="Masukan telpon...">
                                 @include('components.field-error', ['field' => 'phone'])
                             </div>
+                            @if (empty($data['information']->phone))
+                            <span style="color: red;">belum diisi</span>
+                            @endif
                         </div>
                         <div class="form-group">
                             <label class="form-label">Alamat</label>
@@ -157,9 +287,12 @@
                                 <small class="text-muted">Tipe Foto Sertifikat : <strong>{{ strtoupper(config('addon.mimes.photo.m')) }}</strong>, Maksimal Upload <strong>1 MB</strong>, Latar harus berwarna merah</small>
                                 <label class="custom-file mt-3">
                                     <label class="custom-file-label mt-1" for="file-2"></label>
-                                    <input type="hidden" name="old_photo" value="{{ $data['user']->peserta->foto_sertifikat }}">
+                                    <input type="hidden" name="old_foto_sertifikat" value="{{ $data['user']->peserta->foto_sertifikat }}">
                                     <input class="form-control custom-file-input file @error('foto_sertifikat') is-invalid @enderror" type="file" id="file-2" lang="en" name="foto_sertifikat">
                                     @include('components.field-error', ['field' => 'foto_sertifikat'])
+                                    @if (empty($data['user']->peserta->foto_sertifikat))
+                                    <span style="color: red;">belum diisi</span>
+                                    @endif
                                 </label>
                             </div>
                         </div>
@@ -300,6 +433,9 @@
 @section('scripts')
 <script src="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-tagsinput/bootstrap-tagsinput.js') }}"></script>
 <script src="{{ asset('assets/tmplts_backend/fancybox/fancybox.min.js') }}"></script>
+<script src="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-select/bootstrap-select.js') }}"></script>
+<script src="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-datepicker/bootstrap-datepicker.js') }}"></script>
+<script src="{{ asset('assets/tmplts_backend/vendor/libs/select2/select2.js') }}"></script>
 <script src="{{ asset('assets/tmplts_backend/vendor/libs/sweetalert2/sweetalert2.js') }}"></script>
 @endsection
 
@@ -309,6 +445,17 @@
 <script>
 $(".hide-collapse").show();
 $("#desk-foto").hide();
+
+$('.select2').select2();
+//date
+$(function() {
+    var isRtl = $('body').attr('dir') === 'rtl' || $('html').attr('dir') === 'rtl';
+
+    $( ".date-picker" ).datepicker({
+        format: 'yyyy-mm-dd',
+        todayHighlight: true,
+    });
+});
 
 $(".toggle-current-password, .toggle-password, .toggle-password-confirm").click(function() {
     $(this).toggleClass("fa-eye fa-eye-slash");

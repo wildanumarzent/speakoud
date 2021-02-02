@@ -6,25 +6,28 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\PesertaRequest;
 use App\Services\Instansi\InstansiInternalService;
 use App\Services\Instansi\InstansiMitraService;
+use App\Services\JabatanService;
 use App\Services\Users\MitraService;
 use App\Services\Users\PesertaService;
 use Illuminate\Http\Request;
 
 class PesertaController extends Controller
 {
-    private $service, $serviceMitra, $instansiInternal, $instansiMitra;
+    private $service, $serviceMitra, $instansiInternal, $instansiMitra, $jabatanService;
 
     public function __construct(
         PesertaService $service,
         MitraService $serviceMitra,
         InstansiInternalService $instansiInternal,
-        InstansiMitraService $instansiMitra
+        InstansiMitraService $instansiMitra,
+        JabatanService $jabatanService
     )
     {
         $this->service = $service;
         $this->serviceMitra = $serviceMitra;
         $this->instansiInternal = $instansiInternal;
         $this->instansiMitra = $instansiMitra;
+        $this->jabatanService = $jabatanService;
     }
 
     public function index(Request $request)
@@ -65,6 +68,7 @@ class PesertaController extends Controller
 
             $data['instansi'] = $this->instansiMitra->getInstansi();
         }
+        $data['jabatan'] = $this->jabatanService->getJabatan();
 
         return view('backend.user_management.peserta.form', compact('data'), [
             'title' => 'Peserta - Tambah',
@@ -91,6 +95,7 @@ class PesertaController extends Controller
         } else {
             $data['instansi'] = $this->instansiMitra->getInstansi();
         }
+        $data['jabatan'] = $this->jabatanService->getJabatan();
 
         return view('backend.user_management.peserta.form', compact('data'), [
             'title' => 'Peserta - Edit',
@@ -121,13 +126,13 @@ class PesertaController extends Controller
             ], 200);
 
         } else {
-            
+
             return response()->json([
                 'success' => 0,
                 'message' => 'peserta ini sudah ter enroll di beberapa program'
             ], 200);
         }
-        
+
     }
 
     public function destroy($id)

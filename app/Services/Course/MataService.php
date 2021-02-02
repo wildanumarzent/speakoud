@@ -376,6 +376,8 @@ class MataService
             'title' => $request->cover_title ?? null,
             'alt' => $request->cover_alt ?? null,
         ];
+        $mata->pola_penyelenggaraan = $request->pola_penyelenggaraan ?? null;
+        $mata->sumber_anggaran = $request->sumber_anggaran ?? null;
         $mata->publish = (bool)$request->publish;
         $mata->publish_start = $request->publish_start ?? null;
         $mata->publish_end = ($request->enable == 1 ? $request->publish_end : null);
@@ -449,7 +451,9 @@ class MataService
             'title' => $request->cover_title ?? null,
             'alt' => $request->cover_alt ?? null,
         ];
-        $mata->publish = (bool)$request->publish;
+        // $mata->publish = (bool)$request->publish;
+        $mata->pola_penyelenggaraan = $request->pola_penyelenggaraan ?? null;
+        $mata->sumber_anggaran = $request->sumber_anggaran ?? null;
         $mata->publish_start = $request->publish_start ?? null;
         $mata->publish_end = $request->publish_end ?? null;
         $mata->jam_pelatihan = $request->jam_pelatihan ?? null;

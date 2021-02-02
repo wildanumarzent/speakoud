@@ -4,6 +4,7 @@
 <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/css/pages/account.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-material-datetimepicker/bootstrap-material-datetimepicker.css') }}">
 <script src="{{ asset('assets/tmplts_backend/wysiwyg/tinymce.min.js') }}"></script>
+<link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-select/bootstrap-select.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/fancybox/fancybox.min.css') }}">
 @endsection
 
@@ -32,6 +33,32 @@
                         </div>
                     </div>
                     <div class="form-group row">
+                        <div class="col-md-2 text-md-right">
+                          <label class="col-form-label text-sm-right">Pola Penyelenggaraan</label>
+                        </div>
+                        <div class="col-md-10">
+                            <select class="selectpicker show-tick" data-style="btn-default" name="pola_penyelenggaraan">
+                                <option value=" " selected>Pilih</option>
+                                @foreach (config('addon.master_data.pola_penyelenggaraan') as $key => $value)
+                                <option value="{{ $key }}" {{ isset($data['mata']) ? (old('pola_penyelenggaraan', $data['mata']->pola_penyelenggaraan) == ''.$key.'' ? 'selected' : '') : (old('pola_penyelenggaraan') == ''.$key.'' ? 'selected' : '') }}>{{ $value }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-2 text-md-right">
+                          <label class="col-form-label text-sm-right">Sumber Anggaran</label>
+                        </div>
+                        <div class="col-md-10">
+                            <select class="selectpicker show-tick" data-style="btn-default" name="sumber_anggaran">
+                                <option value=" " selected>Pilih</option>
+                                @foreach (config('addon.master_data.sumber_anggaran') as $key => $value)
+                                <option value="{{ $key }}" {{ isset($data['mata']) ? (old('sumber_anggaran', $data['mata']->sumber_anggaran) == ''.$key.'' ? 'selected' : '') : (old('sumber_anggaran') == ''.$key.'' ? 'selected' : '') }}>{{ $value }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row" id="summary">
                         <div class="col-md-2 text-md-right">
                           <label class="col-form-label text-sm-right">Summary</label>
                         </div>
@@ -212,14 +239,16 @@
 @endsection
 
 @section('scripts')
+<script src="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-select/bootstrap-select.js') }}"></script>
 <script src="{{ asset('assets/tmplts_backend/fancybox/fancybox.min.js') }}"></script>
 @endsection
 
 @section('jsbody')
 <script src="{{ asset('assets/tmplts_backend/js/pages_account-settings.js') }}"></script>
 <script>
-
 $(document).ready(function () {
+
+    $('#summary').hide();
 
     $('input[type=number][max]:not([max=""])').on('input', function(ev) {
         var $this = $(this);

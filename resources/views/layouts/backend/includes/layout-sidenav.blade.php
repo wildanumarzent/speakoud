@@ -1,5 +1,5 @@
 @php
-    $masterOpen = (Request::is('instansi/internal*') || Request::is('instansi/mitra*') || Request::is('user*') || Request::is('internal*') || Request::is('mitra*') ||
+    $masterOpen = (Request::is('instansi/internal*') || Request::is('instansi/mitra*') || Request::is('jabatan*') || Request::is('user*') || Request::is('internal*') || Request::is('mitra*') ||
                     Request::is('instruktur*') || Request::is('peserta*') || Request::is('grades*') || Request::is('tags*') || Request::is('komentar*'));
     $userOpen = (Request::is('user*') || Request::is('internal*') || Request::is('mitra*') ||
                     Request::is('instruktur*') || Request::is('peserta*'));
@@ -61,6 +61,14 @@
                             </a>
                         </li>
                     </ul>
+                </li>
+                @endrole
+                @role ('developer|administrator')
+                 <!-- jabatan -->
+                 <li class="sidenav-item{{ Request::is('jabatan*') ? ' active' : '' }}">
+                    <a href="{{ route('jabatan.index') }}" class="sidenav-link" title="Jabatan">
+                      <div>Jabatan</div>
+                    </a>
                 </li>
                 @endrole
                 <!-- Manajemen User -->
@@ -222,7 +230,7 @@
             <!-- kalender -->
             <li class="sidenav-item{{ (Request::is('kalender*')) ? ' active' : '' }}">
                 <a href="{{route('kalender.index')}}" class="sidenav-link" title="Kalender Diklat">
-                  <div>Kalender Diklat</div>
+                  <div>Agenda Diklat</div>
                 </a>
             </li>
           </ul>

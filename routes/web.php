@@ -170,6 +170,9 @@ Route::put('/tugas/{id}/respon/{responId}/{status}', 'Course\Bahan\BahanTugasCon
 Route::get('/tugas/{id}/peserta', 'Course\Bahan\BahanTugasController@peserta')
     ->name('tugas.peserta')
     ->middleware(['auth', 'role:administrator|internal|mitra|instruktur_internal|instruktur_mitra']);
+Route::put('/tugas/{id}/penilaian/{responId}', 'Course\Bahan\BahanTugasController@penilaian')
+    ->name('tugas.penilaian')
+    ->middleware(['auth', 'role:administrator|internal|mitra|instruktur_internal|instruktur_mitra']);
 
 //--evaluasi
 #--penyelenggara
@@ -297,6 +300,26 @@ Route::group(['middleware' => ['auth']], function () {
     Route::delete('/instansi/mitra/{id}', 'Instansi\InstansiMitraController@destroy')
         ->name('instansi.mitra.destroy')
         ->middleware('role:developer|administrator|internal');
+
+    //jabatan
+    Route::get('/jabatan', 'JabatanController@index')
+        ->name('jabatan.index')
+        ->middleware('role:developer|administrator');
+    Route::get('/jabatan/create', 'JabatanController@create')
+        ->name('jabatan.create')
+        ->middleware('role:developer|administrator');
+    Route::post('/jabatan', 'JabatanController@store')
+        ->name('jabatan.store')
+        ->middleware('role:developer|administrator');
+    Route::get('/jabatan/{id}/edit', 'JabatanController@edit')
+        ->name('jabatan.edit')
+        ->middleware('role:developer|administrator');
+    Route::put('/jabatan/{id}', 'JabatanController@update')
+        ->name('jabatan.update')
+        ->middleware('role:developer|administrator');
+    Route::delete('/jabatan/{id}', 'JabatanController@destroy')
+        ->name('jabatan.destroy')
+        ->middleware('role:developer|administrator');
 
     //users
     Route::get('/user', 'Users\UserController@index')

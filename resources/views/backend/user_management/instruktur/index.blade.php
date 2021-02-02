@@ -64,7 +64,7 @@
                     <th>NIP / NIK</th>
                     <th>Nama</th>
                     <th>Username</th>
-                    <th>Unit Kerja</th>
+                    <th>Instansi / Perusahaan</th>
                     {{-- <th>Kedeputian</th> --}}
                     <th>Jabatan</th>
                     <th>Telpon</th>

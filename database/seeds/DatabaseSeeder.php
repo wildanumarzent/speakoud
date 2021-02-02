@@ -20,5 +20,6 @@ class DatabaseSeeder extends Seeder
         $this->call(InquirySeeder::class);
         $this->call(AddonSeeder::class);
         $this->call(GradesSeeder::class);
+        $this->call(JabatanSeeder::class);
     }
 }

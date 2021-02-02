@@ -16,8 +16,9 @@
             <div class="form-row">
                 <div class="form-group col">
                     <label class="form-label">Nilai</label>
-                    <input type="number" class="form-control @error('nilai') is-invalid @enderror" name="nilai" id="nilai" placeholder="Masukan nilai">
+                    <input type="number" class="form-control @error('nilai') is-invalid @enderror" name="nilai" max="100" id="nilai" placeholder="Masukan nilai">
                     @include('components.field-error', ['field' => 'nilai'])
+                    <i>*<span class="text-muted">Input range <span class="badge badge-danger">0</span> - <span class="badge badge-success">100</span></span></i>
                 </div>
             </div>
             <div class="form-row">

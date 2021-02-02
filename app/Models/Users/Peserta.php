@@ -4,6 +4,7 @@ namespace App\Models\Users;
 
 use App\Models\Instansi\InstansiInternal;
 use App\Models\Instansi\InstansiMitra;
+use App\Models\Jabatan;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -19,7 +20,8 @@ class Peserta extends Model
         'sk_pengangkatan' => 'array',
         'sk_golongan' => 'array',
         'sk_jabatan' => 'array',
-        'surat_ijin_atasan' => 'array'
+        'surat_ijin_atasan' => 'array',
+        'tanggal_lahir' => 'date',
     ];
 
     public static function boot(){
@@ -44,6 +46,11 @@ class Peserta extends Model
         } else {
             return InstansiMitra::find($item->instansi_id);
         }
+    }
+
+    public function jabatan()
+    {
+        return $this->belongsTo(Jabatan::class, 'jabatan_id');
     }
 
     public function getFotoSertifikat($value)

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Users;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProfileRequest;
 use App\Http\Requests\UserRequest;
+use App\Services\JabatanService;
 use App\Services\LearningCompetency\JourneyService;
 use App\Services\Users\RoleService;
 use App\Services\Users\UserService;
@@ -14,17 +15,19 @@ use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
-    private $service, $serviceRole;
+    private $service, $serviceRole, $serviceJabatan;
 
     public function __construct(
         UserService $service,
         RoleService $serviceRole,
-        JourneyService $journey
+        JourneyService $journey,
+        JabatanService $serviceJabatan
     )
     {
         $this->service = $service;
         $this->serviceRole = $serviceRole;
         $this->journey = $journey;
+        $this->serviceJabatan = $serviceJabatan;
     }
 
     public function index(Request $request)
@@ -95,6 +98,7 @@ class UserController extends Controller
     {
         $data['user'] = auth()->user();
         $data['information'] = $data['user']->information;
+        $data['jabatan'] = $this->serviceJabatan->getJabatan();
 
         return view('backend.user_management.profile-form', compact('data'), [
             'title' => 'Profile - Ubah',

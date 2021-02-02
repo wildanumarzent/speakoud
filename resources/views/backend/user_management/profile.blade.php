@@ -29,7 +29,7 @@
             </div>
             @include('components.alert')
             <div class="row">
-                <div class="col-md-12">
+                <div class="@role ('peserta_internal|peserta_mitra') col-md-6 @else col-md-12 @endrole">
                     <div class="form-group">
                         <label>Foto</label><br>
                         <a href="{{ auth()->user()->getPhoto(auth()->user()->photo['filename']) }}" data-fancybox="gallery">
@@ -37,6 +37,26 @@
                         </a>
                     </div>
                 </div>
+                @role ('peserta_internal|peserta_mitra')
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Foto Sertifikat</label><br>
+                        <a href="{{ auth()->user()->peserta->getFotoSertifikat(auth()->user()->peserta->foto_sertifikat) }}" data-fancybox="gallery">
+                            <img src="{{ auth()->user()->peserta->getFotoSertifikat(auth()->user()->peserta->foto_sertifikat) }}" title="Foto Sertifikat {{ $data['user']->name }}" alt="Foto Sertifikat" style="width: 80px;">
+                        </a>
+                    </div>
+                </div>
+
+                @if ($data['user']->peserta->status_profile == 0 || empty($data['user']->peserta->foto_sertifikat))
+                <div class="col-md-12">
+                    <div class="form-group mt-4">
+                        <div class="alert alert-danger" role="alert">
+                            Data Profile anda belum lengkap, <a href="{{ route('profile.edit') }}"><strong>Lengkapi sekarang</strong></a>.
+                        </div>
+                    </div>
+                </div>
+                @endif
+                @endrole
 
                 @role ('internal|mitra|instruktur_internal|instruktur_mitra|peserta_internal|peserta_mitra')
                 <div class="col-md-6">
@@ -52,10 +72,66 @@
                         <p><strong>{!! $data['user']->name !!}</strong></p>
                     </div>
                 </div>
-                @role ('internal|mitra|instruktur_internal|instruktur_mitra|peserta_internal|peserta_mitra')
+                @role ('peserta_internal|peserta_mitra')
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Jenis Peserta</label>
+                        <p><strong>{{ config('addon.master_data.jenis_peserta.'.$data['user']->peserta->jenis_peserta) ?? '-' }}</strong></p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Jenis Kelamin</label>
+                        <p><strong>{{ config('addon.master_data.jenis_kelamin.'.$data['user']->peserta->jenis_kelamin) ?? '-' }}</strong></p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Agama</label>
+                        <p><strong>{{ config('addon.master_data.agama.'.$data['user']->peserta->agama) ?? '-' }}</strong></p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Tempat, Tanggal Lahir</label>
+                        <p><strong>{{ !empty($data['user']->peserta->tempat_lahir) && !empty($data['user']->peserta->tanggal_lahir) ? $data['user']->peserta->tempat_lahir.', '.$data['user']->peserta->tanggal_lahir->format('d F Y') : '-' }}</strong></p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Pangkat / Gol. Ruang</label>
+                        <p><strong>{{ !empty($data['user']->peserta->pangkat) ? config('addon.master_data.pangkat.'.$data['user']->peserta->pangkat).' - '.config('addon.master_data.golongan.'.$data['user']->peserta->golongan) : '-' }}</strong></p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Jabatan</label>
+                        <p><strong>{{ $data['user']->peserta->jabatan->nama ?? '-' }}</strong></p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Jenjang Jabatan</label>
+                        <p><strong>{{ config('addon.master_data.jenjang_jabatan.'.$data['user']->peserta->jenjang_jabatan) ?? '-' }}</strong></p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Instansi</label>
+                        <p><strong>{{ $data['user']->peserta->instansi($data['user']->peserta)->nama_instansi }}</strong></p>
+                    </div>
+                </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Unit Kerja</label>
+                        <p><strong>{{ $data['user']->peserta->kedeputian ?? '-' }}</strong></p>
+                    </div>
+                </div>
+                @endrole
+                @role ('internal|mitra|instruktur_internal|instruktur_mitra')
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Instansi</label>
                         @role ('internal|mitra')
                         <p><strong>{{ $data['user']->getDataByRole($data['user'])->instansi['nama_instansi'] }}</strong></p>
                         @else
@@ -65,7 +141,7 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label>Kedeputian</label>
+                        <label>Unit Kerja</label>
                         <p><strong>{{ $data['user']->getDataByRole($data['user'])->kedeputian }}</strong></p>
                     </div>
                 </div>
@@ -75,7 +151,7 @@
                         @role ('instruktur_internal|instruktur_mitra')
                         <p><strong>{{ $data['user']->getDataByRole($data['user'])->pangkat }}</strong></p>
                         @else
-                        <p><strong>{{ config('addon.label.jabatan.'.$data['user']->getDataByRole($data['user'])->pangkat) ?? '-' }}</strong></p>
+                        <p><strong>{{ config('addon.master_data.jabatan.'.$data['user']->getDataByRole($data['user'])->pangkat) ?? '-' }}</strong></p>
                         @endrole
                     </div>
                 </div>
@@ -92,12 +168,12 @@
                         <p><strong>{{ $data['information']->address ?? '-' }}</strong></p>
                     </div>
                 </div>
-                <div class="col-md-6">
+                {{-- <div class="col-md-6">
                     <div class="form-group">
                         <label>Kab / Kota</label>
                         <p><strong>{!! $data['information']->city ?? '-' !!}</strong></p>
                     </div>
-                </div>
+                </div> --}}
                 <div class="col-md-12">
                     <div class="form-group mt-4">
                         <h6 class="title">1. Akun</h6>

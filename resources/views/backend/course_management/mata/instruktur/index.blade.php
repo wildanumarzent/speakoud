@@ -98,7 +98,7 @@
                     <th style="width: 10px;">No</th>
                     <th>NIP</th>
                     <th>Nama</th>
-                    <th>Unit Kerja</th>
+                    <th>Instansi / Perusahaan</th>
                     <th>Jabatan</th>
                     <th>Materi Upload</th>
                     @role('administrator|internal')

@@ -66,8 +66,8 @@ class MitraRequest extends FormRequest
     {
         return [
             'nip' => 'NIP',
-            'instansi_id' => 'Unit Kerja',
-            'kedeputian' => 'Kedeputian',
+            'instansi_id' => 'Instansi / Perusahaan',
+            'kedeputian' => 'Unit Kerja',
             'pangkat' => 'Jabatan',
             'alamat' => 'Alamat',
             'name' => 'Nama',

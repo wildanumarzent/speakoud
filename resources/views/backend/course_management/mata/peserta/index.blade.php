@@ -98,8 +98,8 @@
                     <th style="width: 10px;">No</th>
                     <th>NIP</th>
                     <th>Nama</th>
+                    <th>Instansi / Perusahaan</th>
                     <th>Unit Kerja</th>
-                    <th>Kedeputian</th>
                     {{-- <th>Surat Izin</th> --}}
                     <th style="width: 80px;">Aksi</th>
                 </tr>

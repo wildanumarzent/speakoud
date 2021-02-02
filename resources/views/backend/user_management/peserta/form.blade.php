@@ -3,6 +3,7 @@
 @section('styles')
 <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/css/pages/account.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-select/bootstrap-select.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-datepicker/bootstrap-datepicker.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/select2/select2.css') }}">
 @endsection
 
@@ -10,6 +11,7 @@
 <div class="card">
     <div class="list-group list-group-flush account-settings-links flex-row">
         <a class="list-group-item list-group-item-action active" data-toggle="list" href="#data">Data</a>
+        <a class="list-group-item list-group-item-action" data-toggle="list" href="#attachment">Attachment</a>
         <a class="list-group-item list-group-item-action" data-toggle="list" href="#akun">Akun</a>
     </div>
     <div class="card-body">
@@ -41,6 +43,124 @@
                           @include('components.field-error', ['field' => 'name'])
                         </div>
                     </div>
+                    <div class="form-group row">
+                        <div class="col-md-2 text-md-right">
+                          <label class="col-form-label text-sm-right">Jenis Peserta</label>
+                        </div>
+                        <div class="col-md-10">
+                            <select class="selectpicker show-tick" data-style="btn-default" name="jenis_peserta">
+                                <option value=" " selected>Pilih</option>
+                                @foreach (config('addon.master_data.jenis_peserta') as $key => $value)
+                                <option value="{{ $key }}" {{ isset($data['peserta']) ? (old('jenis_peserta', $data['peserta']->jenis_peserta) == ''.$key.'' ? 'selected' : '') : (old('jenis_peserta') == ''.$key.'' ? 'selected' : '') }}>{{ $value }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-2 text-md-right">
+                          <label class="col-form-label text-sm-right">Jenis Kelamin</label>
+                        </div>
+                        <div class="col-md-10">
+                            <select class="selectpicker show-tick" data-style="btn-default" name="jenis_kelamin">
+                                <option value=" " selected>Pilih</option>
+                                @foreach (config('addon.master_data.jenis_kelamin') as $key => $value)
+                                <option value="{{ $key }}" {{ isset($data['peserta']) ? (old('jenis_kelamin', $data['peserta']->jenis_kelamin) == ''.$key.'' ? 'selected' : '') : (old('jenis_kelamin') == ''.$key.'' ? 'selected' : '') }}>{{ $value }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-2 text-md-right">
+                          <label class="col-form-label text-sm-right">Agama</label>
+                        </div>
+                        <div class="col-md-10">
+                            <select class="selectpicker show-tick" data-style="btn-default" name="agama">
+                                <option value=" " selected>Pilih</option>
+                                @foreach (config('addon.master_data.agama') as $key => $value)
+                                <option value="{{ $key }}" {{ isset($data['peserta']) ? (old('agama', $data['peserta']->agama) == ''.$key.'' ? 'selected' : '') : (old('agama') == ''.$key.'' ? 'selected' : '') }}>{{ $value }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-2 text-md-right">
+                          <label class="col-form-label text-sm-right">Tempat Lahir</label>
+                        </div>
+                        <div class="col-md-10">
+                          <input type="text" class="form-control @error('tempat_lahir') is-invalid @enderror" name="tempat_lahir"
+                            value="{{ (isset($data['peserta'])) ? old('tempat_lahir', $data['peserta']->tempat_lahir) : old('tempat_lahir') }}" placeholder="masukan tempat lahir...">
+                          @include('components.field-error', ['field' => 'tempat_lahir'])
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-2 text-md-right">
+                          <label class="col-form-label text-sm-right">Tanggal Lahir</label>
+                        </div>
+                        <div class="col-md-10">
+                            <div class="input-group">
+                                <input type="text" class="date-picker form-control @error('tanggal_lahir') is-invalid @enderror" name="tanggal_lahir"
+                                    value="{{ (isset($data['peserta'])) ? (!empty($data['peserta']->tanggal_lahir) ? old('tanggal_lahir', $data['peserta']->tanggal_lahir->format('Y-m-d')) : '') : old('tanggal_lahir') }}" placeholder="masukan tanggal lahir...">
+                                <div class="input-group-append">
+                                    <span class="input-group-text"><i class="las la-calendar"></i></span>
+                                </div>
+                                @include('components.field-error', ['field' => 'tanggal_lahir'])
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-2 text-md-right">
+                          <label class="col-form-label text-sm-right">Nomor Telpon</label>
+                        </div>
+                        <div class="col-md-10">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">+62</span>
+                                </div>
+                                <input type="number" class="form-control @error('phone') is-invalid @enderror" name="phone"
+                                    value="{{ (isset($data['peserta'])) ? old('phone', $data['peserta']->user->information->phone) : old('phone') }}" placeholder="masukan nomor telpon...">
+                                @include('components.field-error', ['field' => 'phone'])
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-2 text-md-right">
+                          <label class="col-form-label text-sm-right">Pangkat / Gol. Ruang</label>
+                        </div>
+                        <div class="col-md-10">
+                            <select class="select2 show-tick" data-style="btn-default" name="pangkat">
+                                <option value=" " selected>Pilih</option>
+                                @foreach (config('addon.master_data.pangkat') as $key => $value)
+                                <option value="{{ $key }}" {{ isset($data['peserta']) ? (old('pangkat', $data['peserta']->pangkat) == ''.$key.'' ? 'selected' : '') : (old('pangkat') == ''.$key.'' ? 'selected' : '') }}>{{ $value.' - '.config('addon.master_data.golongan.'.$key) }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-2 text-md-right">
+                          <label class="col-form-label text-sm-right">Jabatan</label>
+                        </div>
+                        <div class="col-md-10">
+                            <select class="select2 show-tick" data-style="btn-default" name="jabatan_id">
+                                <option value=" " selected>Pilih</option>
+                                @foreach ($data['jabatan'] as $jabatan)
+                                <option value="{{ $jabatan->id }}" {{ isset($data['peserta']) ? (old('jabatan_id', $data['peserta']->jabatan_id) == $jabatan->id ? 'selected' : '') : (old('jabatan_id') == $jabatan->id ? 'selected' : '') }}>{{ $jabatan->nama }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-2 text-md-right">
+                          <label class="col-form-label text-sm-right">Jenjang Jabatan</label>
+                        </div>
+                        <div class="col-md-10">
+                            <select class="selectpicker show-tick" data-style="btn-default" name="jenjang_jabatan">
+                                <option value=" " selected>Pilih</option>
+                                @foreach (config('addon.master_data.jenjang_jabatan') as $key => $value)
+                                <option value="{{ $key }}" {{ isset($data['peserta']) ? (old('jenjang_jabatan', $data['peserta']->jenjang_jabatan) == ''.$key.'' ? 'selected' : '') : (old('jenjang_jabatan') == ''.$key.'' ? 'selected' : '') }}>{{ $value }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
                     @role ('developer|administrator')
                     @if (!isset($data['peserta']) && Request::get('peserta') == 'mitra')
                     <div class="form-group row" id="mitra">
@@ -67,7 +187,7 @@
                     @role ('mitra')
                     <div class="form-group row">
                         <div class="col-md-2 text-md-right">
-                          <label class="col-form-label text-sm-right">Unit kerja / Instansi / Perusahaan</label>
+                          <label class="col-form-label text-sm-right">Instansi / Perusahaan</label>
                         </div>
                         <div class="col-md-10">
                           <input type="hidden" name="instansi_id" value="{{ auth()->user()->mitra->instansi_id }}">
@@ -77,7 +197,7 @@
                     @else
                     <div class="form-group row">
                         <div class="col-md-2 text-md-right">
-                          <label class="col-form-label text-sm-right">Unit kerja / Instansi / Perusahaan</label>
+                          <label class="col-form-label text-sm-right">Instansi / Perusahaan</label>
                         </div>
                         <div class="col-md-10">
                             <div class="input-group">
@@ -98,50 +218,12 @@
                     @endrole
                     <div class="form-group row">
                         <div class="col-md-2 text-md-right">
-                          <label class="col-form-label text-sm-right">Kedeputian</label>
+                          <label class="col-form-label text-sm-right">Unit Kerja</label>
                         </div>
                         <div class="col-md-10">
                           <input type="text" class="form-control @error('kedeputian') is-invalid @enderror" name="kedeputian"
-                            value="{{ (isset($data['peserta'])) ? old('kedeputian', $data['peserta']->kedeputian) : old('kedeputian') }}" placeholder="masukan kedeputian...">
+                            value="{{ (isset($data['peserta'])) ? old('kedeputian', $data['peserta']->kedeputian) : old('kedeputian') }}" placeholder="masukan unit kerja...">
                           @include('components.field-error', ['field' => 'kedeputian'])
-                        </div>
-                    </div>
-                    {{-- <div class="form-group row">
-                        <div class="col-md-2 text-md-right">
-                          <label class="col-form-label text-sm-right">Jabatan</label>
-                        </div>
-                        <div class="col-md-10">
-                          <input type="text" class="form-control @error('pangkat') is-invalid @enderror" name="pangkat"
-                            value="{{ (isset($data['peserta'])) ? old('pangkat', $data['peserta']->pangkat) : old('pangkat') }}" placeholder="masukan jabatan...">
-                          @include('components.field-error', ['field' => 'pangkat'])
-                        </div>
-                    </div> --}}
-                    <div class="form-group row">
-                        <div class="col-md-2 text-md-right">
-                          <label class="col-form-label text-sm-right">Jabatan</label>
-                        </div>
-                        <div class="col-md-10">
-                            <select class="status custom-select form-control" name="pangkat">
-                                <option value=" " selected>Pilih</option>
-                                @foreach (config('addon.label.jabatan') as $key => $value)
-                                <option value="{{ $key }}" {{ isset($data['peserta']) ? (old('pangkat', $data['peserta']->pangkat) == ''.$key.'' ? 'selected' : '') : (old('pangkat') == ''.$key.'' ? 'selected' : '') }}>{{ $value }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-md-2 text-md-right">
-                          <label class="col-form-label text-sm-right">Nomor Telpon</label>
-                        </div>
-                        <div class="col-md-10">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">+62</span>
-                                </div>
-                                <input type="number" class="form-control @error('phone') is-invalid @enderror" name="phone"
-                                    value="{{ (isset($data['peserta'])) ? old('phone', $data['peserta']->user->information->phone) : old('phone') }}" placeholder="masukan nomor telpon...">
-                                @include('components.field-error', ['field' => 'phone'])
-                            </div>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -153,6 +235,8 @@
                           @include('components.field-error', ['field' => 'address'])
                         </div>
                     </div>
+                </div>
+                <div class="tab-pane fade" id="attachment">
                     <div class="form-group row">
                         <div class="col-md-2 text-md-right">
                           <label class="col-form-label text-sm-right">Foto Sertifikat</label>
@@ -346,6 +430,7 @@
 
 @section('scripts')
 <script src="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-select/bootstrap-select.js') }}"></script>
+<script src="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-datepicker/bootstrap-datepicker.js') }}"></script>
 <script src="{{ asset('assets/tmplts_backend/vendor/libs/select2/select2.js') }}"></script>
 @endsection
 
@@ -362,6 +447,15 @@
     //         $('#mitra').hide();
     //     }
     // });
+    //date
+    $(function() {
+        var isRtl = $('body').attr('dir') === 'rtl' || $('html').attr('dir') === 'rtl';
+
+        $( ".date-picker" ).datepicker({
+            format: 'yyyy-mm-dd',
+            todayHighlight: true,
+        });
+    });
     //show & hide password
     $(".toggle-password, .toggle-password-confirm").click(function() {
         $(this).toggleClass("fa-eye fa-eye-slash");

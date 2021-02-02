@@ -52,6 +52,47 @@
                 </tr>
                 @endforeach
             </tbody>
+            <tbody class="tbody-responsive">
+                @if ($data['mata']->total() == 0)
+                <tr>
+                    <td colspan="8" align="center">
+                        <i><strong style="color:red;">
+                        ! Program pelatihan kosong !
+                        </strong></i>
+                    </td>
+                </tr>
+                @endif
+                @foreach ($data['mata'] as $item)
+                <tr>
+                    <td>
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="item-table">
+                                    <div class="data-table">Judul</div>
+                                    <div class="desc-table">{!! $item->judul !!}</div>
+                                </div>
+                                <div class="item-table">
+                                    <div class="data-table">Tanggal Mulai</div>
+                                    <div class="desc-table">{!! $item->publish_start !!}</div>
+                                </div>
+                                <div class="item-table">
+                                    <div class="data-table">Tanggal Selesai</div>
+                                    <div class="desc-table">{!! $item->publish_end !!}</div>
+                                </div>
+
+                                <div class="item-table m-0">
+                                    <div class="desc-table text-right">
+                                        <a href="{{ route('soal.kategori', ['id' => $item->id]) }}" class="btn btn-success btn-sm" title="klik untuk melihat bank soal">
+                                            <i class="las la-list"></i> Bank Soal
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
         </table>
     </div>
     <div class="card-footer">

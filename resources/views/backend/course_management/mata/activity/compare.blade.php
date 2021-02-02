@@ -56,7 +56,6 @@
                     } else {
                         $total = 'Belum ada hasil akhir';
                     }
-
                 @endphp
                 <td>{{ $data['number']++ }}</td>
                 <td>{{ $item->peserta->nip }}</td>
@@ -67,6 +66,29 @@
             </tr>
             @endforeach
         </tbody>
+        <tfoot>
+            @php
+                if ($data['pre']->count() > 0) {
+                    $rataPre = (round(($data['pre']->where('benar', 1)->count() / $data['pre']->count()) * 100) / 1);
+                } else {
+                    $rataPre = 0;
+                }
+
+                if ($data['post']->count() > 0) {
+                    $rataPost = (round(($data['post']->where('benar', 1)->count() / $data['post']->count()) * 100) / 1);
+                } else {
+                    $rataPost = 0;
+                }
+
+                $hasilPrePost = ((($rataPre+$rataPost) / 2) / 1);
+            @endphp
+            <tr>
+                <th colspan="3">Rata - Rata Nilai</th>
+                <th class="text-center"><span class="badge badge-primary">{{ $rataPre }}</span></th>
+                <th class="text-center"><span class="badge badge-primary">{{ $rataPost }}</span></th>
+                <th class="text-center"><span class="badge badge-success">{{ ($rataPre > 0 && $rataPost > 0) ? $hasilPrePost : 0 }}</span></th>
+            </tr>
+        </tfoot>
     </table>
 </div>
 <div class="card-footer">

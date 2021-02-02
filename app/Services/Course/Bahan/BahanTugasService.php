@@ -168,4 +168,13 @@ class BahanTugasService
 
         return $tugas;
     }
+
+    public function penilaian($request, int $responId)
+    {
+        $tugas = $this->findRespon($responId);
+        $tugas->nilai = $request->nilai;
+        $tugas->save();
+
+        return $tugas;
+    }
 }

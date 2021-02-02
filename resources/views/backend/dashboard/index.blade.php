@@ -46,6 +46,18 @@
     </div>
 </div>
 
+@role('peserta_internal|peserta_mitra')
+@if (auth()->user()->peserta->status_profile == 0 || empty(auth()->user()->peserta->foto_sertifikat))
+<div class="row">
+    <div class="col-md-12">
+      <div class="alert alert-danger">
+        <i class="las la-exclamation-triangle"></i> Data Profile anda belum lengkap, <a href="{{ route('profile.edit') }}"><strong>Lengkapi sekarang</strong></a>.
+      </div>
+    </div>
+</div>
+@endif
+@endrole
+
 @livewire('announcement')
 
 @role ('developer|administrator')

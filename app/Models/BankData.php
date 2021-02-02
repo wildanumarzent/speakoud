@@ -46,7 +46,7 @@ class BankData extends Model
             $ext = 'word';
         } elseif ($type == 'ppt' || $type == 'pptx') {
             $ext = 'powerpoint';
-        } elseif ($type == 'xls') {
+        } elseif ($type == 'xls' || $type == 'xlsx') {
             $ext = 'excel';
         } else {
             $ext = 'alt';

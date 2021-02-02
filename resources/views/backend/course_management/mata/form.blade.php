@@ -46,6 +46,32 @@
                         </div>
                     </div>
                     @endrole
+                    <div class="form-group row">
+                        <div class="col-md-2 text-md-right">
+                          <label class="col-form-label text-sm-right">Pola Penyelenggaraan</label>
+                        </div>
+                        <div class="col-md-10">
+                            <select class="selectpicker show-tick" data-style="btn-default" name="pola_penyelenggaraan">
+                                <option value=" " selected>Pilih</option>
+                                @foreach (config('addon.master_data.pola_penyelenggaraan') as $key => $value)
+                                <option value="{{ $key }}" {{ isset($data['mata']) ? (old('pola_penyelenggaraan', $data['mata']->pola_penyelenggaraan) == ''.$key.'' ? 'selected' : '') : (old('pola_penyelenggaraan') == ''.$key.'' ? 'selected' : '') }}>{{ $value }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-2 text-md-right">
+                          <label class="col-form-label text-sm-right">Sumber Anggaran</label>
+                        </div>
+                        <div class="col-md-10">
+                            <select class="selectpicker show-tick" data-style="btn-default" name="sumber_anggaran">
+                                <option value=" " selected>Pilih</option>
+                                @foreach (config('addon.master_data.sumber_anggaran') as $key => $value)
+                                <option value="{{ $key }}" {{ isset($data['mata']) ? (old('sumber_anggaran', $data['mata']->sumber_anggaran) == ''.$key.'' ? 'selected' : '') : (old('sumber_anggaran') == ''.$key.'' ? 'selected' : '') }}>{{ $value }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
                     {{-- <div class="form-group row">
                         <div class="col-md-2 text-md-right">
                           <label class="col-form-label text-sm-right">Status</label>
@@ -109,7 +135,7 @@
                         </div>
                     </div>
                     <hr>
-                    <div class="form-group row">
+                    <div class="form-group row" id="summary">
                         <div class="col-md-2 text-md-right">
                           <label class="col-form-label text-sm-right">Summary</label>
                         </div>
@@ -352,6 +378,7 @@
 <script>
 
     $('.hide-meta').hide();
+    $('#summary').hide();
     //datetime
     $('.datetime-picker').bootstrapMaterialDatePicker({
         date: true,

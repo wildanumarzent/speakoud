@@ -46,7 +46,7 @@
                     </div>
                     <div class="form-group row">
                         <div class="col-md-2 text-md-right">
-                          <label class="col-form-label text-sm-right">Unit kerja / Instansi / Perusahaan</label>
+                          <label class="col-form-label text-sm-right">Instansi / Perusahaan</label>
                         </div>
                         <div class="col-md-9">
                             <div class="input-group">
@@ -69,11 +69,11 @@
                     </div>
                     <div class="form-group row">
                         <div class="col-md-2 text-md-right">
-                          <label class="col-form-label text-sm-right">Kedeputian</label>
+                          <label class="col-form-label text-sm-right">Unit kerja</label>
                         </div>
                         <div class="col-md-10">
                           <input type="text" class="form-control @error('kedeputian') is-invalid @enderror" name="kedeputian"
-                            value="{{ (isset($data['internal'])) ? old('kedeputian', $data['internal']->kedeputian) : old('kedeputian') }}" placeholder="masukan kedeputian...">
+                            value="{{ (isset($data['internal'])) ? old('kedeputian', $data['internal']->kedeputian) : old('kedeputian') }}" placeholder="masukan unit kerja...">
                           @include('components.field-error', ['field' => 'kedeputian'])
                         </div>
                     </div>
@@ -94,7 +94,7 @@
                         <div class="col-md-10">
                             <select class="status custom-select form-control" name="pangkat">
                                 <option value=" " selected>Pilih</option>
-                                @foreach (config('addon.label.jabatan') as $key => $value)
+                                @foreach (config('addon.master_data.jabatan') as $key => $value)
                                 <option value="{{ $key }}" {{ isset($data['internal']) ? (old('pangkat', $data['internal']->pangkat) == ''.$key.'' ? 'selected' : '') : (old('pangkat') == ''.$key.'' ? 'selected' : '') }}>{{ $value }}</option>
                                 @endforeach
                             </select>

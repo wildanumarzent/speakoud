@@ -89,8 +89,8 @@ class InstrukturRequest extends FormRequest
     {
         return [
             'nip' => 'NIP / NIK',
-            'instansi_id' => 'Unit Kerja',
-            'kedeputian' => 'Kedeputian',
+            'instansi_id' => 'Instansi / Perusahaan',
+            'kedeputian' => 'Unit Kerja',
             'pangkat' => 'Pangkat',
             'alamat' => 'Alamat',
             'name' => 'Nama',
