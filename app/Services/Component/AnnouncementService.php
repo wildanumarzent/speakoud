@@ -113,21 +113,21 @@ class AnnouncementService{
             'end_date' => $request['end_date'],
 
         ]);
-        if($anno->status == 0){
-            $this->notifikasi->destroy($anno);
-            }else{
-                $this->notifikasi->make($model = $anno,
-                $title = 'New Announcement - '.$anno['title'],
-                $description = $anno->sub_content,
-
-                $to = '');
-                }
+        // if($anno->status == 0){
+        //     // $this->notifikasi->destroy($anno);
+        //     }else{
+        //         $this->notifikasi->make(
+        //         $model = $anno,
+        //         $title = 'New Announcement - '.$anno['title'],
+        //         $description = $anno->sub_content,
+        //         $to = '');
+        //         }
         return true;
     }
 
     public function annoDestroy($id){
         $anno = $this->annoGet($id);
-        $this->notifikasi->destroy($anno);
+        // $this->notifikasi->destroy($anno);
         $this->deleteAttachment($anno->attachment);
         $anno->delete();
         return $anno;
@@ -135,15 +135,15 @@ class AnnouncementService{
 
     public function publish($id){
         $anno = $this->annoGet($id);
-        if($anno->status == 0){
-            $this->notifikasi->make($model = $anno,
-            $title = 'New Announcement - '.$anno['title'],
-            $description = $anno->sub_content,
+        // if($anno->status == 0){
+        //     // $this->notifikasi->make($model = $anno,
+        //     // $title = 'New Announcement - '.$anno['title'],
+        //     // $description = $anno->sub_content,
 
-            $to = '');
-            }else{
-                $this->notifikasi->destroy($anno);
-            }
+        //     // $to = '');
+        //     }else{
+        //         $this->notifikasi->destroy($anno);
+        //     }
         $anno->status = !$anno->status;
         $anno->save();
     }

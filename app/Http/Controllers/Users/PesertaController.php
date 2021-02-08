@@ -10,6 +10,8 @@ use App\Services\JabatanService;
 use App\Services\Users\MitraService;
 use App\Services\Users\PesertaService;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\PesertaExport;
 
 class PesertaController extends Controller
 {
@@ -52,6 +54,8 @@ class PesertaController extends Controller
             ],
         ]);
     }
+
+
 
     public function create(Request $request)
     {
@@ -143,5 +147,10 @@ class PesertaController extends Controller
             'success' => 1,
             'message' => ''
         ], 200);
+    }
+
+    public function export(Request $request){
+        $peserta = $this->service->getPesertaList($request,$paginate = false);
+        return Excel::download(new PesertaExport($peserta), 'data-peserta.xlsx');
     }
 }

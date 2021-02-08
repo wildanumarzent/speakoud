@@ -86,17 +86,32 @@
                         <div class="collapse" id="kompetensi-{{$item->id}}">
 
                             @php
-                            $totalPoint = $data['totalPoint']->where('journey_id',$item->id)->sum('minimal_poin');
-                            $kompetensiId = $data['listKompetensi']->where('journey_id',$item->id)->pluck('kompetensi_id');
-                            $myPoin = $data['poinKu']->whereIn('kompetensi_id',$kompetensiId)->sum('poin');
-                            if($myPoin == null){
-                                $myPoin = 0;
-                            }
-                            if($totalPoint > 0){
-                                $persentase = round(($myPoin/$totalPoint) * 100);
-                            }
+                            $poin = 0;
                             @endphp
-                            @if($totalPoint != 0)
+                            @foreach($data['listKompetensi']->where('journey_id',$item->id) as $k)
+
+                            @php
+                            $totalLoop = $loop->iteration;
+                            $totalPoint = $data['totalPoint']->where('journey_id',$item->id)->where('kompetensi_id',$k->id)->first();
+                            $myPoin = $data['poinKu']->where('kompetensi_id',$k->id)->first();
+                            if(!empty($myPoin)){
+
+                             if($myPoin->poin >= $totalPoint->minimal_poin){
+                             $poin =+ 1;
+                            //  dd($myPoin->poin." >= ".$totalPoint->minimal_poin);
+                             }
+                            }
+                             $assigned = $data['assigned']->where('journey_id',$item->id)->first();
+                            @endphp
+                            @endforeach
+
+                            @php
+                             if($poin > 0){
+                                $persentase = round(($poin/$totalLoop) * 100);
+                             }
+                            @endphp
+
+                            @if($poin > 0)
                             <div class="progress mt-3 mb-2">
                                 <div class="progress-bar" style="width: {{$persentase}}%;">{{$persentase}}%</div>
                               </div>
@@ -106,15 +121,16 @@
                             @foreach($data['listKompetensi']->where('journey_id',$item->id) as $k)
 
                             @php
-                            $myPoin = $data['poinKu']->first();
+                            $myPoin = $data['poinKu']->where('kompetensi_id',$k->kompetensi_id)->first();
                             if($myPoin == null){
                                 $myPoin = 0;
                             }else{
-                                $myPoin =  $myPoin->poin;
+                            $myPoin = $myPoin->poin;
                             }
                             @endphp
+
                             <li class="list-group-item d-flex justify-content-between align-items-center">{{$k->kompetensi->judul}}
-                                <span class="badge badge-@if($myPoin == $k->minimal_poin)success @else default @endif">{{$myPoin}}/{{$k->minimal_poin}} @if($myPoin == $k->minimal_poin)Complete @endif</span>
+                                <span class="badge badge-@if($myPoin >= $k->minimal_poin)success @else default @endif">{{$myPoin}}/{{$k->minimal_poin}} @if($myPoin == $k->minimal_poin)Complete @endif</span>
                             </li>
 
                             @endforeach

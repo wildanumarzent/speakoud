@@ -14,9 +14,22 @@ class NotificationService{
         $this->notif = $notif;
     }
 
-    public function list(){
+    public function list($userId){
         $query = $this->notif->query();
-        $result = $query->get();;
+        $query->whereJsonContains('receiver',$userId);
+        $query->whereJsonDoesntContain('read_by',$userId);
+        $query->orderBy('created_at','desc');
+        $result = $query->take(10)->get();
+        return $result;
+    }
+
+    public function unread($userId){
+        $list = $this->list($userId)->pluck('id');
+        $query = $this->notif->query();
+        $query->whereIn('id',$list);
+        $query->whereJsonContains('receiver',$userId);
+        $query->whereJsonDoesntContain('read_by',$userId);
+        $result = $query->get();
         return $result;
     }
 
@@ -26,28 +39,50 @@ class NotificationService{
     }
 
     public function make($model,$title,
-    $description = 'Intro Not Found,lorem ipsum dolor sit amet, consectetur adipiscing elit, sed diam nonummy nibh euismod tincidunt',$to = null){
+    $description = 'Intro Not Found,lorem ipsum dolor sit amet',
+    $to = null,
+    $url = null
+    ){
 
-        if(is_array($to)){
-            $to = implode(';',$to);
-        }
-
-        $notif = new Notification;
+       $to = json_encode($to);
+       $notif = new Notification;
+       $readby = [0];
         $model = $notif->notifable()->associate($model);
-        $notif->updateOrCreate([ 'notifable_id' => $model['notifable_id'],
-        'notifable_type' => $model['notifable_type']],[
+        $notif->create(
+        [
             'title' => $title,
             'description' => $description,
-            'to' => $to,
+            'receiver' => $to,
+            'read_by' => json_encode($readby),
             'notifable_id' => $model['notifable_id'],
             'notifable_type' => $model['notifable_type'],
+            'url' => $url
         ]);
 
         return $notif;
     }
 
-    public function update($id,$userID){
+    public function update($userID,$id){
 
+        $notifikasi = $this->get($id);
+        $readby = [];
+        if(!empty($notifikasi->read_by)){
+        $readby = json_decode($notifikasi->read_by);
+        }
+        if(!in_array($userID,$readby)){
+            array_push($readby,$userID);
+        }
+        // $save = implode(";",$readby);
+        $notifikasi->update(['read_by' => $readby]);
+        $this->deleteIfAllRead($id);
+    }
+    public function deleteIfAllRead($id){
+        $notif = $this->get($id);
+        $read = json_decode($notif->read_by);
+        $sent = json_decode($notif->receiver);
+        if($read > $sent){
+            $notif->delete();
+        }
     }
 
     public function destroy($model){

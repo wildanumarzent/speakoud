@@ -2,7 +2,7 @@
 
 namespace App\Services\Course;
 
-
+use App\Http\Controllers\Course\MataController;
 use App\Models\Course\ApiEvaluasi;
 use App\Models\Course\Bahan\ActivityCompletion;
 use App\Models\Course\Bahan\BahanConferencePeserta;
@@ -23,6 +23,10 @@ use App\Services\Users\PesertaService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
+use App\Services\Component\NotificationService;
+use App\Services\KalenderService;
+use App\Services\Users\InstrukturService;
+use Carbon\Carbon;
 
 class MataService
 {
@@ -37,7 +41,10 @@ class MataService
         MateriPelatihan $modelMateri,
         KomentarService $komentar,
         PesertaService $peserta,
-        BahanEvaluasiPengajarService $bahanEvaluasi
+        BahanEvaluasiPengajarService $bahanEvaluasi,
+        NotificationService $notifikasi,
+        InstrukturService $instruktur,
+        KalenderService $event
     )
     {
         $this->model = $model;
@@ -48,6 +55,9 @@ class MataService
         $this->komentar = $komentar;
         $this->peserta = $peserta;
         $this->bahanEvaluasi = $bahanEvaluasi;
+        $this->notifikasi = $notifikasi;
+        $this->instruktur = $instruktur;
+        $this->event =$event;
 
     }
 
@@ -401,18 +411,30 @@ class MataService
         $bobot->post_test = $request->post_test;
         $bobot->save();
 
+
         return $mata;
     }
 
     public function storeInstruktur($request, int $mataId)
     {
+        $collectUser = [];
         $collectInstruktur = collect($request->instruktur_id);
+        $mata = $this->findMata($mataId);
+        $url = action([MataController::class, 'courseDetail'], ['id' => $mataId]);
         foreach ($collectInstruktur->all() as $key => $value) {
             $instruktur = new MataInstruktur;
             $instruktur->mata_id = $mataId;
             $instruktur->instruktur_id = $value;
             $instruktur->save();
+            $userId = $this->instruktur->findInstruktur($value)->user->id;
+            array_push($collectUser,$userId);
         }
+        $this->notifikasi->make(
+            $model = $mata,
+            $title = 'Menjadi Instruktur Dalam Program '.$mata->judul,
+            $description = 'Selamat! Anda DItunjuk Menjadi Instruktur Dalam Program '.$mata->judul,
+            $to = $collectUser,
+            $url);
     }
 
     public function kodeEvaluasiInstruktur($request, int $mataId, int $id)
@@ -420,19 +442,29 @@ class MataService
         $instruktur = $this->modelInstruktur->findOrFail($id);
         $instruktur->kode_evaluasi = $request->kode_evaluasi ?? null;
         $instruktur->save();
-
         return $instruktur;
     }
 
     public function storePeserta($request, int $mataId)
     {
         $collectPeserta = collect($request->peserta_id);
+        $collectUser = [];
+        $mata = $this->findMata($mataId);
+        $url = action([MataController::class, 'courseDetail'], ['id' => $mataId]);
         foreach ($collectPeserta->all() as $key => $value) {
             $peserta = new MataPeserta;
             $peserta->mata_id = $mataId;
             $peserta->peserta_id = $value;
             $peserta->save();
+            $userId = $this->peserta->findPeserta($value)->user->id;
+            array_push($collectUser,$userId);
         }
+        $this->notifikasi->make(
+            $model = $mata,
+            $title = 'Terdaftar Dalam Program '.$mata->judul,
+            $description = 'Selamat! Anda Terdaftar Dalam Program '.$mata->judul,
+            $to = $collectUser,
+            $url);
     }
 
     public function updateMata($request, int $id)
@@ -474,6 +506,9 @@ class MataService
         $bobot->post_test = $request->post_test;
         $bobot->save();
 
+
+
+
         return $mata;
     }
 
@@ -511,6 +546,23 @@ class MataService
         $mata = $this->findMata($id);
         $mata->publish = !$mata->publish;
         $mata->save();
+
+        $start = Carbon::parse($mata->publish_start)->format('Y-m-d');
+        $end = Carbon::parse($mata->publish_end)->format('Y-m-d');
+        $start_time = Carbon::parse($mata->publish_start)->format('H:i');
+        $end_time = Carbon::parse($mata->publish_end)->format('H:i');
+
+        if($mata['publish'] == 1){
+            $this->event->makeEvent(
+                $title = $mata->judul,
+                $description = strip_tags($mata->content),
+                $start,
+                $end,
+                $start_time,
+                $end_time,
+                $link = action('Course\MataController@courseDetail', ['id' => $id]),
+            );
+            }
 
         return $mata;
     }
@@ -570,6 +622,13 @@ class MataService
     {
         $mata = $this->findMata($mataId);
         $instruktur = $this->modelInstruktur->findOrFail($id);
+        $userInstruktur = $this->instruktur->findInstruktur($instruktur->instruktur_id);
+        $this->notifikasi->make(
+            $model = $mata,
+            $title = 'Dikeluarkan Dalam Program '.$mata->judul,
+            $description = 'Anda Telah Dikeluarkan Dalam Program '.$mata->judul,
+            $to = $userInstruktur->user->id
+            );
 
         $materi = $mata->materi->where('instruktur_id', $id)->count();
         $bahan = $mata->bahan()->where('creator_id', $instruktur->instruktur->user_id)->count();
@@ -590,6 +649,13 @@ class MataService
     {
         $mata = $this->findMata($mataId);
         $peserta = $this->modelPeserta->findOrFail($id);
+        $userPeserta = $this->peserta->findPeserta($peserta->peserta_id);
+        $this->notifikasi->make(
+            $model = $mata,
+            $title = 'Dikeluarkan Dalam Program '.$mata->judul,
+            $description = 'Anda Telah Dikeluarkan Dalam Program '.$mata->judul,
+            $to = $userPeserta->user->id
+            );
 
         $activity = ActivityCompletion::where('mata_id', $mataId)
             ->where('user_id', $peserta->peserta->user->id)->count();

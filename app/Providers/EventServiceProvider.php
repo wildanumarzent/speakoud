@@ -47,9 +47,7 @@ class EventServiceProvider extends ServiceProvider
         'Illuminate\Auth\Events\Logout' => [
             'App\Listeners\Users\PreviousLogin',
         ],
-        'App\Events\BadgeSaved' => [
-            'App\Listeners\SendBadgeNotification',
-        ],
+     
     ];
 
     /**

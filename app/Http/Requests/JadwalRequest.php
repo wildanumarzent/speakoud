@@ -24,7 +24,7 @@ class JadwalRequest extends FormRequest
     public function rules()
     {
         return [
-            'mata_id' => 'required',
+            // 'mata_id' => 'required',
             'judul' => 'required',
             'start_date' => 'required',
             'end_date' => 'required',

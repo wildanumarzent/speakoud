@@ -84,18 +84,31 @@
                                     {{-- <input type="hidden" name="status" value="{{$item->journeyPeserta->status}}"> --}}
 
 
-                                @php
-                                   $totalPoint = $data['totalPoint']->where('journey_id',$item->id)->sum('minimal_poin');
-                                    $kompetensiId = $data['listKompetensi']->where('journey_id',$item->id)->pluck('kompetensi_id');
-                                    $myPoin = $data['poinKu']->whereIn('kompetensi_id',$kompetensiId)->sum('poin');
-                                    if($myPoin == null){
-                                    $myPoin = 0;
-                                    }
-                                    if($totalPoint > 0){
-                                    $persentase = round(($myPoin/$totalPoint) * 100);
-                                    }
 
-                                    $assigned = $data['assigned']->where('journey_id',$item->id)->first();
+                                @php
+                                $poin = 0;
+                                @endphp
+                                @foreach($data['listKompetensi']->where('journey_id',$item->id) as $k)
+
+                                @php
+                                $totalLoop = $loop->iteration;
+                                $totalPoint = $data['totalPoint']->where('journey_id',$item->id)->where('kompetensi_id',$k->id)->first();
+                                $myPoin = $data['poinKu']->where('kompetensi_id',$k->id)->first();
+                                if(!empty($myPoin)){
+
+                                 if($myPoin->poin >= $totalPoint->minimal_poin){
+                                 $poin =+ 1;
+                                //  dd($myPoin->poin." >= ".$totalPoint->minimal_poin);
+                                 }
+                                }
+                                 $assigned = $data['assigned']->where('journey_id',$item->id)->first();
+                                @endphp
+                                @endforeach
+
+                                @php
+                                 if($poin > 0){
+                                    $persentase = round(($poin/$totalLoop) * 100);
+                                 }
                                 @endphp
 
                                 @if(!empty($assigned) && $assigned->status == 1 && $persentase < 100)
@@ -146,7 +159,7 @@
                         <div class="collapse" id="kompetensi-{{$item->id}}">
                             @role ('peserta_internal|peserta_mitra')
 
-                            @if($totalPoint != 0)
+                            @if($poin != 0)
                             <div class="progress mt-3 mb-2">
                                 <div class="progress-bar" style="width: {{$persentase}}%;">{{$persentase}}%</div>
                               </div>
@@ -154,12 +167,14 @@
                               @endrole
                         <ul class="list-group mt-3">
                             @foreach($data['listKompetensi']->where('journey_id',$item->id) as $k)
-                            @role ('developer|administrator|internal')
+                            @role ('developer|administrator|internal|instruktur_mitra|instruktur_internal')
                             <li class="list-group-item d-flex justify-content-between align-items-center"><span class="badge badge-default"> {{$k->kompetensi->judul}}    (Poin : {{$k->minimal_poin}})</span>
+                            @role ('developer|administrator|internal')
                                 <div class="btn-group dropdown dropdown-right">
                                     <button type="button" class="btn btn-sm btn-warning  icon-btn borderless rounded-pill md-btn-flat dropdown-toggle hide-arrow" data-toggle="dropdown">
                                         <i class="ion ion-ios-more"></i>
                                     </button>
+
                                     <div class="dropdown-menu dropdown-menu-right">
                                         <a href="{{ route('journeyKompetensi.edit', ['id' => $k->id]) }}" class="dropdown-item" title="klik untuk menghubungkan learning journey kompetensi">
                                             <i class="las la-pen"></i><span>Ubah</span>
@@ -168,7 +183,9 @@
                                             <i class="las la-trash-alt"></i> <span>Hapus</span>
                                         </a>
                                     </div>
+
                                 </div>
+                                 @endrole
                             </li>
                             @else
                                     @role ('peserta_internal|peserta_mitra')
@@ -181,7 +198,7 @@
                                     }
                                     @endphp
                                     <li class="list-group-item d-flex justify-content-between align-items-center">{{$k->kompetensi->judul}}
-                                        <span class="badge badge-@if($myPoin == $k->minimal_poin)success @else default @endif">{{$myPoin}}/{{$k->minimal_poin}} @if($myPoin >= $k->minimal_poin)Complete @endif</span>
+                                        <span class="badge badge-@if($myPoin >= $k->minimal_poin)success @else default @endif">{{$myPoin}}/{{$k->minimal_poin}} @if($myPoin >= $k->minimal_poin)Complete @endif</span>
                                     </li>
                                     @endrole
                             @endrole

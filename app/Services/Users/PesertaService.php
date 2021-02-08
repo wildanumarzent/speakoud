@@ -25,7 +25,7 @@ class PesertaService
         $this->user = $user;
     }
 
-    public function getPesertaList($request)
+    public function getPesertaList($request,$paginate = true)
     {
         $query = $this->model->query();
 
@@ -68,6 +68,10 @@ class PesertaService
 
         $result = $query->orderBy('id', 'ASC')->paginate(20);
 
+        if($paginate == false){
+            $result = $query->get();
+        }
+        
         return $result;
     }
 

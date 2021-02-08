@@ -33,8 +33,8 @@
         </div>
 
         <div class="navbar-nav align-items-lg-center ml-lg-auto">
-
-            <div class="demo-navbar-notifications nav-item dropdown mr-lg-3">
+            @livewire('notification')
+            {{-- <div class="demo-navbar-notifications nav-item dropdown mr-lg-3">
                 <a class="nav-link dropdown-toggle hide-arrow" href="#" data-toggle="dropdown">
                   <i class="las la-bell navbar-icon align-middle"></i>
                   <span class="badge badge-primary badge-dot indicator"></span>
@@ -63,7 +63,7 @@
 
                   <a href="javascript:void(0)" class="d-block text-center text-light small p-2 my-1">Tampilkan semua notifikasi</a>
                 </div>
-            </div>
+            </div> --}}
 
           <!-- Divider -->
           <div class="nav-item d-none d-lg-block text-big font-weight-light line-height-1 opacity-25 mr-3 ml-1">|</div>

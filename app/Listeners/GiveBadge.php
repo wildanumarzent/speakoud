@@ -4,6 +4,7 @@ namespace App\Listeners;
 
 use App\Events\BadgeSaved;
 use App\Events\ActivitySaved;
+use App\Http\Controllers\BadgeController;
 use App\Models\Badge\Badge;
 use App\Models\Badge\BadgePeserta;
 use App\Models\Course\Bahan\BahanPelatihan;
@@ -15,6 +16,7 @@ use App\Services\Course\MateriService;
 use App\Services\Course\Bahan\BahanService;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Course\Bahan\ActivityCompletion;
+use App\Services\Component\NotificationService;
 use Carbon\Carbon;
 class GiveBadge
 {
@@ -23,12 +25,14 @@ class GiveBadge
      *
      * @return void
      */
-    public function __construct(BadgeService $badge,BahanService $bahan,MataService $mata,MateriService $materi)
+    public function __construct(BadgeService $badge,BahanService $bahan,
+    MataService $mata,MateriService $materi,NotificationService $notifikasi)
     {
         $this->badge = $badge;
         $this->bahan = $bahan;
         $this->mata = $mata;
         $this->materi = $materi;
+        $this->notifikasi = $notifikasi;
     }
 
     /**
@@ -57,8 +61,8 @@ class GiveBadge
         $pesertaId = Auth::user()->peserta->id;
 
 
-
         $badge = Badge::where('mata_id',$event->activity['mata_id'])->where('tipe_utama',1)->get();
+        $url = action([BadgeController::class, 'myBadge']);
         foreach($badge as $b){
                     if($b['tipe'] == 'program'){
                     $total = BahanPelatihan::where('mata_id',$b->tipe_id)->where('publish',1)->count();
@@ -89,9 +93,18 @@ class GiveBadge
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now(),
                 ];
+
+                $this->notifikasi->make(
+                    $model = $b,
+                    $title = 'Badge Baru Didapatkan',
+                    $description = 'Anda Telah Mendapatkan Badge Baru : '.$b->nama,
+                    $to = auth()->user()->id,
+                    $url
+                    );
+                }
             }
         }
-        }
+
         if(!empty($data)){
             BadgePeserta::insert($data);
             }

@@ -444,6 +444,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/peserta/{id}/soft', 'Users\PesertaController@softDelete')
         ->name('peserta.destroy.soft')
         ->middleware('role:developer|administrator|internal|mitra');
+        Route::get('/peserta/export', 'Users\PesertaController@export')
+        ->name('peserta.export')
+        ->middleware('role:developer|administrator|internal|mitra');
 
     //--- grades management
     //kategori
@@ -1156,7 +1159,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::delete('/kompetensi/{id}/delete','KompetensiController@destroy')->name('kompetensi.delete')->middleware('role:developer|administrator|internal');
 
     // Journey
-    Route::get('/journey','JourneyController@index')->name('journey.index')->middleware('auth');
+    Route::get('/journey','JourneyController@index')->name('journey.index')->middleware('role:peserta_mitra|peserta_internal');
     Route::post('/journey/{pesertaId}/assign','JourneyController@assign')->name('journey.assign')->middleware('auth');
     Route::get('/journey/{id}/peserta','JourneyController@peserta')->name('journey.peserta')->middleware('role:developer|administrator|internal');
     Route::get('/journey/create','JourneyController@create')->name('journey.create')->middleware('role:developer|administrator|internal');
@@ -1208,6 +1211,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('badges/store','BadgeController@store')->name('badge.store')->middleware('role:developer|administrator|internal');
     Route::put('badges/update/{id}','BadgeController@update')->name('badge.update')->middleware('role:developer|administrator|internal');
     Route::delete('badges/delete/{id}','BadgeController@destroy')->name('badge.delete')->middleware('role:developer|administrator|internal');
+
+    //notifikasi
+    Route::get('notifikasi/{id}','Component\NotificationController@index')->name('notification.show')->middleware('auth');
 
     //logout
     Route::post('/logout', 'Auth\LoginController@logout')

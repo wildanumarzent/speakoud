@@ -13,12 +13,14 @@ class KalenderService{
     $startTime = '00:00:00',$endTime = '00:00:00',$link = null,
     $jadwalId = null){
 
-        if($start == $end){
-            $end = $end->addDays(1);
-        }
 
         $startDate = date('Y-m-d H:i:s', strtotime("$start $startTime"));
         $endDate = date('Y-m-d H:i:s', strtotime("$end $endTime"));
+        if($startDate == $endDate){
+            $endDate = new Carbon($endDate);
+            $endDate->addDays(1);
+            $endDate->format('Y-m-d H:i:s');
+        }
        $event =  Event::Create(
             [
                 'title' => $title,

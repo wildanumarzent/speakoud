@@ -236,14 +236,15 @@
           </ul>
         </li>
 
+
+        @role ('peserta_mitra|peserta_internal')
         <!-- journey -->
         <li class="sidenav-item {{ Request::is('journey*') ? ' active' : '' }}">
             <a href="{{route('journey.index')}}" class="sidenav-link" title="Learning Journey"><i class="sidenav-icon las la-bookmark"></i>
-              <div>Learning Journey</div>
+                <div>Learning Journey</div>
             </a>
         </li>
-         <!-- badge -->
-         @role ('peserta_mitra|peserta_internal')
+        <!-- badge -->
          <li class="sidenav-item {{ Request::is('badge.my.') ? ' active' : '' }}">
             <a href="{{route('badge.my.index')}}" class="sidenav-link" title="Badge Saya"><i class="sidenav-icon las la-medal"></i>
               <div>Badge Saya</div>

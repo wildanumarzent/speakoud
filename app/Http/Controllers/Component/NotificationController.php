@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Component;
 
 use App\Http\Controllers\Controller;
 use App\Models\Component\Notification;
+use App\Services\Component\NotificationService;
 use Illuminate\Http\Request;
 
 class NotificationController extends Controller
@@ -13,11 +14,22 @@ class NotificationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //
-    }
 
+     public function __construct(NotificationService $notifikasi)
+     {
+        $this->notifikasi = $notifikasi;
+     }
+
+
+    public function index($id)
+    {
+        $notifikasi = $this->notifikasi->get($id);
+        $this->notifikasi->update(auth()->user()->id,$id);
+        if(!empty($notifikasi->url)){
+            return redirect($notifikasi->url);
+        }
+        return redirect()->back();
+    }
     /**
      * Show the form for creating a new resource.
      *

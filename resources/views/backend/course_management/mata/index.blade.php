@@ -133,7 +133,6 @@
                                         <i class="las la-medal"></i> <span>Badge</span>
                                     </a>
                                 </td>
-                                @include('backend.badge.create',['mataID' => $item->id])
                             </tr>
                         </table>
                     </div>
