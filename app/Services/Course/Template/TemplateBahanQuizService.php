@@ -33,6 +33,11 @@ class TemplateBahanQuizService
         $quiz->tipe = $request->tipe;
         $quiz->view = $request->view;
         $quiz->hasil = (bool)$request->hasil;
+        if ((bool)$request->soal_acak == 1) {
+            $quiz->jml_soal_acak = $request->jml_soal_acak;
+        } else {
+            $quiz->jml_soal_acak = null;
+        }
         $quiz->save();
 
         return $quiz;
@@ -47,6 +52,11 @@ class TemplateBahanQuizService
         $quiz->tipe = $request->tipe;
         $quiz->view = $request->view;
         $quiz->hasil = (bool)$request->hasil;
+        if ((bool)$request->soal_acak == 1) {
+            $quiz->jml_soal_acak = $request->jml_soal_acak;
+        } else {
+            $quiz->jml_soal_acak = null;
+        }
         $quiz->save();
 
         return $quiz;

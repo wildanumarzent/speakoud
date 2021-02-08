@@ -81,16 +81,22 @@ class TemplateBahanQuizItemService
 
     public function storeTemplateFromBank($request, int $quizId)
     {
+        $quiz = $this->modelQuiz->find($quizId);
+
         $random = (bool)$request->random;
 
         if ($random == 0) {
             $soal = $this->modelSoal->whereIn('id', $request->soal_id)->get();
         } else {
-            $soal = $this->modelSoal->where('template_kategori_id', $request->kategori_id)
-                ->inRandomOrder()->limit($request->jml_soal)->get();
-        }
 
-        $quiz = $this->modelQuiz->find($quizId);
+            if ($request->kategori_id > 0) {
+                $soal = $this->modelSoal->where('template_kategori_id', $request->kategori_id)
+                    ->inRandomOrder()->limit($request->jml_soal)->get();
+            } else {
+                $soal = $this->modelSoal->where('template_mata_id', $quiz->template_mata_id)
+                    ->inRandomOrder()->limit($request->jml_soal)->get();
+            }
+        }
 
         foreach ($soal as $key => $value) {
             $item = new TemplateBahanQuizItem;

@@ -69,6 +69,28 @@ class BahanQuizItemController extends Controller
         ]);
     }
 
+    public function preview($quizId)
+    {
+        $data['quiz'] = $this->service->findQuiz($quizId);
+
+        if ($data['quiz']->soal_acak == 1) {
+            $data['soal'] = $data['quiz']->item()->inRandomOrder()
+                ->limit($data['quiz']->jml_soal_acak)->get();
+        } else {
+            $data['soal'] = $data['quiz']->item;
+        }
+
+        $this->serviceBahan->checkInstruktur($data['quiz']->materi_id);
+
+        return view('backend.course_management.bahan.quiz.preview', compact('data'), [
+            'title' => 'Quiz - Preview',
+            'breadcrumbsBackend' => [
+                'Soal' => route('quiz.item', ['id' => $quizId]),
+                'Preview' => ''
+            ],
+        ]);
+    }
+
     public function room($quizId)
     {
         $data['quiz'] = $this->service->findQuiz($quizId);
@@ -89,6 +111,10 @@ class BahanQuizItemController extends Controller
 
         if ($data['quiz']->trackUserIn()->count() == 0) {
             $this->serviceQuiz->trackUserIn($quizId);
+            if ($data['quiz']->soal_acak == 1 && !empty($data['quiz']->jml_soal_acak)) {
+                $this->service->insertSoalRandom($quizId);
+            }
+            
             return redirect()->route('quiz.room', ['id' => $quizId]);
         }
         if (!empty($data['quiz']->trackUserIn) && !empty($data['quiz']->durasi)) {
@@ -234,7 +260,7 @@ class BahanQuizItemController extends Controller
             if (empty($request->jml_soal)) {
                 return back()->with('warning', 'jumlah soal harus diisi');
             }
-            if (!empty($request->jml_soal)) {
+            if (!empty($request->jml_soal) && $request->kategori_id > 0) {
                 $soal = $this->serviceSoal->getSoalByKategori($request->kategori_id)->count();
                 if ($soal == 0) {
                     return back()->with('warning', 'jumlah soal dikategori yang dipilih kosong');

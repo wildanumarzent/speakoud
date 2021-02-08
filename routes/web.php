@@ -740,6 +740,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/quiz/{id}/item', 'Course\Bahan\BahanQuizItemController@index')
         ->name('quiz.item')
         ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
+    Route::get('/quiz/{id}/preview', 'Course\Bahan\BahanQuizItemController@preview')
+        ->name('quiz.preview')
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
     Route::get('/quiz/{id}/item/create', 'Course\Bahan\BahanQuizItemController@create')
         ->name('quiz.item.create')
         ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');

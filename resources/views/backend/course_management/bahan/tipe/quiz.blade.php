@@ -99,6 +99,27 @@
         </select>
     </div>
 </div>
+<div class="form-group row">
+    <div class="col-md-2 text-md-right">
+        <label class="col-form-label">Soal Acak</label>
+    </div>
+    <div class="col-sm-10">
+        <label class="custom-control custom-checkbox">
+            <input type="checkbox" name="soal_acak" class="custom-control-input" value="1" {{ isset($data['bahan']) ? (old('soal_acak', $data['bahan']->quiz->soal_acak) == 1 ? 'checked' : '') : (old('soal_acak') ? 'checked' : '') }}>
+            <span class="custom-control-label">Ya</span>
+        </label>
+    </div>
+</div>
+<div class="form-group row" id="jml_soal">
+    <div class="col-md-2 text-md-right">
+        <label class="col-form-label">Jumlah Soal Acak</label>
+    </div>
+    <div class="col-sm-10">
+        <input type="text" class="form-control @error('jml_soal_acak') is-invalid @enderror" name="jml_soal_acak"
+            value="{{ (isset($data['bahan'])) ? old('jml_soal_acak', $data['bahan']->quiz->jml_soal_acak) : old('jml_soal_acak') }}" placeholder="masukan jumlah soal acak...">
+        @include('components.field-error', ['field' => 'jml_soal_acak'])
+    </div>
+</div>
 <fieldset class="form-group" id="hasil">
     <div class="row">
     <div class="col-md-2 text-md-right  pt-sm-0">
@@ -139,6 +160,15 @@
             }
         });
 
+        $('#jml_soal').hide();
+        $('input[type=checkbox][name=soal_acak]').change(function() {
+            if (this.value == 1) {
+                $('#jml_soal').toggle('slow');
+            } else {
+                $('#jml_soal').hide();
+            }
+        });
+
         $('#hasil').hide();
         $('#ulang').change(function() {
             if (this.value == 0) {
@@ -167,6 +197,21 @@
                 $('#tipe').hide();
             }
         });
+
+        var soal_acak = "{{ $data['bahan']->quiz->soal_acak }}";
+        if (soal_acak == 1) {
+            $('#jml_soal').show();
+        } else {
+            $('#jml_soal').hide();
+        }
+        $('input[type=checkbox][name=soal_acak]').change(function() {
+            if (this.value == 1) {
+                $('#jml_soal').toggle('slow');
+            } else {
+                $('#jml_soal').hide();
+            }
+        });
+
         $('#ulang').change(function() {
             if (this.value == 0) {
                 $('#hasil').toggle('slow');

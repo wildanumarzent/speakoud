@@ -70,6 +70,12 @@ class BahanQuizService
         $quiz->tipe = $request->tipe;
         $quiz->view = $request->view;
         $quiz->hasil = (bool)$request->hasil;
+        $quiz->soal_acak = (bool)$request->soal_acak;
+        if ((bool)$request->soal_acak == 1) {
+            $quiz->jml_soal_acak = $request->jml_soal_acak;
+        } else {
+            $quiz->jml_soal_acak = null;
+        }
         $quiz->save();
 
         return $quiz;
@@ -84,6 +90,12 @@ class BahanQuizService
         $quiz->tipe = $request->tipe;
         $quiz->view = $request->view;
         $quiz->hasil = (bool)$request->hasil;
+        $quiz->soal_acak = (bool)$request->soal_acak;
+        if ((bool)$request->soal_acak == 1) {
+            $quiz->jml_soal_acak = $request->jml_soal_acak;
+        } else {
+            $quiz->jml_soal_acak = null;
+        }
         $quiz->save();
 
         return $quiz;

@@ -104,14 +104,30 @@ class BahanRequest extends FormRequest
         if ($this->type == 'quiz') {
 
             if ($this->kategori <= 3 && $this->is_mandatory == 1) {
-                $quiz = [
-                    'kategori' => 'required',
-                    'durasi' => 'required',
-                ];
+                if ((bool)$this->soal_acak == 1) {
+                    $quiz = [
+                        'kategori' => 'required',
+                        'durasi' => 'required',
+                        'jml_soal_acak' => 'required',
+                    ];
+                } else {
+                    $quiz = [
+                        'kategori' => 'required',
+                        'durasi' => 'required',
+                    ];
+                }
+                
             } else {
-                $quiz = [
-                    'durasi' => 'required',
-                ];
+                if ((bool)$this->soal_acak == 1) {
+                    $quiz = [
+                        'durasi' => 'required',
+                        'jml_soal_acak' => 'required',
+                    ];
+                } else {
+                    $quiz = [
+                        'durasi' => 'required',
+                    ];
+                }
             }
 
             return array_merge($defaultBahan, $quiz);
@@ -192,6 +208,7 @@ class BahanRequest extends FormRequest
             'end_time' => 'Jam Selesai',
             'kategori' => 'Kategori',
             'durasi' => 'Durasi',
+            'jml_soal_acak' => 'Jumlah Soal Acak',
         ];
     }
 
@@ -216,6 +233,7 @@ class BahanRequest extends FormRequest
             'end_time.required' => ':attribute tidak boleh kosong',
             'kategori.required' => ':attribute tidak boleh kosong',
             'durasi.required' => ':attribute tidak boleh kosong',
+            'jml_soal_acak.required' => ':attribute tidak boleh kosong',
         ];
     }
 }
