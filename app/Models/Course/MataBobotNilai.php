@@ -46,7 +46,7 @@ class MataBobotNilai extends Model
         $mata = MataPelatihan::find($mataId);
 
         $completion = BahanPelatihan::where('mata_id', $mataId)
-            ->where('completion_type', '>', 0)->count();
+            ->where('completion_type', '>', 0)->whereNotNull('segmenable_id')->count();
         $myCompletion = ActivityCompletion::where('mata_id', $mataId)
             ->where('user_id', $pesertaId)->whereNotNull('track_end')->count();
 

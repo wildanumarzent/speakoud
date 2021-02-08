@@ -29,7 +29,7 @@ class TemplateMateri extends Model
 
     public function bahan()
     {
-        return $this->hasMany(TemplateBahan::class, 'template_materi_id');
+        return $this->hasMany(TemplateBahan::class, 'template_materi_id')->whereNotNull('segmenable_id');
     }
 
     public function quiz()

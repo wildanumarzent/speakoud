@@ -117,7 +117,7 @@ class MataPelatihan extends Model
 
     public function bahan()
     {
-        return $this->hasMany(BahanPelatihan::class, 'mata_id');
+        return $this->hasMany(BahanPelatihan::class, 'mata_id')->whereNotNull('segmenable_id');
     }
 
     public function quiz()

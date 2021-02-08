@@ -40,7 +40,8 @@ class TemplateMata extends Model
 
     public function bahan()
     {
-        return $this->hasMany(TemplateBahan::class, 'template_mata_id');
+        return $this->hasMany(TemplateBahan::class, 'template_mata_id')
+            ->whereNotNull('segmenable_id');
     }
 
     public function quiz()

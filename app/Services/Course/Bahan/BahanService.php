@@ -58,6 +58,9 @@ class BahanService
         if (!empty($notIn)) {
             $query->whereNotIn('id', [$notIn]);
         }
+        $query->where(function ($query) {
+            $query->whereNotNull('segmenable_id');
+        });
 
         $result = $query->orderBy('urutan', 'ASC')->get();
 
@@ -79,6 +82,9 @@ class BahanService
         if (isset($request->p)) {
             $query->where('publish', $request->p);
         }
+        $query->where(function ($query) {
+            $query->whereNotNull('segmenable_id');
+        });
 
         $result = $query->orderBy('urutan', 'ASC')->paginate(10);
 
@@ -88,6 +94,9 @@ class BahanService
     public function getBahanForMata($materiID = []){
         $query = $this->model->query();
         $query->whereIn('materi_id', $materiID);
+        $query->where(function ($query) {
+            $query->whereNotNull('segmenable_id');
+        });
         $result = $query->orderBy('materi_id', 'ASC')->get();
         return $result;
     }
@@ -97,6 +106,9 @@ class BahanService
         $query = $this->model->query();
 
         $query->where('mata_id', $mataId)->where('publish', 1);
+        $query->where(function ($query) {
+            $query->whereNotNull('segmenable_id');
+        });
         $query->whereNotIn('id', [$id]);
 
         $result = $query->orderBy('urutan', 'ASC')->get();
@@ -110,6 +122,9 @@ class BahanService
 
         $query->where('materi_id', $materiId);
         $query->where('publish', 1);
+        $query->where(function ($query) {
+            $query->whereNotNull('segmenable_id');
+        });
         if ($type == 'prev') {
             $query->where('urutan', '<', $urutan);
             $query->orderBy('urutan', 'DESC');
@@ -141,6 +156,10 @@ class BahanService
                 ->where('tipe', 1);
             });
         }
+
+        $query->where(function ($query) {
+            $query->whereNotNull('segmenable_id');
+        });
 
         $result = $query->count();
 

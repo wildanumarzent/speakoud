@@ -25,7 +25,7 @@ class ApiEvaluasi extends Model
 
     public function bahan()
     {
-        return $this->belongsTo(BahanPelatihan::class, 'bahan_id');
+        return $this->belongsTo(BahanPelatihan::class, 'bahan_id')->whereNotNull('segmenable_id');
     }
 
     public function user()

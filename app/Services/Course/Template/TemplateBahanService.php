@@ -51,6 +51,9 @@ class TemplateBahanService
         if (!empty($notIn)) {
             $query->whereNotIn('id', [$notIn]);
         }
+        $query->where(function ($query) {
+            $query->whereNotNull('segmenable_id');
+        });
 
         $result = $query->get();
 
@@ -69,6 +72,9 @@ class TemplateBahanService
                 });
             });
         }
+        $query->where(function ($query) {
+            $query->whereNotNull('segmenable_id');
+        });
 
         $result = $query->paginate(10);
 

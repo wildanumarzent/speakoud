@@ -51,7 +51,7 @@ class MateriPelatihan extends Model
 
     public function bahan()
     {
-        return $this->hasMany(BahanPelatihan::class, 'materi_id');
+        return $this->hasMany(BahanPelatihan::class, 'materi_id')->whereNotNull('segmenable_id');
     }
 
     public function quiz()
@@ -61,7 +61,7 @@ class MateriPelatihan extends Model
 
     public function bahanPublish($tipe = null)
     {
-        $query = $this->hasMany(BahanPelatihan::class, 'materi_id');
+        $query = $this->hasMany(BahanPelatihan::class, 'materi_id')->whereNotNull('segmenable_id');
 
         if ($tipe == 'jump') {
             $query->whereNotIn('id', [request()->segment(4)]);

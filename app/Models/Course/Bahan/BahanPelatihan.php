@@ -116,7 +116,7 @@ class BahanPelatihan extends Model
 
     public function restrictBahan($id)
     {
-        return BahanPelatihan::find($id);
+        return BahanPelatihan::where('id', $id)->whereNotNull('segmenable_id')->first();
     }
 
     public function type($bahan)
