@@ -73,7 +73,7 @@ class ProgramPelatihan extends Model
 
     public function bahan()
     {
-        return $this->hasMany(BahanPelatihan::class, 'program_id');
+        return $this->hasMany(BahanPelatihan::class, 'program_id')->whereNotNull('segmenable_id');
     }
 
     public function scopePublish($query)

@@ -101,7 +101,7 @@ class TemplateBahanQuizItemController extends Controller
             if (empty($request->jml_soal)) {
                 return back()->with('warning', 'jumlah soal harus diisi');
             }
-            if (!empty($request->jml_soal)) {
+            if (!empty($request->jml_soal) && $request->kategori_id > 0) {
                 $soal = $this->serviceSoal->getTemplateSoalByKategori($request->kategori_id)->count();
                 if ($soal == 0) {
                     return back()->with('warning', 'jumlah soal dikategori yang dipilih kosong');

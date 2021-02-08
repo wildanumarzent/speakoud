@@ -5,6 +5,7 @@
 <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-material-datetimepicker/bootstrap-material-datetimepicker.css') }}">
 <script src="{{ asset('assets/tmplts_backend/wysiwyg/tinymce.min.js') }}"></script>
 <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/fancybox/fancybox.min.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-select/bootstrap-select.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/select2/select2.css') }}">
 @endsection
 
@@ -365,7 +366,7 @@
 @section('scripts')
 <script src="{{ asset('assets/tmplts_backend/vendor/libs/moment/moment.js') }}"></script>
 <script src="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-material-datetimepicker/bootstrap-material-datetimepicker.js') }}"></script>
-
+<script src="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-select/bootstrap-select.js') }}"></script>
 <script src="{{ asset('assets/tmplts_backend/vendor/libs/select2/select2.js') }}"></script>
 <script src="{{ asset('assets/tmplts_backend/js/forms_selects.js') }}"></script>
 

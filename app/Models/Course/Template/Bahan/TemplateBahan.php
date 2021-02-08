@@ -78,7 +78,7 @@ class TemplateBahan extends Model
 
     public function restrictBahan($id)
     {
-        return TemplateBahan::find($id);
+        return TemplateBahan::where('id', $id)->whereNotNull('segmenable_id')->first();
     }
 
     public function type($bahan)

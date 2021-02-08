@@ -85,13 +85,14 @@
                     <th style="width: 200px;">Tanggal Dibuat</th>
                     <th style="width: 200px;">Tanggal Diperbarui</th>
                     <th>Learning Journey</th>
+                    <th style="width: 80px;" class="text-center">Data</th>
                     <th style="width: 110px;">Aksi</th>
                 </tr>
             </thead>
             <tbody>
                 @if ($data['peserta']->total() == 0)
                 <tr>
-                    <td colspan="13" align="center">
+                    <td colspan="14" align="center">
                         <i>
                             <strong style="color:red;">
                             @if (Request::get('q'))
@@ -125,6 +126,13 @@
                             <i class="las la-external-link-alt"></i>
                         </a>
                     </td>
+                    <td class="text-center">
+                        @if ($item->status_profile == 1 && !empty($item->foto_sertifikat))
+                            <span class="badge badge-success">Complete</span>
+                        @else
+                            <span class="badge badge-danger">Belum</span>
+                        @endif
+                    </td>
                     <td>
                         <a href="{{ route('peserta.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengedit peserta">
                                 <i class="las la-pen"></i>
@@ -139,7 +147,7 @@
             <tbody class="tbody-responsive">
                 @if ($data['peserta']->total() == 0)
                 <tr>
-                    <td colspan="10" align="center">
+                    <td colspan="14" align="center">
                         <i>
                             <strong style="color:red;">
                             @if (Request::get('q'))

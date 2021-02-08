@@ -145,16 +145,23 @@ class BahanQuizItemService
 
     public function storeFromBank($request, int $quizId)
     {
+        $quiz = $this->findQuiz($quizId);
+
         $random = (bool)$request->random;
 
         if ($random == 0) {
             $soal = $this->modelSoal->whereIn('id', $request->soal_id)->get();
         } else {
-            $soal = $this->modelSoal->where('kategori_id', $request->kategori_id)
-                ->inRandomOrder()->limit($request->jml_soal)->get();
-        }
 
-        $quiz = $this->findQuiz($quizId);
+            if ($request->kategori_id > 0) {
+                $soal = $this->modelSoal->where('kategori_id', $request->kategori_id)
+                    ->inRandomOrder()->limit($request->jml_soal)->get();
+            } else {
+                $soal = $this->modelSoal->where('mata_id', $quiz->mata_id)
+                    ->inRandomOrder()->limit($request->jml_soal)->get();
+            }
+            
+        }
 
         foreach ($soal as $key => $value) {
             $item = new BahanQuizItem;
@@ -199,6 +206,23 @@ class BahanQuizItemService
         $item->delete();
 
         return $item;
+    }
+
+    public function insertSoalRandom(int $quizId)
+    {
+        $quiz = $this->findQuiz($quizId);
+        $soal = $quiz->item()->inRandomOrder()->limit($quiz->jml_soal_acak)->get();
+
+        foreach ($soal as $key => $value) {
+            $insertSoal = new BahanQuizItemTracker;
+            $insertSoal->quiz_id = $quizId;
+            $insertSoal->quiz_item_id = $value->id;
+            $insertSoal->user_id = auth()->user()->id;
+            $insertSoal->posisi = ($key+1);
+            $insertSoal->jawaban = ' ';
+            $insertSoal->benar = null;
+            $insertSoal->save();
+        }
     }
 
     public function trackJawaban($request, int $quizId)

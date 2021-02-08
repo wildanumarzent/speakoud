@@ -104,7 +104,7 @@ class TemplateMateriService
     {
         $materi = $this->findTemplateMateri($id);
 
-        $bahan = TemplateBahan::where('template_materi_id', $id)->count();
+        $bahan = TemplateBahan::where('template_materi_id', $id)->whereNotNull('segmenable_id')->count();
 
         if ($bahan > 0) {
 

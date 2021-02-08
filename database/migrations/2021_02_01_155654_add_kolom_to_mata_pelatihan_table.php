@@ -21,6 +21,7 @@ class AddKolomToMataPelatihanTable extends Migration
         Schema::table('template_mata', function (Blueprint $table) {
             $table->integer('pola_penyelenggaraan')->nullable();
             $table->integer('sumber_anggaran')->nullable();
+            $table->boolean('soal_acak')->default(0);
         });
     }
 

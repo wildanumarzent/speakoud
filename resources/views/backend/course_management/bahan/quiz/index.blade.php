@@ -63,6 +63,9 @@
                 <i class="las la-list-alt"></i><span>Pilih Soal</span>
             </button>
             @endif
+            <a href="{{ route('quiz.preview', ['id' => $data['quiz']->id]) }}" class="btn btn-info icon-btn-only-sm" title="preview soal">
+                <i class="las la-list"></i><span>Preview Soal</span>
+            </a>
             {{-- <div class="btn-group float-right dropdown ml-2">
                 <button type="button" class="btn btn-primary dropdown-toggle hide-arrow icon-btn-only-sm" data-toggle="dropdown"><i class="las la-plus"></i><span>Tambah</span></button>
                 <div class="dropdown-menu dropdown-menu-right">

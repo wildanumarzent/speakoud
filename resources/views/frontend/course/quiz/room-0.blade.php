@@ -52,7 +52,7 @@
                     @if ($soal1->item->tipe_jawaban == 0)
                         @foreach ($soal1->item->pilihan as $keyA => $value)
                         <label class="custom-control custom-radio">
-                            <input type="radio" class="custom-control-input" name="jawaban-{{ $key1 }}" value="{{ $keyA }}" {{ $soal1->jawaban == $keyA ? 'checked' : '' }}>
+                            <input type="radio" class="custom-control-input" name="jawaban-{{ $key1 }}" value="{{ $keyA }}" {{ $soal1->jawaban == ''.$keyA.'' ? 'checked' : '' }}>
                             <span class="custom-control-label">{{ $value }}</span>
                         </label>
                         &nbsp;
@@ -61,12 +61,12 @@
                         <input type="text" class="form-control" name="jawaban-{{ $key1 }}" value="{{ $soal1->jawaban }}" placeholder="Masukan jawaban">
                     @elseif ($soal1->item->tipe_jawaban == 3)
                     <label class="custom-control custom-radio">
-                        <input type="radio" class="custom-control-input" name="jawaban-{{ $key1 }}" value="1" {{ $soal1->jawaban == 1 ? 'checked' : '' }}>
+                        <input type="radio" class="custom-control-input" name="jawaban-{{ $key1 }}" value="1" {{ $soal1->jawaban == '1' ? 'checked' : '' }}>
                         <span class="custom-control-label">TRUE</span>
                     </label>
                     &nbsp;
                     <label class="custom-control custom-radio">
-                        <input type="radio" class="custom-control-input" name="jawaban-{{ $key1 }}" value="0" {{ $soal1->jawaban == 0 ? 'checked' : '' }}>
+                        <input type="radio" class="custom-control-input" name="jawaban-{{ $key1 }}" value="0" {{ $soal1->jawaban == '0' ? 'checked' : '' }}>
                         <span class="custom-control-label">FALSE</span>
                     </label>
                     &nbsp;
@@ -78,43 +78,45 @@
             <br>
             @endforeach
         @endif
-        @foreach ($data['soal'] as $key2 => $soal2)
-        <div class="card-body" style="border: 1px solid #e8e8e9; border-radius: .75rem;">
-            <div class="form-group" id="soal-change-{{ ($key2+count($data['quiz_tracker'])) }}" data-id="{{ $soal2->id }}">
-                <span class="text-muted mb-2 d-inline-block">Soal <strong>No. {{ ($key2+1+count($data['quiz_tracker'])) }}</strong> :</span>
-                <h5>{!! $soal2->pertanyaan !!}</h5>
-                <hr style="border-color: #d1a340;">
-                <span class="text-muted mb-2 d-inline-block">Jawab :</span>
-                <input type="hidden" id="position-{{ ($key2+count($data['quiz_tracker'])) }}" value="{{ ($key2+1+count($data['quiz_tracker'])) }}">
-                <input type="hidden" id="type-{{ ($key2+count($data['quiz_tracker'])) }}" value="{{ $soal2->tipe_jawaban }}">
-                @if ($soal2->tipe_jawaban == 0)
-                    @foreach ($soal2->shufflePilihan($soal2->pilihan) as $keyB => $value)
+        @if ($data['quiz']->soal_acak == 0)
+            @foreach ($data['soal'] as $key2 => $soal2)
+            <div class="card-body" style="border: 1px solid #e8e8e9; border-radius: .75rem;">
+                <div class="form-group" id="soal-change-{{ ($key2+count($data['quiz_tracker'])) }}" data-id="{{ $soal2->id }}">
+                    <span class="text-muted mb-2 d-inline-block">Soal <strong>No. {{ ($key2+1+count($data['quiz_tracker'])) }}</strong> :</span>
+                    <h5>{!! $soal2->pertanyaan !!}</h5>
+                    <hr style="border-color: #d1a340;">
+                    <span class="text-muted mb-2 d-inline-block">Jawab :</span>
+                    <input type="hidden" id="position-{{ ($key2+count($data['quiz_tracker'])) }}" value="{{ ($key2+1+count($data['quiz_tracker'])) }}">
+                    <input type="hidden" id="type-{{ ($key2+count($data['quiz_tracker'])) }}" value="{{ $soal2->tipe_jawaban }}">
+                    @if ($soal2->tipe_jawaban == 0)
+                        @foreach ($soal2->shufflePilihan($soal2->pilihan) as $keyB => $value)
+                        <label class="custom-control custom-radio">
+                            <input type="radio" class="custom-control-input" name="jawaban-{{ ($key2+count($data['quiz_tracker'])) }}" value="{{ $keyB }}">
+                            <span class="custom-control-label">{{ $value }}</span>
+                        </label>
+                        &nbsp;
+                        @endforeach
+                    @elseif ($soal2->tipe_jawaban == 1)
+                    <input type="text" class="form-control" name="jawaban-{{ ($key2+count($data['quiz_tracker'])) }}" placeholder="Masukan jawaban">
+                    @elseif ($soal2->tipe_jawaban == 3)
                     <label class="custom-control custom-radio">
-                        <input type="radio" class="custom-control-input" name="jawaban-{{ ($key2+count($data['quiz_tracker'])) }}" value="{{ $keyB }}">
-                        <span class="custom-control-label">{{ $value }}</span>
+                        <input type="radio" class="custom-control-input" name="jawaban-{{ ($key2+count($data['quiz_tracker'])) }}" value="1">
+                        <span class="custom-control-label">TRUE</span>
                     </label>
                     &nbsp;
-                    @endforeach
-                @elseif ($soal2->tipe_jawaban == 1)
-                <input type="text" class="form-control" name="jawaban-{{ ($key2+count($data['quiz_tracker'])) }}" placeholder="Masukan jawaban">
-                @elseif ($soal2->tipe_jawaban == 3)
-                <label class="custom-control custom-radio">
-                    <input type="radio" class="custom-control-input" name="jawaban-{{ ($key2+count($data['quiz_tracker'])) }}" value="1">
-                    <span class="custom-control-label">TRUE</span>
-                </label>
-                &nbsp;
-                <label class="custom-control custom-radio">
-                    <input type="radio" class="custom-control-input" name="jawaban-{{ ($key2+count($data['quiz_tracker'])) }}" value="0">
-                    <span class="custom-control-label">FALSE</span>
-                </label>
-                &nbsp;
-                @else
-                <textarea class="form-control" name="jawaban-{{ ($key2+count($data['quiz_tracker'])) }}" placeholder="Masukan jawaban"></textarea>
-                @endif
+                    <label class="custom-control custom-radio">
+                        <input type="radio" class="custom-control-input" name="jawaban-{{ ($key2+count($data['quiz_tracker'])) }}" value="0">
+                        <span class="custom-control-label">FALSE</span>
+                    </label>
+                    &nbsp;
+                    @else
+                    <textarea class="form-control" name="jawaban-{{ ($key2+count($data['quiz_tracker'])) }}" placeholder="Masukan jawaban"></textarea>
+                    @endif
+                </div>
             </div>
-        </div>
-        <br>
-        @endforeach
+            <br>
+            @endforeach
+        @endif
     </div>
     <div class="card-footer">
         <div class="row">

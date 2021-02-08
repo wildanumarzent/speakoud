@@ -55,22 +55,36 @@
                     </li>
                     @endforeach
                 @endif
-                @foreach ($data['soal'] as $key => $soal)
+                @if ($data['quiz']->soal_acak == 0)
+                    @foreach ($data['soal'] as $key => $soal)
+                    <li>
+                    <a href="#smartwizard-6-step-{{ ($data['count_tracker'] > 0) ? ($key+$data['count_tracker']) : $key }}" class="mb-3">
+                        <span class="sw-done-icon ion ion-md-checkmark"></span>
+                        <span class="sw-number">1</span>
+                        <div class="text-muted small">SOAL</div>
+                        ISI
+                    </a>
+                    </li>
+                    @endforeach
+                    <li>
+                        <a href="#smartwizard-6-step-{{ ($data['count_tracker'] > 0) ? ($data['soal']->count()+1+$data['count_tracker']) : ($data['soal']->count()+1) }}" class="mb-3">
+                            <span class="sw-done-icon ion ion-md-checkmark"></span>
+                            <span class="sw-number">1</span>
+                            <div class="text-muted small">SOAL</div>
+                            ISI
+                        </a>
+                    </li>
+                @endif
                 <li>
-                  <a href="#smartwizard-6-step-{{ ($data['count_tracker'] > 0) ? ($key+$data['count_tracker']) : $key }}" class="mb-3">
-                    <span class="sw-done-icon ion ion-md-checkmark"></span>
-                    <span class="sw-number">1</span>
-                    <div class="text-muted small">SOAL</div>
-                    ISI
-                  </a>
-                </li>
-                @endforeach
-                <li>
+                    @if ($data['quiz']->soal_acak == 0)
                     <a href="#smartwizard-6-step-{{ ($data['count_tracker'] > 0) ? ($data['soal']->count()+1+$data['count_tracker']) : ($data['soal']->count()+1) }}" class="mb-3">
-                      <span class="sw-done-icon ion ion-md-checkmark"></span>
-                      <span class="sw-number">1</span>
-                      <div class="text-muted small">SOAL</div>
-                      ISI
+                    @else
+                    <a href="#smartwizard-6-step-{{ ($data['count_tracker']+1) }}" class="mb-3">
+                    @endif
+                        <span class="sw-done-icon ion ion-md-checkmark"></span>
+                        <span class="sw-number">1</span>
+                        <div class="text-muted small">SOAL</div>
+                        ISI
                     </a>
                 </li>
             </ul>
@@ -89,7 +103,7 @@
                                 @if ($soal1->item->tipe_jawaban == 0)
                                     @foreach ($soal1->item->shufflePilihan($soal1->item->pilihan) as $keyA => $valueA)
                                     <label class="custom-control custom-radio mb-3">
-                                        <input type="radio" class="custom-control-input" name="jawaban-{{ $key1 }}" value="{{ $keyA }}" {{ $soal1->jawaban == $keyA ? 'checked' : '' }}>
+                                        <input type="radio" class="custom-control-input" name="jawaban-{{ $key1 }}" value="{{ $keyA }}" {{ $soal1->jawaban == ''.$keyA.'' ? 'checked' : '' }}>
                                         <span class="custom-control-label">{{ $valueA }}</span>
                                     </label>
                                     @endforeach
@@ -97,11 +111,11 @@
                                     <input type="text" class="form-control" name="jawaban-{{ $key1 }}" placeholder="masukan jawaban" value="{{ $soal1->jawaban }}">
                                 @elseif ($soal1->item->tipe_jawaban == 3)
                                     <label class="custom-control custom-radio mb-3">
-                                        <input type="radio" class="custom-control-input" name="jawaban-{{ $key1 }}" value="1" {{ $soal1->jawaban == 1 ? 'checked' : '' }}>
+                                        <input type="radio" class="custom-control-input" name="jawaban-{{ $key1 }}" value="1" {{ $soal1->jawaban == '1' ? 'checked' : '' }}>
                                         <span class="custom-control-label">TRUE</span>
                                     </label>
                                     <label class="custom-control custom-radio mb-3">
-                                        <input type="radio" class="custom-control-input" name="jawaban-{{ $key1 }}" value="0" {{ $soal1->jawaban == 0 ? 'checked' : '' }}>
+                                        <input type="radio" class="custom-control-input" name="jawaban-{{ $key1 }}" value="0" {{ $soal1->jawaban == '0' ? 'checked' : '' }}>
                                         <span class="custom-control-label">FALSE</span>
                                     </label>
                                 @else
@@ -112,41 +126,47 @@
                     </div>
                     @endforeach
                 @endif
-                @foreach ($data['soal'] as $key => $soal)
-                <div id="smartwizard-6-step-{{ ($data['count_tracker'] > 0) ? ($key+$data['count_tracker']) : $key }}" class="card animated fadeIn" data-itemid="{{ $soal->id }}">
-                    <div class="card-body" style="border: 1px solid #e8e8e9; border-radius: .75rem;">
-                        <div class="form-group mb-0">
-                            <span class="text-muted mb-2 d-inline-block">Soal no : <span class="soal-number">1</span></span>
-                            <h5>{!! $soal->pertanyaan !!}</h5>
-                            <hr style="border-color: #d1a340;">
-                            <span class="text-muted mb-2 d-inline-block">Jawab :</span>
-                            <input type="hidden" id="type-{{ ($data['count_tracker'] > 0) ? ($key+$data['count_tracker']) : $key }}" value="{{ $soal->tipe_jawaban }}">
-                            @if ($soal->tipe_jawaban == 0)
-                                @foreach ($soal->shufflePilihan($soal->pilihan) as $keyB => $value)
-                                <label class="custom-control custom-radio mb-3">
-                                    <input type="radio" class="custom-control-input" name="jawaban-{{ ($data['count_tracker'] > 0) ? ($key+$data['count_tracker']) : $key }}" value="{{ $keyB }}">
-                                    <span class="custom-control-label">{{ $value }}</span>
-                                </label>
-                                @endforeach
-                            @elseif ($soal->tipe_jawaban == 1)
-                                <input type="text" class="form-control" name="jawaban-{{ ($data['count_tracker'] > 0) ? ($key+$data['count_tracker']) : $key }}" placeholder="masukan jawaban">
-                            @elseif ($soal->tipe_jawaban == 3)
-                                <label class="custom-control custom-radio mb-3">
-                                    <input type="radio" class="custom-control-input" name="jawaban-{{ ($data['count_tracker'] > 0) ? ($key+$data['count_tracker']) : $key }}" value="1">
-                                    <span class="custom-control-label">TRUE</span>
-                                </label>
-                                <label class="custom-control custom-radio mb-3">
-                                    <input type="radio" class="custom-control-input" name="jawaban-{{ ($data['count_tracker'] > 0) ? ($key+$data['count_tracker']) : $key }}" value="0">
-                                    <span class="custom-control-label">FALSE</span>
-                                </label>
-                            @else
-                                <textarea class="form-control" name="jawaban-{{ ($data['count_tracker'] > 0) ? ($key+$data['count_tracker']) : $key }}" placeholder="masukan jawaban..."></textarea>
-                            @endif
+                @if ($data['quiz']->soal_acak == 0)
+                    @foreach ($data['soal'] as $key => $soal)
+                    <div id="smartwizard-6-step-{{ ($data['count_tracker'] > 0) ? ($key+$data['count_tracker']) : $key }}" class="card animated fadeIn" data-itemid="{{ $soal->id }}">
+                        <div class="card-body" style="border: 1px solid #e8e8e9; border-radius: .75rem;">
+                            <div class="form-group mb-0">
+                                <span class="text-muted mb-2 d-inline-block">Soal no : <span class="soal-number">1</span></span>
+                                <h5>{!! $soal->pertanyaan !!}</h5>
+                                <hr style="border-color: #d1a340;">
+                                <span class="text-muted mb-2 d-inline-block">Jawab :</span>
+                                <input type="hidden" id="type-{{ ($data['count_tracker'] > 0) ? ($key+$data['count_tracker']) : $key }}" value="{{ $soal->tipe_jawaban }}">
+                                @if ($soal->tipe_jawaban == 0)
+                                    @foreach ($soal->shufflePilihan($soal->pilihan) as $keyB => $value)
+                                    <label class="custom-control custom-radio mb-3">
+                                        <input type="radio" class="custom-control-input" name="jawaban-{{ ($data['count_tracker'] > 0) ? ($key+$data['count_tracker']) : $key }}" value="{{ $keyB }}">
+                                        <span class="custom-control-label">{{ $value }}</span>
+                                    </label>
+                                    @endforeach
+                                @elseif ($soal->tipe_jawaban == 1)
+                                    <input type="text" class="form-control" name="jawaban-{{ ($data['count_tracker'] > 0) ? ($key+$data['count_tracker']) : $key }}" placeholder="masukan jawaban">
+                                @elseif ($soal->tipe_jawaban == 3)
+                                    <label class="custom-control custom-radio mb-3">
+                                        <input type="radio" class="custom-control-input" name="jawaban-{{ ($data['count_tracker'] > 0) ? ($key+$data['count_tracker']) : $key }}" value="1">
+                                        <span class="custom-control-label">TRUE</span>
+                                    </label>
+                                    <label class="custom-control custom-radio mb-3">
+                                        <input type="radio" class="custom-control-input" name="jawaban-{{ ($data['count_tracker'] > 0) ? ($key+$data['count_tracker']) : $key }}" value="0">
+                                        <span class="custom-control-label">FALSE</span>
+                                    </label>
+                                @else
+                                    <textarea class="form-control" name="jawaban-{{ ($data['count_tracker'] > 0) ? ($key+$data['count_tracker']) : $key }}" placeholder="masukan jawaban..."></textarea>
+                                @endif
+                            </div>
                         </div>
                     </div>
-                </div>
-                @endforeach
+                    @endforeach
+                @endif
+                @if ($data['quiz']->soal_acak == 0)
                 <div id="smartwizard-6-step-{{ ($data['count_tracker'] > 0) ? ($data['soal']->count()+1+$data['count_tracker']) : ($data['soal']->count()+1) }}" class="card animated fadeIn">
+                @else
+                <div id="smartwizard-6-step-{{ ($data['count_tracker']+1) }}" class="card animated fadeIn">
+                @endif
                     <h6>Apakah anda yakin sudah mengisi semua jawaban ?</h6><br>
                     <div class="d-flex justify-content-center">
                         <button type="button" class="btn btn-success btn-block finish-quiz" data-id="{{ $data['quiz']->id }}" title="klik untuk selesai">
@@ -159,7 +179,11 @@
     </div>
 </div>
 
+@if ($data['quiz']->soal_acak == 0)
 <input type="hidden" value="{{ $data['quiz']->item->count() }}" id="counter-soal">
+@else
+<input type="hidden" value="{{ $data['count_tracker'] }}" id="counter-soal">
+@endif
 @endsection
 
 @section('scripts')
