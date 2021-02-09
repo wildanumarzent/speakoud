@@ -180,5 +180,10 @@ return [
             'child' => '',
         ],
     ],
+    'tipe_sertifikat' => [
+        0 => 'Sertifikat Non Kerjasama',
+        1 => 'Sertifikat Kerjasama',
+        2 => 'Sertifikat Bahasa Inggris'
+    ],
 
 ];

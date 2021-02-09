@@ -15,6 +15,32 @@
             @method('PUT')
         @endif
         <div class="card-body">
+            @if (!isset($data['sertifikat']))
+            <div class="form-group row">
+                <div class="col-md-2 text-md-right">
+                  <label class="col-form-label text-sm-right">Tipe Sertifikat</label>
+                </div>
+                <div class="col-md-10">
+                    <select id="tipe" class="custom-select form-control @error('tipe') is-invalid @enderror" name="tipe">
+                        @foreach (config('addon.label.tipe_sertifikat') as $key => $val)
+                        <option value="{{ $key }}">{{ $val }}</option>
+                        @endforeach
+                    </select>
+                    @error('tipe')
+                        <label class="error jquery-validation-error small form-text invalid-feedback" style="display: inline-block; color:red;">{!! $message !!}</label>
+                    @enderror
+                </div>
+            </div>
+            @else
+            <div class="form-group row">
+                <div class="col-md-2 text-md-right">
+                  <label class="col-form-label text-sm-right">Tipe Sertifikat</label>
+                </div>
+                <div class="col-md-10">
+                    <input type="text" class="form-control" value="{{ config('addon.label.tipe_sertifikat.'.$data['sertifikat']->tipe) }}" readonly>
+                </div>
+            </div>
+            @endif
             <div class="form-group row">
                 <div class="col-md-2 text-md-right">
                   <label class="col-form-label text-sm-right">Nomor</label>
@@ -71,6 +97,42 @@
                     </label>
                 </div>
             </div> --}}
+            @if (!isset($data['sertifikat']) || isset($data['sertifikat']) && $data['sertifikat']->tipe == 1)
+            <div id="kerjasama">
+                <hr>
+                <h5>Kerjasama Mitra :</h5>
+                <div class="form-group row">
+                    <div class="col-md-2 text-md-right">
+                      <label class="col-form-label text-sm-right">Nama Perusahaan / Unit Kerja</label>
+                    </div>
+                    <div class="col-md-10">
+                      <input type="text" class="form-control @error('unit_kerja') is-invalid @enderror" name="unit_kerja"
+                        value="{{ isset($data['sertifikat']) ? old('unit_kerja', $data['sertifikat']->unit_kerja) : old('unit_kerja') }}" placeholder="masukan unit kerja...">
+                      @include('components.field-error', ['field' => 'unit_kerja'])
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-2 text-md-right">
+                      <label class="col-form-label text-sm-right">Pejabat Terkait</label>
+                    </div>
+                    <div class="col-md-10">
+                      <input type="text" class="form-control @error('pejabat_terkait') is-invalid @enderror" name="pejabat_terkait"
+                        value="{{ isset($data['sertifikat']) ? old('pejabat_terkait', $data['sertifikat']->pejabat_terkait) : old('pejabat_terkait') }}" placeholder="masukan pejabat terkait...">
+                      @include('components.field-error', ['field' => 'pejabat_terkait'])
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-2 text-md-right">
+                      <label class="col-form-label text-sm-right">Nama Pejabat</label>
+                    </div>
+                    <div class="col-md-10">
+                      <input type="text" class="form-control @error('nama_pejabat') is-invalid @enderror" name="nama_pejabat"
+                        value="{{ isset($data['sertifikat']) ? old('nama_pejabat', $data['sertifikat']->nama_pejabat) : old('nama_pejabat') }}" placeholder="masukan nama pejabat...">
+                      @include('components.field-error', ['field' => 'nama_pejabat'])
+                    </div>
+                </div>
+            </div>
+            @endif
         </div>
         <div class="card-footer">
             <div class="row">
@@ -133,5 +195,17 @@
         todayHighlight: true,
     });
 </script>
+@if (!isset($data['sertifikat']))
+<script>
+    $('#kerjasama').hide();
+    $('#tipe').change(function(){
+        if($('#tipe').val() == 1) {
+            $('#kerjasama').show();
+        } else {
+            $('#kerjasama').hide();
+        }
+    });
+</script>
+@endif
 @include('components.toastr')
 @endsection

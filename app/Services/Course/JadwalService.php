@@ -57,9 +57,9 @@ class JadwalService
     {
         $query = $this->model->query();
 
-        $query->whereHas('mata', function ($query) {
-            $query->publish();
-        });
+        // $query->whereHas('mata', function ($query) {
+        //     $query->publish();
+        // });
         $query->publish();
 
         $result = $query->orderBy('created_at', 'DESC')->paginate($limit);
@@ -81,7 +81,7 @@ class JadwalService
         }
 
         $jadwal = new JadwalPelatihan($request->only(['judul']));
-        $jadwal->mata_id = $request->mata_id;
+        $jadwal->mata_id = $request->mata_id ?? null;
         $jadwal->creator_id = auth()->user()->id;
         $jadwal->keterangan = $request->keterangan ?? null;
         $jadwal->start_date = $request->start_date;
@@ -122,7 +122,7 @@ class JadwalService
 
         $jadwal = $this->findJadwal($id);
         $jadwal->fill($request->only(['judul']));
-        $jadwal->mata_id = $request->mata_id;
+        $jadwal->mata_id = $request->mata_id ?? null;
         $jadwal->keterangan = $request->keterangan ?? null;
         $jadwal->start_date = $request->start_date;
         $jadwal->end_date = $request->end_date;

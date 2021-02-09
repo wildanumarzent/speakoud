@@ -33,10 +33,14 @@ class SertifikatInternalService
         $sertifikat = new SertifikatInternal;
         $sertifikat->mata_id = $mataId;
         $sertifikat->creator_id = auth()->user()->id;
+        $sertifikat->tipe = $request->tipe;
         $sertifikat->nomor = $request->nomor;
         $sertifikat->tanggal = $request->tanggal;
         $sertifikat->nama_pimpinan = $request->nama_pimpinan;
         $sertifikat->jabatan = $request->jabatan;
+        $sertifikat->unit_kerja = $request->unit_kerja ?? null;
+        $sertifikat->pejabat_terkait = $request->pejabat_terkait ?? null;
+        $sertifikat->nama_pejabat = $request->nama_pejabat ?? null;
         $sertifikat->save();
     }
 
@@ -47,6 +51,9 @@ class SertifikatInternalService
         $sertifikat->tanggal = $request->tanggal;
         $sertifikat->nama_pimpinan = $request->nama_pimpinan;
         $sertifikat->jabatan = $request->jabatan;
+        $sertifikat->unit_kerja = $request->unit_kerja ?? $sertifikat->unit_kerja;
+        $sertifikat->pejabat_terkait = $request->pejabat_terkait ?? $sertifikat->pejabat_terkait;
+        $sertifikat->nama_pejabat = $request->nama_pejabat ?? $sertifikat->nama_pejabat;
         $sertifikat->save();
 
         return $sertifikat;
@@ -71,16 +78,35 @@ class SertifikatInternalService
         $GLOBALS['nama'] = auth()->user()->name;
         $GLOBALS['program'] = $mata->judul;
         if (!empty($mata->jam_pelatihan)) {
-            $GLOBALS['jam'] = $mata->jam_pelatihan.' Hours';
+            if ($mata->sertifikatInternal->tipe == 2) {
+                $GLOBALS['jam'] = $mata->jam_pelatihan.' Hours';
+            } else {
+                $GLOBALS['jam'] = $mata->jam_pelatihan.' Jam';
+            }
         }
-        $GLOBALS['start'] = $mata->publish_start->format('F jS');
-        $GLOBALS['end'] = $mata->publish_end->format('F jS, Y');
+        if ($mata->sertifikatInternal->tipe == 2) {
+            $GLOBALS['start'] = $mata->publish_start->format('F jS, Y');
+            $GLOBALS['end'] = $mata->publish_end->format('F jS, Y');
+        } else {
+            $GLOBALS['start'] = $mata->publish_start->format('d F Y');
+            $GLOBALS['end'] = $mata->publish_end->format('d F Y');
+        }
         $GLOBALS['tanggal'] = $mata->sertifikatInternal->tanggal->format('d F Y');
         $GLOBALS['nama_pimpinan'] = $mata->sertifikatInternal->nama_pimpinan;
         $GLOBALS['jabatan'] = $mata->sertifikatInternal->jabatan;
+        $GLOBALS['unit_kerja'] = $mata->sertifikatInternal->unit_kerja;
+        $GLOBALS['pejabat_terkait'] = $mata->sertifikatInternal->pejabat_terkait;
+        $GLOBALS['nama_pejabat'] = $mata->sertifikatInternal->nama_pejabat;
         $GLOBALS['foto'] = public_path('userfile/photo/sertifikat/'.auth()->user()->peserta->foto_sertifikat);
+        if ($mata->sertifikatInternal->tipe == 0) {
+            $template = public_path('userfile/certificate/TEMPLATE-SERTIFIKAT-TEKNIS.docx');
+        } elseif ($mata->sertifikatInternal->tipe == 1) {
+            $template = public_path('userfile/certificate/TEMPLATE-SERTIFIKAT-TEKNIS-KERJASAMA.docx');
+        } else {
+            $template = public_path('userfile/certificate/TEMPLATE-SERTIFIKAT-TEKNIS-EN.docx');
+        }
+        
 
-        $template = public_path('userfile/certificate/template-internal.docx');
         $TBS->LoadTemplate($template, OPENTBS_ALREADY_UTF8);
 
         $userName = str_replace(' ', '-', auth()->user()->name);
