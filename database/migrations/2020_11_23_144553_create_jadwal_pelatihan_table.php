@@ -15,7 +15,7 @@ class CreateJadwalPelatihanTable extends Migration
     {
         Schema::create('jadwal_pelatihan', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('mata_id');
+            $table->unsignedBigInteger('mata_id')->nullable();
             $table->unsignedBigInteger('creator_id');
             $table->string('judul');
             $table->text('keterangan')->nullable();

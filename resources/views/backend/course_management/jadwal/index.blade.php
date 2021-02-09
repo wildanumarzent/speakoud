@@ -48,7 +48,9 @@
             <a href="javascript:;" class="text-body text-large font-weight-semibold" title="{!! $item->judul !!}">{!! Str::limit($item->judul, 80) !!} <span class="badge badge-secondary">{{ $item->publish == 1 ? 'Publish' : 'Draft' }}</span></a>
             <div class="d-flex flex-wrap mt-3">
                 <div class="mr-3"><i class="vacancy-tooltip las la-user text-light"></i>&nbsp; {{ $item->creator->name }}</div>
+                @if (!empty($item->mata_id))
                 <div class="mr-3"><i class="vacancy-tooltip las la-eye text-light"></i>&nbsp; {{ $item->mata->judul }}</div>
+                @endif
                 <div class="mr-3"><i class="vacancy-tooltip las la-map-pin text-light"></i>&nbsp; {{ $item->lokasi ?? '-' }}</div>
             </div>
             <hr class="">

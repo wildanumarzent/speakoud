@@ -65,7 +65,7 @@ class JadwalController extends Controller
     {
         $data['read'] = $this->service->findJadwal($id);
 
-        if ($data['read']->mata->publish == 0 || $data['read']->publish == 0) {
+        if ($data['read']->publish == 0) {
             return abort(404);
         }
 

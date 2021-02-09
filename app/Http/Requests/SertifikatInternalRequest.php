@@ -24,21 +24,50 @@ class SertifikatInternalRequest extends FormRequest
     public function rules()
     {
         if ($this->method() == 'POST') {
-            return [
-                'nomor' => 'required|unique:sertifikat_internal,nomor',
-                'tanggal' => 'required',
-                'nama_pimpinan' => 'required',
-                'jabatan' => 'required',
-                'tte' => 'nullable|mimes:'.config('addon.mimes.photo.m'),
-            ];
+
+            if ($this->tipe == 1) {
+                return [
+                    'nomor' => 'required|unique:sertifikat_internal,nomor',
+                    'tanggal' => 'required',
+                    'nama_pimpinan' => 'required',
+                    'jabatan' => 'required',
+                    'unit_kerja' => 'required',
+                    'pejabat_terkait' => 'required',
+                    'nama_pejabat' => 'required',
+                    'tte' => 'nullable|mimes:'.config('addon.mimes.photo.m'),
+                ];
+            } else {
+                return [
+                    'nomor' => 'required|unique:sertifikat_internal,nomor',
+                    'tanggal' => 'required',
+                    'nama_pimpinan' => 'required',
+                    'jabatan' => 'required',
+                    'tte' => 'nullable|mimes:'.config('addon.mimes.photo.m'),
+                ];
+            }
+
         } else {
-            return [
-                'nomor' => 'required|unique:sertifikat_internal,nomor,'.$this->sertifikatId,
-                'tanggal' => 'required',
-                'nama_pimpinan' => 'required',
-                'jabatan' => 'required',
-                'tte' => 'nullable|mimes:'.config('addon.mimes.photo.m'),
-            ];
+
+            if ($this->tipe == 1) {
+                return [
+                    'nomor' => 'required|unique:sertifikat_internal,nomor,'.$this->sertifikatId,
+                    'tanggal' => 'required',
+                    'nama_pimpinan' => 'required',
+                    'jabatan' => 'required',
+                    'unit_kerja' => 'required',
+                    'pejabat_terkait' => 'required',
+                    'nama_pejabat' => 'required',
+                    'tte' => 'nullable|mimes:'.config('addon.mimes.photo.m'),
+                ];
+            } else {
+                return [
+                    'nomor' => 'required|unique:sertifikat_internal,nomor,'.$this->sertifikatId,
+                    'tanggal' => 'required',
+                    'nama_pimpinan' => 'required',
+                    'jabatan' => 'required',
+                    'tte' => 'nullable|mimes:'.config('addon.mimes.photo.m'),
+                ];
+            }
         }
 
     }
@@ -50,6 +79,9 @@ class SertifikatInternalRequest extends FormRequest
             'tanggal' => 'Tanggal Pengesahan',
             'nama_pimpinan' => 'Nama Pimpinan',
             'jabatan' => 'Jabatan',
+            'unit_kerja' => 'Unit Kerja / Perusahaan ',
+            'pejabat_terkait' => 'Pejabat Terkait',
+            'nama_pejabat' => 'Nama Pejabat',
             'tte' => 'Tanda tangan elektronik',
         ];
     }
@@ -62,6 +94,9 @@ class SertifikatInternalRequest extends FormRequest
             'tanggal.required' => ':attribute tidak boleh kosong',
             'nama_pimpinan.required' => ':attribute tidak boleh kosong',
             'jabatan.required' => ':attribute tidak boleh kosong',
+            'unit_kerja.required' => ':attribute tidak boleh kosong',
+            'pejabat_terkait.required' => ':attribute tidak boleh kosong',
+            'nama_pejabat.required' => ':attribute tidak boleh kosong',
             'tte.mimes' => 'Tipe :attribute harus :values.',
         ];
     }
