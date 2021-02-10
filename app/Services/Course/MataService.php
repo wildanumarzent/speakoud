@@ -623,12 +623,7 @@ class MataService
         $mata = $this->findMata($mataId);
         $instruktur = $this->modelInstruktur->findOrFail($id);
         $userInstruktur = $this->instruktur->findInstruktur($instruktur->instruktur_id);
-        $this->notifikasi->make(
-            $model = $mata,
-            $title = 'Dikeluarkan Dalam Program '.$mata->judul,
-            $description = 'Anda Telah Dikeluarkan Dalam Program '.$mata->judul,
-            $to = $userInstruktur->user->id
-            );
+
 
         $materi = $mata->materi->where('instruktur_id', $id)->count();
         $bahan = $mata->bahan()->where('creator_id', $instruktur->instruktur->user_id)->count();
@@ -638,6 +633,13 @@ class MataService
         if ($materi > 0 || $bahan > 0 || $evaluasi > 0) {
             return false;
         } else {
+
+            $this->notifikasi->make(
+                $model = $mata,
+                $title = 'Dikeluarkan Dalam Program '.$mata->judul,
+                $description = 'Anda Telah Dikeluarkan Dalam Program '.$mata->judul,
+                $to = $userInstruktur->user->id
+                );
 
             $instruktur->delete();
 
@@ -650,12 +652,7 @@ class MataService
         $mata = $this->findMata($mataId);
         $peserta = $this->modelPeserta->findOrFail($id);
         $userPeserta = $this->peserta->findPeserta($peserta->peserta_id);
-        $this->notifikasi->make(
-            $model = $mata,
-            $title = 'Dikeluarkan Dalam Program '.$mata->judul,
-            $description = 'Anda Telah Dikeluarkan Dalam Program '.$mata->judul,
-            $to = $userPeserta->user->id
-            );
+
 
         $activity = ActivityCompletion::where('mata_id', $mataId)
             ->where('user_id', $peserta->peserta->user->id)->count();
@@ -686,6 +683,13 @@ class MataService
 
             return false;
         } else {
+
+            $this->notifikasi->make(
+                $model = $mata,
+                $title = 'Dikeluarkan Dalam Program '.$mata->judul,
+                $description = 'Anda Telah Dikeluarkan Dalam Program '.$mata->judul,
+                $to = $userPeserta->user->id
+                );
 
             $peserta->delete();
 
