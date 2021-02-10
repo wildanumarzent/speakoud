@@ -30,7 +30,12 @@
                                                 </form>
                                             </a>
                                             @else
-                                            <a href="{{ route('bank.data.stream', ['path' => $data['read']->sertifikatPeserta->file_path]) }}"><i class="las la-download text-primary" style="font-size: 2em;" title="download sertifikat"></i></a>
+                                            <a href="{{ route('bank.data.stream', ['path' => $data['read']->sertifikatPeserta->file_path]) }}" title="download sertifikat halaman depan">
+                                                <span class="badge badge-primary"><i class="las la-download"></i> Halaman Depan</span>
+                                            </a>
+                                            <a href="{{ route('sertifikat.internal.download', ['id' => $data['read']->id, 'sertifikatId' => $data['read']->sertifikatInternal->id]) }}" title="download sertifikat halaman belakang">
+                                                <span class="badge badge-success"><i class="las la-download"></i> Halaman Belakang</span>
+                                            </a>
                                             @endif
                                         </div>
                                         <a href="javascript:;" class="text-body">Sertifikat {{ $data['read']->judul }}</a>&nbsp;
