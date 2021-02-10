@@ -5,6 +5,8 @@
 <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-material-datetimepicker/bootstrap-material-datetimepicker.css') }}">
 <script src="{{ asset('assets/tmplts_backend/wysiwyg/tinymce.min.js') }}"></script>
 <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/fancybox/fancybox.min.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-select/bootstrap-select.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/select2/select2.css') }}">
 @endsection
 
 @section('content')
@@ -37,6 +39,32 @@
                                 <div class="col-md-10">
                                     <input type="text" class="form-control @error('kode_evaluasi') is-invalid @enderror" name="kode_evaluasi" value="{{ old('kode_evaluasi') }}" placeholder="masukan kode evaluasi...">
                                     @include('components.field-error', ['field' => 'kode_evaluasi'])
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-2 text-md-right">
+                                  <label class="col-form-label text-sm-right">Pola Penyelenggaraan</label>
+                                </div>
+                                <div class="col-md-10">
+                                    <select class="selectpicker show-tick" data-style="btn-default" name="pola_penyelenggaraan">
+                                        <option value=" " selected>Pilih</option>
+                                        @foreach (config('addon.master_data.pola_penyelenggaraan') as $key => $value)
+                                        <option value="{{ $key }}" {{ old('pola_penyelenggaraan', $data['tMata']->pola_penyelenggaraan) == ''.$key.'' ? 'selected' : '' }}>{{ $value }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-2 text-md-right">
+                                  <label class="col-form-label text-sm-right">Sumber Anggaran</label>
+                                </div>
+                                <div class="col-md-10">
+                                    <select class="selectpicker show-tick" data-style="btn-default" name="sumber_anggaran">
+                                        <option value=" " selected>Pilih</option>
+                                        @foreach (config('addon.master_data.sumber_anggaran') as $key => $value)
+                                        <option value="{{ $key }}" {{ old('sumber_anggaran', $data['tMata']->sumber_anggaran) == ''.$key.'' ? 'selected' : '' }}>{{ $value }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -294,7 +322,9 @@
 @section('scripts')
 <script src="{{ asset('assets/tmplts_backend/vendor/libs/moment/moment.js') }}"></script>
 <script src="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-material-datetimepicker/bootstrap-material-datetimepicker.js') }}"></script>
-
+<script src="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-select/bootstrap-select.js') }}"></script>
+<script src="{{ asset('assets/tmplts_backend/vendor/libs/select2/select2.js') }}"></script>
+<script src="{{ asset('assets/tmplts_backend/js/forms_selects.js') }}"></script>
 <script src="{{ asset('assets/tmplts_backend/fancybox/fancybox.min.js') }}"></script>
 @endsection
 

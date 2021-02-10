@@ -7,6 +7,7 @@ use App\Http\Requests\SertifikatInternalRequest;
 use App\Services\Course\MataService;
 use App\Services\Sertifikasi\SertifikatInternalService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class SertifikatInternalController extends Controller
 {
@@ -77,5 +78,12 @@ class SertifikatInternalController extends Controller
         $this->service->cetakSertifikat($mataId, $sertifikatId);
 
         return back()->with('success', 'berhasil cetak sertifikat, silahkan untuk mendownload');
+    }
+
+    public function download($mataId, $sertifikatId)
+    {
+        $this->service->cetakSertifikatBelakang($mataId);
+
+        return back();
     }
 }

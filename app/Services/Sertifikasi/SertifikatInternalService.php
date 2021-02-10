@@ -109,7 +109,6 @@ class SertifikatInternalService
 
         $TBS->LoadTemplate($template, OPENTBS_ALREADY_UTF8);
 
-        $userName = str_replace(' ', '-', auth()->user()->name);
         $judul = str_replace(' ', '-', $mata->judul);
         $certName = 'Certificate-'.$judul.'.docx';
         $dir = storage_path('/app/bank_data/sertifikat_internal/'.auth()->user()->peserta->id);
@@ -126,5 +125,29 @@ class SertifikatInternalService
         $cetak->save();
 
         return $cetak;
+    }
+
+    public function cetakSertifikatBelakang(int $mataId)
+    {
+        $mata = $this->mata->findMata($mataId);
+
+        $TBS = new clsTinyButStrong; // new instance of TBS
+        $TBS->Plugin(TBS_INSTALL, 'clsOpenTBS'); // load the OpenTBS plugin
+
+        $template = public_path('userfile/certificate/TEMPLATE-SERTIFIKAT-BELAKANG.docx');
+        $TBS->LoadTemplate($template, OPENTBS_ALREADY_UTF8);
+
+        $GLOBALS['program'] = $mata->judul;
+
+        foreach ($mata->materiPublish as $no => $materi) {
+            $mataPublish[$no] = ($no+1).'. '.$materi->judul;
+        }
+        $TBS->MergeBlock('mata', $mataPublish);
+
+        $judul = str_replace(' ', '-', $mata->judul);
+        $certName = 'Certificate-belakang-'.$judul.'.docx';
+        $TBS->Show(OPENTBS_DOWNLOAD, $certName);
+
+        return true;
     }
 }

@@ -399,6 +399,8 @@ class TemplatingService
                     $segmen->tipe = $valBah->quiz->tipe;
                     $segmen->view = $valBah->quiz->view;
                     $segmen->hasil = $valBah->quiz->hasil;
+                    $segmen->soal_acak = $valBah->quiz->soal_acak;
+                    $segmen->jml_soal_acak = $valBah->quiz->jml_soal_acak;
                     $segmen->save();
 
                     if ($valBah->quiz->item->count() > 0) {

@@ -18,6 +18,7 @@ class AddTipeToSertifikatInternalTable extends Migration
             $table->text('unit_kerja')->nullable();
             $table->text('pejabat_terkait')->nullable();
             $table->string('nama_pejabat')->nullable();
+            $table->text('tte_pejabat')->nullable();
         });
     }
 
