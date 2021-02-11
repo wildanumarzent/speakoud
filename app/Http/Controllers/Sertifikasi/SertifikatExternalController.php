@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Sertifikasi;
 
+use App\Exports\MataPesertaExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SertifikatExternalRequest;
 use App\Services\Course\MataService;
 use App\Services\Sertifikasi\SertifikatExternalService;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 
 class SertifikatExternalController extends Controller
@@ -65,6 +67,12 @@ class SertifikatExternalController extends Controller
         $this->service->uploadSertifikat($request, $mataId);
 
         return back()->with('success', 'upload sertifikat berhasil');
+    }
+
+    public function export(Request $request, $mataId){
+        $mata = $this->serviceMata->findMata($mataId);
+        $peserta = $this->serviceMata->getPesertaList($request,$mataId,$paginate = false);
+        return Excel::download(new MataPesertaExport($peserta,$mata), "data-peserta-{$mata->judul}.xlsx");
     }
 
     public function destroy($mataId, $pesertaId, $id)

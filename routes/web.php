@@ -994,6 +994,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::delete('/mata/{id}/sertifikat/external/peserta/{pesertaId}/detail/{sertifikatId}', 'Sertifikasi\SertifikatExternalController@destroy')
         ->name('sertifikat.external.peserta.destroy')
         ->middleware('role:administrator|internal|mitra');
+    Route::get('/mata/{mataId}/sertifikat/peserta/export', 'Sertifikasi\SertifikatExternalController@export')->name('sertifikat.peserta.export');
 
     /**Website module */
     //page

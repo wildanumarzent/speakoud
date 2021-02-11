@@ -38,6 +38,15 @@
     <div class="card-header with-elements">
         <h5 class="card-header-title mt-1 mb-0">Peserta Pelatihan</h5>
         <div class="card-header-elements ml-auto">
+            @role ('developer|administrator')
+            <div class="btn-group float-right dropdown ml-2">
+                  <a href="{{route('sertifikat.peserta.export',['mataId' => $data['mata']->id])}}" class="btn btn-success dropdown-toggle hide-arrow icon-btn-only-sm" title="klik untuk export peserta"><i class="las la-download"></i><span>Export</span></a>
+            </div>
+            @else
+            <a href="{{ route('peserta.create') }}" class="btn btn-primary icon-btn-only-sm" title="klik untuk menambah peserta">
+                <i class="las la-plus"></i><span>Tambah</span>
+            </a>
+            @endrole
         </div>
     </div>
     <div class="table-responsive">
