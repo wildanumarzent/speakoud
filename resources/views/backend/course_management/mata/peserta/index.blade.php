@@ -56,6 +56,11 @@
             <button type="button" class="btn icon-btn-only-sm btn-success" title="klik untuk import data peserta" data-toggle="modal" data-target="#modals-import">
                 <i class="las la-file-import"></i><span>Import</span>
             </button>
+            @role ('developer|administrator')
+            <div class="btn-group float-right dropdown">
+                  <a href="{{route('mata.peserta.export',['mataId' => $data['mata']->id])}}" class="btn btn-success dropdown-toggle hide-arrow icon-btn-only-sm" title="klik untuk export peserta"><i class="las la-download"></i><span>Export</span></a>
+            </div>
+            @endrole
             <button type="button" class="btn btn-primary icon-btn-only-sm" data-toggle="modal" data-target="#modals-add-peserta" title="klik untuk menambahkan peserta ke program">
                 <i class="las la-plus"></i> <span>Tambah</span>
             </button>

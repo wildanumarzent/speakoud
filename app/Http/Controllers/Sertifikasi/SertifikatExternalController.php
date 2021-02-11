@@ -69,11 +69,7 @@ class SertifikatExternalController extends Controller
         return back()->with('success', 'upload sertifikat berhasil');
     }
 
-    public function export(Request $request, $mataId){
-        $mata = $this->serviceMata->findMata($mataId);
-        $peserta = $this->serviceMata->getPesertaList($request,$mataId,$paginate = false);
-        return Excel::download(new MataPesertaExport($peserta,$mata), "data-peserta-{$mata->judul}.xlsx");
-    }
+ 
 
     public function destroy($mataId, $pesertaId, $id)
     {

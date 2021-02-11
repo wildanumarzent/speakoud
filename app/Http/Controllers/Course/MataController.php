@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Course;
 
+use App\Exports\MataPesertaExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ImportEnrollRequest;
 use App\Http\Requests\KodeEvaluasiInstrukturRequest;
@@ -22,6 +23,7 @@ use App\Services\Users\InstrukturService;
 use App\Services\Users\PesertaService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Maatwebsite\Excel\Facades\Excel;
 
 class MataController extends Controller
 {
@@ -496,5 +498,10 @@ class MataController extends Controller
                 return abort(404);
             }
         }
+    }
+    public function pesertaExport(Request $request, $mataId){
+        $mata = $this->service->findMata($mataId);
+        $peserta = $this->service->getPesertaList($request,$mataId,$paginate = false);
+        return Excel::download(new MataPesertaExport($peserta,$mata), "data-peserta-{$mata->judul}.xlsx");
     }
 }

@@ -622,6 +622,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::delete('/program/{id}/mata/{mataId}', 'Course\MataController@destroy')
         ->name('mata.destroy')
         ->middleware('role:developer|administrator|internal|mitra');
+    Route::get('/mata/{mataId}/peserta/export', 'Course\MataController@pesertaExport')
+        ->name('mata.peserta.export');
 
     //mata user
     #--instruktur
@@ -941,6 +943,7 @@ Route::group(['middleware' => ['auth']], function () {
         ->name('materi.store.template')
         ->middleware('role:developer|administrator|internal');
 
+
     //jadwal pelatihan
     Route::get('/jadwal', 'Course\JadwalController@index')
         ->name('jadwal.index')
@@ -994,7 +997,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::delete('/mata/{id}/sertifikat/external/peserta/{pesertaId}/detail/{sertifikatId}', 'Sertifikasi\SertifikatExternalController@destroy')
         ->name('sertifikat.external.peserta.destroy')
         ->middleware('role:administrator|internal|mitra');
-    Route::get('/mata/{mataId}/sertifikat/peserta/export', 'Sertifikasi\SertifikatExternalController@export')->name('sertifikat.peserta.export');
+
 
     /**Website module */
     //page
