@@ -66,14 +66,6 @@
                     </a>
                     </li>
                     @endforeach
-                    <li>
-                        <a href="#smartwizard-6-step-{{ ($data['count_tracker'] > 0) ? ($data['soal']->count()+1+$data['count_tracker']) : ($data['soal']->count()+1) }}" class="mb-3">
-                            <span class="sw-done-icon ion ion-md-checkmark"></span>
-                            <span class="sw-number">1</span>
-                            <div class="text-muted small">SOAL</div>
-                            ISI
-                        </a>
-                    </li>
                 @endif
                 <li>
                     @if ($data['quiz']->soal_acak == 0)

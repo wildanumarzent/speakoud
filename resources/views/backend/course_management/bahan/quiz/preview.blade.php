@@ -35,6 +35,9 @@
                     @endforeach
                 @elseif ($item->tipe_jawaban == 1)
                     <br><strong>JAWABAN : </strong>
+                    @php
+                        $jawaban = array_map('strtolower', $item->jawaban);
+                    @endphp
                     @foreach ($jawaban as $jwb)
                     <span class="badge badge-success">{{ $jwb }}</span>
                     @endforeach
