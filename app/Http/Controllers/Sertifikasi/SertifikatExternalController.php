@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Sertifikasi;
 
+use App\Exports\MataPesertaExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SertifikatExternalRequest;
 use App\Services\Course\MataService;
 use App\Services\Sertifikasi\SertifikatExternalService;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 
 class SertifikatExternalController extends Controller
@@ -66,6 +68,8 @@ class SertifikatExternalController extends Controller
 
         return back()->with('success', 'upload sertifikat berhasil');
     }
+
+ 
 
     public function destroy($mataId, $pesertaId, $id)
     {

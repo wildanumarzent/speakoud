@@ -55,7 +55,7 @@
             @role ('developer|administrator')
             <div class="btn-group float-right dropdown ml-2">
                 <button type="button" class="btn btn-primary dropdown-toggle hide-arrow icon-btn-only-sm" data-toggle="dropdown" title="klik untuk menambah peserta"><i class="las la-plus"></i><span>Tambah</span></button>
-                <a href="{{route('peserta.export')}}" class="btn btn-success dropdown-toggle hide-arrow icon-btn-only-sm ml-2" title="klik untuk export peserta"><i class="las la-download"></i><span>Export</span></a>
+                {{-- <a href="{{route('peserta.export')}}" class="btn btn-success dropdown-toggle hide-arrow icon-btn-only-sm ml-2" title="klik untuk export peserta"><i class="las la-download"></i><span>Export</span></a> --}}
                 <div class="dropdown-menu dropdown-menu-right">
                     <a href="{{ route('peserta.create', ['peserta' => 'internal']) }}" class="dropdown-item" ><i class="las la-user"></i><span>Peserta Internal</span></a>
                     <a href="{{ route('peserta.create', ['peserta' => 'mitra']) }}" class="dropdown-item" ><i class="las la-user"></i><span>Peserta Mitra</span></a>

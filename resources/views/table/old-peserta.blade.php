@@ -28,26 +28,26 @@
         @forelse ($data['peserta'] as $item)
         <tr>
             {{-- <td>{{ $loop->iteration }}</td> --}}
-            <td>{{$item->peserta->user->name}}</td>
-            <td>{{$item->peserta->nip}}</td>
-            <td>{{$item->peserta->jenis_kelamin}}</td>
-            <td>{{config('addon.master_data.agama.'.$item->peserta->agama) ?? '-'}}</td>
-            <td>{{$item->peserta->tempat_lahir}}</td>
-            <td>{{$item->peserta->tanggal_lahir}}</td>
-            <td>{{$item->peserta->user->email}}</td>
-            <td>{{$item->peserta->user->information->phone}}</td>
-            <td>{{strtoupper(str_replace('_', ' ', $item->peserta->user->roles[0]->name))}}</td>
-            <td>{{config('addon.master_data.golongan.'.$item->peserta->pangkat) ?? '-'}}</td>
-            <td>{{config('addon.master_data.pangkat.'.$item->peserta->pangkat) ?? '-'}}</td>
-            <td>{{$item->peserta->jabatan->nama ?? '-'}}</td>
-            <td>{{config('addon.master_data.pangkat.'.$item->peserta->jenjang_jabatan) ?? '-'}}</td>
+            <td>{{$item->user->name}}</td>
+            <td>{{$item->nip}}</td>
+            <td>{{$item->jenis_kelamin}}</td>
+            <td>{{config('addon.master_data.agama.'.$item->agama) ?? '-'}}</td>
+            <td>{{$item->tempat_lahir}}</td>
+            <td>{{$item->tanggal_lahir}}</td>
+            <td>{{$item->user->email}}</td>
+            <td>{{$item->user->information->phone}}</td>
+            <td>{{strtoupper(str_replace('_', ' ', $item->user->roles[0]->name))}}</td>
+            <td>{{config('addon.master_data.golongan.'.$item->pangkat) ?? '-'}}</td>
+            <td>{{config('addon.master_data.pangkat.'.$item->pangkat) ?? '-'}}</td>
+            <td>{{$item->jabatan->nama ?? '-'}}</td>
+            <td>{{config('addon.master_data.pangkat.'.$item->jenjang_jabatan) ?? '-'}}</td>
             @if(isset($data['mata']))
             <td>{{@$data['mata']->pola_penyelenggaraan}}</td>
             <td>{{@$data['mata']->sumber_anggaran}}</td>
             @endif
-            <td>{{$item->peserta->instansi($item->peserta)->nama_instansi ?? '-'}}</td>
-            <td>{{$item->peserta->kedeputian}}</td>
-            <td>{{$item->peserta->instansi($item->peserta)->alamat ?? '-'}}</td>
+            <td>{{$item->instansi($item)->nama_instansi ?? '-'}}</td>
+            <td>{{$item->kedeputian}}</td>
+            <td>{{$item->instansi($item)->alamat ?? '-'}}</td>
 
 
         </tr>

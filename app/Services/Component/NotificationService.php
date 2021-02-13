@@ -54,8 +54,8 @@ class NotificationService{
             'description' => $description,
             'receiver' => $to,
             'read_by' => json_encode($readby),
-            'notifable_id' => $model['notifable_id'],
-            'notifable_type' => $model['notifable_type'],
+            // 'notifable_id' => $model['notifable_id'],
+            // 'notifable_type' => $model['notifable_type'],
             'url' => $url
         ]);
 
@@ -86,11 +86,11 @@ class NotificationService{
     }
 
     public function destroy($model){
-        $notif = new Notification;
-        $model = $notif->notifable()->associate($model);
-        $query = $this->notif->where('notifable_id',$notif['notifable_id'])
-                             ->where('notifable_type',$notif['notifable_type']);
-        $query->delete();
+        // $notif = new Notification;
+        // $model = $notif->notifable()->associate($model);
+        // $query = $this->notif->where('notifable_id',$notif['notifable_id'])
+        //                      ->where('notifable_type',$notif['notifable_type']);
+        // $query->delete();
     }
     public function wipe(){
 

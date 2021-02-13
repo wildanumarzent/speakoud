@@ -38,6 +38,8 @@
     <div class="card-header with-elements">
         <h5 class="card-header-title mt-1 mb-0">Peserta Pelatihan</h5>
         <div class="card-header-elements ml-auto">
+
+           
         </div>
     </div>
     <div class="table-responsive">
