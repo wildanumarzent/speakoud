@@ -105,7 +105,7 @@
     </div>
     <div class="col-sm-10">
         <label class="custom-control custom-checkbox">
-            <input type="checkbox" name="soal_acak" class="custom-control-input" value="1" {{ isset($data['bahan']) ? (old('soal_acak', $data['bahan']->quiz->soal_acak) == 1 ? 'checked' : '') : (old('soal_acak') ? 'checked' : '') }}>
+            <input type="checkbox" name="soal_acak" class="custom-control-input" value="1" {{ isset($data['bahan']) ? (old('soal_acak', $data['bahan']->quiz->soal_acak) == 1 ? 'checked' : '') : '' }}>
             <span class="custom-control-label">Ya</span>
         </label>
     </div>
@@ -211,7 +211,7 @@
                 $('#jml_soal').hide();
             }
         });
-        
+
         $('#ulang').change(function() {
             if (this.value == 0) {
                 $('#hasil').toggle('slow');

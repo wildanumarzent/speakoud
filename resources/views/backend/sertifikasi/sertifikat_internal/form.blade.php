@@ -67,7 +67,7 @@
                 </div>
                 <div class="col-md-10">
                   <input type="text" class="form-control @error('nama_pimpinan') is-invalid @enderror" name="nama_pimpinan"
-                    value="{{ isset($data['sertifikat']) ? old('nama_pimpinan', $data['sertifikat']->nama_pimpinan) : old('nama_pimpinan') }}" placeholder="masukan nama pimpinan...">
+                    value="{{ isset($data['sertifikat']) ? old('nama_pimpinan', $data['sertifikat']->nama_pimpinan) : old('nama_pimpinan', __('sertifikat.nama_pimpinan')) }}" placeholder="masukan nama pimpinan...">
                   @include('components.field-error', ['field' => 'nama_pimpinan'])
                 </div>
             </div>
@@ -77,7 +77,7 @@
                 </div>
                 <div class="col-md-10">
                   <input type="text" class="form-control @error('jabatan') is-invalid @enderror" name="jabatan"
-                    value="{{ isset($data['sertifikat']) ? old('jabatan', $data['sertifikat']->jabatan) : old('jabatan') }}" placeholder="masukan jabatan...">
+                    value="{{ isset($data['sertifikat']) ? old('jabatan', $data['sertifikat']->jabatan) : old('jabatan', __('sertifikat.jabatan')) }}" placeholder="masukan jabatan...">
                   @include('components.field-error', ['field' => 'jabatan'])
                 </div>
             </div>
@@ -137,7 +137,7 @@
         <div class="card-footer">
             <div class="row">
               <div class="col-md-10 ml-sm-auto text-md-left text-right">
-                <a href="{{ route('mata.index', ['id' => $data['mata']->program_id]) }}" class="btn btn-danger" title="klik untuk kembali ke list">Kembali</a>
+                <a href="{{ route('sertifikat.internal.peserta', ['id' => $data['mata']->id]) }}" class="btn btn-danger" title="klik untuk kembali ke list">Kembali</a>
                 <button type="submit" class="btn btn-primary" name="action" value="save" title="klik untuk menyimpan">{{ isset($data['sertifikat']) ? 'Simpan perubahan' : 'Simpan' }}</button>
               </div>
             </div>

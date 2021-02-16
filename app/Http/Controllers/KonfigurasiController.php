@@ -74,4 +74,30 @@ class KonfigurasiController extends Controller
             ],
         ]);
     }
+
+    public function sertifikat(Request $request)
+    {
+        $lang = 'id';
+
+        if ($request->has('lang')) {
+            $data = "<?php \n\nreturn [\n";
+            foreach ($request->lang as $key => $value) {
+                $data .= "\t'$key' => '$value',\n";
+            }
+            $data .= "];";
+            File::put(base_path('resources/lang/'.$lang.'/sertifikat.php'), $data);
+            return back()->with('success', 'Sertifikat berhasil diedit');
+        }
+
+        $data['title'] = 'Sertifikat';
+        $data['files'] = Lang::get('sertifikat', [], $lang);
+
+        return view('backend.konfigurasi.sertifikat', compact('data'), [
+            'title' => 'Konfigurasi - Sertifikat',
+            'breadcrumbsBackend' => [
+                'Konfigurasi' => '',
+                'Sertifikat' => ''
+            ],
+        ]);
+    }
 }

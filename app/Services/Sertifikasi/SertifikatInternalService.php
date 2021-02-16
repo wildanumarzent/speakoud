@@ -6,6 +6,7 @@ use App\Models\Sertifikasi\SertifikatInternal;
 use App\Models\Sertifikasi\SertifikatPeserta;
 use App\Services\Course\MataService;
 use clsTinyButStrong;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Storage;
 
 class SertifikatInternalService
@@ -21,6 +22,17 @@ class SertifikatInternalService
         $this->model = $model;
         $this->modelPeserta = $modelPeserta;
         $this->mata = $mata;
+    }
+
+    public function getPesertaList(int $mataId)
+    {
+        $query = $this->modelPeserta->query();
+
+        $query->where('mata_id', $mataId);
+
+        $result = $query->paginate(20);
+
+        return $result;
     }
 
     public function findSertifikat(int $id)
@@ -105,7 +117,7 @@ class SertifikatInternalService
         } else {
             $template = public_path('userfile/certificate/TEMPLATE-SERTIFIKAT-TEKNIS-EN.docx');
         }
-        
+
 
         $TBS->LoadTemplate($template, OPENTBS_ALREADY_UTF8);
 

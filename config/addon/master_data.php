@@ -24,6 +24,7 @@ return [
     'sumber_anggaran' => [
         0 => 'APBN',
         1 => 'APBD',
+        2 => 'Lainnya',
     ],
     'pola_penyelenggaraan' => [
         0 => 'Mandiri',
@@ -79,5 +80,6 @@ return [
         6 => 'Ahli Muda',
         7 => 'Ahli Madya',
         8 => 'Ahli Utama',
+        9 => 'Umum',
     ],
 ];

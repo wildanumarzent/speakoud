@@ -117,7 +117,7 @@
                                     <div class="btn-group dropdown">
                                         <button type="button" class="btn btn-primary btn-sm btn-block dropdown-toggle hide-arrow" data-toggle="dropdown" title="klik untuk mengatur sertifikat"><i class="las la-certificate"></i><span>Sertifikat</span></button>
                                         <div class="dropdown-menu dropdown-menu-right">
-                                            <a href="{{ route('sertifikat.internal.form', ['id' => $item->id]) }}" class="dropdown-item" ><i class="las la-tags"></i><span>Internal</span></a>
+                                            <a href="{{ route('sertifikat.internal.peserta', ['id' => $item->id]) }}" class="dropdown-item" ><i class="las la-tags"></i><span>Internal</span></a>
                                             <a href="{{ route('sertifikat.external.peserta', ['id' => $item->id]) }}" class="dropdown-item" ><i class="las la-tags"></i><span>External</span></a>
                                         </div>
                                     </div>

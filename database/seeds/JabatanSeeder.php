@@ -73,6 +73,9 @@ class JabatanSeeder extends Seeder
             19 => [
                 'nama' => 'Widyaiswara'
             ],
+            20 => [
+                'nama' => 'Umum'
+            ],
         ];
 
         foreach ($jabatan as $key) {

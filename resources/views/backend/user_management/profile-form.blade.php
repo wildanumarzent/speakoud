@@ -59,7 +59,7 @@
                                 <option value="{{ $key }}" {{ old('jenis_peserta', $data['user']->peserta->jenis_peserta) == ''.$key.'' ? 'selected' : '' }}>{{ $value }}</option>
                                 @endforeach
                             </select>
-                            @if ($data['user']->peserta->jenis_peserta < 0)
+                            @if ($data['user']->peserta->jenis_peserta < '0')
                             <span style="color: red;">belum diisi</span>
                             @endif
                         </div>
@@ -71,7 +71,7 @@
                                 <option value="{{ $key }}" {{ old('jenis_kelamin', $data['user']->peserta->jenis_kelamin) == ''.$key.'' ? 'selected' : '' }}>{{ $value }}</option>
                                 @endforeach
                             </select>
-                            @if ($data['user']->peserta->jenis_kelamin < 0)
+                            @if ($data['user']->peserta->jenis_kelamin < '0')
                             <span style="color: red;">belum diisi</span>
                             @endif
                         </div>
@@ -83,7 +83,7 @@
                                 <option value="{{ $key }}" {{ old('agama', $data['user']->peserta->agama) == ''.$key.'' ? 'selected' : '' }}>{{ $value }}</option>
                                 @endforeach
                             </select>
-                            @if ($data['user']->peserta->agama < 0)
+                            @if ($data['user']->peserta->agama < '0')
                             <span style="color: red;">belum diisi</span>
                             @endif
                         </div>
@@ -116,7 +116,7 @@
                                 <option value="{{ $key }}" {{ old('pangkat', $data['user']->peserta->pangkat) == ''.$key.'' ? 'selected' : '' }}>{{ $value.' - '.config('addon.master_data.golongan.'.$key) }}</option>
                                 @endforeach
                             </select>
-                            @if ($data['user']->peserta->pangkat < 0)
+                            @if ($data['user']->peserta->pangkat < '0')
                             <span style="color: red;">belum diisi</span>
                             @endif
                         </div>
@@ -140,7 +140,7 @@
                                 <option value="{{ $key }}" {{ old('jenjang_jabatan', $data['user']->peserta->jenjang_jabatan) == ''.$key.'' ? 'selected' : '' }}>{{ $value }}</option>
                                 @endforeach
                             </select>
-                            @if ($data['user']->peserta->jenjang_jabatan < 0)
+                            @if ($data['user']->peserta->jenjang_jabatan < '0')
                             <span style="color: red;">belum diisi</span>
                             @endif
                         </div>

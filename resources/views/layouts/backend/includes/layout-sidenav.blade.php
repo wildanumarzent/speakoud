@@ -394,6 +394,12 @@
                     <div>Strip Text</div>
                   </a>
               </li>
+              <!-- sertifikat -->
+              <li class="sidenav-item{{ Request::is('konfigurasi/sertifikat') ? ' active' : '' }}">
+                <a href="{{ route('config.sertifikat') }}" class="sidenav-link" title="Sertifikat">
+                  <div>Sertifikat</div>
+                </a>
+            </li>
             </ul>
         </li>
         @endrole

@@ -969,6 +969,9 @@ Route::group(['middleware' => ['auth']], function () {
 
     //--sertifikasi
     //internal
+    Route::get('/mata/{id}/sertifikat/peserta', 'Sertifikasi\SertifikatInternalController@peserta')
+        ->name('sertifikat.internal.peserta')
+        ->middleware('role:administrator|internal|mitra');
     Route::get('/mata/{id}/sertifikat/internal/form', 'Sertifikasi\SertifikatInternalController@form')
         ->name('sertifikat.internal.form')
         ->middleware('role:administrator|internal|mitra');
@@ -983,7 +986,7 @@ Route::group(['middleware' => ['auth']], function () {
         ->middleware('role:peserta_internal|peserta_mitra');
     Route::get('/mata/{id}/sertifikat/internal/{sertifikatId}/download', 'Sertifikasi\SertifikatInternalController@download')
         ->name('sertifikat.internal.download')
-        ->middleware('role:peserta_internal|peserta_mitra');
+        ->middleware('role:administrator|internal|mitra|peserta_internal|peserta_mitra');
     //external
     Route::get('/mata/{id}/sertifikat/external/peserta', 'Sertifikasi\SertifikatExternalController@peserta')
         ->name('sertifikat.external.peserta')
@@ -1101,6 +1104,9 @@ Route::group(['middleware' => ['auth']], function () {
         ->middleware('role:developer|administrator');
     Route::get('/konfigurasi/strip', 'KonfigurasiController@strip')
         ->name('config.strip')
+        ->middleware('role:developer|administrator');
+    Route::get('/konfigurasi/sertifikat', 'KonfigurasiController@sertifikat')
+        ->name('config.sertifikat')
         ->middleware('role:developer|administrator');
 
     /** Artikel dan Component nya */

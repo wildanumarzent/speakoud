@@ -22,6 +22,28 @@ class SertifikatInternalController extends Controller
         $this->serviceMata = $serviceMata;
     }
 
+    public function peserta(Request $request, $mataId)
+    {
+        $q = '';
+        if (isset($request->q)) {
+            $q = '?q='.$request->q;
+        }
+
+        $data['peserta'] = $this->service->getPesertaList($mataId);
+        $data['number'] = $data['peserta']->firstItem();
+        $data['peserta']->withPath(url()->current().$q);
+        $data['mata'] = $this->serviceMata->findMata($mataId);
+
+        return view('backend.sertifikasi.sertifikat_internal.peserta', compact('data'), [
+            'title' => 'Course - Sertifikat Internal',
+            'breadcrumbsBackend' => [
+                'Kategori' => route('program.index'),
+                'Program Pelatihan' => route('mata.index', ['id' => $data['mata']->program_id]),
+                'Sertifikat Internal' => ''
+            ],
+        ]);
+    }
+
     public function form($mataId)
     {
         $data['mata'] = $this->serviceMata->findMata($mataId);
@@ -35,7 +57,8 @@ class SertifikatInternalController extends Controller
             'breadcrumbsBackend' => [
                 'Kategori' => route('program.index'),
                 'Program Pelatihan' => route('mata.index', ['id' => $data['mata']->program_id]),
-                'Sertifikat Internal' => ''
+                'Sertifikat Internal' => route('sertifikat.internal.peserta', ['id' => $mataId]),
+                'Form' => '',
             ],
         ]);
     }

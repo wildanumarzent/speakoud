@@ -32,14 +32,13 @@
 </div>
 <br>
 
-@include('components.alert-any')
-
 <div class="card">
     <div class="card-header with-elements">
-        <h5 class="card-header-title mt-1 mb-0">Peserta Pelatihan</h5>
+        <h5 class="card-header-title mt-1 mb-0">Sertifikat Peserta</h5>
         <div class="card-header-elements ml-auto">
-
-
+            <a href="{{ route('sertifikat.internal.form', ['id' => $data['mata']->id]) }}" class="btn btn-primary icon-btn-only-sm" title="klik untuk mengatur sertifikat">
+                <i class="las la-cog"></i><span>Sertifikat</span>
+            </a>
         </div>
     </div>
     <div class="table-responsive">
@@ -52,7 +51,7 @@
                     <th>Unit Kerja</th>
                     <th>Kedeputian</th>
                     <th>Jabatan</th>
-                    <th style="width: 110px;">Aksi</th>
+                    <th style="width: 115px;">Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -62,9 +61,9 @@
                         <i>
                             <strong style="color:red;">
                             @if (Request::get('q'))
-                            ! Peserta pelatihan tidak ditemukan !
+                            ! Sertifikat peserta tidak ditemukan !
                             @else
-                            ! Peserta pelatihan kosong !
+                            ! Sertifikat peserta kosong !
                             @endif
                             </strong>
                         </i>
@@ -80,13 +79,10 @@
                     <td>{{ $item->peserta->kedeputian ?? '-' }}</td>
                     <td>{{ config('addon.label.jabatan.'.$item->peserta->pangkat) ?? '-' }}</td>
                     <td>
-                        <button type="button" class="btn icon-btn btn-primary btn-sm modals-upload" data-toggle="modal" data-target="#modals-upload" title="klik untuk mengupload sertifikat"
-                            data-pesertaid="{{ $item->peserta_id }}"
-                            data-mataid="{{ $item->mata_id }}"
-                            data-namapeserta="{{ $item->peserta->user->name }}">
-                            <i class="las la-upload"></i>
-                        </button>
-                        <a href="{{ route('sertifikat.external.peserta.detail', ['id' => $item->mata_id, 'pesertaId' => $item->peserta_id]) }}" class="btn icon-btn btn-success btn-sm" title="klik untuk melihat sertifikat">
+                        <a href="{{ route('bank.data.stream', ['path' => $item->file_path]) }}" class="btn icon-btn btn-primary btn-sm" title="sertifikat halaman depan">
+                            <i class="las la-certificate"></i>
+                        </a>
+                        <a href="{{ route('sertifikat.internal.download', ['id' => $item->mata_id, 'sertifikatId' => $item->sertifikat_id]) }}" class="btn icon-btn btn-success btn-sm" title="sertifikat halaman belakang">
                             <i class="las la-certificate"></i>
                         </a>
                     </td>
@@ -107,8 +103,6 @@
         </div>
     </div>
 </div>
-
-@include('backend.sertifikasi.sertifikat_external.modal-upload')
 @endsection
 
 @section('scripts')
@@ -116,19 +110,5 @@
 @endsection
 
 @section('jsbody')
-<script>
-    //modal
-    $('.modals-upload').click(function() {
-        var id = $(this).data('id');
-        var mata_id = $(this).data('mataid');
-        var peserta_id = $(this).data('pesertaid');
-        var name = $(this).data('namapeserta');
-        var url = '/mata/'+ mata_id +'/sertifikat/external';
-
-        $(".modal-dialog #form-upload").attr('action', url);
-        $('.modal-body #name').val(name);
-        $('.modal-body #pesertaid').val(peserta_id);
-    });
-</script>
 @include('components.toastr')
 @endsection
