@@ -160,7 +160,7 @@ class BahanQuizItemService
                 $soal = $this->modelSoal->where('mata_id', $quiz->mata_id)
                     ->inRandomOrder()->limit($request->jml_soal)->get();
             }
-            
+
         }
 
         foreach ($soal as $key => $value) {
@@ -203,6 +203,17 @@ class BahanQuizItemService
     public function deleteItem(int $id)
     {
         $item = $this->findItem($id);
+        $item->delete();
+
+        return $item;
+    }
+
+    public function deleteChecked(array $id, int $quizId)
+    {
+        $item = $this->model->query();
+
+        $item->where('quiz_id', $quizId);
+        $item->whereIn('id', $id);
         $item->delete();
 
         return $item;

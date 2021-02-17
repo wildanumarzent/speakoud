@@ -114,7 +114,7 @@ class BahanQuizItemController extends Controller
             if ($data['quiz']->soal_acak == 1 && !empty($data['quiz']->jml_soal_acak)) {
                 $this->service->insertSoalRandom($quizId);
             }
-            
+
             return redirect()->route('quiz.room', ['id' => $quizId]);
         }
         if (!empty($data['quiz']->trackUserIn) && !empty($data['quiz']->durasi)) {
@@ -370,6 +370,16 @@ class BahanQuizItemController extends Controller
     public function destroy($quizId, $id)
     {
         $this->service->deleteItem($id);
+
+        return response()->json([
+            'success' => 1,
+            'message' => ''
+        ], 200);
+    }
+
+    public function destroyCheck(Request $request, $quizId)
+    {
+        $this->service->deleteChecked($request->id, $quizId);
 
         return response()->json([
             'success' => 1,

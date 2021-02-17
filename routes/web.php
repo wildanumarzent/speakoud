@@ -766,6 +766,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::delete('/quiz/{id}/item/{itemId}', 'Course\Bahan\BahanQuizItemController@destroy')
         ->name('quiz.item.destroy')
         ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
+    Route::delete('/quiz/{id}/item/destroy/check', 'Course\Bahan\BahanQuizItemController@destroyCheck')
+        ->name('quiz.item.destroyCheck')
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
 
     // Bahan Scorm
     Route::get('/scorm/{id}','Course\Bahan\BahanScormController@show')->name('scorm.detail');

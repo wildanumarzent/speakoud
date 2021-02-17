@@ -80,6 +80,12 @@
         <table id="user-list" class="table card-table table-striped table-bordered table-hover">
             <thead>
                 <tr>
+                    <th style="width:60px;">
+                        {{-- <label class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input parent-2" name="parent-2">
+                            <span class="custom-control-label"></span>
+                        </label> --}}
+                    </th>
                     <th style="width: 10px;">No</th>
                     <th>Pertanyaan</th>
                     <th>Tipe Soal</th>
@@ -92,7 +98,7 @@
             <tbody>
                 @if ($data['quiz_item']->total() == 0)
                 <tr>
-                    <td colspan="7" align="center">
+                    <td colspan="8" align="center">
                         <i>
                             <strong style="color:red;">
                             @if (Request::get('t') || Request::get('q'))
@@ -104,9 +110,27 @@
                         </i>
                     </td>
                 </tr>
+                @else
+                    @if ($data['quiz']->trackItem()->count() == 0)
+                    <tr id="delete-checked">
+                        <td colspan="8">
+                            <button type="button" id="del-check" class="btn btn-danger btn-block">Delete</button>
+                        </td>
+                    </tr>
+                    @endif
                 @endif
                 @foreach ($data['quiz_item'] as $item)
                 <tr>
+                    <td>
+                        <label class="custom-control custom-checkbox">
+                            @if ($data['quiz']->trackItem()->count() == 0)
+                            <input type="checkbox" class="custom-control-input child-2" name="soal_id" value="{{ $item->id }}">
+                            @else
+                            <input type="checkbox" class="custom-control-input" disabled>
+                            @endif
+                            <span class="custom-control-label"></span>
+                        </label>
+                    </td>
                     <td>{{ $data['number']++ }}</td>
                     <td>{!! Str::limit(strip_tags($item->pertanyaan), 180) !!}</td>
                     <td><span class="badge badge-outline-primary">{{ config('addon.label.quiz_item_tipe.'.$item->tipe_jawaban)['title'] }}</span></td>
@@ -136,7 +160,7 @@
             <tbody class="tbody-responsive">
                 @if ($data['quiz_item']->total() == 0)
                 <tr>
-                    <td colspan="7" align="center">
+                    <td colspan="8" align="center">
                         <i>
                             <strong style="color:red;">
                             @if (Request::get('t') || Request::get('q'))
@@ -350,6 +374,77 @@
                 }
             });
         })
+    });
+
+    //delete check
+    $('#delete-checked').hide();
+    $(".child-2").click(function () {
+        var checked = $(this).is(":checked");
+        if (checked == true) {
+            $('#delete-checked').show();
+        } else {
+            $('#delete-checked').hide();
+        }
+        var array = [];
+        $("input:checkbox[name=soal_id]:checked").each(function(){
+            array.push($(this).val());
+        });
+
+        $('#del-check').on('click', function () {
+            Swal.fire({
+                title: "Apakah anda yakin?",
+                text: "Anda akan menghapus soal ini, data yang bersangkutan dengan soal ini akan terhapus. Data yang sudah dihapus tidak dapat dikembalikan!",
+                type: "warning",
+                confirmButtonText: "Ya, hapus!",
+                customClass: {
+                    confirmButton: "btn btn-danger btn-lg",
+                    cancelButton: "btn btn-info btn-lg"
+                },
+                showLoaderOnConfirm: true,
+                showCancelButton: true,
+                allowOutsideClick: () => !Swal.isLoading(),
+                cancelButtonText: "Tidak, terima kasih",
+                preConfirm: () => {
+                    return $.ajax({
+                        url: '/quiz/{{ $data['quiz']->id }}/item/destroy/check',
+                        method: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        dataType: 'json',
+                        data: {
+                            id : array,
+                        },
+                    }).then(response => {
+                        if (!response.success) {
+                            return new Error(response.message);
+                        }
+                        return response;
+                    }).catch(error => {
+                        swal({
+                            type: 'error',
+                            text: 'Error while deleting data. Error Message: ' + error
+                        })
+                    });
+                }
+            }).then(response => {
+                if (response.value.success) {
+                    Swal.fire({
+                        type: 'success',
+                        text: 'soal berhasil dihapus'
+                    }).then(() => {
+                        window.location.reload();
+                    })
+                } else {
+                    Swal.fire({
+                        type: 'error',
+                        text: response.value.message
+                    }).then(() => {
+                        window.location.reload();
+                    })
+                }
+            });
+        });
     });
 </script>
 
