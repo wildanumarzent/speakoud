@@ -1,0 +1,7 @@
+Revisi table project's task
+- TAsk,END,TOTAL TASK DAN ITEM DIBUAT 1 BARIS
+- Start dan End Subtask di samakan dengan title
+- Setelah Task Title bawahnya task item
+Task History
+- Mencatat History Task User
+Team Task(memunculkan task team)

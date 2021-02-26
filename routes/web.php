@@ -159,7 +159,9 @@ Route::put('/item/{id}/essay/{status}', 'Course\Bahan\BahanQuizItemController@ch
 Route::put('/peserta/{id}/cek', 'Course\Bahan\BahanQuizItemController@checkPeserta')
     ->name('quiz.peserta.cek')
     ->middleware(['auth', 'role:administrator|internal|mitra|instruktur_internal|instruktur_mitra']);
-
+Route::get('/quiz/{id}/export', 'Course\Bahan\BahanQuizItemController@exportJawaban')
+    ->name('quiz.export.jawaban')
+    ->middleware(['auth', 'role:administrator|internal|mitra|instruktur_internal|instruktur_mitra']);
 //tugas
 Route::post('/tugas/{id}/kirim', 'Course\Bahan\BahanTugasController@sendTugas')
     ->name('tugas.send')

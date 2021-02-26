@@ -299,4 +299,10 @@ class BahanQuizItemService
         }
 
     }
+    public function quizBenar(int $quizId){
+        $query = $this->modelTracker->query();
+        $query->where('benar',1);
+        $result = $query->get();
+        return $result;
+    }
 }

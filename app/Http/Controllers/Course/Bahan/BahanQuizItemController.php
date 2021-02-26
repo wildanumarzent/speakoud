@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Course\Bahan;
 
+
 use App\Http\Controllers\Controller;
 use App\Http\Requests\QuizItemRequest;
 use App\Models\Course\Bahan\BahanQuizItem;
@@ -11,6 +12,9 @@ use App\Services\Course\Bahan\BahanService;
 use App\Services\Soal\SoalKategoriService;
 use App\Services\Soal\SoalService;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\QuizExport;
+use App\Models\Course\Bahan\BahanQuizItemTracker;
 
 class BahanQuizItemController extends Controller
 {
@@ -365,6 +369,21 @@ class BahanQuizItemController extends Controller
                 'message' => 'anda tidak bisa mengulangi quiz karena jawaban sudah dicek pengajar'
             ], 200);
         }
+    }
+
+    public function exportJawaban(Request $request,$quizId)
+    {
+        $s = '';
+        $q = '';
+        if (isset($request->s) || isset($request->q)) {
+            $s = '?s='.$request->s;
+            $q = '&q='.$request->q;
+        }
+        $quiz = $this->service->findQuiz($quizId);;
+        $peserta = $this->serviceQuiz->quizPesertaList($request, $quizId);
+        $quizItem = $this->service->getItem($quizId);
+        $totalBenar = $this->service->quizBenar($quizId);
+        return Excel::download(new QuizExport($peserta,$quizItem,$totalBenar), "data-quiz-{$quiz->bahan->judul}.xlsx");
     }
 
     public function destroy($quizId, $id)

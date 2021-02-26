@@ -49,6 +49,7 @@
 </div>
 <div class="text-left">
     <a href="{{ route('course.bahan', ['id' => $data['quiz']->mata_id, 'bahanId' => $data['quiz']->bahan_id,  'tipe' => 'quiz']) }}" class="btn btn-secondary rounded-pill" title="kembali ke quiz"><i class="las la-arrow-left"></i>Kembali</a>
+    <a href="{{route('quiz.export.jawaban',['id' => $data['quiz']->id])}}" class="btn btn-success rounded-pill"><i class="las la-download"></i>Export</a>
 </div>
 <br>
 <!-- / Filters -->
