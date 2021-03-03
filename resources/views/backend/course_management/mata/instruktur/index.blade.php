@@ -37,7 +37,7 @@
 @if (session()->has('failures'))
 <div class="alert alert-danger alert-dismissible">
     <button type="button" class="close" data-dismiss="alert"><i class="las la-times"></i></button>
-    gagal import data. <a href="{{ route('dosen.index') }}"><em>Kembali ke list</em></a>
+    gagal import data. <a href="{{ route('mata.instruktur', ['id' => $data['mata']->id]) }}"><em>Kembali ke list</em></a>
 </div>
 @endif
 @if ($errors->any())
@@ -244,7 +244,6 @@
             <tbody>
         </table>
     </div>
-    @endif
     <div class="card-footer">
         <div class="row align-items-center">
             <div class="col-lg-6 m--valign-middle">
@@ -256,6 +255,7 @@
             </div>
         </div>
     </div>
+    @endif
 </div>
 
 @include('backend.course_management.mata.instruktur.modal-create')

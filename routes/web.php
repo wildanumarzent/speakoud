@@ -554,6 +554,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('mata/{id}/soal/kategori/{kategoriId}', 'Soal\SoalController@store')
         ->name('soal.store')
         ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
+    Route::post('mata/{id}/soal/kategori/{kategoriId}/import', 'Soal\SoalController@import')
+        ->name('soal.import')
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
     Route::get('mata/{id}/soal/kategori/{kategoriId}/edit/{soalId}', 'Soal\SoalController@edit')
         ->name('soal.edit')
         ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');

@@ -43,10 +43,28 @@
 </div>
 <br>
 
+@if (session()->has('failures'))
+<div class="alert alert-danger alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert"><i class="las la-times"></i></button>
+    gagal import data. <a href="{{ route('soal.index', ['id' => $data['kategori']->mata_id, 'kategoriId' => $data['kategori']->id]) }}"><em>Kembali ke list</em></a>
+</div>
+@endif
+@if ($errors->any())
+  <div class="alert alert-danger alert-dismissible fade show">
+    <button type="button" class="close" data-dismiss="alert"><i class="las la-times"></i></button>
+    @foreach ($errors->all() as $error)
+        <i class="las la-thumbtack"></i> {{ $error }} <br>
+    @endforeach
+  </div>
+@endif
+
 <div class="card">
     <div class="card-header with-elements">
         <h5 class="card-header-title mt-1 mb-0">Soal List</h5>
         <div class="card-header-elements ml-auto">
+            <button type="button" class="btn icon-btn-only-sm btn-success" title="klik untuk import soal" data-toggle="modal" data-target="#modals-import">
+                <i class="las la-file-import"></i><span>Import</span>
+            </button>
             <div class="btn-group float-right dropdown ml-2">
                 <button type="button" class="btn btn-primary dropdown-toggle hide-arrow icon-btn-only-sm" data-toggle="dropdown"><i class="las la-plus"></i><span>Tambah</span></button>
                 <div class="dropdown-menu dropdown-menu-right">
@@ -57,6 +75,36 @@
             </div>
         </div>
     </div>
+    @if (session()->has('failures'))
+    <div class="table-responsive table-mobile-responsive">
+        <table class="table card-table table-striped table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Row</th>
+                    <th>Attribute</th>
+                    <th>Errors</th>
+                    <th>Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (session()->get('failures') as $validation)
+                <tr class="table-danger">
+                    <td>{{ $validation->row() }}</td>
+                    <td>{{ $validation->attribute() }}</td>
+                    <td>
+                        <ul>
+                            @foreach ($validation->errors() as $e)
+                                <li>{{ $e }}</li>
+                            @endforeach
+                        </ul>
+                    </td>
+                    <td>{{ $validation->values()[$validation->attribute()] }}</td>
+                </tr>
+            @endforeach
+            </tbody>
+        </table>
+    </div>
+    @else
     <div class="table-responsive table-mobile-responsive">
         <table class="table table-striped table-bordered mb-0">
             <thead>
@@ -182,7 +230,10 @@
             </div>
         </div>
     </div>
+    @endif
 </div>
+
+@include('backend.bank_soal.modal-import')
 @endsection
 
 @section('scripts')

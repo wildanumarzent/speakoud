@@ -5,12 +5,14 @@
 @endsection
 
 @section('content-view')
+@if (!empty($data['bahan']->video->bank_data_id))    
 <div id="plyr-video-player">
     <video controls id="get-duration">
         <source src="{{ route('bank.data.stream', ['path' => $data['bahan']->video->bankData->file_path]) }}" type="video/mp4">
         Your browser does not support HTML video.
     </video>
 </div>
+@endif
 @endsection
 
 @section('script')

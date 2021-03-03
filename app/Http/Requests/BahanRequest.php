@@ -160,11 +160,12 @@ class BahanRequest extends FormRequest
         }
 
         if ($this->type == 'video') {
-            $video = [
-                'file_path' => 'required',
-            ];
+            // $video = [
+            //     'file_path' => 'required',
+            // ];
 
-            return array_merge($defaultBahan, $video);
+            // return array_merge($defaultBahan, $video);
+            return $defaultBahan;
         }
 
         if ($this->type == 'tugas') {

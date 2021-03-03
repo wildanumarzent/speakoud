@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Soal;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ImportRequest;
 use App\Http\Requests\SoalRequest;
+use App\Imports\BankSoalImport;
 use App\Services\Soal\SoalKategoriService;
 use App\Services\Soal\SoalService;
 use Illuminate\Http\Request;
@@ -71,6 +73,21 @@ class SoalController extends Controller
 
         return redirect()->route('soal.index', ['id' => $mataId, 'kategoriId' => $kategoriId])
             ->with('success', 'Soal berhasil ditambahkan');
+    }
+
+    public function import(ImportRequest $request)
+    {
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $import = new BankSoalImport;
+            $import->import($file);
+
+            if ($import->failures()->isNotEmpty()) {
+                return back()->withFailures($import->failures());
+            }
+
+            return back()->with('success', 'Soal berhasil diimport');
+        }
     }
 
     public function edit($mataId, $kategoriId, $id)

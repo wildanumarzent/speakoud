@@ -28,7 +28,7 @@ class BahanVideoService
         $video->materi_id = $materi->id;
         $video->bahan_id = $bahan->id;
         $video->creator_id = auth()->user()->id;
-        $video->bank_data_id = $bankData->id;
+        $video->bank_data_id = !empty($bankData) ? $bankData->id : null;
         $video->save();
 
         return $video;
@@ -39,7 +39,7 @@ class BahanVideoService
         $bankData = $this->bankData->findFileByPath($request->file_path);
 
         $video = $bahan->video;
-        $video->bank_data_id = $bankData->id;
+        $video->bank_data_id = !empty($bankData) ? $bankData->id : null;
         $video->save();
 
         return $video;

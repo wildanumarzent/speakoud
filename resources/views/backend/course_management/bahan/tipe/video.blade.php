@@ -7,7 +7,7 @@
     </div>
     <div class="col-sm-10">
         <div class="input-group">
-        <input type="text" id="file_path" class="form-control @error('file_path') is-invalid @enderror" name="file_path" value="{{ isset($data['bahan']) ? old('file_path', $data['bahan']->video->bankData->file_path) : old('file_path') }}" placeholder="Pilih video dari bank data..." readonly onclick="openFm()">
+        <input type="text" id="file_path" class="form-control @error('file_path') is-invalid @enderror" name="file_path" value="{{ (isset($data['bahan']) && !empty($data['bahan']->video->bank_data_id)) ? old('file_path', $data['bahan']->video->bankData->file_path) : old('file_path') }}" placeholder="Pilih video dari bank data..." readonly onclick="openFm()">
         <div class="input-group-append">
             <button type="button" class="btn btn-warning" onclick="openFm()"><i class="las la-server"></i></button>
         </div>
