@@ -54,7 +54,7 @@ class BankSoalImport implements
             $jawaban = explode(";", $collect);
         }
 
-        if ($row['tipe'] == 'exact' && $row['pilihan'] != null) {
+        if ($row['tipe'] == 'true_false' && $row['pilihan'] != null) {
             $str = $row['pilihan'];
             $jawaban = (strtoupper($str) == 'T') ? 1 : 0;
         }
