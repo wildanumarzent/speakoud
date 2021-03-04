@@ -27,7 +27,7 @@ class TemplateBahanVideoService
         $video->template_materi_id = $materi->id;
         $video->template_bahan_id = $bahan->id;
         $video->creator_id = auth()->user()->id;
-        $video->bank_data_id = $bankData->id;
+        $video->bank_data_id = !empty($bankData) ? $bankData->id : null;
         $video->save();
 
         return $video;
@@ -38,7 +38,7 @@ class TemplateBahanVideoService
         $bankData = $this->bankData->findFileByPath($request->file_path);
 
         $video = $bahan->video;
-        $video->bank_data_id = $bankData->id;
+        $video->bank_data_id = !empty($bankData) ? $bankData->id : null;
         $video->save();
 
         return $video;
