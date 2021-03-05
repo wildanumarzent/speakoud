@@ -289,7 +289,7 @@
                 var id = $('#smartwizard-6-step-'+currentStepIndex).data('itemid');
                 if (type == 2) {
                     var jawaban = $('textarea[name="jawaban-'+currentStepIndex+'"]').val();
-                } else if (type == 0) {
+                } else if (type == 0 || type == 3) {
                     var jawaban = $('input[name="jawaban-'+currentStepIndex+'"]:checked').val();
                 } else {
                     var jawaban = $('input[name="jawaban-'+currentStepIndex+'"]').val();
