@@ -59,7 +59,7 @@
             <div class="text-xlarge font-weight-bolder line-height-1 my-2">{{ $data['number']++ }}</div>
           </div>
           <div class="media-body ml-4">
-            <a href="{{ route('materi.index', ['id' => $item->id]) }}" class="text-big">{!! $item->judul !!} <span class="badge badge-secondary">{{ $item->program->judul }}</span></a>
+            <a href="{{ route('course.detail', ['id' => $item->id]) }}" class="text-big">{!! $item->judul !!} <span class="badge badge-secondary">{{ $item->program->judul }}</span></a>
             <div class="my-2">
                 <div class="row">
                     <div class="col-md-4">
@@ -92,17 +92,19 @@
                                 </td>
                             </tr>
                             @endrole
-                            <tr>
+                            {{-- <tr>
                                 <td style="text-align: center;">INSTRUKTUR <br> <strong>{{ $item->instruktur->count() }}</strong></td>
                                 <td style="text-align: center;">PESERTA <br> <strong>{{ $item->peserta->count() }}</strong></td>
                                 <td style="text-align: center;">TOPIK / MATA <br> <strong>{{ $item->materi->count() }}</strong></td>
-                            </tr>
+                            </tr> --}}
                         </table>
                     </div>
                     <div class="col-md-8 text-right">
+                        @role ('administrator|internal|mitra')
                         <a class="btn btn-success btn-sm icon-btn-only-sm mr-1" href="{{ route('materi.index', ['id' => $item->id]) }}" title="klik untuk melihat mata pelatihan">
                             <i class="las la-swatchbook"></i> <span>Mata</span>
                         </a>
+                        @endrole
                         <a class="btn btn-info btn-sm icon-btn-only-sm mr-1" href="{{ route('course.detail', ['id' => $item->id]) }}" title="klik untuk melihat detail course">
                             <span>Detail</span> <i class="las la-external-link-alt ml-1"></i>
                         </a>

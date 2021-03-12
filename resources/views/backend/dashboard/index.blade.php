@@ -47,7 +47,7 @@
 </div>
 
 @role('peserta_internal|peserta_mitra')
-@if (auth()->user()->peserta->status_profile == 0 || empty(auth()->user()->peserta->foto_sertifikat))
+@if (auth()->user()->peserta->status_profile == 0 || empty(auth()->user()->photo['filename']))
 <div class="row">
     <div class="col-md-12">
       <div class="alert alert-danger">

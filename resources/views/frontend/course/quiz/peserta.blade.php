@@ -120,7 +120,7 @@
                         @if ($item->cek == 0)
                         <a href="javascript:;" class="btn btn-success icon-btn btn-sm peserta" title="Klik untuk mengkonfirmasi jawaban peserta">
                             <i class="las la-check"></i>
-                            <form action="{{ route('quiz.peserta.cek', ['id' => $item->id])}}" method="POST" id="form-peserta">
+                            <form action="{{ route('quiz.peserta.cek', ['quizId' => $item->quiz_id, 'userId' => $item->user_id, 'id' => $item->id])}}" method="POST" id="form-peserta">
                                 @csrf
                                 @method('PUT')
                             </form>

@@ -237,7 +237,7 @@
                     </div>
                 </div>
                 <div class="tab-pane fade" id="attachment">
-                    <div class="form-group row">
+                    {{-- <div class="form-group row">
                         <div class="col-md-2 text-md-right">
                           <label class="col-form-label text-sm-right">Foto Sertifikat</label>
                         </div>
@@ -253,7 +253,7 @@
                             @include('components.field-error', ['field' => 'foto_sertifikat'])
                             <small class="text-muted">Tipe Foto Sertifikat : <strong>{{ strtoupper(config('addon.mimes.photo.m')) }}</strong>, Maksimal Upload <strong>1 MB</strong>, Latar harus berwarna merah</small>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="form-group row">
                         <div class="col-md-2 text-md-right">
                           <label class="col-form-label text-sm-right">Surat Keterangan CPNS</label>

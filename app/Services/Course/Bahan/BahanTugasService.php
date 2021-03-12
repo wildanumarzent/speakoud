@@ -93,6 +93,8 @@ class BahanTugasService
             $tugas->approval = (bool)$request->approval;
             $tugas->save();
 
+            return $tugas;
+
         } else {
             return false;
         }

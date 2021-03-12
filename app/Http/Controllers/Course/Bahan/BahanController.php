@@ -90,6 +90,11 @@ class BahanController extends Controller
         }
 
         if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
+
+            if (now()->format('Y-m-d H:i:s') > $data['mata']->publish_end->format('Y-m-d H:i:s')) {
+                return back()->with('warning', 'Pelatihan telah selesai');
+            }
+            
             //publish
             if ($data['bahan']->program->publish == 0 || $data['bahan']->mata->publish == 0 ||
                 $data['bahan']->materi->publish == 0 || $data['bahan']->publish == 0) {

@@ -8,27 +8,21 @@ use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
 class QuizExport implements FromView,ShouldAutoSize
 {
-    /**
-    * @return \Illuminate\Support\Collection
-    */
+    protected $quiz, $peserta;
 
-    protected $peserta;
-    protected $quizItem;
-    protected $totalBenar;
-    public function __construct($peserta,$quizItem,$totalBenar)
+    public function __construct($quiz, $peserta)
     {
+        $this->quiz = $quiz;
         $this->peserta = $peserta;
-        $this->quizItem = $quizItem;
-        $this->totalBenar = $totalBenar;
-
-
     }
 
     public function view(): View
     {
-        $data['peserta'] = $this->peserta;
-        $data['quizItem'] = $this->quizItem;
-        $data['totalBenar'] = $this->totalBenar;
-        return view('table.quizUser',compact('data'));
+        $quiz = $this->quiz;
+        $peserta = $this->peserta;
+        return view('table.quizUser', [
+            'quiz' => $quiz,
+            'peserta' => $peserta
+        ]);
     }
 }

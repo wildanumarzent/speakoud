@@ -149,7 +149,7 @@ class MataController extends Controller
 
         return view('frontend.course.index', compact('data'), [
             'title' => 'Program Pelatihan',
-            'breadcrumbsFrontend' => [
+            'breadcrumbsBackend' => [
                 'List Program' => '',
             ],
         ]);

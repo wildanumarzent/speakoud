@@ -42,7 +42,7 @@ class PesertaRequest extends FormRequest
                     'sk_golongan' => 'nullable|mimes:'.config('addon.mimes.surat_keterangan.m'),
                     'sk_jabatan' => 'nullable|mimes:'.config('addon.mimes.surat_keterangan.m'),
                     'surat_ijin_atasan' => 'nullable|mimes:'.config('addon.mimes.surat_keterangan.m'),
-                    'foto_sertifikat' => 'nullable|mimes:'.config('addon.mimes.photo.m'),
+                    // 'foto_sertifikat' => 'nullable|mimes:'.config('addon.mimes.photo.m'),
                 ];
             } else {
                 return [
@@ -61,7 +61,7 @@ class PesertaRequest extends FormRequest
                     'sk_golongan' => 'nullable|mimes:'.config('addon.mimes.surat_keterangan.m'),
                     'sk_jabatan' => 'nullable|mimes:'.config('addon.mimes.surat_keterangan.m'),
                     'surat_ijin_atasan' => 'nullable|mimes:'.config('addon.mimes.surat_keterangan.m'),
-                    'foto_sertifikat' => 'nullable|mimes:'.config('addon.mimes.photo.m'),
+                    // 'foto_sertifikat' => 'nullable|mimes:'.config('addon.mimes.photo.m'),
                 ];
             }
         } else {
@@ -82,7 +82,7 @@ class PesertaRequest extends FormRequest
                 'sk_golongan' => 'nullable|mimes:'.config('addon.mimes.surat_keterangan.m'),
                 'sk_jabatan' => 'nullable|mimes:'.config('addon.mimes.surat_keterangan.m'),
                 'surat_ijin_atasan' => 'nullable|mimes:'.config('addon.mimes.surat_keterangan.m'),
-                'foto_sertifikat' => 'nullable|mimes:'.config('addon.mimes.photo.m'),
+                // 'foto_sertifikat' => 'nullable|mimes:'.config('addon.mimes.photo.m'),
             ];
         }
 

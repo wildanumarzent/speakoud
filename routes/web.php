@@ -156,7 +156,7 @@ Route::get('/quiz/{id}/peserta/{pesertaId}/jawaban', 'Course\Bahan\BahanQuizItem
 Route::put('/item/{id}/essay/{status}', 'Course\Bahan\BahanQuizItemController@checkEssay')
     ->name('quiz.item.essay')
     ->middleware(['auth', 'role:administrator|internal|mitra|instruktur_internal|instruktur_mitra']);
-Route::put('/peserta/{id}/cek', 'Course\Bahan\BahanQuizItemController@checkPeserta')
+Route::put('{quizId}/{userId}/peserta/{id}/cek', 'Course\Bahan\BahanQuizItemController@checkPeserta')
     ->name('quiz.peserta.cek')
     ->middleware(['auth', 'role:administrator|internal|mitra|instruktur_internal|instruktur_mitra']);
 Route::get('/quiz/{id}/export', 'Course\Bahan\BahanQuizItemController@exportJawaban')

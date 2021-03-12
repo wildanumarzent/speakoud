@@ -127,7 +127,7 @@
                         </a>
                     </td>
                     <td class="text-center">
-                        @if ($item->status_profile == 1 && !empty($item->foto_sertifikat))
+                        @if ($item->status_profile == 1 && !empty($item->user->photo['filename']))
                             <span class="badge badge-success">Complete</span>
                         @else
                             <span class="badge badge-danger">Belum</span>

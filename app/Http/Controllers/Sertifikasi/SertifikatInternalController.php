@@ -94,7 +94,7 @@ class SertifikatInternalController extends Controller
             return back()->with('warning', 'Anda harus menyelesaikan semua materi');
         }
 
-        if (empty(auth()->user()->peserta->foto_sertifikat)) {
+        if (empty(auth()->user()->photo['filename'])) {
             return back()->with('warning', 'Upload foto sertifikat terlebih dahulu di profile anda');
         }
 

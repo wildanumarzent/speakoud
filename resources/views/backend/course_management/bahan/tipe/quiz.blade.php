@@ -112,7 +112,7 @@
 </div>
 <div class="form-group row" id="jml_soal">
     <div class="col-md-2 text-md-right">
-        <label class="col-form-label">Jumlah Soal Acak</label>
+        <label class="col-form-label">Jumlah Soal Acak yang akan ditampilkan dipeserta</label>
     </div>
     <div class="col-sm-10">
         <input type="text" class="form-control @error('jml_soal_acak') is-invalid @enderror" name="jml_soal_acak"

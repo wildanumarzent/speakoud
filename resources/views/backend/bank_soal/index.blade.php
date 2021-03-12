@@ -98,9 +98,9 @@
                             @endforeach
                         </ul>
                     </td>
-                    <td>{{ $validation->values()[$validation->attribute()] }}</td>
+                    <td>{{ $validation->values()[$validation->row()] }}</td>
                 </tr>
-            @endforeach
+                @endforeach
             </tbody>
         </table>
     </div>

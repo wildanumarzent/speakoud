@@ -15,17 +15,20 @@ use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\QuizExport;
 use App\Models\Course\Bahan\BahanQuizItemTracker;
+use App\Services\Course\Bahan\ActivityService;
 
 class BahanQuizItemController extends Controller
 {
-    private $service, $serviceBahan, $serviceQuiz, $serviceSoalKategori, $serviceSoal;
+    private $service, $serviceBahan, $serviceQuiz, $serviceSoalKategori, $serviceSoal,
+        $serviceActivity;
 
     public function __construct(
         BahanQuizItemService $service,
         BahanService $serviceBahan,
         BahanQuizService $serviceQuiz,
         SoalKategoriService $serviceSoalKategori,
-        SoalService $serviceSoal
+        SoalService $serviceSoal,
+        ActivityService $serviceActivity
     )
     {
         $this->service = $service;
@@ -33,6 +36,7 @@ class BahanQuizItemController extends Controller
         $this->serviceQuiz = $serviceQuiz;
         $this->serviceSoalKategori = $serviceSoalKategori;
         $this->serviceSoal = $serviceSoal;
+        $this->serviceActivity = $serviceActivity;
     }
 
     public function index(Request $request, $quizId)
@@ -324,6 +328,9 @@ class BahanQuizItemController extends Controller
         $quiz = $this->service->findQuiz($quizId);
 
         $this->serviceQuiz->trackUserOut($quizId);
+        if ($quiz->bahan->completion_type == 4) {
+            $this->serviceActivity->complete($quiz->bahan_id);
+        }
 
         if ($request->button == 'yes') {
             return redirect()->route('course.bahan', [
@@ -344,9 +351,14 @@ class BahanQuizItemController extends Controller
         return back();
     }
 
-    public function checkPeserta($id)
+    public function checkPeserta($quizId, $userId, $id)
     {
+        $quiz = $this->service->findQuiz($quizId);
+
         $this->serviceQuiz->cekPeserta($id);
+        if ($quiz->bahan->completion_type == 5) {
+            $this->serviceActivity->completeCheckQuiz($quiz->bahan_id, $userId);
+        }
 
         return back();
     }
@@ -371,19 +383,11 @@ class BahanQuizItemController extends Controller
         }
     }
 
-    public function exportJawaban(Request $request,$quizId)
+    public function exportJawaban($quizId)
     {
-        $s = '';
-        $q = '';
-        if (isset($request->s) || isset($request->q)) {
-            $s = '?s='.$request->s;
-            $q = '&q='.$request->q;
-        }
         $quiz = $this->service->findQuiz($quizId);;
-        $peserta = $this->serviceQuiz->quizPesertaList($request, $quizId);
-        $quizItem = $this->service->getItem($quizId);
-        $totalBenar = $this->service->quizBenar($quizId);
-        return Excel::download(new QuizExport($peserta,$quizItem,$totalBenar), "data-quiz-{$quiz->bahan->judul}.xlsx");
+        $peserta = $this->serviceQuiz->quizPesertaExport($quizId);
+        return Excel::download(new QuizExport($quiz, $peserta), "data-quiz-{$quiz->bahan->judul}.xlsx");
     }
 
     public function destroy($quizId, $id)

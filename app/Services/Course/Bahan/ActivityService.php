@@ -82,6 +82,22 @@ class ActivityService
         return $complete;
     }
 
+    public function completeCheckQuiz(int $bahanId, int $userId)
+    {
+        $bahan = $this->bahan->findBahan($bahanId);
+
+        $complete = $this->model->where('program_id', $bahan->program_id)
+            ->where('mata_id', $bahan->mata_id)->where('materi_id', $bahan->materi_id)
+            ->where('bahan_id', $bahanId)->where('user_id', $userId)->first();
+        $complete->track_end = now();
+        $status = 1;
+        $complete->status = $status;
+        $complete->completed_by = auth()->user()->id;
+        $complete->save();
+        event(new ActivitySaved($complete));
+        return $complete;
+    }
+
     public function status(int $id)
     {
         $activity = $this->findActivity($id);

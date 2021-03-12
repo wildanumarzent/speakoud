@@ -54,11 +54,11 @@ class LoginController extends Controller
             $remember = $request->has('remember') ? true : false;
             if (auth()->attempt($request->forms(), $remember)) {
 
-                if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
-                    $redirect = redirect()->route('home');
-                } else {
-                    $redirect = redirect()->route('dashboard');
-                }
+                // if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
+                //     $redirect = redirect()->route('home');
+                // } else {
+                // }
+                $redirect = redirect()->route('dashboard');
 
                 return $redirect->with('success', 'Login berhasil');
             } else {

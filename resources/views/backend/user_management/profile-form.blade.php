@@ -21,7 +21,7 @@
         @method('PUT')
         <div class="card-body">
             @role('peserta_internal|peserta_mitra')
-            @if ($data['user']->peserta->status_profile == 0 || empty($data['user']->peserta->foto_sertifikat))
+            @if ($data['user']->peserta->status_profile == 0 || empty($data['user']->photo['filename']))
             <div class="row">
                 <div class="col-md-12">
                 <div class="alert alert-danger">
@@ -274,11 +274,16 @@
                                     <input type="hidden" name="old_photo" value="{{ $data['user']->photo['filename'] }}">
                                     <input class="form-control custom-file-input file @error('file') is-invalid @enderror" type="file" id="file-1" lang="en" name="file">
                                     @include('components.field-error', ['field' => 'file'])
+                                    @role ('peserta_internal|peserta_mitra')
+                                    @if (empty($data['user']->profile['filename']))
+                                    <span style="color: red;">belum diisi</span>
+                                    @endif
+                                    @endrole
                                 </label>
                             </div>
                         </div>
                         @role ('peserta_internal|peserta_mitra')
-                        <div class="form-group media" style="min-height:1px">
+                        {{-- <div class="form-group media" style="min-height:1px">
                             <div class="ui-bg-cover" style="width: 100px;height: 100px;background-image: url('{{ $data['user']->peserta->getFotoSertifikat($data['user']->peserta->foto_sertifikat) }}');"></div>
                             <div class="media-body ml-3">
                                 <label class="form-label">
@@ -295,7 +300,7 @@
                                     @endif
                                 </label>
                             </div>
-                        </div>
+                        </div> --}}
                         @endrole
                         <div class="form-group" id="desk-foto">
                             <label class="form-label">Deskripsi foto</label>

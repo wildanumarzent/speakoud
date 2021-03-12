@@ -1,43 +1,37 @@
-<table class="table card-table table-striped table-bordered table-hover">
+@php
+    if (!empty($quiz->jml_soal_acak)) {
+        $totalSoal = $quiz->jml_soal_acak;
+    } else {
+        $totalSoal = $quiz->item->count();
+    }
+@endphp
+<table class="table card-table table-striped table-bordered table-hover" border="1">
     <thead>
         <tr>
             <th>NO</th>
             <th>NIP</th>
             <th>Nama</th>
             <th>Username</th>
-            @for($number = 0 ; $number < $data['quizItem']->count() ; $number++)
-            <th>Q{{$number+1}}</th>
-            <th>A{{$number+1}}</th>
+            @for ($i = 0; $i < $totalSoal; $i++)
+            <th>Q{{ ($i+1) }}</th>
+            <th>A{{ ($i+1) }}</th>
             @endfor
             <th>TOTAL</th>
         </tr>
     </thead>
     <tbody>
-
-        @forelse ($data['peserta'] as $item)
+        @foreach ($peserta as $item)
         <tr>
             <td>{{ $loop->iteration }}</td>
             <td>{{ $item->user->peserta->nip }}</td>
             <td>{{ $item->user->name }}</td>
             <td>{{ $item->user->username }}</td>
-            @foreach($data['quizItem'] as $value)
-            <td>{!!$value->pertanyaan!!}</td>
-            <td>{{$value->track($item->user->id)->benar ?? '-'}}</td>
+            @foreach($quiz->trackItem()->where('user_id', $item->user_id)->orderBy('posisi', 'ASC')->get() as $value)
+            <td>{!!$value->item->pertanyaan!!}</td>
+            <td>{{ $value->benar == true ? 1 : 0 }}</td>
             @endforeach
-            <th>{{$data['totalBenar']->where('user_id',$item->user->id)->count() ?? '-'}}</th>
+            <th>{{ $quiz->trackItem()->where('user_id', $item->user_id)->where('benar', 1)->count() ?? '-'}}</th>
         </tr>
-        @empty
-        <tr>
-            <td colspan="{{(5 + ($data['quizItem']->count() * 2))}}" align="center">
-                <i>
-                    <strong style="color:red;">
-
-                    ! Data Quiz kosong !
-
-                    </strong>
-                </i>
-            </td>
-        </tr>
-        @endforelse
+        @endforeach
     </tbody>
 </table>

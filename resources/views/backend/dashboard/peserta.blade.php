@@ -151,7 +151,7 @@
 
 </div>
 
-<div class="row">
+{{-- <div class="row">
     <div class="col-md-6 col-lg-12 col-xl-6">
         <div class="card mb-4">
             <h6 class="card-header">Jadwal Diklat</h6>
@@ -232,9 +232,9 @@
         </div>
 
     </div>
-</div>
+</div> --}}
 
-<div class="row">
+{{-- <div class="row">
     <div class="col-md-12 col-lg-12 col-xl-12">
 
         <div class="card mb-4">
@@ -287,9 +287,9 @@
         </div>
 
     </div>
-</div>
+</div> --}}
 
-<div class="row">
+{{-- <div class="row">
     <div class="col-md-12 col-lg-12 col-xl-12">
 
         <div class="card mb-4">
@@ -310,4 +310,4 @@
         </div>
 
     </div>
-</div>
+</div> --}}

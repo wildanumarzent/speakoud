@@ -86,6 +86,10 @@
                                     @foreach (config('addon.label.bahan_completion') as $keyCom => $com)
                                     <option value="{{ $keyCom }}" {{ isset($data['bahan']) ? (old('completion_type', $data['bahan']->completion_type) == ''.$keyCom.'' ? 'selected' : '') : '' }}>{{ $com }}</option>
                                     @endforeach
+                                    @if (Request::get('type') == 'quiz')
+                                    <option value="4" {{ isset($data['bahan']) ? (old('completion_type', $data['bahan']->completion_type) == 4 ? 'selected' : '') : '' }}>On User Finish Quiz</option>
+                                    <option value="5" {{ isset($data['bahan']) ? (old('completion_type', $data['bahan']->completion_type) == 5 ? 'selected' : '') : '' }}>On Receiving Grade</option>
+                                    @endif
                                 </select>
                             </div>
                         </div>

@@ -44,6 +44,17 @@ class BahanQuizService
         return $result;
     }
 
+    public function quizPesertaExport(int $quizId)
+    {
+        $query = $this->modelTrackUser->query();
+
+        $query->where('quiz_id', $quizId);
+
+        $result = $query->orderBy('end_time', 'DESC')->get();
+
+        return $result;
+    }
+
     public function findQuizPeserta(int $quizId, int $pesertaId)
     {
         $query = $this->modelTrackUser->query();
