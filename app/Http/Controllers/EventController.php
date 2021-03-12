@@ -26,9 +26,9 @@ class EventController extends Controller
     {
         $data = [];
         return view('backend.kalender.index', compact('data'), [
-            'judul' => 'Agenda Diklat',
+            'judul' => 'Agenda',
             'breadcrumbsBackend' => [
-                'Agenda Diklat' => '',
+                'Agenda' => '',
             ],
         ]);
     }

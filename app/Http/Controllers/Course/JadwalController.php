@@ -39,9 +39,9 @@ class JadwalController extends Controller
         $data['mata'] = '';
 
         return view('backend.course_management.jadwal.index', compact('data'), [
-            'title' => 'Jadwal Pelatihan',
+            'title' => 'Kalender Pelatihan',
             'breadcrumbsBackend' => [
-                'Jadwal Pelatihan' => ''
+                'Kalender Pelatihan' => ''
             ],
         ]);
     }
@@ -53,7 +53,7 @@ class JadwalController extends Controller
         $data['jadwal'] = $this->service->getJadwal($limit);
 
         return view('frontend.jadwal.index', compact('data'), [
-            'title' => 'Jadwal Pelatihan',
+            'title' => 'Agenda Pelatihan',
             'breadcrumbsFrontend' => [
                 'Program' => route('course.list'),
                 'Jadwal' => '',
@@ -70,7 +70,7 @@ class JadwalController extends Controller
         }
 
         return view('frontend.jadwal.detail', compact('data'), [
-            'title' => 'Jadwal Pelatihan - '.$data['read']->judul,
+            'title' => 'Agenda Pelatihan - '.$data['read']->judul,
             'breadcrumbsFrontend' => [
                 'Program' => route('course.list'),
                 'Jadwal' => route('course.jadwal'),
@@ -84,7 +84,7 @@ class JadwalController extends Controller
         $data['mata'] = $this->serviceMata->getAllMata();
 
         return view('backend.course_management.jadwal.form', compact('data'), [
-            'title' => 'Jadwal Pelatihan - Tambah',
+            'title' => 'Kalender Pelatihan - Tambah',
             'breadcrumbsBackend' => [
                 'Jadwal' => route('jadwal.index'),
                 'Tambah' => ''
@@ -108,7 +108,7 @@ class JadwalController extends Controller
         $this->checkCreator($id);
 
         return view('backend.course_management.jadwal.form', compact('data'), [
-            'title' => 'Jadwal Pelatihan - Edit',
+            'title' => 'Kalender Pelatihan - Edit',
             'breadcrumbsBackend' => [
                 'Jadwal' => route('jadwal.index'),
                 'Edit' => ''

@@ -50,7 +50,7 @@ class BahanQuizItem extends Model
 
     public function track($userId)
     {
-        return $this->hasOne(BahanQuizItemTracker::class,'quiz_item_id')->where('user_id',$userId)->first();;
+        return $this->hasOne(BahanQuizItemTracker::class,'quiz_item_id')->where('user_id',$userId);
     }
 
     public function shufflePilihan($item)

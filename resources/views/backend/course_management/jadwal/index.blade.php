@@ -97,9 +97,9 @@
     <div class="card-body text-center">
         <strong style="color: red;">
             @if (Request::get('p') || Request::get('q'))
-            ! Jadwal Pelatihan tidak ditemukan !
+            ! Kalender Pelatihan tidak ditemukan !
             @else
-            ! Data Jadwal Pelatihan kosong !
+            ! Data Kalender Pelatihan kosong !
             @endif
         </strong>
     </div>

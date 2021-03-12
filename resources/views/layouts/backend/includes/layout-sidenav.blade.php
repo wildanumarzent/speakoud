@@ -222,15 +222,17 @@
                 </ul>
             </li>
             <!-- jadwal -->
+            @role('developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra')
             <li class="sidenav-item{{ (Request::is('jadwal*')) ? ' active' : '' }}">
-                <a href="{{ route($jadwal) }}" class="sidenav-link" title="Jadwal Diklat">
-                  <div>Jadwal Diklat</div>
+                <a href="{{ route($jadwal) }}" class="sidenav-link" title="Kalender Diklat">
+                  <div>Kalender Diklat</div>
                 </a>
             </li>
+            @endrole
             <!-- kalender -->
             <li class="sidenav-item{{ (Request::is('kalender*')) ? ' active' : '' }}">
-                <a href="{{route('kalender.index')}}" class="sidenav-link" title="Agenda Diklat">
-                  <div>Agenda Diklat</div>
+                <a href="{{route('kalender.index')}}" class="sidenav-link" title="Agenda">
+                  <div>Agenda</div>
                 </a>
             </li>
           </ul>

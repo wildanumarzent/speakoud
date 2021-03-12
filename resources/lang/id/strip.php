@@ -8,7 +8,7 @@ return [
 	'widget_1_button' => 'Detail',
 	'widget_1_button_2' => 'Lihat Lainnya',
 	'widget_2_title' => 'Acara Mendatang',
-	'widget_2_title_2' => 'Jadwal Pelatihan',
+	'widget_2_title_2' => 'Agenda Pelatihan',
 	'widget_2_description' => 'Temukan program pelatihan E-Learning yang akan diselenggarakan dalam waktu dekat, disini',
 	'widget_2_button' => 'Lihat Lainnya',
 	'widget_3_title' => 'Berlangganan Informasi Pelatihan Terbaru',

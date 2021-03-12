@@ -1,4 +1,4 @@
-@section('content')
+
 @include('sweetalert::alert')
 
 <div class="modal modal-top fade" id="kalender-diklat-modal">
@@ -14,7 +14,7 @@
                 <h5 class="modal-title">Tambah Event</h5>
                 <div id="spatieCalendar">
                 <a href="#" id="googleLink" target="_blank" title="klik untuk menambahkan ke google calendar" class="btn btn-sm icon-btn btn-outline-danger ">
-                    <span class="fab fa-google"></span>
+                    <i class="fab fa-google"></i>
                 </a>
                 </div>
                 {{-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">×</button> --}}

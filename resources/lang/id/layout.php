@@ -38,8 +38,8 @@ return [
         'management_course' => [
             'title' => 'Manage Courses',
             'program' => 'Program Pelatihan',
-            'jadwal' => 'Jadwal Diklat',
-            'kalender' => 'Agenda Diklat',
+            'jadwal' => 'Kalender Diklat',
+            'kalender' => 'Agenda',
             'evaluasi' => 'Evaluasi'
         ],
         'sertifikasi' => 'Sertifikasi',
