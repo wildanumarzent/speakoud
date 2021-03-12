@@ -515,14 +515,12 @@ class MataService
     public function positionMata(int $id, $urutan)
     {
         if ($urutan >= 1) {
-
             $mata = $this->findMata($id);
             $this->model->where('urutan', $urutan)->update([
                 'urutan' => $mata->urutan,
             ]);
             $mata->urutan = $urutan;
             $mata->save();
-
             return $mata;
         } else {
             return false;
