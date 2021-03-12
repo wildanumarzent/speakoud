@@ -32,7 +32,7 @@
                                     @endforeach
                                 </ul>
                             </li>
-                            <li class="{{ Request::is('course/jadwal*') ? 'current-nav' : '' }}"><a href="{{ route('course.jadwal') }}" title="Jadwal Pelatihan">Jadwal</a></li>
+                            <li class="{{ Request::is('course/jadwal*') ? 'current-nav' : '' }}"><a href="{{ route('course.jadwal') }}" title="Kalender Pelatihan">Agenda</a></li>
                             <li class="{{ Request::is('content/artikel*') ? 'current-nav' : '' }}"><a href="{{ route('artikel.list') }}" title="Artikel">Artikel</a></li>
                             @foreach ($menu['inquiry'] as $inquiry)
                             <li class="{{ Request::is('inquiry*') ? 'current-nav' : '' }}"><a href="{{ route('inquiry.read', ['slug' => $inquiry->slug]) }}" title="{!! $inquiry->name !!}">{!! $inquiry->name !!}</a></li>

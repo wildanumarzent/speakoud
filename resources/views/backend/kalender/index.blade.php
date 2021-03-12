@@ -52,6 +52,6 @@
 @include('components.toastr')
 @endsection
 
+@section('content')
 @include('backend.kalender.kalender')
-
 @endsection

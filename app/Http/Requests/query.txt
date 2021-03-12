@@ -1,0 +1,4 @@
+UPDATE `sub_task` inner join  ( select id from sub_task where urutan = 0) old
+ on sub_task.id = old.id
+ set urutan = old.id
+ where urutan =  0

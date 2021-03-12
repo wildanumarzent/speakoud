@@ -22,7 +22,7 @@
             <td>{{ $item->user->username }}</td>
             @foreach($data['quizItem'] as $value)
             <td>{!!$value->pertanyaan!!}</td>
-            <td>{{$value->track($item->user->id)->benar ?? '-'}}</td>
+            <td>{{$value->track($item->user->id)->benar ?? '-' }}</td>
             @endforeach
             <th>{{$data['totalBenar']->where('user_id',$item->user->id)->count() ?? '-'}}</th>
         </tr>
