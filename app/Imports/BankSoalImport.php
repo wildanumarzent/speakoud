@@ -43,7 +43,9 @@ class BankSoalImport implements
 
             $pilihan = [];
             for ($i=2; $i < $indexPilih; $i++) {
-                $pilihan[($i-2)] = $row[$i];
+                if (!empty($row[$i])) {
+                    $pilihan[($i-2)] = $row[$i];
+                }
             }
 
             $soal->tipe_jawaban = 0;
@@ -55,7 +57,9 @@ class BankSoalImport implements
             
             $jawaban = [];
             for ($i=2; $i < $indexPilih; $i++) {
-                $jawaban[($i-2)] = $row[$i];
+                if (!empty($row[$i])) {
+                    $jawaban[($i-2)] = $row[$i];
+                }
             }
 
             $soal->tipe_jawaban = 1;
