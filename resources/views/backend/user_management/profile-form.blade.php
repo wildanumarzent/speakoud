@@ -275,7 +275,7 @@
                                     <input class="form-control custom-file-input file @error('file') is-invalid @enderror" type="file" id="file-1" lang="en" name="file">
                                     @include('components.field-error', ['field' => 'file'])
                                     @role ('peserta_internal|peserta_mitra')
-                                    @if (empty($data['user']->profile['filename']))
+                                    @if (empty($data['user']->photo['filename']))
                                     <span style="color: red;">belum diisi</span>
                                     @endif
                                     @endrole
