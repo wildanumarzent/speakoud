@@ -7,6 +7,6 @@ use Illuminate\Support\Facades\Auth;
 class CreatorObserver
 {
     public function creating(Model $model){
-        $model->user_id = Auth::user()->id;
+        $model->creator_id = Auth::user()->id;
     }
 }

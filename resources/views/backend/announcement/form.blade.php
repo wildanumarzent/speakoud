@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-tagsinput/bootstrap-tagsinput.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/fancybox/fancybox.min.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/select2/select2.css') }}">
-
+<link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-datepicker/bootstrap-datepicker.css') }}">
 @endsection
 
 @section('content')
@@ -75,8 +75,22 @@
                </div>
                 <div class="form-group">
                     <label class="form-label">Masa Berlaku Pengumuman</label>
-                        <input required type="date" name="end_date" class="form-control {{ $errors->has('end_date')?' is-invalid':'' }}" value="{{ old('end_date')  ?? @$data['announcement']->end_date }}"placeholder="Tentukan Masa Berlaku Pengumuman">
-                        {!! $errors->first('end_date', '<small class="form-text text-danger">:message</small>') !!}
+                    <div class="input-group">
+                        @php
+                        if(isset($mata)){
+                            $start = date_format($mata->publish_start,"Y-m-d");
+                            $end =  date_format($mata->publish_end,"Y-m-d");
+                            $tStart = date_format($mata->publish_start,"H:i");
+                            $tEnd = date_format($mata->publish_end,"H:i");
+                        }
+                        @endphp
+                        <input type="text" class="date-picker form-control @error('end_date') is-invalid @enderror" name="end_date"
+                            value="{{ (isset($jadwal)) ? old('end_date', $jadwal->end_date->format('Y-m-d')) : $start ?? old('end_date') }}" placeholder="masukan tanggal mulai...">
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="las la-calendar"></i></span>
+                        </div>
+                        @include('components.field-error', ['field' => 'end_date'])
+                    </div>
                     </div>
 
 
@@ -102,6 +116,7 @@
 <script src="{{ asset('assets/tmplts_backend/vendor/libs/autosize/autosize.js') }}"></script>
 <script src="{{ asset('assets/tmplts_backend/vendor/libs/select2/select2.js') }}"></script>
 <script src="{{ asset('assets/tmplts_backend/js/forms_selects.js') }}"></script>
+<script src="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-datepicker/bootstrap-datepicker.js') }}"></script>
 @endsection
 
 @section('jsbody')
@@ -114,6 +129,22 @@ $(function() {
 
   $('#tags').tagsinput({ tagClass: 'badge badge-primary' });
 });
+
+    $('.select2').select2();
+    //datetime
+    $(function() {
+        $( ".date-picker" ).datepicker({
+            format: 'yyyy-mm-dd',
+            todayHighlight: true,
+        });
+
+        $('.time-picker').bootstrapMaterialDatePicker({
+            date: false,
+            shortTime: false,
+            format: 'HH:mm'
+        });
+    });
+
 </script>
 @include('includes.tiny-mce-with-fileman')
 @include('components.toastr')
