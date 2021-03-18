@@ -5,8 +5,8 @@
 @endsection
 
 @section('content')
-@foreach ($data['mata'] as $item)
 <div class="row">
+    @foreach ($data['mata'] as $item)
     <div class="col-sm-6 col-xl-3">
         <div class="card card-list">
             <div class="card-img-top d-block ui-rect-60 ui-bg-cover" style="background-image: url({{ $item->getCover($item->cover['filename']) }});">
@@ -36,8 +36,8 @@
             </div>
         </div>
     </div>
+    @endforeach
 </div>
-@endforeach
 
 @if ($data['mata']->total() == 0)
 <div class="card">
