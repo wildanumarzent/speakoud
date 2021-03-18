@@ -95,7 +95,10 @@ class SertifikatInternalService
             } else {
                 $GLOBALS['jam'] = $mata->jam_pelatihan.' Jam';
             }
+        } else {
+            $GLOBALS['jam'] = '- Jam';
         }
+
         if ($mata->sertifikatInternal->tipe == 2) {
             $GLOBALS['start'] = $mata->publish_start->format('F jS, Y');
             $GLOBALS['end'] = $mata->publish_end->format('F jS, Y');
