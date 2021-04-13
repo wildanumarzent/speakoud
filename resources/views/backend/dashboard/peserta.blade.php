@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-sm-6 col-xl-3">
+    {{-- <div class="col-sm-6 col-xl-3">
 
       <div class="card mb-4">
         <div class="card-body">
@@ -13,8 +13,24 @@
         </div>
       </div>
 
+    </div> --}}
+    
+    <div class="col-sm-6 col-xl-4">
+
+      <div class="card mb-4">
+        <div class="card-body">
+          <div class="d-flex align-items-center">
+            <div class="las la-clock display-4 text-primary"></div>
+            <div class="ml-3">
+              <div class="text-muted small">Total Jam Pelatihan</div>
+              <div class="text-large">{{ $data['counter']['peserta_journey'] }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
-    <div class="col-sm-6 col-xl-3">
+    <div class="col-sm-6 col-xl-4">
 
       <div class="card mb-4">
         <div class="card-body">
@@ -29,22 +45,7 @@
       </div>
 
     </div>
-    <div class="col-sm-6 col-xl-3">
-
-      <div class="card mb-4">
-        <div class="card-body">
-          <div class="d-flex align-items-center">
-            <div class="ios ion-md-bookmarks display-4 text-primary"></div>
-            <div class="ml-3">
-              <div class="text-muted small">Learning Journey</div>
-              <div class="text-large">{{ $data['counter']['peserta_journey'] }}</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-    <div class="col-sm-6 col-xl-3">
+    <div class="col-sm-6 col-xl-4">
 
       <div class="card mb-4">
         <div class="card-body">
@@ -63,7 +64,164 @@
 
 </div>
 
+<hr class="container-m-nx mt-0 mb-4">
+<h4 class="font-weight-semibold mb-4">Program Pelatihan yang Anda Ikuti :</h4>
+
 <div class="row">
+
+  <div class="col-sm-6 col-xl-4">
+    <div class="card mb-4">
+      <div class="card-img-top d-block ui-rect-60 ui-bg-cover" style="background-image: url(https://e-learning-bppt.apps/assets/tmplts_backend/images/cover.jpg);">
+        <div class="d-flex justify-content-end align-items-start ui-rect-content p-3">
+            <div class="flex-shrink-1">
+                <span class="badge badge-primary"><i class="las la-calendar"></i> 12 April 2021</span>
+            </div>
+        </div>
+      </div>
+      <hr class="m-0">
+      <div class="card-body">
+        <div class="mb-3"><a href="javascript:void(0)" class="text-body font-weight-semibold">Pelatihan Jabatan Fungsional Perekayasa</a></div>
+        <div class="d-flex justify-content-between align-items-center small">
+          <div class="font-weight-bold">33%</div>
+          <div class="text-muted">Progress</div>
+        </div>
+        <div class="progress mt-1" style="height: 3px;">
+          <div class="progress-bar" style="width: 33%;"></div>
+        </div>
+        <div class="mt-3 text-center">
+          <a class="btn btn-primary" href="" title="klik untuk melihat detail pelatihan">
+              MASUK
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6 col-xl-4">
+    <div class="card mb-4">
+      <div class="card-img-top d-block ui-rect-60 ui-bg-cover" style="background-image: url(https://e-learning-bppt.apps/assets/tmplts_backend/images/cover.jpg);">
+        <div class="d-flex justify-content-end align-items-start ui-rect-content p-3">
+            <div class="flex-shrink-1">
+                <span class="badge badge-primary"><i class="las la-calendar"></i> 12 April 2021</span>
+            </div>
+        </div>
+      </div>
+      <hr class="m-0">
+      <div class="card-body">
+        <div class="mb-3"><a href="javascript:void(0)" class="text-body font-weight-semibold">Pelatihan Jabatan Fungsional Perekayasa</a></div>
+        <div class="d-flex justify-content-between align-items-center small">
+          <div class="font-weight-bold">33%</div>
+          <div class="text-muted">Progress</div>
+        </div>
+        <div class="progress mt-1" style="height: 3px;">
+          <div class="progress-bar" style="width: 33%;"></div>
+        </div>
+        <div class="mt-3 text-center">
+          <a class="btn btn-primary" href="" title="klik untuk melihat detail pelatihan">
+              MASUK
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6 col-xl-4">
+    <div class="card mb-4">
+      <div class="card-img-top d-block ui-rect-60 ui-bg-cover" style="background-image: url(https://e-learning-bppt.apps/assets/tmplts_backend/images/cover.jpg);">
+        <div class="d-flex justify-content-end align-items-start ui-rect-content p-3">
+            <div class="flex-shrink-1">
+                <span class="badge badge-primary"><i class="las la-calendar"></i> 12 April 2021</span>
+            </div>
+        </div>
+      </div>
+      <hr class="m-0">
+      <div class="card-body">
+        <div class="mb-3"><a href="javascript:void(0)" class="text-body font-weight-semibold">Pelatihan Jabatan Fungsional Perekayasa</a></div>
+        <div class="d-flex justify-content-between align-items-center small">
+          <div class="font-weight-bold">33%</div>
+          <div class="text-muted">Progress</div>
+        </div>
+        <div class="progress mt-1" style="height: 3px;">
+          <div class="progress-bar" style="width: 33%;"></div>
+        </div>
+        <div class="mt-3 text-center">
+          <a class="btn btn-primary" href="" title="klik untuk melihat detail pelatihan">
+              MASUK
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<hr class="container-m-nx mt-0 mb-4">
+<h4 class="font-weight-semibold mb-4">Rekomendasi Pelatihan untuk meningkatkan Kompetensi Anda :</h4>
+
+<div class="row">
+
+  <div class="col-sm-6 col-xl-4">
+    <div class="card mb-4">
+      <div class="card-img-top d-block ui-rect-60 ui-bg-cover" style="background-image: url(https://e-learning-bppt.apps/assets/tmplts_backend/images/cover.jpg);">
+        <div class="d-flex justify-content-end align-items-start ui-rect-content p-3">
+            <div class="flex-shrink-1">
+                <span class="badge badge-primary"><i class="las la-calendar"></i> 12 April 2021</span>
+            </div>
+        </div>
+      </div>
+      <hr class="m-0">
+      <div class="card-body">
+        <div class="mb-3"><a href="javascript:void(0)" class="text-body font-weight-semibold">Pelatihan Jabatan Fungsional Perekayasa</a></div>
+        <div class="mt-3 text-center">
+          <a class="btn btn-primary" href="" title="klik untuk melihat detail pelatihan">
+              MASUK
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6 col-xl-4">
+    <div class="card mb-4">
+      <div class="card-img-top d-block ui-rect-60 ui-bg-cover" style="background-image: url(https://e-learning-bppt.apps/assets/tmplts_backend/images/cover.jpg);">
+        <div class="d-flex justify-content-end align-items-start ui-rect-content p-3">
+            <div class="flex-shrink-1">
+                <span class="badge badge-primary"><i class="las la-calendar"></i> 12 April 2021</span>
+            </div>
+        </div>
+      </div>
+      <hr class="m-0">
+      <div class="card-body">
+        <div class="mb-3"><a href="javascript:void(0)" class="text-body font-weight-semibold">Pelatihan Jabatan Fungsional Perekayasa</a></div>
+        <div class="mt-3 text-center">
+          <a class="btn btn-primary" href="" title="klik untuk melihat detail pelatihan">
+              MASUK
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6 col-xl-4">
+    <div class="card mb-4">
+      <div class="card-img-top d-block ui-rect-60 ui-bg-cover" style="background-image: url(https://e-learning-bppt.apps/assets/tmplts_backend/images/cover.jpg);">
+        <div class="d-flex justify-content-end align-items-start ui-rect-content p-3">
+            <div class="flex-shrink-1">
+                <span class="badge badge-primary"><i class="las la-calendar"></i> 12 April 2021</span>
+            </div>
+        </div>
+      </div>
+      <hr class="m-0">
+      <div class="card-body">
+        <div class="mb-3"><a href="javascript:void(0)" class="text-body font-weight-semibold">Pelatihan Jabatan Fungsional Perekayasa</a></div>
+        <div class="mt-3 text-center">
+          <a class="btn btn-primary" href="" title="klik untuk melihat detail pelatihan">
+              MASUK
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+{{-- <div class="row">
 
     <div class="col-md-6 col-lg-12 col-xl-6">
 
@@ -149,7 +307,7 @@
 
     </div>
 
-</div>
+</div> --}}
 
 {{-- <div class="row">
     <div class="col-md-6 col-lg-12 col-xl-6">

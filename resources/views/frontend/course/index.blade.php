@@ -7,7 +7,7 @@
 @section('content')
 <div class="row">
     @foreach ($data['mata'] as $item)
-    <div class="col-sm-6 col-xl-3">
+    <div class="col-sm-6 col-xl-4">
         <div class="card card-list">
             <div class="card-img-top d-block ui-rect-60 ui-bg-cover" style="background-image: url({{ $item->getCover($item->cover['filename']) }});">
                 <div class="d-flex justify-content-end align-items-start ui-rect-content p-3">
@@ -28,9 +28,6 @@
                         <a class="btn btn-primary" href="{{ route('course.detail', ['id' => $item->id]) }}" title="klik untuk melihat detail pelatihan">
                             MASUK
                         </a>
-                    </div>
-                    <div class="text-muted small">
-                        <br>
                     </div>
                 </div>
             </div>
