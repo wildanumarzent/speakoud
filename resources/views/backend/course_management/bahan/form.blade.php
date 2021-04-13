@@ -158,7 +158,7 @@
                                 <div class="col-md-10">
                                     <div class="input-group">
                                         <input type="text" class="datetime-picker form-control @error('publish_start') is-invalid @enderror" name="publish_start"
-                                            value="{{ isset($data['bahan']) && !empty($data['bahan']->publish_start) ? old('publish_start', $data['bahan']->publish_start->format('Y-m-d H:i')) : old('publish_end', now()->format('Y-m-d 00:00')) }}" placeholder="masukan tanggal mulai...">
+                                            value="{{ isset($data['bahan']) && !empty($data['bahan']->publish_start) ? old('publish_start', $data['bahan']->publish_start->format('Y-m-d H:i')) : old('publish_start', now()->format('Y-m-d 00:00')) }}" placeholder="masukan tanggal mulai...">
                                         <div class="input-group-append">
                                             <span class="input-group-text"><i class="las la-calendar"></i></span>
                                         </div>

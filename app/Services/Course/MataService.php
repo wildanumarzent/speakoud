@@ -354,6 +354,7 @@ class MataService
         $result = $query->count();
         return $result;
     }
+
     public function getMataPeserta($pesertaID){
 
         $query = $this->modelPeserta->query();
@@ -408,6 +409,7 @@ class MataService
         $bobot->webinar = $request->webinar;
         $bobot->progress_test = (bool)$request->enable_progress == 1 ? $request->progress_test : null;
         $bobot->quiz = $request->quiz;
+        $bobot->tugas_mandiri = (bool)$request->enable_tugas == 1 ? $request->tugas_mandiri : null;
         $bobot->post_test = $request->post_test;
         $bobot->save();
 
@@ -503,6 +505,7 @@ class MataService
         $bobot->webinar = $request->webinar;
         $bobot->progress_test = (bool)$request->enable_progress == 1 ? $request->progress_test : null;
         $bobot->quiz = $request->quiz;
+        $bobot->tugas_mandiri = (bool)$request->enable_tugas == 1 ? $request->tugas_mandiri : null;
         $bobot->post_test = $request->post_test;
         $bobot->save();
 
@@ -710,7 +713,7 @@ class MataService
         if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra')) {
             $query = $this->modelMateri->query();
             $query->where('mata_id', $id);
-            $query->whereIn('instruktur_id', [auth()->user()->instruktur->id]);
+            // $query->whereIn('instruktur_id', [auth()->user()->instruktur->id]);
 
             return $query->count();
         }

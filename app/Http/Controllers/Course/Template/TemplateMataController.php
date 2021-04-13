@@ -52,6 +52,14 @@ class TemplateMataController extends Controller
 
     public function store(TemplateMataRequest $request)
     {
+        $bobot = ($request->join_vidconf + $request->activity_completion +
+            $request->forum_diskusi + $request->webinar + $request->progress_test +
+            $request->quiz + $request->tugas_mandiri + $request->post_test);
+
+        if ($bobot < 100 || $bobot > 100) {
+            return back()->with('warning', 'Bobot nilai harus memiliki jumlah keseluruhan 100%, tidak boleh kurang / lebih');
+        }
+
         $this->service->storeTemplateMata($request);
 
         return redirect()->route('template.mata.index')
@@ -74,6 +82,14 @@ class TemplateMataController extends Controller
 
     public function update(TemplateMataRequest $request, $id)
     {
+        $bobot = ($request->join_vidconf + $request->activity_completion +
+            $request->forum_diskusi + $request->webinar + $request->progress_test +
+            $request->quiz + $request->tugas_mandiri + $request->post_test);
+
+        if ($bobot < 100 || $bobot > 100) {
+            return back()->with('warning', 'Bobot nilai harus memiliki jumlah keseluruhan 100%, tidak boleh kurang / lebih');
+        }
+        
         $this->service->updateTemplateMata($request, $id);
 
         return redirect()->route('template.mata.index')

@@ -26,7 +26,7 @@
                 <div class="media">
                     <div class="media-body text-center">
                         <a class="btn btn-primary" href="{{ route('course.detail', ['id' => $item->id]) }}" title="klik untuk melihat detail pelatihan">
-                            DETAIL
+                            MASUK
                         </a>
                     </div>
                     <div class="text-muted small">

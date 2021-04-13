@@ -204,6 +204,25 @@
                             <i>*<span class="text-muted">Input range <span class="badge badge-danger">0</span> - <span class="badge badge-success">100</span></span></i>
                         </div>
                     </div>
+                    <div class="form-group row">
+                        <div class="col-md-2 text-md-right">
+                          <label class="col-form-label text-sm-right">Tugas Mandiri</label>
+                        </div>
+                        <div class="col-md-10">
+                            <div class="input-group">
+                                <input type="number" id="tugas-mandiri" class="form-control @error('tugas_mandiri') is-invalid @enderror" name="tugas_mandiri" max="100"
+                                    value="{{ isset($data['mata']) ? old('tugas_mandiri', $data['mata']->bobot->tugas_mandiri) : old('tugas_mandiri') }}" placeholder="masukan nilai" disabled>
+                                <div class="input-group-append">
+                                    <span class="input-group-text">%</span>
+                                    <span class="input-group-text">
+                                        <input type="checkbox" id="cp_t" name="enable_tugas" value="1" {{ isset($data['mata']) && !empty($data['mata']->bobot->tugas_mandiri) ? 'checked' : ''}}>&nbsp; Enable
+                                    </span>
+                                </div>
+                                @include('components.field-error', ['field' => 'tugas_mandiri'])
+                            </div>
+                            <i>*<span class="text-muted">Input range <span class="badge badge-danger">0</span> - <span class="badge badge-success">100</span></span></i>
+                        </div>
+                    </div>
                     {{-- post test --}}
                     <hr class="m-0 mb-4">
                     <h6 class="small font-weight-semibold mb-4">4. Post Test</h6>
@@ -273,6 +292,21 @@ $(document).ready(function () {
         $('#progress-test').prop('disabled', true);
         $('#progress-test').val('');
     }
+
+    $('#cp_t').click(function() {
+            if ($('#cp_t').prop('checked') == true) {
+                $('#tugas-mandiri').removeAttr('disabled');
+            } else {
+                $('#tugas-mandiri').prop('disabled', true);
+                $('#tugas-mandiri').val('');
+            }
+        });
+        if ($('#cp_t').prop('checked') == true) {
+            $('#tugas-mandiri').removeAttr('disabled');
+        } else {
+            $('#tugas-mandiri').prop('disabled', true);
+            $('#tugas-mandiri').val('');
+        }
 });
 </script>
 

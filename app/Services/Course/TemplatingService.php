@@ -89,6 +89,7 @@ class TemplatingService
             $tMataBobot->webinar = $mata->bobot->webinar;
             $tMataBobot->progress_test = $mata->bobot->enable_progress;
             $tMataBobot->quiz = $mata->bobot->quiz;
+            $tMataBobot->tugas_mandiri = $mata->bobot->tugas_mandiri;
             $tMataBobot->post_test = $mata->bobot->post_test;
             $tMataBobot->save();
 

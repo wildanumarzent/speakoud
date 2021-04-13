@@ -14,8 +14,8 @@
                 <th colspan="3" style="text-align:center;">
                     KEAKTIFAN ({{ ($data['mata']->bobot->activity_completion+$data['mata']->bobot->forum_diskusi+$data['mata']->bobot->webinar).'%' }})
                 </th>
-                <th colspan="2" style="text-align:center;">
-                    TUGAS ({{ !empty($data['mata']->bobot->progress_test) ? ($data['mata']->bobot->progress_test+$data['mata']->bobot->quiz).'%' : ($data['mata']->bobot->quiz).'%' }})
+                <th colspan="3" style="text-align:center;">
+                    TUGAS ({{ $data['mata']->bobot->progress_test+$data['mata']->bobot->quiz+$data['mata']->bobot->tugas_mandiri.'%' }})
                 </th>
                 <th rowspan="3" style="text-align:center;">POST TEST ({{ $data['mata']->bobot->post_test.'%' }})</th>
                 <th rowspan="3" style="text-align:center;">TOTAL</th>
@@ -26,15 +26,18 @@
                   <th rowspan="2">Forum Diskusi ({{ $data['mata']->bobot->forum_diskusi.'%' }})</th>
                   <th rowspan="2">Webinar ({{ $data['mata']->bobot->webinar.'%' }})</th>
                   <th rowspan="2">
-                      {!! !empty($data['mata']->bobot->progress_test) ? 'Progress Test' : '<s>Progress Test</s>' !!} {{ !empty($data['mata']->bobot->progress_test) ? '('.$data['mata']->bobot->progress_test.'%)' : '' }}
-                    </th>
+                    {!! !empty($data['mata']->bobot->progress_test) ? 'Progress Test' : '<s>Progress Test</s>' !!} {{ !empty($data['mata']->bobot->progress_test) ? '('.$data['mata']->bobot->progress_test.'%)' : '' }}
+                  </th>
                   <th rowspan="2">Quiz ({{ $data['mata']->bobot->quiz.'%' }})</th>
+                  <th rowspan="2">
+                    {!! !empty($data['mata']->bobot->tugas_mandiri) ? 'Tugas Mandiri' : '<s>Tugas Mandiri</s>' !!} {{ !empty($data['mata']->bobot->tugas_mandiri) ? '('.$data['mata']->bobot->tugas_mandiri.'%)' : '' }}
+                  </th>
               </tr>
         </thead>
         <tbody>
             @if ($data['peserta']->total() == 0)
             <tr>
-                <td colspan="11" align="center">
+                <td colspan="12" align="center">
                     <i>
                         <strong style="color:red;">
                         @if (Request::get('q'))
@@ -76,6 +79,9 @@
                 </td>
                 <td style="text-align:center;">
                     <strong>{{ $item->mata->bobot->bobotPost($item->mata_id, $item->peserta->user->id) }}%</strong>
+                </td>
+                <td style="text-align:center;">
+                    <strong>{{ $item->mata->bobot->bototTugasMandiri($item->mata_id, $item->peserta->user->id) }}%</strong>
                 </td>
                 <td style="text-align:center;">
                     <strong>{{ $item->mata->bobot->totalBobot($item->mata_id, $item->peserta->user->id) }}%</strong>

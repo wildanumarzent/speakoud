@@ -6,6 +6,7 @@ use App\Exports\ActivityExport;
 use App\Http\Controllers\Controller;
 use App\Services\Course\Bahan\ActivityService;
 use App\Services\Course\Bahan\BahanQuizItemService;
+use App\Services\Course\Bahan\BahanService;
 use App\Services\Course\MataService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -13,15 +14,17 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class MataActivityController extends Controller
 {
-    private $service, $serviceActivity, $serviceQuizItem;
+    private $service, $serviceBahan, $serviceActivity, $serviceQuizItem;
 
     public function __construct(
         MataService $service,
+        BahanService $serviceBahan,
         ActivityService $serviceActivity,
         BahanQuizItemService $serviceQuizItem
     )
     {
         $this->service = $service;
+        $this->serviceBahan = $serviceBahan;
         $this->serviceActivity = $serviceActivity;
         $this->serviceQuizItem = $serviceQuizItem;
     }
@@ -56,6 +59,7 @@ class MataActivityController extends Controller
         }
 
         $data['mata'] = $this->service->findMata($mataId);
+        $data['bahan'] = $this->serviceBahan->getBahanActivity($mataId);
         $data['track'] = $this->serviceActivity->getActivityByMata($mataId);
         $data['peserta'] = $this->service->getPesertaList($request, $mataId);
         $data['number'] = $data['peserta']->firstItem();

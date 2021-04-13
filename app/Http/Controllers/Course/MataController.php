@@ -61,7 +61,7 @@ class MataController extends Controller
             $p = '?p='.$request->p;
             $q = '&q='.$request->q;
         }
-
+        
         $data['mata'] = $this->service->getMataList($request, $programId);
         $data['number'] = $data['mata']->firstItem();
         $data['mata']->withPath(url()->current().$p.$q);
@@ -257,7 +257,7 @@ class MataController extends Controller
 
         $bobot = ($request->join_vidconf + $request->activity_completion +
             $request->forum_diskusi + $request->webinar + $request->progress_test +
-            $request->quiz + $request->post_test);
+            $request->quiz + $request->tugas_mandiri + $request->post_test);
 
         if ($bobot < 100 || $bobot > 100) {
             return back()->with('warning', 'Bobot nilai harus memiliki jumlah keseluruhan 100%, tidak boleh kurang / lebih');
@@ -366,7 +366,7 @@ class MataController extends Controller
 
         $bobot = ($request->join_vidconf + $request->activity_completion +
             $request->forum_diskusi + $request->webinar + $request->progress_test +
-            $request->quiz + $request->post_test);
+            $request->quiz + $request->tugas_mandiri + $request->post_test);
 
         if ($bobot < 100 || $bobot > 100) {
             return back()->with('warning', 'Bobot nilai harus memiliki jumlah keseluruhan 100%, tidak boleh kurang / lebih');

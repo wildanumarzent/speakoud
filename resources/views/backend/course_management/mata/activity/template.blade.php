@@ -29,17 +29,30 @@
 </div>
 <!-- / Filters -->
 <div class="text-left">
-    <a href="{{ route('mata.index', ['id' => $data['mata']->program_id]) }}" class="btn btn-secondary rounded-pill" title="kembali ke list program"><i class="las la-arrow-left"></i>Kembali</a>
+    @php
+        if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra')) {
+            $route = route('course.detail', ['id' => $data['mata']->id]);
+        } else {
+            $route = route('mata.index', ['id' => $data['mata']->program_id]);
+        }
+    @endphp
+    <a href="{{ $route }}" class="btn btn-secondary rounded-pill" title="kembali ke list program"><i class="las la-arrow-left"></i>Kembali</a>
+    @if (!auth()->user()->hasRole('instruktur_internal|instruktur_mitra'))
     <a class="btn btn-success" href={{route('mata.export.activity',['id'=> $data['mata']->id ])}}><i class="las la-download"></i>Export Activity Report</a>
+    @endif
 </div>
 <br>
 
 <div class="card">
 
     <div class="list-group list-group-flush account-settings-links flex-row">
+        @role ('instruktur_internal|instruktur_mitra')
+        <a class="list-group-item list-group-item-action {{ Request::segment(3) == 'completion' ? 'active' : '' }}" href="{{ route('mata.completion', ['id' => $data['mata']->id]) }}">Activity Completion</a>
+        @else
         <a class="list-group-item list-group-item-action {{ Request::segment(3) == 'pembobotan' ? 'active' : '' }}" href="{{ route('mata.pembobotan', ['id' => $data['mata']->id]) }}">Pembobotan Nilai</a>
         <a class="list-group-item list-group-item-action {{ Request::segment(3) == 'completion' ? 'active' : '' }}" href="{{ route('mata.completion', ['id' => $data['mata']->id]) }}">Activity Completion</a>
         <a class="list-group-item list-group-item-action {{ Request::segment(3) == 'compare' ? 'active' : '' }}" href="{{ route('mata.compare', ['id' => $data['mata']->id]) }}">Compare Test</a>
+        @endrole
     </div>
     <div class="card-body">
         @yield('content-view')

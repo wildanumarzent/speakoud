@@ -45,8 +45,12 @@
 <div class="card-datatable table-responsive d-flex justify-content-center mb-4">
     <table class="table table-striped table-bordered mb-0">
         <tr>
+            <th style="width: 150px;">Tanggal Mulai Pengumpulan</th>
+            <td>{{ !empty($data['bahan']->tugas->tanggal_mulai) ? $data['bahan']->tugas->tanggal_mulai->format('d F Y H:i') : 'Tidak dibatasi' }}</td>
+       </tr>
+        <tr>
              <th style="width: 150px;">Batas Pengumpulan</th>
-             <td>{{ !empty($data['bahan']->publish_end) ? $data['bahan']->publish_end->format('d F Y H:i') : 'Tidak dibatasi' }}</td>
+             <td>{{ !empty($data['bahan']->tugas->tanggal_selesai) ? $data['bahan']->tugas->tanggal_selesai->format('d F Y H:i') : 'Tidak dibatasi' }}</td>
         </tr>
        <tr>
             <th style="width: 150px;">Dokumen Tugas</th>
@@ -102,7 +106,14 @@
     <table class="table table-striped table-bordered mb-0">
         <tr>
             <th style="width: 200px;">Tanggal Pengumpulan</th>
-            <td>{{ $data['bahan']->tugas->responByUser->created_at->format('d F Y H:i') }}</td>
+            <td>
+                <span class="badge badge-{{ $data['bahan']->tugas->responByUser->telat == 0 ? 'success' : 'danger' }}">
+                    {{ $data['bahan']->tugas->responByUser->created_at->format('d F Y H:i') }}
+                </span>
+                @if ($data['bahan']->tugas->responByUser->telat == 1)
+                    <i>(Pengumpulan Telat)</i>
+                @endif
+            </td>
        </tr>
        <tr>
             <th style="width: 200px;">Keterangan</th>
@@ -134,18 +145,32 @@
         </tr>
         @endif
        @endif
-       <tr>
-        <th style="width: 150px;">Dokumen Tugas</th>
-        <td>
-            <div style="margin-top:20px;min-height:200px;border:1px solid #ddd;padding:20px;">
-                <ol>
-                    @foreach ($data['bahan']->tugas->responByUser->files($data['bahan']->tugas->responByUser->bank_data_id) as $key => $file)
-                    <li><i class="las la-file" style="font-size:1.2em;"></i> <a href="{{ route('bank.data.stream', ['path' => $file->file_path]) }}">{{ collect(explode("/", $file->file_path))->last() }}</a></li>
-                    @endforeach
-                </ol>
-            </div>
-        </td>
-    </tr>
+        <tr>
+            <th style="width: 150px;">Dokumen Tugas</th>
+            <td>
+                <div style="margin-top:20px;min-height:200px;border:1px solid #ddd;padding:20px;">
+                    <ol>
+                        @foreach ($data['bahan']->tugas->responByUser->files($data['bahan']->tugas->responByUser->bank_data_id) as $key => $file)
+                        <li><i class="las la-file" style="font-size:1.2em;"></i> <a href="{{ route('bank.data.stream', ['path' => $file->file_path]) }}">{{ collect(explode("/", $file->file_path))->last() }}</a></li>
+                        @endforeach
+                    </ol>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <th style="width: 200px;">Nilai</th>
+            <td>
+                @if (empty($data['bahan']->tugas->responByUser->nilai))
+                    <i>Belum ada penilaian</i>
+                @else
+                    <span class="badge badge-primary">{{ $data['bahan']->tugas->responByUser->nilai }}</span>
+                @endif
+            </td>
+        </tr>
+        <tr>
+            <th style="width: 200px;">Komentar</th>
+            <td>{!! $data['bahan']->tugas->responByUser->komentar ?? '-' !!}</td>
+        </tr>
     </table>
 </div>
 @endif

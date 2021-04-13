@@ -3,6 +3,47 @@
 @section('content-bahan')
 <div class="form-group row">
     <div class="col-md-2 text-md-right">
+      <label class="col-form-label text-sm-right">Tanggal Mulai Pengumpulan</label>
+    </div>
+    <div class="col-md-10">
+        <div class="input-group">
+            <input type="text" class="datetime-picker form-control @error('tanggal_mulai') is-invalid @enderror" name="tanggal_mulai"
+                value="{{ isset($data['bahan']) && !empty($data['bahan']->tugas->tanggal_mulai) ? old('tanggal_mulai', $data['bahan']->tugas->tanggal_mulai->format('Y-m-d H:i')) : old('tanggal_mulai') }}" placeholder="masukan tanggal mulai pengumpulan...">
+            <div class="input-group-append">
+                <span class="input-group-text"><i class="las la-calendar"></i></span>
+            </div>
+            @include('components.field-error', ['field' => 'tanggal_mulai'])
+        </div>
+    </div>
+</div>
+<div class="form-group row">
+    <div class="col-md-2 text-md-right">
+      <label class="col-form-label text-sm-right">Batas Akhir Pengumpulan</label>
+    </div>
+    <div class="col-md-10">
+        <div class="input-group">
+            <input type="text" class="datetime-picker form-control @error('tanggal_selesai') is-invalid @enderror" name="tanggal_selesai"
+                value="{{ isset($data['bahan']) && !empty($data['bahan']->tugas->tanggal_selesai) ? old('tanggal_selesai', $data['bahan']->tugas->tanggal_selesai->format('Y-m-d H:i')) : old('tanggal_selesai') }}" placeholder="masukan batas akhir pengumpulan...">
+            <div class="input-group-append">
+                <span class="input-group-text"><i class="las la-calendar"></i></span>
+            </div>
+            @include('components.field-error', ['field' => 'tanggal_selesai'])
+        </div>
+    </div>
+</div>
+<div class="form-group row">
+    <div class="col-md-2 text-md-right">
+        <label class="col-form-label">Jika Melewati Batas Pengumpulan, Peserta masih bisa mengupload tugas ?</label>
+    </div>
+    <div class="col-sm-10">
+        <label class="custom-control custom-checkbox">
+            <input type="checkbox" name="after_due_date" class="custom-control-input" value="1" {{ isset($data['bahan']) ? (old('after_due_date', $data['bahan']->tugas->after_due_date == '1') ? 'checked' : '') : (old('after_due_date') ? '' : '') }}>
+            <span class="custom-control-label">Ya</span>
+        </label>
+    </div>
+</div>
+<div class="form-group row">
+    <div class="col-md-2 text-md-right">
         <label class="col-form-label">Approval</label>
     </div>
     <div class="col-sm-10">

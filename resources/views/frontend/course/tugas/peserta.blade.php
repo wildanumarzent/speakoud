@@ -1,6 +1,7 @@
 @extends('layouts.backend.layout')
 
 @section('styles')
+<script src="{{ asset('assets/tmplts_backend/wysiwyg/tinymce.min.js') }}"></script>
 <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/css/pages/projects.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/sweetalert2/sweetalert2.css') }}">
 @endsection
@@ -64,6 +65,7 @@
                     <th>Di Approve Oleh</th>
                     <th style="width: 115px;">Approval</th>
                     @endif
+                    <th>Komentar</th>
                     <th style="width: 110px;">Nilai</th>
                     <th style="width: 120px;">Aksi</th>
                 </tr>
@@ -128,8 +130,11 @@
                     </td>
                     @endif
                     <td>
+                        {!! $item->komentar ?? '-' !!}
+                    </td>
+                    <td>
                         <span class="badge badge-success">{{ $item->nilai }}</span>
-                        <button type="button" class="btn btn-primary icon-btn btn-sm modals-nilai" data-toggle="modal" data-target="#modals-nilai-form" title="klik untuk memberikan nilai"
+                        <button type="button" class="btn btn-primary icon-btn btn-sm modals-nilai" data-toggle="modal" data-target="#modals-nilai-form-{{ $item->id }}" title="klik untuk memberikan nilai"
                             data-id="{{ $item->id }}",
                             data-tugasid="{{ $item->tugas_id }}"
                             data-nilai="{{ $item->nilai }}"
@@ -210,15 +215,15 @@
     });
 
     //modal
-    $('.modals-nilai').click(function() {
-        var id = $(this).data('id');
-        var tugas_id = $(this).data('tugasid');
-        var nilai = $(this).data('nilai');
-        var url = '/tugas/'+ tugas_id +'/penilaian/'+ id;
+    // $('.modals-nilai').click(function() {
+    //     var id = $(this).data('id');
+    //     var tugas_id = $(this).data('tugasid');
+    //     var nilai = $(this).data('nilai');
+    //     var url = '/tugas/'+ tugas_id +'/penilaian/'+ id;
 
-        $(".modal-dialog #form-nilai").attr('action', url);
-        $('.modal-body #nilai').val(nilai);
-    });
+    //     $(".modal-dialog #form-nilai").attr('action', url);
+    //     $('.modal-body #nilai').val(nilai);
+    // });
 
     $(document).ready(function () {
         $('input[type=number][max]:not([max=""])').on('input', function(ev) {
@@ -231,6 +236,7 @@
         });
     });
 </script>
+@include('includes.tiny-mce')
 @include('components.toastr')
 @endsection
 

@@ -70,6 +70,14 @@
         </div>
         <hr class="mt-2 mb-4">
         <h6 class="font-weight-semibold mb-4">Pelatihan</h6>
+        @role ('administrator|internal|mitra|instruktur_internal|instruktur_mitra')
+        <div class="text-left">
+            <a href="{{ route('mata.completion', ['id' => $data['read']->id]) }}" class="btn btn-info rounded-pill icon-btn-only-sm" title="Aktivitas">
+                <i class="las la-chart-line"></i> <span>Aktivitas</span>
+            </a>
+        </div>
+        <br>
+        @endrole
         <div id="accordion2">
             @foreach ($data['materi'] as $key => $materi)
             <div class="card mb-2">

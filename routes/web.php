@@ -672,21 +672,21 @@ Route::group(['middleware' => ['auth']], function () {
     #-- activity completion
     Route::get('mata/{id}/completion', 'Course\MataActivityController@completion')
         ->name('mata.completion')
-        ->middleware('role:administrator|internal|mitra');
+        ->middleware('role:administrator|internal|mitra|instruktur_internal|instruktur_mitra');
     Route::post('completion/submit/{bahanId}/{userId}', 'Course\MataActivityController@submitCompletion')
         ->name('mata.completion.submit')
-        ->middleware('role:administrator|internal|mitra');
+        ->middleware('role:administrator|internal|mitra|instruktur_internal|instruktur_mitra');
     Route::put('completion/{id}/status', 'Course\MataActivityController@statusCompletion')
         ->name('mata.completion.status')
-        ->middleware('role:administrator|internal|mitra');
+        ->middleware('role:administrator|internal|mitra|instruktur_internal|instruktur_mitra');
     #-- compare test
     Route::get('mata/{id}/compare', 'Course\MataActivityController@compare')
         ->name('mata.compare')
         ->middleware('role:administrator|internal|mitra');
     // Export
     Route::get('mata/{id}/export/activity','Course\MataActivityController@activityExport')
-    ->name('mata.export.activity')
-    ->middleware('role:administrator|internal|mitra');
+        ->name('mata.export.activity')
+        ->middleware('role:administrator|internal|mitra');
 
     //materi pelatihan
     Route::get('/mata/{id}/materi', 'Course\MateriController@index')

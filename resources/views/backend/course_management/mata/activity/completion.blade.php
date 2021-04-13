@@ -37,8 +37,8 @@
                 <th style="width: 10px;">No</th>
                 <th style="width:120px;">NIP</th>
                 <th style="width:180px;">Nama</th>
-                @foreach($data['mata']->bahan()->publish()->get() as $item)
-                <th class="verticalTableHeader" style="width: 10px;"><p>{{ $item->judul }}</p></th>
+                @foreach($data['bahan'] as $item)
+                <th class="verticalTableHeader" style="max-width: 10px;"><p>{{ $item->judul }}</p></th>
                 @endforeach
             </tr>
         </thead>
@@ -48,12 +48,12 @@
                 <td>{{ $data['number']++ }}</td>
                 <td>{{ $item->peserta->nip }} </td>
                 <td>{{ $item->peserta->user->email }}</td>
-                @foreach($data['mata']->bahan()->publish()->get() as $bahan)
+                @foreach($data['bahan'] as $bahan)
                     @php
                         $track = $data['track']->where('bahan_id', $bahan->id)->where('user_id', $item->peserta->user->id)->first();
                     @endphp
                     @if($data['track']->where('bahan_id', $bahan->id)->where('user_id', $item->peserta->user->id)->count() > 0)
-                        <td style="text-align: center;">
+                        <td style="text-align: center; width:10px;">
                             <a href="javascript:;" class="btn icon-btn btn-sm btn-{{ $track->status == '0' ? 'danger' : (!empty($track->track_end) ? 'success' : 'danger') }}" onclick="$(this).find('#form-update').submit();" title="{{ $track->status == '0' ? 'sudah menyelesaikan completion (By : '.$track->completed->name.')' : (!empty($track->track_end) ? 'sudah menyelesaikan completion (By : '.$track->completed->name.')' : 'belum menyelesaikan completion') }}">
                                 <span class="las la-{{ !empty($track->track_end) ? 'check' : 'stop' }}"></span>
                                 <form action="{{ route('mata.completion.status', ['id' => $track->id]) }}" method="POST" id="form-update">
@@ -63,7 +63,7 @@
                             </a>
                         </td>
                     @else
-                        <td style="text-align: center;">
+                        <td style="text-align: center; width:10px;">
                             <a href="javascript:;" class="btn icon-btn btn-sm btn-secondary" onclick="$(this).find('#form-submit').submit();" title="belum menyelesaikan completion">
                                 <span class="las la-stop"></span>
                                 <form action="{{ route('mata.completion.submit',['bahanId' => $bahan->id, 'userId' => $item->peserta->user->id]) }}" method="POST" id="form-submit">

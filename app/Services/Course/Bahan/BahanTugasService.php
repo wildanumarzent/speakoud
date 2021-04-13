@@ -91,6 +91,9 @@ class BahanTugasService
 
             $tugas->bank_data_id = $bankDataId;
             $tugas->approval = (bool)$request->approval;
+            $tugas->tanggal_mulai = $request->tanggal_mulai ?? null;
+            $tugas->tanggal_selesai = $request->tanggal_selesai ?? null;
+            $tugas->after_due_date = (bool)$request->after_due_date;
             $tugas->save();
 
             return $tugas;
@@ -104,6 +107,9 @@ class BahanTugasService
     {
         $tugas = $bahan->tugas;
         $tugas->approval = (bool)$request->approval;
+        $tugas->tanggal_mulai = $request->tanggal_mulai ?? null;
+        $tugas->tanggal_selesai = $request->tanggal_selesai ?? null;
+        $tugas->after_due_date = (bool)$request->after_due_date;
         $tugas->save();
 
         return $tugas;
@@ -112,6 +118,11 @@ class BahanTugasService
     public function sendTugas($request, int $tugasId)
     {
         $tugas = $this->findTugas($tugasId);
+
+        $telat = 0;
+        if (!empty($tugas->tanggal_selesai) && now()->format('Y-m-d H:is') > $tugas->tanggal_selesai) {
+            $telat = 1;
+        }
 
         if ($request->hasFile('files')) {
 
@@ -151,6 +162,7 @@ class BahanTugasService
             }
 
             $respon->bank_data_id = $bankDataId;
+            $respon->telat = $telat;
             $respon->save();
 
         } else {
@@ -175,6 +187,7 @@ class BahanTugasService
     {
         $tugas = $this->findRespon($responId);
         $tugas->nilai = $request->nilai;
+        $tugas->komentar = $request->komentar ?? null;
         $tugas->save();
 
         return $tugas;

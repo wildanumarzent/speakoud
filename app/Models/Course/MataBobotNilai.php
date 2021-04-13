@@ -166,6 +166,13 @@ class MataBobotNilai extends Model
         return $percen;
     }
 
+    public function bototTugasMandiri($mataId, $pesertaId)
+    {
+        $percen = '0';
+
+        return $percen;
+    }
+
     public function totalBobot($mataId, $pesertaId)
     {
         $vindConf = $this->bobotVidConf($mataId, $pesertaId);
@@ -175,6 +182,7 @@ class MataBobotNilai extends Model
         $progress = $this->bobotProgress($mataId, $pesertaId);
         $quiz = $this->bobotQuiz($mataId, $pesertaId);
         $post = $this->bobotPost($mataId, $pesertaId);
+        $tugasMandiri = $this->bototTugasMandiri($mataId, $pesertaId);
 
         $total = ($vindConf+$activity+$forum+$webinar+$progress+$quiz+$post);
 

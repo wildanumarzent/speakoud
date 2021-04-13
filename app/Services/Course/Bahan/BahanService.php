@@ -140,6 +140,25 @@ class BahanService
         return $result;
     }
 
+    public function getBahanActivity(int $mataId)
+    {
+        $query = $this->model->query();
+
+        $query->where('mata_id', $mataId);
+        $query->publish();
+
+        if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra')) {
+            $query->whereHas('materi', function ($query) {
+                $query->where('instruktur_id', auth()->user()->instruktur->id);
+            });
+        }
+
+        $result = $query->get();
+
+        return $result;
+
+    }
+
     public function countBahan()
     {
         $query = $this->model->query();

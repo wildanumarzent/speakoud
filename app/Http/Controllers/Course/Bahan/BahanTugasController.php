@@ -53,6 +53,14 @@ class BahanTugasController extends Controller
     {
         $tugas = $this->service->findTugas($tugasId);
 
+        if (!empty($tugas->tanggal_mulai) && now()->format('Y-m-d H:i:s') < $tugas->tanggal_mulai) {
+            return back()->with('warning', 'tugas gagal diupload, dikarenakan belum memasuki tanggal mulai');
+        }
+        
+        if ($tugas->after_due_date == 0 && !empty($tugas->tanggal_selesai) && now()->format('Y-m-d H:i:s') > $tugas->tanggal_selesai) {
+            return back()->with('warning', 'tugas gagal diupload, dikarenakan sudah melebihi batas pengumpulan');
+        }
+
         $restrict = $this->serviceBahan->restrictAccess($tugas->bahan_id);
         if (!empty($restrict)) {
             return back()->with('warning', $restrict);

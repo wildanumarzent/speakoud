@@ -16,6 +16,8 @@ class BahanTugas extends Model
 
     protected $casts = [
         'bank_data_id' => 'array',
+        'tanggal_mulai' => 'datetime',
+        'tanggal_selesai' => 'datetime',
     ];
 
     public function creator()

@@ -61,6 +61,7 @@ class TemplateMataService
         $bobot->webinar = $request->webinar;
         $bobot->progress_test = (bool)$request->enable_progress == 1 ? $request->progress_test : null;
         $bobot->quiz = $request->quiz;
+        $bobot->tugas_mandiri = (bool)$request->enable_tugas == 1 ? $request->tugas_mandiri : null;
         $bobot->post_test = $request->post_test;
         $bobot->save();
 
@@ -86,6 +87,7 @@ class TemplateMataService
         $bobot->webinar = $request->webinar;
         $bobot->progress_test = (bool)$request->enable_progress == 1 ? $request->progress_test : null;
         $bobot->quiz = $request->quiz;
+        $bobot->tugas_mandiri = (bool)$request->enable_tugas == 1 ? $request->tugas_mandiri : null;
         $bobot->post_test = $request->post_test;
         $bobot->save();
 
