@@ -38,6 +38,7 @@
                     <textarea id="RTE-M" class="form-control tiny" name="sub_content">{!! old('sub_content')  ?? @$data['announcement']->content !!}</textarea>
                 {!! $errors->first('sub_content', '<small class="form-text text-danger">:message</small>') !!}
                 </div>
+
                 <div class="form-group">
                     <label class="form-label w-100">Attachment</label>
                     <a href="{{asset('user_folder'.'/'.@$data['announcement']->sender_id.'/'.'AnnouncementFile'.'/'.@$data['announcement']->attachment)}}" download>{{@$data['announcement']->attachment}}</a>
@@ -45,18 +46,18 @@
                     <input type="file" name="attachment">
                     <small class="form-text text-muted">Masukan File Lampiran | Max 5mb | txt,doc,xls,png,jpeg,rar,zip</small>
                 </div>
+
                 <div class="form-group">
                       <label class="col-form-label text-sm-right">Status</label>
-
                         <select class="status custom-select form-control" name="status">
                             @foreach (config('addon.label.publish') as $key => $value)
                             <option value="{{ $key }}" {{ isset($data['announcement']) ? (old('status', $data['announcement']->status) == ''.$key.'' ? 'selected' : '') : (old('status') == ''.$key.'' ? 'selected' : '') }}>{{ $value }}</option>
                             @endforeach
                         </select>
-
                 </div>
                 <div class="form-group">
-                   <label class="form-label w-100">Kirim Kepada :</label>
+
+                <label class="form-label w-100">Kirim Kepada :</label>
                    <div class="collapse" id="kompetensi">
                    <select class="select2-demo form-control" name="receiver[]" multiple style="width: 100%">
                        @php
@@ -67,25 +68,19 @@
                            @endforeach
                    </select>
                 </div>
-                   <label class="custom-control custom-checkbox">
+
+                <label class="custom-control custom-checkbox">
                     <input type="checkbox" name="receiver" value="all"  class="custom-control-input" data-toggle="collapse" data-target="#kompetensi">
                     <span class="custom-control-label">Kirim Kepada Semua User</span>
-                  </label>
+                </label>
 
                </div>
                 <div class="form-group">
                     <label class="form-label">Masa Berlaku Pengumuman</label>
                     <div class="input-group">
-                        @php
-                        if(isset($mata)){
-                            $start = date_format($mata->publish_start,"Y-m-d");
-                            $end =  date_format($mata->publish_end,"Y-m-d");
-                            $tStart = date_format($mata->publish_start,"H:i");
-                            $tEnd = date_format($mata->publish_end,"H:i");
-                        }
-                        @endphp
+
                         <input type="text" class="date-picker form-control @error('end_date') is-invalid @enderror" name="end_date"
-                            value="{{ (isset($jadwal)) ? old('end_date', $jadwal->end_date->format('Y-m-d')) : $start ?? old('end_date') }}" placeholder="masukan tanggal mulai...">
+                            value="{{ (isset($jadwal)) ? old('end_date', $jadwal->end_date->format('Y-m-d')) : old('end_date') }}" placeholder="masukan tanggal mulai...">
                         <div class="input-group-append">
                             <span class="input-group-text"><i class="las la-calendar"></i></span>
                         </div>
@@ -126,7 +121,6 @@
 <script>
 // Bootstrap Tagsinput
 $(function() {
-
   $('#tags').tagsinput({ tagClass: 'badge badge-primary' });
 });
 
@@ -144,7 +138,6 @@ $(function() {
             format: 'HH:mm'
         });
     });
-
 </script>
 @include('includes.tiny-mce-with-fileman')
 @include('components.toastr')

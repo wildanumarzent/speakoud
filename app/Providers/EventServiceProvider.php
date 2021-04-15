@@ -14,6 +14,8 @@ use App\Listeners\GiveBadge;
 use App\Listeners\GivePoint;
 use App\Listeners\GivePostBadge;
 use App\Listeners\GiveReplyBadge;
+use App\Listeners\SaveActivityDate;
+use App\Listeners\SaveCourseData;
 use App\Listeners\SendProgramNotification;
 
 class EventServiceProvider extends ServiceProvider
@@ -30,6 +32,7 @@ class EventServiceProvider extends ServiceProvider
         ActivitySaved::class => [
             GivePoint::class,
             GiveBadge::class,
+            SaveCourseData::class,
         ],
         ForumSaved::class => [
             GivePostBadge::class,
@@ -47,7 +50,7 @@ class EventServiceProvider extends ServiceProvider
         'Illuminate\Auth\Events\Logout' => [
             'App\Listeners\Users\PreviousLogin',
         ],
-     
+
     ];
 
     /**

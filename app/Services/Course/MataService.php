@@ -182,8 +182,8 @@ class MataService
 
         if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
 
-            $query->where('publish_start', '<=', now())
-                ->where('publish_end', '>=', now());
+            // $query->where('publish_start', '<=', now())
+            //     ->where('publish_end', '>=', now());
 
             $query->whereHas('program', function ($query) {
                 $query->publish();

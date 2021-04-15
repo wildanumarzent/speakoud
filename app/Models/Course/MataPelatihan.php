@@ -188,4 +188,8 @@ class MataPelatihan extends Model
     {
         return $this->belongsTo(Badge::class, 'tipe_id')->where('tipe','program');
     }
+    public function extra()
+    {
+        return $this->hasOne(MataExtra::class, 'mata_id');
+    }
 }
