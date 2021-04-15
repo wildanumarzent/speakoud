@@ -125,13 +125,13 @@
       <div class="card-img-top d-block ui-rect-60 ui-bg-cover" style="background-image: url(https://e-learning-bppt.apps/assets/tmplts_backend/images/cover.jpg);">
         <div class="d-flex justify-content-end align-items-start ui-rect-content p-3">
             <div class="flex-shrink-1">
-                <span class="badge badge-primary"><i class="las la-calendar"></i> 12 April 2021</span>
+                <span class="badge badge-primary"><i class="las la-calendar"></i>{{$rek->publish_start->format('d F Y')}}</span>
             </div>
         </div>
       </div>
       <hr class="m-0">
       <div class="card-body">
-        <div class="mb-3"><a href="javascript:void(0)" class="text-body font-weight-semibold">Pelatihan Jabatan Fungsional Perekayasa</a></div>
+        <div class="mb-3"><a href="javascript:void(0)" class="text-body font-weight-semibold">{{$rek->judul}}</a></div>
         <div class="mt-3 text-center">
           <a class="btn btn-primary" href="" title="klik untuk melihat detail pelatihan">
               MASUK
