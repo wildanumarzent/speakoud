@@ -5,7 +5,7 @@ namespace App\Services\Course;
 use App\Http\Controllers\Course\MataController;
 use App\Models\Course\ApiEvaluasi;
 use App\Models\Course\Bahan\ActivityCompletion;
-use App\Models\Course\Bahan\BahanConferencePeserta;
+use App\Models\Course\Bahan\BahanConferencePeserta   ;
 use App\Models\Course\Bahan\BahanEvaluasiPengajar;
 use App\Models\Course\Bahan\BahanForumTopik;
 use App\Models\Course\Bahan\BahanForumTopikDiskusi;
