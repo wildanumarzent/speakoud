@@ -96,7 +96,7 @@
           <div class="progress-bar" style="width: {{$course->extra->persentase ?? 0}}"></div>
         </div>
         <div class="mt-3 text-center">
-          <a class="btn btn-primary" href="{{ route('course.detail', ['id' => $course->id]) }}" target="_blank" title="klik untuk melihat detail pelatihan">
+          <a class="btn btn-primary" href="{{ route('course.detail', ['id' => $course->id]) }}" title="klik untuk melihat detail pelatihan">
               MASUK
           </a>
         </div>
@@ -122,7 +122,7 @@
     @foreach ($data['rekomendasi'] as $key => $rek)
   <div class="col-sm-6 col-xl-4">
     <div class="card mb-4">
-      <div class="card-img-top d-block ui-rect-60 ui-bg-cover" style="background-image: url({{asset('userfile/cover/'.$rek->cover['filename'])}});">
+      <div class="card-img-top d-block ui-rect-60 ui-bg-cover" style="background-image: url({{ $course->getCover($course->cover['filename']) }});">
         <div class="d-flex justify-content-end align-items-start ui-rect-content p-3">
             <div class="flex-shrink-1">
                 <span class="badge badge-primary"><i class="las la-calendar"></i>{{$rek->publish_start->format('d F Y')}}</span>
@@ -133,7 +133,7 @@
       <div class="card-body">
         <div class="mb-3"><a href="javascript:void(0)" class="text-body font-weight-semibold">{{$rek->judul}}</a></div>
         <div class="mt-3 text-center">
-          <a class="btn btn-primary" href="" title="klik untuk melihat detail pelatihan">
+          <a class="btn btn-primary" href="{{ route('course.detail', ['id' => $rek->id]) }}" title="klik untuk melihat detail pelatihan">
               MASUK
           </a>
         </div>
