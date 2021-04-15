@@ -80,6 +80,7 @@ class HomeController extends Controller
             'course_mata' => app()->make(MateriService::class)->countMateri(),
             'course_materi' => app()->make(BahanService::class)->countBahan(),
         ];
+
         if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
             $data['counter'] = [
                 'peserta_badge' => app()->make(BadgeService::class)->countBadge(auth()->user()->peserta->id),
@@ -90,9 +91,10 @@ class HomeController extends Controller
             $data['myBadge'] = $this->badge->getBadgePeserta(auth()->user()->peserta->id);
             $data['rekomendasi'] = $this->kompetensi->getRekomendasiMata(auth()->user()->peserta->id);
             $data['kompetensiMata'] = $this->kompetensi->getKompetensiMata();
-            }
+        }
             // return $data['rekomendasi'];
-        $data['latestCourse'] = app()->make(MataService::class)->getLatestMata();
+        $data['latestCourse'] = $this->mata->getLatestMata();
+        $data['historyCourse'] = $this->mata->getMataHistory($request, 3);
         $data['jadwalPelatihan'] = app()->make(JadwalService::class)->getJadwal(5);
         $data['videoConference'] = app()->make(BahanConferenceService::class)->latestConference();
         $data['latestArticle'] = app()->make(ArtikelService::class)->getLatestArticle();

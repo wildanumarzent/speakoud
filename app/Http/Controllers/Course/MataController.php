@@ -159,6 +159,7 @@ class MataController extends Controller
     {
         $data['read'] = $this->service->findMata($id);
         $data['materi'] = $this->serviceMateri->getMateriByMata($id);
+        $data['other_mata'] = $this->service->getOtherMata($id);
 
         //rating
         $data['numberRating'] = [1, 2, 3, 4, 5];

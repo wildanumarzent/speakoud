@@ -33,7 +33,7 @@
 </div>
 <div class="form-group row">
     <div class="col-md-2 text-md-right">
-        <label class="col-form-label">Jika Melewati Batas Pengumpulan, Peserta masih bisa mengupload tugas ?</label>
+        <label class="col-form-label">Izinkan pengumupulan tugas setelah melewati batas ?</label>
     </div>
     <div class="col-sm-10">
         <label class="custom-control custom-checkbox">
