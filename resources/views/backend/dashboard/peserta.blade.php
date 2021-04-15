@@ -122,7 +122,7 @@
     @foreach ($data['rekomendasi'] as $key => $rek)
   <div class="col-sm-6 col-xl-4">
     <div class="card mb-4">
-      <div class="card-img-top d-block ui-rect-60 ui-bg-cover" style="background-image: url(https://e-learning-bppt.apps/assets/tmplts_backend/images/cover.jpg);">
+      <div class="card-img-top d-block ui-rect-60 ui-bg-cover" style="background-image: url({{asset('userfile/cover/'.$rek->cover['filename'])}});">
         <div class="d-flex justify-content-end align-items-start ui-rect-content p-3">
             <div class="flex-shrink-1">
                 <span class="badge badge-primary"><i class="las la-calendar"></i>{{$rek->publish_start->format('d F Y')}}</span>
