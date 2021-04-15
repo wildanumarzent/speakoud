@@ -66,7 +66,7 @@
                     <th style="width: 115px;">Approval</th>
                     @endif
                     <th>Komentar</th>
-                    <th style="width: 110px;">Nilai</th>
+                    <th style="width: 80px;">Nilai</th>
                     <th style="width: 120px;">Aksi</th>
                 </tr>
             </thead>
@@ -134,15 +134,15 @@
                     </td>
                     <td>
                         <span class="badge badge-success">{{ $item->nilai }}</span>
-                        <button type="button" class="btn btn-primary icon-btn btn-sm modals-nilai" data-toggle="modal" data-target="#modals-nilai-form-{{ $item->id }}" title="klik untuk memberikan nilai"
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-primary btn-sm modals-nilai" data-toggle="modal" data-target="#modals-nilai-form-{{ $item->id }}" title="klik untuk memberikan nilai"
                             data-id="{{ $item->id }}",
                             data-tugasid="{{ $item->tugas_id }}"
                             data-nilai="{{ $item->nilai }}"
                         >
-                            <i class="las la-pen-alt"></i>
+                        <i class="las la-pen-alt"></i> <span>Penilaian</span>
                         </button>
-                    </td>
-                    <td>
                         <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modals-dokumen-{{ $item->id }}" title="klik untuk melihat tugas">
                             <i class="las la-file"></i> <span>Dokumen</span>
                         </button>

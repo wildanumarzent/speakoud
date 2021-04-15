@@ -2,6 +2,7 @@
 
 @section('styles')
 <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/css/pages/tickets.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/select2/select2.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/fancybox/fancybox.min.css') }}">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-bar-rating/1.2.2/themes/fontawesome-stars.min.css">
@@ -70,14 +71,6 @@
         </div>
         <hr class="mt-2 mb-4">
         <h6 class="font-weight-semibold mb-4">Pelatihan</h6>
-        @role ('administrator|internal|mitra|instruktur_internal|instruktur_mitra')
-        <div class="text-left">
-            <a href="{{ route('mata.completion', ['id' => $data['read']->id]) }}" class="btn btn-info rounded-pill icon-btn-only-sm" title="Aktivitas">
-                <i class="las la-chart-line"></i> <span>Aktivitas</span>
-            </a>
-        </div>
-        <br>
-        @endrole
         <div id="accordion2">
             @foreach ($data['materi'] as $key => $materi)
             <div class="card mb-2">
@@ -207,6 +200,38 @@
         @include('frontend.course.sertifikat')
     </div>
     <div class="col-md-4 col-xl-3">
+        <!-- actions -->
+        <div class="card mb-4">
+            {{-- <h6 class="card-header with-elements">
+              <span class="card-header-title">Program Pelatihan</span>
+            </h6> --}}
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                  <div class="media align-items-center">
+                    @role ('administrator|internal|mitra|instruktur_internal|instruktur_mitra')
+                    <a href="{{ route('mata.completion', ['id' => $data['read']->id]) }}" class="btn btn-info rounded-pill icon-btn-only-sm btn-block mr-2" title="Aktivitas">
+                        <i class="las la-chart-line"></i> <span>Aktivitas</span>
+                    </a>
+                    <br>
+                    @endrole
+                    <a href="" class="btn btn-success rounded-pill icon-btn-only-sm btn-block" title="Daftar Nilai">
+                        <i class="las la-list-ol"></i> <span>Daftar Nilai</span>
+                    </a>
+                  </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="media align-items-center">
+                        <select class="jump select2 show-tick" data-style="btn-default">
+                            <option value="">Program Lainnya</option>
+                            @foreach ($data['other_mata'] as $other)
+                            <option value="{{ $other->id }}">{!! $other->judul !!}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <!-- / actions -->
          <!-- Leaders -->
          <div class="card mb-4">
             <h6 class="card-header with-elements">
@@ -335,6 +360,7 @@
 
 @section('scripts')
 <script src="{{ asset('assets/tmplts_backend/vendor/js/sidenav.js') }}"></script>
+<script src="{{ asset('assets/tmplts_backend/vendor/libs/select2/select2.js') }}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-bar-rating/1.2.2/jquery.barrating.min.js" type="text/javascript"></script>
 <script src="{{ asset('assets/tmplts_backend/vendor/libs/sweetalert2/sweetalert2.js') }}"></script>
 @endsection
@@ -344,6 +370,16 @@
 <script src="{{ asset('assets/tmplts_backend/js/ui_sidenav.js') }}"></script>
 <script src="{{ asset('assets/tmplts_backend/fancybox/fancybox.min.js') }}"></script>
 <script>
+    $('.select2').select2();
+    $('.jump').on('change', function () {
+
+        var id = $(this).val();
+
+        if (id) {
+            window.location = '/course/'+id+'/detail';
+        }
+        return false;
+        });
     $(document).ready(function() {
         $('#rating').barrating({
             theme: 'fontawesome-stars',

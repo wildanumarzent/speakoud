@@ -1,6 +1,5 @@
 @extends('layouts.backend.layout')
 
-
 @section('styles')
     <style>
         .icon-example {
@@ -89,6 +88,17 @@
             var momentNow = moment();
             $('#time-part').html(momentNow.format('hh:mm:ss A'));
         }, 100);
+    });
+
+    $('.jump-tugas').on('change', function () {
+
+        var id = $(this).val();
+
+        if (id) {
+            window.location = '/tugas/'+id+'/peserta'
+        }
+
+        return false;
     });
 </script>
 @include('components.toastr')

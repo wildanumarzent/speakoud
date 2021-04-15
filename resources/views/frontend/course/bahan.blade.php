@@ -87,23 +87,6 @@
         @endif
         <div class="card mb-4">
             <h6 class="card-header with-elements">
-                <span class="card-header-title"> Bahan Lainnya</span>
-            </h6>
-            <div class="card-body">
-                <select class="jump select2 show-tick" data-mataid="{{ $data['bahan']->mata_id }}" data-style="btn-default">
-                    <option value="" selected disabled>Pilih Bahan</option>
-                    @foreach ($data['materi_lain'] as $materi)
-                    <optgroup label="{!! $materi->judul !!}">
-                        @foreach ($materi->bahanPublish('jump')->get() as $bahan)
-                        <option value="{{ $bahan->id }}" data-tipe="{{ $bahan->type($bahan)['tipe']  }}">{!! $bahan->judul !!}</option>
-                        @endforeach
-                    </optgroup>
-                    @endforeach
-                </select>
-            </div>
-        </div>
-        <div class="card mb-4">
-            <h6 class="card-header with-elements">
                 <span class="card-header-title">Creator</span>
             </h6>
             <ul class="list-group list-group-flush">
@@ -119,7 +102,33 @@
                 </li>
             </ul>
         </div>
-
+        <div class="card mb-4">
+            <h6 class="card-header with-elements">
+                <span class="card-header-title"> Materi Lainnya</span>
+            </h6>
+            <div class="card-body">
+                <ul>
+                    @foreach ($data['materi_lain'] as $materi)
+                    <li><strong>{!! $materi->judul !!}</strong></li>
+                        @foreach ($materi->bahanPublish('jump')->get() as $bahan)
+                        <ol>
+                            <li><a href="{{ route('course.bahan', ['id' => $materi->id, 'bahanId' => $bahan->id, 'tipe' => $bahan->type($bahan)['tipe']]) }}"><i>{!! $bahan->judul !!}</i></a></li>
+                        </ol>
+                        @endforeach
+                    @endforeach
+                </ul>
+                {{-- <select class="jump select2 show-tick" data-mataid="{{ $data['bahan']->mata_id }}" data-style="btn-default">
+                    <option value="" selected disabled>Pilih Materi</option>
+                    @foreach ($data['materi_lain'] as $materi)
+                    <optgroup label="{!! $materi->judul !!}">
+                        @foreach ($materi->bahanPublish('jump')->get() as $bahan)
+                        <option value="{{ $bahan->id }}" data-tipe="{{ $bahan->type($bahan)['tipe']  }}">{!! $bahan->judul !!}</option>
+                        @endforeach
+                    </optgroup>
+                    @endforeach
+                </select> --}}
+            </div>
+        </div>
         {{-- <div class="card mb-4">
             <h6 class="card-header with-elements">
                 <span class="card-header-title">{!! $data['bahan']->judul !!}</span>

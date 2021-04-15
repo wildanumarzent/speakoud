@@ -15,6 +15,8 @@ use App\Models\Users\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use App\Models\Badge\Badge;
+use App\Models\Course\Bahan\BahanTugas;
+use App\Models\Course\Bahan\BahanTugasRespon;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class MataPelatihan extends Model
@@ -118,6 +120,43 @@ class MataPelatihan extends Model
     public function bahan()
     {
         return $this->hasMany(BahanPelatihan::class, 'mata_id')->whereNotNull('segmenable_id');
+    }
+
+    public function bahanTugas($id)
+    {
+        $query = BahanTugas::query();
+
+        $query->where('mata_id', $id);
+
+        if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra')) {
+            $query->whereHas('materi', function ($query) {
+                return $query->where('instruktur_id', auth()->user()->instruktur->id);
+            });
+        }
+
+        $result = $query->get();
+
+        return $result;
+    }
+
+    public function bahanTugasNilai($id)
+    {
+        $query = BahanTugasRespon::query();
+
+        $query->whereHas('tugas', function ($query) use ($id) {
+            $query->where('mata_id', $id);
+            if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra')) {
+                $query->whereHas('materi', function ($query) {
+                    return $query->where('instruktur_id', auth()->user()->instruktur->id);
+                });
+            }
+        });
+        
+        $query->whereNotNull('nilai');
+
+        $result = $query->groupBy('tugas_id')->count();
+
+        return $result;
     }
 
     public function quiz()
