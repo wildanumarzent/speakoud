@@ -111,9 +111,9 @@
                     @foreach ($data['materi_lain'] as $materi)
                     <li><strong>{!! $materi->judul !!}</strong></li>
                         @foreach ($materi->bahanPublish('jump')->get() as $bahan)
-                        <ol>
+                        <ul type="circle">
                             <li><a href="{{ route('course.bahan', ['id' => $materi->id, 'bahanId' => $bahan->id, 'tipe' => $bahan->type($bahan)['tipe']]) }}"><i>{!! $bahan->judul !!}</i></a></li>
-                        </ol>
+                        </ul>
                         @endforeach
                     @endforeach
                 </ul>
