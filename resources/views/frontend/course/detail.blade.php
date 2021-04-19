@@ -246,7 +246,7 @@
                       <img src="{{ $ins->instruktur->user->getPhoto($ins->instruktur->user->photo['filename']) }}" class="d-block ui-w-30 rounded-circle" alt="">
                     </a>
                     <div class="media-body px-2">
-                      <a href="javascript:void(0)" class="text-body" title="{{ $ins->instruktur->user['name']  }}"><strong>{{ $ins->instruktur->user['name']  }}</strong></a>
+                      <strong class="text-body" title="{{ $ins->instruktur->user['name']  }}">{{ $ins->instruktur->user['name']  }}</strong>
                     </div>
                   </div>
                 </li>
