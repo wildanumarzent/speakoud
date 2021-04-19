@@ -122,6 +122,6 @@ class User extends Authenticatable
     }
     public function totalJP()
     {
-        return $this->belongsTo(JamPelatihan::class,'user_id');
+        return $this->hasOne(JamPelatihan::class,'user_id');
     }
 }

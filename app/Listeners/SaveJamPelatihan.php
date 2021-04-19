@@ -32,18 +32,18 @@ class SaveJamPelatihan
         $done = ActivityCompletion::where('mata_id',$event->activity['mata_id'])->where('status',1)
         ->where('user_id',auth()->user()->id)->count();
         $total = BahanPelatihan::where('mata_id',$event->activity['mata_id'])->where('publish',1)->count();
-        $hasil = $done - $total;
+        $hasil = $total - $done;
         if($hasil <= 0){
-            $tahun = Carbon::now()->format('Y');
+            $tahun = Carbon::now()->year;
             $jamP = MataPelatihan::where('id',$event->activity['mata_id'])->first();
-            $totalJam = $jamP;
+            $totalJam = $jamP->jam_pelatihan;
             $saved = JamPelatihan::where('user_id',auth()->user()->id)->where('tahun',$tahun)->first();
             if(isset($saved)){
                 $totalJam = $jamP->jam_pelatihan + $saved->total_jam;
             }
             $jamPelatihan = JamPelatihan::updateOrCreate(
                 ['user_id' => auth()->user()->id, 'tahun' => $tahun],
-                ['total_jam' => $totalJam]
+                ['total_jam' => $totalJam,'tahun' => $tahun]
             );
         }
     }
