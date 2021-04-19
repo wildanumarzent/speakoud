@@ -2,7 +2,7 @@
 
 namespace App\Models\Users;
 
-use App\Models\JamPelatihan;
+use App\Models\RecordTahunan;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -122,6 +122,6 @@ class User extends Authenticatable
     }
     public function totalJP()
     {
-        return $this->hasOne(JamPelatihan::class,'user_id');
+        return $this->hasOne(RecordTahunan::class,'user_id');
     }
 }

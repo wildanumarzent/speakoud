@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class PesertaJamPelatihan extends Migration
+class PesertaRecordTahunan extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class PesertaJamPelatihan extends Migration
      */
     public function up()
     {
-        Schema::create('peserta_jam_pelatihan', function (Blueprint $table) {
+        Schema::create('peserta_record_tahunan', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
+            $table->bigInteger('total_jam_pelatihan');
             $table->year('tahun');
-            $table->bigInteger('total_jam');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')
