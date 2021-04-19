@@ -2,6 +2,7 @@
 
 namespace App\Models\Users;
 
+use App\Models\JamPelatihan;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -118,5 +119,9 @@ class User extends Authenticatable
         }
 
         return $photo;
+    }
+    public function totalJP()
+    {
+        return $this->belongsTo(JamPelatihan::class,'user_id');
     }
 }

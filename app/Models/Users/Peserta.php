@@ -6,6 +6,7 @@ use App\Models\Instansi\InstansiInternal;
 use App\Models\Instansi\InstansiMitra;
 use App\Models\Jabatan;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Peserta extends Model
@@ -39,6 +40,7 @@ class Peserta extends Model
         return $this->belongsTo(User::class, 'creator_id');
     }
 
+
     public function instansi($item)
     {
         if ($item->user->hasRole('peserta_internal')) {
@@ -63,4 +65,5 @@ class Peserta extends Model
 
         return $photo;
     }
+
 }

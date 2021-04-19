@@ -7,7 +7,7 @@ use App\Models\Course\Bahan\ActivityCompletion;
 use App\Models\Course\Bahan\BahanPelatihan;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
-use MataExtra;
+use App\Models\Course\MataExtra;
 
 class SaveCourseData
 {

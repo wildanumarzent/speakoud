@@ -16,6 +16,7 @@ use App\Listeners\GivePostBadge;
 use App\Listeners\GiveReplyBadge;
 use App\Listeners\SaveActivityDate;
 use App\Listeners\SaveCourseData;
+use App\Listeners\SaveJamPelatihan;
 use App\Listeners\SendProgramNotification;
 
 class EventServiceProvider extends ServiceProvider
@@ -33,6 +34,7 @@ class EventServiceProvider extends ServiceProvider
             GivePoint::class,
             GiveBadge::class,
             SaveCourseData::class,
+            SaveJamPelatihan::class,
         ],
         ForumSaved::class => [
             GivePostBadge::class,

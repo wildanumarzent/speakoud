@@ -23,7 +23,7 @@
             <div class="las la-clock display-4 text-primary"></div>
             <div class="ml-3">
               <div class="text-muted small">Total Jam Pelatihan</div>
-              <div class="text-large">{{ $data['counter']['peserta_journey'] }}</div>
+              <div class="text-large">{{ auth()->user()->totalJP->total_jam ?? 0 }}</div>
             </div>
           </div>
         </div>
