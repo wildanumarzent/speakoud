@@ -23,7 +23,7 @@
             <div class="las la-clock display-4 text-primary"></div>
             <div class="ml-3">
               <div class="text-muted small">Total Jam Pelatihan</div>
-              <div class="text-large">{{ auth()->user()->totalJP->total_jam ?? 0 }}</div>
+              <div class="text-large">{{ auth()->user()->totalJP->total_jam_pelatihan ?? 0 }}</div>
             </div>
           </div>
         </div>
@@ -89,11 +89,11 @@
       <div class="card-body">
         <div class="mb-3"><a href="javascript:void(0)" class="text-body font-weight-semibold">{{$course->judul}}</a></div>
         <div class="d-flex justify-content-between align-items-center small">
-          <div class="font-weight-bold">{{$course->extra->persentase ?? '0%'}}</div>
+          <div class="font-weight-bold">{{$course->extra->persentase ?? '0'}}%</div>
           <div class="text-muted">Progress</div>
         </div>
         <div class="progress mt-1" style="height: 3px;">
-          <div class="progress-bar" style="width: {{$course->extra->persentase ?? 0}}"></div>
+          <div class="progress-bar" style="width: {{$course->extra->persentase ?? 0}}%"></div>
         </div>
         <div class="mt-3 text-center">
           <a class="btn btn-primary" href="{{ route('course.detail', ['id' => $course->id]) }}" title="klik untuk melihat detail pelatihan">

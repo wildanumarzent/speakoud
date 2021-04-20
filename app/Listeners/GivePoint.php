@@ -70,7 +70,7 @@ class GivePoint
         $done = ActivityCompletion::where('mata_id',$event->activity['mata_id'])->where('status',1)
         ->where('user_id',$globalUid)->count();
         $total = BahanPelatihan::where('mata_id',$event->activity['mata_id'])->where('publish',1)->count();
-        $hasil = $done - $total;
+        $hasil = $total - $done;
         if($hasil <= 0){
         $kMata = KompetensiMata::where('mata_id',$event->activity['mata_id'])->get();
 
