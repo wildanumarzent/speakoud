@@ -19,7 +19,6 @@ class PesertaRecordTahunan extends Migration
             $table->bigInteger('total_jam_pelatihan');
             $table->year('tahun');
             $table->timestamps();
-
             $table->foreign('user_id')->references('id')->on('users')
                 ->cascadeOnDelete();
         });
@@ -32,6 +31,6 @@ class PesertaRecordTahunan extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('peserta_jam_pelatihan');
+        Schema::dropIfExists('peserta_record_tahunan');
     }
 }
