@@ -69,7 +69,7 @@
                 </td>
                 <td style="text-align:center;">
                     @if (!empty($data['mata']->bobot->progress_test))
-                    <strong>{{ $item->mata->bobot->bobotProgress($item->mata_id, $item->peserta->user->id) }}</strong>
+                    <strong>{{ $item->mata->bobot->bobotProgress($item->mata_id, $item->peserta->user->id) }}%</strong>
                     @else
                         <em>Tidak diaktifkan</em>
                     @endif
@@ -78,10 +78,10 @@
                     <strong>{{ $item->mata->bobot->bobotQuiz($item->mata_id, $item->peserta->user->id) }}%</strong>
                 </td>
                 <td style="text-align:center;">
-                    <strong>{{ $item->mata->bobot->bobotPost($item->mata_id, $item->peserta->user->id) }}%</strong>
+                    <strong>{{ $item->mata->bobot->bototTugasMandiri($item->mata_id, $item->peserta->user->id) }}%</strong>
                 </td>
                 <td style="text-align:center;">
-                    <strong>{{ $item->mata->bobot->bototTugasMandiri($item->mata_id, $item->peserta->user->id) }}%</strong>
+                    <strong>{{ $item->mata->bobot->bobotPost($item->mata_id, $item->peserta->user->id) }}%</strong>
                 </td>
                 <td style="text-align:center;">
                     <strong>{{ $item->mata->bobot->totalBobot($item->mata_id, $item->peserta->user->id) }}%</strong>

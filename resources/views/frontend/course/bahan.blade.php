@@ -110,9 +110,15 @@
                 <ul>
                     @foreach ($data['materi_lain'] as $materi)
                     <li><strong>{!! $materi->judul !!}</strong></li>
-                        @foreach ($materi->bahanPublish('jump')->get() as $bahan)
+                        @foreach ($materi->bahanPublish()->get() as $bahan)
                         <ul type="circle">
-                            <li><a href="{{ route('course.bahan', ['id' => $materi->id, 'bahanId' => $bahan->id, 'tipe' => $bahan->type($bahan)['tipe']]) }}"><i>{!! $bahan->judul !!}</i></a></li>
+                            <li>
+                                @if ($bahan->id == Request::segment(4))
+                                <i class="las la-map-pin"></i> <del title="anda sekarang berada dimateri ini">{!! $bahan->judul !!}</del>
+                                @else
+                                <a href="{{ route('course.bahan', ['id' => $bahan->mata_id, 'bahanId' => $bahan->id, 'tipe' => $bahan->type($bahan)['tipe']]) }}"><i>{!! $bahan->judul !!}</i></a>
+                                @endif
+                            </li>
                         </ul>
                         @endforeach
                     @endforeach

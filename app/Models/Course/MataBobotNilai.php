@@ -8,7 +8,10 @@ use App\Models\Course\Bahan\BahanForumTopik;
 use App\Models\Course\Bahan\BahanForumTopikDiskusi;
 use App\Models\Course\Bahan\BahanPelatihan;
 use App\Models\Course\Bahan\BahanQuiz;
+use App\Models\Course\Bahan\BahanQuizItemTracker;
 use App\Models\Course\Bahan\BahanQuizUserTracker;
+use App\Models\Course\Bahan\BahanTugas;
+use App\Models\Course\Bahan\BahanTugasRespon;
 use Illuminate\Database\Eloquent\Model;
 
 class MataBobotNilai extends Model
@@ -110,15 +113,36 @@ class MataBobotNilai extends Model
     {
         $mata = MataPelatihan::find($mataId);
 
-        $progress = BahanQuiz::where('mata_id', $mataId)
-            ->where('kategori', 3)->count();
-        $myProgress = BahanQuizUserTracker::whereHas('quiz', function ($query) use ($mataId) {
-                $query->where('mata_id', $mataId)->where('kategori', 3);
-            })->where('status', 2)->where('user_id', $pesertaId)->count();
+        // $progress = BahanQuiz::where('mata_id', $mataId)
+        //     ->where('kategori', 3)->count();
+        // $myProgress = BahanQuizUserTracker::whereHas('quiz', function ($query) use ($mataId) {
+        //         $query->where('mata_id', $mataId)->where('kategori', 3);
+        //     })->where('status', 2)->where('user_id', $pesertaId)->count();
 
-        if ($myProgress > 0) {
-            $total = round($myProgress / $progress * $mata->bobot->progress_test);
+        // if ($myProgress > 0) {
+        //     $total = round($myProgress / $progress * $mata->bobot->progress_test);
+        //     $percen = $total;
+        // } else {
+        //     $percen = '0';
+        // }
+
+        $progress = BahanQuiz::where('mata_id', $mataId)
+            ->where('kategori', 3)->count() * 100;
+        $myProgress = BahanQuizItemTracker::whereHas('quiz', function ($query) use ($mataId) {
+                $query->where('mata_id', $mataId)->where('kategori', 3);
+            })->where('user_id', $pesertaId);
+
+        $hasilProggress = 0;
+
+        if ($myProgress->count() > 0) {
+
+            $total = $myProgress->count();
+            $benar = $myProgress->where('benar', 1)->count();
+
+            $hasilProggress = ($benar / $total) * 100;
+            $total = ($hasilProggress / $progress) * $mata->bobot->progress_test;
             $percen = $total;
+
         } else {
             $percen = '0';
         }
@@ -130,14 +154,54 @@ class MataBobotNilai extends Model
     {
         $mata = MataPelatihan::find($mataId);
 
-        $quiz = BahanQuiz::where('mata_id', $mataId)
-            ->whereIn('kategori', [1,4])->count();
-        $myQuiz = BahanQuizUserTracker::whereHas('quiz', function ($query) use ($mataId) {
-                $query->where('mata_id', $mataId)->whereIn('kategori', [1,4]);
-            })->where('status', 2)->where('user_id', $pesertaId)->count();
+        // $quiz = BahanQuiz::where('mata_id', $mataId)
+        //     ->whereIn('kategori', [1,4])->count();
+        // $myQuiz = BahanQuizUserTracker::whereHas('quiz', function ($query) use ($mataId) {
+        //         $query->where('mata_id', $mataId)->whereIn('kategori', [1,4]);
+        //     })->where('status', 2)->where('user_id', $pesertaId)->count();
 
-        if ($myQuiz > 0) {
-            $total = round($myQuiz / $quiz * $mata->bobot->quiz);
+        // if ($myQuiz > 0) {
+        //     $total = round($myQuiz / $quiz * $mata->bobot->quiz);
+        //     $percen = $total;
+        // } else {
+        //     $percen = '0';
+        // }
+
+        $quiz = BahanQuiz::where('mata_id', $mataId)
+            ->where('kategori', 4)->count() * 100;
+        $myQuiz = BahanQuizItemTracker::whereHas('quiz', function ($query) use ($mataId) {
+                $query->where('mata_id', $mataId)->where('kategori', 4);
+            })->where('user_id', $pesertaId);
+
+        $hasilQuiz = 0;
+
+        if ($myQuiz->count() > 0) {
+
+            $total = $myQuiz->count();
+            $benar = $myQuiz->where('benar', 1)->count();
+
+            $hasilQuiz = ($benar / $total) * 100;
+            $total = ($hasilQuiz / $quiz) * $mata->bobot->quiz;
+            $percen = $total;
+
+        } else {
+            $percen = '0';
+        }
+
+        return $percen;
+    }
+
+    public function bototTugasMandiri($mataId, $pesertaId)
+    {
+        $mata = MataPelatihan::find($mataId);
+
+        $tugas = BahanTugas::where('mata_id', $mataId)->count() * 100;
+        $myTugas = BahanTugasRespon::whereHas('tugas', function ($query) use ($mataId) {
+            $query->where('mata_id', $mataId);
+        })->where('user_id', $pesertaId)->whereNotNull('nilai')->sum('nilai');
+
+        if ($myTugas > 0) {
+            $total = ($myTugas / $tugas) * $mata->bobot->tugas_mandiri;
             $percen = $total;
         } else {
             $percen = '0';
@@ -166,13 +230,6 @@ class MataBobotNilai extends Model
         return $percen;
     }
 
-    public function bototTugasMandiri($mataId, $pesertaId)
-    {
-        $percen = '0';
-
-        return $percen;
-    }
-
     public function totalBobot($mataId, $pesertaId)
     {
         $vindConf = $this->bobotVidConf($mataId, $pesertaId);
@@ -184,7 +241,7 @@ class MataBobotNilai extends Model
         $post = $this->bobotPost($mataId, $pesertaId);
         $tugasMandiri = $this->bototTugasMandiri($mataId, $pesertaId);
 
-        $total = ($vindConf+$activity+$forum+$webinar+$progress+$quiz+$post);
+        $total = ($vindConf+$activity+$forum+$webinar+$progress+$quiz+$tugasMandiri+$post);
 
         return $total;
     }
