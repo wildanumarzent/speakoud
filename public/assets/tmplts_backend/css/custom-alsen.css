@@ -284,6 +284,9 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 .alsen .btn.dropdown-toggle {
   border-radius: 0.25rem !important;
