@@ -114,7 +114,7 @@
                         <ul type="circle">
                             <li>
                                 @if ($bahan->id == Request::segment(4))
-                                <span class="badge badge-secondary" title="anda sekarang berada dimateri ini">{!! $bahan->judul !!}</span>
+                                <strong title="anda sekarang berada dimateri ini" style="color: #8897AA;">{!! $bahan->judul !!}</strong>
                                 @else
                                 <a href="{{ route('course.bahan', ['id' => $bahan->mata_id, 'bahanId' => $bahan->id, 'tipe' => $bahan->type($bahan)['tipe']]) }}"><i>{!! $bahan->judul !!}</i></a>
                                 @endif
