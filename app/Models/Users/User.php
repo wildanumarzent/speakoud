@@ -3,6 +3,7 @@
 namespace App\Models\Users;
 
 use App\Models\RecordTahunan;
+use App\Observers\LogObserver;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -47,19 +48,16 @@ class User extends Authenticatable
         'photo' => 'array',
     ];
 
-    public static function boot(){
+    public static function boot()
+    {
         parent::boot();
-        User::observe(new \App\Observers\LogObserver);
-        }
+        
+        User::observe(new LogObserver);
+    }
 
     public function userable()
     {
         return $this->morphTo();
-    }
-
-    public function scopeActive($query)
-    {
-        return $query->where('active', 1);
     }
 
     public function information()
@@ -110,16 +108,22 @@ class User extends Authenticatable
         return $data;
     }
 
+    public function scopeActive($query)
+    {
+        return $query->where('active', 1);
+    }
+
     public function getPhoto($value)
     {
         if (!empty($value)) {
-            $photo = asset(config('addon.images.path.photo').$value);
+            $photo = asset(config('custom.files.photo.path').$value);
         } else {
-            $photo = asset(config('addon.images.photo'));
+            $photo = asset(config('custom.files.photo.f'));
         }
 
         return $photo;
     }
+    
     public function totalJP()
     {
         return $this->hasOne(RecordTahunan::class,'user_id');

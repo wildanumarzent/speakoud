@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Grades;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\GradesNilaiRequest;
+use App\Http\Requests\Grades\GradesNilaiRequest;
 use App\Services\Grades\GradesKategoriService;
 use App\Services\Grades\GradesNilaiService;
 use Illuminate\Http\Request;
@@ -23,20 +23,18 @@ class GradesNilaiController extends Controller
 
     public function index(Request $request, $kategoriId)
     {
-        $q = '';
-        if (isset($request->q)) {
-            $q = '?q='.$request->q;
-        }
+        $url = $request->url();
+        $param = str_replace($url, '', $request->fullUrl());
 
         $data['nilai'] = $this->service->getGradesNilaiList($request, $kategoriId);
-        $data['number'] = $data['nilai']->firstItem();
-        $data['nilai']->withPath(url()->current().$q);
+        $data['no'] = $data['nilai']->firstItem();
+        $data['nilai']->withPath(url()->current().$param);
         $data['kategori'] = $this->serviceKategori->findGradesKategori($kategoriId);
 
         return view('backend.grades_management.index', compact('data'), [
             'title' => 'Grades - Nilai',
             'breadcrumbsBackend' => [
-                'Grades' => '',
+                'Grades' => '#!',
                 'Kategori' => route('grades.index'),
                 'Nilai' => ''
             ],
@@ -50,7 +48,7 @@ class GradesNilaiController extends Controller
         return view('backend.grades_management.form', compact('data'), [
             'title' => 'Grades - Nilai - Tambah',
             'breadcrumbsBackend' => [
-                'Grades' => '',
+                'Grades' => '#!',
                 'Nilai' => route('grades.nilai', ['id' => $kategoriId]),
                 'Tambah' => ''
             ],
@@ -73,7 +71,7 @@ class GradesNilaiController extends Controller
         return view('backend.grades_management.form', compact('data'), [
             'title' => 'Grades - Nilai - Edit',
             'breadcrumbsBackend' => [
-                'Grades' => '',
+                'Grades' => '#!',
                 'Nilai' => route('grades.nilai', ['id' => $kategoriId]),
                 'Edit' => ''
             ],

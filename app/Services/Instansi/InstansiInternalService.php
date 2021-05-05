@@ -39,7 +39,12 @@ class InstansiInternalService
             });
         });
 
-        $result = $query->orderBy('id', 'ASC')->paginate(20);
+        $limit = 20;
+        if (!empty($request->l)) {
+            $limit = $request->l;
+        }
+
+        $result = $query->orderBy('id', 'ASC')->paginate($limit);
 
         return $result;
     }
@@ -87,7 +92,8 @@ class InstansiInternalService
         if ($request->hasFile('logo')) {
             $fileName = str_replace(' ', '-', Str::random(5).'-'.$request->file('logo')
                 ->getClientOriginalName());
-            $this->deleteLogoFromPath($request->old_logo);
+            
+            File::delete(public_path('userfile/logo_instansi/'.$request->old_logo));
             $request->file('logo')->move(public_path('userfile/logo_instansi'), $fileName);
         }
 
@@ -110,31 +116,22 @@ class InstansiInternalService
     {
         $instansi = $this->findInstansi($id);
 
-        //checkInstruktur
+        //check
         $instruktur = $this->modelInstruktur->where('instansi_id', $id)
             ->whereNull('mitra_id')->count();
-        //checkPeserta
         $peserta = $this->modelPeserta->where('instansi_id', $id)
             ->whereNull('mitra_id')->count();
 
         if (!empty($instansi->logo)) {
-            $this->deleteLogoFromPath($instansi->logo);
+            File::delete(public_path('userfile/logo_instansi/'.$instansi->logo));
         }
 
         if ($instansi->internal()->count() > 0 || $instruktur > 0 || $peserta > 0) {
             return false;
         } else {
+
             $instansi->delete();
+            return true;
         }
-
-        return $instansi;
-    }
-
-    public function deleteLogoFromPath($fileName)
-    {
-        $path = public_path('userfile/logo_instansi/'.$fileName) ;
-        File::delete($path);
-
-        return $path;
     }
 }

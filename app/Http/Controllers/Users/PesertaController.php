@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\PesertaRequest;
 use App\Services\Instansi\InstansiInternalService;
 use App\Services\Instansi\InstansiMitraService;
 use App\Services\JabatanService;
@@ -12,6 +11,7 @@ use App\Services\Users\PesertaService;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\PesertaExport;
+use App\Http\Requests\User\PesertaRequest;
 
 class PesertaController extends Controller
 {
@@ -34,18 +34,12 @@ class PesertaController extends Controller
 
     public function index(Request $request)
     {
-        $t = '';
-        $j = '';
-        $q = '';
-        if (isset($request->t) || isset($request->j) || isset($request->q)) {
-            $t = '?t='.$request->t;
-            $j = '&j='.$request->j;
-            $q = '&q='.$request->q;
-        }
+        $url = $request->url();
+        $param = str_replace($url, '', $request->fullUrl());
 
         $data['peserta'] = $this->service->getPesertaList($request);
-        $data['number'] = $data['peserta']->firstItem();
-        $data['peserta']->withPath(url()->current().$t.$j.$q);
+        $data['no'] = $data['peserta']->firstItem();
+        $data['peserta']->withPath(url()->current().$param);
 
         return view('backend.user_management.peserta.index', compact('data'), [
             'title' => 'Peserta',
@@ -54,8 +48,6 @@ class PesertaController extends Controller
             ],
         ]);
     }
-
-
 
     public function create(Request $request)
     {
@@ -149,8 +141,10 @@ class PesertaController extends Controller
         ], 200);
     }
 
-    public function export(Request $request){
+    public function export(Request $request)
+    {
         $peserta = $this->service->getPesertaList($request,$paginate = false);
+        
         return Excel::download(new PesertaExport($peserta), 'data-peserta.xlsx');
     }
 }

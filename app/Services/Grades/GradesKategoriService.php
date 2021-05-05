@@ -23,7 +23,12 @@ class GradesKategoriService
             });
         });
 
-        $result = $query->paginate(20);
+        $limit = 20;
+        if (!empty($request->l)) {
+            $limit = $request->l;
+        }
+
+        $result = $query->paginate($limit);
 
         return $result;
     }
@@ -64,7 +69,6 @@ class GradesKategoriService
         } else {
             return false;
         }
-        
 
         return $kategori;
     }

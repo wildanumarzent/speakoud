@@ -7,6 +7,7 @@ use App\Models\Course\MataInstruktur;
 use App\Models\Users\Instruktur;
 use App\Services\Course\ProgramService;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -49,7 +50,7 @@ class InstrukturService
             });
         });
 
-        if (auth()->user()->hasRole('internal')) {
+        if (Auth::user()->hasRole('internal')) {
             $query->whereHas('user', function ($queryC) {
                 $queryC->whereHas('roles', function ($queryD) {
                     $queryD->where('name', 'instruktur_internal');
@@ -57,8 +58,8 @@ class InstrukturService
             });
         }
 
-        if (auth()->user()->hasRole('mitra')) {
-            $query->where('mitra_id', auth()->user()->mitra->id);
+        if (Auth::user()->hasRole('mitra')) {
+            $query->where('mitra_id', Auth::user()->mitra->id);
             $query->whereHas('user', function ($queryE) {
                 $queryE->whereHas('roles', function ($queryF) {
                     $queryF->where('name', 'instruktur_mitra');
@@ -66,7 +67,12 @@ class InstrukturService
             });
         }
 
-        $result = $query->orderBy('id', 'ASC')->paginate(20);
+        $limit = 20;
+        if (!empty($request->l)) {
+            $limit = $request->l;
+        }
+
+        $result = $query->orderBy('id', 'ASC')->paginate($limit);
 
         return $result;
     }
@@ -86,8 +92,8 @@ class InstrukturService
         }
 
         if ($program->tipe == 1) {
-            if (auth()->user()->hasRole('mitra')) {
-                $query->where('mitra_id', auth()->user()->mitra->id);
+            if (Auth::user()->hasRole('mitra')) {
+                $query->where('mitra_id', Auth::user()->mitra->id);
             } else {
                 $query->whereNotNull('mitra_id');
             }
@@ -108,8 +114,8 @@ class InstrukturService
         if ($type == false) {
             $query->whereNull('mitra_id');
         } else {
-            if (auth()->user()->hasRole('mitra')) {
-                $query->where('mitra_id', auth()->user()->mitra->id);
+            if (Auth::user()->hasRole('mitra')) {
+                $query->where('mitra_id', Auth::user()->mitra->id);
             } else {
                 $query->whereNotNull('mitra_id');
             }
@@ -146,15 +152,15 @@ class InstrukturService
     {
         $user = $this->user->storeUser($request);
 
-        if (auth()->user()->hasRole('mitra')) {
-            $mitraId = auth()->user()->mitra->id;
+        if (Auth::user()->hasRole('mitra')) {
+            $mitraId = Auth::user()->mitra->id;
         } else {
             $mitraId = $request->mitra_id;
         }
 
         $instruktur = new Instruktur;
         $instruktur->user_id = $user->id;
-        $instruktur->creator_id = auth()->user()->id;
+        $instruktur->creator_id = Auth::user()->id;
         $instruktur->mitra_id = $mitraId ?? null;
         $instruktur->instansi_id = $request->instansi_id ?? null;
         $instruktur->nip = $request->nip ?? null;
@@ -184,14 +190,18 @@ class InstrukturService
 
         $user = $instruktur->user;
         $user->fill($request->only(['name', 'email', 'username']));
+        
         if ($request->filled('password')) {
             $user->password = Hash::make($request->password);
         }
+
         if ($request->email != $request->oldemail) {
             $user->email_verified = 0;
             $user->email_verified_at = null;
         }
+
         $user->save();
+        
         $this->user->updateInformation($request, $user->id);
 
         return [

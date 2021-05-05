@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Bank;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class TemplateMateriRequest extends FormRequest
+class SoalKategoriRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,7 +26,6 @@ class TemplateMateriRequest extends FormRequest
         return [
             'judul' => 'required',
         ];
-
     }
 
     public function attributes()

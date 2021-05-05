@@ -4,6 +4,7 @@ namespace App\Models\Soal;
 
 use App\Models\Course\MataPelatihan;
 use App\Models\Users\User;
+use App\Observers\LogObserver;
 use Illuminate\Database\Eloquent\Model;
 
 class Soal extends Model
@@ -16,10 +17,12 @@ class Soal extends Model
         'jawaban' => 'array',
     ];
 
-    public static function boot(){
+    public static function boot()
+    {
         parent::boot();
-        Soal::observe(new \App\Observers\LogObserver);
-        }
+
+        Soal::observe(new LogObserver);
+    }
 
     public function creator()
     {

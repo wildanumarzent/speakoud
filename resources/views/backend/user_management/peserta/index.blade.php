@@ -12,6 +12,17 @@
             <div class="col-md">
                 <form action="" method="GET">
                 <div class="form-group">
+                    <label class="form-label">Limit</label>
+                    <select class="limit custom-select" name="l">
+                        <option value="20" selected>Any</option>
+                        @foreach (config('custom.filtering.limit') as $key => $val)
+                        <option value="{{ $key }}" {{ Request::get('l') == ''.$key.'' ? 'selected' : '' }} title="Limit {{ $val }}">{{ $val }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="form-group">
                     <label class="form-label">Tipe</label>
                     <select class="status custom-select form-control" name="t">
                         <option value=" " selected>Semua</option>
@@ -92,10 +103,10 @@
             <tbody>
                 @if ($data['peserta']->total() == 0)
                 <tr>
-                    <td colspan="14" align="center">
+                    <td colspan="15" align="center">
                         <i>
                             <strong style="color:red;">
-                            @if (Request::get('q'))
+                            @if (count(Request::query()) > 0)
                             ! User peserta tidak ditemukan !
                             @else
                             ! User peserta kosong !
@@ -107,7 +118,7 @@
                 @endif
                 @foreach ($data['peserta'] as $item)
                 <tr>
-                    <td>{{ $data['number']++ }}</td>
+                    <td>{{ $data['no']++ }}</td>
                     <td>{{ $item->nip ?? '-' }}</td>
                     <td>{{ $item->user->name }}</td>
                     <td>{{ $item->user->username }}</td>
@@ -135,9 +146,9 @@
                     </td>
                     <td>
                         <a href="{{ route('peserta.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengedit peserta">
-                                <i class="las la-pen"></i>
+                            <i class="las la-pen"></i>
                         </a>
-                        <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus peserta">
+                        <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm swal-delete" title="klik untuk menghapus peserta">
                             <i class="las la-trash-alt"></i>
                         </a>
                     </td>
@@ -147,10 +158,10 @@
             <tbody class="tbody-responsive">
                 @if ($data['peserta']->total() == 0)
                 <tr>
-                    <td colspan="14" align="center">
+                    <td colspan="15" align="center">
                         <i>
                             <strong style="color:red;">
-                            @if (Request::get('q'))
+                            @if (count(Request::query()) > 0)
                             ! User peserta tidak ditemukan !
                             @else
                             ! User peserta kosong !
@@ -203,7 +214,7 @@
                                         <a href="{{ route('peserta.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengedit peserta">
                                                 <i class="las la-pen"></i>
                                         </a>
-                                        <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus peserta">
+                                        <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm swal-delete" title="klik untuk menghapus peserta">
                                             <i class="las la-trash-alt"></i>
                                         </a>
                                     </div>
@@ -238,7 +249,7 @@
 <script>
     //delete
     $(document).ready(function () {
-        $('.js-sa2-delete').on('click', function () {
+        $('.swal-delete').on('click', function () {
             var id = $(this).attr('data-id');
             Swal.fire({
                 title: "Apakah anda yakin?",

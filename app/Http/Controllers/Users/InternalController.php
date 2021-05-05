@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\InternalRequest;
+use App\Http\Requests\User\InternalRequest;
 use App\Services\Instansi\InstansiInternalService;
 use App\Services\Users\InternalService;
 use Illuminate\Http\Request;
@@ -23,16 +23,12 @@ class InternalController extends Controller
 
     public function index(Request $request)
     {
-        $j = '';
-        $q = '';
-        if (isset($request->j) || isset($request->q)) {
-            $j = '?j='.$request->j;
-            $q = '&q='.$request->q;
-        }
+        $url = $request->url();
+        $param = str_replace($url, '', $request->fullUrl());
 
         $data['internal'] = $this->service->getInternalList($request);
-        $data['number'] = $data['internal']->firstItem();
-        $data['internal']->withPath(url()->current().$j.$q);
+        $data['no'] = $data['internal']->firstItem();
+        $data['internal']->withPath(url()->current().$param);
 
         return view('backend.user_management.internal.index', compact('data'), [
             'title' => 'User BPPT',

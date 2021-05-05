@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\MitraRequest;
+use App\Http\Requests\User\MitraRequest;
 use App\Services\Instansi\InstansiMitraService;
 use App\Services\Users\MitraService;
 use Illuminate\Http\Request;
@@ -23,16 +23,12 @@ class MitraController extends Controller
 
     public function index(Request $request)
     {
-        $j = '';
-        $q = '';
-        if (isset($request->j) || isset($request->q)) {
-            $j = '?j='.$request->j;
-            $q = '&q='.$request->q;
-        }
+        $url = $request->url();
+        $param = str_replace($url, '', $request->fullUrl());
 
         $data['mitra'] = $this->service->getMitraList($request);
-        $data['number'] = $data['mitra']->firstItem();
-        $data['mitra']->withPath(url()->current().$j.$q);
+        $data['no'] = $data['mitra']->firstItem();
+        $data['mitra']->withPath(url()->current().$param);
 
         return view('backend.user_management.mitra.index', compact('data'), [
             'title' => 'Mitra',

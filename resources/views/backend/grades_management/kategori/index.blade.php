@@ -12,6 +12,17 @@
             <div class="col-md">
                 <form action="" method="GET">
                     <div class="form-group">
+                        <label class="form-label">Limit</label>
+                        <select class="limit custom-select" name="l">
+                            <option value="20" selected>Any</option>
+                            @foreach (config('custom.filtering.limit') as $key => $val)
+                            <option value="{{ $key }}" {{ Request::get('l') == ''.$key.'' ? 'selected' : '' }} title="Limit {{ $val }}">{{ $val }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+            </div>
+            <div class="col-md">
+                    <div class="form-group">
                         <label class="form-label">Cari</label>
                         <div class="input-group">
                             <input type="text" class="form-control" name="q" value="{{ Request::get('q') }}" placeholder="Kata kunci...">
@@ -46,7 +57,7 @@
                     <th style="width: 210px;">Pembuat</th>
                     <th style="width: 230px;">Tanggal Dibuat</th>
                     <th style="width: 230px;">Tanggal Diperbarui</th>
-                    <th style="width: 140px;">Aksi</th>
+                    <th style="width: 180px;">Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -54,7 +65,7 @@
                 <tr>
                     <td colspan="7" align="center">
                         <i><strong style="color:red;">
-                        @if (Request::get('q'))
+                        @if (count(Request::query()) > 0)
                         ! Grades kategori tidak ditemukan !
                         @else
                         ! Grades kategori kosong !
@@ -65,20 +76,20 @@
                 @endif
                 @foreach ($data['kategori'] as $item)
                 <tr>
-                    <td>{{ $data['number']++ }}</td>
+                    <td>{{ $data['no']++ }}</td>
                     <td>{{ $item->nama }}</td>
                     <td>{{ $item->keterangan ?? '-' }}</td>
                     <td>{{ $item->creator->name }}</td>
                     <td>{{ $item->created_at->format('d F Y (H:i A)') }}</td>
                     <td>{{ $item->updated_at->format('d F Y (H:i A)') }}</td>
                     <td>
-                        <a href="{{ route('grades.nilai', ['id' => $item->id]) }}" class="btn icon-btn btn-sm btn-success" title="klik untuk melihat list grades">
-                            <i class="las la-list-ol"></i>
+                        <a href="{{ route('grades.nilai', ['id' => $item->id]) }}" class="btn btn-sm btn-success" title="klik untuk melihat list grades">
+                            <i class="las la-list-ol"></i> Nilai
                         </a>
                         <a href="{{ route('grades.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-sm btn-primary" title="klik untuk mengedit grades kategori">
                             <i class="las la-pen"></i>
                         </a>
-                        <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-sm btn-danger js-sa2-delete" title="klik untuk menghapus grades kategori">
+                        <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-sm btn-danger swal-delete" title="klik untuk menghapus grades kategori">
                             <i class="las la-trash"></i>
                         </a>
                     </td>
@@ -90,7 +101,7 @@
                 <tr>
                     <td colspan="7" align="center">
                         <i><strong style="color:red;">
-                        @if (Request::get('q'))
+                        @if (count(Request::query()) > 0)
                         ! Grades kategori tidak ditemukan !
                         @else
                         ! Grades kategori kosong !
@@ -119,13 +130,13 @@
 
                                 <div class="item-table m-0">
                                     <div class="desc-table text-right">
-                                        <a href="{{ route('grades.nilai', ['id' => $item->id]) }}" class="btn icon-btn btn-sm btn-success" title="klik untuk melihat list grades">
-                                            <i class="las la-list-ol"></i>
+                                        <a href="{{ route('grades.nilai', ['id' => $item->id]) }}" class="btn btn-sm btn-success" title="klik untuk melihat list grades">
+                                            <i class="las la-list-ol"></i> Nilai
                                         </a>
                                         <a href="{{ route('grades.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-sm btn-primary" title="klik untuk mengedit grades kategori">
                                             <i class="las la-pen"></i>
                                         </a>
-                                        <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-sm btn-danger js-sa2-delete" title="klik untuk menghapus grades kategori">
+                                        <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-sm btn-danger swal-delete" title="klik untuk menghapus grades kategori">
                                             <i class="las la-trash"></i>
                                         </a>
                                     </div>
@@ -159,7 +170,7 @@
 @section('jsbody')
 <script>
 $(document).ready(function () {
-    $('.js-sa2-delete').on('click', function () {
+    $('.swal-delete').on('click', function () {
         var id = $(this).attr('data-id');
         Swal.fire({
             title: "Apakah anda yakin?",

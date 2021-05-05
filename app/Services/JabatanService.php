@@ -8,7 +8,9 @@ class JabatanService
 {
     private $model;
 
-    public function __construct(Jabatan $model)
+    public function __construct(
+        Jabatan $model
+    )
     {
         $this->model = $model;
     }
@@ -22,7 +24,12 @@ class JabatanService
                 ->orWhere('keterangan', 'ilike', '%'.$q.'%');
         });
 
-        $result = $query->paginate(20);
+        $limit = 20;
+        if (!empty($request->l)) {
+            $limit = $request->l;
+        }
+
+        $result = $query->orderBy('id', 'ASC')->paginate($limit);
 
         return $result;
     }
@@ -61,15 +68,11 @@ class JabatanService
         $jabatan = $this->findJabatan($id);
 
         if ($jabatan->peserta->count() > 0) {
-
             return false;
-
         } else {
 
             $jabatan->delete();
-
             return true;
         }
-
     }
 }

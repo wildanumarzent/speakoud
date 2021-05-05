@@ -10,7 +10,9 @@ class SoalService
 {
     private $model;
 
-    public function __construct(Soal $model)
+    public function __construct(
+        Soal $model
+    )
     {
         $this->model = $model;
     }
@@ -35,7 +37,12 @@ class SoalService
             $query->where('tipe_jawaban', $request->t);
         }
 
-        $result = $query->paginate(20);
+        $limit = 20;
+        if (!empty($request->l)) {
+            $limit = $request->l;
+        }
+
+        $result = $query->orderBy('id', 'ASC')->paginate($limit);
 
         return $result;
     }

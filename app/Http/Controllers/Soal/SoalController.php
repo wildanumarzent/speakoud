@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Soal;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Bank\SoalRequest;
 use App\Http\Requests\ImportRequest;
-use App\Http\Requests\SoalRequest;
 use App\Imports\BankSoalImport;
 use App\Services\Soal\SoalKategoriService;
 use App\Services\Soal\SoalService;
@@ -25,16 +25,12 @@ class SoalController extends Controller
 
     public function index(Request $request, $mataId, $kategoriId)
     {
-        $t = '';
-        $q = '';
-        if (isset($request->t) || isset($request->q)) {
-            $t = '?t='.$request->t;
-            $q = '&q='.$request->q;
-        }
+        $url = $request->url();
+        $param = str_replace($url, '', $request->fullUrl());
 
         $data['soal'] = $this->service->getSoalList($request, $mataId, $kategoriId);
-        $data['number'] = $data['soal']->firstItem();
-        $data['soal']->withPath(url()->current().$t.$q);
+        $data['no'] = $data['soal']->firstItem();
+        $data['soal']->withPath(url()->current().$param);
         $data['kategori'] = $this->serviceKategori->findKategoriSoal($kategoriId);
 
         return view('backend.bank_soal.index', compact('data'), [

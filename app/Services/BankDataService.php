@@ -14,7 +14,9 @@ class BankDataService
 {
     private $model;
 
-    public function __construct(BankData $model)
+    public function __construct(
+        BankData $model
+    )
     {
         $this->model = $model;
     }

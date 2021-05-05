@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Course\Template;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\TemplateMateriRequest;
+use App\Http\Requests\Course\Template\TemplateMateriRequest;
 use App\Services\Course\Template\TemplateMataService;
 use App\Services\Course\Template\TemplateMateriService;
 use Illuminate\Http\Request;
@@ -23,14 +23,12 @@ class TemplateMateriController extends Controller
 
     public function index(Request $request, $mataId)
     {
-        $q = '';
-        if (isset($request->q)) {
-            $q = '?q='.$request->q;
-        }
+        $url = $request->url();
+        $param = str_replace($url, '', $request->fullUrl());
 
         $data['materi'] = $this->service->getTemplateMateriList($request, $mataId);
         $data['number'] = $data['materi']->firstItem();
-        $data['materi']->withPath(url()->current().$q);
+        $data['materi']->withPath(url()->current().$param);
         $data['mata'] = $this->serviceMata->findTemplateMata($mataId);
 
         return view('backend.course_management.template.materi.index', compact('data'), [

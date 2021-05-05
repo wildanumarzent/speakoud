@@ -58,7 +58,12 @@ class MitraService
             });
         });
 
-        $result = $query->orderBy('id', 'ASC')->paginate(20);
+        $limit = 20;
+        if (!empty($request->l)) {
+            $limit = $request->l;
+        }
+
+        $result = $query->orderBy('id', 'ASC')->paginate($limit);
 
         return $result;
     }
@@ -116,14 +121,18 @@ class MitraService
 
         $user = $mitra->user;
         $user->fill($request->only(['name', 'email', 'username']));
+
         if ($request->filled('password')) {
             $user->password = Hash::make($request->password);
         }
+
         if ($request->email != $request->old_email) {
             $user->email_verified = 0;
             $user->email_verified_at = null;
         }
+
         $user->save();
+        
         $this->user->updateInformation($request, $user->id);
 
         return [

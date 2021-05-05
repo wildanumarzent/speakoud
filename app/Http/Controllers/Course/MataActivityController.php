@@ -99,6 +99,26 @@ class MataActivityController extends Controller
         ]);
     }
 
+    public function nilaiPeserta(Request $request, $mataId)
+    {
+        $url = $request->url();
+        $param = str_replace($url, '', $request->fullUrl());
+
+        $data['mata'] = $this->service->findMata($mataId);
+        $data['bahan'] = $this->serviceBahan->getBahanActivity($mataId, 'nilai');
+        $data['peserta'] = $this->service->getPesertaList($request, $mataId);
+        $data['no'] = $data['peserta']->firstItem();
+        $data['peserta']->withPath(url()->current().$param);
+
+        return view('backend.course_management.mata.activity.daftar-nilai', compact('data'), [
+            'title' => 'Program - Daftar Nilai',
+            'breadcrumbsBackend' => [
+                'Kategori' => route('program.index'),
+                'Program' => route('course.detail', ['id' => $mataId]),
+                'Daftar Nilai' => ''
+            ],
+        ]);
+    }
 
     public function submitCompletion($bahanId, $userId)
     {

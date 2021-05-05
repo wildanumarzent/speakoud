@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Grades;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\GradesKategoriRequest;
+use App\Http\Requests\Grades\GradesKategoriRequest;
 use App\Services\Grades\GradesKategoriService;
 use Illuminate\Http\Request;
 
@@ -18,19 +18,17 @@ class GradesKategoriController extends Controller
 
     public function index(Request $request)
     {
-        $q = '';
-        if (isset($request->q)) {
-            $q = '?q='.$request->q;
-        }
+        $url = $request->url();
+        $param = str_replace($url, '', $request->fullUrl());
 
         $data['kategori'] = $this->service->getGradesKategoriList($request);
-        $data['number'] = $data['kategori']->firstItem();
-        $data['kategori']->withPath(url()->current().$q);
+        $data['no'] = $data['kategori']->firstItem();
+        $data['kategori']->withPath(url()->current().$param);
 
         return view('backend.grades_management.kategori.index', compact('data'), [
             'title' => 'Grades - Kategori',
             'breadcrumbsBackend' => [
-                'Grades' => '',
+                'Grades' => '#!',
                 'Kategori' => ''
             ],
         ]);
@@ -41,7 +39,7 @@ class GradesKategoriController extends Controller
         return view('backend.grades_management.kategori.form', [
             'title' => 'Grades - Kategori - Tambah',
             'breadcrumbsBackend' => [
-                'Grades' => '',
+                'Grades' => '#!',
                 'Kategori' => route('grades.index'),
                 'Tambah' => ''
             ],
@@ -63,7 +61,7 @@ class GradesKategoriController extends Controller
         return view('backend.grades_management.kategori.form', compact('data'), [
             'title' => 'Grades - Kategori - Edit',
             'breadcrumbsBackend' => [
-                'Grades' => '',
+                'Grades' => '#!',
                 'Kategori' => route('grades.index'),
                 'Edit' => ''
             ],

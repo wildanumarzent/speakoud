@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Instansi;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\InstansiInternalRequest;
+use App\Http\Requests\Instansi\InstansiInternalRequest;
 use App\Services\Instansi\InstansiInternalService;
 use Illuminate\Http\Request;
 
@@ -11,26 +11,26 @@ class InstansiInternalController extends Controller
 {
     private $service;
 
-    public function __construct(InstansiInternalService $service)
+    public function __construct(
+        InstansiInternalService $service
+    )
     {
         $this->service = $service;
     }
 
     public function index(Request $request)
     {
-        $q = '';
-        if (isset($request->q)) {
-            $q = '?q='.$request->q;
-        }
+        $url = $request->url();
+        $param = str_replace($url, '', $request->fullUrl());
 
         $data['instansi'] = $this->service->getInstansiList($request);
-        $data['number'] = $data['instansi']->firstItem();
-        $data['instansi']->withPath(url()->current().$q);
+        $data['no'] = $data['instansi']->firstItem();
+        $data['instansi']->withPath(url()->current().$param);
 
         return view('backend.instansi.internal.index', compact('data'), [
             'title' => 'Instansi Internal',
             'breadcrumbsBackend' => [
-                'Instansi' => '',
+                'Instansi' => '#!',
                 'Internal' => ''
             ],
         ]);
@@ -41,8 +41,8 @@ class InstansiInternalController extends Controller
         return view('backend.instansi.internal.form', [
             'title' => 'Instansi Internal - Tambah',
             'breadcrumbsBackend' => [
-                'Instansi' => route('instansi.internal.index'),
-                'Internal' => '',
+                'Instansi' => '#!',
+                'Internal' => route('instansi.internal.index'),
                 'Tambah' => ''
             ],
         ]);
@@ -63,8 +63,8 @@ class InstansiInternalController extends Controller
         return view('backend.instansi.internal.form', compact('data'), [
             'title' => 'Instansi Internal - Ubah',
             'breadcrumbsBackend' => [
-                'Instansi' => route('instansi.internal.index'),
-                'Internal' => '',
+                'Instansi' => '#!',
+                'Internal' => route('instansi.internal.index'),
                 'Ubah' => ''
             ],
         ]);
@@ -83,15 +83,19 @@ class InstansiInternalController extends Controller
         $delete = $this->service->deleteInstansi($id);
 
         if ($delete == true) {
+
             return response()->json([
                 'success' => 1,
                 'message' => ''
             ], 200);
+
         } else {
+
             return response()->json([
                 'success' => 0,
-                'message' => 'Data instansi masih dipakai di user bppt / instruktur bppt / peserta bppt'
+                'message' => 'Data instansi masih digunakan oleh user bppt / instruktur bppt / peserta bppt'
             ], 200);
+            
         }
     }
 }

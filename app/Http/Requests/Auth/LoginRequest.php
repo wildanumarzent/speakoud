@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -42,7 +42,7 @@ class LoginRequest extends FormRequest
     {
         return [
             'username.required' => ':attribute tidak boleh kosong',
-            'username.exists' => 'Aku yang coba anda masukan tidak '.
+            'username.exists' => 'Akun yang coba anda masukan tidak '.
                                 'terdaftar / tidak aktif',
             'username.min' => ':attribute minimal :min karakter',
             'password.required' => ':attribute tidak boleh kosong',

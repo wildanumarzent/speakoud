@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\Auth\RegisterRequest;
 use App\Providers\RouteServiceProvider;
 use App\Services\Users\PesertaService;
 use App\Services\Users\UserService;
@@ -42,7 +42,10 @@ class RegisterController extends Controller
      *
      * @return void
      */
-    public function __construct(UserService $user, PesertaService $peserta)
+    public function __construct(
+        UserService $user, 
+        PesertaService $peserta
+    )
     {
         $this->user = $user;
         $this->peserta = $peserta;
@@ -70,14 +73,16 @@ class RegisterController extends Controller
 
         $this->peserta->registerPeserta($request);
 
-        return redirect()->route('login')->with('success', 'Register berhasil, silahkan cek email untuk aktivasi & verifikasi akun');
+        return redirect()->route('login')->with('success', 'Register berhasil, 
+            silahkan cek email untuk aktivasi & verifikasi akun');
     }
 
     public function activate($email)
     {
         $this->user->activateAccount($email);
 
-        return redirect()->route('login')->with('success', 'Akun berhasil diaktivasi, silahkan login');
+        return redirect()->route('login')->with('success', 'Akun berhasil diaktivasi, 
+            silahkan login');
     }
 
     /**

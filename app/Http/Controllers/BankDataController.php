@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UploadFileRequest;
+use App\Http\Requests\Bank\UploadFileRequest;
 use App\Services\BankDataService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;

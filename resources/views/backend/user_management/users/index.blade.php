@@ -11,6 +11,17 @@
         <div class="form-row align-items-center">
             <div class="col-md">
                 <form action="" method="GET">
+                <div class="form-group">
+                    <label class="form-label">Limit</label>
+                    <select class="limit custom-select" name="l">
+                        <option value="20" selected>Any</option>
+                        @foreach (config('custom.filtering.limit') as $key => $val)
+                        <option value="{{ $key }}" {{ Request::get('l') == ''.$key.'' ? 'selected' : '' }} title="Limit {{ $val }}">{{ $val }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+            <div class="col-md">
                 @if (Request::get('trash') == 'deleted')
                 <input type="hidden" name="trash" value="deleted">
                 @endif
@@ -90,7 +101,7 @@
                     <td colspan="10" align="center">
                         <i>
                             <strong style="color:red;">
-                            @if (Request::get('r') || Request::get('s') || Request::get('q'))
+                            @if (count(Request::query()) > 0)
                             ! User tidak ditemukan !
                             @else
                             ! User kosong !
@@ -102,7 +113,7 @@
                 @endif
                 @foreach ($data['users'] as $item)
                 <tr>
-                    <td>{{ $data['number']++ }}</td>
+                    <td>{{ $data['no']++ }}</td>
                     <td>{{ $item->name }}</td>
                     <td>{{ $item->username }}</td>
                     <td>
@@ -118,7 +129,7 @@
                     </td>
                     <td class="text-center">
                         @if ($item->id == auth()->user()->id || $item->roles[0]->id <=  auth()->user()->roles[0]->id)
-                        <a href="#" class="badge badge-outline-secondary">AKTIF</a>
+                        <a href="#" class="badge badge-outline-{{ $item->active == 1 ? 'success' : 'secondary' }}">{{ $item->active == 1 ? 'AKTIF' : 'TIDAK AKTIF' }}</a>
                         @else
                         <a href="javascript:void(0);" onclick="$(this).find('form').submit();" class="badge badge-outline-{{ $item->active == 1 ? 'success' : 'secondary' }}"
                             title="klik untuk {{ $item->active == 0 ? 'mengaktifkan' : 'menon-aktifkan' }} user">{{ $item->active == 1 ? 'AKTIF' : 'TIDAK AKTIF' }}
@@ -149,7 +160,7 @@
                                 <i class="las la-trash-alt"></i>
                             </button>
                             @else
-                                <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus user">
+                                <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm swal-delete" title="klik untuk menghapus user">
                                     <i class="las la-trash-alt"></i>
                                 </a>
                             @endif
@@ -164,7 +175,7 @@
                     <td colspan="10" align="center">
                         <i>
                             <strong style="color:red;">
-                            @if (Request::get('r') || Request::get('s') || Request::get('q'))
+                            @if (count(Request::query()) > 0)
                             ! User tidak ditemukan !
                             @else
                             ! User kosong !
@@ -213,7 +224,7 @@
                                                 <i class="las la-trash-alt"></i>
                                             </button>
                                             @else
-                                                <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus user">
+                                                <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm swal-delete" title="klik untuk menghapus user">
                                                     <i class="las la-trash-alt"></i>
                                                 </a>
                                             @endif
@@ -250,7 +261,7 @@
 <script>
     //delete
     $(document).ready(function () {
-        $('.js-sa2-delete').on('click', function () {
+        $('.swal-delete').on('click', function () {
             var id = $(this).attr('data-id');
             Swal.fire({
                 title: "Apakah anda yakin?",

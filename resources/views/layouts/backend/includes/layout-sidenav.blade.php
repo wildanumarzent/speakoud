@@ -1,16 +1,17 @@
 @php
-    $masterOpen = (Request::is('instansi/internal*') || Request::is('instansi/mitra*') || Request::is('jabatan*') || Request::is('user*') || Request::is('internal*') || Request::is('mitra*') ||
-                    Request::is('instruktur*') || Request::is('peserta*') || Request::is('grades*') || Request::is('tags*') || Request::is('komentar*'));
+    $masterOpen = (Request::is('instansi/internal*') || Request::is('instansi/mitra*') || Request::is('jabatan*') || Request::is('user*') || Request::is('internal*') || 
+                  Request::is('mitra*') || Request::is('instruktur*') || Request::is('peserta*') || Request::is('grades*') || Request::is('tags*') || Request::is('komentar*'));
     $userOpen = (Request::is('user*') || Request::is('internal*') || Request::is('mitra*') ||
-                    Request::is('instruktur*') || Request::is('peserta*'));
-    $course = (Request::is('template*') || Request::is('program*') || Request::is('mata*') || Request::is('materi*') || Request::is('quiz*') || Request::is('course*') || Request::is('jadwal*') || Request::is('kalender*'));
+                Request::is('instruktur*') || Request::is('peserta*'));
+    $course = (Request::is('template*') || Request::is('program*') || Request::is('mata*') || Request::is('materi*') || Request::is('quiz*') || Request::is('course*') || 
+              Request::is('jadwal*') || Request::is('kalender*'));
 @endphp
 <div id="layout-sidenav" class="{{ isset($layout_sidenav_horizontal) ? 'layout-sidenav-horizontal sidenav-horizontal container-p-x flex-grow-0' : 'layout-sidenav sidenav-vertical' }} sidenav bg-sidenav-theme">
 
     <!-- Brand demo (see assets/css/demo/demo.css) -->
     <div class="app-brand demo">
         <span class="app-brand-logo demo">
-            <img src="{{ asset(config('addon.images.logo')) }}">
+            <img src="{{ asset(config('custom.files.logo.f')) }}">
         </span>
         <a href="javascript:void(0)" class="layout-sidenav-toggle sidenav-link text-large ml-auto">
           <i class="las la-thumbtack"></i>
@@ -38,6 +39,7 @@
             <div>Master Data</div>
           </a>
             <ul class="sidenav-menu">
+
                 @role ('developer|administrator|internal')
                 <!-- Instansi -->
                 <li class="sidenav-item{{ (Request::is('instansi/internal*') || Request::is('instansi/mitra*')) ? ' active open' : '' }}">
@@ -63,14 +65,16 @@
                     </ul>
                 </li>
                 @endrole
+
                 @role ('developer|administrator')
-                 <!-- jabatan -->
-                 <li class="sidenav-item{{ Request::is('jabatan*') ? ' active' : '' }}">
+                <!-- jabatan -->
+                <li class="sidenav-item{{ Request::is('jabatan*') ? ' active' : '' }}">
                     <a href="{{ route('jabatan.index') }}" class="sidenav-link" title="Jabatan">
                       <div>Jabatan</div>
                     </a>
                 </li>
                 @endrole
+
                 <!-- Manajemen User -->
                 <li class="sidenav-item{{ $userOpen ? ' active open' : '' }}">
                   <a href="javascript:void(0)" class="sidenav-link sidenav-toggle" title="Manajemen User">
@@ -81,9 +85,9 @@
                     @role ('developer|administrator')
                     <!-- Users -->
                     <li class="sidenav-item{{ Request::is('user*') ? ' active' : '' }}">
-                    <a href="{{ route('user.index') }}" class="sidenav-link" title="Users">
-                        <div>Users</div>
-                    </a>
+                      <a href="{{ route('user.index') }}" class="sidenav-link" title="Users">
+                          <div>Users</div>
+                      </a>
                     </li>
                     <!-- User BPPT -->
                     <li class="sidenav-item{{ Request::is('internal*') ? ' active' : '' }}">
@@ -92,6 +96,7 @@
                         </a>
                     </li>
                     @endrole
+                    
                     @role ('developer|administrator|internal')
                     <!-- Mitra -->
                     <li class="sidenav-item{{ Request::is('mitra*') ? ' active' : '' }}">
@@ -100,6 +105,7 @@
                         </a>
                     </li>
                     @endrole
+
                     @role ('developer|administrator|internal|mitra')
                     <!-- Instruktur -->
                     <li class="sidenav-item{{ Request::is('instruktur*') ? ' active' : '' }}">
@@ -114,8 +120,10 @@
                         </a>
                     </li>
                     @endrole
+                    
                   </ul>
                 </li>
+                
                 @role ('developer|administrator')
                 <!-- grades -->
                 <li class="sidenav-item{{ Request::is('grades*') ? ' active' : '' }}">
@@ -192,6 +200,7 @@
               }
           @endphp
           <ul class="sidenav-menu">
+
             <!-- program pelatihan -->
             <li class="sidenav-item{{ (Request::is('template*') || Request::is('program*') || Request::is('mata*') || Request::is('materi*') || Request::is('quiz*') || Request::is('course*')) ? ' active open' : '' }}">
                 <a href="javascript:void(0)" class="sidenav-link sidenav-toggle" title="Program Pelatihan">
@@ -199,7 +208,7 @@
                 </a>
 
                 <ul class="sidenav-menu">
-                    @role ('administrator|internal')
+                    @role ('developer|administrator|internal')
                     <!-- templating -->
                     <li class="sidenav-item{{ (Request::is('template*')) ? ' active' : '' }}">
                         <a href="{{ route('template.mata.index') }}" class="sidenav-link" title="Templating Program Pelatihan">
@@ -221,14 +230,16 @@
                     </li>
                 </ul>
             </li>
-            <!-- jadwal -->
+
             @role('developer|administrator|internal|mitra')
+            <!-- jadwal -->
             <li class="sidenav-item{{ (Request::is('jadwal*')) ? ' active' : '' }}">
                 <a href="{{ route($jadwal) }}" class="sidenav-link" title="Kalender Diklat">
                   <div>Kalender Diklat</div>
                 </a>
             </li>
             @endrole
+
             <!-- kalender -->
             <li class="sidenav-item{{ (Request::is('kalender*')) ? ' active' : '' }}">
                 <a href="{{route('kalender.index')}}" class="sidenav-link" title="Agenda">
@@ -241,6 +252,7 @@
                   </div>
                 </a>
             </li>
+            
           </ul>
         </li>
 

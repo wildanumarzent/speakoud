@@ -26,7 +26,12 @@ class GradesNilaiService
             });
         });
 
-        $result = $query->orderBy('maksimum', 'DESC')->paginate(20);
+        $limit = 20;
+        if (!empty($request->l)) {
+            $limit = $request->l;
+        }
+
+        $result = $query->orderBy('maksimum', 'DESC')->paginate($limit);
 
         return $result;
     }

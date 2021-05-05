@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class RegisterRequest extends FormRequest
+class UserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -16,15 +16,37 @@ class RegisterRequest extends FormRequest
         return true;
     }
 
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
     public function rules()
     {
-        return [
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email',
-            'username' => 'required|min:5|unique:users,username',
-            'roles' => 'required',
-            'password' => 'required|confirmed|min:8',
-        ];
+        if ($this->method() == 'POST') {
+
+            return [
+                'name' => 'required',
+                'email' => 'required|email|unique:users,email',
+                'username' => 'required|min:5|unique:users,username',
+                'roles' => 'required',
+                'password' => 'required|confirmed|min:8',
+            ];
+
+        } else {
+
+            return [
+                'name' => 'required',
+                'email' => 'required|email|unique:users,email,'.
+                            $this->id,
+                'username' => 'required|min:5|unique:users,username,'.
+                            $this->id,
+                'roles' => 'required',
+                'password' => 'nullable|confirmed|min:8',
+            ];
+            
+        }
+
     }
 
     public function attributes()

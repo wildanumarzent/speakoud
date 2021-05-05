@@ -71,6 +71,12 @@
 			transform: translate(-50%,-50%);
 			font: 14px arial;
 		}
+        @media screen and (max-width: 1199.98px) {
+            #notif-bar, .bread-right {
+                visibility: hidden;
+                display: none;
+            }
+        }
     </style>
 
     <!-- Core scripts -->

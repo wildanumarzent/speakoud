@@ -124,7 +124,7 @@ class MataService
         return $result;
     }
 
-    public function getMata($order, $by, int $limit)
+    public function getMata($order, $by, int $limitz)
     {
         $query = $this->model->query();
 
@@ -164,7 +164,7 @@ class MataService
             ->where('publish_end', '>=', now());
         }
 
-        $result = $query->orderBy($order, $by)->paginate($limit);
+        $result = $query->orderBy($order, $by)->paginate(20);
 
         return $result;
     }

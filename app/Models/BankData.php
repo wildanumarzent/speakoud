@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Observers\LogObserver;
 use Illuminate\Database\Eloquent\Model;
 
 class BankData extends Model
@@ -9,10 +10,12 @@ class BankData extends Model
     protected $table = 'bank_data';
     protected $guarded = [];
 
-    public static function boot(){
+    public static function boot()
+    {
         parent::boot();
-        BankData::observe(new \App\Observers\LogObserver);
-        }
+
+        BankData::observe(new LogObserver);
+    }
 
     public function owner()
     {

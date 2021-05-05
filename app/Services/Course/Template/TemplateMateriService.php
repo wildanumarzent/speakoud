@@ -27,7 +27,12 @@ class TemplateMateriService
             });
         });
 
-        $result = $query->orderBy('urutan', 'ASC')->paginate(10);
+        $limit = 10;
+        if (!empty($request->l)) {
+            $limit = $request->l;
+        }
+
+        $result = $query->orderBy('urutan', 'ASC')->paginate($limit);
 
         return $result;
     }

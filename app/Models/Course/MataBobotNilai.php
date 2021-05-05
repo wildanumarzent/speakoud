@@ -168,9 +168,9 @@ class MataBobotNilai extends Model
         // }
 
         $quiz = BahanQuiz::where('mata_id', $mataId)
-            ->where('kategori', 4)->count() * 100;
+            ->whereIn('kategori', [1, 4])->count() * 100;
         $myQuiz = BahanQuizItemTracker::whereHas('quiz', function ($query) use ($mataId) {
-                $query->where('mata_id', $mataId)->where('kategori', 4);
+                $query->where('mata_id', $mataId)->whereIn('kategori', [1, 4]);
             })->where('user_id', $pesertaId);
 
         $hasilQuiz = 0;

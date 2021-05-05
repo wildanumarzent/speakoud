@@ -12,11 +12,22 @@
             <div class="col-md">
                 <form action="" method="GET">
                     <div class="form-group">
+                        <label class="form-label">Limit</label>
+                        <select class="limit custom-select" name="l">
+                            <option value="20" selected>Any</option>
+                            @foreach (config('custom.filtering.limit') as $key => $val)
+                            <option value="{{ $key }}" {{ Request::get('l') == ''.$key.'' ? 'selected' : '' }} title="Limit {{ $val }}">{{ $val }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+            </div>
+            <div class="col-md">
+                    <div class="form-group">
                         <label class="form-label">Cari</label>
                         <div class="input-group">
                             <input type="text" class="form-control" name="q" value="{{ Request::get('q') }}" placeholder="Kata kunci...">
                             <div class="input-group-append">
-                                <button type="submit" class="btn btn-warning" title="klik untuk mencari"><i class="las la-search"></i></button>
+                                <button type="submit" class="btn btn-warning" title="klik untuk cari"><i class="las la-filter"></i></button>
                             </div>
                         </div>
                     </div>
@@ -31,13 +42,13 @@
     <div class="card-header with-elements">
         <h5 class="card-header-title mt-1 mb-0">Instansi BPPT List</h5>
         <div class="card-header-elements ml-auto">
-            <a href="{{ route('instansi.internal.create') }}" class="btn btn-primary icon-btn-only-sm" title="klik untuk menambah instansi" data-toggle="tooltip">
+            <a href="{{ route('instansi.internal.create') }}" class="btn btn-primary icon-btn-only-sm" title="klik untuk menambah instansi">
                 <i class="las la-plus"></i><span>Tambah</span>
             </a>
         </div>
     </div>
     <div class="table-responsive table-mobile-responsive">
-        <table id="user-list" class="table card-table table-striped table-bordered table-hover">
+        <table class="table card-table table-striped table-bordered table-hover">
             <thead>
                 <tr>
                     <th style="width: 10px;">No</th>
@@ -59,7 +70,7 @@
                     <td colspan="11" align="center">
                         <i>
                             <strong style="color:red;">
-                                @if (Request::get('q'))
+                                @if (count(Request::query()) > 0)
                                 ! Instansi tidak ditemukan !
                                 @else
                                 ! Instansi kosong !
@@ -71,7 +82,7 @@
                 @endif
                 @foreach ($data['instansi'] as $item)
                 <tr>
-                    <td>{{ $data['number']++ }}</td>
+                    <td>{{ $data['no']++ }}</td>
                     <td>{{ $item->kode_instansi ?? '-' }}</td>
                     <td>{{ $item->nama_instansi }}</td>
                     <td>{{ $item->telpon ?? '-' }}</td>
@@ -83,9 +94,9 @@
                     <td>{{ $item->updated_at->format('d F Y - (H:i)') }}</td>
                     <td>
                         <a href="{{ route('instansi.internal.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengubah Instansi">
-                                <i class="las la-pen"></i>
+                            <i class="las la-pen"></i>
                         </a>
-                        <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus Instansi">
+                        <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm swal-delete" title="klik untuk menghapus Instansi">
                             <i class="las la-trash-alt"></i>
                         </a>
                     </td>
@@ -98,7 +109,7 @@
                     <td colspan="11" align="center">
                         <i>
                             <strong style="color:red;">
-                            @if (Request::get('q'))
+                            @if (count(Request::query()) > 0)
                             ! Instansi tidak ditemukan !
                             @else
                             ! Instansi kosong !
@@ -141,13 +152,12 @@
                                     <div class="data-table">Jabatan</div>
                                     <div class="desc-table">{{ $item->jabatan }}</div>
                                 </div>
-
                                 <div class="item-table m-0">
                                     <div class="desc-table text-right">
                                         <a href="{{ route('instansi.internal.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengubah Instansi">
                                                 <i class="las la-pen"></i>
                                         </a>
-                                        <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus Instansi">
+                                        <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm swal-delete" title="klik untuk menghapus Instansi">
                                             <i class="las la-trash-alt"></i>
                                         </a>
                                     </div>
@@ -180,62 +190,61 @@
 
 @section('jsbody')
 <script>
-$(document).ready(function () {
-    $('.js-sa2-delete').on('click', function () {
-        var id = $(this).attr('data-id');
-        Swal.fire({
-            title: "Apakah anda yakin?",
-            text: "Anda akan menghapus instansi ini, Data yang sudah dihapus tidak dapat dikembalikan!",
-            type: "warning",
-            confirmButtonText: "Ya, hapus!",
-            customClass: {
-                confirmButton: "btn btn-danger btn-lg",
-                cancelButton: "btn btn-info btn-lg"
-            },
-            showLoaderOnConfirm: true,
-            showCancelButton: true,
-            allowOutsideClick: () => !Swal.isLoading(),
-            cancelButtonText: "Tidak, terima kasih",
-            preConfirm: () => {
-                return $.ajax({
-                    url: "/instansi/internal/" + id,
-                    method: 'DELETE',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    dataType: 'json'
-                }).then(response => {
-                    if (!response.success) {
-                        return new Error(response.message);
-                    }
-                    return response;
-                }).catch(error => {
-                    swal({
-                        type: 'error',
-                        text: 'Error while deleting data. Error Message: ' + error
+    $(document).ready(function () {
+        $('.swal-delete').on('click', function () {
+            var id = $(this).attr('data-id');
+            Swal.fire({
+                title: "Apakah anda yakin?",
+                text: "Anda akan menghapus instansi ini, Data yang sudah dihapus tidak dapat dikembalikan!",
+                type: "warning",
+                confirmButtonText: "Ya, hapus!",
+                customClass: {
+                    confirmButton: "btn btn-danger btn-lg",
+                    cancelButton: "btn btn-info btn-lg"
+                },
+                showLoaderOnConfirm: true,
+                showCancelButton: true,
+                allowOutsideClick: () => !Swal.isLoading(),
+                cancelButtonText: "Tidak, terima kasih",
+                preConfirm: () => {
+                    return $.ajax({
+                        url: "/instansi/internal/" + id,
+                        method: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        dataType: 'json'
+                    }).then(response => {
+                        if (!response.success) {
+                            return new Error(response.message);
+                        }
+                        return response;
+                    }).catch(error => {
+                        swal({
+                            type: 'error',
+                            text: 'Error while deleting data. Error Message: ' + error
+                        })
+                    });
+                }
+            }).then(response => {
+                if (response.value.success) {
+                    Swal.fire({
+                        type: 'success',
+                        text: 'instansi berhasil dihapus'
+                    }).then(() => {
+                        window.location.reload();
                     })
-                });
-            }
-        }).then(response => {
-            if (response.value.success) {
-                Swal.fire({
-                    type: 'success',
-                    text: 'instansi berhasil dihapus'
-                }).then(() => {
-                    window.location.reload();
-                })
-            } else {
-                Swal.fire({
-                    type: 'error',
-                    text: response.value.message
-                }).then(() => {
-                    window.location.reload();
-                })
-            }
-        });
-    })
-});
+                } else {
+                    Swal.fire({
+                        type: 'error',
+                        text: response.value.message
+                    }).then(() => {
+                        window.location.reload();
+                    })
+                }
+            });
+        })
+    });
 </script>
-
 @include('components.toastr')
 @endsection

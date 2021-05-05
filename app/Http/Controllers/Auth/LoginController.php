@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\LoginRequest;
+use App\Http\Requests\Auth\LoginRequest;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -52,12 +53,8 @@ class LoginController extends Controller
         try {
 
             $remember = $request->has('remember') ? true : false;
-            if (auth()->attempt($request->forms(), $remember)) {
+            if (Auth::attempt($request->forms(), $remember)) {
 
-                // if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
-                //     $redirect = redirect()->route('home');
-                // } else {
-                // }
                 $redirect = redirect()->route('dashboard');
 
                 return $redirect->with('success', 'Login berhasil');
@@ -75,10 +72,9 @@ class LoginController extends Controller
     {
        try {
 
-           auth()->logout();
+           Auth::logout();
 
-           return redirect()->route('login')
-                ->with('success', 'Logout berhasil');
+           return redirect()->route('login')->with('success', 'Logout berhasil');
        } catch (\Throwable $th) {
            //throw $th;
            return back()->with('failed', $th->getMessage());

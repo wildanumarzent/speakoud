@@ -4,21 +4,19 @@
     <!-- Brand demo (see assets/css/demo/demo.css) -->
     <a href="{{ route('home') }}" class="navbar-brand app-brand demo d-lg-none py-0 mr-0">
         <span class="app-brand-logo demo bg-white">
-            <img src="{{ asset(config('addon.images.logo')) }}" style="width:50px;height:50px;object-fit:cover">
+          <img src="{{ asset(config('custom.files.logo.f')) }}" style="width:50px;height:50px;object-fit:cover">
         </span>
         <span class="app-brand-text demo font-weight-normal ml-2">@lang('strip.title_header')</span>
     </a>
-
-
-
+    
     <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#layout-navbar-collapse">
       <span class="navbar-toggler-icon"></span>
     </button> -->
-        <div class="layout-sidenav-toggle navbar-nav d-lg-none align-items-lg-center mr-3">
-          <a class="nav-item nav-link text-large px-0 mr-lg-4" href="javascript:void(0)">
-            <i class="las la-bars"></i>
-          </a>
-        </div>
+    <div class="layout-sidenav-toggle navbar-nav d-lg-none align-items-lg-center mr-3">
+      <a class="nav-item nav-link text-large px-0 mr-lg-4" href="javascript:void(0)">
+        <i class="las la-bars"></i>
+      </a>
+    </div>
 
     <div class="navbar-collapse collapse" id="layout-navbar-collapse">
         <!-- Divider -->
@@ -33,37 +31,7 @@
         </div>
 
         <div class="navbar-nav align-items-lg-center ml-lg-auto">
-            @livewire('notification')
-            {{-- <div class="demo-navbar-notifications nav-item dropdown mr-lg-3">
-                <a class="nav-link dropdown-toggle hide-arrow" href="#" data-toggle="dropdown">
-                  <i class="las la-bell navbar-icon align-middle"></i>
-                  <span class="badge badge-primary badge-dot indicator"></span>
-                  <span class="d-lg-none align-middle">&nbsp; Notifikasi</span>
-                </a>
-                <div class="dropdown-menu dropdown-menu-right">
-                  <div class="bg-primary text-center text-white font-weight-bold p-3">
-                    4 Notifikasi Baru
-                  </div>
-                  <div class="list-group list-group-flush">
-
-                    <a href="javascript:void(0)" class="list-group-item list-group-item-action media d-flex align-items-center">
-                      <div class="ui-icon ui-icon-sm las la-bell bg-warning border-0 text-body"></div>
-                      <div class="media-body line-height-condenced ml-3">
-                        <div class="text-body">Dummy notifikasi</div>
-                        <div class="text-light small mt-1">
-                          Under construction
-                        </div>
-                        <div class="text-light small mt-1">
-                          20h ago
-                        </div>
-                      </div>
-                    </a>
-
-                  </div>
-
-                  <a href="javascript:void(0)" class="d-block text-center text-light small p-2 my-1">Tampilkan semua notifikasi</a>
-                </div>
-            </div> --}}
+          @livewire('notification')
 
           <!-- Divider -->
           <div class="nav-item d-none d-lg-block text-big font-weight-light line-height-1 opacity-25 mr-3 ml-1">|</div>

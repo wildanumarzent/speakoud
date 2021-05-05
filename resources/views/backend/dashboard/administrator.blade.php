@@ -124,6 +124,7 @@
 
 {{-- manage course --}}
 <div class="row">
+
     <div class="col-md-6 col-lg-12 col-xl-6">
         <div class="card mb-4">
           <h6 class="card-header">Pelatihan Aktif</h6>
@@ -148,10 +149,18 @@
                     @endif
                     @foreach ($data['latestCourse'] as $course)
                     <tr>
-                        <td>{!! $course->judul !!}</td>
-                        <td>{{ $course->publish_start->format('d F Y') }} - {{ $course->publish_end->format('d F Y') }}</td>
-                        <td>{{ $course->peserta->count() }}</td>
-                        <td>{{ $course->materi->count() }}</td>
+                        <td>{!! Str::limit($course->judul, 45) !!}</td>
+                        <td>{{ $course->publish_start->format('d F Y') }} <strong>s/d</strong> {{ $course->publish_end->format('d F Y') }}</td>
+                        <td class="text-center">
+                          <strong>
+                            {{ $course->peserta->count() }}
+                          </strong>
+                        </td>
+                        <td class="text-center">
+                          <strong>
+                            {{ $course->materi->count() }}
+                          </strong>
+                        </td>
                         <td>
                           <a href="{{ route('course.detail', ['id' => $course->id]) }}" target="_blank" class="btn btn-primary icon-btn btn-sm" title="klik untuk melihat detail">
                               <i class="las la-external-link-alt"></i>
@@ -164,6 +173,7 @@
           </div>
         </div>
     </div>
+
     <div class="col-md-6 col-lg-12 col-xl-6">
         <div class="card mb-4">
             <h6 class="card-header">Kalender Diklat</h6>
@@ -187,11 +197,11 @@
                         @endif
                         @foreach ($data['jadwalPelatihan'] as $jdwl)
                         <tr>
-                            <td>{!! $jdwl->judul !!}</td>
+                            <td>{!! Str::limit($jdwl->judul, 45) !!}</td>
                             <td>{{ $jdwl->start_time.' - '.$jdwl->end_time }}</td>
                             <td>{{ Str::limit($jdwl->lokasi, 20) }}</td>
                             <td>
-                                <a href="{{ route('course.jadwal.detail', ['id' => $jdwl->id]) }}" class="btn btn-primary icon-btn btn-sm">
+                                <a href="{{ route('course.jadwal.detail', ['id' => $jdwl->id]) }}" class="btn btn-primary icon-btn btn-sm" title="klik untuk melihat detail">
                                     <i class="las la-external-link-alt"></i>
                                 </a>
                             </td>

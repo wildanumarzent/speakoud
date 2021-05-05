@@ -85,13 +85,12 @@
             </div>
             @endif
         </div>
-        <div class="card-footer">
-            <div class="row">
-              <div class="col-md-10 ml-sm-auto text-md-left text-right">
-                <a href="{{ route('soal.index', ['id' => $data['kategori']->mata_id, 'kategoriId' => $data['kategori']->id]) }}" class="btn btn-danger" title="klik untuk kembali ke list" data-toggle="tooltip">Kembali</a>
-                <button type="submit" class="btn btn-primary" name="action" value="save" title="klik untuk menyimpan" data-toggle="tooltip">Simpan</button>
-              </div>
-            </div>
+        <div class="card-footer text-center">
+            <a href="{{ route('soal.index', ['id' => $data['kategori']->mata_id, 'kategoriId' => $data['kategori']->id]) }}" class="btn btn-danger" title="klik untuk kembali ke list">Kembali</a>
+            &nbsp;&nbsp;
+            <button type="submit" class="btn btn-primary" title="klik untuk menyimpan">Simpan</button>
+            &nbsp;&nbsp;
+            <button type="reset" class="btn btn-secondary" title="Reset">Reset</button>
         </div>
     </form>
 </div>

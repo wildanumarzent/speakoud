@@ -12,6 +12,17 @@
             <div class="col-md">
                 <form action="" method="GET">
                     <div class="form-group">
+                        <label class="form-label">Limit</label>
+                        <select class="limit custom-select" name="l">
+                            <option value="20" selected>Any</option>
+                            @foreach (config('custom.filtering.limit') as $key => $val)
+                            <option value="{{ $key }}" {{ Request::get('l') == ''.$key.'' ? 'selected' : '' }} title="Limit {{ $val }}">{{ $val }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+            </div>
+            <div class="col-md">
+                    <div class="form-group">
                         <label class="form-label">Cari</label>
                         <div class="input-group">
                             <input type="text" class="form-control" name="q" value="{{ Request::get('q') }}" placeholder="Kata kunci...">
@@ -60,7 +71,7 @@
                     <td colspan="7" align="center">
                         <i>
                             <strong style="color:red;">
-                            @if (Request::get('q'))
+                            @if (count(Request::query()) > 0)
                             ! Nilai Grades tidak ditemukan !
                             @else
                             ! Nilai Grades kosong !
@@ -72,7 +83,7 @@
                 @endif
                 @foreach ($data['nilai'] as $item)
                 <tr>
-                    <td>{{ $data['number']++ }}</td>
+                    <td>{{ $data['no']++ }}</td>
                     <td>{{ $item->maksimum.' %' }}</td>
                     <td>{{ $item->minimum.' %' }}</td>
                     <td><span class="badge badge-primary">{{ $item->keterangan }}</span></td>
@@ -82,7 +93,7 @@
                         <a href="{{ route('grades.nilai.edit', ['id' => $item->kategori_id, 'nilaiId' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengedit nilai grades">
                                 <i class="las la-pen"></i>
                         </a>
-                        <a href="javascript:;" data-kategoriid="{{ $item->kategori_id }}" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus nilai grades">
+                        <a href="javascript:;" data-kategoriid="{{ $item->kategori_id }}" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm swal-delete" title="klik untuk menghapus nilai grades">
                             <i class="las la-trash-alt"></i>
                         </a>
                     </td>
@@ -95,7 +106,7 @@
                     <td colspan="7" align="center">
                         <i>
                             <strong style="color:red;">
-                            @if (Request::get('q'))
+                            @if (count(Request::query()) > 0)
                             ! Nilai Grades tidak ditemukan !
                             @else
                             ! Nilai Grades kosong !
@@ -136,7 +147,7 @@
                                         <a href="{{ route('grades.nilai.edit', ['id' => $item->kategori_id, 'nilaiId' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengedit nilai grades">
                                             <i class="las la-pen"></i>
                                         </a>
-                                        <a href="javascript:;" data-kategoriid="{{ $item->kategori_id }}" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus nilai grades">
+                                        <a href="javascript:;" data-kategoriid="{{ $item->kategori_id }}" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm swal-delete" title="klik untuk menghapus nilai grades">
                                             <i class="las la-trash-alt"></i>
                                         </a>
                                     </div>
@@ -171,7 +182,7 @@
 @section('jsbody')
 <script>
 $(document).ready(function () {
-    $('.js-sa2-delete').on('click', function () {
+    $('.swal-delete').on('click', function () {
         var kategori_id = $(this).attr('data-kategoriid');
         var id = $(this).attr('data-id');
         Swal.fire({
