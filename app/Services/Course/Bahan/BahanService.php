@@ -140,7 +140,7 @@ class BahanService
         return $result;
     }
 
-    public function getBahanActivity(int $mataId)
+    public function getBahanActivity(int $mataId, $custom = null)
     {
         $query = $this->model->query();
 
@@ -151,6 +151,13 @@ class BahanService
             $query->whereHas('materi', function ($query) {
                 $query->where('instruktur_id', auth()->user()->instruktur->id);
             });
+        }
+
+        if ($custom == 'nilai') {
+            $query->whereIn('segmenable_type', [
+                'App\Models\Course\Bahan\BahanTugas',
+                'App\Models\Course\Bahan\BahanQuiz',
+            ]);
         }
 
         $result = $query->get();

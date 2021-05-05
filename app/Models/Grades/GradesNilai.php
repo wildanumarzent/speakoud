@@ -3,6 +3,7 @@
 namespace App\Models\Grades;
 
 use App\Models\Users\User;
+use App\Observers\LogObserver;
 use Illuminate\Database\Eloquent\Model;
 
 class GradesNilai extends Model
@@ -10,10 +11,11 @@ class GradesNilai extends Model
     protected $table = 'grades_nilai';
     protected $guarded = [];
 
-    public static function boot(){
+    public static function boot()
+    {
         parent::boot();
-        GradesNilai::observe(new \App\Observers\LogObserver);
-        }
+        GradesNilai::observe(new LogObserver);
+    }
 
     public function kategori()
     {

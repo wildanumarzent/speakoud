@@ -5,6 +5,7 @@ namespace App\Models\Users;
 use App\Models\Instansi\InstansiInternal;
 use App\Models\Instansi\InstansiMitra;
 use App\Models\Jabatan;
+use App\Observers\LogObserver;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -25,10 +26,12 @@ class Peserta extends Model
         'tanggal_lahir' => 'date',
     ];
 
-    public static function boot(){
+    public static function boot()
+    {
         parent::boot();
-        Peserta::observe(new \App\Observers\LogObserver);
-        }
+
+        Peserta::observe(new LogObserver);
+    }
 
     public function user()
     {
@@ -39,7 +42,6 @@ class Peserta extends Model
     {
         return $this->belongsTo(User::class, 'creator_id');
     }
-
 
     public function instansi($item)
     {

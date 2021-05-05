@@ -3,6 +3,7 @@
 namespace App\Models\Course\Template;
 
 use App\Models\Users\User;
+use App\Observers\LogObserver;
 use Illuminate\Database\Eloquent\Model;
 
 class TemplateSoal extends Model
@@ -15,9 +16,11 @@ class TemplateSoal extends Model
         'jawaban' => 'array',
     ];
 
-    public static function boot(){
+    public static function boot()
+    {
         parent::boot();
-        TemplateSoal::observe(new \App\Observers\LogObserver);
+
+        TemplateSoal::observe(new LogObserver);
     }
 
     public function creator()

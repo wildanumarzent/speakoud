@@ -214,7 +214,7 @@
                     </a>
                     <br>
                     @endrole
-                    <a href="" class="btn btn-success rounded-pill icon-btn-only-sm btn-block" title="Daftar Nilai">
+                    <a href="{{ route('mata.nilai.peserta', ['id' => $data['read']->id]) }}" class="btn btn-success rounded-pill icon-btn-only-sm btn-block" title="Daftar Nilai">
                         <i class="las la-list-ol"></i> <span>Daftar Nilai</span>
                     </a>
                   </div>

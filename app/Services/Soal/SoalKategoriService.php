@@ -8,7 +8,9 @@ class SoalKategoriService
 {
     private $model;
 
-    public function __construct(SoalKategori $model)
+    public function __construct(
+        SoalKategori $model
+    )
     {
         $this->model = $model;
     }
@@ -39,7 +41,12 @@ class SoalKategoriService
             $query->where('creator_id', auth()->user()->id);
         }
 
-        $result = $query->paginate(20);
+        $limit = 20;
+        if (!empty($request->l)) {
+            $limit = $request->l;
+        }
+
+        $result = $query->paginate($limit);
 
         return $result;
     }

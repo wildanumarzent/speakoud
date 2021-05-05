@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\InstrukturRequest;
+use App\Http\Requests\User\InstrukturRequest;
 use App\Services\Instansi\InstansiInternalService;
 use App\Services\Instansi\InstansiMitraService;
 use App\Services\Users\InstrukturService;
@@ -29,16 +29,12 @@ class InstrukturController extends Controller
 
     public function index(Request $request)
     {
-        $t = '';
-        $q = '';
-        if (isset($request->t) || isset($request->q)) {
-            $t = '?t='.$request->t;
-            $q = '&q='.$request->q;
-        }
+        $url = $request->url();
+        $param = str_replace($url, '', $request->fullUrl());
 
         $data['instruktur'] = $this->service->getInstrukturList($request);
-        $data['number'] = $data['instruktur']->firstItem();
-        $data['instruktur']->withPath(url()->current().$t.$q);
+        $data['no'] = $data['instruktur']->firstItem();
+        $data['instruktur']->withPath(url()->current().$param);
 
         return view('backend.user_management.instruktur.index', compact('data'), [
             'title' => 'Instruktur',
@@ -51,6 +47,7 @@ class InstrukturController extends Controller
     public function create(Request $request)
     {
         $data['mitra'] = $this->serviceMitra->getMitraAll();
+
         if (auth()->user()->hasRole('internal') ||
             auth()->user()->hasRole('developer|administrator') &&
             $request->get('instruktur') == 'internal') {

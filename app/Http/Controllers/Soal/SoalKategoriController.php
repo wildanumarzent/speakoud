@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Soal;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\SoalKategoriRequest;
+use App\Http\Requests\Bank\SoalKategoriRequest;
 use App\Services\Course\MataService;
 use App\Services\Soal\SoalKategoriService;
 use Illuminate\Http\Request;
@@ -23,14 +23,12 @@ class SoalKategoriController extends Controller
 
     public function index(Request $request, $mataId)
     {
-        $q = '';
-        if (isset($request->q)) {
-            $q = '?q='.$request->q;
-        }
+        $url = $request->url();
+        $param = str_replace($url, '', $request->fullUrl());
 
         $data['kategori'] = $this->service->getSoalKategoriList($request, $mataId);
-        $data['number'] = $data['kategori']->firstItem();
-        $data['kategori']->withPath(url()->current().$q);
+        $data['no'] = $data['kategori']->firstItem();
+        $data['kategori']->withPath(url()->current().$param);
         $data['mata'] = $this->serviceMata->findMata($mataId);
 
         return view('backend.bank_soal.kategori.index', compact('data'), [

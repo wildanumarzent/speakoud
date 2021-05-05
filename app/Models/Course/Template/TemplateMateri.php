@@ -5,6 +5,7 @@ namespace App\Models\Course\Template;
 use App\Models\Course\Template\Bahan\TemplateBahan;
 use App\Models\Course\Template\Bahan\TemplateBahanQuiz;
 use App\Models\Users\User;
+use App\Observers\LogObserver;
 use Illuminate\Database\Eloquent\Model;
 
 class TemplateMateri extends Model
@@ -12,9 +13,11 @@ class TemplateMateri extends Model
     protected $table = 'template_materi';
     protected $guarded = [];
 
-    public static function boot(){
+    public static function boot()
+    {
         parent::boot();
-        TemplateMateri::observe(new \App\Observers\LogObserver);
+
+        TemplateMateri::observe(new LogObserver);
     }
 
     public function creator()

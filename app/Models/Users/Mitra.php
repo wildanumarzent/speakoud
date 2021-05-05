@@ -3,6 +3,7 @@
 namespace App\Models\Users;
 
 use App\Models\Instansi\InstansiMitra;
+use App\Observers\LogObserver;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -20,10 +21,12 @@ class Mitra extends Model
         'sk_jabatan' => 'array',
     ];
 
-    public static function boot(){
+    public static function boot()
+    {
         parent::boot();
-        Mitra::observe(new \App\Observers\LogObserver);
-        }
+
+        Mitra::observe(new LogObserver);
+    }
 
     public function user()
     {

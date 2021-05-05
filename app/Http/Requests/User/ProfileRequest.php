@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -24,6 +24,7 @@ class ProfileRequest extends FormRequest
     public function rules()
     {
         if ($this->password != '') {
+
             return [
                 'name' => 'required',
                 'email' => 'required|email|unique:users,email,'.
@@ -32,19 +33,22 @@ class ProfileRequest extends FormRequest
                             auth()->user()->id,
                 'current_password' => 'required|min:8',
                 'password' => 'nullable|confirmed|min:8',
-                'file' => 'nullable|mimes:'.config('addon.mimes.photo.m'),
-                'foto_sertifikat' => 'nullable|mimes:'.config('addon.mimes.photo.m'),
+                'file' => 'nullable|mimes:'.config('custom.files.photo.m'),
+                'foto_sertifikat' => 'nullable|mimes:'.config('custom.files.photo.m'),
             ];
+
         } else {
+
             return [
                 'name' => 'required|min:5',
                 'email' => 'required|email|unique:users,email,'.
                             auth()->user()->id,
                 'username' => 'required|unique:users,username,'.
                             auth()->user()->id,
-                'file' => 'nullable|mimes:'.config('addon.mimes.photo.m'),
-                'foto_sertifikat' => 'nullable|mimes:'.config('addon.mimes.photo.m'),
+                'file' => 'nullable|mimes:'.config('custom.files.photo.m'),
+                'foto_sertifikat' => 'nullable|mimes:'.config('custom.files.photo.m'),
             ];
+
         }
     }
 

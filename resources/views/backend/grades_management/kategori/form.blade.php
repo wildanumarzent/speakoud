@@ -31,14 +31,13 @@
                 </div>
             </div>
         </div>
-        <div class="card-footer">
-            <div class="row">
-              <div class="col-md-10 ml-sm-auto text-md-left text-right">
-                <a href="{{ route('grades.index') }}" class="btn btn-danger" title="klik untuk kembali ke list">Kembali</a>
-                <button type="submit" class="btn btn-primary" name="action" value="save" title="klik untuk menyimpan">{{ isset($data['kategori']) ? 'Simpan perubahan' : 'Simpan' }}</button>
-              </div>
-            </div>
-          </div>
+        <div class="card-footer text-center">
+          <a href="{{ route('grades.index') }}" class="btn btn-danger" title="klik untuk kembali ke list">Kembali</a>
+          &nbsp;&nbsp;
+          <button type="submit" class="btn btn-primary" title="klik untuk menyimpan">{{ isset($data['kategori']) ? 'Simpan perubahan' : 'Simpan' }}</button>
+          &nbsp;&nbsp;
+          <button type="reset" class="btn btn-secondary" title="Reset">Reset</button>
+        </div>
     </form>
 </div>
 @endsection

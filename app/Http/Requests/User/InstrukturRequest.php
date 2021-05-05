@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class PesertaRequest extends FormRequest
+class InstrukturRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,11 @@ class PesertaRequest extends FormRequest
     public function rules()
     {
         if ($this->method() == 'POST') {
-            if (auth()->user()->hasRole('developer|administrator') && $this->roles == 'peserta_mitra') {
+
+            if (auth()->user()->hasRole('developer|administrator') && $this->roles == 'instruktur_mitra') {
+
                 return [
-                    'nip' => 'required|unique:peserta,nip',
+                    'nip' => 'required|unique:instruktur,nip',
                     'instansi_id' => 'required',
                     // 'kedeputian' => 'required',
                     // 'pangkat' => 'required',
@@ -37,16 +39,17 @@ class PesertaRequest extends FormRequest
                     'roles' => 'required',
                     'mitra_id' => 'required',
                     'password' => 'required|confirmed|min:8',
-                    'sk_cpns' => 'nullable|mimes:'.config('addon.mimes.surat_keterangan.m'),
-                    'sk_pengangkatan' => 'nullable|mimes:'.config('addon.mimes.surat_keterangan.m'),
-                    'sk_golongan' => 'nullable|mimes:'.config('addon.mimes.surat_keterangan.m'),
-                    'sk_jabatan' => 'nullable|mimes:'.config('addon.mimes.surat_keterangan.m'),
-                    'surat_ijin_atasan' => 'nullable|mimes:'.config('addon.mimes.surat_keterangan.m'),
-                    // 'foto_sertifikat' => 'nullable|mimes:'.config('addon.mimes.photo.m'),
+                    'sk_cpns' => 'nullable|mimes:'.config('custom.files.surat_keterangan.m'),
+                    'sk_pengangkatan' => 'nullable|mimes:'.config('custom.files.surat_keterangan.m'),
+                    'sk_golongan' => 'nullable|mimes:'.config('custom.files.surat_keterangan.m'),
+                    'sk_jabatan' => 'nullable|mimes:'.config('custom.files.surat_keterangan.m'),
+                    'cv' => 'nullable|mimes:'.config('custom.files.surat_keterangan.m'),
                 ];
+
             } else {
+
                 return [
-                    'nip' => 'required|unique:peserta,nip',
+                    'nip' => 'required|unique:instruktur,nip',
                     'instansi_id' => 'required',
                     // 'kedeputian' => 'required',
                     // 'pangkat' => 'required',
@@ -56,17 +59,19 @@ class PesertaRequest extends FormRequest
                     'username' => 'required|min:5|unique:users,username',
                     'roles' => 'required',
                     'password' => 'required|confirmed|min:8',
-                    'sk_cpns' => 'nullable|mimes:'.config('addon.mimes.surat_keterangan.m'),
-                    'sk_pengangkatan' => 'nullable|mimes:'.config('addon.mimes.surat_keterangan.m'),
-                    'sk_golongan' => 'nullable|mimes:'.config('addon.mimes.surat_keterangan.m'),
-                    'sk_jabatan' => 'nullable|mimes:'.config('addon.mimes.surat_keterangan.m'),
-                    'surat_ijin_atasan' => 'nullable|mimes:'.config('addon.mimes.surat_keterangan.m'),
-                    // 'foto_sertifikat' => 'nullable|mimes:'.config('addon.mimes.photo.m'),
+                    'sk_cpns' => 'nullable|mimes:'.config('custom.files.surat_keterangan.m'),
+                    'sk_pengangkatan' => 'nullable|mimes:'.config('custom.files.surat_keterangan.m'),
+                    'sk_golongan' => 'nullable|mimes:'.config('custom.files.surat_keterangan.m'),
+                    'sk_jabatan' => 'nullable|mimes:'.config('custom.files.surat_keterangan.m'),
+                    'cv' => 'nullable|mimes:'.config('custom.files.surat_keterangan.m'),
                 ];
+
             }
+
         } else {
+
             return [
-                'nip' => 'required|unique:peserta,nip,'.$this->id,
+                'nip' => 'required|unique:instruktur,nip,'.$this->id,
                 'instansi_id' => 'required',
                 // 'kedeputian' => 'required',
                 // 'pangkat' => 'required',
@@ -77,12 +82,11 @@ class PesertaRequest extends FormRequest
                 'username' => 'required|min:5|unique:users,username,'.
                             $this->user_id,
                 'password' => 'nullable|confirmed|min:8',
-                'sk_cpns' => 'nullable|mimes:'.config('addon.mimes.surat_keterangan.m'),
-                'sk_pengangkatan' => 'nullable|mimes:'.config('addon.mimes.surat_keterangan.m'),
-                'sk_golongan' => 'nullable|mimes:'.config('addon.mimes.surat_keterangan.m'),
-                'sk_jabatan' => 'nullable|mimes:'.config('addon.mimes.surat_keterangan.m'),
-                'surat_ijin_atasan' => 'nullable|mimes:'.config('addon.mimes.surat_keterangan.m'),
-                // 'foto_sertifikat' => 'nullable|mimes:'.config('addon.mimes.photo.m'),
+                'sk_cpns' => 'nullable|mimes:'.config('custom.files.surat_keterangan.m'),
+                'sk_pengangkatan' => 'nullable|mimes:'.config('custom.files.surat_keterangan.m'),
+                'sk_golongan' => 'nullable|mimes:'.config('custom.files.surat_keterangan.m'),
+                'sk_jabatan' => 'nullable|mimes:'.config('custom.files.surat_keterangan.m'),
+                'cv' => 'nullable|mimes:'.config('custom.files.surat_keterangan.m'),
             ];
         }
 
@@ -91,10 +95,10 @@ class PesertaRequest extends FormRequest
     public function attributes()
     {
         return [
-            'nip' => 'NIP',
+            'nip' => 'NIP / NIK',
             'instansi_id' => 'Instansi / Perusahaan',
             'kedeputian' => 'Unit Kerja',
-            'pangkat' => 'Jabatan',
+            'pangkat' => 'Pangkat',
             'alamat' => 'Alamat',
             'name' => 'Nama',
             'email' => 'Email',
@@ -106,8 +110,7 @@ class PesertaRequest extends FormRequest
             'sk_pengankatan' => 'Surat Keterangan Pengangkatan',
             'sk_golongan' => 'Surat Keterangan Golongan',
             'sk_jabatan' => 'Surat Keterangan Jabatan',
-            'surat_ijin_atasan' => 'Surat Ijin Atasan',
-            'foto_sertifikat' => 'Foto Sertifikat',
+            'cv' => 'Curriculum Vitae',
         ];
     }
 
@@ -137,8 +140,7 @@ class PesertaRequest extends FormRequest
             'sk_pengankatan.mimes' => 'Tipe :attribute harus :values.',
             'sk_golongan.mimes' => 'Tipe :attribute harus :values.',
             'sk_jabatan.mimes' => 'Tipe :attribute harus :values.',
-            'surat_ijin_atasan.mimes' => 'Tipe :attribute harus :values.',
-            'foto_sertifikat.mimes' => 'Tipe :attribute harus :values.',
+            'cv.mimes' => 'Tipe :attribute harus :values.',
         ];
     }
 }

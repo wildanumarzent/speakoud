@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Observers\LogObserver;
 use Illuminate\Database\Eloquent\Model;
 
 class Jabatan extends Model
@@ -13,7 +14,7 @@ class Jabatan extends Model
     {
         parent::boot();
 
-        Jabatan::observe(new \App\Observers\LogObserver);
+        Jabatan::observe(new LogObserver);
     }
 
     public function peserta()

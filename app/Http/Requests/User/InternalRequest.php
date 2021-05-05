@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class MitraRequest extends FormRequest
+class InternalRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,10 @@ class MitraRequest extends FormRequest
     public function rules()
     {
         if ($this->method() == 'POST') {
+
             return [
-                'nip' => 'required|unique:mitra,nip',
-                'instansi_id' => 'required|unique:mitra,instansi_id',
+                'nip' => 'required|unique:internal,nip',
+                'instansi_id' => 'required',
                 // 'kedeputian' => 'required',
                 // 'pangkat' => 'required',
                 // 'alamat' => 'required',
@@ -35,15 +36,17 @@ class MitraRequest extends FormRequest
                 'username' => 'required|min:5|unique:users,username',
                 'roles' => 'required',
                 'password' => 'required|confirmed|min:8',
-                'sk_cpns' => 'nullable|mimes:'.config('addon.mimes.surat_keterangan.m'),
-                'sk_pengangkatan' => 'nullable|mimes:'.config('addon.mimes.surat_keterangan.m'),
-                'sk_golongan' => 'nullable|mimes:'.config('addon.mimes.surat_keterangan.m'),
-                'sk_jabatan' => 'nullable|mimes:'.config('addon.mimes.surat_keterangan.m'),
+                'sk_cpns' => 'nullable|mimes:'.config('custom.files.surat_keterangan.m'),
+                'sk_pengangkatan' => 'nullable|mimes:'.config('custom.files.surat_keterangan.m'),
+                'sk_golongan' => 'nullable|mimes:'.config('custom.files.surat_keterangan.m'),
+                'sk_jabatan' => 'nullable|mimes:'.config('custom.files.surat_keterangan.m'),
             ];
+
         } else {
+
             return [
-                'nip' => 'required|unique:mitra,nip,'.$this->id,
-                'instansi_id' => 'required|unique:mitra,instansi_id,'.$this->id,
+                'nip' => 'required|unique:internal,nip,'.$this->id,
+                'instansi_id' => 'required',
                 // 'kedeputian' => 'required',
                 // 'pangkat' => 'required',
                 // 'alamat' => 'required',
@@ -53,10 +56,10 @@ class MitraRequest extends FormRequest
                 'username' => 'required|min:5|unique:users,username,'.
                             $this->user_id,
                 'password' => 'nullable|confirmed|min:8',
-                'sk_cpns' => 'nullable|mimes:'.config('addon.mimes.surat_keterangan.m'),
-                'sk_pengangkatan' => 'nullable|mimes:'.config('addon.mimes.surat_keterangan.m'),
-                'sk_golongan' => 'nullable|mimes:'.config('addon.mimes.surat_keterangan.m'),
-                'sk_jabatan' => 'nullable|mimes:'.config('addon.mimes.surat_keterangan.m'),
+                'sk_cpns' => 'nullable|mimes:'.config('custom.files.surat_keterangan.m'),
+                'sk_pengangkatan' => 'nullable|mimes:'.config('custom.files.surat_keterangan.m'),
+                'sk_golongan' => 'nullable|mimes:'.config('custom.files.surat_keterangan.m'),
+                'sk_jabatan' => 'nullable|mimes:'.config('custom.files.surat_keterangan.m'),
             ];
         }
 
@@ -88,7 +91,6 @@ class MitraRequest extends FormRequest
             'nip.required' => ':attribute tidak boleh kosong',
             'nip.unique' => ':attribute sudah terpakai',
             'instansi_id.required' => ':attribute tidak boleh kosong',
-            'instansi_id.unique' => ':attribute sudah terpakai',
             'kedeputian.required' => ':attribute tidak boleh kosong',
             'pangkat.required' => ':attribute tidak boleh kosong',
             'alamat.required' => ':attribute tidak boleh kosong',

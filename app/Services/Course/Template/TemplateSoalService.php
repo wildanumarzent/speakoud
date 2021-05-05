@@ -31,7 +31,12 @@ class TemplateSoalService
             $query->where('tipe_jawaban', $request->t);
         }
 
-        $result = $query->paginate(20);
+        $limit = 20;
+        if (!empty($request->l)) {
+            $limit = $request->l;
+        }
+
+        $result = $query->paginate($limit);
 
         return $result;
     }

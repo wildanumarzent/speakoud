@@ -32,16 +32,12 @@ class TemplateBahanQuizItemController extends Controller
 
     public function index(Request $request, $quizId)
     {
-        $t = '';
-        $q = '';
-        if (isset($request->t) || isset($request->q)) {
-            $t = '?t='.$request->t;
-            $q = '&q='.$request->q;
-        }
+        $url = $request->url();
+        $param = str_replace($url, '', $request->fullUrl());
 
         $data['quiz_item'] = $this->service->getTemplateItemList($request, $quizId);
         $data['number'] = $data['quiz_item']->firstItem();
-        $data['quiz_item']->withPath(url()->current().$t.$q);
+        $data['quiz_item']->withPath(url()->current().$param);
         $data['quiz'] = $this->serviceQuiz->findTemplateQuiz($quizId);
 
         $data['soal_kategori'] = $this->serviceSoalKategori->getTemplateSoalKategori($data['quiz']->template_mata_id);

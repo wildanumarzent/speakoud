@@ -3,6 +3,7 @@
 namespace App\Models\Users;
 
 use App\Models\Instansi\InstansiInternal;
+use App\Observers\LogObserver;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -20,10 +21,12 @@ class Internal extends Model
         'sk_jabatan' => 'array',
     ];
 
-    public static function boot(){
+    public static function boot()
+    {
         parent::boot();
-        Internal::observe(new \App\Observers\LogObserver);
-        }
+
+        Internal::observe(new LogObserver);
+    }
 
     public function user()
     {

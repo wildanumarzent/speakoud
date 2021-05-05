@@ -48,7 +48,7 @@
                         <div class="col-md-2 text-md-right">
                           <label class="col-form-label text-sm-right">Instansi / Perusahaan</label>
                         </div>
-                        <div class="col-md-9">
+                        <div class="col-md-10">
                             <div class="input-group">
                                 <select class="select2 show-tick @error('instansi_id') is-invalid @enderror" name="instansi_id" data-style="btn-default">
                                     <option value=" " selected disabled>Pilih</option>
@@ -62,9 +62,6 @@
                                     <label class="error jquery-validation-error small form-text invalid-feedback" style="display: inline-block; color:red;">{!! $message !!}</label>
                                 @enderror
                             </div>
-                        </div>
-                        <div class="col-md-1">
-                            <a href="{{ route('instansi.internal.create') }}" class="btn btn-primary icon-btn" title="klik untuk menambah instansi"><i class="las la-plus"></i></a>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -261,13 +258,12 @@
                     </div>
                 </div>
             </div>
-            <div class="card-footer">
-                <div class="row">
-                    <div class="col-md-10 ml-sm-auto text-md-left text-right">
-                        <a href="{{ route('internal.index') }}" class="btn btn-danger" title="klik untuk kembali ke list">Kembali</a>
-                        <button type="submit" class="btn btn-primary" name="action" value="save" title="klik untuk menyimpan">{{ isset($data['internal']) ? 'Simpan perubahan' : 'Simpan' }}</button>
-                    </div>
-                </div>
+            <div class="card-footer text-center">
+              <a href="{{ route('internal.index') }}" class="btn btn-danger" title="klik untuk kembali ke list">Kembali</a>
+              &nbsp;&nbsp;
+              <button type="submit" class="btn btn-primary" title="klik untuk menyimpan">{{ isset($data['internal']) ? 'Simpan perubahan' : 'Simpan' }}</button>
+              &nbsp;&nbsp;
+              <button type="reset" class="btn btn-secondary" title="Reset">Reset</button>
             </div>
         </form>
     </div>
@@ -282,8 +278,8 @@
 @section('jsbody')
 <script src="{{ asset('assets/tmplts_backend/js/pages_account-settings.js') }}"></script>
 <script>
-     //select
-     $('.select2').select2();
+    //select
+    $('.select2').select2();
     //show & hide password
     $(".toggle-password, .toggle-password-confirm").click(function() {
         $(this).toggleClass("fa-eye fa-eye-slash");

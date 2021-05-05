@@ -4,6 +4,7 @@ namespace App\Models\Users;
 
 use App\Models\Instansi\InstansiInternal;
 use App\Models\Instansi\InstansiMitra;
+use App\Observers\LogObserver;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -21,10 +22,12 @@ class Instruktur extends Model
         'sk_jabatan' => 'array',
     ];
 
-    public static function boot(){
+    public static function boot()
+    {
         parent::boot();
-        Instruktur::observe(new \App\Observers\LogObserver);
-        }
+
+        Instruktur::observe(new LogObserver);
+    }
 
     public function user()
     {

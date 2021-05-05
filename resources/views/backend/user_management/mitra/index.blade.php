@@ -12,6 +12,17 @@
             <div class="col-md">
                 <form action="" method="GET">
                 <div class="form-group">
+                    <label class="form-label">Limit</label>
+                    <select class="limit custom-select" name="l">
+                        <option value="20" selected>Any</option>
+                        @foreach (config('custom.filtering.limit') as $key => $val)
+                        <option value="{{ $key }}" {{ Request::get('l') == ''.$key.'' ? 'selected' : '' }} title="Limit {{ $val }}">{{ $val }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="form-group">
                     <label class="form-label">Jabatan</label>
                     <select class="status custom-select form-control" name="j">
                         <option value=" " selected>Semua</option>
@@ -48,7 +59,7 @@
         </div>
     </div>
     <div class="table-responsive table-mobile-responsive">
-        <table id="user-list" class="table card-table table-striped table-bordered table-hover">
+        <table class="table card-table table-striped table-bordered table-hover">
             <thead>
                 <tr>
                     <th style="width: 10px;">No</th>
@@ -71,7 +82,7 @@
                     <td colspan="12" align="center">
                         <i>
                             <strong style="color:red;">
-                            @if (Request::get('q'))
+                            @if (count(Request::query()) > 0)
                             ! User mitra tidak ditemukan !
                             @else
                             ! User mitra kosong !
@@ -83,7 +94,7 @@
                 @endif
                 @foreach ($data['mitra'] as $item)
                 <tr>
-                    <td>{{ $data['number']++ }}</td>
+                    <td>{{ $data['no']++ }}</td>
                     <td>{{ $item->nip ?? '-' }}</td>
                     <td>{{ $item->user->name }}</td>
                     <td>{{ $item->user->username }}</td>
@@ -98,7 +109,7 @@
                         <a href="{{ route('mitra.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengedit mitra">
                                 <i class="las la-pen"></i>
                         </a>
-                        <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus mitra">
+                        <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm swal-delete" title="klik untuk menghapus mitra">
                             <i class="las la-trash-alt"></i>
                         </a>
                     </td>
@@ -108,10 +119,10 @@
             <tbody class="tbody-responsive">
                 @if ($data['mitra']->total() == 0)
                 <tr>
-                    <td colspan="10" align="center">
+                    <td colspan="12" align="center">
                         <i>
                             <strong style="color:red;">
-                            @if (Request::get('q'))
+                            @if (count(Request::query()) > 0)
                             ! User mitra tidak ditemukan !
                             @else
                             ! User mitra kosong !
@@ -164,7 +175,7 @@
                                         <a href="{{ route('mitra.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengedit mitra">
                                                 <i class="las la-pen"></i>
                                         </a>
-                                        <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus mitra">
+                                        <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm swal-delete" title="klik untuk menghapus mitra">
                                             <i class="las la-trash-alt"></i>
                                         </a>
                                     </div>
@@ -199,7 +210,7 @@
 <script>
     //delete
     $(document).ready(function () {
-        $('.js-sa2-delete').on('click', function () {
+        $('.swal-delete').on('click', function () {
             var id = $(this).attr('data-id');
             Swal.fire({
                 title: "Apakah anda yakin?",

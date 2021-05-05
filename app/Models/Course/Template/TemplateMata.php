@@ -6,6 +6,7 @@ use App\Models\Course\MataPelatihan;
 use App\Models\Course\Template\Bahan\TemplateBahan;
 use App\Models\Course\Template\Bahan\TemplateBahanQuiz;
 use App\Models\Users\User;
+use App\Observers\LogObserver;
 use Illuminate\Database\Eloquent\Model;
 
 class TemplateMata extends Model
@@ -13,9 +14,11 @@ class TemplateMata extends Model
     protected $table = 'template_mata';
     protected $guarded = [];
 
-    public static function boot(){
+    public static function boot()
+    {
         parent::boot();
-        TemplateMata::observe(new \App\Observers\LogObserver);
+
+        TemplateMata::observe(new LogObserver);
     }
 
     public function creator()

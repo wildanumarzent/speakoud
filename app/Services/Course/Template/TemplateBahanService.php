@@ -76,7 +76,12 @@ class TemplateBahanService
             $query->whereNotNull('segmenable_id');
         });
 
-        $result = $query->paginate(10);
+        $limit = 10;
+        if (!empty($request->l)) {
+            $limit = $request->l;
+        }
+
+        $result = $query->paginate($limit);
 
         return $result;
     }

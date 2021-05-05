@@ -12,6 +12,17 @@
             <div class="col-md">
                 <form action="" method="GET">
                     <div class="form-group">
+                        <label class="form-label">Limit</label>
+                        <select class="limit custom-select" name="l">
+                            <option value="20" selected>Any</option>
+                            @foreach (config('custom.filtering.limit') as $key => $val)
+                            <option value="{{ $key }}" {{ Request::get('l') == ''.$key.'' ? 'selected' : '' }} title="Limit {{ $val }}">{{ $val }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+            </div>
+            <div class="col-md">
+                    <div class="form-group">
                         <label class="form-label">Cari</label>
                         <div class="input-group">
                             <input type="text" class="form-control" name="q" value="{{ Request::get('q') }}" placeholder="Kata kunci...">
@@ -28,11 +39,7 @@
 <!-- / Filters -->
 
 <div class="text-left">
-@role ('instruktur_internal|instruktur_mitra')
-    <button type="button" onclick="goBack()" class="btn btn-secondary rounded-pill" title="kembali ke list template soal"><i class="las la-arrow-left"></i>Kembali</button>
-@else
     <a href="{{ route('template.mata.index') }}" class="btn btn-secondary rounded-pill" title="kembali ke list template mata"><i class="las la-arrow-left"></i>Kembali</a>
-@endrole
 </div>
 <br>
 
@@ -56,7 +63,7 @@
                     <th style="width: 210px;">Pembuat</th>
                     <th style="width: 230px;">Tanggal Dibuat</th>
                     <th style="width: 230px;">Tanggal Diperbarui</th>
-                    <th style="width: 140px;">Aksi</th>
+                    <th style="width: 180px;">Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -64,7 +71,7 @@
                 <tr>
                     <td colspan="8" align="center">
                         <i><strong style="color:red;">
-                        @if (Request::get('q'))
+                        @if (count(Request::query()) > 0)
                         ! Kategori soal tidak ditemukan !
                         @else
                         ! Kategori soal kosong !
@@ -83,13 +90,13 @@
                     <td>{{ $item->created_at->format('d F Y (H:i A)') }}</td>
                     <td>{{ $item->updated_at->format('d F Y (H:i A)') }}</td>
                     <td>
-                        <a href="{{ route('template.soal.index', ['id' => $item->template_mata_id, 'kategoriId' => $item->id]) }}" class="btn icon-btn btn-sm btn-success" title="klik untuk melihat list template soal">
-                            <i class="las la-list"></i>
+                        <a href="{{ route('template.soal.index', ['id' => $item->template_mata_id, 'kategoriId' => $item->id]) }}" class="btn btn-sm btn-success" title="klik untuk melihat list template soal">
+                            <i class="las la-list"></i> Soal
                         </a>
                         <a href="{{ route('template.soal.kategori.edit', ['id' => $item->template_mata_id, 'kategoriId' => $item->id]) }}" class="btn icon-btn btn-sm btn-primary" title="klik untuk mengedit template kategori soal">
                             <i class="las la-pen"></i>
                         </a>
-                        <a href="javascript:;" data-mataid="{{ $item->template_mata_id }}" data-id="{{ $item->id }}" class="btn icon-btn btn-sm btn-danger js-sa2-delete" title="klik untuk menghapus template kategori soal">
+                        <a href="javascript:;" data-mataid="{{ $item->template_mata_id }}" data-id="{{ $item->id }}" class="btn icon-btn btn-sm btn-danger swal-delete" title="klik untuk menghapus template kategori soal">
                             <i class="las la-trash"></i>
                         </a>
                     </td>
@@ -101,7 +108,7 @@
                 <tr>
                     <td colspan="8" align="center">
                         <i><strong style="color:red;">
-                        @if (Request::get('q'))
+                        @if (count(Request::query()) > 0)
                         ! Kategori soal tidak ditemukan !
                         @else
                         ! Kategori soal kosong !
@@ -130,13 +137,13 @@
 
                                 <div class="item-table m-0">
                                     <div class="desc-table text-right">
-                                        <a href="{{ route('template.soal.index', ['id' => $item->template_mata_id, 'kategoriId' => $item->id]) }}" class="btn icon-btn btn-sm btn-success" title="klik untuk melihat list template soal">
-                                            <i class="las la-list"></i>
+                                        <a href="{{ route('template.soal.index', ['id' => $item->template_mata_id, 'kategoriId' => $item->id]) }}" class="btn btn-sm btn-success" title="klik untuk melihat list template soal">
+                                            <i class="las la-list"></i> Soal
                                         </a>
                                         <a href="{{ route('template.soal.kategori.edit', ['id' => $item->template_mata_id, 'kategoriId' => $item->id]) }}" class="btn icon-btn btn-sm btn-primary" title="klik untuk mengedit template kategori soal">
                                             <i class="las la-pen"></i>
                                         </a>
-                                        <a href="javascript:;" data-mataid="{{ $item->template_mata_id }}" data-id="{{ $item->id }}" class="btn icon-btn btn-sm btn-danger js-sa2-delete" title="klik untuk menghapus template kategori soal">
+                                        <a href="javascript:;" data-mataid="{{ $item->template_mata_id }}" data-id="{{ $item->id }}" class="btn icon-btn btn-sm btn-danger swal-delete" title="klik untuk menghapus template kategori soal">
                                             <i class="las la-trash"></i>
                                         </a>
                                     </div>
@@ -170,7 +177,7 @@
 @section('jsbody')
 <script>
 $(document).ready(function () {
-    $('.js-sa2-delete').on('click', function () {
+    $('.swal-delete').on('click', function () {
         var mata_id = $(this).attr('data-mataid');
         var id = $(this).attr('data-id');
         Swal.fire({

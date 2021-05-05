@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Course\Template;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\TemplateMataRequest;
+use App\Http\Requests\Course\Template\TemplateMataRequest;
 use App\Services\Course\Template\TemplateMataService;
 use Illuminate\Http\Request;
 
@@ -20,14 +20,12 @@ class TemplateMataController extends Controller
 
     public function index(Request $request)
     {
-        $q = '';
-        if (isset($request->q)) {
-            $q = '?q='.$request->q;
-        }
+        $url = $request->url();
+        $param = str_replace($url, '', $request->fullUrl());
 
         $data['mata'] = $this->service->getTemplateMataList($request);
         $data['number'] = $data['mata']->firstItem();
-        $data['mata']->withPath(url()->current().$q);
+        $data['mata']->withPath(url()->current().$param);
 
         return view('backend.course_management.template.mata.index', compact('data'), [
             'title' => 'Template - Program',
@@ -57,7 +55,8 @@ class TemplateMataController extends Controller
             $request->quiz + $request->tugas_mandiri + $request->post_test);
 
         if ($bobot < 100 || $bobot > 100) {
-            return back()->with('warning', 'Bobot nilai harus memiliki jumlah keseluruhan 100%, tidak boleh kurang / lebih');
+            return back()->with('warning', 'Bobot nilai harus memiliki jumlah 
+                keseluruhan 100%, tidak boleh kurang / lebih');
         }
 
         $this->service->storeTemplateMata($request);
@@ -87,7 +86,8 @@ class TemplateMataController extends Controller
             $request->quiz + $request->tugas_mandiri + $request->post_test);
 
         if ($bobot < 100 || $bobot > 100) {
-            return back()->with('warning', 'Bobot nilai harus memiliki jumlah keseluruhan 100%, tidak boleh kurang / lebih');
+            return back()->with('warning', 'Bobot nilai harus memiliki jumlah 
+                keseluruhan 100%, tidak boleh kurang / lebih');
         }
         
         $this->service->updateTemplateMata($request, $id);
@@ -137,6 +137,7 @@ class TemplateMataController extends Controller
                 'message' => 'Template Program gagal dihapus dikarenakan'.
                             ' masih memiliki template mata & data yang bersangkutan'
             ], 200);
+            
         } else {
 
             return response()->json([

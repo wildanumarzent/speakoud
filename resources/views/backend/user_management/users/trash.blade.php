@@ -11,6 +11,17 @@
         <div class="form-row align-items-center">
             <div class="col-md">
                 <form action="" method="GET">
+                <div class="form-group">
+                    <label class="form-label">Limit</label>
+                    <select class="limit custom-select" name="l">
+                        <option value="20" selected>Any</option>
+                        @foreach (config('custom.filtering.limit') as $key => $val)
+                        <option value="{{ $key }}" {{ Request::get('l') == ''.$key.'' ? 'selected' : '' }} title="Limit {{ $val }}">{{ $val }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+            <div class="col-md">
                 @if (Request::get('trash') == 'deleted')
                 <input type="hidden" name="trash" value="deleted">
                 @endif
@@ -57,8 +68,9 @@
 <a href="{{ route('user.index') }}" class="btn btn-secondary icon-btn-only-sm" title="klik untuk kembali ke list user">
     <i class="las la-arrow-left"></i><span>Kembali</span>
 </a>
+<br>
 
-<div class="card mt-2">
+<div class="card mt-4">
     <div class="card-header with-elements">
         <h5 class="card-header-title mt-1 mb-0">Tong Sampah Users</h5>
         <div class="card-header-elements ml-auto">
@@ -74,11 +86,10 @@
                     <th>Username</th>
                     <th>Email</th>
                     <th style="width: 120px; text-align: center;">Roles</th>
-                    {{-- <th style="width: 120px; text-align: center;">Status</th> --}}
                     <th style="width: 200px;">Tanggal Dibuat</th>
                     <th style="width: 200px;">Tanggal Diperbarui</th>
                     <th style="width: 200px;">Terakhir login</th>
-                    <th style="width: 80px;">Aksi</th>
+                    <th style="width: 110px;">Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -87,7 +98,7 @@
                     <td colspan="9" align="center">
                         <i>
                             <strong style="color:red;">
-                            @if (Request::get('r') || Request::get('s') || Request::get('q'))
+                            @if (count(Request::query()) > 0)
                             ! User tidak ditemukan !
                             @else
                             ! User kosong !
@@ -99,7 +110,7 @@
                 @endif
                 @foreach ($data['users'] as $item)
                 <tr>
-                    <td>{{ $data['number']++ }}</td>
+                    <td>{{ $data['no']++ }}</td>
                     <td>{{ $item->name }}</td>
                     <td>{{ $item->username }}</td>
                     <td>
@@ -113,25 +124,15 @@
                     <td>
                         <span class="badge badge-outline-primary">{{ strtoupper(str_replace('_', ' ', $item->roles[0]->name)) }}</span>
                     </td>
-                    {{-- <td class="text-center">
-                        @if ($item->id == auth()->user()->id || $item->roles[0]->id <=  auth()->user()->roles[0]->id)
-                        <a href="#" class="badge badge-outline-secondary">AKTIF</a>
-                        @else
-                        <a href="javascript:void(0);" onclick="$(this).find('form').submit();" class="badge badge-outline-{{ $item->active == 1 ? 'success' : 'secondary' }}"
-                            title="klik untuk {{ $item->active == 0 ? 'mengaktifkan' : 'menon-aktifkan' }} user">{{ $item->active == 1 ? 'AKTIF' : 'TIDAK AKTIF' }}
-                            <form action="{{ route('user.activate', ['id' => $item->id]) }}" method="POST">
-                                @csrf
-                                @method('PUT')
-                            </form>
-                        </a>
-                        @endif
-                    </td> --}}
                     <td>{{ $item->created_at->format('d F Y - (H:i)') }}</td>
                     <td>{{ $item->updated_at->format('d F Y - (H:i)') }}</td>
                     <td>{{ $item->last_login != null ? $item->last_login->format('d F Y - (H:i)') : '-' }}</td>
                     <td>
-                        <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-success btn-sm js-sa2-restore" title="klik untuk mengembalikan user">
+                        <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-success btn-sm swal-restore" title="klik untuk mengembalikan user">
                             <i class="las la-recycle"></i>
+                        </a>
+                        <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm swal-delete" title="klik untuk menghapus user permanen">
+                            <i class="las la-trash-alt"></i>
                         </a>
                     </td>
                 </tr>
@@ -140,10 +141,10 @@
             <tbody class="tbody-responsive">
                 @if ($data['users']->total() == 0)
                 <tr>
-                    <td colspan="10" align="center">
+                    <td colspan="9" align="center">
                         <i>
                             <strong style="color:red;">
-                            @if (Request::get('r') || Request::get('s') || Request::get('q'))
+                            @if (count(Request::query()) > 0)
                             ! User tidak ditemukan !
                             @else
                             ! User kosong !
@@ -176,8 +177,11 @@
                                 </div>
                                 <div class="item-table m-0">
                                     <div class="desc-table text-right">
-                                        <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-success btn-sm js-sa2-restore" title="klik untuk mengembalikan user">
+                                        <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-success btn-sm swal-restore" title="klik untuk mengembalikan user">
                                             <i class="las la-recycle"></i>
+                                        </a>
+                                        <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm swal-delete" title="klik untuk menghapus user permanen">
+                                            <i class="las la-trash-alt"></i>
                                         </a>
                                     </div>
                                 </div>
@@ -211,7 +215,7 @@
 <script>
     //delete
     $(document).ready(function () {
-        $('.js-sa2-restore').on('click', function () {
+        $('.swal-restore').on('click', function () {
             var id = $(this).attr('data-id');
             Swal.fire({
                 title: "Apakah anda yakin?",
@@ -251,6 +255,59 @@
                     Swal.fire({
                         type: 'success',
                         text: 'User berhasil dikembalikan'
+                    }).then(() => {
+                        window.location.reload();
+                    })
+                } else {
+                    Swal.fire({
+                        type: 'error',
+                        text: response.value.message
+                    }).then(() => {
+                        window.location.reload();
+                    })
+                }
+            });
+        })
+        $('.swal-delete').on('click', function () {
+            var id = $(this).attr('data-id');
+            Swal.fire({
+                title: "Apakah anda yakin?",
+                text: "Anda akan menghapus user ini dengan permanen!",
+                type: "warning",
+                confirmButtonText: "Ya, hapus!",
+                customClass: {
+                    confirmButton: "btn btn-danger btn-lg",
+                    cancelButton: "btn btn-info btn-lg"
+                },
+                showLoaderOnConfirm: true,
+                showCancelButton: true,
+                allowOutsideClick: () => !Swal.isLoading(),
+                cancelButtonText: "Tidak, terima kasih",
+                preConfirm: () => {
+                    return $.ajax({
+                        url: "/user/" + id,
+                        method: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        dataType: 'json'
+                    }).then(response => {
+                        if (!response.success) {
+                            return new Error(response.message);
+                        }
+                        return response;
+                    }).catch(error => {
+                        swal({
+                            type: 'error',
+                            text: 'Error while deleting data. Error Message: ' + error
+                        })
+                    });
+                }
+            }).then(response => {
+                if (response.value.success) {
+                    Swal.fire({
+                        type: 'success',
+                        text: 'User berhasil dihapus'
                     }).then(() => {
                         window.location.reload();
                     })

@@ -12,6 +12,7 @@ use App\Models\Users\Mitra;
 use App\Models\Users\Peserta;
 use App\Models\Users\User;
 use App\Models\Users\UserInformation;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
@@ -20,7 +21,9 @@ class UserService
 {
     private $model;
 
-    public function __construct(User $model)
+    public function __construct(
+        User $model
+    )
     {
         $this->model = $model;
     }
@@ -62,7 +65,12 @@ class UserService
 
         $query->with('roles');
 
-        $result = $query->orderBy('id', 'ASC')->paginate(20);
+        $limit = 20;
+        if (!empty($request->l)) {
+            $limit = $request->l;
+        }
+
+        $result = $query->orderBy('id', 'ASC')->paginate($limit);
 
         return $result;
     }
@@ -92,6 +100,7 @@ class UserService
     {
         $user = new User($request->only(['name', 'email', 'username']));
         $user->password = Hash::make($request->password);
+
         if (!empty($isRegister)) {
             $user->email_verified = 0;
             $user->email_verified_at = null;
@@ -101,10 +110,12 @@ class UserService
             $user->active = 1;
             $user->active_at = now();
         }
+
         $user->photo = [
             'filename' => null,
             'description' => null,
         ];
+
         $user->assignRole($request->roles);
         $user->save();
 
@@ -133,15 +144,19 @@ class UserService
     {
         $user = $this->findUser($id);
         $user->fill($request->only(['name', 'email', 'username']));
+
         if ($request->filled('password')) {
             $user->password = Hash::make($request->password);
         }
+
         if ($request->email != $request->old_email) {
             $user->email_verified = 0;
             $user->email_verified_at = null;
         }
+
         $user->assignRole($request->roles);
         $user->save();
+
         $this->updateInformation($request, $id);
 
         return $user;
@@ -202,26 +217,33 @@ class UserService
     {
         $user = $this->findUser($id);
         $user->fill($request->only(['name', 'email', 'username']));
+
         if ($request->filled('password')) {
             $user->password = Hash::make($request->password);
         }
+
         if ($request->email != $request->old_email) {
             $user->email_verified = 0;
             $user->email_verified_at = null;
         }
+        
         if ($request->hasFile('file')) {
             $fileName = str_replace(' ', '-', $request->file('file')
                 ->getClientOriginalName());
-            $this->deletePhotoFromPath($request->old_photo);
+
+            File::delete(public_path('userfile/photo/'.$request->old_photo));
             $request->file('file')->move(public_path('userfile/photo'), $fileName);
         }
+
         $user->photo = [
             'filename' => ($request->file != null) ? $fileName : $user->photo['filename'],
             'description' => $request->photo_description ?? null,
         ];
+
         $user->save();
 
-        if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
+        if (Auth::user()->hasRole('peserta_internal|peserta_mitra')) {
+
             if ($request->hasFile('foto_sertifikat')) {
                 $fotoSertifikat = str_replace(' ', '-', $request->file('foto_sertifikat')
                     ->getClientOriginalName());
@@ -229,6 +251,7 @@ class UserService
                 File::delete($path);
                 $request->file('foto_sertifikat')->move(public_path('userfile/photo/sertifikat'), $fotoSertifikat);
             }
+
             $peserta = $user->peserta;
             $peserta->jenis_peserta = $request->jenis_peserta ?? null;
             $peserta->jenis_kelamin = $request->jenis_kelamin ?? null;
@@ -240,7 +263,8 @@ class UserService
             $peserta->jabatan_id = $request->jabatan_id ?? null;
             $peserta->jenjang_jabatan = $request->jenjang_jabatan ?? null;
             $peserta->kedeputian = $request->kedeputian ?? null;
-            $peserta->foto_sertifikat = ($request->foto_sertifikat != null) ? $fotoSertifikat : $peserta->foto_sertifikat;
+            $peserta->foto_sertifikat = ($request->foto_sertifikat != null) ? 
+                $fotoSertifikat : $peserta->foto_sertifikat;
 
             if (!empty($request->kedeputian) && $request->pangkat >= 0 &&
                 !empty($request->tempat_lahir) && !empty($request->tanggal_lahir) &&
@@ -312,26 +336,34 @@ class UserService
 
     public function deleteUser(int $id)
     {
-        $user = $this->findUser($id);
+        $user = $this->model->onlyTrashed()->where('id', $id)->first();
 
         if ($user->information()->count() > 0) {
             $user->information()->delete();
         }
 
         if (!empty($user->photo['filename'])) {
-            $this->deletePhotoFromPath($user->photo['filename']);
+            File::delete(public_path('userfile/photo/'.$user->photo['filename']));
         }
 
-        $user->delete();
+        if ($user->first()->hasRole('internal')) {
+            $user->first()->internal()->forceDelete();
+        }
+
+        if ($user->first()->hasRole('mitra')) {
+            $user->first()->mitra()->forceDelete();
+        }
+
+        if ($user->first()->hasRole('instruktur_internal|instruktur_mitra')) {
+            $user->first()->instruktur()->forceDelete();
+        }
+
+        if ($user->first()->hasRole('peserta_internal|peserta_mitra')) {
+            $user->first()->peserta()->forceDelete();
+        }
+
+        $user->forceDelete();
 
         return $user;
-    }
-
-    public function deletePhotoFromPath($fileName)
-    {
-        $path = public_path('userfile/photo/'.$fileName) ;
-        File::delete($path);
-
-        return $path;
     }
 }

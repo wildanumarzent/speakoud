@@ -13,11 +13,22 @@
             <div class="col-md">
                 <form action="" method="GET">
                     <div class="form-group">
+                        <label class="form-label">Limit</label>
+                        <select class="limit custom-select" name="l">
+                            <option value="20" selected>Any</option>
+                            @foreach (config('custom.filtering.limit') as $key => $val)
+                            <option value="{{ $key }}" {{ Request::get('l') == ''.$key.'' ? 'selected' : '' }} title="Limit {{ $val }}">{{ $val }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+            </div>
+            <div class="col-md">
+                    <div class="form-group">
                         <label class="form-label">Cari</label>
                         <div class="input-group">
                             <input type="text" class="form-control" name="q" value="{{ Request::get('q') }}" placeholder="Kata kunci...">
                             <div class="input-group-append">
-                                <button type="submit" class="btn btn-warning" title="klik untuk mencari"><i class="las la-search"></i></button>
+                                <button type="submit" class="btn btn-warning" title="klik untuk cari"><i class="las la-filter"></i></button>
                             </div>
                         </div>
                     </div>
@@ -55,10 +66,10 @@
                     <td colspan="6" align="center">
                         <i>
                             <strong style="color:red;">
-                            @if (Request::get('q'))
+                            @if (count(Request::query()) > 0)
                             ! Jabatan tidak ditemukan !
                             @else
-                            ! Data Jabatan kosong !
+                            ! Jabatan kosong !
                             @endif
                             </strong>
                         </i>
@@ -67,7 +78,7 @@
                 @endif
                 @foreach ($data['jabatan'] as $item)
                 <tr>
-                    <td>{{ $data['number']++ }}</td>
+                    <td>{{ $data['no']++ }}</td>
                     <td>{{ $item->nama }}</td>
                     <td>{!! !empty($item->keterangan) ? strip_tags(Str::limit($item->keterangan, 120)) : '-' !!}</td>
                     <td>{{ $item->created_at->format('d F Y - (H:i)') }}</td>
@@ -76,7 +87,7 @@
                         <a href="{{ route('jabatan.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengedit jabatan" data-toggle="tooltip">
                                 <i class="las la-pen"></i>
                         </a>
-                        <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus jabatan" data-toggle="tooltip">
+                        <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm swal-delete" title="klik untuk menghapus jabatan" data-toggle="tooltip">
                             <i class="las la-trash-alt"></i>
                         </a>
                     </td>
@@ -89,10 +100,10 @@
                     <td colspan="6" align="center">
                         <i>
                             <strong style="color:red;">
-                            @if (Request::get('q'))
+                            @if (count(Request::query()) > 0)
                             ! Jabatan tidak ditemukan !
                             @else
-                            ! Data Jabatan kosong !
+                            ! Jabatan kosong !
                             @endif
                             </strong>
                         </i>
@@ -126,7 +137,7 @@
                                         <a href="{{ route('jabatan.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengedit jabatan" data-toggle="tooltip">
                                             <i class="las la-pen"></i>
                                         </a>
-                                        <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus jabatan" data-toggle="tooltip">
+                                        <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm swal-delete" title="klik untuk menghapus jabatan" data-toggle="tooltip">
                                             <i class="las la-trash-alt"></i>
                                         </a>
                                     </div>
@@ -160,61 +171,61 @@
 
 @section('jsbody')
 <script>
-$(document).ready(function () {
-    $('.js-sa2-delete').on('click', function () {
-        var id = $(this).attr('data-id');
-        Swal.fire({
-            title: "Apakah anda yakin?",
-            text: "Anda akan menghapus jabatan ini, data yang bersangkutan dengan jabatan ini akan terhapus. Data yang sudah dihapus tidak dapat dikembalikan!",
-            type: "warning",
-            confirmButtonText: "Ya, hapus!",
-            customClass: {
-                confirmButton: "btn btn-danger btn-lg",
-                cancelButton: "btn btn-info btn-lg"
-            },
-            showLoaderOnConfirm: true,
-            showCancelButton: true,
-            allowOutsideClick: () => !Swal.isLoading(),
-            cancelButtonText: "Tidak, terima kasih",
-            preConfirm: () => {
-                return $.ajax({
-                    url: "/jabatan/" + id,
-                    method: 'DELETE',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    dataType: 'json'
-                }).then(response => {
-                    if (!response.success) {
-                        return new Error(response.message);
-                    }
-                    return response;
-                }).catch(error => {
-                    swal({
-                        type: 'error',
-                        text: 'Error while deleting data. Error Message: ' + error
+    $(document).ready(function () {
+        $('.swal-delete').on('click', function () {
+            var id = $(this).attr('data-id');
+            Swal.fire({
+                title: "Apakah anda yakin?",
+                text: "Anda akan menghapus jabatan ini, data yang bersangkutan dengan jabatan ini akan terhapus. Data yang sudah dihapus tidak dapat dikembalikan!",
+                type: "warning",
+                confirmButtonText: "Ya, hapus!",
+                customClass: {
+                    confirmButton: "btn btn-danger btn-lg",
+                    cancelButton: "btn btn-info btn-lg"
+                },
+                showLoaderOnConfirm: true,
+                showCancelButton: true,
+                allowOutsideClick: () => !Swal.isLoading(),
+                cancelButtonText: "Tidak, terima kasih",
+                preConfirm: () => {
+                    return $.ajax({
+                        url: "/jabatan/" + id,
+                        method: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        dataType: 'json'
+                    }).then(response => {
+                        if (!response.success) {
+                            return new Error(response.message);
+                        }
+                        return response;
+                    }).catch(error => {
+                        swal({
+                            type: 'error',
+                            text: 'Error while deleting data. Error Message: ' + error
+                        })
+                    });
+                }
+            }).then(response => {
+                if (response.value.success) {
+                    Swal.fire({
+                        type: 'success',
+                        text: 'jabatan berhasil dihapus'
+                    }).then(() => {
+                        window.location.reload();
                     })
-                });
-            }
-        }).then(response => {
-            if (response.value.success) {
-                Swal.fire({
-                    type: 'success',
-                    text: 'jabatan berhasil dihapus'
-                }).then(() => {
-                    window.location.reload();
-                })
-            } else {
-                Swal.fire({
-                    type: 'error',
-                    text: response.value.message
-                }).then(() => {
-                    window.location.reload();
-                })
-            }
-        });
-    })
-});
+                } else {
+                    Swal.fire({
+                        type: 'error',
+                        text: response.value.message
+                    }).then(() => {
+                        window.location.reload();
+                    })
+                }
+            });
+        })
+    });
 </script>
 
 @include('components.toastr')

@@ -12,6 +12,17 @@
         <div class="form-row align-items-center">
             <div class="col-md">
                 <form action="" method="GET">
+                    <div class="form-group">
+                        <label class="form-label">Limit</label>
+                        <select class="limit custom-select" name="l">
+                            <option value="20" selected>Any</option>
+                            @foreach (config('custom.filtering.limit') as $key => $val)
+                            <option value="{{ $key }}" {{ Request::get('l') == ''.$key.'' ? 'selected' : '' }} title="Limit {{ $val }}">{{ $val }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+            </div>
+            <div class="col-md">
                 <div class="form-group">
                     <label class="form-label">Tipe</label>
                     <select class="status custom-select form-control" name="t">
@@ -54,14 +65,6 @@
             <button type="button" class="btn btn-primary icon-btn-only-sm" data-toggle="modal" data-target="#modals-soal" title="pilih soal dari bank data">
                 <i class="las la-list-alt"></i><span>Pilih Soal</span>
             </button>
-            {{-- <div class="btn-group float-right dropdown ml-2">
-                <button type="button" class="btn btn-primary dropdown-toggle hide-arrow icon-btn-only-sm" data-toggle="dropdown"><i class="las la-plus"></i><span>Tambah</span></button>
-                <div class="dropdown-menu dropdown-menu-right">
-                    @foreach (config('addon.label.quiz_item_tipe') as $key => $tipe)
-                    <a href="{{ route('quiz.item.create', ['id' => $data['quiz']->id, 'tipe' => $key]) }}" class="dropdown-item" ><i class="las la-circle"></i><span>{{ $tipe['title'] }}</span></a>
-                    @endforeach
-                </div>
-            </div> --}}
         </div>
     </div>
     <div class="table-responsive table-mobile-responsive">
@@ -83,7 +86,7 @@
                     <td colspan="7" align="center">
                         <i>
                             <strong style="color:red;">
-                            @if (Request::get('t') || Request::get('q'))
+                            @if (count(Request::query()) > 0)
                             ! Soal tidak ditemukan !
                             @else
                             ! Data Soal kosong !
@@ -105,7 +108,7 @@
                         <a href="{{ route('template.quiz.item.edit', ['id' => $item->template_quiz_id, 'itemId' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengedit template soal" data-toggle="tooltip">
                                 <i class="las la-pen"></i>
                         </a>
-                        <a href="javascript:;" data-quizid="{{ $item->template_quiz_id }}" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus template soal" data-toggle="tooltip">
+                        <a href="javascript:;" data-quizid="{{ $item->template_quiz_id }}" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm swal-delete" title="klik untuk menghapus template soal" data-toggle="tooltip">
                             <i class="las la-trash-alt"></i>
                         </a>
                     </td>
@@ -118,7 +121,7 @@
                     <td colspan="7" align="center">
                         <i>
                             <strong style="color:red;">
-                            @if (Request::get('t') || Request::get('q'))
+                            @if (count(Request::query()) > 0)
                             ! Soal tidak ditemukan !
                             @else
                             ! Data Soal kosong !
@@ -159,7 +162,7 @@
                                         <a href="{{ route('template.quiz.item.edit', ['id' => $item->template_quiz_id, 'itemId' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengedit template soal" data-toggle="tooltip">
                                             <i class="las la-pen"></i>
                                         </a>
-                                        <a href="javascript:;" data-quizid="{{ $item->template_quiz_id }}" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm js-sa2-delete" title="klik untuk menghapus template soal" data-toggle="tooltip">
+                                        <a href="javascript:;" data-quizid="{{ $item->template_quiz_id }}" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm swal-delete" title="klik untuk menghapus template soal" data-toggle="tooltip">
                                             <i class="las la-trash-alt"></i>
                                         </a>
                                     </div>
@@ -214,7 +217,7 @@
         if (id) {
             $.ajax({
                 type : "GET",
-                url : "/template/soal/kategori/json/{{ $data['quiz']->id }}?kategori_id=" + id,
+                url : "/template/mata/{{ $data['quiz']->template_mata_id }}/soal/kategori/json/{{ $data['quiz']->id }}?kategori_id=" + id,
                 success : function(cat) {
                     if(cat){
                         $("#soal").empty();
@@ -266,7 +269,7 @@
 
     //delete
     $(document).ready(function () {
-        $('.js-sa2-delete').on('click', function () {
+        $('.swal-delete').on('click', function () {
             var quiz_id = $(this).attr('data-quizid');
             var id = $(this).attr('data-id');
             Swal.fire({

@@ -6,6 +6,7 @@ use App\Models\BankData;
 use App\Models\Course\MataPeserta;
 use App\Models\Users\Peserta;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -25,7 +26,7 @@ class PesertaService
         $this->user = $user;
     }
 
-    public function getPesertaList($request,$paginate = true)
+    public function getPesertaList($request, $paginate = true)
     {
         $query = $this->model->query();
 
@@ -49,7 +50,7 @@ class PesertaService
             });
         });
 
-        if (auth()->user()->hasRole('internal')) {
+        if (Auth::user()->hasRole('internal')) {
             $query->whereHas('user', function ($queryC) {
                 $queryC->whereHas('roles', function ($queryD) {
                     $queryD->where('name', 'peserta_internal');
@@ -57,8 +58,8 @@ class PesertaService
             });
         }
 
-        if (auth()->user()->hasRole('mitra')) {
-            $query->where('mitra_id', auth()->user()->mitra->id);
+        if (Auth::user()->hasRole('mitra')) {
+            $query->where('mitra_id', Auth::user()->mitra->id);
             $query->whereHas('user', function ($queryE) {
                 $queryE->whereHas('roles', function ($queryF) {
                     $queryF->where('name', 'peserta_mitra');
@@ -66,7 +67,12 @@ class PesertaService
             });
         }
 
-        $result = $query->orderBy('id', 'ASC')->paginate(20);
+        $limit = 20;
+        if (!empty($request->l)) {
+            $limit = $request->l;
+        }
+
+        $result = $query->orderBy('id', 'ASC')->paginate($limit);
 
         if($paginate == false){
             $result = $query->get();
@@ -74,8 +80,6 @@ class PesertaService
         
         return $result;
     }
-
-
 
     public function getPesertaForMata($type, $pesertaId)
     {
@@ -87,8 +91,8 @@ class PesertaService
         if ($type == false) {
             $query->whereNull('mitra_id');
         } else {
-            if (auth()->user()->hasRole('mitra')) {
-                $query->where('mitra_id', auth()->user()->mitra->id);
+            if (Auth::user()->hasRole('mitra')) {
+                $query->where('mitra_id', Auth::user()->mitra->id);
             } else {
                 $query->whereNotNull('mitra_id');
             }
@@ -125,15 +129,15 @@ class PesertaService
     {
         $user = $this->user->storeUser($request);
 
-        if (auth()->user()->hasRole('mitra')) {
-            $mitraId = auth()->user()->mitra->id;
+        if (Auth::user()->hasRole('mitra')) {
+            $mitraId = Auth::user()->mitra->id;
         } else {
             $mitraId = $request->mitra_id;
         }
 
         $peserta = new Peserta;
         $peserta->user_id = $user->id;
-        $peserta->creator_id = auth()->user()->id;
+        $peserta->creator_id = Auth::user()->id;
         $peserta->mitra_id = $mitraId ?? null;
         $peserta->nip = $request->nip ?? null;
         $peserta->jenis_peserta = $request->jenis_peserta ?? null;
@@ -240,13 +244,16 @@ class PesertaService
 
         $user = $peserta->user;
         $user->fill($request->only(['name', 'email', 'username']));
+
         if ($request->filled('password')) {
             $user->password = Hash::make($request->password);
         }
+
         if ($request->email != $request->oldemail) {
             $user->email_verified = 0;
             $user->email_verified_at = null;
         }
+        
         $user->save();
         $this->user->updateInformation($request, $user->id);
 

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Course\Template;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\TemplateBahanRequest;
+use App\Http\Requests\Course\Template\TemplateBahanRequest;
 use App\Services\Course\Template\TemplateBahanService;
 use App\Services\Course\Template\TemplateMataService;
 use App\Services\Course\Template\TemplateMateriService;
@@ -26,14 +26,12 @@ class TemplateBahanController extends Controller
 
     public function index(Request $request, $materiId)
     {
-        $q = '';
-        if (isset($request->q)) {
-            $q = '?q='.$request->q;
-        }
+        $url = $request->url();
+        $param = str_replace($url, '', $request->fullUrl());
 
         $data['bahan'] = $this->service->getTemplateBahanList($request, $materiId);
         $data['number'] = $data['bahan']->firstItem();
-        $data['bahan']->withPath(url()->current().$q);
+        $data['bahan']->withPath(url()->current().$param);
         $data['materi'] = $this->serviceMateri->findTemplateMateri($materiId);
         $data['materi_lain'] = $this->serviceMateri->templateMateriJump($data['materi']->template_mata_id, $materiId);
 

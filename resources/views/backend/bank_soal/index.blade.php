@@ -11,6 +11,17 @@
         <div class="form-row align-items-center">
             <div class="col-md">
                 <form action="" method="GET">
+                    <div class="form-group">
+                        <label class="form-label">Limit</label>
+                        <select class="limit custom-select" name="l">
+                            <option value="20" selected>Any</option>
+                            @foreach (config('custom.filtering.limit') as $key => $val)
+                            <option value="{{ $key }}" {{ Request::get('l') == ''.$key.'' ? 'selected' : '' }} title="Limit {{ $val }}">{{ $val }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+            </div>
+            <div class="col-md">
                 <div class="form-group">
                     <label class="form-label">Status</label>
                     <select class="status custom-select form-control" name="t">
@@ -115,7 +126,7 @@
                     <th style="width: 210px;">Pembuat</th>
                     <th style="width: 230px;">Tanggal Dibuat</th>
                     <th style="width: 230px;">Tanggal Diperbarui</th>
-                    <th style="width: 120px;">Aksi</th>
+                    <th style="width: 110px;">Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -123,7 +134,7 @@
                 <tr>
                     <td colspan="7" align="center">
                         <i><strong style="color:red;">
-                        @if (Request::get('t') || Request::get('q'))
+                        @if (count(Request::query()) > 0)
                         ! Soal tidak ditemukan !
                         @else
                         ! Soal kosong !
@@ -134,7 +145,7 @@
                 @endif
                 @foreach ($data['soal'] as $item)
                 <tr>
-                    <td>{{ $data['number']++ }}</td>
+                    <td>{{ $data['no']++ }}</td>
                     <td>{!! Str::limit(strip_tags($item->pertanyaan), 180) !!}</td>
                     <td><span class="badge badge-{{ $item->tipe($item->tipe_jawaban)['color'] }}">{{ $item->tipe($item->tipe_jawaban)['title'] }}</span></td>
                     <td>{{ $item->creator->name }}</td>
@@ -145,7 +156,7 @@
                         <a href="{{ route('soal.edit', ['id' => $item->mata_id, 'kategoriId' => $item->kategori_id, 'soalId' => $item->id]) }}" class="btn icon-btn btn-sm btn-primary" title="klik untuk mengedit soal">
                             <i class="las la-pen"></i>
                         </a>
-                        <a href="javascript:;" data-mataid="{{ $item->mata_id }}" data-kategoriid="{{ $item->kategori_id }}" data-id="{{ $item->id }}" class="btn icon-btn btn-sm btn-danger js-sa2-delete" title="klik untuk menghapus soal">
+                        <a href="javascript:;" data-mataid="{{ $item->mata_id }}" data-kategoriid="{{ $item->kategori_id }}" data-id="{{ $item->id }}" class="btn icon-btn btn-sm btn-danger swal-delete" title="klik untuk menghapus soal">
                             <i class="las la-trash"></i>
                         </a>
                         @else
@@ -165,7 +176,7 @@
                 <tr>
                     <td colspan="7" align="center">
                         <i><strong style="color:red;">
-                        @if (Request::get('t') || Request::get('q'))
+                        @if (count(Request::query()) > 0)
                         ! Soal tidak ditemukan !
                         @else
                         ! Soal kosong !
@@ -198,7 +209,7 @@
                                         <a href="{{ route('soal.edit', ['id' => $item->mata_id, 'kategoriId' => $item->kategori_id, 'soalId' => $item->id]) }}" class="btn icon-btn btn-sm btn-primary" title="klik untuk mengedit soal">
                                             <i class="las la-pen"></i>
                                         </a>
-                                        <a href="javascript:;" data-mataid="{{ $item->mata_id }}" data-kategoriid="{{ $item->kategori_id }}" data-id="{{ $item->id }}" class="btn icon-btn btn-sm btn-danger js-sa2-delete" title="klik untuk menghapus soal">
+                                        <a href="javascript:;" data-mataid="{{ $item->mata_id }}" data-kategoriid="{{ $item->kategori_id }}" data-id="{{ $item->id }}" class="btn icon-btn btn-sm btn-danger swal-delete" title="klik untuk menghapus soal">
                                             <i class="las la-trash"></i>
                                         </a>
                                         @else
@@ -243,7 +254,7 @@
 @section('jsbody')
 <script>
 $(document).ready(function () {
-    $('.js-sa2-delete').on('click', function () {
+    $('.swal-delete').on('click', function () {
         var mata_id = $(this).attr('data-mataid');
         var kategori_id = $(this).attr('data-kategoriid');
         var id = $(this).attr('data-id');

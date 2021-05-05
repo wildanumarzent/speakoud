@@ -47,7 +47,7 @@
                         <div class="col-md-2 text-md-right">
                           <label class="col-form-label text-sm-right">Mitra</label>
                         </div>
-                        <div class="col-md-9">
+                        <div class="col-md-10">
                           <select class="select2 show-tick @error('mitra_id') is-invalid @enderror" name="mitra_id" data-style="btn-default">
                               <option value="" disabled selected>Pilih</option>
                               @foreach ($data['mitra'] as $mitra)
@@ -57,9 +57,6 @@
                           @error('mitra_id')
                           <label class="error jquery-validation-error small form-text invalid-feedback" style="display: inline-block; color:red;">{!! $message !!}</label>
                           @enderror
-                        </div>
-                        <div class="col-md-1">
-                            <a href="{{ route('mitra.create') }}" class="btn btn-primary icon-btn" title="klik untuk menambah mitra"><i class="las la-plus"></i></a>
                         </div>
                     </div>
                     @endif
@@ -314,13 +311,12 @@
                     </div>
                 </div>
             </div>
-            <div class="card-footer">
-                <div class="row">
-                    <div class="col-md-10 ml-sm-auto text-md-left text-right">
-                        <a href="{{ route('instruktur.index') }}" class="btn btn-danger" title="klik untuk kembali ke list">Kembali</a>
-                        <button type="submit" class="btn btn-primary" name="action" value="save" title="klik untuk menyimpan">{{ isset($data['instruktur']) ? 'Simpan perubahan' : 'Simpan' }}</button>
-                    </div>
-                </div>
+            <div class="card-footer text-center">
+              <a href="{{ route('instruktur.index') }}" class="btn btn-danger" title="klik untuk kembali ke list">Kembali</a>
+              &nbsp;&nbsp;
+              <button type="submit" class="btn btn-primary" title="klik untuk menyimpan">{{ isset($data['instruktur']) ? 'Simpan perubahan' : 'Simpan' }}</button>
+              &nbsp;&nbsp;
+              <button type="reset" class="btn btn-secondary" title="Reset">Reset</button>
             </div>
         </form>
     </div>

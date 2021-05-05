@@ -18,14 +18,12 @@ class JabatanController extends Controller
 
     public function index(Request $request)
     {
-        $q = '';
-        if (isset($request->q)) {
-            $q = '?q='.$request->q;
-        }
+        $url = $request->url();
+        $param = str_replace($url, '', $request->fullUrl());
 
         $data['jabatan'] = $this->service->getJabatanList($request);
-        $data['number'] = $data['jabatan']->firstItem();
-        $data['jabatan']->withPath(url()->current().$q);
+        $data['no'] = $data['jabatan']->firstItem();
+        $data['jabatan']->withPath(url()->current().$param);
 
         return view('backend.jabatan.index', compact('data'), [
             'title' => 'Jabatan',
@@ -90,7 +88,7 @@ class JabatanController extends Controller
 
             return response()->json([
                 'success' => 0,
-                'message' => 'Jabatan ini masih dipakai user bersangkutan'
+                'message' => 'Jabatan ini masih digunakan oleh beberapa user bersangkutan'
             ], 200);
         }
     }

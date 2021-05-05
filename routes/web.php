@@ -1,5 +1,14 @@
 <?php
 
+use App\Http\Controllers\ArtikelController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\Component\NotificationController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\InquiryController;
+use App\Http\Controllers\PageController;
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -15,226 +24,55 @@ use Illuminate\Support\Facades\Route;
  * frontend
  */
 //home
-Route::get('/', 'HomeController@index')
+Route::get('/', [HomeController::class, 'index'])
     ->name('home');
-Route::get('/access/denide', 'HomeController@denide')
+Route::get('/access/denide', [HomeController::class, 'denide'])
     ->name('denide');
 
 //pages
-Route::get('/content/page/{id}/{slug}', 'PageController@read')
+Route::get('/content/page/{id}/{slug}', [PageController::class, 'read'])
     ->name('page.read');
 
 //artikel
-Route::get('/content/artikel/list', 'ArtikelController@list')
+Route::get('/content/artikel/list', [ArtikelController::class, 'list'])
     ->name('artikel.list');
-Route::get('/content/artikel/{id}/{slug}', 'ArtikelController@read')
+Route::get('/content/artikel/{id}/{slug}', [ArtikelController::class, 'read'])
     ->name('artikel.read');
 
 //inquiry
-Route::get('inquiry/{slug}', 'InquiryController@read')
+Route::get('inquiry/{slug}', [InquiryController::class, 'read'])
     ->name('inquiry.read');
-Route::post('inquiry/{id}/send', 'InquiryController@send')
+Route::post('inquiry/{id}/send', [InquiryController::class, 'send'])
     ->name('inquiry.send');
-
-//course
-Route::get('/course/jadwal/list', 'Course\JadwalController@jadwalList')
-    ->name('course.jadwal');
-Route::get('/course/jadwal/{id}/detail', 'Course\JadwalController@jadwalDetail')
-    ->name('course.jadwal.detail');
-Route::get('/course/list', 'Course\MataController@courseList')
-    ->name('course.list');
-Route::get('/course/{id}/register', 'Course\MataController@courseRegister')
-    ->name('course.register')
-    ->middleware(['auth', 'role:peserta_internal|peserta_mitra']);
-Route::get('/course/{id}/detail', 'Course\MataController@courseDetail')
-    ->name('course.detail')
-    ->middleware('auth');
-Route::get('course/{id}/bahan/{bahanId}/{tipe}', 'Course\Bahan\BahanController@view')
-    ->name('course.bahan')
-    ->middleware('auth');
-Route::post('/course/{id}/rating', 'Course\MataController@giveRating')
-    ->name('course.rating')
-    ->middleware(['auth', 'role:peserta_internal|peserta_mitra']);
-Route::post('/course/{id}/comment', 'Course\MataController@giveComment')
-    ->name('course.comment')
-    ->middleware('auth');
-
-//forum
-#--topik
-Route::get('forum/{id}/topik/{topikId}/room', 'Course\Bahan\BahanForumController@room')
-    ->name('forum.topik.room')
-    ->middleware('auth');
-Route::get('forum/{id}/topik/create', 'Course\Bahan\BahanForumController@createTopik')
-    ->name('forum.topik.create')
-    ->middleware('auth');
-Route::post('forum/{id}/topik', 'Course\Bahan\BahanForumController@storeTopik')
-    ->name('forum.topik.store')
-    ->middleware('auth');
-Route::get('forum/{id}/topik/{topikId}/edit', 'Course\Bahan\BahanForumController@editTopik')
-    ->name('forum.topik.edit')
-    ->middleware('auth');
-Route::put('forum/{id}/topik/{topikId}', 'Course\Bahan\BahanForumController@updateTopik')
-    ->name('forum.topik.update')
-    ->middleware('auth');
-Route::put('/forum/{id}/topik/{topikId}/pin', 'Course\Bahan\BahanForumController@pinTopik')
-    ->name('forum.topik.pin')
-    ->middleware('auth');
-Route::put('/forum/{id}/topik/{topikId}/lock', 'Course\Bahan\BahanForumController@lockTopik')
-    ->name('forum.topik.lock')
-    ->middleware('auth');
-Route::get('/forum/{id}/topik/{topikId}/star', 'Course\Bahan\BahanForumController@starTopik')
-    ->name('forum.topik.star')
-    ->middleware('auth');
-Route::delete('forum/{id}/topik/{topikId}', 'Course\Bahan\BahanForumController@destroyTopik')
-    ->name('forum.topik.destroy')
-    ->middleware('auth');
-
-#--reply
-Route::get('forum/{id}/topik/{topikId}/reply/create', 'Course\Bahan\BahanForumController@createReply')
-    ->name('forum.topik.reply.create')
-    ->middleware('auth');
-Route::post('forum/{id}/topik/{topikId}/reply', 'Course\Bahan\BahanForumController@storeReply')
-    ->name('forum.topik.reply.store')
-    ->middleware('auth');
-Route::get('forum/{id}/topik/{topikId}/reply/{replyId}/edit', 'Course\Bahan\BahanForumController@editReply')
-    ->name('forum.topik.reply.edit')
-    ->middleware('auth');
-Route::put('forum/{id}/topik/{topikId}/reply/{replyId}', 'Course\Bahan\BahanForumController@updateReply')
-    ->name('forum.topik.reply.update')
-    ->middleware('auth');
-Route::delete('forum/{id}/topik/{topikId}/reply/{replyId}', 'Course\Bahan\BahanForumController@destroyReply')
-    ->name('forum.topik.reply.destroy')
-    ->middleware('auth');
-
-//video conference
-Route::get('/conference/{id}/room', 'Course\Bahan\BahanConferenceController@room')
-    ->name('conference.room')
-    ->middleware('auth');
-Route::get('/conference/{id}/leave', 'Course\Bahan\BahanConferenceController@leave')
-    ->name('conference.leave')
-    ->middleware('auth');
-Route::put('/conference/{id}/leave', 'Course\Bahan\BahanConferenceController@leaveConfirm')
-    ->middleware(['auth', 'role:administrator|internal|mitra|instruktur_internal|instruktur_mitra']);
-Route::get('/conference/{id}/platform/start', 'Course\Bahan\BahanConferenceController@startMeet')
-    ->name('conference.platform.start')
-    ->middleware('auth');
-Route::get('/conference/{id}/peserta/list', 'Course\Bahan\BahanConferenceController@peserta')
-    ->name('conference.peserta.list')
-    ->middleware(['auth', 'role:administrator|internal|mitra|instruktur_internal|instruktur_mitra']);
-Route::post('/conference/{id}/peserta', 'Course\Bahan\BahanConferenceController@pesertaCheck')
-    ->name('conference.peserta')
-    ->middleware(['auth', 'role:administrator|internal|mitra|instruktur_internal|instruktur_mitra']);
-Route::put('/conference/{id}/join/{trackId}/verification', 'Course\Bahan\BahanConferenceController@checkInVerified')
-    ->name('conference.peserta.check')
-    ->middleware(['auth', 'role:administrator|internal|mitra|instruktur_internal|instruktur_mitra']);
-Route::put('/conference/{id}/finish', 'Course\Bahan\BahanConferenceController@finishConference')
-    ->name('conference.finish')
-    ->middleware(['auth', 'role:administrator|internal|mitra|instruktur_internal|instruktur_mitra']);
-Route::put('/conference/{id}/{trackId}/penilaian', 'Course\Bahan\BahanConferenceController@penilaian')
-    ->name('conference.penilaian')
-    ->middleware(['auth', 'role:administrator|internal|mitra|instruktur_internal|instruktur_mitra']);
-
-//quiz
-Route::get('/quiz/{id}/test', 'Course\Bahan\BahanQuizItemController@room')
-    ->name('quiz.room')
-    ->middleware(['auth', 'role:peserta_internal|peserta_mitra']);
-Route::post('/quiz/{id}/track/jawaban', 'Course\Bahan\BahanQuizItemController@trackJawaban')
-    ->name('quiz.track.jawaban')
-    ->middleware(['auth', 'role:peserta_internal|peserta_mitra']);
-Route::delete('/quiz/{id}/user/{userId}', 'Course\Bahan\BahanQuizItemController@ulangi')
-    ->name('quiz.ulangi')
-    ->middleware(['auth', 'role:peserta_internal|peserta_mitra']);
-Route::post('/quiz/{id}/finish', 'Course\Bahan\BahanQuizItemController@finishQuiz')
-    ->name('quiz.finish')
-    ->middleware(['auth', 'role:peserta_internal|peserta_mitra']);
-Route::get('/quiz/{id}/peserta', 'Course\Bahan\BahanQuizItemController@peserta')
-    ->name('quiz.peserta')
-    ->middleware(['auth', 'role:administrator|internal|mitra|instruktur_internal|instruktur_mitra']);
-Route::get('/quiz/{id}/peserta/{pesertaId}/jawaban', 'Course\Bahan\BahanQuizItemController@jawabanPeserta')
-    ->name('quiz.peserta.jawaban')
-    ->middleware(['auth', 'role:administrator|internal|mitra|instruktur_internal|instruktur_mitra']);
-Route::put('/item/{id}/essay/{status}', 'Course\Bahan\BahanQuizItemController@checkEssay')
-    ->name('quiz.item.essay')
-    ->middleware(['auth', 'role:administrator|internal|mitra|instruktur_internal|instruktur_mitra']);
-Route::put('{quizId}/{userId}/peserta/{id}/cek', 'Course\Bahan\BahanQuizItemController@checkPeserta')
-    ->name('quiz.peserta.cek')
-    ->middleware(['auth', 'role:administrator|internal|mitra|instruktur_internal|instruktur_mitra']);
-Route::get('/quiz/{id}/export', 'Course\Bahan\BahanQuizItemController@exportJawaban')
-    ->name('quiz.export.jawaban')
-    ->middleware(['auth', 'role:administrator|internal|mitra|instruktur_internal|instruktur_mitra']);
-//tugas
-Route::post('/tugas/{id}/kirim', 'Course\Bahan\BahanTugasController@sendTugas')
-    ->name('tugas.send')
-    ->middleware(['auth', 'role:peserta_internal|peserta_mitra']);
-Route::put('/tugas/{id}/respon/{responId}/{status}', 'Course\Bahan\BahanTugasController@approval')
-    ->name('tugas.approval')
-    ->middleware(['auth', 'role:administrator|internal|mitra|instruktur_internal|instruktur_mitra']);
-Route::get('/tugas/{id}/peserta', 'Course\Bahan\BahanTugasController@peserta')
-    ->name('tugas.peserta')
-    ->middleware(['auth', 'role:administrator|internal|mitra|instruktur_internal|instruktur_mitra']);
-Route::put('/tugas/{id}/penilaian/{responId}', 'Course\Bahan\BahanTugasController@penilaian')
-    ->name('tugas.penilaian')
-    ->middleware(['auth', 'role:administrator|internal|mitra|instruktur_internal|instruktur_mitra']);
-
-//--evaluasi
-#--penyelenggara
-Route::get('/course/{id}/evaluasi/penyelenggara', 'Course\EvaluasiController@penyelenggara')
-    ->name('evaluasi.penyelenggara')
-    ->middleware('auth');
-Route::get('/course/{id}/evaluasi/penyelenggara/form', 'Course\EvaluasiController@formPenyelenggara')
-    ->name('evaluasi.penyelenggara.form')
-    ->middleware(['auth', 'role:peserta_internal|peserta_mitra']);
-Route::get('/course/{id}/evaluasi/penyelenggara/rekap', 'Course\EvaluasiController@rekapPenyelenggara')
-    ->name('evaluasi.penyelenggara.rekap')
-    ->middleware(['auth', 'role:administrator|internal|mitra']);
-Route::post('/course/{id}/evaluasi/penyelenggara', 'Course\EvaluasiController@submitPenyelenggara')
-    ->name('evaluasi.penyelenggara.submit')
-    ->middleware(['auth', 'role:peserta_internal|peserta_mitra']);
-Route::get('/course/{id}/evaluasi/penyelenggara/export', 'Course\EvaluasiController@exportPenyelenggara')
-    ->name('evaluasi.penyelenggara.export')
-    ->middleware(['auth', 'role:administrator|internal|mitra|instruktur_internal|instruktur_mitra']);
-#--pengajar
-Route::get('/course/{id}/bahan/{bahanId}/evaluasi/pengajar/form', 'Course\EvaluasiController@formPengajar')
-    ->name('evaluasi.pengajar.form')
-    ->middleware(['auth', 'role:peserta_internal|peserta_mitra']);
-Route::get('/course/{id}/bahan/{bahanId}/evaluasi/pengajar/rekap', 'Course\EvaluasiController@rekapPengajar')
-    ->name('evaluasi.pengajar.rekap')
-    ->middleware(['auth', 'role:administrator|internal|mitra|instruktur_internal|instruktur_mitra']);
-Route::post('/course/{id}/bahan/{bahanId}/evaluasi/pengajar', 'Course\EvaluasiController@submitPengajar')
-    ->name('evaluasi.pengajar.submit')
-    ->middleware(['auth', 'role:peserta_internal|peserta_mitra']);
-Route::get('/course/{id}/bahan/{bahanId}/evaluasi/pengajar/export', 'Course\EvaluasiController@exportPengajar')
-    ->name('evaluasi.pengajar.export')
-    ->middleware(['auth', 'role:administrator|internal|mitra|instruktur_internal|instruktur_mitra']);
 
 /**
  * authentication
  */
 //login
-Route::get('/login', 'Auth\LoginController@showLoginForm')
+Route::get('/login', [LoginController::class, 'showLoginForm'])
     ->name('login')
     ->middleware('guest');
-Route::post('/login', 'Auth\LoginController@login')
+Route::post('/login', [LoginController::class, 'login'])
     ->middleware('guest');
 
 //register
-Route::get('/register', 'Auth\RegisterController@showRegisterForm')
+Route::get('/register', [RegisterController::class, 'showRegisterForm'])
     ->name('register')
     ->middleware('guest');
-Route::post('/register', 'Auth\RegisterController@register')
+Route::post('/register', [RegisterController::class, 'register'])
     ->middleware('guest');
-Route::get('/register/activate/{email}', 'Auth\RegisterController@activate')
+Route::get('/register/activate/{email}', [RegisterController::class, 'activate'])
     ->name('register.activate')
     ->middleware('guest');
 
 //forgot password
-Route::get('/forgot-password', 'Auth\ForgotPasswordController@showLinkRequestForm')
+Route::get('/forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])
     ->name('password.email')->middleware('guest');
-Route::post('/forgot-password', 'Auth\ForgotPasswordController@sendResetLinkEmail')
+Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])
     ->middleware('guest');
-Route::get('/reset-password/{token}', 'Auth\ResetPasswordController@showResetForm')
+Route::get('/reset-password/{token}', [ResetPasswordController::class, 'showResetForm'])
     ->name('password.reset')->middleware('guest');
-Route::post('/reset-password/send', 'Auth\ResetPasswordController@reset')
+Route::post('/reset-password/send', [ResetPasswordController::class, 'reset'])
     ->name('password.update')->middleware('guest');
 
 /**
@@ -243,329 +81,8 @@ Route::post('/reset-password/send', 'Auth\ResetPasswordController@reset')
 Route::group(['middleware' => ['auth']], function () {
 
     // dashboard
-    Route::get('/dashboard', 'HomeController@dashboard')
+    Route::get('/dashboard', [HomeController::class, 'dashboard'])
         ->name('dashboard');
-
-    //profile
-    Route::get('/profile', 'Users\UserController@profile')
-        ->name('profile');
-    Route::get('/profile/edit', 'Users\UserController@profileForm')
-        ->name('profile.edit');
-    Route::put('/profile/edit', 'Users\UserController@updateProfile');
-    //verifikasi email
-    Route::get('/profile/email/verification/send', 'Users\UserController@sendVerification')
-        ->name('profile.email.verification.send');
-    Route::get('/profile/email/verification/{email}', 'Users\UserController@verification')
-        ->name('profile.email.verification');
-
-    /**data master */
-    //--- user management
-    //instansi internal
-    Route::get('/instansi/internal', 'Instansi\InstansiInternalController@index')
-        ->name('instansi.internal.index')
-        ->middleware('role:developer|administrator');
-    Route::get('/instansi/internal/create', 'Instansi\InstansiInternalController@create')
-        ->name('instansi.internal.create')
-        ->middleware('role:developer|administrator');
-    Route::post('/instansi/internal', 'Instansi\InstansiInternalController@store')
-        ->name('instansi.internal.store')
-        ->middleware('role:developer|administrator');
-    Route::get('/instansi/internal/{id}/edit', 'Instansi\InstansiInternalController@edit')
-        ->name('instansi.internal.edit')
-        ->middleware('role:developer|administrator');
-    Route::put('/instansi/internal/{id}', 'Instansi\InstansiInternalController@update')
-        ->name('instansi.internal.update')
-        ->middleware('role:developer|administrator');
-    Route::put('/instansi/internal/{id}/soft', 'Instansi\InstansiInternalController@destroySoft')
-        ->name('instansi.internal.destroy.soft')
-        ->middleware('role:developer|administrator');
-    Route::delete('/instansi/internal/{id}', 'Instansi\InstansiInternalController@destroy')
-        ->name('instansi.internal.destroy')
-        ->middleware('role:developer|administrator');
-
-    //instansi mitra
-    Route::get('/instansi/mitra', 'Instansi\InstansiMitraController@index')
-        ->name('instansi.mitra.index')
-        ->middleware('role:developer|administrator|internal');
-    Route::get('/instansi/mitra/create', 'Instansi\InstansiMitraController@create')
-        ->name('instansi.mitra.create')
-        ->middleware('role:developer|administrator|internal');
-    Route::post('/instansi/mitra', 'Instansi\InstansiMitraController@store')
-        ->name('instansi.mitra.store')
-        ->middleware('role:developer|administrator|internal');
-    Route::get('/instansi/mitra/{id}/edit', 'Instansi\InstansiMitraController@edit')
-        ->name('instansi.mitra.edit')
-        ->middleware('role:developer|administrator|internal');
-    Route::put('/instansi/mitra/{id}', 'Instansi\InstansiMitraController@update')
-        ->name('instansi.mitra.update')
-        ->middleware('role:developer|administrator|internal');
-    Route::delete('/instansi/mitra/{id}', 'Instansi\InstansiMitraController@destroy')
-        ->name('instansi.mitra.destroy')
-        ->middleware('role:developer|administrator|internal');
-
-    //jabatan
-    Route::get('/jabatan', 'JabatanController@index')
-        ->name('jabatan.index')
-        ->middleware('role:developer|administrator');
-    Route::get('/jabatan/create', 'JabatanController@create')
-        ->name('jabatan.create')
-        ->middleware('role:developer|administrator');
-    Route::post('/jabatan', 'JabatanController@store')
-        ->name('jabatan.store')
-        ->middleware('role:developer|administrator');
-    Route::get('/jabatan/{id}/edit', 'JabatanController@edit')
-        ->name('jabatan.edit')
-        ->middleware('role:developer|administrator');
-    Route::put('/jabatan/{id}', 'JabatanController@update')
-        ->name('jabatan.update')
-        ->middleware('role:developer|administrator');
-    Route::delete('/jabatan/{id}', 'JabatanController@destroy')
-        ->name('jabatan.destroy')
-        ->middleware('role:developer|administrator');
-
-    //users
-    Route::get('/user', 'Users\UserController@index')
-        ->name('user.index')
-        ->middleware('role:developer|administrator');
-    Route::get('/user/trash', 'Users\UserController@trash')
-        ->name('user.trash')
-        ->middleware('role:developer|administrator');
-    Route::get('/user/create', 'Users\UserController@create')
-        ->name('user.create')
-        ->middleware('role:developer|administrator');
-    Route::post('/user', 'Users\UserController@store')
-        ->name('user.store')
-        ->middleware('role:developer|administrator');
-    Route::get('/user/{id}/edit', 'Users\UserController@edit')
-        ->name('user.edit')
-        ->middleware('role:developer|administrator');
-    Route::put('/user/{id}', 'Users\UserController@update')
-        ->name('user.update')
-        ->middleware('role:developer|administrator');
-    Route::put('/user/{id}/activate', 'Users\UserController@activate')
-        ->name('user.activate')
-        ->middleware('role:developer|administrator');
-    Route::delete('/user/{id}', 'Users\UserController@destroy')
-        ->name('user.destroy')
-        ->middleware('role:developer|administrator');
-    Route::get('user/{id}/soft', 'Users\UserController@softDelete')
-        ->name('user.destroy.soft')
-        ->middleware('role:developer|administrator');
-    Route::get('user/{id}/restore', 'Users\UserController@restore')
-        ->name('user.destroy.restore')
-        ->middleware('role:developer|administrator');
-
-    //internal
-    Route::get('/internal', 'Users\InternalController@index')
-        ->name('internal.index')
-        ->middleware('role:developer|administrator');
-    Route::get('/internal/create', 'Users\InternalController@create')
-        ->name('internal.create')
-        ->middleware('role:developer|administrator');
-    Route::post('/internal', 'Users\InternalController@store')
-        ->name('internal.store')
-        ->middleware('role:developer|administrator');
-    Route::get('/internal/{id}/edit', 'Users\InternalController@edit')
-        ->name('internal.edit')
-        ->middleware('role:developer|administrator');
-    Route::put('/internal/{id}', 'Users\InternalController@update')
-        ->name('internal.update')
-        ->middleware('role:developer|administrator');
-    Route::delete('/internal/{id}', 'Users\InternalController@destroy')
-        ->name('internal.destroy')
-        ->middleware('role:developer|administrator');
-    Route::get('/internal/{id}/soft', 'Users\InternalController@softDelete')
-        ->name('internal.destroy.soft')
-        ->middleware('role:developer|administrator');
-
-    //mitra
-    Route::get('/mitra', 'Users\MitraController@index')
-        ->name('mitra.index')
-        ->middleware('role:developer|administrator|internal');
-    Route::get('/mitra/create', 'Users\MitraController@create')
-        ->name('mitra.create')
-        ->middleware('role:developer|administrator|internal');
-    Route::post('/mitra', 'Users\MitraController@store')
-        ->name('mitra.store')
-        ->middleware('role:developer|administrator|internal');
-    Route::get('/mitra/{id}/edit', 'Users\MitraController@edit')
-        ->name('mitra.edit')
-        ->middleware('role:developer|administrator|internal');
-    Route::put('/mitra/{id}', 'Users\MitraController@update')
-        ->name('mitra.update')
-        ->middleware('role:developer|administrator|internal');
-    Route::delete('/mitra/{id}', 'Users\MitraController@destroy')
-        ->name('mitra.destroy')
-        ->middleware('role:developer|administrator|internal');
-    Route::get('/mitra/{id}/soft', 'Users\MitraController@softDelete')
-        ->name('mitra.destroy.soft')
-        ->middleware('role:developer|administrator|internal');
-
-    //instruktur
-    Route::get('/instruktur', 'Users\InstrukturController@index')
-        ->name('instruktur.index')
-        ->middleware('role:developer|administrator|internal|mitra');
-    Route::get('/instruktur/create', 'Users\InstrukturController@create')
-        ->name('instruktur.create')
-        ->middleware('role:developer|administrator|internal|mitra');
-    Route::post('/instruktur', 'Users\InstrukturController@store')
-        ->name('instruktur.store')
-        ->middleware('role:developer|administrator|internal|mitra');
-    Route::get('/instruktur/{id}/edit', 'Users\InstrukturController@edit')
-        ->name('instruktur.edit')
-        ->middleware('role:developer|administrator|internal|mitra');
-    Route::put('/instruktur/{id}', 'Users\InstrukturController@update')
-        ->name('instruktur.update')
-        ->middleware('role:developer|administrator|internal|mitra');
-    Route::delete('/instruktur/{id}', 'Users\InstrukturController@destroy')
-        ->name('instruktur.destroy')
-        ->middleware('role:developer|administrator|internal|mitra');
-    Route::get('/instruktur/{id}/soft', 'Users\InstrukturController@softDelete')
-        ->name('instruktur.destroy.soft')
-        ->middleware('role:developer|administrator|internal|mitra');
-
-    //peserta
-    Route::get('/peserta', 'Users\PesertaController@index')
-        ->name('peserta.index')
-        ->middleware('role:developer|administrator|internal|mitra');
-    Route::get('/peserta/create', 'Users\PesertaController@create')
-        ->name('peserta.create')
-        ->middleware('role:developer|administrator|internal|mitra');
-    Route::post('/peserta', 'Users\PesertaController@store')
-        ->name('peserta.store')
-        ->middleware('role:developer|administrator|internal|mitra');
-    Route::get('/peserta/{id}/edit', 'Users\PesertaController@edit')
-        ->name('peserta.edit')
-        ->middleware('role:developer|administrator|internal|mitra');
-    Route::put('/peserta/{id}', 'Users\PesertaController@update')
-        ->name('peserta.update')
-        ->middleware('role:developer|administrator|internal|mitra');
-    Route::delete('/peserta/{id}', 'Users\PesertaController@destroy')
-        ->name('peserta.destroy')
-        ->middleware('role:developer|administrator|internal|mitra');
-    Route::get('/peserta/{id}/soft', 'Users\PesertaController@softDelete')
-        ->name('peserta.destroy.soft')
-        ->middleware('role:developer|administrator|internal|mitra');
-        Route::get('/peserta/export', 'Users\PesertaController@export')
-        ->name('peserta.export')
-        ->middleware('role:developer|administrator|internal|mitra');
-
-    //--- grades management
-    //kategori
-    Route::get('/grades', 'Grades\GradesKategoriController@index')
-        ->name('grades.index')
-        ->middleware('role:developer|administrator');
-    Route::get('/grades/create', 'Grades\GradesKategoriController@create')
-        ->name('grades.create')
-        ->middleware('role:developer|administrator');
-    Route::post('/grades', 'Grades\GradesKategoriController@store')
-        ->name('grades.store')
-        ->middleware('role:developer|administrator');
-    Route::get('/grades/{id}/edit', 'Grades\GradesKategoriController@edit')
-        ->name('grades.edit')
-        ->middleware('role:developer|administrator');
-    Route::put('/grades/{id}', 'Grades\GradesKategoriController@update')
-        ->name('grades.update')
-        ->middleware('role:developer|administrator');
-    Route::delete('/grades/{id}', 'Grades\GradesKategoriController@destroy')
-        ->name('grades.destroy')
-        ->middleware('role:developer|administrator');
-
-    //nilai
-    Route::get('/grades/{id}/nilai', 'Grades\GradesNilaiController@index')
-        ->name('grades.nilai')
-        ->middleware('role:developer|administrator');
-    Route::get('/grades/{id}/nilai/create', 'Grades\GradesNilaiController@create')
-        ->name('grades.nilai.create')
-        ->middleware('role:developer|administrator');
-    Route::post('/grades/{id}/nilai', 'Grades\GradesNilaiController@store')
-        ->name('grades.nilai.store')
-        ->middleware('role:developer|administrator');
-    Route::get('/grades/{id}/nilai/{nilaiId}/edit', 'Grades\GradesNilaiController@edit')
-        ->name('grades.nilai.edit')
-        ->middleware('role:developer|administrator');
-    Route::put('/grades/{id}/nilai/{nilaiId}', 'Grades\GradesNilaiController@update')
-        ->name('grades.nilai.update')
-        ->middleware('role:developer|administrator');
-    Route::delete('/grades/{id}/nilai/{nilaiId}', 'Grades\GradesNilaiController@destroy')
-        ->name('grades.nilai.destroy')
-        ->middleware('role:developer|administrator');
-
-    /**bank data */
-    Route::get('/bank/data/{type}', 'BankDataController@index')
-        ->name('bank.data')
-        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
-    Route::get('/bank/data/filemanager/view', 'BankDataController@filemanager')
-        ->name('bank.data.filemanager')
-        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
-
-    //directory
-    Route::post('/directory', 'BankDataController@storeDirectory')
-        ->name('bank.data.directory.store')
-        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
-    Route::delete('/directory', 'BankDataController@destroyDirectory')
-        ->name('bank.data.directory.destroy')
-        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
-
-    //file
-    Route::post('/files', 'BankDataController@storeFile')
-        ->name('bank.data.files.store')
-        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
-    Route::put('/files/{id}', 'BankDataController@updateFile')
-        ->name('bank.data.files.update')
-        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
-    Route::delete('/files/{id}', 'BankDataController@destroyFile')
-        ->name('bank.data.files.destroy')
-        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
-
-    /**bank soal */
-    //kategori
-    Route::get('bank/soal', 'Soal\SoalKategoriController@mata')
-        ->name('soal.mata')
-        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
-    Route::get('mata/{id}/soal/kategori', 'Soal\SoalKategoriController@index')
-        ->name('soal.kategori')
-        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
-    Route::get('mata/{id}/soal/kategori/create', 'Soal\SoalKategoriController@create')
-        ->name('soal.kategori.create')
-        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
-    Route::post('mata/{id}/soal/kategori', 'Soal\SoalKategoriController@store')
-        ->name('soal.kategori.store')
-        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
-    Route::get('/mata/{id}/soal/kategori/{kategoriId}/edit', 'Soal\SoalKategoriController@edit')
-        ->name('soal.kategori.edit')
-        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
-    Route::put('mata/{id}/soal/kategori/{kategoriId}', 'Soal\SoalKategoriController@update')
-        ->name('soal.kategori.update')
-        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
-    Route::delete('mata/{id}/soal/kategori/{kategoriId}', 'Soal\SoalKategoriController@destroy')
-        ->name('soal.kategori.destroy')
-        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
-    //soal
-    Route::get('mata/{id}/soal/kategori/{kategoriId}', 'Soal\SoalController@index')
-        ->name('soal.index')
-        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
-    Route::get('soal/kategori/json/{quizId}', 'Soal\SoalController@soalByKategori')
-        ->name('soal.json')
-        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
-    Route::get('mata/{id}/soal/kategori/{kategoriId}/create', 'Soal\SoalController@create')
-        ->name('soal.create')
-        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
-    Route::post('mata/{id}/soal/kategori/{kategoriId}', 'Soal\SoalController@store')
-        ->name('soal.store')
-        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
-    Route::post('mata/{id}/soal/kategori/{kategoriId}/import', 'Soal\SoalController@import')
-        ->name('soal.import')
-        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
-    Route::get('mata/{id}/soal/kategori/{kategoriId}/edit/{soalId}', 'Soal\SoalController@edit')
-        ->name('soal.edit')
-        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
-    Route::put('mata/{id}/soal/kategori/{kategoriId}/{soalId}', 'Soal\SoalController@update')
-        ->name('soal.update')
-        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
-    Route::delete('mata/{id}/soal/kategori/{kategoriId}/{soalId}', 'Soal\SoalController@destroy')
-        ->name('soal.destroy')
-        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
 
     /**manage course */
     //program pelatihan
@@ -687,6 +204,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('mata/{id}/export/activity','Course\MataActivityController@activityExport')
         ->name('mata.export.activity')
         ->middleware('role:administrator|internal|mitra');
+    #penilaian
+    Route::get('/mata/{id}/nilai/peserta', 'Course\MataActivityController@nilaiPeserta')
+        ->name('mata.nilai.peserta');
 
     //materi pelatihan
     Route::get('/mata/{id}/materi', 'Course\MateriController@index')
@@ -782,148 +302,6 @@ Route::group(['middleware' => ['auth']], function () {
     //activity
     Route::post('/activity/{bahanId}/complete', 'Course\Bahan\BahanController@activityComplete')
         ->name('activity.complete');
-
-    // template mata
-    Route::get('/template/mata', 'Course\Template\TemplateMataController@index')
-        ->name('template.mata.index')
-        ->middleware('role:administrator|internal');
-    Route::get('/template/mata/create', 'Course\Template\TemplateMataController@create')
-        ->name('template.mata.create')
-        ->middleware('role:administrator|internal');
-    Route::post('/template/mata', 'Course\Template\TemplateMataController@store')
-        ->name('template.mata.store')
-        ->middleware('role:administrator|internal');
-    Route::get('/template/mata/{id}/edit', 'Course\Template\TemplateMataController@edit')
-        ->name('template.mata.edit')
-        ->middleware('role:administrator|internal');
-    Route::put('/template/mata/{id}', 'Course\Template\TemplateMataController@update')
-        ->name('template.mata.update')
-        ->middleware('role:administrator|internal');
-    Route::put('/template/mata/{id}/position/{position}', 'Course\Template\TemplateMataController@position')
-        ->name('template.mata.position')
-        ->middleware('role:developer|administrator|internal');
-    Route::put('/template/mata/{id}/publish', 'Course\Template\TemplateMataController@publish')
-        ->name('template.mata.publish')
-        ->middleware('role:developer|administrator|internal');
-    Route::post('/template/mata/sort', 'Course\Template\TemplateMataController@sort')
-        ->name('template.mata.sort')
-        ->middleware('role:developer|administrator|internal|mitra');
-    Route::delete('/template/mata/{id}', 'Course\Template\TemplateMataController@destroy')
-        ->name('template.mata.destroy')
-        ->middleware('role:administrator|internal');
-
-    /**template bank soal */
-    //template kategori
-    Route::get('/template/mata/{id}/soal/kategori', 'Course\Template\TemplateSoalKategoriController@index')
-        ->name('template.soal.kategori')
-        ->middleware('role:developer|administrator|internal');
-    Route::get('/template/mata/{id}/soal/kategori/create', 'Course\Template\TemplateSoalKategoriController@create')
-        ->name('template.soal.kategori.create')
-        ->middleware('role:developer|administrator|internal');
-    Route::post('/template/mata/{id}/soal/kategori', 'Course\Template\TemplateSoalKategoriController@store')
-        ->name('template.soal.kategori.store')
-        ->middleware('role:developer|administrator|internal');
-    Route::get('/template/mata/{id}/soal/kategori/{kategoriId}/edit', 'Course\Template\TemplateSoalKategoriController@edit')
-        ->name('template.soal.kategori.edit')
-        ->middleware('role:developer|administrator|internal');
-    Route::put('/template/mata/{id}/soal/kategori/{kategoriId}', 'Course\Template\TemplateSoalKategoriController@update')
-        ->name('template.soal.kategori.update')
-        ->middleware('role:developer|administrator|internal');
-    Route::delete('/template/mata/{id}/soal/kategori/{kategoriId}', 'Course\Template\TemplateSoalKategoriController@destroy')
-        ->name('template.soal.kategori.destroy')
-        ->middleware('role:developer|administrator|internal');
-
-    //template soal
-    Route::get('/template/mata/{id}/soal/kategori/{kategoriId}', 'Course\Template\TemplateSoalController@index')
-        ->name('template.soal.index')
-        ->middleware('role:developer|administrator|internal');
-    Route::get('/template/soal/kategori/json/{quizId}', 'Course\Template\TemplateSoalController@soalByKategori')
-        ->name('template.soal.json')
-        ->middleware('role:developer|administrator|internal');
-    Route::get('/template/mata/{id}/soal/kategori/{kategoriId}/create', 'Course\Template\TemplateSoalController@create')
-        ->name('template.soal.create')
-        ->middleware('role:developer|administrator|internal');
-    Route::post('/template/mata/{id}/soal/kategori/{kategoriId}', 'Course\Template\TemplateSoalController@store')
-        ->name('template.soal.store')
-        ->middleware('role:developer|administrator|internal');
-    Route::get('/template/mata/{id}/soal/kategori/{kategoriId}/edit/{soalId}', 'Course\Template\TemplateSoalController@edit')
-        ->name('template.soal.edit')
-        ->middleware('role:developer|administrator|internal');
-    Route::put('/template/mata/{id}/soal/kategori/{kategoriId}/{soalId}', 'Course\Template\TemplateSoalController@update')
-        ->name('template.soal.update')
-        ->middleware('role:developer|administrator|internal');
-    Route::delete('/template/mata/{id}/soal/kategori/{kategoriId}/{soalId}', 'Course\Template\TemplateSoalController@destroy')
-        ->name('template.soal.destroy')
-        ->middleware('role:developer|administrator|internal');
-
-    // template materi
-    Route::get('/template/mata/{id}/materi', 'Course\Template\TemplateMateriController@index')
-        ->name('template.materi.index')
-        ->middleware('role:administrator|internal');
-    Route::get('/template/mata/{id}/materi/create', 'Course\Template\TemplateMateriController@create')
-        ->name('template.materi.create')
-        ->middleware('role:administrator|internal');
-    Route::post('/template/mata/{id}', 'Course\Template\TemplateMateriController@store')
-        ->name('template.materi.store')
-        ->middleware('role:administrator|internal');
-    Route::get('/template/mata/{id}/materi/{materiId}/edit', 'Course\Template\TemplateMateriController@edit')
-        ->name('template.materi.edit')
-        ->middleware('role:administrator|internal');
-    Route::put('/template/mata/{id}/materi/{materiId}', 'Course\Template\TemplateMateriController@update')
-        ->name('template.materi.update')
-        ->middleware('role:administrator|internal');
-    Route::put('/template/mata/{id}/materi/{materiId}/position/{position}', 'Course\Template\TemplateMateriController@position')
-        ->name('template.materi.position')
-        ->middleware('role:developer|administrator|internal');
-    Route::post('/template/mata/{id}/materi/sort', 'Course\Template\TemplateMateriController@sort')
-        ->name('template.materi.sort')
-        ->middleware('role:developer|administrator|internal');
-    Route::delete('/template/mata/{id}/materi/{materiId}', 'Course\Template\TemplateMateriController@destroy')
-        ->name('template.materi.destroy')
-        ->middleware('role:administrator|internal');
-
-    //template bahan
-    Route::get('/template/materi/{id}/bahan', 'Course\Template\TemplateBahanController@index')
-        ->name('template.bahan.index')
-        ->middleware('role:administrator|internal');
-    Route::get('/template/materi/{id}/bahan/create', 'Course\Template\TemplateBahanController@create')
-        ->name('template.bahan.create')
-        ->middleware('role:administrator|internal');
-    Route::post('/template/materi/{id}/bahan', 'Course\Template\TemplateBahanController@store')
-        ->name('template.bahan.store')
-        ->middleware('role:administrator|internal');
-    Route::get('/template/materi/{id}/bahan/{bahanId}/edit', 'Course\Template\TemplateBahanController@edit')
-        ->name('template.bahan.edit')
-        ->middleware('role:administrator|internal');
-    Route::put('/template/materi/{id}/bahan/{bahanId}', 'Course\Template\TemplateBahanController@update')
-        ->name('template.bahan.update')
-        ->middleware('role:administrator|internal');
-    Route::delete('/template/materi/{id}/bahan/{bahanId}', 'Course\Template\TemplateBahanController@destroy')
-        ->name('template.bahan.destroy')
-        ->middleware('role:administrator|internal');
-
-    //template bahan quiz item
-    Route::get('/template/quiz/{id}/item', 'Course\Template\TemplateBahanQuizItemController@index')
-        ->name('template.quiz.item')
-        ->middleware('role:developer|administrator|internal');
-    Route::get('/template/quiz/{id}/item/create', 'Course\Template\TemplateBahanQuizItemController@create')
-        ->name('template.quiz.item.create')
-        ->middleware('role:developer|administrator|internal');
-    Route::post('/template/quiz/{id}/item/store', 'Course\Template\TemplateBahanQuizItemController@store')
-        ->name('template.quiz.item.store')
-        ->middleware('role:developer|administrator|internal');
-    Route::post('/template/quiz/{id}/item/input', 'Course\Template\TemplateBahanQuizItemController@storeFromBank')
-        ->name('template.quiz.item.input')
-        ->middleware('role:developer|administrator|internal');
-    Route::get('/template/quiz/{id}/item/{itemId}/edit', 'Course\Template\TemplateBahanQuizItemController@edit')
-        ->name('template.quiz.item.edit')
-        ->middleware('role:developer|administrator|internal');
-    Route::put('/template/quiz/{id}/item/{itemId}', 'Course\Template\TemplateBahanQuizItemController@update')
-        ->name('template.quiz.item.update')
-        ->middleware('role:developer|administrator|internal');
-    Route::delete('/template/quiz/{id}/item/{itemId}', 'Course\Template\TemplateBahanQuizItemController@destroy')
-        ->name('template.quiz.item.destroy')
-        ->middleware('role:developer|administrator|internal');
 
     //templating
     Route::post('/template/{id}/mata/copy', 'Course\TemplatingController@copyAsTemplate')
@@ -1237,14 +615,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::delete('badges/delete/{id}','BadgeController@destroy')->name('badge.delete')->middleware('role:developer|administrator|internal');
 
     //notifikasi
-    Route::get('notifikasi/{id}','Component\NotificationController@index')->name('notification.show')->middleware('auth');
+    Route::get('notifikasi/{id}', [NotificationController::class, 'index'])
+        ->name('notification.show')
+        ->middleware('auth');
 
     //logout
-    Route::post('/logout', 'Auth\LoginController@logout')
+    Route::post('/logout', [LoginController::class, 'logout'])
         ->name('logout');
 });
-
-//stream file
-Route::get('/bank/data/view/{path}', 'BankDataController@streamFile')
-        ->where('path', '^.*\.(jpg|JPG|jpeg|JPEG|png|PNG|pdf|PDF|ppt|PPT|pptx|PPTX|mp3|MP3|wav|WAV|mp4|MP4|webm|WEBM|doc|DOC|docx|DOCX|xls|XLS|xlsx|XLSX|html)$')
-        ->name('bank.data.stream');

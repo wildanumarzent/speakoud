@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Course\Template;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\SoalRequest;
+use App\Http\Requests\Bank\SoalRequest;
 use App\Services\Course\Template\TemplateSoalKategoriService;
 use App\Services\Course\Template\TemplateSoalService;
 use Illuminate\Http\Request;
@@ -23,16 +23,12 @@ class TemplateSoalController extends Controller
 
     public function index(Request $request, $mataId, $kategoriId)
     {
-        $t = '';
-        $q = '';
-        if (isset($request->t) || isset($request->q)) {
-            $t = '?t='.$request->t;
-            $q = '&q='.$request->q;
-        }
+        $url = $request->url();
+        $param = str_replace($url, '', $request->fullUrl());
 
         $data['soal'] = $this->service->getTemplateSoalList($request, $mataId, $kategoriId);
         $data['number'] = $data['soal']->firstItem();
-        $data['soal']->withPath(url()->current().$t.$q);
+        $data['soal']->withPath(url()->current().$param);
         $data['kategori'] = $this->serviceKategori->findTemplateSoalKategori($kategoriId);
 
         return view('backend.course_management.template.bank_soal.index', compact('data'), [

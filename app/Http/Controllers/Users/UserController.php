@@ -3,13 +3,14 @@
 namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ProfileRequest;
-use App\Http\Requests\UserRequest;
+use App\Http\Requests\User\ProfileRequest;
+use App\Http\Requests\User\UserRequest;
 use App\Services\JabatanService;
 use App\Services\LearningCompetency\JourneyService;
 use App\Services\Users\RoleService;
 use App\Services\Users\UserService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Mail;
 
@@ -32,19 +33,13 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
-        $r = '';
-        $a = '';
-        $q = '';
-        if (isset($request->r) || isset($request->a) || isset($request->q)) {
-            $r = '?r='.$request->r;
-            $a = '&a='.$request->a;
-            $q = '&q='.$request->q;
-        }
+        $url = $request->url();
+        $param = str_replace($url, '', $request->fullUrl());
 
         $data['users'] = $this->service->getUserList($request, false);
         $data['roles'] = $this->serviceRole->getAllRole();
-        $data['number'] = $data['users']->firstItem();
-        $data['users']->withPath(url()->current().$r.$a.$q);
+        $data['no'] = $data['users']->firstItem();
+        $data['users']->withPath(url()->current().$param);
 
         return view('backend.user_management.users.index', compact('data'), [
             'title' => 'Users',
@@ -56,19 +51,13 @@ class UserController extends Controller
 
     public function trash(Request $request)
     {
-        $r = '';
-        $a = '';
-        $q = '';
-        if (isset($request->r) || isset($request->a) || isset($request->q)) {
-            $r = '?r='.$request->r;
-            $a = '&a='.$request->a;
-            $q = '&q='.$request->q;
-        }
+        $url = $request->url();
+        $param = str_replace($url, '', $request->fullUrl());
 
         $data['users'] = $this->service->getUserList($request, true);
         $data['roles'] = $this->serviceRole->getAllRole();
-        $data['number'] = $data['users']->firstItem();
-        $data['users']->withPath(url()->current().$r.$a.$q);
+        $data['no'] = $data['users']->firstItem();
+        $data['users']->withPath(url()->current().$param);
 
         return view('backend.user_management.users.trash', compact('data'), [
             'title' => 'Users - Tong Sampan',
@@ -81,11 +70,13 @@ class UserController extends Controller
 
     public function profile()
     {
-        $data['user'] = auth()->user();
+        $data['user'] = Auth::user();
         $data['information'] = $data['user']->information;
-        if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
-        $data['myJourney'] = $this->journey->myJourney(auth()->user()->peserta->id);
+        
+        if (Auth::user()->hasRole('peserta_internal|peserta_mitra')) {
+            $data['myJourney'] = $this->journey->myJourney(Auth::user()->peserta->id);
         }
+
         return view('backend.user_management.profile', compact('data'), [
             'title' => 'Profile',
             'breadcrumbsFrontend' => [
@@ -96,14 +87,14 @@ class UserController extends Controller
 
     public function profileForm()
     {
-        $data['user'] = auth()->user();
+        $data['user'] = Auth::user();
         $data['information'] = $data['user']->information;
         $data['jabatan'] = $this->serviceJabatan->getJabatan();
 
         return view('backend.user_management.profile-form', compact('data'), [
             'title' => 'Profile - Ubah',
             'breadcrumbsBackend' => [
-                'Profile' => '',
+                'Profile' => '#!',
                 'Ubah' => ''
             ],
         ]);
@@ -111,7 +102,7 @@ class UserController extends Controller
 
     public function create()
     {
-        $data['roles'] = $this->serviceRole->getRoleAdministrator(auth()->user()
+        $data['roles'] = $this->serviceRole->getRoleAdministrator(Auth::user()
             ->roles[0]->id);
 
         return view('backend.user_management.users.form', compact('data'), [
@@ -134,7 +125,7 @@ class UserController extends Controller
     public function edit($id)
     {
         $data['user'] = $this->service->findUser($id);
-        $data['roles'] = $this->serviceRole->getRoleAdministrator(auth()->user()
+        $data['roles'] = $this->serviceRole->getRoleAdministrator(Auth::user()
             ->roles[0]->id);
 
         return view('backend.user_management.users.form', compact('data'), [
@@ -156,7 +147,7 @@ class UserController extends Controller
 
     public function updateProfile(ProfileRequest $request)
     {
-        $this->service->updateProfile($request, auth()->user()->id);
+        $this->service->updateProfile($request, Auth::user()->id);
 
         return back()->with('success', 'Profile berhasil diubah');
     }
@@ -170,14 +161,14 @@ class UserController extends Controller
 
     public function sendVerification()
     {
-        $encrypt = Crypt::encrypt(auth()->user()->email);
+        $encrypt = Crypt::encrypt(Auth::user()->email);
 
         $data = [
-            'email' => auth()->user()->email,
+            'email' => Auth::user()->email,
             'link' => route('profile.email.verification', ['email' => $encrypt]),
         ];
 
-        // Mail::to(auth()->user()->email)->send(new \App\Mail\VerificationMail($data));
+        // Mail::to(Auth::user()->email)->send(new \App\Mail\VerificationMail($data));
 
         return back()->with('success', 'Berhasil mengirim link. Cek email untuk verifikasi email');
     }
@@ -221,20 +212,38 @@ class UserController extends Controller
 
     public function destroy($id)
     {
-        $delete = $this->service->deleteUser($id);
+        // $delete = $this->service->deleteUser($id);
 
-        if ($delete == true) {
+        // if ($delete == true) {
+
+        //     return response()->json([
+        //         'success' => 1,
+        //         'message' => ''
+        //     ], 200);
+
+        // } else {
+
+        //     return response()->json([
+        //         'success' => 0,
+        //         'message' => 'User tidak bisa dihapus, dikarenakan masih memiliki data yang bersangkutan'
+        //     ], 200);
+        // }
+
+        try {
+            
+            $this->service->deleteUser($id);
 
             return response()->json([
                 'success' => 1,
                 'message' => ''
             ], 200);
 
-        } else {
+        } catch (\Throwable $th) {
+            //throw $th;
 
             return response()->json([
                 'success' => 0,
-                'message' => 'User tidak bisa dihapus, dikarenakan masih memiliki data yang bersangkutan'
+                'message' => $th->getMessage(),
             ], 200);
         }
 

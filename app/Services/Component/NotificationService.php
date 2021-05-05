@@ -19,7 +19,7 @@ class NotificationService{
         $query->whereJsonContains('receiver',$userId);
         $query->whereJsonDoesntContain('read_by',$userId);
         $query->orderBy('created_at','desc');
-        $result = $query->take(10)->get();
+        $result = $query->take(5)->get();
         return $result;
     }
 
