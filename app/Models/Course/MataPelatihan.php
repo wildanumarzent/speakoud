@@ -151,7 +151,7 @@ class MataPelatihan extends Model
                 });
             }
         });
-        
+
         $query->whereNotNull('nilai');
 
         $result = $query->groupBy('tugas_id')->count();
@@ -227,8 +227,8 @@ class MataPelatihan extends Model
     {
         return $this->belongsTo(Badge::class, 'tipe_id')->where('tipe','program');
     }
-    public function extra()
+    public function extra($id)
     {
-        return $this->hasOne(MataExtra::class, 'mata_id');
+        return $this->hasOne(MataExtra::class, 'mata_id')->where('user_id',$id);
     }
 }
