@@ -1,4 +1,4 @@
-@extends('layouts.frontend.layout')
+    @extends('layouts.frontend.layout')
 
 @section('styles')
 <link rel="stylesheet" href="{{ asset('assets/tmplts_frontend/css/swiper.min.css') }}">
@@ -102,6 +102,7 @@
             <div class="swiper-wrapper">
 
                 @foreach ($data['mata'] as $mata)
+                {{-- {{dd($mata->peserta)}} --}}
                 <div class="swiper-slide">
                     <div class="item-post">
                         <div class="box-img">
@@ -164,7 +165,7 @@
     </div>
 </div>
 {{-- acara --}}
-<div class="box-wrap bg-grey-alt">
+{{-- <div class="box-wrap bg-grey-alt">
     <div class="container">
         <div class="row">
             <div class="col-md-12">
@@ -237,7 +238,7 @@
             </a>
         </div>
     </div>
-</div>
+</div> --}}
 {{-- langganan --}}
 {{-- <div class="box-wrap bg-blue">
     <div class="container">

@@ -21,7 +21,7 @@
                     </select>
                 </div>
             </div>
-            @if (auth()->user()->hasRole('developer|administrator'))
+            @if (auth()->user()->hasRole('developer|administrator|instruktur_internal'))
             <div class="col-md">
                 <div class="form-group">
                     <label class="form-label">Tipe</label>

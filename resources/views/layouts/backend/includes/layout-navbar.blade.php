@@ -25,7 +25,7 @@
         <div class="navbar-nav align-items-lg-center d-none d-lg-block">
           <!-- Search -->
           <label class="nav-item navbar-text navbar-search-box p-0 active">
-            BPPT E-LEARNING SYSTEM &nbsp;
+            E-LEARNING SYSTEM &nbsp;
             <a href="{{ route('home') }}" target="_blank" title="Website"><i class="las la-external-link-alt"></i></a>
           </label>
         </div>

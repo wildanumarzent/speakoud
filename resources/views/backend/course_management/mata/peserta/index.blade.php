@@ -101,10 +101,7 @@
             <thead>
                 <tr>
                     <th style="width: 10px;">No</th>
-                    <th>NIP</th>
                     <th>Nama</th>
-                    <th>Instansi / Perusahaan</th>
-                    <th>Unit Kerja</th>
                     {{-- <th>Surat Izin</th> --}}
                     <th style="width: 80px;">Aksi</th>
                 </tr>
@@ -128,10 +125,7 @@
                 @foreach ($data['peserta'] as $item)
                 <tr>
                     <td>{{ $data['number']++ }}</td>
-                    <td>{{ $item->peserta->nip }}</td>
                     <td>{{ $item->peserta->user->name }}</td>
-                    <td>{{ $item->peserta->instansi($item->peserta)->nama_instansi }}</td>
-                    <td>{{ $item->peserta->kedeputian }}</td>
                     {{-- <td>-</td> --}}
                     <td>
                         <a href="javascript:void(0);" class="btn btn-danger icon-btn btn-sm js-sa2-delete" data-mataid="{{ $item->mata_id }}" data-id="{{ $item->id }}" title="klik untuk menghapus peserta pelatihan">

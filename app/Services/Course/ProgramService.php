@@ -17,13 +17,42 @@ class ProgramService
     public function getProgramList($request)
     {
         $query = $this->model->query();
+            $query->when($request->q, function ($query, $q) {
+                $query->where(function ($query) use ($q) {
+                    $query->where('judul', 'ilike', '%'.$q.'%')
+                        ->orWhere('keterangan', 'ilike', '%'.$q.'%');
+                });
+            }); 
 
-        $query->when($request->q, function ($query, $q) {
-            $query->where(function ($query) use ($q) {
-                $query->where('judul', 'ilike', '%'.$q.'%')
-                    ->orWhere('keterangan', 'ilike', '%'.$q.'%');
-            });
-        });
+        if (isset($request->p)) {
+            $query->where('publish', $request->p);
+        }
+        if (isset($request->t)) {
+            $query->where('tipe', $request->t);
+        }
+
+        if (auth()->user()->hasRole('internal')) {
+            $query->where('tipe', 0);
+        }
+        if (auth()->user()->hasRole('mitra')) {
+            $query->where('mitra_id', auth()->user()->id)
+                ->where('tipe', 1);
+        }
+
+        $result = $query->orderBy('urutan', 'ASC')->paginate(10);
+
+        return $result;
+    }
+    public function getProgramListByCreatorId($request)
+    {
+        // return $request;
+        $query = $this->model->where('creator_id',auth()->user()->id );
+            $query->when($request->q, function ($query, $q) {
+                $query->where(function ($query) use ($q) {
+                    $query->where('judul', 'ilike', '%'.$q.'%')
+                        ->orWhere('keterangan', 'ilike', '%'.$q.'%');
+                });
+            }); 
 
         if (isset($request->p)) {
             $query->where('publish', $request->p);
@@ -73,11 +102,11 @@ class ProgramService
             $tipe = 1;
             $mitra = auth()->user()->mitra->id;
         }
-        if (auth()->user()->hasRole('internal')) {
+        if (auth()->user()->hasRole('instruktur_internal')) {
             $tipe = 0;
             $mitra = null;
         }
-        if (auth()->user()->hasRole('developer|administrator')) {
+        if (auth()->user()->hasRole('developer|administrator|instruktur_internal')) {
             $tipe = $request->tipe;
             $mitra = $request->mitra_id;
         }
@@ -88,7 +117,7 @@ class ProgramService
         $program->keterangan = $request->keterangan ?? null;
         $program->urutan = ($this->model->max('urutan') + 1);
         $program->publish = 1;
-        $program->tipe = $tipe;
+        $program->tipe = 0;
         $program->save();
 
         return $program;

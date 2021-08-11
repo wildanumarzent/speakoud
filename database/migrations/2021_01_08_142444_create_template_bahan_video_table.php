@@ -19,7 +19,7 @@ class CreateTemplateBahanVideoTable extends Migration
             $table->unsignedBigInteger('template_materi_id');
             $table->unsignedBigInteger('template_bahan_id');
             $table->unsignedBigInteger('creator_id');
-            $table->unsignedBigInteger('bank_data_id');
+            $table->unsignedBigInteger('bank_data_id')->nullable();
             $table->timestamps();
 
             $table->foreign('template_mata_id')->references('id')

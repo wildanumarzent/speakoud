@@ -85,22 +85,12 @@ class PesertaService
     {
         $query = $this->model->query();
 
-        $query->whereHas('user', function ($query) {
-            $query->active();
-        });
-        if ($type == false) {
-            $query->whereNull('mitra_id');
-        } else {
-            if (Auth::user()->hasRole('mitra')) {
-                $query->where('mitra_id', Auth::user()->mitra->id);
-            } else {
-                $query->whereNotNull('mitra_id');
-            }
-        }
-
-        $query->where(function ($query) use ($pesertaId) {
-            $query->whereNotIn('id', $pesertaId);
-        });
+        // $query->whereHas('user', function ($query) {
+        //     $query->active();
+        // });
+        // $query->where(function ($query) use ($pesertaId) {
+        //     $query->whereNotIn('id', $pesertaId);
+        // });
 
         $result = $query->get();
 
@@ -175,7 +165,7 @@ class PesertaService
     public function registerPeserta($request)
     {
         $user = $this->user->storeUser($request, 'register');
-
+        // return $user;
         $peserta = new Peserta;
         $peserta->user_id = $user->id;
         $peserta->nip = $request->nip ?? null;
@@ -204,8 +194,9 @@ class PesertaService
         ];
         $peserta->save();
 
-        $user->userable()->associate($peserta);
-        $user->save();
+        // $user->userable()->associate($peserta);
+        // dd($user);exit;
+        // $user->save();
 
         return [
             'user' => $user,

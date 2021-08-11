@@ -11,7 +11,8 @@
     <!-- Brand demo (see assets/css/demo/demo.css) -->
     <div class="app-brand demo">
         <span class="app-brand-logo demo">
-            <img src="{{ asset(config('custom.files.logo.f')) }}">
+            {{-- <img src="{{ asset(config('custom.files.logo.f')) }}"> --}}
+            <b>SPEAKOUD</b> 
         </span>
         <a href="javascript:void(0)" class="layout-sidenav-toggle sidenav-link text-large ml-auto">
           <i class="las la-thumbtack"></i>
@@ -30,7 +31,7 @@
 
         <!-- Module -->
         <li class="sidenav-divider mb-1"></li>
-        <li class="sidenav-header small font-weight-semibold">BELS MODULE</li>
+        <li class="sidenav-header small font-weight-semibold">E-LEARNING MODULE</li>
 
         @role ('developer|administrator|internal|mitra')
         <!-- Data Master -->
@@ -42,7 +43,7 @@
 
                 @role ('developer|administrator|internal')
                 <!-- Instansi -->
-                <li class="sidenav-item{{ (Request::is('instansi/internal*') || Request::is('instansi/mitra*')) ? ' active open' : '' }}">
+                {{-- <li class="sidenav-item{{ (Request::is('instansi/internal*') || Request::is('instansi/mitra*')) ? ' active open' : '' }}">
                     <a href="javascript:void(0)" class="sidenav-link sidenav-toggle" title="Instansi">
                       <div>Instansi</div>
                     </a>
@@ -63,16 +64,16 @@
                             </a>
                         </li>
                     </ul>
-                </li>
+                </li> --}}
                 @endrole
 
                 @role ('developer|administrator')
-                <!-- jabatan -->
+                {{-- <!-- jabatan -->
                 <li class="sidenav-item{{ Request::is('jabatan*') ? ' active' : '' }}">
                     <a href="{{ route('jabatan.index') }}" class="sidenav-link" title="Jabatan">
                       <div>Jabatan</div>
                     </a>
-                </li>
+                </li> --}}
                 @endrole
 
                 <!-- Manajemen User -->
@@ -90,20 +91,20 @@
                       </a>
                     </li>
                     <!-- User BPPT -->
-                    <li class="sidenav-item{{ Request::is('internal*') ? ' active' : '' }}">
+                    {{-- <li class="sidenav-item{{ Request::is('internal*') ? ' active' : '' }}">
                         <a href="{{ route('internal.index') }}" class="sidenav-link" User BPPT>
                             <div>User BPPT</div>
                         </a>
-                    </li>
+                    </li> --}}
                     @endrole
                     
                     @role ('developer|administrator|internal')
                     <!-- Mitra -->
-                    <li class="sidenav-item{{ Request::is('mitra*') ? ' active' : '' }}">
+                    {{-- <li class="sidenav-item{{ Request::is('mitra*') ? ' active' : '' }}">
                         <a href="{{ route('mitra.index') }}" class="sidenav-link" title="Mitra">
                         <div>Mitra</div>
                         </a>
-                    </li>
+                    </li> --}}
                     @endrole
 
                     @role ('developer|administrator|internal|mitra')
@@ -188,10 +189,10 @@
         <!-- courses -->
         <li class="sidenav-item{{ $course ? ' active open' : '' }}">
           <a href="javascript:void(0)" class="sidenav-link sidenav-toggle" title="Manajemen DIKLAT"><i class="sidenav-icon las la-book-open"></i>
-            <div>Manajemen DIKLAT</div>
+            <div>Manajemen Course</div>
           </a>
           @php
-              if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra|peserta_internal|peserta_mitra')) {
+              if (auth()->user()->hasRole('instruktur_mitra|peserta_internal|peserta_mitra')) {
                   $program = 'course.list';
                   $jadwal = 'course.jadwal';
               } else {
@@ -364,7 +365,7 @@
         @role ('developer|administrator')
         <!-- website -->
         <li class="sidenav-divider mb-1"></li>
-        <li class="sidenav-header small font-weight-semibold">BELS WEBSITE</li>
+        <li class="sidenav-header small font-weight-semibold">SPEAKOUD WEBSITE</li>
 
         <!-- pages -->
         <li class="sidenav-item{{ (Request::is('page*')) ? ' active' : '' }}">

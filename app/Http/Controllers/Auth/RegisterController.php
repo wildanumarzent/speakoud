@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Providers\RouteServiceProvider;
-use App\Services\Users\PesertaService;
+use App\Services\Users\{PesertaService, InstrukturService};
 use App\Services\Users\UserService;
 use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
 {
-    private $user, $peserta;
+    private $user, $peserta, $instruktur;
     /*
     |--------------------------------------------------------------------------
     | Register Controller
@@ -44,11 +44,13 @@ class RegisterController extends Controller
      */
     public function __construct(
         UserService $user, 
-        PesertaService $peserta
+        PesertaService $peserta,
+        InstrukturService $instruktur
     )
     {
         $this->user = $user;
         $this->peserta = $peserta;
+        $this->instruktur = $instruktur;
 
         $this->middleware('guest');
     }
@@ -68,10 +70,15 @@ class RegisterController extends Controller
             'email' => $request->email,
             'link' => route('register.activate', ['email' => $encrypt]),
         ];
-
+        // dd($request->roles);
+        // dd($request->all());
         // Mail::to($request->email)->send(new \App\Mail\ActivateAccountMail($data));
-
-        $this->peserta->registerPeserta($request);
+        if($request->roles == "peserta_internal"  )
+        {
+            $this->peserta->registerPeserta($request);
+        }else{
+            $this->instruktur->storeInstruktur($request);
+        }
 
         return redirect()->route('login')->with('success', 'Register berhasil, 
             silahkan cek email untuk aktivasi & verifikasi akun');

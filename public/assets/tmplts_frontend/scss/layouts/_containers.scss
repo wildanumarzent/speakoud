@@ -1,14 +1,14 @@
 @media screen and (min-width: $breakpoint-xl) {
-	.container {
-		padding-left: 30px !important;
-		padding-right: 30px !important;
-	}
+    .container {
+        padding-left: 30px !important;
+        padding-right: 30px !important;
+    }
 
     .container {
         max-width: 1280px !important;
     }
 
-	 .container-fluid {
+    .container-fluid {
         padding-left: 50px !important;
         padding-right: 50px !important;
     }
@@ -29,22 +29,21 @@ header {
         z-index: 20;
 
         &:before {
-            content:"";
-            position:absolute;
-            top:0;
-            left:0;
-            width:100%;
-            height:100%;
-            background-color:#fff;
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #fff;
             box-shadow: 0 40px 60px -30px rgba(40, 40, 40, 0.3);
-            transform:scaleY(0);
-            transform-origin:top;
-            transition:all .3s cubic-bezier(0.2, 0.4, 0.1, 1);
+            transform: scaleY(0);
+            transform-origin: top;
+            transition: all 0.3s cubic-bezier(0.2, 0.4, 0.1, 1);
         }
 
         @media screen and (min-width: $breakpoint-xl) {
             &.bg-fixed {
-
                 .menubar-flex {
                     height: 80px;
 
@@ -53,7 +52,7 @@ header {
                             .list-nav {
                                 > li {
                                     > a {
-                                        color:$primary-text-color;
+                                        color: $primary-text-color;
                                     }
 
                                     &:not(.current-nav):hover {
@@ -76,7 +75,7 @@ header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            transition:  $trs-3;
+            transition: $trs-3;
 
             .menubar-left {
                 .main-logo {
@@ -102,7 +101,7 @@ header {
                             position: relative;
                             content: ".";
                             display: inline;
-                            color: #064ad0;
+                            color: #ffa500;
                             margin-left: 3px;
                         }
                     }
@@ -112,7 +111,6 @@ header {
                             font-size: 1.1em;
                         }
                     }
-
                 }
             }
 
@@ -177,15 +175,11 @@ header {
                                     @extend %menu-dropdwon-opened;
                                 }
                             }
-
-
                         }
 
                         > li {
                             margin: 0 10px;
                             padding: 15px 0;
-
-
 
                             > a {
                                 display: block;
@@ -193,17 +187,8 @@ header {
                                 text-transform: capitalize;
                                 padding: 10px 15px;
                                 border-radius: 20px;
-
                             }
-
-
-
-
-
                         }
-
-
-
                     }
                 }
 
@@ -222,16 +207,14 @@ header {
                         overflow-x: hidden;
                         padding: 0 30px;
                         transform: translateY(-100%);
-                        transition: transform 0.3s cubic-bezier(0.2, 0.4, 0.1, 1);
+                        transition: transform 0.3s
+                            cubic-bezier(0.2, 0.4, 0.1, 1);
                         z-index: 1030;
-
-
 
                         .list-nav {
                             flex-direction: column;
                             align-items: flex-start;
                             width: 100%;
-
 
                             li {
                                 width: 100%;
@@ -260,7 +243,6 @@ header {
                                 .dropdown {
                                     @extend %menu-dropdown;
                                     li {
-
                                         &.btn-back {
                                             display: flex;
                                             justify-content: center;
@@ -290,12 +272,12 @@ header {
                             }
 
                             > li {
-                                transition: transform 0.3s cubic-bezier(0.2, 0.4, 0.1, 1), opacity 0.3s cubic-bezier(0.2, 0.4, 0.1, 1);
+                                transition: transform 0.3s
+                                        cubic-bezier(0.2, 0.4, 0.1, 1),
+                                    opacity 0.3s cubic-bezier(0.2, 0.4, 0.1, 1);
                                 transform: translateY(-20px);
                                 opacity: 0;
                             }
-
-
                         }
 
                         &.is-opened {
@@ -322,10 +304,8 @@ header {
                                         transition-delay: 0.5s;
                                     }
                                 }
-
                             }
                         }
-
 
                         .moves-out {
                             > li {
@@ -351,11 +331,8 @@ header {
                                     position: relative;
                                 }
 
-
-
                                 .dropdown {
                                     li {
-
                                         &.btn-back {
                                             display: none;
                                         }
@@ -380,7 +357,12 @@ header {
 
                                 &:not(.current-nav):hover {
                                     > a {
-                                        background-color: rgba(255, 255, 255, 1);
+                                        background-color: rgba(
+                                            255,
+                                            255,
+                                            255,
+                                            1
+                                        );
                                     }
                                 }
 
@@ -396,9 +378,6 @@ header {
                                     }
                                 }
                             }
-
-
-
                         }
                     }
                 }
@@ -413,8 +392,6 @@ header {
                 }
             }
 
-
-
             .menubar-right {
                 position: relative;
                 display: flex;
@@ -427,7 +404,7 @@ header {
                     %navigation-label {
                         display: block;
                         line-height: 44px;
-                        transition: transform 0.3s
+                        transition: transform 0.3s;
                     }
 
                     &.is-opened {
@@ -456,55 +433,53 @@ header {
                             @extend %navigation-label;
                             content: "Close";
                         }
-
                     }
                     .navigation-burger {
-                        display:flex;
-                        align-items:center;
-                        justify-content:center;
-                        height:35px;
-                        position:relative;
-                        width:35px;
-                        z-index:1013;
-                        cursor:pointer;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        height: 35px;
+                        position: relative;
+                        width: 35px;
+                        z-index: 1013;
+                        cursor: pointer;
 
                         %navigation-burger-bar {
-                            position:absolute;
-                            background:$main-color;
-                            content:"";
-                            width:20px;
-                            height:2px;
+                            position: absolute;
+                            background: $main-color;
+                            content: "";
+                            width: 20px;
+                            height: 2px;
                             transition: $trs-3;
                         }
 
                         span {
-                            position:relative;
-                            display:block;
+                            position: relative;
+                            display: block;
                             width: 20px;
 
                             &::before {
                                 @extend %navigation-burger-bar;
-                                top:-3px
+                                top: -3px;
                             }
 
                             &::after {
                                 @extend %navigation-burger-bar;
-                                top:3px
+                                top: 3px;
                             }
-
-
                         }
 
                         &.is-active {
                             span {
                                 &::before {
-                                    transform:rotate(45deg) translate(5px,4px);
-                                    top:-6px
+                                    transform: rotate(45deg) translate(5px, 4px);
+                                    top: -6px;
                                 }
 
                                 &::after {
-                                    transform:rotate(-45deg) translate(5px,-4px);
-                                    top:7px
+                                    transform: rotate(-45deg)
+                                        translate(5px, -4px);
+                                    top: 7px;
                                 }
                             }
                         }
@@ -521,7 +496,6 @@ header {
                     }
                 }
 
-
                 .account {
                     .user {
                         display: flex;
@@ -531,14 +505,11 @@ header {
                         span {
                             margin-right: 10px;
                             font-weight: 600;
-
                         }
-
 
                         @media screen and (max-width: $breakpoint-xl) {
                             span {
                                 display: none;
-
                             }
                         }
 
@@ -556,11 +527,10 @@ header {
 
                             i {
                                 font-size: 1.5em;
-                                transition: all 0.3s cubic-bezier(0.2, 0.4, 0.1, 1);
-
+                                transition: all 0.3s
+                                    cubic-bezier(0.2, 0.4, 0.1, 1);
                             }
                         }
-
                     }
                 }
             }
@@ -586,7 +556,6 @@ header {
                     }
                 }
                 .menubar-right {
-
                     .navigation-bar {
                         .navigation-label {
                             &::before {
@@ -655,7 +624,7 @@ header {
 
                 .menubar-right {
                     .account {
-                        .user  {
+                        .user {
                             color: #333;
                         }
                     }
@@ -665,12 +634,11 @@ header {
     }
 }
 
-
 .slide-intro {
     position: relative;
     width: 100%;
     height: 100vh;
-    background: rgba(11,19,32,1);
+    background: rgba(11, 19, 32, 1);
 
     .swiper-1 {
         position: absolute;
@@ -688,7 +656,7 @@ header {
                 height: 100%;
                 left: 0;
                 top: 0;
-                background:  rgba(0,0,0	,1);
+                background: rgba(0, 0, 0, 1);
                 -webkit-backface-visibility: hidden;
                 backface-visibility: hidden;
 
@@ -699,23 +667,32 @@ header {
                     left: 0;
                     width: 100%;
                     height: 100%;
-                    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.9) 0%, rgba(6, 74, 208, 0.65) 100%);
+                    background: linear-gradient(
+                        to bottom,
+                        rgba(255, 255, 255, 0.9) 0%,
+                        rgba(208, 161, 6, 0.65) 100%
+                    );
                     z-index: 2;
                 }
 
                 .slide-inner-image {
-                    opacity: .2;
+                    opacity: 0.2;
                     -webkit-backface-visibility: hidden;
                     backface-visibility: hidden;
                     -webkit-transform: scale(1.07);
                     -ms-transform: scale(1.07);
                     transform: scale(1.07);
-                    -webkit-transition: opacity .6s ease-in-out, transform 2s ease .7s;
-                    -webkit-transition: opacity .6s ease-in-out, -webkit-transform 2s ease .7s;
-                    transition: opacity .6s ease-in-out, -webkit-transform 2s ease .7s;
-                    -o-transition: opacity .6s ease-in-out, transform 2s ease .7s;
-                    transition: opacity .6s ease-in-out, transform 2s ease .7s;
-                    transition: opacity .6s ease-in-out, transform 2s ease .7s, -webkit-transform 2s ease .7s;
+                    -webkit-transition: opacity 0.6s ease-in-out,
+                        transform 2s ease 0.7s;
+                    -webkit-transition: opacity 0.6s ease-in-out,
+                        -webkit-transform 2s ease 0.7s;
+                    transition: opacity 0.6s ease-in-out,
+                        -webkit-transform 2s ease 0.7s;
+                    -o-transition: opacity 0.6s ease-in-out,
+                        transform 2s ease 0.7s;
+                    transition: opacity 0.6s ease-in-out, transform 2s ease 0.7s;
+                    transition: opacity 0.6s ease-in-out, transform 2s ease 0.7s,
+                        -webkit-transform 2s ease 0.7s;
                 }
 
                 .slide-inner-info {
@@ -729,7 +706,7 @@ header {
                     // color: #fff;
                     z-index: 3;
                     opacity: 0;
-                    transform: translate(-50%,-50%);
+                    transform: translate(-50%, -50%);
                     -webkit-transition: opacity 1s ease;
                     -o-transition: opacity 1s ease;
                     transition: opacity 1s ease;
@@ -739,9 +716,6 @@ header {
                     user-select: none;
                     text-align: center;
                     /*display: none;*/
-
-
-
 
                     h6 {
                         color: #000;
@@ -753,9 +727,9 @@ header {
 
                         &:after {
                             position: relative;
-                            content: '.';
+                            content: ".";
                             display: inline;
-                            color:$main-color;
+                            color: $main-color;
                             margin-left: 3px;
                         }
                     }
@@ -825,24 +799,24 @@ header {
 
             .btn {
                 color: #fff;
-               &:before {
-                        transform: scaleX(1);
-                        opacity: 1;
-                    }
+                &:before {
+                    transform: scaleX(1);
+                    opacity: 1;
+                }
             }
         }
 
         %swiper-button {
             background-image: none;
             background-color: #fff;
-            color:$main-color;
+            color: $main-color;
             text-transform: uppercase;
             letter-spacing: 3px;
             font-weight: 400;
             font-size: 1.5em;
             width: auto;
             height: auto;
-            transform: translate(0,-50%);
+            transform: translate(0, -50%);
             margin: 0;
             padding-top: 10px;
             padding-bottom: 10px;
@@ -850,7 +824,7 @@ header {
 
         @media screen and (max-width: $breakpoint-sm) {
             %swiper-button {
-                display: none
+                display: none;
             }
         }
 
@@ -860,9 +834,9 @@ header {
             padding-right: 1em;
             padding-left: 1em;
             border-radius: 30px 0 0 30px;
-            -webkit-transition: padding-right .3s ease;
-            -o-transition: padding-right .3s ease;
-            transition: padding-right .3s ease;
+            -webkit-transition: padding-right 0.3s ease;
+            -o-transition: padding-right 0.3s ease;
+            transition: padding-right 0.3s ease;
 
             &:hover {
                 padding-right: 2em;
@@ -874,19 +848,15 @@ header {
             left: 0;
             padding-left: 1em;
             padding-right: 1em;
-            border-radius:0 30px 30px 0	;
-            -webkit-transition: padding-left .3s ease;
-            -o-transition: padding-left .3s ease;
-            transition: padding-left .3s ease;
+            border-radius: 0 30px 30px 0;
+            -webkit-transition: padding-left 0.3s ease;
+            -o-transition: padding-left 0.3s ease;
+            transition: padding-left 0.3s ease;
 
             &:hover {
                 padding-left: 2em;
             }
         }
-
-
-
-
     }
 }
 
@@ -896,7 +866,6 @@ header {
 }
 
 .swiper-container {
-
     .swiper-pagination-bullets {
         bottom: 40px !important;
     }
@@ -927,9 +896,7 @@ header {
             &.swiper-button-next {
                 margin-left: 5px;
             }
-
         }
-
     }
 
     .swiper-pagination-bullet {
@@ -937,7 +904,7 @@ header {
         width: 10px;
         height: 10px;
         border: 2px solid #fff;
-        opacity: .5;
+        opacity: 0.5;
 
         &.swiper-pagination-bullet-active {
             border-color: $main-color;
@@ -948,7 +915,7 @@ header {
 
 .swiper-2 {
     .swiper-wrapper {
-        transition-timing-function: cubic-bezier(.48,0,.12,1) !important;
+        transition-timing-function: cubic-bezier(0.48, 0, 0.12, 1) !important;
     }
 }
 
@@ -981,7 +948,6 @@ header {
     color: $main-color;
 }
 
-
 .box-img {
     position: relative;
     display: block;
@@ -1009,23 +975,15 @@ header {
         }
     }
 
-
-
-
-
     .post-date {
         position: absolute;
         z-index: 2;
         top: 15px;
         right: 15px;
     }
-
-
 }
 
-
 .box-post {
-
     .post-cat {
         position: relative;
         display: block;
@@ -1037,12 +995,9 @@ header {
         color: $main-color;
     }
 
-
-
     .post-title {
         font-family: $font-title;
         margin-bottom: 30px;
-
     }
 
     .post-info {
@@ -1053,7 +1008,6 @@ header {
             position: relative;
             display: flex;
             align-items: center;
-
 
             .item-info {
                 text-align: center;
@@ -1117,7 +1071,6 @@ header {
             max-height: 60px;
             height: 60px;
             overflow: hidden;
-
         }
     }
 
@@ -1145,8 +1098,8 @@ header {
     .box-img {
         .thumbnail-img {
             img {
-                transition: .3s;
-                filter: brightness(.75);
+                transition: 0.3s;
+                filter: brightness(0.75);
             }
         }
     }
@@ -1160,8 +1113,6 @@ header {
             }
         }
     }
-
-
 
     @media screen and (min-width: 1198.89px) {
         &.row-box {
@@ -1186,7 +1137,6 @@ header {
                 box-shadow: none !important;
             }
         }
-
     }
 }
 
@@ -1198,14 +1148,12 @@ header {
     .form-control {
         margin-right: 10px;
     }
-
 }
-
 
 .banner-breadcrumb {
     min-height: 60vmin;
     position: relative;
-    background: rgba(11,19,32,1);
+    background: rgba(11, 19, 32, 1);
     display: flex;
     align-items: center;
     z-index: 4;
@@ -1213,14 +1161,18 @@ header {
     overflow: hidden;
 
     &:before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.9) 0%, rgba(6, 74, 208, 0.65) 100%);
-            z-index: 2;
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+            to bottom,
+            rgba(255, 255, 255, 0.9) 0%,
+            rgba(228, 176, 8, 0.65)100%
+        );
+        z-index: 2;
     }
 
     .banner-content {
@@ -1238,8 +1190,6 @@ header {
         //         color: #fff;
         //     }
         // }
-
-
     }
 
     // .breadcrumb {
@@ -1270,7 +1220,6 @@ header {
         padding: calc(3em + 80px) 0 3em;
     }
 }
-
 
 .breadcrumb {
     background-color: transparent;
@@ -1303,7 +1252,6 @@ header {
         text-overflow: ellipsis;
         white-space: nowrap;
         font-weight: 600;
-
 
         a {
             &:hover {
@@ -1346,7 +1294,7 @@ header {
 
         &:before {
             position: absolute;
-            content: '';
+            content: "";
             display: block;
             height: 15px;
             border-top: 7px solid transparent;
@@ -1373,7 +1321,8 @@ header {
                 margin: 0 25px;
             }
 
-            &.no-border, &:last-child {
+            &.no-border,
+            &:last-child {
                 &::after {
                     display: none;
                 }
@@ -1385,11 +1334,11 @@ header {
         span {
             &.name {
                 font-weight: bold;
-                color:$primary-text-color;
+                color: $primary-text-color;
             }
 
             &.text-sm {
-                font-size: .85em;
+                font-size: 0.85em;
                 display: block;
                 color: #ccc;
             }
@@ -1414,12 +1363,11 @@ header {
     }
 }
 
-
 .footer {
-    background-color :#f0f1f4;
+    background-color: #f0f1f4;
 
     .footer-top {
-        padding:8em 0;
+        padding: 8em 0;
 
         .footer-logo {
             position: relative;
@@ -1450,14 +1398,11 @@ header {
         .f-widget {
             position: relative;
 
-
             h5 {
                 position: relative;
                 font-family: $font-title;
                 // color: #fff;
                 margin-bottom: 30px;
-
-
             }
 
             ul {
@@ -1466,9 +1411,8 @@ header {
                     font-weight: 600;
                     color: #545e75;
 
-                    a  {
+                    a {
                         color: #545e75;
-
 
                         &:hover {
                             color: $main-color;
@@ -1478,7 +1422,6 @@ header {
             }
         }
     }
-
 
     .footer-bottom {
         padding-bottom: 5em;
@@ -1541,43 +1484,43 @@ header {
 
 .list-comment {
     .comment-item {
-        position:relative;
-        padding:2.5em;
+        position: relative;
+        padding: 2.5em;
         border: 1px solid #dfdfdf;
-        margin-bottom:1em;
+        margin-bottom: 1em;
 
         .comment-header {
-            position:relative;
-            display:flex;
-            justify-content:space-between;
-            margin-bottom:1em;
-    
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1em;
+
             .header-info {
-                font-size:.9em;
-                color:#585a68
+                font-size: 0.9em;
+                color: #585a68;
             }
-    
+
             .header-profile {
-                position:relative;
-                display:flex;
-    
+                position: relative;
+                display: flex;
+
                 .img-user {
-                    position:relative;
-                    height:50px;
-                    width:50px;
-                    display:block;
-                    overflow:hidden;
-                    border-radius:100%;
+                    position: relative;
+                    height: 50px;
+                    width: 50px;
+                    display: block;
+                    overflow: hidden;
+                    border-radius: 100%;
                 }
-    
+
                 .user-name {
-                    margin-left:1em;
-    
+                    margin-left: 1em;
+
                     .name {
-                        max-width:200px;
-                        text-overflow:ellipsis;
-                        overflow:hidden;
-                        white-space:nowrap;
+                        max-width: 200px;
+                        text-overflow: ellipsis;
+                        overflow: hidden;
+                        white-space: nowrap;
                         font-weight: 700;
                         color: $main-color;
                     }
@@ -1586,12 +1529,8 @@ header {
         }
 
         .comment-body {
-            position:relative;
-            padding-left:calc(50px + 1em)
+            position: relative;
+            padding-left: calc(50px + 1em);
         }
     }
-
-} 
-   
-
-
+}

@@ -175,7 +175,7 @@ class MataService
 
         $query->where('publish_start', '<=', now())
                 ->where('publish_end', '>=', now());
-
+        // dd(auth()->user());
         if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra')) {
             $query->whereHas('instruktur', function ($query) {
                 $query->whereIn('instruktur_id', [auth()->user()->instruktur->id]);

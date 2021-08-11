@@ -151,16 +151,10 @@ class InstrukturService
     public function storeInstruktur($request)
     {
         $user = $this->user->storeUser($request);
-
-        if (Auth::user()->hasRole('mitra')) {
-            $mitraId = Auth::user()->mitra->id;
-        } else {
-            $mitraId = $request->mitra_id;
-        }
-
+        
         $instruktur = new Instruktur;
-        $instruktur->user_id = $user->id;
-        $instruktur->creator_id = Auth::user()->id;
+        $instruktur->user_id =$user->id;
+        $instruktur->creator_id = Auth::user()->id ?? $user->id;
         $instruktur->mitra_id = $mitraId ?? null;
         $instruktur->instansi_id = $request->instansi_id ?? null;
         $instruktur->nip = $request->nip ?? null;
@@ -340,5 +334,10 @@ class InstrukturService
         $instruktur->user()->delete();
 
         return $instruktur;
+    }
+
+    public function RegisterInstruktur($request)
+    {
+        $user = $this->user->storeUser($request, 'register');
     }
 }

@@ -43,12 +43,21 @@
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700" rel="stylesheet">
+            <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/fonts/fontawesome.css') }}">
 
 		<!-- Css Global -->
 		<link rel="stylesheet" href="{{ asset('assets/tmplts_frontend/css/bootstrap.min.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/tmplts_frontend/css/style.css') }}">
-        <link rel="stylesheet" href="{{ asset('assets/tmplts_frontend/css/line-awesome.css') }}">
 
+        {{-- icone --}}
+        <link rel="stylesheet" href="{{ asset('assets/tmplts_frontend/css/line-awesome.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/fonts/ionicons.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/fonts/linearicons.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/fonts/open-iconic.css') }}">
+        
+        <!-- Page -->
+        <link rel="stylesheet" href="assets/vendor/css/pages/search.css">
+        
         <!-- Css Additional -->
         <style type="text/css">
             .preloader {

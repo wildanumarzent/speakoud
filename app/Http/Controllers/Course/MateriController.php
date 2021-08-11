@@ -60,8 +60,9 @@ class MateriController extends Controller
     {
         $data['mata'] = $this->serviceMata->findMata($mataId);
         // $data['instruktur'] = $this->serviceInstruktur->getInstrukturByTypeProgram($data['mata']->program_id);
-        $data['instruktur'] = $this->serviceMata->getInstrukturList($request, $mataId);
+        // $data['instruktur'] = $this->serviceMata->getInstrukturList($request, $mataId);
 
+        // dd($data);
         $this->serviceProgram->checkAdmin($data['mata']->program_id);
 
         return view('backend.course_management.materi.form', compact('data'), [
@@ -77,6 +78,7 @@ class MateriController extends Controller
 
     public function store(MateriRequest $request, $mataId)
     {
+      
         $this->service->storeMateri($request, $mataId);
 
         return redirect()->route('materi.index', ['id' => $mataId])

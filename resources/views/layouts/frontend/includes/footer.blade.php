@@ -6,9 +6,10 @@
                     <div class="col-md-4">
                         <div class="footer-logo">
                             <a href="{{ route('home') }}" class="logo" title="Home">
-                                <img src="{{ asset(config('addon.images.logo')) }}" title="BPPT" alt="Logo BPPT">
+                                {{-- <img src="{{ asset(config('addon.images.logo')) }}" title="BPPT" alt="Logo BPPT"> --}}
+                                {{-- SPEAKOUD --}}
                             </a>
-                            <h5>@lang('strip.title_header')</h5>
+                            <h5>E-learning Manajemen System</h5>
                         </div>
                     </div>
                     <div class="col-md-8">
@@ -67,7 +68,10 @@
             <div class="container-fluid">
                 <div class="d-flex align-items-center justify-content-xl-center">
                     <div class="f-widget copyright">
-                        Copyright © {{ now()->format('Y') }} @lang('strip.copyright')
+                        Copyright © {{ now()->format('Y') }} 
+
+SPEAKOUD by Sinergi Digital Powered by Sinergi Consulting
+
                     </div>
                     {{-- <div class="f-widget developer">
                         Developed By

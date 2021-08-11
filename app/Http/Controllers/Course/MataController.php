@@ -67,7 +67,7 @@ class MataController extends Controller
         $data['mata']->withPath(url()->current().$p.$q);
         $data['program'] = $this->serviceProgram->findProgram($programId);
         $data['template'] = $this->serviceTemplate->getTemplate();
-
+        // dd($data['mata']);
         $this->serviceProgram->checkAdmin($programId);
 
         return view('backend.course_management.mata.index', compact('data'), [
@@ -121,14 +121,14 @@ class MataController extends Controller
         $data['number'] = $data['peserta']->firstItem();
         $data['peserta']->withPath(url()->current().$q);
         $data['mata'] = $this->service->findMata($mataId);
-
+    
         $collectPeserta = collect($data['mata']->peserta);
         $data['peserta_id'] = $collectPeserta->map(function($item, $key) {
             return $item->peserta_id;
         })->all();
         $data['peserta_list'] = $this->servicePeserta
             ->getPesertaForMata($data['mata']->program->tipe, $data['peserta_id']);
-
+       
         $this->serviceProgram->checkAdmin($data['mata']->program->id);
 
         return view('backend.course_management.mata.peserta.index', compact('data'), [
@@ -146,7 +146,7 @@ class MataController extends Controller
         $limit = $this->serviceKonfig->getValue('content_limit');
 
         $data['mata'] = $this->service->getMata('urutan', 'ASC', $limit);
-
+        // dd(auth()->user());
         return view('frontend.course.index', compact('data'), [
             'title' => 'Program Pelatihan',
             'breadcrumbsBackend' => [

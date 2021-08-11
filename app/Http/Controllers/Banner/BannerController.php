@@ -61,7 +61,7 @@ class BannerController extends Controller
     {
         $data['banner'] = $this->service->findBanner($id);
         $data['kategori'] = $this->serviceKategori->findBannerKategori($kategoriId);
-
+        // dd("test");
         return view('backend.banner.form', compact('data'), [
             'title' => 'Banner - Edit',
             'breadcrumbsBackend' => [
@@ -74,6 +74,7 @@ class BannerController extends Controller
 
     public function update(BannerRequest $request, $kategoriId, $id)
     {
+        // dd($request->all());
         $this->service->updateBanner($request, $id);
 
         return redirect()->route('banner.media', ['id' => $kategoriId])

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ArtikelController;
+use App\Http\Controllers\pelatihan\PelatihanController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -88,62 +89,62 @@ Route::group(['middleware' => ['auth']], function () {
     //program pelatihan
     Route::get('/program', 'Course\ProgramController@index')
         ->name('program.index')
-        ->middleware('role:developer|administrator|internal|mitra');
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal');
     Route::get('/program/create', 'Course\ProgramController@create')
         ->name('program.create')
-        ->middleware('role:developer|administrator|internal|mitra');
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal');
     Route::post('/program', 'Course\ProgramController@store')
         ->name('program.store')
-        ->middleware('role:developer|administrator|internal|mitra');
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal');
     Route::get('/program/{id}/edit', 'Course\ProgramController@edit')
         ->name('program.edit')
-        ->middleware('role:developer|administrator|internal|mitra');
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal');
     Route::put('/program/{id}', 'Course\ProgramController@update')
         ->name('program.update')
-        ->middleware('role:developer|administrator|internal|mitra');
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal');
     Route::put('/program/{id}/publish', 'Course\ProgramController@publish')
         ->name('program.publish')
-        ->middleware('role:developer|administrator|internal|mitra');
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal');
     Route::put('/program/{id}/position/{position}', 'Course\ProgramController@position')
         ->name('program.position')
-        ->middleware('role:developer|administrator|internal|mitra');
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal');
     Route::post('/program/sort', 'Course\ProgramController@sort')
         ->name('program.sort')
-        ->middleware('role:developer|administrator|internal|mitra');
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal');
     Route::delete('/program/{id}', 'Course\ProgramController@destroy')
         ->name('program.destroy')
-        ->middleware('role:developer|administrator|internal|mitra');
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal');
 
     //mata pelatihan
     Route::get('/program/{id}/mata', 'Course\MataController@index')
         ->name('mata.index')
-        ->middleware('role:developer|administrator|internal|mitra');
+        ->middleware('role:developer|administrator|internal|mitra||instruktur_internal');
     Route::get('/program/history', 'Course\MataController@history')
         ->name('mata.history');
     Route::get('/program/{id}/mata/create', 'Course\MataController@create')
         ->name('mata.create')
-        ->middleware('role:developer|administrator|internal|mitra');
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal');
     Route::post('/program/{id}/mata', 'Course\MataController@store')
         ->name('mata.store')
-        ->middleware('role:developer|administrator|internal|mitra');
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal');
     Route::get('/program/{id}/mata/{mataId}/edit', 'Course\MataController@edit')
         ->name('mata.edit')
         ->middleware('role:developer|administrator|internal|mitra');
     Route::put('/program/{id}/mata/{mataId}', 'Course\MataController@update')
         ->name('mata.update')
-        ->middleware('role:developer|administrator|internal|mitra');
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal');
     Route::put('/program/{id}/mata/{mataId}/publish', 'Course\MataController@publish')
         ->name('mata.publish')
-        ->middleware('role:developer|administrator|internal|mitra');
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal');
     Route::put('/program/{id}/mata/{mataId}/position/{position}', 'Course\MataController@position')
         ->name('mata.position')
-        ->middleware('role:developer|administrator|internal|mitra');
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal');
     Route::post('/program/{id}/mata/sort', 'Course\MataController@sort')
         ->name('mata.sort')
         ->middleware('role:developer|administrator|internal|mitra');
     Route::delete('/program/{id}/mata/{mataId}', 'Course\MataController@destroy')
         ->name('mata.destroy')
-        ->middleware('role:developer|administrator|internal|mitra');
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal');
     Route::get('/mata/{mataId}/peserta/export', 'Course\MataController@pesertaExport')
         ->name('mata.peserta.export');
 
@@ -151,35 +152,35 @@ Route::group(['middleware' => ['auth']], function () {
     #--instruktur
     Route::get('mata/{id}/instruktur', 'Course\MataController@instruktur')
         ->name('mata.instruktur')
-        ->middleware('role:administrator|internal|mitra');
+        ->middleware('role:administrator|internal|mitra|instruktur_internal');
     Route::post('mata/{id}/instruktur', 'Course\MataController@storeInstruktur')
         ->name('mata.instruktur.store')
-        ->middleware('role:administrator|internal|mitra');
+        ->middleware('role:administrator|internal|mitra|instruktur_internal');
     Route::post('mata/{id}/instruktur/import', 'Course\MataController@importInstruktur')
         ->name('mata.instruktur.import')
-        ->middleware('role:administrator|internal|mitra');
+        ->middleware('role:administrator|internal|mitra|instruktur_internal');
     Route::put('mata/{id}/instruktur/{instrukturId}', 'Course\MataController@kodeEvaluasiInstruktur')
         ->name('mata.instruktur.evaluasi')
-        ->middleware('role:administrator|internal|mitra');
+        ->middleware('role:administrator|internal|mitra|instruktur_internal');
     Route::delete('mata/{id}/instruktur/{mataInstrukturId}', 'Course\MataController@destroyInstruktur')
         ->name('mata.instruktur.destroy')
-        ->middleware('role:administrator|internal|mitra');
+        ->middleware('role:administrator|internal|mitra|instruktur_internal');
     #peserta
     Route::get('mata/{id}/peserta', 'Course\MataController@peserta')
         ->name('mata.peserta')
-        ->middleware('role:administrator|internal|mitra');
+        ->middleware('role:administrator|internal|mitra|instruktur_internal');
     Route::post('mata/{id}/peserta', 'Course\MataController@storePeserta')
         ->name('mata.peserta.store')
-        ->middleware('role:administrator|internal|mitra');
+        ->middleware('role:administrator|internal|mitra|instruktur_internal');
     Route::post('mata/{id}/peserta/import', 'Course\MataController@importPeserta')
         ->name('mata.peserta.import')
-        ->middleware('role:administrator|internal|mitra');
+        ->middleware('role:administrator|internal|mitra|instruktur_internal');
     Route::put('peserta/{id}/approval/{status}', 'Course\MataController@approvalPeserta')
         ->name('mata.peserta.approval')
         ->middleware('role:administrator|internal|mitra');
     Route::delete('mata/{id}/peserta/{mataPesertaId}', 'Course\MataController@destroyPeserta')
         ->name('mata.peserta.destroy')
-        ->middleware('role:administrator|internal|mitra');
+        ->middleware('role:administrator|internal|mitra|instruktur_internal');
 
     //mata laporan
     #-- pembobotan nilai
@@ -211,28 +212,28 @@ Route::group(['middleware' => ['auth']], function () {
     //materi pelatihan
     Route::get('/mata/{id}/materi', 'Course\MateriController@index')
         ->name('materi.index')
-        ->middleware('role:developer|administrator|internal|mitra');
+        ->middleware('role:developer|administrator|internal|instruktur_internal');
     Route::get('/mata/{id}/materi/create', 'Course\MateriController@create')
         ->name('materi.create')
-        ->middleware('role:developer|administrator|internal|mitra');
+        ->middleware('role:developer|administrator|internal|instruktur_internal');
     Route::post('/mata/{id}/materi', 'Course\MateriController@store')
         ->name('materi.store')
-        ->middleware('role:developer|administrator|internal|mitra');
+        ->middleware('role:developer|administrator|internal|instruktur_internal');
      Route::get('/mata/{id}/materi/{materiId}/edit', 'Course\MateriController@edit')
         ->name('materi.edit')
-        ->middleware('role:developer|administrator|internal|mitra');
+        ->middleware('role:developer|administrator|internal|instruktur_internal');
     Route::put('/mata/{id}/materi/{materiId}', 'Course\MateriController@update')
         ->name('materi.update')
-        ->middleware('role:developer|administrator|internal|mitra');
+        ->middleware('role:developer|administrator|internal|instruktur_internal');
     Route::put('/mata/{id}/materi/{materiId}/publish', 'Course\MateriController@publish')
         ->name('materi.publish')
-        ->middleware('role:developer|administrator|internal|mitra');
+        ->middleware('role:developer|administrator|internal|instruktur_internal');
     Route::put('/mata/{id}/materi/{materiId}/position/{position}', 'Course\MateriController@position')
         ->name('materi.position')
-        ->middleware('role:developer|administrator|internal|mitra');
+        ->middleware('role:developer|administrator|internal|instruktur_internal');
     Route::post('/mata/{id}/materi/sort', 'Course\MateriController@sort')
         ->name('materi.sort')
-        ->middleware('role:developer|administrator|internal|mitra');
+        ->middleware('role:developer|administrator|internal|instruktur_internal');
     Route::delete('/mata/{id}/materi/{materiId}', 'Course\MateriController@destroy')
         ->name('materi.destroy')
         ->middleware('role:developer|administrator|internal|mitra');
@@ -623,3 +624,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/logout', [LoginController::class, 'logout'])
         ->name('logout');
 });
+
+    Route::get('/pelatihan','pelatihan\PelatihanController@index')->name('platihan.index');
+    Route::get('/{id}','pelatihan\PelatihanController@show')->name('pelatihan.detail');

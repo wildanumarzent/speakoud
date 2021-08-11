@@ -24,8 +24,10 @@ class LoginRequest extends FormRequest
     public function rules()
     {
         return [
+            // 'username' => 'required|string|min:5
+            //             |exists:users,'.$this->loginType().',active,1',
             'username' => 'required|string|min:5
-                        |exists:users,'.$this->loginType().',active,1',
+                        |exists:users',
             'password' => 'required|string|min:8',
         ];
     }

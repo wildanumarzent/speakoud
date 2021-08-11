@@ -54,7 +54,7 @@ class LoginController extends Controller
 
             $remember = $request->has('remember') ? true : false;
             if (Auth::attempt($request->forms(), $remember)) {
-
+                
                 $redirect = redirect()->route('dashboard');
 
                 return $redirect->with('success', 'Login berhasil');

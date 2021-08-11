@@ -20,7 +20,7 @@ class CreateBahanVideoTable extends Migration
             $table->unsignedBigInteger('materi_id');
             $table->unsignedBigInteger('bahan_id');
             $table->unsignedBigInteger('creator_id');
-            $table->unsignedBigInteger('bank_data_id');
+            $table->unsignedBigInteger('bank_data_id')->nullable();
             $table->timestamps();
 
             $table->foreign('program_id')->references('id')

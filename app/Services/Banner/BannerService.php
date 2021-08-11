@@ -68,6 +68,7 @@ class BannerService
 
         $banner->file = !empty($request->file) ? $fileName : $banner->file;
         $banner->keterangan = $request->keterangan ?? null;
+        $banner->judul = $request->judul;
         $banner->publish = (bool)$request->publish;
         $banner->link = $request->link ?? null;
         $banner->save();

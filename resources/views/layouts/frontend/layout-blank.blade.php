@@ -8,9 +8,9 @@
 <div id="page" class="bg-sign">
     <div class="logo-signbox">
         <div class="logo">
-            <img src="{{ asset(config('addon.images.logo')) }}" title="BPPT" alt="Logo BPPT">
+            {{-- <img src="{{ asset(config('addon.images.logo')) }}" title="BPPT" alt="Logo BPPT"> --}}
         </div>
-        <h5>@lang('strip.title_header')</h5>
+        <h5>SPEAKOUD</h5>
     </div>
     <div class="wrapper-flex">
         @foreach ($banner['login'] as $login)
@@ -56,7 +56,7 @@
                 @yield('content')
             </div>
             <div class="form-signbox-bottom">
-                Copyright © {{ now()->format('Y') }} @lang('strip.copyright')
+                Copyright © {{ now()->format('Y') }} SPEAKOUD by Sinergi Digital Powered by Sinergi Consulting
             </div>
         </div>
     </div>

@@ -116,7 +116,7 @@ class MateriService
         $materi = new MateriPelatihan($request->only(['judul']));
         $materi->program_id = $mata->program_id;
         $materi->mata_id = $mataId;
-        $materi->instruktur_id = $request->instruktur_id;
+        $materi->instruktur_id = auth()->user()->instruktur->id;
         $materi->creator_id = auth()->user()->id;
         $materi->keterangan = $request->keterangan ?? null;
         $materi->publish = (bool)$request->publish;
@@ -130,7 +130,7 @@ class MateriService
     {
         $materi = $this->findMateri($id);
         $materi->fill($request->only(['judul']));
-        $materi->instruktur_id = $request->instruktur_id;
+        $materi->instruktur_id = auth()->user()->instruktur->id;
         $materi->keterangan = $request->keterangan ?? null;
         $materi->publish = (bool)$request->publish;
         $materi->save();

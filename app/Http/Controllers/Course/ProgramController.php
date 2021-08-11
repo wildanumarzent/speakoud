@@ -31,11 +31,14 @@ class ProgramController extends Controller
             $t = '&t='.$request->t;
             $q = '&q='.$request->q;
         }
-
-        $data['program'] = $this->service->getProgramList($request);
+        // dd(auth()->user());
+         if (auth()->user()->hasRole('instruktur_internal')) {  
+            $data['program'] = $this->service->getProgramListByCreatorId($request);
+        }else{
+            $data['program'] = $this->service->getProgramList($request);
+        }
         $data['number'] = $data['program']->firstItem();
         $data['program']->withPath(url()->current().$p.$t.$q);
-
         return view('backend.course_management.program.index', compact('data'), [
             'title' => 'Course - Kategori Pelatihan',
             'breadcrumbsBackend' => [

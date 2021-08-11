@@ -64,7 +64,7 @@ class HomeController extends Controller
         $data['pageSix'] = $this->page->findPage(4);
         $data['mata'] = $this->mata->getMata('urutan', 'ASC', 8);
         $data['jadwal'] = $this->jadwal->getJadwal(6);
-
+        // dd($data['mata']);
         return view('frontend.index', compact('data'));
     }
 
