@@ -9,6 +9,14 @@ return [
         '1' => 'PUBLISH',
         '0' => 'DRAFT'
     ],
+    'is_sertifikat' =>[
+        '1' => 'yes',
+        '0' => 'No'
+    ],
+    'penilaian' => [
+        '1' => 'yes',
+        '0' => 'No'
+    ],
     'bahan_tipe' => [
         0 => [
             'title' => 'Forum',

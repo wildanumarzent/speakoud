@@ -54,7 +54,7 @@ class MateriService
 
     public function getMateriByMata(int $mataId)
     {
-        $query = $this->model->query();
+      $query = $this->model->query();
 
         $query->where('mata_id', $mataId);
         if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra')) {

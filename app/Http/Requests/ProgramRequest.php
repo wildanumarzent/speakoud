@@ -28,25 +28,27 @@ class ProgramRequest extends FormRequest
                 if ($this->tipe == 1) {
                     return [
                         'judul' => 'required',
-                        'tipe' => 'required',
-                        'mitra_id' => 'required'
+                        'price' => 'required | integer',
+
                     ];
                 } else {
                     return [
                         'judul' => 'required',
-                        'tipe' => 'required'
+                        'price' => 'required | integer',
                     ];
                 }
 
             } else {
                 return [
                     'judul' => 'required',
+                    'price' => 'required | integer',
                 ];
             }
 
         } else {
             return [
                 'judul' => 'required',
+                'price' => 'required | integer',
             ];
         }
 
@@ -56,8 +58,7 @@ class ProgramRequest extends FormRequest
     {
         return [
             'judul' => 'Judul',
-            'tipe' => 'Tipe',
-            'mitra_id' => 'Mitra'
+            'price' => 'required | integer',
         ];
     }
 
@@ -65,8 +66,8 @@ class ProgramRequest extends FormRequest
     {
         return [
             'judul.required' => ':attribute tidak boleh kosong',
-            'tipe.required' => ':attribute tidak boleh kosong',
-            'mitra_id.required' => ':attribute tidak boleh kosong',
+            'price.required' => ': harga tidak boleh kosong',
+            'price.integer' => ': harga harus angka'
         ];
     }
 }

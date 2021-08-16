@@ -1,4 +1,4 @@
-    @extends('layouts.frontend.layout')
+@extends('layouts.frontend.layout')
 
 @section('styles')
 <link rel="stylesheet" href="{{ asset('assets/tmplts_frontend/css/swiper.min.css') }}">
@@ -102,7 +102,7 @@
             <div class="swiper-wrapper">
 
                 @foreach ($data['mata'] as $mata)
-                {{-- {{dd($mata->peserta)}} --}}
+                {{-- {{dd($mata)}} --}}
                 <div class="swiper-slide">
                     <div class="item-post">
                         <div class="box-img">

@@ -35,56 +35,7 @@
                           @include('components.field-error', ['field' => 'judul'])
                         </div>
                     </div>
-                    @role('administrator|internal')
-                    <div class="form-group row">
-                        <div class="col-md-2 text-md-right">
-                          <label class="col-form-label text-sm-right">Kode Evaluasi Penyelenggara</label>
-                        </div>
-                        <div class="col-md-10">
-                          <input type="text" class="form-control @error('kode_evaluasi') is-invalid @enderror" name="kode_evaluasi"
-                            value="{{ (isset($data['mata'])) ? old('kode_evaluasi', $data['mata']->kode_evaluasi) : old('kode_evaluasi') }}" placeholder="masukan kode evaluasi...">
-                          @include('components.field-error', ['field' => 'kode_evaluasi'])
-                        </div>
-                    </div>
-                    @endrole
-                    <div class="form-group row">
-                        <div class="col-md-2 text-md-right">
-                          <label class="col-form-label text-sm-right">Pola Penyelenggaraan</label>
-                        </div>
-                        <div class="col-md-10">
-                            <select class="selectpicker show-tick" data-style="btn-default" name="pola_penyelenggaraan">
-                                <option value=" " selected>Pilih</option>
-                                @foreach (config('addon.master_data.pola_penyelenggaraan') as $key => $value)
-                                <option value="{{ $key }}" {{ isset($data['mata']) ? (old('pola_penyelenggaraan', $data['mata']->pola_penyelenggaraan) == ''.$key.'' ? 'selected' : '') : (old('pola_penyelenggaraan') == ''.$key.'' ? 'selected' : '') }}>{{ $value }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-md-2 text-md-right">
-                          <label class="col-form-label text-sm-right">Sumber Anggaran</label>
-                        </div>
-                        <div class="col-md-10">
-                            <select class="selectpicker show-tick" data-style="btn-default" name="sumber_anggaran">
-                                <option value=" " selected>Pilih</option>
-                                @foreach (config('addon.master_data.sumber_anggaran') as $key => $value)
-                                <option value="{{ $key }}" {{ isset($data['mata']) ? (old('sumber_anggaran', $data['mata']->sumber_anggaran) == ''.$key.'' ? 'selected' : '') : (old('sumber_anggaran') == ''.$key.'' ? 'selected' : '') }}>{{ $value }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    {{-- <div class="form-group row">
-                        <div class="col-md-2 text-md-right">
-                          <label class="col-form-label text-sm-right">Status</label>
-                        </div>
-                        <div class="col-md-10">
-                            <select class="status custom-select form-control" name="publish">
-                                @foreach (config('addon.label.publish') as $key => $value)
-                                <option value="{{ $key }}" {{ isset($data['mata']) ? (old('publish', $data['mata']->publish) == ''.$key.'' ? 'selected' : '') : (old('publish') == ''.$key.'' ? 'selected' : '') }}>{{ $value }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div> --}}
+                 
                     <div class="form-group row">
                         <div class="col-md-2 text-md-right">
                           <label class="col-form-label text-sm-right">Tanggal Mulai</label>
@@ -152,6 +103,40 @@
                         <div class="col-md-10">
                             <textarea class="form-control tiny @error('content') is-invalid @enderror" name="content" placeholder="masukan deskripsi...">{!! (isset($data['mata'])) ? old('content', $data['mata']->content) : old('content') !!}</textarea>
                             @include('components.field-error', ['field' => 'content'])
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-2 text-md-right">
+                        <label class="col-form-label text-sm-right">Harga</label>
+                        </div>
+                        <div class="col-md-10">
+                        <input type="text" class="form-control @error('price') is-invalid @enderror" name="price"
+                            value="{{ (isset($data['mata'])) ? old('price', $data['mata']->price) : old('price') }}" placeholder="masukan price..." autofocus>
+                        @include('components.field-error', ['field' => 'price'])
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-2 text-md-right">
+                            <label class="col-form-label text-sm-right">Sertifikat</label>
+                        </div>
+                        <div class="col-md-10">
+                            <select class="status custom-select form-control" name="is_sertifikat">
+                                @foreach (config('addon.label.is_sertifikat') as $key => $value)
+                                    <option value="{{ $key }}" {{ isset($data['program']) ? (old('is_sertifikat', $data['program']->is_sertifikat) == ''.$key.'' ? 'selected' : '') : (old('is_sertifikat') == ''.$key.'' ? 'selected' : '') }}>{{ $value }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-2 text-md-right">
+                            <label class="col-form-label text-sm-right">Penilaian</label>
+                        </div>
+                        <div class="col-md-10">
+                            <select class="status custom-select form-control" name="is_penilaian">
+                                @foreach (config('addon.label.penilaian') as $key => $value)
+                                    <option value="{{ $key }}" {{ isset($data['program']) ? (old('is_penilaian', $data['program']->is_penilaian) == ''.$key.'' ? 'selected' : '') : (old('is_penilaian') == ''.$key.'' ? 'selected' : '') }}>{{ $value }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                     <div class="form-group row">

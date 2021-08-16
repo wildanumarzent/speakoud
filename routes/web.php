@@ -129,7 +129,7 @@ Route::group(['middleware' => ['auth']], function () {
         ->middleware('role:developer|administrator|internal|mitra|instruktur_internal');
     Route::get('/program/{id}/mata/{mataId}/edit', 'Course\MataController@edit')
         ->name('mata.edit')
-        ->middleware('role:developer|administrator|internal|mitra');
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal');
     Route::put('/program/{id}/mata/{mataId}', 'Course\MataController@update')
         ->name('mata.update')
         ->middleware('role:developer|administrator|internal|mitra|instruktur_internal');

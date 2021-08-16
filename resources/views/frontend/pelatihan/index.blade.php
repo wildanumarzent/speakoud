@@ -28,214 +28,39 @@
         </h4>
 
         <div class="row">
+            @foreach ($data['mata'] as $mata)
             <div class="col-sm-6 col-xl-3">
                 <div class="card mb-4 shadow">
                     <div class="w-100">
-                        <a href="{{route('pelatihan.detail',['id' => 1])}}" class="d-block ui-rect-60 ui-bg-cover">
-                        <img class="card-img-top" src="{{asset('/assets/img/img-1.jpg')}}" alt="Card image cap">
+                        <a href="{{ route('pelatihan.detail', ['id' => $mata->id]) }}" class="d-block ui-rect-60 ui-bg-cover">
+                        <img class="card-img-top" src="{{ $mata->getCover($mata->cover['filename']) }}" alt="Card image cap">
                     </a>
                     </div>
                     <div class="card-body">
-                    <h5 class="mb-3"><a href="javascript:void(0)" class="text-body">Complete Java Masterclass</a></h5>
-                    <p class="text-muted mb-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec odio ligula, rhoncus scelerisque ullamcorper iaculis.</p>
+                    <h5 class="mb-3"><a href="{{ route('pelatihan.detail', ['id' => $mata->id]) }}">{!! $mata->judul !!}</a></h5>
+                    {{-- <p class="text-muted mb-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec odio ligula, rhoncus scelerisque ullamcorper iaculis.</p> --}}
                     <hr style="color: orange; background-color: orange">
                     <div class="media">
                         {{-- <h5> <a href="javascript:void(0)" class="text-muted small"><i class="fas fa-comment"></i> 55</a></h5> --}}
                         <div class="mr-3">
-                        <h5> <a href="javascript:void(0)" class="text-muted small"><i class="fas fa-users"></i> 100</a></h5>
+                        <h5> <a href="javascript:void(0)" class="text-muted small"><i class="fas fa-users"></i> {{count($mata->peserta)}}</a></h5>
                         </div>
                         <div class="media-body">
                         <h5> <a href="javascript:void(0)" class="text-muted small"><i class="fas fa-comment"></i> 55</a></h5>
                         </div>
                         <div class="text-muted small">
-                        <h5 style="color: rgb(11, 245, 11)"> <strong>Free</strong> </h5>
+                        @if ($mata->price == null)
+                            <h6 style="color: rgb(20, 245, 0); font-family: 'arial'"> <strong >FREE</strong> </h6>   
+                        @else
+                            <h6 style="color: rgb(245, 147, 0)"> <strong>{{number_format($mata->price)}}</strong> </h6>
+                        @endif
                         </div>
                     </div>
                     </div>
                 </div>
             </div>
-            <div class="col-sm-6 col-xl-3">
-                <div class="card mb-4 shadow">
-                    <div class="w-100">
-                        <a href="javascript:void(0)" class="d-block ui-rect-60 ui-bg-cover">
-                        <img class="card-img-top" src="{{asset('/assets/img/img-2.jpg')}}" alt="Card image cap">
-                    </a>
-                    </div>
-                    <div class="card-body">
-                    <h5 class="mb-3"><a href="javascript:void(0)" class="text-body">Complete Java Masterclass</a></h5>
-                    <p class="text-muted mb-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec odio ligula, rhoncus scelerisque ullamcorper iaculis.</p>
-                    <hr style="color: orange; background-color: orange">
-                    <div class="media">
-                        {{-- <h5> <a href="javascript:void(0)" class="text-muted small"><i class="fas fa-comment"></i> 55</a></h5> --}}
-                        <div class="mr-3">
-                        <h5> <a href="javascript:void(0)" class="text-muted small"><i class="fas fa-users"></i> 100</a></h5>
-                        </div>
-                        <div class="media-body">
-                        <h5> <a href="javascript:void(0)" class="text-muted small"><i class="fas fa-comment"></i> 55</a></h5>
-                        </div>
-                        <div class="text-muted small">
-                        <h6 style="color: rgb(245, 147, 0)"> <strong>Rp. 1000.000</strong> </h6>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-xl-3">
-                <div class="card mb-4 shadow">
-                    <div class="w-100">
-                        <a href="javascript:void(0)" class="d-block ui-rect-60 ui-bg-cover">
-                        <img class="card-img-top" src="{{asset('/assets/img/img-3.jpg')}}" alt="Card image cap">
-                    </a>
-                    </div>
-                    <div class="card-body">
-                    <h5 class="mb-3"><a href="javascript:void(0)" class="text-body">Complete Java Masterclass</a></h5>
-                    <p class="text-muted mb-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec odio ligula, rhoncus scelerisque ullamcorper iaculis.</p>
-                    <hr style="color: orange; background-color: orange">
-                    <div class="media">
-                        {{-- <h5> <a href="javascript:void(0)" class="text-muted small"><i class="fas fa-comment"></i> 55</a></h5> --}}
-                        <div class="mr-3">
-                        <h5> <a href="javascript:void(0)" class="text-muted small"><i class="fas fa-users"></i> 100</a></h5>
-                        </div>
-                        <div class="media-body">
-                        <h5> <a href="javascript:void(0)" class="text-muted small"><i class="fas fa-comment"></i> 55</a></h5>
-                        </div>
-                        <div class="text-muted small">
-                        <h5 style="color: rgb(11, 245, 11)"> <strong>Free</strong> </h5>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-xl-3">
-                <div class="card mb-4 shadow">
-                    <div class="w-100">
-                        <a href="javascript:void(0)" class="d-block ui-rect-60 ui-bg-cover">
-                        <img class="card-img-top" src="{{asset('/assets/img/img-2.jpg')}}" alt="Card image cap">
-                    </a>
-                    </div>
-                    <div class="card-body">
-                    <h5 class="mb-3"><a href="javascript:void(0)" class="text-body">Complete Java Masterclass</a></h5>
-                    <p class="text-muted mb-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec odio ligula, rhoncus scelerisque ullamcorper iaculis.</p>
-                    <hr style="color: orange; background-color: orange">
-                    <div class="media">
-                        {{-- <h5> <a href="javascript:void(0)" class="text-muted small"><i class="fas fa-comment"></i> 55</a></h5> --}}
-                        <div class="mr-3">
-                        <h5> <a href="javascript:void(0)" class="text-muted small"><i class="fas fa-users"></i> 100</a></h5>
-                        </div>
-                        <div class="media-body">
-                        <h5> <a href="javascript:void(0)" class="text-muted small"><i class="fas fa-comment"></i> 55</a></h5>
-                        </div>
-                        <div class="text-muted small">
-                        <h6 style="color: rgb(245, 147, 0)"> <strong>Rp. 500.000</strong> </h6>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-xl-3">
-                <div class="card mb-4 shadow">
-                    <div class="w-100">
-                        <a href="{{route('pelatihan.detail',['id' => 1])}}" class="d-block ui-rect-60 ui-bg-cover">
-                        <img class="card-img-top" src="{{asset('/assets/img/img-1.jpg')}}" alt="Card image cap">
-                    </a>
-                    </div>
-                    <div class="card-body">
-                    <h5 class="mb-3"><a href="javascript:void(0)" class="text-body">Complete Java Masterclass</a></h5>
-                    <p class="text-muted mb-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec odio ligula, rhoncus scelerisque ullamcorper iaculis.</p>
-                    <hr style="color: orange; background-color: orange">
-                    <div class="media">
-                        {{-- <h5> <a href="javascript:void(0)" class="text-muted small"><i class="fas fa-comment"></i> 55</a></h5> --}}
-                        <div class="mr-3">
-                        <h5> <a href="javascript:void(0)" class="text-muted small"><i class="fas fa-users"></i> 100</a></h5>
-                        </div>
-                        <div class="media-body">
-                        <h5> <a href="javascript:void(0)" class="text-muted small"><i class="fas fa-comment"></i> 55</a></h5>
-                        </div>
-                        <div class="text-muted small">
-                        <h5 style="color: rgb(11, 245, 11)"> <strong>Free</strong> </h5>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-xl-3">
-                <div class="card mb-4 shadow">
-                    <div class="w-100">
-                        <a href="javascript:void(0)" class="d-block ui-rect-60 ui-bg-cover">
-                        <img class="card-img-top" src="{{asset('/assets/img/img-2.jpg')}}" alt="Card image cap">
-                    </a>
-                    </div>
-                    <div class="card-body">
-                    <h5 class="mb-3"><a href="javascript:void(0)" class="text-body">Complete Java Masterclass</a></h5>
-                    <p class="text-muted mb-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec odio ligula, rhoncus scelerisque ullamcorper iaculis.</p>
-                    <hr style="color: orange; background-color: orange">
-                    <div class="media">
-                        {{-- <h5> <a href="javascript:void(0)" class="text-muted small"><i class="fas fa-comment"></i> 55</a></h5> --}}
-                        <div class="mr-3">
-                        <h5> <a href="javascript:void(0)" class="text-muted small"><i class="fas fa-users"></i> 100</a></h5>
-                        </div>
-                        <div class="media-body">
-                        <h5> <a href="javascript:void(0)" class="text-muted small"><i class="fas fa-comment"></i> 55</a></h5>
-                        </div>
-                        <div class="text-muted small">
-                        <h6 style="color: rgb(245, 147, 0)"> <strong>Rp. 1000.000</strong> </h6>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-xl-3">
-                <div class="card mb-4 shadow">
-                    <div class="w-100">
-                        <a href="javascript:void(0)" class="d-block ui-rect-60 ui-bg-cover">
-                        <img class="card-img-top" src="{{asset('/assets/img/img-3.jpg')}}" alt="Card image cap">
-                    </a>
-                    </div>
-                    <div class="card-body">
-                    <h5 class="mb-3"><a href="javascript:void(0)" class="text-body">Complete Java Masterclass</a></h5>
-                    <p class="text-muted mb-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec odio ligula, rhoncus scelerisque ullamcorper iaculis.</p>
-                    <hr style="color: orange; background-color: orange">
-                    <div class="media">
-                        {{-- <h5> <a href="javascript:void(0)" class="text-muted small"><i class="fas fa-comment"></i> 55</a></h5> --}}
-                        <div class="mr-3">
-                        <h5> <a href="javascript:void(0)" class="text-muted small"><i class="fas fa-users"></i> 100</a></h5>
-                        </div>
-                        <div class="media-body">
-                        <h5> <a href="javascript:void(0)" class="text-muted small"><i class="fas fa-comment"></i> 55</a></h5>
-                        </div>
-                        <div class="text-muted small">
-                        <h5 style="color: rgb(11, 245, 11)"> <strong>Free</strong> </h5>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-xl-3">
-                <div class="card mb-4 shadow">
-                    <div class="w-100">
-                        <a href="javascript:void(0)" class="d-block ui-rect-60 ui-bg-cover">
-                        <img class="card-img-top" src="{{asset('/assets/img/img-2.jpg')}}" alt="Card image cap">
-                    </a>
-                    </div>
-                    <div class="card-body">
-                    <h5 class="mb-3"><a href="javascript:void(0)" class="text-body">Complete Java Masterclass</a></h5>
-                    <p class="text-muted mb-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec odio ligula, rhoncus scelerisque ullamcorper iaculis.</p>
-                    <hr style="color: orange; background-color: orange">
-                    <div class="media">
-                        {{-- <h5> <a href="javascript:void(0)" class="text-muted small"><i class="fas fa-comment"></i> 55</a></h5> --}}
-                        <div class="mr-3">
-                        <h5> <a href="javascript:void(0)" class="text-muted small"><i class="fas fa-users"></i> 100</a></h5>
-                        </div>
-                        <div class="media-body">
-                        <h5> <a href="javascript:void(0)" class="text-muted small"><i class="fas fa-comment"></i> 55</a></h5>
-                        </div>
-                        <div class="text-muted small">
-                        <h6 style="color: rgb(245, 147, 0)"> <strong>Rp. 500.000</strong> </h6>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-            </div>
+            @endforeach
+            
         </div>
         <hr class="border-light mt-2 mb-4">
 

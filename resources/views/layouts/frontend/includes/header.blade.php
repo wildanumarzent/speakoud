@@ -17,7 +17,7 @@
 							<li class="{{ empty(Request::segment(1)) ? 'current-nav' : '' }}"><a href="{{ route('home') }}" title="@lang('layout.menu.home')">@lang('layout.menu.home')</a></li>
 							<li class="{{ Request::is('pelatihan*') ? 'current-nav' : '' }}"><a href="{{ route('platihan.index') }}" title="modul pelatihan">pelatihan</a></li>
 
-							<li class="has-dropdown {{ Request::is('course/list*') ? 'current-nav' : '' }}">
+							{{-- <li class="has-dropdown {{ Request::is('course/list*') ? 'current-nav' : '' }}">
 								<a href="#!" title="Program Pelatihan">Program Pelatihan</a>
 								<ul class="dropdown">
 									<li class="btn-back"><a href="#!" title="kembali">kembali</a></li>
@@ -33,7 +33,7 @@
 									</li>
 									@endforeach
 								</ul>
-							</li>
+							</li> --}}
 							{{-- <li class="{{ Request::is('course/jadwal*') ? 'current-nav' : '' }}"><a href="{{ route('course.jadwal') }}" title="Kalender Pelatihan">Agenda</a></li> --}}
 							<li class="{{ Request::is('content/artikel*') ? 'current-nav' : '' }}"><a href="{{ route('artikel.list') }}" title="Artikel">Artikel</a></li>
 							@foreach ($menu['inquiry'] as $inquiry)

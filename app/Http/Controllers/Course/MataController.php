@@ -248,14 +248,8 @@ class MataController extends Controller
 
     public function store(MataRequest $request, $programId)
     {
-        if (!empty($request->kode_evaluasi)) {
-            $cekApi = $this->serviceEvaluasi->preview($request->kode_evaluasi);
-            if ($cekApi->success == false) {
-                return back()->with('warning', $cekApi->error_message[0]);
-            }
-        }
 
-
+        // return $request;
         $bobot = ($request->join_vidconf + $request->activity_completion +
             $request->forum_diskusi + $request->webinar + $request->progress_test +
             $request->quiz + $request->tugas_mandiri + $request->post_test);

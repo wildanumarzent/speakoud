@@ -43,6 +43,28 @@ class ProgramService
 
         return $result;
     }
+
+    public function programListNoRole($request)
+    {
+          $query = $this->model->query();
+            $query->when($request->q, function ($query, $q) {
+                $query->where(function ($query) use ($q) {
+                    $query->where('judul', 'ilike', '%'.$q.'%')
+                        ->orWhere('keterangan', 'ilike', '%'.$q.'%');
+                });
+            }); 
+
+        if (isset($request->p)) {
+            $query->where('publish', $request->p);
+        }
+        if (isset($request->t)) {
+            $query->where('tipe', $request->t);
+        }
+
+        $result = $query->orderBy('urutan', 'ASC')->paginate(10);
+
+        return $result;
+    }
     public function getProgramListByCreatorId($request)
     {
         // return $request;
@@ -107,8 +129,14 @@ class ProgramService
             $mitra = null;
         }
         if (auth()->user()->hasRole('developer|administrator|instruktur_internal')) {
-            $tipe = $request->tipe;
-            $mitra = $request->mitra_id;
+            $tipe = 0;
+            $mitra = null;
+        }
+
+        if ($request->hasFile('image')) {
+            $fileName = str_replace(' ', '-', $request->file('image')
+                ->getClientOriginalName());
+            $request->file('image')->move(public_path('userfile/cover'), $fileName);
         }
 
         $program = new ProgramPelatihan($request->only(['judul']));
@@ -118,6 +146,10 @@ class ProgramService
         $program->urutan = ($this->model->max('urutan') + 1);
         $program->publish = 1;
         $program->tipe = 0;
+        $program->price = $request->price;
+        $program->image = $fileName;
+        $program->is_sertifikat = $request->is_sertifikat;
+        $program->is_penilaian = $request->is_penilaian;
         $program->save();
 
         return $program;

@@ -11,7 +11,7 @@
     <h6 class="card-header">
       Form Kategori Pelatihan
     </h6>
-    <form action="{{ !isset($data['program']) ? route('program.store') : route('program.update', ['id' => $data['program']->id]) }}" method="POST">
+    <form action="{{ !isset($data['program']) ? route('program.store') : route('program.update', ['id' => $data['program']->id]) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @if (isset($data['program']))
             @method('PUT')
@@ -27,44 +27,7 @@
                   @include('components.field-error', ['field' => 'judul'])
                 </div>
             </div>
-            @if (!isset($data['program']) && auth()->user()->hasRole('developer|administrator'))
-            <div class="form-group row">
-                <div class="col-md-2 text-md-right">
-                  <label class="col-form-label text-sm-right">Tipe (<em>program pelatihan untuk</em>)</label>
-                </div>
-                <div class="col-md-10">
-                    <select id="tipe" class="custom-select form-control @error('tipe') is-invalid @enderror" name="tipe">
-                        <option value=" " selected disabled>Pilih</option>
-                        <option value="0">BPPT</option>
-                        <option value="1">Mitra</option>
-                    </select>
-                    @error('tipe')
-                        <label class="error jquery-validation-error small form-text invalid-feedback" style="display: inline-block; color:red;">{!! $message !!}</label>
-                    @enderror
-                </div>
-            </div>
-            <div class="form-group row" id="mitra">
-                <div class="col-md-2 text-md-right">
-                  <label class="col-form-label text-sm-right">Mitra</label>
-                </div>
-                <div class="col-md-9">
-                    <select class="select2 show-tick @error('mitra_id') is-invalid @enderror" name="mitra_id" data-style="btn-default">
-                        <option value=" " selected disabled>Pilih</option>
-                        @foreach ($data['mitra'] as $mitra)
-                        <option value="{{ $mitra->id }}">{{ $mitra->instansi['nama_instansi'] }}</option>
-                        @endforeach
-                    </select>
-                    @error('mitra_id')
-                        <label class="error jquery-validation-error small form-text invalid-feedback" style="display: inline-block; color:red;">{!! $message !!}</label>
-                    @enderror
-                </div>
-                <div class="col-md-1">
-                    <div class="col-md-1">
-                        <a href="{{ route('mitra.create') }}" class="btn btn-primary icon-btn" title="klik untuk menambah mitra"><i class="las la-plus"></i></a>
-                    </div>
-                </div>
-            </div>
-            @endif
+           
             <div class="form-group row">
                 <div class="col-md-2 text-md-right">
                   <label class="col-form-label text-sm-right">Keterangan</label>

@@ -172,7 +172,6 @@ class MataService
     public function getLatestMata()
     {
         $query = $this->model->query();
-
         $query->where('publish_start', '<=', now())
                 ->where('publish_end', '>=', now());
         // dd(auth()->user());
@@ -210,7 +209,7 @@ class MataService
         $query->publish();
         $query->where('publish_start', '<=', now())
             ->where('publish_end', '>=', now());
-
+      
         if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra')) {
             $query->whereHas('instruktur', function ($query) {
                 $query->whereIn('instruktur_id', [auth()->user()->instruktur->id]);
@@ -237,6 +236,14 @@ class MataService
         $result = $query->get();
 
         return $result;
+    }
+
+    public function getOtherMataNoId($id)
+    {
+        return $query=$this->model->query();
+        $query->whereHas('instruktur', function ($query) {
+            $query->whereIn('instruktur_id', [auth()->user()->instruktur->id]);
+        });
     }
 
     public function getMataHistory($request, $limit = 9)
@@ -400,7 +407,7 @@ class MataService
 
     public function findMata(int $id)
     {
-        return $this->model->findOrFail($id);
+        return $this->model->with('program','materi')->findOrFail($id);
     }
 
     public function storeMata($request, int $programId, $templateId = null)
@@ -434,6 +441,9 @@ class MataService
         $mata->urutan = ($this->model->where('program_id', $programId)->max('urutan') + 1);
         $mata->show_feedback = (bool)$request->show_feedback;
         $mata->show_comment = (bool)$request->show_comment;
+        $mata->price = $request->price;
+        $mata->is_sertifikat = $request->is_sertifikat;
+        $mata->is_penilaian = $request->is_penilaian;
         $mata->save();
 
         $bobot = new MataBobotNilai;
@@ -531,6 +541,9 @@ class MataService
         $mata->jam_pelatihan = $request->jam_pelatihan ?? null;
         $mata->show_feedback = (bool)$request->show_feedback;
         $mata->show_comment = (bool)$request->show_comment;
+        $mata->price = $request->price;
+        $mata->is_sertifikat = $request->is_sertifikat;
+        $mata->is_penilaian = $request->is_penilaian;
         $mata->save();
 
         $bobot = $mata->bobot;
