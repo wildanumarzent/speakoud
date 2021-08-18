@@ -33,6 +33,7 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
+    //   return "test";
         $url = $request->url();
         $param = str_replace($url, '', $request->fullUrl());
 
@@ -40,7 +41,7 @@ class UserController extends Controller
         $data['roles'] = $this->serviceRole->getAllRole();
         $data['no'] = $data['users']->firstItem();
         $data['users']->withPath(url()->current().$param);
-
+        
         return view('backend.user_management.users.index', compact('data'), [
             'title' => 'Users',
             'breadcrumbsBackend' => [

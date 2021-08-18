@@ -623,6 +623,180 @@ Route::group(['middleware' => ['auth']], function () {
     //logout
     Route::post('/logout', [LoginController::class, 'logout'])
         ->name('logout');
+
+    // user 
+    Route::prefix('user')->name('user.')->middleware('role:developer|administrator')
+        ->group(function () {
+        
+        Route::get('/', [UserController::class, 'index'])
+            ->name('index');
+        Route::get('/trash', [UserController::class, 'trash'])
+            ->name('trash');
+        Route::get('/create', [UserController::class, 'create'])
+            ->name('create');
+        Route::post('/', [UserController::class, 'store'])
+            ->name('store');
+        Route::get('/{id}/edit', [UserController::class, 'edit'])
+            ->name('edit');
+        Route::put('/{id}', [UserController::class, 'update'])
+            ->name('update');
+        Route::put('/{id}/activate', [UserController::class, 'activate'])
+            ->name('activate');
+        Route::delete('/{id}', [UserController::class, 'destroy'])
+            ->name('destroy');
+        Route::get('/{id}/soft', [UserController::class, 'softDelete'])
+            ->name('destroy.soft');
+        Route::get('/{id}/restore', [UserController::class, 'restore'])
+            ->name('destroy.restore');
+
+    });
+     //users
+    Route::prefix('user')->name('user.')->middleware('role:developer|administrator')
+        ->group(function () {
+        
+        Route::get('/', [UserController::class, 'index'])
+            ->name('index');
+        Route::get('/trash', [UserController::class, 'trash'])
+            ->name('trash');
+        Route::get('/create', [UserController::class, 'create'])
+            ->name('create');
+        Route::post('/', [UserController::class, 'store'])
+            ->name('store');
+        Route::get('/{id}/edit', [UserController::class, 'edit'])
+            ->name('edit');
+        Route::put('/{id}', [UserController::class, 'update'])
+            ->name('update');
+        Route::put('/{id}/activate', [UserController::class, 'activate'])
+            ->name('activate');
+        Route::delete('/{id}', [UserController::class, 'destroy'])
+            ->name('destroy');
+        Route::get('/{id}/soft', [UserController::class, 'softDelete'])
+            ->name('destroy.soft');
+        Route::get('/{id}/restore', [UserController::class, 'restore'])
+            ->name('destroy.restore');
+
+    });
+
+    //internal
+    Route::prefix('internal')->name('internal.')->middleware('role:developer|administrator')
+        ->group(function () {
+
+        Route::get('/', [InternalController::class, 'index'])
+            ->name('index');
+        Route::get('/create', [InternalController::class, 'create'])
+            ->name('create');
+        Route::post('/', [InternalController::class, 'store'])
+            ->name('store');
+        Route::get('/{id}/edit', [InternalController::class, 'edit'])
+            ->name('edit');
+        Route::put('/{id}', [InternalController::class, 'update'])
+            ->name('update');
+        Route::delete('/{id}', [InternalController::class, 'destroy'])
+            ->name('destroy');
+        Route::get('/{id}/soft', [InternalController::class, 'softDelete'])
+            ->name('destroy.soft');
+
+    });
+
+    //mitra
+    Route::prefix('mitra')->name('mitra.')->middleware('role:developer|administrator|internal')
+        ->group(function () {
+
+        Route::get('/', 'Users\MitraController@index')
+            ->name('index');
+        Route::get('/create', [MitraController::class, 'create'])
+            ->name('create');
+        Route::post('/', [MitraController::class, 'store'])
+            ->name('store');
+        Route::get('/{id}/edit', [MitraController::class, 'edit'])
+            ->name('edit');
+        Route::put('/{id}', [MitraController::class, 'update'])
+            ->name('update');
+        Route::delete('/{id}', [MitraController::class, 'destroy'])
+            ->name('destroy');
+        Route::get('/{id}/soft', [MitraController::class, 'softDelete'])
+            ->name('destroy.soft');
+
+    });
+
+    //instruktur
+    Route::prefix('instruktur')->name('instruktur.')->middleware('role:developer|administrator|internal|mitra')
+        ->group(function () {
+
+        Route::get('/', [InstrukturController::class, 'index'])
+            ->name('index');
+        Route::get('/create', [InstrukturController::class, 'create'])
+            ->name('create');
+        Route::post('/', [InstrukturController::class, 'store'])
+            ->name('store');
+        Route::get('/{id}/edit', [InstrukturController::class, 'edit'])
+            ->name('edit');
+        Route::put('/{id}', [InstrukturController::class, 'update'])
+            ->name('update');
+        Route::delete('/{id}', [InstrukturController::class, 'destroy'])
+            ->name('destroy');
+        Route::get('/{id}/soft', [InstrukturController::class, 'softDelete'])
+            ->name('destroy.soft');
+
+    });
+
+    //peserta
+    Route::prefix('peserta')->name('peserta.')->middleware('role:developer|administrator|internal|mitra')
+        ->group(function () {
+
+        Route::get('/', [PesertaController::class, 'index'])
+            ->name('index');
+        Route::get('/create', [PesertaController::class, 'create'])
+            ->name('create');
+        Route::post('/', [PesertaController::class, 'store'])
+            ->name('store');
+        Route::get('/{id}/edit', [PesertaController::class, 'edit'])
+            ->name('edit');
+        Route::put('/{id}', [PesertaController::class, 'update'])
+            ->name('update');
+        Route::delete('/{id}', [PesertaController::class, 'destroy'])
+            ->name('destroy');
+        Route::get('/{id}/soft', [PesertaController::class, 'softDelete'])
+            ->name('destroy.soft');
+        Route::get('/export', [PesertaController::class, 'export'])
+            ->name('export');
+
+    });
+
+     //--- grades management
+    Route::prefix('grades')->name('grades.')->middleware('role:developer|administrator')
+        ->group(function () {
+        
+        //kategori
+        Route::get('/', [GradesKategoriController::class, 'index'])
+            ->name('index');
+        Route::get('/create', [GradesKategoriController::class, 'create'])
+            ->name('create');
+        Route::post('/', [GradesKategoriController::class, 'store'])
+            ->name('store');
+        Route::get('/{id}/edit', [GradesKategoriController::class, 'edit'])
+            ->name('edit');
+        Route::put('/{id}', [GradesKategoriController::class, 'update'])
+            ->name('update');
+        Route::delete('/{id}', [GradesKategoriController::class, 'destroy'])
+            ->name('destroy');
+
+        //nilai
+        Route::get('/{id}/nilai', [GradesNilaiController::class, 'index'])
+            ->name('nilai');
+        Route::get('/{id}/nilai/create', [GradesNilaiController::class, 'create'])
+            ->name('nilai.create');
+        Route::post('/{id}/nilai', [GradesNilaiController::class, 'store'])
+            ->name('nilai.store');
+        Route::get('/{id}/nilai/{nilaiId}/edit', [GradesNilaiController::class, 'edit'])
+            ->name('nilai.edit');
+        Route::put('/{id}/nilai/{nilaiId}', [GradesNilaiController::class, 'update'])
+            ->name('nilai.update');
+        Route::delete('/{id}/nilai/{nilaiId}', [GradesNilaiController::class, 'destroy'])
+            ->name('nilai.destroy');
+
+    });
+
 });
 
     Route::get('/pelatihan','pelatihan\PelatihanController@index')->name('platihan.index');

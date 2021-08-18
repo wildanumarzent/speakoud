@@ -405,7 +405,7 @@ class MataService
         return $result;
     }
 
-    public function findMata(int $id)
+    public function findMata($id)
     {
         return $this->model->with('program','materi')->findOrFail($id);
     }
