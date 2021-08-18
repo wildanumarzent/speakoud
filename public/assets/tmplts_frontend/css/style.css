@@ -206,10 +206,10 @@ article img[style="float: right;"] {
     background-color: #ffa500;
 }
 .box-wrap.bg-grey {
-    background-color: #f0f1f4;
+    background-color: white;
 }
 .box-wrap.bg-grey-alt {
-    background-color: #fefefe;
+    background-color: white;
 }
 .box-wrap.half-bg-white:after {
     content: "";

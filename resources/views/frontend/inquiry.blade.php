@@ -36,6 +36,7 @@
                     <div class="title-heading">
                         <h6>{{ $data['read']->name }} Kami</h6>
                         {!! $data['read']->body !!}
+                        SPEAKOUD 
                     </div>
                     <div class="post-info flex-column">
                         <div class="box-info mb-4">

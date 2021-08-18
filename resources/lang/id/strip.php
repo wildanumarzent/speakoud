@@ -1,7 +1,7 @@
-<?php
+<?php 
 
 return [
-	'title_header' => 'BELS',
+	'title_header' => 'SPEAKOUD',
 	'banner_welcome' => 'Selamat datang di',
 	'widget_1_title' => 'Program Pelatihan',
 	'widget_1_description' => 'Beragam pilihan program pelatihan e-learning yang tersedia saat ini',
@@ -22,10 +22,10 @@ return [
 	'button_selengkapnya' => 'Selengkapnya',
 	'article_title' => 'Artikel',
 	'article_recent' => 'Artikel Lainnya',
-	'inquiry_website' => 'www.e-learning.bppt.go.id',
+	'inquiry_website' => 'www.speakoud.com',
 	'inquiry_button' => 'Kirim Pesan',
 	'footer_title_1' => 'Layanan E-Learning',
 	'footer_title_2' => 'Link Cepat',
 	'footer_title_3' => 'Kontak',
-	'copyright' => 'Pusat Pembinaan, Pendidikan dan Pelatihan BPPT',
+	'copyright' => 'SPEAKOUD',
 ];
