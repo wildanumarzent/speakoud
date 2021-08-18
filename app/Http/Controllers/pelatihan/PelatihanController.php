@@ -77,7 +77,8 @@ class PelatihanController extends Controller
         // return $data['program'] = $this->program->findProgram($id);
        
         $data['mata'] = $this->service->findMata($id);
-        // $data['materi'] = $this->serviceMateri->getMateriByMata($id);
+        $data['materi'] = $this->serviceMateri->getMateriNoRole($id);
+       
         // $data['other_mata'] = $this->service->getOtherMata($id);
     //    return $data['read'] = $this->service->findMata($id);
         $data['numberRating'] = [1, 2, 3, 4, 5];

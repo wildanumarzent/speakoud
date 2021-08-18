@@ -166,7 +166,73 @@
                                         <div class="col"><h3><i class="far fa-copy" style="color: orange"></i> Lectures <strong>1.{{$key+1}}</strong></h3></div>
                                             <div class="d-none d-md-block col-10">
                                                 <div class="row no-gutters align-items-center">
-                                                <div class="col-11"><h3><a href="#">{{$item->judul}}</a> </h3></div>
+                                                    <div class="col-11">
+                                                       
+                                                        <div class="theme-bg-white ui-bordered mb-2">
+                                                                <a href="#company-faq-{{$key +$key}}" class="d-flex justify-content-between text-body py-3 px-4" data-toggle="collapse">
+                                                                <h1>{{$item->judul}}</h1>
+                                                                <span class="collapse-icon"><h3 style="color: orange; font-weight: bold"></h3></span>
+                                                            </a>
+                                                            <h3></h3>
+                                                            <div id="company-faq-{{$key+$key}}" class="collapse text-muted">
+                                                                <div class="card-body py-6">
+                                                                     @foreach ($item->bahanPublish as $bahan)
+                                                                        <li class="list-group-item py-4">
+                                                                            <div class="media flex-wrap">
+                                                                                <div class="d-none d-sm-block ui-w-120 text-center">
+                                                                                    @if ($bahan->type($bahan)['tipe'] == 'dokumen')
+                                                                                    <i class="las la-file-{{ $bahan->dokumen->bankData->icon($bahan->dokumen->bankData->file_type) }} mr-2" style="font-size: 4em;"></i>
+                                                                                    @elseif ($bahan->type($bahan)['tipe'] == 'video')
+                                                                                        @if (!empty($bahan->video->bankData->thumbnail))
+                                                                                            <div class="d-block ui-rect-67 ui-bg-cover" style="background-image: url({{ route('bank.data.stream', ['path' => $bahan->video->bankData->thumbnail]) }});"></div>
+                                                                                        @else
+                                                                                            <i class="las la-{{ $bahan->type($bahan)['icon'] }} mr-2" style="font-size: 4em;"></i>
+                                                                                        @endif
+                                                                                    @else
+                                                                                    <i class="las la-{{ $bahan->type($bahan)['icon'] }} mr-2" style="font-size: 4em;"></i>
+                                                                                    @endif
+                                                                                </div>
+                                                                                <div class="media-body ml-sm-2">
+                                                                                    <h5 class="mb-2">
+                                                                                        {{-- @role ('peserta_internal|peserta_mitra') --}}
+                                                                                        @if ($bahan->completion_type > 0)
+                                                                                        <div class="float-right font-weight-semibold ml-3">
+                                                                                            @if ($bahan->activityCompletionByUser()->count() == 1 && !empty($bahan->activityCompletionByUser->track_end))
+                                                                                                @if ($bahan->activityCompletionByUser->status == 1)
+                                                                                                    <i class="las la-check-square text-success" style="font-size: 2em;" title="anda sudah menyelesaikan materi ini"></i>
+                                                                                                @else
+                                                                                                    <i class="las la-check-square text-danger" style="font-size: 2em;" title="materi telah diselesaikan (Check by : {{ $bahan->activityCompletionByUser->completed->name }})"></i>
+                                                                                                @endif
+                                                                                            @else
+                                                                                            <i class="las la-stop text-secondary" style="font-size: 2em;" title="anda belum menyelesaikan materi ini"></i>
+                                                                                            @endif
+                                                                                        </div>
+                                                                                        @endif
+                                                                                        {{-- @endrole  --}}
+                                                                                        <a href="{{ route('course.bahan', ['id' => $data['mata']->id, 'bahanId' => $bahan->id, 'tipe' => $bahan->type($bahan)['tipe']]) }}" class="text-body">{!! $bahan->judul !!}</a>&nbsp;
+                                                                                    </h5>
+                                                                                    <div class="d-flex flex-wrap align-items-center mb-2">
+                                                                                        <div class="text-muted small">
+                                                                                            @if ($bahan->restrict_access == 1)
+                                                                                                <i class="las la-calendar text-primary"></i>
+                                                                                                <span>Tanggal : <strong>{{ $bahan->publish_start->format('d F Y H:i (A)') }}</strong> s/d <strong>{{ $bahan->publish_end->format('d F Y H:i (A)') }}</strong></span>
+                                                                                            @endif
+                                                                                            @if ($bahan->restrict_access == '0')
+                                                                                                <i class="las la-folder text-danger"></i>
+                                                                                                <span>Materi ini tidak bisa diakses sebelum menyelesaikan materi <strong class="badge badge-danger">{{ $bahan->restrictBahan($bahan->requirement)->judul }}</strong></span>
+                                                                                            @endif
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div>{!! strip_tags(Str::limit($bahan->keterangan, 120)) !!}</div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </li>
+                                                                </div>
+                                                                @endforeach
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
                                                 <div class="col-1"><h3><i class="fas fa-lock" style="color: orange"></i></h3></div>
                                             </div>
                                         </div>

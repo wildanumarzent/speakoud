@@ -17,7 +17,7 @@
     <meta property="og:site_name" content="{{ route('home') }}">
     <meta property="og:title" content="{!! isset($data['meta_title']) ? Str::limit(strip_tags($data['meta_title']), 69) : $configuration['meta_title'] !!}"/>
     <meta property="og:description" content="{!! isset($data['meta_description']) ? Str::limit(strip_tags($data['meta_description']), 155) : $configuration['meta_description'] !!}"/>
-    <meta property="og:image" content="{{ asset('assets/tmplts_backend/images/open-graph.jpg') }}"/>
+    <meta property="og:image" content="SPEAKOUD"/>
     <meta property="og:image:width" content="650" />
     <meta property="og:image:height" content="366" />
     <meta property="og:type" content="website" />

@@ -358,7 +358,7 @@ Route::group(['middleware' => ['auth']], function () {
     //internal
     Route::get('/mata/{id}/sertifikat/peserta', 'Sertifikasi\SertifikatInternalController@peserta')
         ->name('sertifikat.internal.peserta')
-        ->middleware('role:administrator|internal|mitra');
+        ->middleware('role:administrator|internal|instruktur_internal');
     Route::get('/mata/{id}/sertifikat/internal/form', 'Sertifikasi\SertifikatInternalController@form')
         ->name('sertifikat.internal.form')
         ->middleware('role:administrator|internal|mitra');
@@ -377,7 +377,7 @@ Route::group(['middleware' => ['auth']], function () {
     //external
     Route::get('/mata/{id}/sertifikat/external/peserta', 'Sertifikasi\SertifikatExternalController@peserta')
         ->name('sertifikat.external.peserta')
-        ->middleware('role:administrator|internal|mitra');
+        ->middleware('role:administrator|internal|instruktur_internal');
     Route::post('/mata/{id}/sertifikat/external', 'Sertifikasi\SertifikatExternalController@upload')
         ->name('sertifikat.external.upload')
         ->middleware('role:administrator|internal|mitra');

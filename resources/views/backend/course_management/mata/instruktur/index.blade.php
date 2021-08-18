@@ -96,10 +96,9 @@
             <thead>
                 <tr>
                     <th style="width: 10px;">No</th>
-                    <th>NIP</th>
+                    {{-- <th>NIP</th> --}}
                     <th>Nama</th>
-                    <th>Instansi / Perusahaan</th>
-                    <th>Jabatan</th>
+                    {{-- <th>Jabatan</th> --}}
                     <th>Materi Upload</th>
                     @role('administrator|internal')
                     <th style="width: 300px;">Kode Evaluasi</th>
@@ -126,10 +125,9 @@
                 @foreach ($data['instruktur'] as $item)
                 <tr>
                     <td>{{ $data['number']++ }}</td>
-                    <td>{{ $item->instruktur->nip }}</td>
+                    {{-- <td>{{ $item->instruktur->nip }}</td> --}}
                     <td>{{ $item->instruktur->user->name }}</td>
-                    <td>{{ $item->instruktur->instansi($item->instruktur)->nama_instansi }}</td>
-                    <td>{{ $item->instruktur->pangkat }}</td>
+                    {{-- <td>{{ $item->instruktur->pangkat }}</td> --}}
                     <td>{{ $item->mata->bahan()->where('creator_id', $item->instruktur->user->id)->count() }}</td>
                     @role('administrator|internal')
                     <td>
@@ -183,22 +181,19 @@
                     <td>
                         <div class="card">
                             <div class="card-body">
-                                <div class="item-table">
+                                {{-- <div class="item-table">
                                     <div class="data-table">NIP</div>
                                     <div class="desc-table">{{ $item->instruktur->nip }}</div>
-                                </div>
+                                </div> --}}
                                 <div class="item-table">
                                     <div class="data-table">Nama</div>
                                     <div class="desc-table">{{ $item->instruktur->user->name }}</div>
                                 </div>
-                                <div class="item-table">
-                                    <div class="data-table">Instansi</div>
-                                    <div class="desc-table">{{ $item->instruktur->instansi($item->instruktur)->nama_instansi }}</div>
-                                </div>
-                                <div class="item-table">
+                               
+                                {{-- <div class="item-table">
                                     <div class="data-table">Jabatan</div>
                                     <div class="desc-table">{{ $item->instruktur->pangkat }}</div>
-                                </div>
+                                </div> --}}
                                 <div class="item-table">
                                     <div class="data-table">Materi Upload</div>
                                     <div class="desc-table">{{ $item->mata->bahan()->where('creator_id', $item->instruktur->user->id)->count() }}</div>

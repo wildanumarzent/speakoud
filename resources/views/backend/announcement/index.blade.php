@@ -31,7 +31,7 @@
 <div class="card">
     <div class="card-header with-elements">
         <h5 class="card-header-title mt-1 mb-0">Pengumuman List</h5>
-        @role ('developer|administrator|internal')
+        @role ('developer|administrator')
         <div class="card-header-elements ml-auto">
             <a href="{{ route('announcement.create') }}" class="btn btn-primary icon-btn-only-sm" title="klik untuk menambah artikel">
                 <i class="las la-plus"></i><span>Tambah</span>
@@ -73,7 +73,7 @@
                     </td>
                     <td >{{ $item->created_at->format('d F Y - (H:i)') }}</td>
                     <td >{{ $item->updated_at->format('d F Y - (H:i)') }}</td>
-                    @role('peserta_mitra|peserta_internal')
+                    @role('developer|administrator|instruktur_internal')
                     <td>
                         <a href="{{ route('announcement.show', ['announcement' => $item->id]) }}" target="_blank" class="btn icon-btn btn-sm btn-success" title="klik untuk melihat pengumuman">
                             <i class="las la-eye"></i>

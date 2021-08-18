@@ -86,7 +86,7 @@ class MataController extends Controller
             $q = '?q='.$request->q;
         }
 
-        $data['instruktur'] = $this->service->getInstrukturList($request, $mataId);
+       $data['instruktur'] = $this->service->getInstrukturList($request, $mataId);
         $data['number'] = $data['instruktur']->firstItem();
         $data['instruktur']->withPath(url()->current().$q);
         $data['mata'] = $this->service->findMata($mataId);
