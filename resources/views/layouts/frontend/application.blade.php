@@ -29,7 +29,8 @@
         <meta property="og:title" content="{{ $configuration['website_name'] }} {{ isset($title) ? ': '.$title : '' }}"/>
         <meta property="og:url" name="url" content="{{ url()->full() }}">
         <meta property="og:description" content="{!! isset($data['meta_description']) ? Str::limit(strip_tags($data['meta_description']), 155) : $configuration['meta_description'] !!}"/>
-        <meta property="og:image" content="{!! isset($data['cover']) ? $data['cover'] : asset('assets/tmplts_backend/images/open-graph.jpg') !!}"/>
+        {{-- <meta property="og:image" content="{!! isset($data['cover']) ? $data['cover'] : asset('assets/tmplts_backend/images/open-graph.jpg') !!}"/> --}}
+        <meta property="og:image" content="SPEAKOUD"/>
         <meta property="og:image:width" content="650" />
         <meta property="og:image:height" content="366" />
         <meta property="og:type" content="website" />
