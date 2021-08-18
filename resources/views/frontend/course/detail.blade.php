@@ -340,7 +340,7 @@
                             <a href="javascript:;" data-id="{{ $comment->id }}" class="btn btn-danger icon-btn btn-sm js-sa2-delete"><i class="las la-trash-alt"></i></a>
                         @endif
                     </div>
-                    <a href="javascript:void(0)">{{ $comment->user->name }}</a>
+                    <a href="javascript:void(0)">{{ $comment->user->name ?? 'user not found' }}</a>
                     <div class="text-muted small">{{ $comment->created_at->format('l, j F Y (H:i A)') }}</div>
                     <div class="mt-2">
                         {!! $comment->komentar !!}
