@@ -21,16 +21,7 @@
             @endif
             <div class="tab-content">
                 <div class="tab-pane fade show active" id="data">
-                    <div class="form-group row">
-                        <div class="col-md-2 text-md-right">
-                          <label class="col-form-label text-sm-right">NIP / NIK</label>
-                        </div>
-                        <div class="col-md-10">
-                          <input type="text" class="form-control @error('nip') is-invalid @enderror" name="nip"
-                            value="{{ (isset($data['instruktur'])) ? old('nip', $data['instruktur']->nip) : old('nip') }}" placeholder="masukan nip / nik..." autofocus>
-                          @include('components.field-error', ['field' => 'nip'])
-                        </div>
-                    </div>
+                    
                     <div class="form-group row">
                         <div class="col-md-2 text-md-right">
                           <label class="col-form-label text-sm-right">Nama</label>
@@ -41,59 +32,8 @@
                           @include('components.field-error', ['field' => 'name'])
                         </div>
                     </div>
-                    @role ('developer|administrator')
-                    @if (!isset($data['instruktur']) && Request::get('instruktur') == 'mitra')
-                    <div class="form-group row" id="mitra">
-                        <div class="col-md-2 text-md-right">
-                          <label class="col-form-label text-sm-right">Mitra</label>
-                        </div>
-                        <div class="col-md-10">
-                          <select class="select2 show-tick @error('mitra_id') is-invalid @enderror" name="mitra_id" data-style="btn-default">
-                              <option value="" disabled selected>Pilih</option>
-                              @foreach ($data['mitra'] as $mitra)
-                              <option value="{{ $mitra->id }}" {{ old('mitra_id') == $mitra->id ? 'selected' : '' }}>{{ $mitra->instansi['nama_instansi'] }} - ({{ $mitra->user->name }})</option>
-                              @endforeach
-                          </select>
-                          @error('mitra_id')
-                          <label class="error jquery-validation-error small form-text invalid-feedback" style="display: inline-block; color:red;">{!! $message !!}</label>
-                          @enderror
-                        </div>
-                    </div>
-                    @endif
-                    @endrole
-                    @role ('mitra')
-                    <div class="form-group row">
-                        <div class="col-md-2 text-md-right">
-                          <label class="col-form-label text-sm-right">Instansi / Perusahaan</label>
-                        </div>
-                        <div class="col-md-10">
-                          <input type="hidden" name="instansi_id" value="{{ auth()->user()->mitra->instansi_id }}">
-                          <input type="text" class="form-control" value="{{ auth()->user()->mitra->instansi->nama_instansi }}" readonly>
-                        </div>
-                    </div>
-                    @else
-                    <div class="form-group row">
-                        <div class="col-md-2 text-md-right">
-                          <label class="col-form-label text-sm-right">Instansi / Perusahaan</label>
-                        </div>
-                        <div class="col-md-10">
-                            <div class="input-group">
-                                <select class="select2 show-tick @error('instansi_id') is-invalid @enderror" name="instansi_id" data-style="btn-default">
-                                    <option value=" " selected disabled>Pilih</option>
-                                    @foreach ($data['instansi'] as $instansi)
-                                    <option value="{{ $instansi->id }}" {{ isset($data['instruktur']) ? (old('instansi_id', $data['instruktur']->instansi_id) == $instansi->id ? 'selected' : '') : (old('instansi_id') == $instansi->id ? 'selected' : '') }}>
-                                        {{ $instansi->nama_instansi }} - ({{ $instansi->kode_instansi }})
-                                    </option>
-                                    @endforeach
-                                </select>
-                                @error('instansi_id')
-                                    <label class="error jquery-validation-error small form-text invalid-feedback" style="display: inline-block; color:red;">{!! $message !!}</label>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
-                    @endrole
-                    <div class="form-group row" id="kedeputian">
+                   
+                    {{-- <div class="form-group row" id="kedeputian">
                         <div class="col-md-2 text-md-right">
                           <label class="col-form-label text-sm-right">Unit Kerja</label>
                         </div>
@@ -112,7 +52,7 @@
                             value="{{ (isset($data['instruktur'])) ? old('pangkat', $data['instruktur']->pangkat) : old('pangkat') }}" placeholder="masukan jabatan...">
                           @include('components.field-error', ['field' => 'pangkat'])
                         </div>
-                    </div>
+                    </div> --}}
                     {{-- <div class="form-group row">
                         <div class="col-md-2 text-md-right">
                           <label class="col-form-label text-sm-right">Jabatan</label>
@@ -150,7 +90,7 @@
                           @include('components.field-error', ['field' => 'address'])
                         </div>
                     </div>
-                    <div id="surat-keterangan">
+                    {{-- <div id="surat-keterangan">
                         <div class="form-group row">
                             <div class="col-md-2 text-md-right">
                               <label class="col-form-label text-sm-right">Surat Keterangan CPNS</label>
@@ -250,7 +190,7 @@
                                 <small class="text-muted">Tipe File Curriculum Vitae : <strong>{{ strtoupper(config('addon.mimes.surat_keterangan.m')) }}</strong></small>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
                 <div class="tab-pane fade" id="akun">
                     <div class="form-group row">

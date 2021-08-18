@@ -26,8 +26,8 @@
                     <label class="form-label">Tipe</label>
                     <select class="status custom-select form-control" name="t">
                         <option value=" " selected>Semua</option>
-                        <option value="7" {{ Request::get('t') == '7' ? 'selected' : '' }}>Internal</option>
-                        <option value="8" {{ Request::get('t') == '8' ? 'selected' : '' }}>Mitra</option>
+                        <option value="7" {{ Request::get('t') == '7' ? 'selected' : '' }}>Peserta</option>
+                        {{-- <option value="8" {{ Request::get('t') == '8' ? 'selected' : '' }}>Mitra</option> --}}
                     </select>
                 </div>
             </div>

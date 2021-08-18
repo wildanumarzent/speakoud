@@ -57,7 +57,7 @@
         <hr class="border-light m-0">
         <div class="card-body pb-2">
             <h5>DATA :</h5><br>
-            @role ('peserta_internal|peserta_mitra')
+            {{-- @role ('peserta_internal|peserta_mitra')
             <div class="form-group row">
                 <div class="col-md-2 text-md-left">
                   <label class="col-form-label text-sm-left">NIP</label>
@@ -66,7 +66,7 @@
                   <input type="text" class="form-control" value="{{ $data['user']->peserta->nip }}" readonly>
                 </div>
             </div>
-            @endrole
+            @endrole --}}
             <div class="form-group row">
                 <div class="col-md-2 text-md-left">
                   <label class="col-form-label text-sm-left">Nama</label>
@@ -78,7 +78,7 @@
                 </div>
             </div>
             @role ('peserta_internal|peserta_mitra')
-            <div class="form-group row">
+            {{-- <div class="form-group row">
                 <div class="col-md-2 text-md-left">
                   <label class="col-form-label text-sm-left">Jenis Peserta</label>
                 </div>
@@ -93,7 +93,7 @@
                     <span style="color: red;"><i>*belum diisi</i></span>
                     @endif
                 </div>
-            </div>
+            </div> --}}
             <div class="form-group row">
                 <div class="col-md-2 text-md-left">
                   <label class="col-form-label text-sm-left">Jenis Kelamin</label>
@@ -155,7 +155,7 @@
                     @endif
                 </div>
             </div>
-            <div class="form-group row">
+            {{-- <div class="form-group row">
                 <div class="col-md-2 text-md-left">
                   <label class="col-form-label text-sm-left">Pangkat / Gol. Ruang</label>
                 </div>
@@ -170,8 +170,8 @@
                     <span style="color: red;"><i>*belum diisi</i></span>
                     @endif
                 </div>
-            </div>
-            <div class="form-group row">
+            </div> --}}
+            {{-- <div class="form-group row">
                 <div class="col-md-2 text-md-left">
                   <label class="col-form-label text-sm-left">Jabatan</label>
                 </div>
@@ -202,16 +202,16 @@
                     <span style="color: red;"><i>*belum diisi</i></span>
                     @endif
                 </div>
-            </div>
-            <div class="form-group row">
+            </div> --}}
+            {{-- <div class="form-group row">
                 <div class="col-md-2 text-md-left">
                   <label class="col-form-label text-sm-left">Instansi</label>
                 </div>
                 <div class="col-md-10">
                     <input type="text" class="form-control mb-1" value="{{ $data['user']->peserta->instansi($data['user']->peserta)->nama_instansi }}" readonly>
                 </div>
-            </div>
-            <div class="form-group row">
+            </div> --}}
+            {{-- <div class="form-group row">
                 <div class="col-md-2 text-md-left">
                   <label class="col-form-label text-sm-left">Unit Kerja</label>
                 </div>
@@ -221,7 +221,7 @@
                     <span style="color: red;"><i>*belum diisi</i></span>
                     @endif
                 </div>
-            </div>
+            </div> --}}
             @endrole
             <div class="form-group row">
                 <div class="col-md-2 text-md-left">
