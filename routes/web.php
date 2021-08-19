@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Component\NotificationController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\AboutController;
 use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\PageController;
 use Illuminate\Support\Facades\Route;
@@ -27,28 +28,35 @@ use Illuminate\Support\Facades\Route;
 //home
 Route::get('/', [HomeController::class, 'index'])
     ->name('home');
-Route::get('/access/denide', [HomeController::class, 'denide'])
+
+    Route::get('/events', [HomeController::class, 'events'])
+    ->name('events.agenda');
+
+    Route::get('/access/denide', [HomeController::class, 'denide'])
     ->name('denide');
-
-//pages
-Route::get('/content/page/{id}/{slug}', [PageController::class, 'read'])
+    
+    //pages
+    Route::get('/content/page/{id}/{slug}', [PageController::class, 'read'])
     ->name('page.read');
-
-//artikel
-Route::get('/content/artikel/list', [ArtikelController::class, 'list'])
+    
+    //artikel
+    Route::get('/content/artikel/list', [ArtikelController::class, 'list'])
     ->name('artikel.list');
-Route::get('/content/artikel/{id}/{slug}', [ArtikelController::class, 'read'])
+    Route::get('/content/artikel/{id}/{slug}', [ArtikelController::class, 'read'])
     ->name('artikel.read');
-
-//inquiry
-Route::get('inquiry/{slug}', [InquiryController::class, 'read'])
+    
+    
+    //inquiry
+    Route::get('inquiry/{slug}', [InquiryController::class, 'read'])
     ->name('inquiry.read');
-Route::post('inquiry/{id}/send', [InquiryController::class, 'send'])
+    Route::post('inquiry/{id}/send', [InquiryController::class, 'send'])
     ->name('inquiry.send');
-
-/**
- * authentication
- */
+    
+    // TENTANG KAMI
+    Route::get('/page/{slug}', [AboutController::class, 'aboutUs'])
+        ->name('about.index');
+    
+    
 //login
 Route::get('/login', [LoginController::class, 'showLoginForm'])
     ->name('login')
@@ -108,11 +116,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::put('/program/{id}/position/{position}', 'Course\ProgramController@position')
         ->name('program.position')
         ->middleware('role:developer|administrator|internal|mitra|instruktur_internal');
-    Route::post('/program/sort', 'Course\ProgramController@sort')
-        ->name('program.sort')
-        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal');
     Route::delete('/program/{id}', 'Course\ProgramController@destroy')
         ->name('program.destroy')
+        ->middleware('role:developer|administrator|internal|mitra|instruktur_internal');
+    Route::post('/program/sort', 'Course\ProgramController@sort')
+        ->name('program.sort')
         ->middleware('role:developer|administrator|internal|mitra|instruktur_internal');
 
     //mata pelatihan

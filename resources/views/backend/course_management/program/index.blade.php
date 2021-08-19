@@ -180,27 +180,7 @@
 @section('jsbody')
 <script src="{{ asset('assets/tmplts_backend/jquery-ui.js') }}"></script>
 <script>
-    //sort
-    $(function () {
-        $(".drag").sortable({
-            connectWith: '.drag',
-            update : function (event, ui) {
-                var data  = $(this).sortable('toArray');
-                $.ajax({
-                    data: {'datas' : data},
-                    url: '/program/sort',
-                    type: 'POST',
-                    dataType:'json',
-                });
-                if (data) {
-                    location.reload();
-                }
-            }
-        });
-        $( "#drag" ).disableSelection();
-    });
-    //delete
-    $(document).ready(function () {
+      $(document).ready(function () {
         $('.js-sa2-delete').on('click', function () {
             var id = $(this).attr('data-id');
             Swal.fire({
@@ -255,6 +235,27 @@
             });
         })
     });
+    //sort
+    $(function () {
+        $(".drag").sortable({
+            connectWith: '.drag',
+            update : function (event, ui) {
+                var data  = $(this).sortable('toArray');
+                $.ajax({
+                    data: {'datas' : data},
+                    url: '/program/sort',
+                    type: 'POST',
+                    dataType:'json',
+                });
+                if (data) {
+                    location.reload();
+                }
+            }
+        });
+        $( "#drag" ).disableSelection();
+    });
+    //delete
+  
     //publish
     $('.publish').click(function(e)
     {

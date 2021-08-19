@@ -649,11 +649,11 @@ class MataService
     public function deleteMata(int $id)
     {
         $mata = $this->findMata($id);
-
-        if ($mata->materi->count() > 0 || $mata->instruktur->count() > 0 || $mata->peserta->count() > 0 ||
-            $mata->soalKategori->count() > 0 || $mata->soal->count() > 0 ||
-            $mata->sertifikatInternal->count() > 0 || $mata->sertifikatExternal->count() > 0 ||
-            $mata->rating->count() > 0 || $mata->comment->count() > 0) {
+        // dd($mata->materi, $mata->instruktur);
+        if (count($mata->materi)  > 0 || count($mata->instruktur) > 0 ||count($mata->peserta) > 0 ||
+            count($mata->soalKategori) > 0 || count($mata->soal) > 0 ||
+            count($mata->sertifikatInternal) > 0 || count($mata->sertifikatExternal) > 0 ||
+            count($mata->rating) > 0 || count($mata->comment) > 0) {
 
             return false;
         } else {

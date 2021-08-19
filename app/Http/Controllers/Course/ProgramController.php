@@ -138,25 +138,26 @@ class ProgramController extends Controller
 
     public function destroy($id)
     {
-        $program = $this->service->findProgram($id);
-        $this->checkRole($program);
+        dd($id);
+        // $program = $this->service->findProgram($id);
+        // $this->checkRole($program);
 
-        $delete = $this->service->deleteProgram($id);
+        // $delete = $this->service->deleteProgram($id);
 
-        if ($delete == false) {
+        // if ($delete == false) {
 
-            return response()->json([
-                'success' => 0,
-                'message' => 'Kategori pelatihan gagal dihapus dikarenakan'.
-                            ' masih memiliki program pelatihan didalamnya'
-            ], 200);
-        } else {
+        //     return response()->json([
+        //         'success' => 0,
+        //         'message' => 'Kategori pelatihan gagal dihapus dikarenakan'.
+        //                     ' masih memiliki program pelatihan didalamnya'
+        //     ], 200);
+        // } else {
 
-            return response()->json([
-                'success' => 1,
-                'message' => ''
-            ], 200);
-        }
+        //     return response()->json([
+        //         'success' => 1,
+        //         'message' => ''
+        //     ], 200);
+        // }
 
     }
 

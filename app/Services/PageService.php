@@ -39,6 +39,11 @@ class PageService
         return $this->model->findOrFail($id);
     }
 
+    public function findSlug($slug)
+    {
+        return $this->model->where('slug', $slug)->first();
+    }  
+
     public function storePage($request)
     {
         if ($request->hasFile('cover_file')) {

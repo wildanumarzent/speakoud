@@ -7,37 +7,35 @@
 						<div class="logo">
 							{{-- <img src="{{ asset(config('addon.images.logo')) }}" alt="Logo BPPT"> --}}
                             {{-- <strong>SPEAKOUD</strong>  --}}
+                            <h5>SPEAKOUD</h5>
 						</div>
-						<h5>SPEAKOUD</h5>
 					</a>
 				</div>
 				<div class="menubar-center">
 					<nav class="main-nav">
 						<ul class="list-nav">
-							<li class="{{ empty(Request::segment(1)) ? 'current-nav' : '' }}"><a href="{{ route('home') }}" title="@lang('layout.menu.home')">@lang('layout.menu.home')</a></li>
-							<li class="{{ Request::is('pelatihan*') ? 'current-nav' : '' }}"><a href="{{ route('platihan.index') }}" title="modul pelatihan">pelatihan</a></li>
+							<li class="{{ empty(Request::segment(1)) ? 'current-nav' : '' }}"><a href="{{ route('home') }}" title="@lang('layout.menu.home')">BERANDA</a></li>
+							<li class="{{ Request::is('page/tentang-kami*') ? 'current-nav' : ''}}"><a href="{{ route('about.index',['slug' => 'tentang-kami']) }}" title="@lang('layout.menu.home')">TENTANG KAMI</a></li>
+							<li class="{{ Request::is('pelatihan*') ? 'current-nav' : '' }}"><a href="{{ route('platihan.index') }}" title="modul pelatihan">MODUL PELATIHAN</a></li>
+                            <li class="{{ Request::is('content/artikel*') ? 'current-nav' : '' }}"><a href="{{ route('artikel.list') }}" title="Artikel">AGENDA EVENTS</a></li>
 
-							{{-- <li class="has-dropdown {{ Request::is('course/list*') ? 'current-nav' : '' }}">
-								<a href="#!" title="Program Pelatihan">Program Pelatihan</a>
+							<li class="has-dropdown {{ Request::is('course/list*') ? 'current-nav' : '' }}">
+								<a href="#!" title="Program Pelatihan">PENDAFTARAN</a>
 								<ul class="dropdown">
-									<li class="btn-back"><a href="#!" title="kembali">kembali</a></li>
-									@foreach ($menu['program_pelatihan'] as $program)
+									{{-- <li class="btn-back"><a href="#!" title="kembali">kembali</a></li> --}}
+									
 									<li class="has-sub-dropdown is-hidden">
-										<a href="#!" title="{!! $program->judul !!}">{!! $program->judul !!}</a>
-										<ul class="sub-dropdown">
-											<li class="btn-back"><a href="#!">kembali</a></li>
-											@foreach ($program->mataPublish as $mata)
-											<li><a href="{{ route('course.detail', ['id' => $mata->id]) }}" title="{!! $mata->judul !!}">{!! $mata->judul !!}</a></li>
-											@endforeach
-										</ul>
+										<a href="{{ route('register') }}" title="pendaftaran_peserta">PENDAFTARAN PESERTA</a>
+										<a href="{{ route('register') }}" title="pendaftaran_peserta">PENDAFTARAN CONSULTAN</a>
+										
 									</li>
-									@endforeach
 								</ul>
-							</li> --}}
+							</li>
 							{{-- <li class="{{ Request::is('course/jadwal*') ? 'current-nav' : '' }}"><a href="{{ route('course.jadwal') }}" title="Kalender Pelatihan">Agenda</a></li> --}}
-							<li class="{{ Request::is('content/artikel*') ? 'current-nav' : '' }}"><a href="{{ route('artikel.list') }}" title="Artikel">Artikel</a></li>
+							
+                            
 							@foreach ($menu['inquiry'] as $inquiry)
-							<li class="{{ Request::is('inquiry*') ? 'current-nav' : '' }}"><a href="{{ route('inquiry.read', ['slug' => $inquiry->slug]) }}" title="{!! $inquiry->name !!}">{!! $inquiry->name !!}</a></li>
+							<li class="{{ Request::is('inquiry*') ? 'current-nav' : '' }}"><a href="{{ route('inquiry.read', ['slug' => $inquiry->slug]) }}" title="{!! $inquiry->name !!}">HUBUNGI KAMI</a></li>
 							@endforeach
 						</ul>
 					</nav>
@@ -78,11 +76,11 @@
 						</ul>
 					</div>
 					@else
-					<div class="nav-item account">
+					{{-- <div class="nav-item account">
 						<a href="{{ route('register') }}" class="user" title="Register">
 							<span>Register</span>
 						</a>
-					</div>
+					</div> --}}
 					<div class="nav-item account">
 						<a href="{{ route('login') }}" class="user" title="Login">
 							<span>Login</span>
