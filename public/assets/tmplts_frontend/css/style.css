@@ -1,7 +1,7 @@
 @import url(../fonts/product-sans/fonts.css);
 body {
     font-family: "Open Sans", sans-serif;
-    color: white;
+    color: rgb(0, 0, 0);
     background-color: #efebea;
     font-size: 14px;
     line-height: 1.7;

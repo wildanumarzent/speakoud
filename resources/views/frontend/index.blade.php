@@ -17,9 +17,9 @@
                     <div class="slide-inner-image thumbnail-img">
                         <img src="{{ asset(config('addon.images.path.banner').$banner->banner_kategori_id.'/'.$banner->file) }}" title="{!! $banner->judul !!}" alt="{!! strip_tags(Str::limit($banner->keterangan, 25)) !!}">
                     </div>
-                    <div class="slide-inner-info title-heading">
+                    <div class="slide-inner-info title-heading" style="color:white">
                         @if ($loop->first)
-                        <h6 class="Text-white">@lang('strip.banner_welcome')</h6>
+                        <h6 class="Text-white" style="color: white">@lang('strip.banner_welcome')</h6>
                         @endif
                         <h1 data-swiper-parallax="-400px">{!! $banner->judul !!}</h1>
                         {!! $banner->keterangan !!}
