@@ -153,7 +153,7 @@
                     <div class="swiper-button-prev swiper-btn sbp-2"><i class="la la-angle-left"></i></div>
                     <div class="swiper-button-next swiper-btn sbn-2"><i class="la la-angle-right"></i></div>
                 </div>
-                <a href="{{ route('course.list') }}" class="link-icon ml-auto" title="@lang('strip.widget_1_button_2')">
+                <a href="{{ route('platihan.index') }}" class="link-icon ml-auto" title="@lang('strip.widget_1_button_2')">
                     @lang('strip.widget_1_button_2')
                     <span>
                         <i class="las la-arrow-right"></i>

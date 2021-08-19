@@ -1,12 +1,20 @@
 @extends('layouts.frontend.layout')
+@section('styles')
+<link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/css/pages/tickets.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/select2/select2.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/tmplts_backend/fancybox/fancybox.min.css') }}">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-bar-rating/1.2.2/themes/fontawesome-stars.min.css">
+<link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/sweetalert2/sweetalert2.css') }}">
+@endsection
 
 @section('content')
-<div class="banner-breadcrumb">
+<div class="banner-bmatacrumb">
     <div class="container">
         <div class="banner-content">
             <div class="banner-text">
                 <div class="title-heading text-center">
-                    <h1>ALL COURSE</h1>
+                    <h1>DETAIL COURSE</h1>
                 </div>
             </div>
             @include('components.breadcrumbs')
@@ -16,6 +24,7 @@
         <img src="{{ $configuration['banner_default'] }}" title="banner default" alt="banner learning">
     </div>
 </div>
+    
 <div class="box-wrap bg-grey-alt">
     <div class="container-fluid flex-grow-1 container-p-y">
         <h1 class="mb-3"><strong>{{ $data['mata']->judul}}</strong></h1>
@@ -352,4 +361,39 @@
         </div>
     </div>
 </div>
+@endsection
+@section('scripts')
+<script src="{{ asset('assets/tmplts_backend/vendor/js/sidenav.js') }}"></script>
+<script src="{{ asset('assets/tmplts_backend/vendor/libs/select2/select2.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-bar-rating/1.2.2/jquery.barrating.min.js" type="text/javascript"></script>
+<script src="{{ asset('assets/tmplts_backend/vendor/libs/sweetalert2/sweetalert2.js') }}"></script>
+@endsection
+
+@section('jsbody')
+<script src="{{ asset('assets/tmplts_backend/js/pages_tickets_edit.js') }}"></script>
+<script src="{{ asset('assets/tmplts_backend/js/ui_sidenav.js') }}"></script>
+<script src="{{ asset('assets/tmplts_backend/fancybox/fancybox.min.js') }}"></script>
+<script> 
+    $(document).matay(function() {
+        $('#rating').barrating({
+            theme: 'fontawesome-stars',
+            onSelect:function(value, text, event) {
+              var mataId = '{{ $data['mata']->id }}';
+              $.ajax({
+                type:"POST",
+                url: "/course/"+ mataId +"/rating",
+                data : {
+                  rating : value
+                },
+                cache: false,
+                success : function() {
+                    window.location.reload();
+                }
+              });
+            }
+        });
+    });
+</script>
+
+@include('components.toastr')
 @endsection

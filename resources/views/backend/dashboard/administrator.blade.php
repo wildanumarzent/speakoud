@@ -7,23 +7,8 @@
           <div class="d-flex align-items-center">
             <div class="las la-user-friends display-4 text-primary"></div>
             <div class="ml-3">
-              <div class="text-muted small">User BPPT</div>
+              <div class="text-muted small">User</div>
               <div class="text-large">{{ $data['counter']['user_internal'] }}</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-    <div class="col-sm-6 col-xl-3">
-
-      <div class="card mb-4">
-        <div class="card-body">
-          <div class="d-flex align-items-center">
-            <div class="las la-handshake display-4 text-primary"></div>
-            <div class="ml-3">
-              <div class="text-muted small">Mitra</div>
-              <div class="text-large">{{ $data['counter']['user_mitra'] }}</div>
             </div>
           </div>
         </div>
