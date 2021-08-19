@@ -46,7 +46,7 @@
                         <h5> <a href="javascript:void(0)" class="text-muted small"><i class="fas fa-users"></i> {{count($mata->peserta)}}</a></h5>
                         </div>
                         <div class="media-body">
-                        <h5> <a href="javascript:void(0)" class="text-muted small"><i class="fas fa-comment"></i> 55</a></h5>
+                        {{-- <h5> <a href="javascript:void(0)" class="text-muted small"><i class="fas fa-comment"></i> 55</a></h5> --}}
                         </div>
                         <div class="text-muted small">
                         @if ($mata->price == null)

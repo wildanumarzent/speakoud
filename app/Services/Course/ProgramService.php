@@ -133,11 +133,7 @@ class ProgramService
             $mitra = null;
         }
 
-        if ($request->hasFile('image')) {
-            $fileName = str_replace(' ', '-', $request->file('image')
-                ->getClientOriginalName());
-            $request->file('image')->move(public_path('userfile/cover'), $fileName);
-        }
+      
 
         $program = new ProgramPelatihan($request->only(['judul']));
         $program->creator_id = auth()->user()->id;
@@ -146,10 +142,6 @@ class ProgramService
         $program->urutan = ($this->model->max('urutan') + 1);
         $program->publish = 1;
         $program->tipe = 0;
-        $program->price = $request->price;
-        $program->image = $fileName;
-        $program->is_sertifikat = $request->is_sertifikat;
-        $program->is_penilaian = $request->is_penilaian;
         $program->save();
 
         return $program;
