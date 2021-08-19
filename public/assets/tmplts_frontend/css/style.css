@@ -1,7 +1,7 @@
 @import url(../fonts/product-sans/fonts.css);
 body {
     font-family: "Open Sans", sans-serif;
-    color: #000;
+    color: white;
     background-color: #efebea;
     font-size: 14px;
     line-height: 1.7;
@@ -813,8 +813,8 @@ article img[style="float: right;"] {
     height: 100%;
     background: linear-gradient(
         to bottom,
-        rgba(255, 255, 255, 0.4) 0%,
-        rgb(255, 255, 255) 100%
+        rgba(255, 255, 255, 0.3) 0%,
+        rgb(0, 0, 0) 100%
     );
     z-index: 2;
 }
@@ -1718,8 +1718,8 @@ header .main-header.bg-fixed .menubar-flex .menubar-right .account .user {
     height: 100%;
     background: linear-gradient(
         to bottom,
-        rgba(255, 255, 255, 0.4) 0%,
-        rgb(255, 255, 255) 100%
+        rgba(255, 255, 255, 0.3) 0%,
+        rgb(0, 0, 0) 100%
     );
     z-index: 2;
 }
@@ -2116,8 +2116,8 @@ header .main-header.bg-fixed .menubar-flex .menubar-right .account .user {
     height: 100%;
     background: linear-gradient(
         to bottom,
-        rgba(255, 255, 255, 0.4) 0%,
-        rgba(255, 255, 255, 0.65) 100%
+        rgba(255, 255, 255, 0.3) 0%,
+        rgba(0, 0, 0, 0.65) 100%
     );
     z-index: 2;
 }
@@ -2262,7 +2262,7 @@ header .main-header.bg-fixed .menubar-flex .menubar-right .account .user {
 }
 
 .footer {
-    background-color: #f0f1f4;
+    background-color: #000000;
 }
 .footer .footer-top {
     padding: 8em 0;

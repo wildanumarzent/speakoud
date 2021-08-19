@@ -1,6 +1,6 @@
 <footer>
     <div class="footer">
-        <div class="footer-top" style="background-color:white;">
+        <div class="footer-top">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-4">
@@ -69,7 +69,7 @@
                 <div class="d-flex align-items-center justify-content-xl-center">
                     <div class="f-widget copyright">
                         Copyright © {{ now()->format('Y') }} 
-                        SPEAKOUD by Sinergi Consulting Powered by Sinergi Four vision Media
+                        SPEAKOUD by Sinergi Consulting Powered by Four vision Media
                     </div>
                     {{-- <div class="f-widget developer">
                         Developed By
