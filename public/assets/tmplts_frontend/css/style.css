@@ -813,7 +813,7 @@ article img[style="float: right;"] {
     height: 100%;
     background: linear-gradient(
         to bottom,
-        rgba(255, 255, 255, 0.5) 0%,
+        rgba(255, 255, 255, 0.4) 0%,
         rgb(255, 255, 255) 100%
     );
     z-index: 2;
@@ -1718,7 +1718,7 @@ header .main-header.bg-fixed .menubar-flex .menubar-right .account .user {
     height: 100%;
     background: linear-gradient(
         to bottom,
-        rgba(255, 255, 255, 0.5) 0%,
+        rgba(255, 255, 255, 0.4) 0%,
         rgb(255, 255, 255) 100%
     );
     z-index: 2;
@@ -2116,7 +2116,7 @@ header .main-header.bg-fixed .menubar-flex .menubar-right .account .user {
     height: 100%;
     background: linear-gradient(
         to bottom,
-        rgba(255, 255, 255, 0.5) 0%,
+        rgba(255, 255, 255, 0.4) 0%,
         rgba(255, 255, 255, 0.65) 100%
     );
     z-index: 2;
