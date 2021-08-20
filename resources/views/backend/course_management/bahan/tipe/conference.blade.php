@@ -16,7 +16,7 @@
         <label class="form-check form-check-inline">
             <input class="form-check-input" type="radio" name="tipe" value="0" {{ isset($data['bahan']) ? (old('tipe', $data['bahan']->conference->tipe == '0') ? 'checked' : 'checked') : (old('tipe') ? 'checked' : 'checked') }}>
             <span class="form-check-label">
-                BPPT Conference
+                Speakoud Conference
             </span>
         </label>
         <label class="form-check form-check-inline">
