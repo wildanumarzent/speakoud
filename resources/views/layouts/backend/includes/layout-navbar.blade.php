@@ -4,7 +4,7 @@
     <!-- Brand demo (see assets/css/demo/demo.css) -->
     <a href="{{ route('home') }}" class="navbar-brand app-brand demo d-lg-none py-0 mr-0">
         <span class="app-brand-logo demo bg-white">
-          <img src="{{ asset(config('custom.files.logo.f')) }}" style="width:50px;height:50px;object-fit:cover">
+          {{-- <img src="{{ asset(config('custom.files.logo.f')) }}" style="width:50px;height:50px;object-fit:cover"> --}}
         </span>
         <span class="app-brand-text demo font-weight-normal ml-2">@lang('strip.title_header')</span>
     </a>
