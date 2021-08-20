@@ -6,7 +6,7 @@
         <div class="banner-content">
             <div class="banner-text">
                 <div class="title-heading text-center">
-                    <h1>ALL COURSE</h1>
+                    <h1 style="color:white">ALL COURSE</h1>
                 </div>
             </div>
             @include('components.breadcrumbs')

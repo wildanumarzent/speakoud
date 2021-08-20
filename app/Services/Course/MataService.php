@@ -649,10 +649,10 @@ class MataService
     public function deleteMata(int $id)
     {
         $mata = $this->findMata($id);
-        // dd($mata->materi, $mata->instruktur);
+        // dd($mata->comment->count());
         if (count($mata->materi)  > 0 || count($mata->instruktur) > 0 ||count($mata->peserta) > 0 ||
             count($mata->soalKategori) > 0 || count($mata->soal) > 0 ||
-            count($mata->sertifikatInternal) > 0 || count($mata->sertifikatExternal) > 0 ||
+            count(array($mata->sertifikatInternal)) > 0 || count( array($mata->sertifikatExternal)) > 0 ||
             count($mata->rating) > 0 || count($mata->comment) > 0) {
 
             return false;

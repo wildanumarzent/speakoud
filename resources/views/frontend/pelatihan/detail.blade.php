@@ -6,7 +6,7 @@
         <div class="banner-content">
             <div class="banner-text">
                 <div class="title-heading text-center">
-                    <h1>ALL COURSE</h1>
+                    <h1 style="color:white">DETAIL COURSE</h1>
                 </div>
             </div>
             @include('components.breadcrumbs')
@@ -19,10 +19,10 @@
 <div class="box-wrap bg-grey-alt">
     <div class="container-fluid flex-grow-1 container-p-y">
         <h1 class="mb-3"><strong>{{ $data['mata']->judul}}</strong></h1>
-        <div class="row">      
-            <div class="col-md-2">
+        <div class="row">
+
+            <div class="col-md-3">
                 <div class="media mb-3">
-                    
                     <img src="{{ $data['mata']->creator->photo['filename'] != null ? asset('/userfile/photo'.$data['mata']->creator->photo['filename'] != null) : asset('assets/img/5.png') }}" alt width="70px" class="ui-w-40 rounded-circle">
                     <div class="media-body pt-2 ml-3">
                         <h6 class="mb-2"> <strong style="color: grey">Teacher</strong></h6>
@@ -40,7 +40,7 @@
                 </div>
             </div>
             <div class="line" style="border-left: 1px solid rgb(255, 217, 3); height: 70px;"></div>
-            <div class="col-md-2">
+            <div class="col-md-3">
                 <div class="media mb-3">
                     <div class="media-body pt-2 ml-3">
                         <h6 class="mb-2"><strong style="color: grey">Review</strong></h6>
@@ -84,9 +84,20 @@
               <!-- overview -->
               <div class="tab-pane fade show active" id="search-pages">
                 <div class="row no-gutters row-bordered row-border-light">
-                    <div class="col-md-2 pt-0">
+                    <div class="col-md-8">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <div class="ui-bordered">
+                                    <div class="p-4">
+                                        {!! $data['mata']->program->keterangan !!}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                     <div class="col-md-4 pt-0">
                         <div class="container">
-                        
                             <table class="table-responsive mt-3">
                                 <tr>
                                     <th><h6 style="padding-right: 79px"><i class="fas fa-question" style="color: orange"></i> Quizzes</h6></th>
@@ -124,17 +135,6 @@
                             <hr style="color: orange">
                         </div>
                     </div>
-                    <div class="col-md-9">
-                        <div class="card mb-4">
-                            <div class="card-body">
-                                <div class="ui-bordered">
-                                    <div class="p-4">
-                                        {!! $data['mata']->program->keterangan !!}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
               </div>
               <!-- / overview -->
@@ -144,24 +144,22 @@
                 <div class="row">
                     <div class="col-md-10">
                         <div class="theme-bg-white ui-bordered mb-2">
-                                <a href="#company-faq-1" class="d-flex justify-content-between text-body py-3 px-4" data-toggle="collapse">
-                                <h1>{{$data['mata']->judul}}</h1>
-                                <span class="collapse-icon"><h3 style="color: orange; font-weight: bold">{{count($data['mata']->materi)}}</h3></span>
+                            <a href="#company-faq-1" class="d-flex justify-content-between text-body py-3 px-4" data-toggle="collapse">
+                                <h5>{{$data['mata']->judul}}</h1>
+                                <span class="collapse-icon"><h5 style="color: orange; font-weight: bold">{{count($data['mata']->materi)}}</h3></span>
                             </a>
                             <h3></h3>
                             <div id="company-faq-1" class="collapse text-muted">
                                 @foreach ($data['mata']->materi as $key => $item)
-                                
                                 <div class="card-body py-6">
                                     <div class="row no-gutters align-items-center">
-                                        <div class="col"><h3><i class="far fa-copy" style="color: orange"></i> Lectures <strong>1.{{$key+1}}</strong></h3></div>
+                                        <div class="col"> <a href="#company-faq-{{$key + $key}}"><h5><i class="far fa-copy" style="color: orange"></i> Lectures <strong>1.{{$key+1}}</strong></h5></a> </div>
                                             <div class="d-none d-md-block col-10">
                                                 <div class="row no-gutters align-items-center">
-                                                    <div class="col-11">
-                                                       
+                                                    <div class="col-sm-11">
                                                         <div class="theme-bg-white ui-bordered mb-2">
                                                                 <a href="#company-faq-{{$key +$key}}" class="d-flex justify-content-between text-body py-3 px-4" data-toggle="collapse">
-                                                                <h1>{{$item->judul}}</h1>
+                                                                <h6>{{$item->judul}}</h6>
                                                                 <span class="collapse-icon"><h3 style="color: orange; font-weight: bold"></h3></span>
                                                             </a>
                                                             <h3></h3>
@@ -218,11 +216,10 @@
                                                                                 </div>
                                                                             </div>
                                                                         </li>
-                                                                </div>
+                                                                    </div>
                                                                 @endforeach
                                                             </div>
                                                         </div>
-
                                                     </div>
                                                 <div class="col-1"><h3><i class="fas fa-lock" style="color: orange"></i></h3></div>
                                             </div>

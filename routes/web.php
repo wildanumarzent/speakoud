@@ -9,6 +9,7 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Component\NotificationController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AboutController;
+use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\PageController;
 use Illuminate\Support\Facades\Route;
@@ -28,9 +29,6 @@ use Illuminate\Support\Facades\Route;
 //home
 Route::get('/', [HomeController::class, 'index'])
     ->name('home');
-
-    Route::get('/events', [HomeController::class, 'events'])
-    ->name('events.agenda');
 
     Route::get('/access/denide', [HomeController::class, 'denide'])
     ->name('denide');
@@ -55,6 +53,10 @@ Route::get('/', [HomeController::class, 'index'])
     // TENTANG KAMI
     Route::get('/page/{slug}', [AboutController::class, 'aboutUs'])
         ->name('about.index');
+
+    // Event front End
+    Route::get('/jadwal', [JadwalController::class, 'index'])
+        ->name('events.agenda');
     
     
 //login

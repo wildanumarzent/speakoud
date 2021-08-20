@@ -7,24 +7,24 @@
 						<div class="logo">
 							{{-- <img src="{{ asset(config('addon.images.logo')) }}" alt="Logo BPPT"> --}}
                             {{-- <strong>SPEAKOUD</strong>  --}}
-                            <h5>SPEAKOUD</h5>
+                            <h5 style="color:white">SPEAKOUD</h5>
 						</div>
 					</a>
 				</div>
 				<div class="menubar-center">
-					<nav class="main-nav">
+					<nav class="main-nav" style="color:white">
 						<ul class="list-nav">
 							<li class="{{ empty(Request::segment(1)) ? 'current-nav' : '' }}"><a href="{{ route('home') }}" title="@lang('layout.menu.home')">BERANDA</a></li>
-							<li class="{{ Request::is('page/tentang-kami*') ? 'current-nav' : ''}}"><a href="{{ route('about.index',['slug' => 'tentang-kami']) }}" title="@lang('layout.menu.home')">TENTANG KAMI</a></li>
+							{{-- <li class="{{ Request::is('page/tentang-kami*') ? 'current-nav' : ''}}"><a href="{{ route('about.index',['slug' => 'tentang-kami']) }}" title="@lang('layout.menu.home')">TENTANG KAMI</a></li> --}}
 							<li class="{{ Request::is('pelatihan*') ? 'current-nav' : '' }}"><a href="{{ route('platihan.index') }}" title="modul pelatihan">MODUL PELATIHAN</a></li>
-                            <li class="{{ Request::is('events') ? 'current-nav' : '' }}"><a href="{{ route('events.agenda') }}" title="Artikel">AGENDA EVENTS</a></li>
+                            {{-- <li class="{{ Request::is('events*') ? 'current-nav' : '' }}"><a href="{{ route('events.agenda') }}" title="Artikel">AGENDA EVENTS</a></li> --}}
 
 							<li class="has-dropdown {{ Request::is('course/list*') ? 'current-nav' : '' }}">
 								<a href="#!" title="Program Pelatihan">PENDAFTARAN</a>
 								<ul class="dropdown">
 									{{-- <li class="btn-back"><a href="#!" title="kembali">kembali</a></li> --}}
 									
-									<li class="has-sub-dropdown is-hidden">
+									<li class="has-sub-dropdown is-hidden" style="color:black">
 										<a href="{{ route('register') }}" title="pendaftaran_peserta">PENDAFTARAN PESERTA</a>
 										<a href="{{ route('register') }}" title="pendaftaran_peserta">PENDAFTARAN CONSULTAN</a>
 										
@@ -81,7 +81,7 @@
 							<span>Register</span>
 						</a>
 					</div> --}}
-					<div class="nav-item account">
+					<div class="nav-item account" style="color:white">
 						<a href="{{ route('login') }}" class="user" title="Login">
 							<span>Login</span>
 							<div class="box-user">

@@ -9,14 +9,14 @@
     <div class="logo-signbox">
         <div class="logo">
             {{-- <img src="{{ asset(config('addon.images.logo')) }}" title="BPPT" alt="Logo BPPT"> --}}
+        <h5 class="text-white">SPEAKOUD</h5>
         </div>
-        <h5>SPEAKOUD</h5>
     </div>
     <div class="wrapper-flex">
         @foreach ($banner['login'] as $login)
         <div class="banner-signbox">
             <div class="banner-title">
-                <div class="title-heading text-center">
+                <div class="title-heading text-center text-white">
                     {!! $login->keterangan !!}
                 </div>
             </div>
@@ -34,7 +34,7 @@
         </div>
         @endforeach
         <div class="form-signbox">
-            <div class="form-signbox-top">
+            <div class="form-signbox-top" >
                 <a href="{{ route('home') }}" class="link-icon ml-auto" title="@lang('layout.menu.home')">
                     @lang('layout.menu.home')
                     <span>
@@ -44,7 +44,7 @@
             </div>
             <div class="form-signbox-center">
                 <div class="item-signbox">
-                    <ul class="nav-signbox">
+                    <ul class="nav-signbox" >
                         <li class="{{ Request::is('login') ? 'active' : '' }}">
                             <a href="{{ route('login') }}" title="@lang('layout.menu.login')">@lang('layout.menu.login')</a>
                         </li>
@@ -56,7 +56,7 @@
                 @yield('content')
             </div>
             <div class="form-signbox-bottom">
-                Copyright © {{ now()->format('Y') }} SPEAKOUD by Sinergi Digital Powered by Sinergi Consulting
+                Copyright © {{ now()->format('Y') }} SPEAKOUD by Sinergi Digital Powered by Four Vision Media
             </div>
         </div>
     </div>

@@ -1,6 +1,6 @@
-@import url(../fonts/product-sans/fonts.css);
+/* @import url(../fonts/product-sans/fonts.css); */
 body {
-    font-family: "Open Sans", sans-serif;
+    font-family: Roboto;
     color: rgb(0, 0, 0);
     background-color: #efebea;
     font-size: 14px;
