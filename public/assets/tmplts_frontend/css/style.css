@@ -1180,6 +1180,7 @@ header .main-header .menubar-flex .menubar-center .main-nav .list-nav > li > a {
         width: 100%;
         display: block;
         padding: 0;
+        color:black;
     }
     header
         .main-header
