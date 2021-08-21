@@ -19,14 +19,30 @@
 <div class="box-wrap bg-grey-alt">
 		  <!-- Content -->
 		<div class="container-fluid flex-grow-1 container-p-y">
-
-		<h4 class="d-flex flex-wrap justify-content-between align-items-center w-100 font-weight-bold pt-2 mb-4">
-			<div class="col-12 col-md px-0 pb-2">Courses</div>
-			<div class="col-12 col-md-3 px-0 pb-2">
-			<input type="text" class="form-control" placeholder="Search...">
-			</div>
-		</h4>
-
+        <div class="ui-bordered px-4 pt-4 mb-4">
+              <div class="form-row">
+                <div class="col-md mb-4">
+                    
+                </div>
+                <div class="col-md mb-4">
+                 
+                </div>
+                <div class=" col-md col-xl-2 mb-4">
+                  <label class="form-label">Status</label>
+                  <select class="custom-select">
+                    <option>Newly published</option>
+                    <option>Alphabetical</option>
+                    <option>Most members</option>
+                  </select>
+                </div>
+                <div class="col-md mb-4">
+                  <label class="form-label d-none d-md-block">&nbsp;</label>
+                   <input type="text" class="form-control" placeholder="Search...">
+                  {{-- <button type="button" class="btn btn-secondary btn-block">Show</button> --}}
+                </div>
+              </div>
+            </div>
+            <!-- / Filters -->
 		<div class="row">
 			@foreach ($data['mata'] as $mata)
 			{{-- d-flex --}}
