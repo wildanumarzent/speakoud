@@ -79,8 +79,8 @@
             @foreach ($data['videoConference'] as $conf)
             <tr>
                 <td>{{ $conf->mata->judul }}</td>
-                <td>{{ $conf->materi->judul }}</td>
-                <td>{{ $conf->bahan->judul }}</td>
+                <td>{{ $conf->materi->judul ?? "not found"}}</td>
+                <td>{{ $conf->bahan->judul ?? "not found" }}</td>
                 <td>{{ $conf->tanggal->format('d F Y') }}</td>
                 <td>
                     @if ($conf->status == 0)
