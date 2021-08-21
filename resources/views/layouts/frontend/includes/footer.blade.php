@@ -69,16 +69,20 @@
                                     <h5 style="color: white">@lang('strip.footer_title_3')</h5>
                                     <ul>
                                         <li style="color: white">
-                                            {{ $configuration['address'] }}
+                                            {{-- {{ $configuration['address'] }} --}}
+                                            Disclaimer
                                         </li style="color: white">
                                         <li style="color: white">
-                                            {{ $configuration['fax'] }} <br>
-                                            {{ $configuration['phone'] }} <br>
-                                            {{ $configuration['phone_2'] }} <br>
+                                            {{-- {{ $configuration['fax'] }} <br> --}}
+                                            Kebijakan Privasi
+                                            {{-- {{ $configuration['phone'] }} <br>
+                                            {{ $configuration['phone_2'] }} <br> --}}
                                         </li >
                                         <li style="color: white">
-                                            <a href="mailto:{{ $configuration['email'] }}" title="Email" style="color: white">{{ $configuration['email'] }}</a> <br>
-                                            <a href="mailto:{{ $configuration['email_2'] }}" title="Email 2" style="color: white">{{ $configuration['email_2'] }}</a> <br>
+                                            
+                                            Terms & Conditions
+                                            {{-- <a href="mailto:{{ $configuration['email'] }}" title="Email" style="color: white">{{ $configuration['email'] }}</a> <br>
+                                            <a href="mailto:{{ $configuration['email_2'] }}" title="Email 2" style="color: white">{{ $configuration['email_2'] }}</a> <br> --}}
                                         </li>
                                     </ul>
                                 </div>
