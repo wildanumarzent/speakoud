@@ -163,7 +163,7 @@
 						<div class="box-img">
 							<div class="thumbnail-img">
 								<div class="card shadow" style="height: calc(65% - 1rem);">
-									<a href="{{ route('pelatihan.detail', ['id' => $mata->id]) }}" class="d-block ui-rect-60 ui-bg-cover box-img" style="position: relative; display:block; width: 100%; height: 100%">
+									<a href="" class="d-block ui-rect-60 ui-bg-cover box-img" style="position: relative; display:block; width: 100%; height: 100%">
 										<div class="thumb-img" style="position: absolute; top:0; bottom:0; left:0; right:0; z-index:1;">
 											<img class="card-img-top mx-auto d-block" src="{{asset('assets/img/Hitachi-logo.jpg')}}" alt="Card image cap" style="display: block; width:100%; height:100%; object-fit: cover; object-position: center; text-align: center">
 										</div>
@@ -178,7 +178,7 @@
 						<div class="box-img">
 							<div class="thumbnail-img">
 								<div class="card shadow" style="height: calc(65% - 1rem);">
-									<a href="{{ route('pelatihan.detail', ['id' => $mata->id]) }}" class="d-block ui-rect-60 ui-bg-cover box-img" style="position: relative; display:block; width: 100%; height: 100%">
+									<a href="" class="d-block ui-rect-60 ui-bg-cover box-img" style="position: relative; display:block; width: 100%; height: 100%">
 										<div class="thumb-img" style="position: absolute; top:0; bottom:0; left:0; right:0; z-index:1;">
 											<img class="card-img-top mx-auto d-block" src="{{asset('assets/img/TI-Automotive-Logo.png')}}" alt="Card image cap" style="display: block; width:100%; height:100%; object-fit: cover; object-position: center; text-align: center">
 										</div>
@@ -194,7 +194,7 @@
 							<div class="thumbnail-img">
 								<div class="card shadow" style="height: calc(65% - 1rem);">
 									
-									<a href="{{ route('pelatihan.detail', ['id' => $mata->id]) }}" class="d-block ui-rect-60 ui-bg-cover box-img" style="position: relative; display:block; width: 100%; height: 100%">
+									<a href="" class="d-block ui-rect-60 ui-bg-cover box-img" style="position: relative; display:block; width: 100%; height: 100%">
 										<div class="thumb-img" style="position: absolute; top:0; bottom:0; left:0; right:0; z-index:1;">
 											<img class="card-img-top mx-auto d-block" src="{{asset('assets/img/chubpng.png')}}" alt="Card image cap" style="display: block; width:100%; height:100%; object-fit: cover; object-position: center; text-align: center">
 										</div>
@@ -210,7 +210,7 @@
 							<div class="thumbnail-img">
 								<div class="card shadow" style="height: calc(65% - 1rem);">
 									
-									<a href="{{ route('pelatihan.detail', ['id' => $mata->id]) }}" class="d-block ui-rect-60 ui-bg-cover box-img" style="position: relative; display:block; width: 100%; height: 100%">
+									<a href="" class="d-block ui-rect-60 ui-bg-cover box-img" style="position: relative; display:block; width: 100%; height: 100%">
 										<div class="thumb-img" style="position: absolute; top:0; bottom:0; left:0; right:0; z-index:1;">
 											<img class="card-img-top mx-auto d-block" src="{{asset('assets/img/fuber.png')}}" alt="Card image cap" style="display: block; width:100%; height:100%; object-fit: cover; object-position: center; text-align: center">
 										</div>
