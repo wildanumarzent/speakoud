@@ -22,6 +22,7 @@ class PageController extends Controller
 
     public function index(Request $request)
     {
+        // return "test";
         $p = '';
         $q = '';
         if (isset($request->p) || isset($request->q)) {

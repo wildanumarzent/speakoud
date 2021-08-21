@@ -21,7 +21,7 @@
     <div class="container">
         <div class="row">
             <div class="col">
-                {!! $data['tentang']->content !!}
+                {{-- {!! $data['tentang']->content !!} --}}
 
             </div>
         </div>

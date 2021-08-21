@@ -24,8 +24,8 @@ return [
 	'article_recent' => 'Artikel Lainnya',
 	'inquiry_website' => 'www.speakoud.com',
 	'inquiry_button' => 'Kirim Pesan',
-	'footer_title_1' => 'Layanan E-Learning',
-	'footer_title_2' => 'Link Cepat',
-	'footer_title_3' => 'Kontak',
-	'copyright' => 'SPEAKOUD',
+	'footer_title_1' => 'AFISILIASI SINERGI',
+	'footer_title_2' => 'SOSIAL MEDIA',
+	'footer_title_3' => 'KETENTUAN UMUM',
+	'copyright' => 'KETENTUAN UMUM',
 ];

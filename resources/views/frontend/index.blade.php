@@ -38,66 +38,23 @@
     </div>
 </div>
 @endif
-{{-- page one --}}
-@if (!empty($data['pageOne']))
-<div class="box-wrap">
-    <div class="container">
-        <div class="row justify-content-between align-items-center">
-            <div class="col-md-5">
-                <div class="video-intro">
-                    <div class="thumbnail-img">
-                        <img src="{{ $data['pageOne']->getCover($data['pageOne']->cover['filename']) }}" title="{{ $data['pageOne']->cover['title'] }}" alt="{{ $data['pageOne']->cover['alt'] }}">
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="title-heading">
-                    <h6>{{ $configuration['website_name'] }}</h6>
-                    <h1>{!! $data['pageOne']->judul !!}</h2>
-                </div>
-                <article class="summary-text">
-                    {!! $data['pageOne']->content !!}
-                </article>
-            </div>
+{{-- /banner --}}
 
-        </div>
-    </div>
-</div>
-@endif
-{{-- page six --}}
-{{-- @if (!empty($data['pageSix']))
-<div class="box-wrap bg-blue">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="title-heading text-white text-center">
-                    <h6>{{ $configuration['website_name'] }}</h6>
-                    <h1>{!! $data['pageSix']->judul !!}</h2>
-                    <div class="box-btn">
-                        <a href="{{ route('page.read', ['id' => $data['pageSix']->id, 'slug' => $data['pageSix']->slug]) }}" class="btn btn-primary white" title="{!! $data['pageSix']->judul !!}">
-                            @lang('strip.button_selengkapnya')
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-@endif --}}
 {{-- program pelatihan --}}
 <div class="box-wrap bg-grey">
     <div class="container">
         <div class="row">
             <div class="col-md-12">
                 <div class="title-heading">
-                    <h6>{{ $configuration['website_name'] }}</h6>
+                    {{-- <h6>{{ $configuration['website_name'] }}</h6> --}}
                     <h1>@lang('strip.widget_1_title')</h2>
                 </div>
                 <div class="summary-text m-0">
-                    <p>@lang('strip.widget_1_description')</p>
+                    {{-- <p>@lang('strip.widget_1_description')</p> --}}
                 </div>
             </div>
         </div>
+
         <div class="swiper-container mt-5 swiper-2" style="overflow: visible;">
             <div class="swiper-wrapper">
 
@@ -164,6 +121,132 @@
         </div>
     </div>
 </div>
+
+{{-- /program pelatihan --}}
+@if (!empty($data['pageOne']))
+<div class="box-wrap">
+    <div class="container">
+        {{-- pengenalan  --}}
+        <div class="row justify-content-between align-items-center">
+            {{-- <div class="col-md-5">
+                <div class="video-intro">
+                    <div class="thumbnail-img">
+                        <img src="{{ $data['pageOne']->getCover($data['pageOne']->cover['filename']) }}" title="{{ $data['pageOne']->cover['title'] }}" alt="{{ $data['pageOne']->cover['alt'] }}">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="title-heading">
+                    <h6>{{ $configuration['website_name'] }}</h6>
+                    <h1>{!! $data['pageOne']->judul !!}</h2>
+                </div>
+                <article class="summary-text">
+                    {!! $data['pageOne']->content !!}
+                </article>
+            </div> --}}
+            <div class="col">
+                {!! $data['pageOne']->content !!}
+
+            </div>
+
+        </div>
+
+        {{-- our client --}}
+         <div class="swiper-container mt-5 swiper-2" style="overflow: visible;">
+            <div class="swiper-wrapper">
+
+                {{-- @foreach ($data['mata'] as $mata) --}}
+                {{-- {{dd($mata)}} --}}
+                <div class="swiper-slide">
+                    <div class="item-post">
+                        <div class="box-img">
+                            <div class="thumbnail-img">
+                                <div class="card shadow" style="height: calc(65% - 1rem);">
+                                    <a href="{{ route('pelatihan.detail', ['id' => $mata->id]) }}" class="d-block ui-rect-60 ui-bg-cover box-img" style="position: relative; display:block; width: 100%; height: 100%">
+                                        <div class="thumb-img" style="position: absolute; top:0; bottom:0; left:0; right:0; z-index:1;">
+                                            <img class="card-img-top mx-auto d-block" src="{{asset('assets/img/Hitachi-logo.jpg')}}" alt="Card image cap" style="display: block; width:100%; height:100%; object-fit: cover; object-position: center; text-align: center">
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="item-post">
+                        <div class="box-img">
+                            <div class="thumbnail-img">
+                                <div class="card shadow" style="height: calc(65% - 1rem);">
+                                    <a href="{{ route('pelatihan.detail', ['id' => $mata->id]) }}" class="d-block ui-rect-60 ui-bg-cover box-img" style="position: relative; display:block; width: 100%; height: 100%">
+                                        <div class="thumb-img" style="position: absolute; top:0; bottom:0; left:0; right:0; z-index:1;">
+                                            <img class="card-img-top mx-auto d-block" src="{{asset('assets/img/TI-Automotive-Logo.png')}}" alt="Card image cap" style="display: block; width:100%; height:100%; object-fit: cover; object-position: center; text-align: center">
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="item-post">
+                        <div class="box-img">
+                            <div class="thumbnail-img">
+                                <div class="card shadow" style="height: calc(65% - 1rem);">
+                                    
+                                    <a href="{{ route('pelatihan.detail', ['id' => $mata->id]) }}" class="d-block ui-rect-60 ui-bg-cover box-img" style="position: relative; display:block; width: 100%; height: 100%">
+                                        <div class="thumb-img" style="position: absolute; top:0; bottom:0; left:0; right:0; z-index:1;">
+                                            <img class="card-img-top mx-auto d-block" src="{{asset('assets/img/chubpng.png')}}" alt="Card image cap" style="display: block; width:100%; height:100%; object-fit: cover; object-position: center; text-align: center">
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="item-post">
+                        <div class="box-img">
+                            <div class="thumbnail-img">
+                                <div class="card shadow" style="height: calc(65% - 1rem);">
+                                    
+                                    <a href="{{ route('pelatihan.detail', ['id' => $mata->id]) }}" class="d-block ui-rect-60 ui-bg-cover box-img" style="position: relative; display:block; width: 100%; height: 100%">
+                                        <div class="thumb-img" style="position: absolute; top:0; bottom:0; left:0; right:0; z-index:1;">
+                                            <img class="card-img-top mx-auto d-block" src="{{asset('assets/img/fuber.png')}}" alt="Card image cap" style="display: block; width:100%; height:100%; object-fit: cover; object-position: center; text-align: center">
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                {{-- @endforeach --}}
+                {{-- @if ($data['mata']->count() == 0)
+                <div>
+                    <h5 style="color: red;">! Tidak ada program pelatihan !</h5>
+                </div>
+                @endif --}}
+
+            </div>
+            <div class="box-btn d-flex align-items-center  mt-xl-5">
+                <div class="swiper-btn-wrapper">
+                    <div class="swiper-button-prev swiper-btn sbp-2"><i class="la la-angle-left"></i></div>
+                    <div class="swiper-button-next swiper-btn sbn-2"><i class="la la-angle-right"></i></div>
+                </div>
+                <a href="{{ route('platihan.index') }}" class="link-icon ml-auto" title="@lang('strip.widget_1_button_2')">
+                    @lang('strip.widget_1_button_2')
+                    <span>
+                        <i class="las la-arrow-right"></i>
+                    </span>
+                </a>
+
+            </div>
+        </div>
+        {{-- /our client --}}
+    </div>
+</div>
+@endif
+
 {{-- acara --}}
 {{-- <div class="box-wrap bg-grey-alt">
     <div class="container">

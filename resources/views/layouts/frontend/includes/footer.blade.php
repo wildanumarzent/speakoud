@@ -5,36 +5,61 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="footer-logo">
-                            <a href="{{ route('home') }}" class="logo" title="Home">
+                            <a href="{{ route('home') }}" class="logo text-white" title="Home">
                                 {{-- <img src="{{ asset(config('addon.images.logo')) }}" title="BPPT" alt="Logo BPPT"> --}}
-                                {{-- SPEAKOUD --}}
-                            </a>
-                            <h5 style="color: white">E-learning Manajemen System</h5>
+                                SPEAKOUD
+                            </a> 
+                            
+                            {{-- <h5 style="color: white">E-learning Manajemen System</h5> --}}
                         </div>
+                        <span class="text-white">(+62) 811 977 6386</span>
+                        <br>
+                        <span class="text-white">contact@sinergi-digital.com</span>
                     </div>
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="f-widget">
-                                    <h5 style="color: white">@lang('strip.footer_title_1')</h5>
+                                    <h5 style="color: white">
+                                        @lang('strip.footer_title_1')
+                                        {{-- Afiliasi Sinergi --}}
+                                    </h5>
                                     <ul>
-                                        @foreach ($pages['layanan'] as $layanan)
-                                        <li>
+                                        {{-- @foreach ($pages['layanan'] as $layanan) --}}
+                                        {{-- <li>
                                             <a href="{{ route('page.read', ['id' => $layanan->id, 'slug' => $layanan->slug]) }}" title="{!! $layanan->judul !!}" style="color: white">{!! $layanan->judul !!}</a>
+                                        </li> --}}
+                                        {{-- @endforeach --}}
+                                        <li>
+                                              <a href="" title="" style="color: white">Sinergi Digital</a>
                                         </li>
-                                        @endforeach
+                                        <li>
+                                              <a href="" title="" style="color: white">Sinergi Consulting</a>
+                                        </li>
+                                        <li>
+                                              <a href="" title="" style="color: white">e-Learning Platform</a>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="f-widget">
-                                    <h5 style="color: white">@lang('strip.footer_title_2')</h5>
+                                    <h5 style="color: white">
+                                        @lang('strip.footer_title_2')
+                            
+                                    </h5>
                                     <ul>
-                                        @foreach ($pages['quick_link'] as $quickLink)
+                                        {{-- @foreach ($pages['quick_link'] as $quickLink) --}}
                                         <li>
-                                            <a href="{{ route('page.read', ['id' => $quickLink->id, 'slug' => $quickLink->slug]) }}" title="{!! $quickLink->judul !!}" style="color: white" style="color: white">{!! $quickLink->judul !!}</a>
+                                            <a href="" style="color: white" style="color: white">Facebook</a>
                                         </li>
-                                        @endforeach
+                                        <li>
+                                            <a href="" title="" style="color: white" style="color: white">Instagram</a>
+                                        </li>
+                                        <li>
+                                            <a href="" title="" style="color: white" style="color: white">Whatsapp</a>
+                                        </li>
+                                        {{-- @endforeach --}}
                                     </ul>
                                 </div>
                             </div>

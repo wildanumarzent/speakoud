@@ -198,7 +198,7 @@ article img[style="float: right;"] {
 }
 .box-wrap {
     position: relative;
-    padding: 8em 0;
+    padding: 4em 0;
     background-color: #fff;
     overflow: hidden;
 }
@@ -1139,7 +1139,7 @@ header .main-header .menubar-flex .menubar-center .main-nav .list-nav > li {
 }
 header .main-header .menubar-flex .menubar-center .main-nav .list-nav > li > a {
     display: block;
-    font-weight: 600;
+    font-weight: none;
     text-transform: capitalize;
     padding: 10px 15px;
     border-radius: 20px;
@@ -1174,13 +1174,13 @@ header .main-header .menubar-flex .menubar-center .main-nav .list-nav > li > a {
         text-align: center;
     }
     header .main-header .menubar-flex .menubar-center .main-nav .list-nav li a {
-        font-family: "product sans", sans-serif;
+        font-family: Roboto;
         font-weight: 600 !important;
         font-size: 1.3em;
         width: 100%;
         display: block;
         padding: 0;
-        color:black;
+        color: black;
     }
     header
         .main-header

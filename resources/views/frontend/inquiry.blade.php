@@ -11,7 +11,6 @@
             <div class="banner-text">
                 <div class="title-heading text-center">
                     <h1 style="color:white">{!! $data['read']->name !!}</h1>
-
                 </div>
             </div>
             {{-- @include('components.breadcrumbs') --}}
@@ -24,18 +23,12 @@
 <div class="box-wrap">
     <div class="container">
         <div class="row justify-content-xl-between">
-            @if ($data['read']->show_map == 1)
-            <div class="col-md-5">
-                <div class="box-map">
-                    <div id="map"></div>
-                </div>
-            </div>
-            @endif
+
             <div class="col-md-6">
                 <div class="box-post map-desc">
                     <div class="title-heading">
-                        <h6>{{ $data['read']->name }} Kami</h6>
-                        {!! $data['read']->body !!}
+                        <h6 style="text-align:center">{{ $data['read']->name }} Kami</h6>
+                        <span style="text-align:center">{!! $data['read']->body !!} </span> 
                         SPEAKOUD 
                     </div>
                     <div class="post-info flex-column">
@@ -101,9 +94,10 @@
 
                 </div>
             </div>
-        </div>
-        @if ($data['read']->show_form == 1)
-        <div class="inquiry mt-5">
+            
+            @if ($data['read']->show_form == 1)
+            <div class="col-md-6">
+            <div class="inquiry mt-5">
             <div class="title-heading text-center">
                 <h1>@lang('strip.inquiry_button')</h1>
             </div>
@@ -153,8 +147,18 @@
             </form>
             @endif
         </div>
+            </div>
         @endif
-
+        </div>
+        {{-- <h3 class="mb-3">LOCATION ON MAP</h3> --}}
+        @if ($data['read']->show_map == 1)
+        <br>
+        <div class="col-md-12 mt-3">
+            <div class="box-map">
+                <div id="map"></div>
+            </div>
+        </div>
+        @endif     
     </div>
 </div>
 @endsection

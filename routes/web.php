@@ -404,7 +404,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/page', 'PageController@index')
         ->name('page.index')
         ->middleware('role:developer|administrator');
-    Route::get('/page/create', 'PageController@create')
+    Route::get('/pages/create', 'PageController@create')
         ->name('page.create')
         ->middleware('role:developer|administrator');
     Route::post('/page', 'PageController@store')
