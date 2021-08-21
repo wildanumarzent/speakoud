@@ -7,7 +7,7 @@
            <th style="width: 150px;">Conference</th>
            <td>
                @if ($data['bahan']->conference->tipe == 0)
-                   BPPT Conference
+                   Speakoud Conference
                @else
                    Platform External
                @endif

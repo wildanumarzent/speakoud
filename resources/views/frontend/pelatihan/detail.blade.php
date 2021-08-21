@@ -66,16 +66,16 @@
 
             <ul class="search-nav nav nav-tabs tabs-alt container-m-nx container-p-x mb-4">
               <li class="nav-item">
-                <a class="nav-link active" data-toggle="tab" href="#search-pages"><h5><i class="ion ion-md-copy" style="color: orange"></i>&nbsp; <strong>Overview</strong> </h5></a>
+                <a class="nav-link active" data-toggle="tab" href="#search-pages"><h6><i class="ion ion-md-copy" style="color: orange"></i>&nbsp; <strong>Overview</strong> </h6></a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#search-people"><h5><i class="ion ion-logo-dropbox" style="color: orange"></i>&nbsp; <strong>curriculum</strong> </h5></a>
+                <a class="nav-link" data-toggle="tab" href="#search-people"><h6><i class="ion ion-logo-dropbox" style="color: orange"></i>&nbsp; <strong>Curriculum</strong> </h6></a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#search-images"><h5><i class="ion ion-ios-person" style="color: orange"></i>&nbsp; <strong>Instructor</strong> </h5></a>
+                <a class="nav-link" data-toggle="tab" href="#search-images"><h6><i class="ion ion-ios-person" style="color: orange"></i>&nbsp; <strong>Instructor</strong> </h6></a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#search-videos"><h5><i class="ion ion-ios-chatbubbles" style="color: orange"></i>&nbsp; <strong>Reviews</strong> </h5></a>
+                <a class="nav-link" data-toggle="tab" href="#search-videos"><h6><i class="ion ion-ios-chatbubbles" style="color: orange"></i>&nbsp; <strong>Reviews</strong> </h6></a>
               </li>
             </ul>
 

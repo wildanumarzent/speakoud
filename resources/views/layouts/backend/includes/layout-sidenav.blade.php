@@ -232,7 +232,7 @@
                 </ul>
             </li>
 
-            @role('developer|administrator|internal|mitra')
+            @role('developer|administrator')
             <!-- jadwal -->
             <li class="sidenav-item{{ (Request::is('jadwal*')) ? ' active' : '' }}">
                 <a href="{{ route($jadwal) }}" class="sidenav-link" title="Kalender Diklat">

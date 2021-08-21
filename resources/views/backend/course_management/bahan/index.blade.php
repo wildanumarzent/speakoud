@@ -121,7 +121,7 @@
                                     <th>Tipe Meeting</th>
                                     <td>
                                         @if ($item->conference->tipe == 0)
-                                            BPPT Conference
+                                            speakoud Conference
                                         @else
                                             Platform
                                         @endif
