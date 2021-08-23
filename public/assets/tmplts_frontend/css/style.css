@@ -1,6 +1,6 @@
 @import url(../fonts/roboto/Roboto-Regular.ttf);
 body {
-    font-family: url(../fonts/roboto/Roboto-Regular.ttf);
+    font-family: "Roboto";
     color: rgb(0, 0, 0);
     background-color: #efebea;
     font-size: 14px;
@@ -2327,6 +2327,10 @@ header .main-header.bg-fixed .menubar-flex .menubar-right .account .user {
 .footer .footer-bottom .logo-4vm img {
     width: 100%;
     height: auto;
+}
+
+.footer-logo a {
+    font-family: "Roboto";
 }
 @media screen and (max-width: 1199.98px) {
     .footer .footer-top {

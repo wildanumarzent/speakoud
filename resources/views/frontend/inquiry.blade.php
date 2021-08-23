@@ -25,11 +25,11 @@
         <div class="row justify-content-xl-between">
 
             <div class="col-md-6">
-                <div class="box-post map-desc">
+                <div class="box-post map-desc mt-5">
                     <div class="title-heading">
-                        <h6 style="text-align:center">{{ $data['read']->name }} Kami</h6>
-                        <span style="text-align:center">{!! $data['read']->body !!} </span> 
-                        SPEAKOUD 
+                        {{-- <h6 style="text-align:center">{{ $data['read']->name }} Kami</h6> --}}
+                        <span style="text-align:center"><h1>Alamat Kantor </h1></span> 
+                        {{-- SPEAKOUD  --}}
                     </div>
                     <div class="post-info flex-column">
                         <div class="box-info mb-4">

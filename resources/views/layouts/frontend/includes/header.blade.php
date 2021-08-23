@@ -27,9 +27,8 @@
 									<li class="has-sub-dropdown is-hidden" style="color:black">
 										<a href="{{ route('register') }}" title="pendaftaran_peserta">PENDAFTARAN PESERTA</a>
 										<a href="{{ route('register') }}" title="pendaftaran_peserta">PENDAFTARAN CONSULTAN</a>
-										
 									</li>
-								</ul>
+								</ul>   
 							</li>
 							{{-- <li class="{{ Request::is('course/jadwal*') ? 'current-nav' : '' }}"><a href="{{ route('course.jadwal') }}" title="Kalender Pelatihan">Agenda</a></li> --}}
 							

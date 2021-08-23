@@ -4,17 +4,17 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-4">
-                        <div class="footer-logo">
-                            <a href="{{ route('home') }}" class="logo text-white" title="Home">
+                        <div class="footer-logo" style="font-family: Roboto">
+                            <a href="{{ route('home') }}" class="logo text-white" title="Home" style="font-family: Roboto">
                                 {{-- <img src="{{ asset(config('addon.images.logo')) }}" title="BPPT" alt="Logo BPPT"> --}}
                                 SPEAKOUD
                             </a> 
                             
                             {{-- <h5 style="color: white">E-learning Manajemen System</h5> --}}
                         </div>
-                        <span class="text-white">(+62) 811 977 6386</span>
+                        <span class="text-white" style="font-family: Roboto">(+62) 811 977 6386</span>
                         <br>
-                        <span class="text-white">contact@sinergi-digital.com</span>
+                        <span class="text-white" style="font-family: Roboto">contact@sinergi-digital.com</span>
                     </div>
                     <div class="col-md-8">
                         <div class="row">
@@ -31,13 +31,13 @@
                                         </li> --}}
                                         {{-- @endforeach --}}
                                         <li>
-                                              <a href="" title="" style="color: white">Sinergi Digital</a>
+                                              <a href="" title="" style="color: white; font-family: Roboto">Sinergi Digital</a>
                                         </li>
                                         <li>
-                                              <a href="" title="" style="color: white">Sinergi Consulting</a>
+                                              <a href="" title="" style="color: white; font-family: Roboto">Sinergi Consulting</a>
                                         </li>
                                         <li>
-                                              <a href="" title="" style="color: white">e-Learning Platform</a>
+                                              <a href="" title="" style="color: white; font-family: Roboto">e-Learning Platform</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -51,13 +51,13 @@
                                     <ul>
                                         {{-- @foreach ($pages['quick_link'] as $quickLink) --}}
                                         <li>
-                                            <a href="" style="color: white" style="color: white">Facebook</a>
+                                            <a href="" style="color: white;font-family: Roboto ">Facebook</a>
                                         </li>
                                         <li>
-                                            <a href="" title="" style="color: white" style="color: white">Instagram</a>
+                                            <a href="" title="" style="color: white; font-family: Roboto">Instagram</a>
                                         </li>
                                         <li>
-                                            <a href="" title="" style="color: white" style="color: white">Whatsapp</a>
+                                            <a href="" title="" style="color: white; font-family: Roboto" >Whatsapp</a>
                                         </li>
                                         {{-- @endforeach --}}
                                     </ul>
@@ -66,19 +66,19 @@
 
                             <div class="col-md-4">
                                 <div class="f-widget">
-                                    <h5 style="color: white">@lang('strip.footer_title_3')</h5>
+                                    <h5 style="color: white ; font-family: Roboto">@lang('strip.footer_title_3')</h5>
                                     <ul>
-                                        <li style="color: white">
+                                        <li style="color: white; font-family: Roboto">
                                             {{-- {{ $configuration['address'] }} --}}
                                             Disclaimer
-                                        </li style="color: white">
-                                        <li style="color: white">
+                                        </li>
+                                        <li style="color: white; font-family: Roboto">
                                             {{-- {{ $configuration['fax'] }} <br> --}}
                                             Kebijakan Privasi
                                             {{-- {{ $configuration['phone'] }} <br>
                                             {{ $configuration['phone_2'] }} <br> --}}
                                         </li >
-                                        <li style="color: white">
+                                        <li style="color: white; font-family: Roboto">
                                             
                                             Terms & Conditions
                                             {{-- <a href="mailto:{{ $configuration['email'] }}" title="Email" style="color: white">{{ $configuration['email'] }}</a> <br>
@@ -87,7 +87,6 @@
                                     </ul>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
