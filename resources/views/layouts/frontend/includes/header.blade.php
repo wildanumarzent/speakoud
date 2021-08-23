@@ -12,7 +12,7 @@
 					</a>
 				</div>
 				<div class="menubar-center">
-					<nav class="main-nav" style="color:white; font-family: Roboto">
+					<nav class="main-nav" style="color:white;">
 						<ul class="list-nav">
 							<li class="{{ empty(Request::segment(1)) ? 'current-nav' : '' }}"><a href="{{ route('home') }}" title="@lang('layout.menu.home')">BERANDA</a></li>
 							{{-- <li class="{{ Request::is('page/tentang-kami*') ? 'current-nav' : ''}}"><a href="{{ route('about.index',['slug' => 'tentang-kami']) }}" title="@lang('layout.menu.home')">TENTANG KAMI</a></li> --}}
