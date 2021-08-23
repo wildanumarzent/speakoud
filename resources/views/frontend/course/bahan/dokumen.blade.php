@@ -1,4 +1,4 @@
-@extends('frontend.course.bahan')
+@extends('frontend.course.dokumen-view')
 
 @section('content-view')
     @if ($data['bahan']->dokumen->bankData->file_type == 'pdf')

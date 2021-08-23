@@ -215,7 +215,7 @@
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
         parallelUploads: 2,
-        maxFilesize: 0,
+        maxFilesize: 2000,
         maxFiles: 10,
         filesizeBase: 1000,
         // acceptedFiles:"image/*",

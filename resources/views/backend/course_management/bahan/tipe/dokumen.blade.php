@@ -11,7 +11,7 @@
         <div class="input-group-append">
             <button type="button" class="btn btn-warning" onclick="openFm()"><i class="las la-server"></i></button>
         </div>
-        @include('components.field-error', ['field' => 'file_path'])
+         @include('components.field-error', ['field' => 'file_path'])
         </div>
     </div>
 </div>
