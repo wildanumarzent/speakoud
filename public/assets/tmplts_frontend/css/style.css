@@ -1,6 +1,6 @@
-/* @import url(../fonts/product-sans/fonts.css); */
+@import url(../fonts/roboto/Roboto-Regular.ttf);
 body {
-    font-family: Roboto;
+    font-family: url(../fonts/roboto/Roboto-Regular.ttf);
     color: rgb(0, 0, 0);
     background-color: #efebea;
     font-size: 14px;
