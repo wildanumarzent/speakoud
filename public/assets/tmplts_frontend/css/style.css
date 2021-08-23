@@ -2040,7 +2040,8 @@ header .main-header.bg-fixed .menubar-flex .menubar-right .account .user {
     box-shadow: 0 29px 75px rgba(65, 62, 101, 0.1);
 }
 .item-post .box-post:not(.boxless) .post-title {
-    font-family: "product sans", sans-serif;
+    /* font-family: "product sans", sans-serif; */
+    font-family: "Roboto";
     margin-bottom: 30px;
     max-height: 60px;
     height: 60px;
