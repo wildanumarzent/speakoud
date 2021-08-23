@@ -189,7 +189,7 @@
         <!-- courses -->
         <li class="sidenav-item{{ $course ? ' active open' : '' }}">
           <a href="javascript:void(0)" class="sidenav-link sidenav-toggle" title="Manajemen DIKLAT"><i class="sidenav-icon las la-book-open"></i>
-            <div>Manajemen Course</div>
+            <div>Manajemen Pelatihan</div>
           </a>
           @php
               if (auth()->user()->hasRole('instruktur_mitra|peserta_internal|peserta_mitra')) {
@@ -246,7 +246,7 @@
                 <a href="{{route('kalender.index')}}" class="sidenav-link" title="Agenda">
                   <div>
                     @role ('developer|administrator|internal|mitra')
-                        Agenda
+                        Jadwal Acara
                     @else
                         Kalender Diklat
                     @endrole
@@ -262,7 +262,7 @@
         <!-- journey -->
         <li class="sidenav-item {{ Request::is('journey*') ? ' active' : '' }}">
             <a href="{{route('journey.index')}}" class="sidenav-link" title="Learning Journey"><i class="sidenav-icon las la-bookmark"></i>
-                <div>Learning Journey</div>
+                <div>perjalanan Belajar</div>
             </a>
         </li>
         <!-- badge -->
@@ -388,7 +388,7 @@
         <!-- inquiry -->
         <li class="sidenav-item{{ (Request::is('inquiry*')) ? ' active' : '' }}">
             <a href="{{route('inquiry.index')}}" class="sidenav-link" title="Inquiry"><i class="sidenav-icon las la-envelope"></i>
-              <div>Inquiry</div>
+              <div>Pertanyaan</div>
               @if ($inquiry['total_contact'] > 0)
               <div class="pl-1 ml-auto">
                   <div class="badge badge-danger">{{ $inquiry['total_contact'] }}</div>
