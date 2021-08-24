@@ -66,8 +66,8 @@
 						{{-- <h5> <a href="javascript:void(0)" class="text-muted small"><i class="fas fa-comment"></i> 55</a></h5> --}}
 						</div>
 						<div class="text-muted small">
-							@if ($mata->price == null)
-								<h6 style="color: rgb(20, 245, 0); font-family: 'arial'"> <strong >FREE</strong> </h6>   
+							@if ($mata->price == null || $mata->price == 0)
+								<h6 style="color: rgb(20, 245, 0); font-family: 'Roboto'"> <strong >FREE</strong> </h6>   
 							@else
 								<h6 style="color: rgb(245, 147, 0)"> <strong>{{number_format($mata->price)}}</strong> </h6>
 							@endif

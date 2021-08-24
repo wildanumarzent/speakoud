@@ -43,6 +43,7 @@
 					</div>
 				</div>
 				<div class="menubar-right">
+                    {{-- {{dd(auth()->user())}} --}}
 					@if (Auth::guard()->check())
 					<div class="nav-item account has-dropdwon">
 						<a href="#!" class="user" title="{{ auth()->user()->name }}">

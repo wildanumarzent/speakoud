@@ -12,6 +12,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
@@ -64,24 +65,31 @@ class RegisterController extends Controller
 
     public function register(RegisterRequest $request)
     {
+        // dd($request->forms());
         $encrypt = Crypt::encrypt($request->email);
 
         $data = [
             'email' => $request->email,
             'link' => route('register.activate', ['email' => $encrypt]),
         ];
+        
         // dd($request->roles);
         // dd($request->all());
         // Mail::to($request->email)->send(new \App\Mail\ActivateAccountMail($data));
-        if($request->roles == "peserta_internal"  )
-        {
-            $this->peserta->registerPeserta($request);
-        }else{
-            $this->instruktur->storeInstruktur($request);
-        }
+    
+           $this->peserta->registerPeserta($request);
+        // dd($dataRegister->forms());
+            $remember = $request->has('remember') ? true : false;
+            if (Auth::attempt($request->forms(), $remember)) {  
+                // dd("test");
+                return redirect()->route('home')->with('success', 'Register berhasil, 
+                silahkan cek email untuk aktivasi & verifikasi akun');
 
-        return redirect()->route('login')->with('success', 'Register berhasil, 
-            silahkan cek email untuk aktivasi & verifikasi akun');
+                // $redirect = redirect()->route('dashboard');
+
+                // return $redirect->with('success', 'Login berhasil');
+            }
+        
     }
 
     public function activate($email)

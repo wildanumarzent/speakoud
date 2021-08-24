@@ -21,7 +21,7 @@ class RegisterRequest extends FormRequest
         return [
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
-            'username' => 'required|min:5|unique:users,username',
+            // 'username' => 'required|min:5|unique:users,username',
             'roles' => 'required',
             'password' => 'required|confirmed|min:8',
         ];
@@ -32,7 +32,7 @@ class RegisterRequest extends FormRequest
         return [
             'name' => 'Nama',
             'email' => 'Email',
-            'username' => 'Username',
+            // 'username' => 'Username',
             'roles' => 'Roles',
             'password' => 'Password',
         ];
@@ -45,14 +45,32 @@ class RegisterRequest extends FormRequest
             'email.required' => ':attribute tidak boleh kosong',
             'email.email' => ':attribute harus valid',
             'email.unique' => ':attribute sudah terpakai',
-            'username.required' => ':attribute tidak boleh kosong',
-            'username.min' => ':attribute minimal :min karakter',
-            'username.unique' => ':attribute sudah terpakai',
+            // 'username.required' => ':attribute tidak boleh kosong',
+            // 'username.min' => ':attribute minimal :min karakter',
+            // 'username.unique' => ':attribute sudah terpakai',
             'roles.required' => ':attribute tidak boleh kosong',
             'password.required' => ':attribute tidak boleh kosong',
             'password.confirmed' => 'Konfirmasi password tidak sama dengan '.
                                     'password',
             'password.min' => ':attribute minimal :min karakter',
         ];
+    }
+
+    public function forms()
+    {
+        return [
+            $this->RegisterType() => $this->email,
+            'password' => $this->password,
+        ];
+    }
+
+    private function RegisterType()
+    {
+
+        $loginType = filter_var($this->email, FILTER_VALIDATE_EMAIL) ?
+                    'email' : 'username';
+        // dd($loginType);
+
+        return $loginType;
     }
 }

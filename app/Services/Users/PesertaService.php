@@ -115,6 +115,11 @@ class PesertaService
         return $this->model->findOrFail($id);
     }
 
+    public function findPesertaByUserId($id)
+    {
+        return $this->model->where('user_id', $id)->first();
+    }
+    
     public function storePeserta($request)
     {
         $user = $this->user->storeUser($request);
@@ -128,27 +133,19 @@ class PesertaService
         $peserta = new Peserta;
         $peserta->user_id = $user->id;
         $peserta->creator_id = Auth::user()->id;
-        $peserta->mitra_id = $mitraId ?? null;
-        $peserta->nip = $request->nip ?? null;
-        $peserta->jenis_peserta = $request->jenis_peserta ?? null;
         $peserta->jenis_kelamin = $request->jenis_kelamin ?? null;
         $peserta->agama = $request->agama ?? null;
         $peserta->tempat_lahir = $request->tempat_lahir ?? null;
         $peserta->tanggal_lahir = $request->tanggal_lahir ?? null;
-        $peserta->pangkat = $request->pangkat ?? null;
-        $peserta->golongan = $request->pangkat ?? null;
         $peserta->jabatan_id = $request->jabatan_id ?? null;
-        $peserta->jenjang_jabatan = $request->jenjang_jabatan ?? null;
-        $peserta->instansi_id = $request->instansi_id ?? null;
-        $peserta->kedeputian = $request->kedeputian ?? null;
-
-        if (!empty($request->kedeputian) && $request->pangkat >= 0 &&
-            !empty($request->tempat_lahir) && !empty($request->tanggal_lahir) &&
-            $request->jenis_peserta >= 0  && $request->agama >= 0 &&
-            $request->jenis_kelamin >= 0  && !empty($request->jabatan_id) &&
-            $request->jenjang_jabatan >= 0  && !empty($request->phone)) {
-            $peserta->status_profile = 1;
-        }
+        $peserta->no_hp != null ? $request->no_hp : 0;
+        // if (!empty($request->kedeputian) && $request->pangkat >= 0 &&
+        //     !empty($request->tempat_lahir) && !empty($request->tanggal_lahir) &&
+        //     $request->jenis_peserta >= 0  && $request->agama >= 0 &&
+        //     $request->jenis_kelamin >= 0  && !empty($request->jabatan_id) &&
+        //     $request->jenjang_jabatan >= 0  && !empty($request->phone)) {
+        //     $peserta->status_profile = 1;
+        // }
 
         $this->uploadFile($request, $peserta, $user->id, 'store');
         $peserta->save();
@@ -164,36 +161,12 @@ class PesertaService
 
     public function registerPeserta($request)
     {
-        $user = $this->user->storeUser($request, 'register');
         // return $user;
+        $user = $this->user->storeUser($request, 'register');
         $peserta = new Peserta;
         $peserta->user_id = $user->id;
-        $peserta->nip = $request->nip ?? null;
-        $peserta->instansi_id = $request->instansi_id ?? null;
-        $peserta->kedeputian = $request->kedeputian ?? null;
-        $peserta->pangkat = $request->pangkat ?? null;
-        $peserta->sk_cpns = [
-            'file' => null,
-            'keterangan' => null,
-        ];
-        $peserta->sk_pengangkatan = [
-            'file' => null,
-            'keterangan' => null,
-        ];
-        $peserta->sk_golongan = [
-            'file' => null,
-            'keterangan' => null,
-        ];
-        $peserta->sk_jabatan = [
-            'file' => null,
-            'keterangan' => null,
-        ];
-        $peserta->surat_ijin_atasan = [
-            'file' => null,
-            'keterangan' => null,
-        ];
-        $peserta->save();
-
+        return  $peserta->save();
+        // dd($peserta);
         // $user->userable()->associate($peserta);
         // dd($user);exit;
         // $user->save();

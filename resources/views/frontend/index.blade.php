@@ -89,7 +89,7 @@
 											<i class="las la-comment"></i>
 											<span>{{ $mata->materi->count() }}</span>
 										</div>
-										<span>Topik</span>
+										<span>Materi</span>
 									</div>
 								</div>
 							</div>

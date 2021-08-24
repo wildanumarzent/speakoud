@@ -84,15 +84,11 @@
             <thead>
                 <tr>
                     <th style="width: 10px;">No</th>
-                    <th>NIP</th>
                     <th>Nama</th>
-                    <th>Username</th>
-                    <th>Instansi / Perusahaan</th>
                     <th>Unit Kerja</th>
                     <th>Jabatan</th>
                     <th>Telpon</th>
                     <th>Alamat</th>
-                    <th style="width: 120px; text-align: center;">Tipe</th>
                     <th style="width: 200px;">Tanggal Dibuat</th>
                     <th style="width: 200px;">Tanggal Diperbarui</th>
                     <th>Learning Journey</th>
@@ -119,17 +115,14 @@
                 @foreach ($data['peserta'] as $item)
                 <tr>
                     <td>{{ $data['no']++ }}</td>
-                    <td>{{ $item->nip ?? '-' }}</td>
                     <td>{{ $item->user->name }}</td>
-                    <td>{{ $item->user->username }}</td>
-                    <td>{{ $item->instansi($item)->nama_instansi ?? '-' }}</td>
                     <td>{{ $item->kedeputian ?? '-' }}</td>
                     <td>{{ !empty($item->jabatan->nama) ? $item->jabatan->nama : '-' }}</td>
                     <td>{{ $item->user->information->phone ?? '-' }}</td>
                     <td>{{ $item->user->information->address ?? '-' }}</td>
-                    <td>
+                    {{-- <td>
                         <span class="badge badge-outline-primary">{{ strtoupper(str_replace('_', ' ', $item->user->roles[0]->name)) }}</span>
-                    </td>
+                    </td> --}}
                     <td>{{ $item->created_at->format('d F Y - (H:i)') }}</td>
                     <td>{{ $item->updated_at->format('d F Y - (H:i)') }}</td>
                     <td>

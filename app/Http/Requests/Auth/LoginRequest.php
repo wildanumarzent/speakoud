@@ -23,10 +23,11 @@ class LoginRequest extends FormRequest
      */
     public function rules()
     {
+        // dd($this->loginType().', active,1');
         return [
             // 'username' => 'required|string|min:5
             //             |exists:users,'.$this->loginType().',active,1',
-            'username' => 'required|string|min:5
+            'email' => 'required|string
                         |exists:users',
             'password' => 'required|string|min:8',
         ];
@@ -35,7 +36,7 @@ class LoginRequest extends FormRequest
     public function attributes()
     {
         return [
-            'username' => 'Username',
+            'email' => 'Email',
             'password' => 'Password'
         ];
     }
@@ -43,10 +44,10 @@ class LoginRequest extends FormRequest
     public function messages()
     {
         return [
-            'username.required' => ':attribute tidak boleh kosong',
-            'username.exists' => 'Akun yang coba anda masukan tidak '.
+            'email.required' => ':attribute tidak boleh kosong',
+            'email.exists' => 'Akun yang coba anda masukan tidak '.
                                 'terdaftar / tidak aktif',
-            'username.min' => ':attribute minimal :min karakter',
+            // 'username.min' => ':attribute minimal :min karakter',
             'password.required' => ':attribute tidak boleh kosong',
             'password.min' => ':attribute minimal :min karakter',
         ];
@@ -55,7 +56,7 @@ class LoginRequest extends FormRequest
     public function forms()
     {
         return [
-            $this->loginType() => $this->username,
+            $this->loginType() => $this->email,
             'password' => $this->password,
         ];
     }
@@ -63,8 +64,9 @@ class LoginRequest extends FormRequest
     private function loginType()
     {
 
-        $loginType = filter_var($this->username, FILTER_VALIDATE_EMAIL) ?
+        $loginType = filter_var($this->email, FILTER_VALIDATE_EMAIL) ?
                     'email' : 'username';
+        // dd($loginType);
 
         return $loginType;
     }

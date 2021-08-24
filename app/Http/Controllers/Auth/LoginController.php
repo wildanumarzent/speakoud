@@ -50,6 +50,7 @@ class LoginController extends Controller
 
     public function login(LoginRequest $request)
     {
+        // return $request->forms();
         try {
 
             $remember = $request->has('remember') ? true : false;
@@ -59,7 +60,7 @@ class LoginController extends Controller
 
                 return $redirect->with('success', 'Login berhasil');
             } else {
-                return back()->with('failed', 'Username / Password salah !');
+                return back()->with('failed', 'Email / Password salah !');
             }
 
          } catch (\Throwable $th) {

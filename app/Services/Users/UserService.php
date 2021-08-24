@@ -98,7 +98,7 @@ class UserService
 
     public function storeUser($request, $isRegister = null)
     {
-        $user = new User($request->only(['name', 'email', 'username']));
+        $user = new User($request->only(['name', 'email']));
         $user->password = Hash::make($request->password);
 
         if (!empty($isRegister)) {
@@ -274,6 +274,72 @@ class UserService
                 $peserta->status_profile = 1;
             } else {
                 $peserta->status_profile = 0;
+            }
+
+            $peserta->save();
+        }
+
+        $this->updateInformation($request, $id);
+
+        return $user;
+    }
+
+    public function updateProfileFront($request, int $id)
+    {
+        $user = $this->findUser($id);
+        $user->fill($request->only(['name', 'email', 'username']));
+
+        if ($request->filled('password')) {
+            $user->password = Hash::make($request->password);
+        }
+
+        if ($request->email != $request->old_email) {
+            $user->email_verified = 0;
+            $user->email_verified_at = null;
+        }
+        
+        if ($request->hasFile('file')) {
+            $fileName = str_replace(' ', '-', $request->file('file')
+                ->getClientOriginalName());
+
+            File::delete(public_path('userfile/photo/'.$request->old_photo));
+            $request->file('file')->move(public_path('userfile/photo'), $fileName);
+        }
+
+        $user->photo = [
+            'filename' => ($request->file != null) ? $fileName : $user->photo['filename'],
+            'description' => $request->photo_description ?? null,
+        ];
+
+        $user->save();
+
+        if (Auth::user()->hasRole('peserta_internal|peserta_mitra')) {
+
+            if ($request->hasFile('foto_sertifikat')) {
+                $fotoSertifikat = str_replace(' ', '-', $request->file('foto_sertifikat')
+                    ->getClientOriginalName());
+                $path = public_path('userfile/photo/'.$request->old_foto_sertifikat) ;
+                File::delete($path);
+                $request->file('foto_sertifikat')->move(public_path('userfile/photo/sertifikat'), $fotoSertifikat);
+            }
+
+            $peserta = $user->peserta;
+            $peserta->jenis_kelamin = $request->jenis_kelamin ?? null;
+            $peserta->agama = $request->agama ?? null;
+            $peserta->tempat_lahir = $request->tempat_lahir ?? null;
+            $peserta->tanggal_lahir = $request->tanggal_lahir ?? null;
+            $peserta->jabatan_id = $request->jabatan_id ?? null;
+            $peserta->no_hp = $request->no_hp ?? null;
+            $peserta->kota_tinggal = $request->kota_tinggal ?? null;
+            $peserta->Departemen = $request->departemen ?? null;
+
+            if (!empty($request->tempat_lahir) && !empty($request->tanggal_lahir) &&
+                $request->no_hp >= 0  && $request->kota_tinggal >= 0 &&
+                $request->jenis_kelamin >= 0  && !empty($request->jabatan_id) &&
+                $request->departemen >= 0 ) {
+                $peserta->status_peserta = 1;
+            } else {
+                $peserta->status_peserta = 0;
             }
 
             $peserta->save();

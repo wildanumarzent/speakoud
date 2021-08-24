@@ -68,12 +68,17 @@
                 @endrole
 
                 @role ('developer|administrator')
-                {{-- <!-- jabatan -->
+                <!-- jabatan -->
                 <li class="sidenav-item{{ Request::is('jabatan*') ? ' active' : '' }}">
                     <a href="{{ route('jabatan.index') }}" class="sidenav-link" title="Jabatan">
                       <div>Jabatan</div>
                     </a>
-                </li> --}}
+                </li>
+                <li class="sidenav-item{{ Request::is('jabatan*') ? ' active' : '' }}">
+                    <a href="{{ route('jabatan.index') }}" class="sidenav-link" title="Jabatan">
+                      <div>Organisasi</div>
+                    </a>
+                </li>
                 @endrole
 
                 <!-- Manajemen User -->

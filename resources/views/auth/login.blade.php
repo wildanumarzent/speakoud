@@ -12,8 +12,8 @@
     <form action="{{ route('login') }}" method="POST">
         @csrf
         <div class="form-group">
-            <input type="text" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" placeholder="Masukan username...">
-            @include('components.field-error', ['field' => 'username'])
+            <input type="text" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" placeholder="Masukan Email...">
+            @include('components.field-error', ['field' => 'email'])
         </div>
         <div class="form-group">
             <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" placeholder="Masukan password...">

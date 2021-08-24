@@ -78,7 +78,7 @@ class PelatihanController extends Controller
        
         $data['mata'] = $this->service->findMata($id);
         $data['materi'] = $this->serviceMateri->getMateriNoRole($id);
-       
+        $data['peserta'] = $this->servicePeserta->findPesertaByUserId(auth()->user()->id);
         // $data['other_mata'] = $this->service->getOtherMata($id);
     //    return $data['read'] = $this->service->findMata($id);
         $data['numberRating'] = [1, 2, 3, 4, 5];
@@ -92,12 +92,55 @@ class PelatihanController extends Controller
         return view("frontend.pelatihan.detail", compact('data'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    public function courseDetail($id)
+    {
+        $data['read'] = $this->service->findMata($id);
+        $data['materi'] = $this->serviceMateri->getMateriByMata($id);
+        $data['other_mata'] = $this->service->getOtherMata($id);
+
+        //rating
+        $data['numberRating'] = [1, 2, 3, 4, 5];
+        $data['numberProgress'] = [1, 2, 3, 4, 5];
+        rsort($data['numberProgress']);
+
+        if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
+            if ($data['read']->program->publish == 0 || $data['read']->publish == 0) {
+                return abort(404);
+            }
+
+            if (now() < $data['read']->publish_start) {
+                return abort(404);
+            }
+        }
+
+        $this->serviceProgram->checkAdmin($data['read']->program_id);
+        $this->serviceProgram->checkPeserta($data['read']->program_id);
+        if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra|peserta_internal|peserta_mitra')) {
+            if ($this->service->checkUserEnroll($id) == 0) {
+                return back()->with('warning', 'anda tidak terdaftar di course '.$data['read']->judul.'');
+            }
+        }
+
+        if (!empty($data['read']->kode_evaluasi)) {
+            $preview = $this->serviceEvaluasi->preview($data['read']->kode_evaluasi);
+            $data['checkKode'] = $preview->success;
+            if ($preview->success == true) {
+                $data['preview'] = $preview->data->evaluasi;
+                if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
+                    $data['apiUser'] = $this->serviceEvaluasi->checkUserPenyelenggara($id)->first();
+                }
+            }
+        }
+
+        return view('frontend.pelatihan.pelatihan', compact('data'), [
+            'title' => $data['read']->judul,
+            // 'breadcrumbsBackend' => [
+            //     'Course' => route('course.list'),
+            //     'Detail' => '',
+            // ],
+        ]);
+    }
+
     public function edit($id)
     {
         //

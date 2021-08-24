@@ -101,6 +101,20 @@ class UserController extends Controller
         ]);
     }
 
+    public function profileFront($id)
+    {
+        $data['user'] = Auth::user();
+        $data['information'] = $data['user']->peserta;
+        $data['jabatan'] = $this->serviceJabatan->getJabatan();
+        $data['id'] = $id;
+        return view('frontend.pelatihan.profile-form', compact('data'), [
+            'title' => 'Profile - Ubah',
+            // 'breadcrumbsBackend' => [
+            //     'Profile' => '#!',
+            //     'Ubah' => ''
+            // ],
+        ]);
+    }
     public function create()
     {
         $data['roles'] = $this->serviceRole->getRoleAdministrator(Auth::user()
@@ -153,6 +167,12 @@ class UserController extends Controller
         return back()->with('success', 'Profile berhasil diubah');
     }
 
+    public function updateProfileFront(ProfileRequest $request)
+    {
+        $this->service->updateProfileFront($request, Auth::user()->id);
+        return back()->with('success', 'Profile berhasil diubah');
+    }
+
     public function activate($id)
     {
         $this->service->activateUser($id);
@@ -177,7 +197,6 @@ class UserController extends Controller
     public function verification($email)
     {
         $this->service->verificationEmail($email);
-
         return redirect()->route('profile')->with('success', 'Email berhasil diverifikasi');
     }
 
