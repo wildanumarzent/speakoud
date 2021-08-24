@@ -215,9 +215,9 @@
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
         parallelUploads: 2,
-        maxFilesize: 2000,
+        maxFilesize: 50000,
         maxFiles: 10,
-        filesizeBase: 1000,
+        filesizeBase: 50000,
         // acceptedFiles:"image/*",
         paramName:"file_path",
         dictInvalidFileType:"Type file ini tidak dizinkan",
