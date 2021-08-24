@@ -37,21 +37,21 @@
                     </label>
                     <small>Tipe File : <strong>{{ strtoupper(config('addon.mimes.photo.m')) }}</strong>, Max Upload Size : {{ ini_get('upload_max_filesize') }}</small>
                 </div>
-            </div>
-            <div class="form-row">
+            </div>  
+            {{-- <div class="form-row">
                 <div class="form-group col">
                     <label class="form-label">Filename</label>
                     <input type="text" class="form-control @error('filename') is-invalid @enderror" name="filename" value="{{ old('filename') }}" placeholder="Masukan nama file">
                     @include('components.field-error', ['field' => 'filename'])
                 </div>
-            </div>
-            <div class="form-row">
+            </div> --}}
+            {{-- <div class="form-row">
                 <div class="form-group col">
                     <label class="form-label">Keterangan</label>
                     <textarea class="form-control @error('keterangan') is-invalid @enderror" name="keterangan" placeholder="Masukan keterangan">{{ old('keterangan') }}</textarea>
                     @include('components.field-error', ['field' => 'keterangan'])
                 </div>
-            </div>
+            </div> --}}
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default close-modal" data-dismiss="modal">Tutup</button>
