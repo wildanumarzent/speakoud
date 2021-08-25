@@ -78,7 +78,12 @@ class PelatihanController extends Controller
        
         $data['mata'] = $this->service->findMata($id);
         $data['materi'] = $this->serviceMateri->getMateriNoRole($id);
-        $data['peserta'] = $this->servicePeserta->findPesertaByUserId(auth()->user()->id);
+        if(auth()->user() != null)
+        {
+            $data['peserta'] = $this->servicePeserta->findPesertaByUserId(auth()->user()->id);
+        }else{
+            $data['peserta'] ='';
+        }
         // $data['other_mata'] = $this->service->getOtherMata($id);
     //    return $data['read'] = $this->service->findMata($id);
         $data['numberRating'] = [1, 2, 3, 4, 5];
