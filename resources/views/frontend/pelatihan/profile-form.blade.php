@@ -37,7 +37,7 @@
         @endrole --}}
         <h5 class="card-header-title mt-1 mb-0"><i class="las la-edit"></i> Edit profile</h5>
     </div>
-    <form action="{{ route('profile.editFront') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('profile.editFront',['id' =>$data['id'] ]) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         <div class="card-body">

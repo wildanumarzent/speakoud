@@ -24,7 +24,7 @@ Route::middleware('auth')->group(function () {
         
         Route::get('/{id}/peserta', [UserController::class, 'profileFront'])
             ->name('.front');
-        Route::put('/edit', [UserController::class, 'updateProfileFront'])->name('.editFront');
+        Route::put('/{id}/edit', [UserController::class, 'updateProfileFront'])->name('.editFront');
     });
 
     //users

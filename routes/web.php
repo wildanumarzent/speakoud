@@ -810,7 +810,7 @@ Route::group(['middleware' => ['auth']], function () {
 });
 
     Route::get('/pelatihan','pelatihan\PelatihanController@index')->name('platihan.index');
-    Route::get('/{id}','pelatihan\PelatihanController@show')->name('pelatihan.detail');
+    Route::get('/detail/{id}/course','pelatihan\PelatihanController@show')->name('pelatihan.detail');
     Route::get('/pelatihan/{id}/detail', 'pelatihan\PelatihanController@courseDetail')
 	->name('pelatihan.mata')
 	->middleware('auth');
