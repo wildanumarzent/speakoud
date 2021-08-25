@@ -11,6 +11,7 @@ use App\Models\Users\Internal;
 use App\Models\Users\Mitra;
 use App\Models\Users\Peserta;
 use App\Models\Users\User;
+use App\Models\Course\MataPeserta;
 use App\Models\Users\UserInformation;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
@@ -19,13 +20,15 @@ use Illuminate\Support\Facades\Hash;
 
 class UserService
 {
-    private $model;
+    private $model, $mataPeserta;
 
     public function __construct(
-        User $model
+        User $model,
+        MataPeserta $mataPeserta
     )
     {
         $this->model = $model;
+        $this->mataPeserta = $mataPeserta;
     }
 
     public function getAllUser()
@@ -431,5 +434,13 @@ class UserService
         $user->forceDelete();
 
         return $user;
+    }
+
+    public function setMataPeserta($MataId, $pesertaId)
+    {
+        $peserta = new MataPeserta;
+        $peserta->mata_id = $MataId;
+        $peserta->peserta_id = $pesertaId;
+        return $peserta->save();
     }
 }

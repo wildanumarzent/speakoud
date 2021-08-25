@@ -54,7 +54,7 @@
       </div>
     </div>
 </div>
-@endif
+@endif  
 @endrole
 
 {{-- @livewire('announcement') --}}
