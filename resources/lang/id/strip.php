@@ -26,6 +26,6 @@ return [
 	'inquiry_button' => 'Kirim Pesan',
 	'footer_title_1' => 'AFISILIASI SINERGI',
 	'footer_title_2' => 'SOSIAL MEDIA',
-	'footer_title_3' => 'KETENTUAN UMUM',
-	'copyright' => 'KETENTUAN UMUM',
+	'footer_title_3' => 'SPEAKOUD',
+	'copyright' => 'SPEAKOUD',
 ];

@@ -34,13 +34,13 @@
                                         </li> --}}
                                         {{-- @endforeach --}}
                                         <li>
-                                              <a href="" title="" style="color: white; font-family: Roboto">Sinergi Digital</a>
+                                              <a href="" title="" style="color: white;">Sinergi Digital</a>
                                         </li>
                                         <li>
-                                              <a href="" title="" style="color: white; font-family: Roboto">Sinergi Consulting</a>
+                                              <a href="" title="" style="color: white; font-family: ">Sinergi Consulting</a>
                                         </li>
                                         <li>
-                                              <a href="" title="" style="color: white; font-family: Roboto">e-Learning Platform</a>
+                                              <a href="" title="" style="color: white; font-family: ">e-Learning Platform</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -54,13 +54,13 @@
                                     <ul>
                                         {{-- @foreach ($pages['quick_link'] as $quickLink) --}}
                                         <li>
-                                            <a href="" style="color: white;font-family: Roboto ">Facebook</a>
+                                            <a href="" style="color: white;font-family:  ">Facebook</a>
                                         </li>
                                         <li>
-                                            <a href="" title="" style="color: white; font-family: Roboto">Instagram</a>
+                                            <a href="" title="" style="color: white; font-family: ">Instagram</a>
                                         </li>
                                         <li>
-                                            <a href="" title="" style="color: white; font-family: Roboto" >Whatsapp</a>
+                                            <a href="" title="" style="color: white; font-family: " >Whatsapp</a>
                                         </li>
                                         {{-- @endforeach --}}
                                     </ul>
@@ -69,19 +69,19 @@
 
                             <div class="col-md-4">
                                 <div class="f-widget">
-                                    <h5 style="color: white ; font-family: Roboto">@lang('strip.footer_title_3')</h5>
+                                    <h5 style="color: white ; font-family: ">@lang('strip.footer_title_3')</h5>
                                     <ul>
-                                        <li style="color: white; font-family: Roboto">
+                                        <li style="color: white; font-family: ">
                                             {{-- {{ $configuration['address'] }} --}}
                                             Disclaimer
                                         </li>
-                                        <li style="color: white; font-family: Roboto">
+                                        <li style="color: white; font-family: ">
                                             {{-- {{ $configuration['fax'] }} <br> --}}
                                             Kebijakan Privasi
                                             {{-- {{ $configuration['phone'] }} <br>
                                             {{ $configuration['phone_2'] }} <br> --}}
                                         </li >
-                                        <li style="color: white; font-family: Roboto">
+                                        <li style="color: white; font-family: ">
                                             
                                             Terms & Conditions
                                             {{-- <a href="mailto:{{ $configuration['email'] }}" title="Email" style="color: white">{{ $configuration['email'] }}</a> <br>

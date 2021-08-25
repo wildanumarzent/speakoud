@@ -19,13 +19,15 @@
 					</div>
 					<div class="slide-inner-info title-heading" style="color:white">
 						@if ($loop->first)
-						<h6 class="Text-white" style="color: white">@lang('strip.banner_welcome')</h6>
+						<h6 class="Text-white" style="color: white;">@lang('strip.banner_welcome')</h6>
 						@endif
-						<h1 data-swiper-parallax="-400px">{!! $banner->judul !!}</h1>
-						{!! $banner->keterangan !!}
+						<h1 data-swiper-parallax="-400px" style="font-family: Roboto">{!! $banner->judul !!}</h1>
+						<div style="font-family: Roboto">
+                            {!! $banner->keterangan !!}
+                        </div>
 						@if (!empty($banner->link))
 						<div class="box-btn">
-							<a href="{!! $banner->link !!}" class="btn btn-primary text-white" title="{!! $banner->judul !!}">@lang('strip.button_selengkapnya')</a>
+							<a href="{!! $banner->link !!}" class="btn btn-primary text-white" title="{!! $banner->judul !!}" style="font-family: Roboto">@lang('strip.button_selengkapnya')</a>
 						</div>
 						@endif
 					</div>
@@ -71,11 +73,11 @@
 							<div class="post-date">
 								{{ $mata->created_at->format('d F Y') }}
 							</div>
-							<h5 class="post-title">
-								<a href="{{ route('course.detail', ['id' => $mata->id]) }}">{!! $mata->judul !!}</a>
+							<h5 class="post-title" >
+								<a href="{{ route('course.detail', ['id' => $mata->id]) }}" style="font-family: Roboto">{!! $mata->judul !!}</a>
 							</h5>
 							<div class="post-info">
-								<a href="{{ route('course.detail', ['id' => $mata->id]) }}" class="btn btn-primary mr-auto">@lang('strip.widget_1_button')</a>
+								<a href="{{ route('course.detail', ['id' => $mata->id]) }}" class="btn btn-primary mr-auto" style="font-family: Roboto">@lang('strip.widget_1_button')</a>
 								<div class="box-info">
 									<div class="item-info">
 										<div class="data-info">

@@ -55,7 +55,7 @@
 							</div>
 						</a>
 					<div class="card-body">
-					<h6 class="mb-3"><a href="{{ route('pelatihan.detail', ['id' => $mata->id]) }}">{!! $mata->judul !!}</a></h5>
+					<h6 class="mb-3"><a href="{{ route('pelatihan.detail', ['id' => $mata->id]) }}" style="font-family: Roboto">{!! $mata->judul !!}</a></h5>
 					{{-- <p class="text-muted mb-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec odio ligula, rhoncus scelerisque ullamcorper iaculis.</p> --}}
 					<hr style="color: orange; background-color: orange">
 					<div class="media">

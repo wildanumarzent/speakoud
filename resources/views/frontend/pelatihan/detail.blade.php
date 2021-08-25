@@ -58,15 +58,16 @@
                 <div class="media mb-3">
                     <div class="media-body pt-2 ml-3">
                         <h3 class="mb-2" style="color: rgb(0, 255, 21)"> <strong>Free</strong> 
-                            @if (auth()->user() != null)
-                                @if ( $data['peserta']->status_peserta == 1)
+                            {{-- @if (auth()->user() != null)
+                       
+                                 @if ( $data['peserta']->status_peserta == 1)
                                 <a href="{{ route('pelatihan.mata', ['id' => $data['mata']->id]) }}" class="btn btn-warning">START</a>
                                 @else   
                                 <a href="{{ route('profile.front',['id'=> $data['mata']->id]) }}" class="btn btn-warning">START</a>
                                 @endif
                             @else 
                                 <a href="javascript:void(0)" class="btn btn-warning">MORE INFO</a>
-                            @endif
+                            @endif --}}
                          </h3>
                     </div>
                 </div>
