@@ -62,7 +62,7 @@ class HomeController extends Controller
         $data['banner'] = $this->banner->findBannerKategori(1);
         $data['pageOne'] = $this->page->findPage(1);
         $data['pageSix'] = $this->page->findPage(4);
-        $data['mata'] = $this->mata->getMata('urutan', 'ASC', 8);
+        $data['mata'] = $this->mata->getMataFree('urutan', 'ASC', 8);
         $data['jadwal'] = $this->jadwal->getJadwal(6);
         return view('frontend.index', compact('data'));
     }
