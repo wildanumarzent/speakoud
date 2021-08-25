@@ -39,7 +39,7 @@ class PelatihanController extends Controller
     }
     public function index(Request $request)
     {
-        $data['mata'] = $this->service->getMata('urutan', 'ASC', 8);
+        $data['mata'] = $this->service->getMataFree('urutan', 'ASC', 8);
         // $data['program'] = $this->program->programListNoRole($request);
         return view('frontend.pelatihan.index', compact('data'));
     }

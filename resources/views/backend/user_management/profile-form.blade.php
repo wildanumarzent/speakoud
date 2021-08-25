@@ -13,7 +13,7 @@
 
 @section('content')
 @role('peserta_internal|peserta_mitra')
-    @if ($data['user']->peserta->status_profile == 0 || empty($data['user']->photo['filename']))
+    @if ($data['user']->peserta->status_peserta == 0 || empty($data['user']->photo['filename']))
         <div class="alert alert-danger">
             <i class="las la-exclamation-triangle"></i> Data Profile anda belum lengkap, <strong>Lengkapi data dibawah ini</strong>.
         </div>
@@ -57,16 +57,6 @@
         <hr class="border-light m-0">
         <div class="card-body pb-2">
             <h5>DATA :</h5><br>
-            {{-- @role ('peserta_internal|peserta_mitra')
-            <div class="form-group row">
-                <div class="col-md-2 text-md-left">
-                  <label class="col-form-label text-sm-left">NIP</label>
-                </div>
-                <div class="col-md-10">
-                  <input type="text" class="form-control" value="{{ $data['user']->peserta->nip }}" readonly>
-                </div>
-            </div>
-            @endrole --}}
             <div class="form-group row">
                 <div class="col-md-2 text-md-left">
                   <label class="col-form-label text-sm-left">Nama</label>
@@ -78,22 +68,6 @@
                 </div>
             </div>
             @role ('peserta_internal|peserta_mitra')
-            {{-- <div class="form-group row">
-                <div class="col-md-2 text-md-left">
-                  <label class="col-form-label text-sm-left">Jenis Peserta</label>
-                </div>
-                <div class="col-md-10">
-                    <select class="selectpicker show-tick" data-style="btn-default" name="jenis_peserta">
-                        <option value=" " selected>Pilih</option>
-                        @foreach (config('addon.master_data.jenis_peserta') as $key => $value)
-                        <option value="{{ $key }}" {{ old('jenis_peserta', $data['user']->peserta->jenis_peserta) == ''.$key.'' ? 'selected' : '' }}>{{ $value }}</option>
-                        @endforeach
-                    </select>
-                    @if ($data['user']->peserta->jenis_peserta < '0')
-                    <span style="color: red;"><i>*belum diisi</i></span>
-                    @endif
-                </div>
-            </div> --}}
             <div class="form-group row">
                 <div class="col-md-2 text-md-left">
                   <label class="col-form-label text-sm-left">Jenis Kelamin</label>
@@ -155,73 +129,6 @@
                     @endif
                 </div>
             </div>
-            {{-- <div class="form-group row">
-                <div class="col-md-2 text-md-left">
-                  <label class="col-form-label text-sm-left">Pangkat / Gol. Ruang</label>
-                </div>
-                <div class="col-md-10">
-                    <select class="select2 show-tick" data-style="btn-default" name="pangkat">
-                        <option value=" " selected>Pilih</option>
-                        @foreach (config('addon.master_data.pangkat') as $key => $value)
-                        <option value="{{ $key }}" {{ old('pangkat', $data['user']->peserta->pangkat) == ''.$key.'' ? 'selected' : '' }}>{{ $value.' - '.config('addon.master_data.golongan.'.$key) }}</option>
-                        @endforeach
-                    </select>
-                    @if ($data['user']->peserta->pangkat < '0')
-                    <span style="color: red;"><i>*belum diisi</i></span>
-                    @endif
-                </div>
-            </div> --}}
-            {{-- <div class="form-group row">
-                <div class="col-md-2 text-md-left">
-                  <label class="col-form-label text-sm-left">Jabatan</label>
-                </div>
-                <div class="col-md-10">
-                    <select class="select2 show-tick" data-style="btn-default" name="jabatan_id">
-                        <option value=" " selected>Pilih</option>
-                        @foreach ($data['jabatan'] as $jabatan)
-                        <option value="{{ $jabatan->id }}" {{ old('jabatan_id', $data['user']->peserta->jabatan_id) == $jabatan->id ? 'selected' : '' }}>{{ $jabatan->nama }}</option>
-                        @endforeach
-                    </select>
-                    @if (empty($data['user']->peserta->jabatan_id))
-                    <span style="color: red;"><i>*belum diisi</i></span>
-                    @endif
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col-md-2 text-md-left">
-                  <label class="col-form-label text-sm-left">Jenjang Jabatan</label>
-                </div>
-                <div class="col-md-10">
-                    <select class="select2 show-tick" data-style="btn-default" name="jenjang_jabatan">
-                        <option value=" " selected>Pilih</option>
-                        @foreach (config('addon.master_data.jenjang_jabatan') as $key => $value)
-                        <option value="{{ $key }}" {{ old('jenjang_jabatan', $data['user']->peserta->jenjang_jabatan) == ''.$key.'' ? 'selected' : '' }}>{{ $value }}</option>
-                        @endforeach
-                    </select>
-                    @if ($data['user']->peserta->jenjang_jabatan < '0')
-                    <span style="color: red;"><i>*belum diisi</i></span>
-                    @endif
-                </div>
-            </div> --}}
-            {{-- <div class="form-group row">
-                <div class="col-md-2 text-md-left">
-                  <label class="col-form-label text-sm-left">Instansi</label>
-                </div>
-                <div class="col-md-10">
-                    <input type="text" class="form-control mb-1" value="{{ $data['user']->peserta->instansi($data['user']->peserta)->nama_instansi }}" readonly>
-                </div>
-            </div> --}}
-            {{-- <div class="form-group row">
-                <div class="col-md-2 text-md-left">
-                  <label class="col-form-label text-sm-left">Unit Kerja</label>
-                </div>
-                <div class="col-md-10">
-                    <input type="text" class="form-control mb-1 @error('kedeputian') is-invalid @enderror" name="kedeputian" value="{{ old('kedeputian', $data['user']->peserta->kedeputian) }}" placeholder="Masukan unit kerja...">
-                    @if (empty($data['user']->peserta->kedeputian))
-                    <span style="color: red;"><i>*belum diisi</i></span>
-                    @endif
-                </div>
-            </div> --}}
             @endrole
             <div class="form-group row">
                 <div class="col-md-2 text-md-left">
@@ -232,11 +139,11 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text">+62</span>
                         </div>
-                        <input type="text" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ old('phone', $data['information']->phone) }}" placeholder="Masukan telpon...">
-                        @include('components.field-error', ['field' => 'phone'])
+                        <input type="text" class="form-control @error('no_hp') is-invalid @enderror" name="no_hp" value="{{ old('phone', $data['information']->no_hp) }}" placeholder="Masukan telpon...">
+                        @include('components.field-error', ['field' => 'no_hp'])
                     </div>
                     @role ('peserta_internal|peserta_mitra')
-                    @if (empty($data['information']->phone))
+                    @if (empty($data['information']->no_hp))
                     <span style="color: red;"><i>*belum diisi</i></span>
                     @endif
                     @endrole
@@ -244,11 +151,34 @@
             </div>
             <div class="form-group row">
                 <div class="col-md-2 text-md-left">
-                    <label class="col-form-label text-sm-left">Alamat</label>
+                    <label class="col-form-label text-sm-left">Kota Tinggal</label>
                 </div>
                 <div class="col-md-10">
-                    <textarea class="form-control mb-1 @error('address') is-invalid @enderror" name="address" placeholder="Masukan alamat...">{{ old('address', $data['information']->address) }}</textarea>
-                    @include('components.field-error', ['field' => 'address'])
+                    <input type="text" class="form-control @error('address') is-invalid @enderror" name="kota_tinggal" value="{{ old('kota_tinggal', $data['information']->kota_tinggal) }}" placeholder="Masukan Kota tinggal...">
+                        @include('components.field-error', ['field' => 'address'])
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-2 text-md-left">
+                  <label class="col-form-label text-sm-left">Jabatan</label>
+                </div>
+                <div class="col-md-10">
+                    <select class="select2 show-tick" data-style="btn-default" name="jabatan_id">
+                        <option value=" " selected>Pilih</option>
+                        @foreach ($data['jabatan'] as $jabatan)
+                        <option value="{{ $jabatan->id }}" {{ old('jabatan_id', $data['user']->peserta->jabatan_id) == $jabatan->id ? 'selected' : '' }}>{{ $jabatan->nama }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-2 text-md-left">
+                  <label class="col-form-label text-sm-left">Departemen</label>
+                </div>
+                <div class="col-md-10">
+                  <input type="text" class="form-control @error('departemen') is-invalid @enderror" name="departemen"
+                    value="{{ old('departemen', $data['information']->Departemen) }}" placeholder="masukan departemen...">
+                  @include('components.field-error', ['field' => 'departemen'])
                 </div>
             </div>
         </div>

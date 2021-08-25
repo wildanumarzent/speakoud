@@ -43,6 +43,7 @@
               </div>
             </div>
             <!-- / Filters -->
+          
 		<div class="row">
 			@foreach ($data['mata'] as $mata)
 			{{-- d-flex --}}

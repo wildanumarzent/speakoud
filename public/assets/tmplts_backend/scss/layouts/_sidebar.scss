@@ -19,7 +19,6 @@
                 height: auto;
             }
 
-
             .layout-sidenav-toggle {
                 position: absolute;
                 right: 0.75rem;
@@ -36,11 +35,7 @@
                     }
                 }
             }
-
-
         }
-
-
 
         .sidenav-inner {
             .sidenav-item {
@@ -48,11 +43,11 @@
 
                 .sidenav-link {
                     color: #fff !important;
-                    padding: .75rem 1.5em;
-                    font-size: .90em;
+                    padding: 0.75rem 1.5em;
+                    font-size: 0.9em;
                     font-weight: 500;
                     border-radius: 5em;
-                    margin: .25rem 0;
+                    margin: 0.25rem 0;
 
                     &.sidenav-toggle {
                         &::after {
@@ -66,44 +61,38 @@
 
                     @media screen and (min-width: $breakpoint-lg) {
                         &:hover {
-
-                            background-color: rgba(0,0,0,.08);
+                            background-color: rgba(0, 0, 0, 0.08);
                         }
                     }
 
                     .sidenav-icon {
                         font-size: 1.35rem;
-                        margin-right: .5rem;
+                        margin-right: 0.5rem;
                         color: rgba(255, 255, 255, 0.5);
                     }
-
-
                 }
 
                 &.active {
                     &:not(.open) {
-                        >.sidenav-link {
+                        > .sidenav-link {
                             color: #fff !important;
                             background-color: $main-color-hover !important;
                         }
-
                     }
 
-                    >.sidenav-link {
+                    > .sidenav-link {
                         &.sidenav-toggle {
                             color: #fff !important;
-
                         }
                     }
-
                 }
 
                 &.open {
                     &:not(.active) {
-                        >.sidenav-link {
+                        > .sidenav-link {
                             &.sidenav-toggle {
                                 color: #fff !important;
-                                background-color: rgba(0,0,0,.08);
+                                background-color: rgba(0, 0, 0, 0.08);
                             }
                         }
                     }
@@ -121,17 +110,17 @@
                     .sidenav-item {
                         .sidenav-link {
                             padding: {
-                                top: .75rem;
+                                top: 0.75rem;
                                 right: 2rem;
-                                bottom: .75rem;
-                                left:  3.15rem;
+                                bottom: 0.75rem;
+                                left: 3.15rem;
                             }
                             &::before {
                                 position: absolute;
                                 content: "";
                                 left: 25px;
                                 top: 50%;
-                                transform: translate(0,-50%);
+                                transform: translate(0, -50%);
                                 width: 4px;
                                 height: 4px;
                                 background-color: #fff;
@@ -142,7 +131,8 @@
                             .sidenav-link {
                                 &.sidenav-toggle {
                                     &::before {
-                                        box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2) !important;
+                                        box-shadow: 0 0 0 3px
+                                            rgba(255, 255, 255, 0.2) !important;
                                     }
                                 }
                             }
@@ -151,16 +141,15 @@
 
                     .sidenav-menu {
                         div {
-                            padding-left: .625rem;
+                            padding-left: 0.625rem;
                         }
                     }
-
                 }
             }
             .sidenav-header {
                 color: #fff;
                 width: calc(15.625rem - 10px);
-                padding: .75rem 1.5rem;
+                padding: 0.75rem 1.5rem;
             }
         }
 
@@ -168,7 +157,6 @@
             padding-left: 10px;
             padding-right: 10px;
         }
-
     }
 }
 
@@ -185,14 +173,14 @@
                 %line-cross-pin {
                     position: absolute;
                     display: block;
-                    content: '';
+                    content: "";
                     height: 100%;
                     width: 2px;
-                    transform: translate(0, -55%) rotate(-45deg) ;
+                    transform: translate(0, -55%) rotate(-45deg);
                 }
 
                 .sidenav-link {
-                    color: rgba(255,255,255,1);
+                    color: rgba(255, 255, 255, 1);
 
                     &::before {
                         @extend %line-cross-pin;
@@ -219,22 +207,16 @@
                     }
                 }
 
-
-
                 .layout-sidenav-toggle {
                     position: absolute;
                     right: 0.75rem;
                     top: 0.75rem;
                 }
             }
-
-
-
         }
-
     }
     @media screen and (min-width: $breakpoint-lg) {
-        &:not(.layout-sidenav-hover){
+        &:not(.layout-sidenav-hover) {
             .alsen {
                 .sidenav-inner {
                     .sidenav-item {
@@ -248,19 +230,17 @@
                                     }
                                 }
                             }
-
                         }
                     }
                 }
             }
-            &:not(.layout-offcanvas){
+            &:not(.layout-offcanvas) {
                 &:not(.layout-fixed-offcanvas) {
                     .alsen {
                         .layout-sidenav {
                             &.sidenav-vertical {
                                 width: 5.375em;
                             }
-
                             .sidenav-inner {
                                 padding-left: 5px;
                             }

@@ -14,17 +14,17 @@ Route::middleware('auth')->group(function () {
         
         Route::get('/', [UserController::class, 'profile']);
         Route::get('/edit', [UserController::class, 'profileForm'])
-            ->name('.edit');
-        Route::get('/{id}/peserta', [UserController::class, 'profileFront'])
-            ->name('.front');
+        ->name('.edit');
         Route::put('/edit', [UserController::class, 'updateProfile']);
-        Route::put('/edit', [UserController::class, 'updateProfileFront'])->name('.editFront');
         //verifikasi email
         Route::get('/email/verification/send', [UserController::class, 'sendVerification'])
-            ->name('.email.verification.send');
+        ->name('.email.verification.send');
         Route::get('/email/verification/{email}', [UserController::class, 'verification'])
-            ->name('.email.verification');
-
+        ->name('.email.verification');
+        
+        Route::get('/{id}/peserta', [UserController::class, 'profileFront'])
+            ->name('.front');
+        Route::put('/edit', [UserController::class, 'updateProfileFront'])->name('.editFront');
     });
 
     //users

@@ -89,7 +89,7 @@ class UserController extends Controller
     public function profileForm()
     {
         $data['user'] = Auth::user();
-        $data['information'] = $data['user']->information;
+        $data['information'] = $data['user']->peserta;
         $data['jabatan'] = $this->serviceJabatan->getJabatan();
 
         return view('backend.user_management.profile-form', compact('data'), [
