@@ -14,7 +14,8 @@ class AlterNoHpPeserta extends Migration
     public function up()
     {
         Schema::table('peserta', function (Blueprint $table) {
-            $table->string('no_hp')->nullable();
+            $table->string('no_hp')->nullable()->change();
+            $table->string('username')->nullabele()->change();
         });
     }
 

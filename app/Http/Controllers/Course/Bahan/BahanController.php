@@ -196,11 +196,11 @@ class BahanController extends Controller
 
         return view('frontend.course.bahan.'.$tipe, compact('data'), [
             'title' => 'Course - Bahan',
-            'breadcrumbsBackend' => [
-                'Course' => route('course.list'),
-                'Detail' => route('course.detail', ['id' => $mataId]),
-                'Preview' => '',
-            ],
+            // 'breadcrumbsBackend' => [
+            //     'Course' => route('course.list'),
+            //     'Detail' => route('course.detail', ['id' => $mataId]),
+            //     'Preview' => '',
+            // ],
         ]);
     }
 
