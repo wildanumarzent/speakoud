@@ -46,7 +46,7 @@
 </div>
 
 @role('peserta_internal|peserta_mitra')
-@if (auth()->user()->peserta->status_profile == 0 || empty(auth()->user()->photo['filename']))
+@if (auth()->user()->peserta->status_peserta == 0 || empty(auth()->user()->photo['filename']))
 <div class="row">
     <div class="col-md-12">
       <div class="alert alert-danger">
@@ -57,7 +57,7 @@
 @endif
 @endrole
 
-@livewire('announcement')
+{{-- @livewire('announcement') --}}
 
 @role ('developer|administrator')
 @include('backend.dashboard.administrator')
