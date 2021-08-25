@@ -172,12 +172,9 @@ class UserController extends Controller
 
     public function updateProfileFront(ProfileRequest $request, $id)
     {
-        // return $id;
         $this->service->updateProfileFront($request, Auth::user()->id);
-        // return \Redirect::route('pelatihan.mata',['id' => Auth::user()->id]);
         return redirect()->route('pelatihan.mata',['id' => $id])
             ->with('success', 'Data User Berhasil Di Update');
-        // return back()->with('success', 'Profile berhasil diubah');
     }
 
     public function activate($id)
