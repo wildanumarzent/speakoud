@@ -4,10 +4,10 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-4">
-                        <div class="footer-logo" style="font-family: Roboto">
+                        <div class="footer-logo">
                             
                             <h5>
-                                <a href="{{ route('home') }}" class="logo text-white" title="Home" style="font-family: Roboto">
+                                <a href="{{ route('home') }}" class="logo text-white" title="Home">
                                 {{-- <img src="{{ asset(config('addon.images.logo')) }}" title="BPPT" alt="Logo BPPT"> --}}
                                 SPEAKOUD
                                </a> 
@@ -17,8 +17,8 @@
                             {{-- <h5 style="color: white">E-learning Manajemen System</h5> --}}
                         </div>
                         <ul>
-                            <li class="text-white" style="font-family: Roboto; margin-bottom: 10px"><strong>(+62) 811 977 6386</strong></li>
-                            <li class="text-white" style="font-family: Roboto; margin-bottom: 30px"><strong>contact@sinergi-digital.com</strong></li>
+                            <li class="text-white" style="font-family: sans-serif; margin-bottom: 10px"><strong>(+62) 811 977 6386</strong></li>
+                            <li class="text-white" style="font-family: sans-serif; margin-bottom: 30px"><strong>contact@sinergi-digital.com</strong></li>
                         </ul>
                        
                         
