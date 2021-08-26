@@ -1,4 +1,5 @@
-@import url(../fonts/product-sans/fonts.css);
+/* @import url(../fonts/product-sans/fonts.css); */
+@import url(../fonts/roboto/Roboto-Regular.ttf);
 body {
     font-family: "Roboto";
     color: rgb(0, 0, 0);
