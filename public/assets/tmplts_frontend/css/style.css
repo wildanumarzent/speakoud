@@ -2332,7 +2332,7 @@ header .main-header.bg-fixed .menubar-flex .menubar-right .account .user {
 }
 
 .footer-logo a {
-    font-family: "sans-serif";
+    /* font-family: "sans-serif"; */
 }
 @media screen and (max-width: 1199.98px) {
     .footer .footer-top {
