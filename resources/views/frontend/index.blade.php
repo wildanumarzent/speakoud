@@ -27,7 +27,7 @@
                         </div>
 						@if (!empty($banner->link))
 						<div class="box-btn">
-							<a href="{!! $banner->link !!}" class="btn btn-primary text-white" title="{!! $banner->judul !!}" style="font-family:">@lang('strip.button_selengkapnya')</a>
+							<a href="{!! $banner->link !!}" class="btn btn-primary text-white" title="{!! $banner->judul !!}" style="font-family:sans-serif">@lang('strip.button_selengkapnya')</a>
 						</div>
 						@endif
 					</div>
