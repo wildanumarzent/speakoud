@@ -9,7 +9,7 @@
                             <h5>
                                 <a href="{{ route('home') }}" class="logo text-white" title="Home">
                                 {{-- <img src="{{ asset(config('addon.images.logo')) }}" title="BPPT" alt="Logo BPPT"> --}}
-                                SPEAKOUD
+                                 SPEAKOUD
                                </a> 
                             </h5> 
                             
