@@ -10,14 +10,18 @@
                                 <a href="{{ route('home') }}" class="logo text-white" title="Home" style="font-family: Roboto">
                                 {{-- <img src="{{ asset(config('addon.images.logo')) }}" title="BPPT" alt="Logo BPPT"> --}}
                                 SPEAKOUD
-                            </a> 
+                            ``  </a> 
                             </h5> 
+                            
                             
                             {{-- <h5 style="color: white">E-learning Manajemen System</h5> --}}
                         </div>
-                        <span class="text-white" style="font-family: Roboto"> <strong>(+62) 811 977 6386</strong> </span>
-                        <br>
-                        <span class="text-white" style="font-family: Roboto"> <strong>contact@sinergi-digital.com</strong> </span>
+                        <ul>
+                            <li class="text-white" style="font-family: Roboto; margin-bottom: 10px"><strong>(+62) 811 977 6386</strong></li>
+                            <li class="text-white" style="font-family: Roboto"><strong>contact@sinergi-digital.com</strong></li>
+                        </ul>
+                       
+                        
                     </div>
                     <div class="col-md-8">
                         <div class="row">
