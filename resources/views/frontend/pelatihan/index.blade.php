@@ -55,7 +55,7 @@
 							</div>
 						</a>
 					<div class="card-body">
-					<h6 class="mb-3"><a href="{{ route('pelatihan.detail', ['id' => $mata->id]) }}" style="font-family: Roboto">{!! $mata->judul !!}</a></h5>
+					<h6 class="mb-3"><a href="{{ route('pelatihan.detail', ['id' => $mata->id]) }}">{!! $mata->judul !!}</a></h5>
 					{{-- <p class="text-muted mb-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec odio ligula, rhoncus scelerisque ullamcorper iaculis.</p> --}}
 					<hr style="color: orange; background-color: orange">
 					<div class="media">
@@ -68,7 +68,7 @@
 						</div>
 						<div class="text-muted small">
 							@if ($mata->price == null || $mata->price == 0)
-								<h6 style="color: rgb(20, 245, 0); font-family: 'Roboto'"> <strong >FREE</strong> </h6>   
+								<h6 style="color: rgb(20, 245, 0);"> <strong >FREE</strong> </h6>   
 							@else
 								<h6 style="color: rgb(245, 147, 0)"> <strong>{{number_format($mata->price)}}</strong> </h6>
 							@endif
