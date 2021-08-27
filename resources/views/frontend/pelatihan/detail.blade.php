@@ -62,7 +62,7 @@
                                 @if (auth()->user() != null)
                         
                                     @if ( $data['peserta']->status_peserta == 1)
-                                    <a href="{{ route('pelatihan.mata', ['id' => $data['mata']->id]) }}" target="_blank" class="btn btn-warning">START</a>
+                                    <a href="{{ route('pelatihan.mata', ['id' => $data['mata']->id]) }}" class="btn btn-warning">START</a>
                                     @else   
                                     {{-- redirect ke register --}}
                                     <a href="{{ route('profile.front',['id'=> $data['mata']->id]) }}" class="btn btn-warning">START</a>
