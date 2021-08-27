@@ -119,6 +119,8 @@
     <script src="{{ asset('assets/tmplts_frontend/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('assets/tmplts_frontend/js/main.js') }}"></script>
     <script src="{{ asset('assets/tmplts_backend/vendor/libs/toastr/toastr.js') }}"></script>
+    <script src="{{ asset('assets/tmplts_frontend/js/pspdfkit.js') }}"></script>
+    
 	@yield('scripts')
 
     <script>

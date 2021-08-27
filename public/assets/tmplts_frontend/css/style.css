@@ -771,7 +771,7 @@ article img[style="float: right;"] {
     position: relative;
     display: flex;
     flex-direction: column;
-    background-color: #ffa500;
+    background-color: #000000;
     justify-content: space-between;
     overflow: hidden;
 }

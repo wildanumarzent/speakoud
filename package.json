@@ -25,6 +25,7 @@
     },
     "dependencies": {
         "laravel-echo": "^1.10.0",
+        "pspdfkit": "^2021.5.1",
         "pusher-js": "^7.0.2"
     }
 }

@@ -135,7 +135,11 @@ class MateriService
     {
         $materi = $this->findMateri($id);
         $materi->fill($request->only(['judul']));
-        $materi->instruktur_id = auth()->user()->instruktur->id;
+        if(auth()->user()->instruktur == null){
+           $materi->instruktur_id = auth()->user()->id; 
+        }else{
+            $materi->instruktur_id = auth()->user()->instruktur->id;
+        } 
         $materi->keterangan = $request->keterangan ?? null;
         $materi->publish = (bool)$request->publish;
         $materi->save();
