@@ -26,7 +26,7 @@
     </a>
 </div>
 </div>
-
+{{-- <h1>test</h1> --}}
 <div class="row">
     <div class="col">
         <div class="card mb-4">
@@ -122,7 +122,7 @@
                                         </div>
                                         @endif
                                         @endrole
-                                        <a href="{{ route('course.bahan', ['id' => $data['read']->id, 'bahanId' => $bahan->id, 'tipe' => $bahan->type($bahan)['tipe']]) }}" class="text-body">{!! $bahan->judul !!}</a>&nbsp;
+                                        <a href="{{ route('course.bahan', ['id' => $data['read']->id, 'bahanId' => $bahan->id, 'tipe' => $bahan->type($bahan)['tipe']]) }}" class="text-body" target="_blank">{!! $bahan->judul !!}</a>&nbsp;
                                     </h5>
                                     <div class="d-flex flex-wrap align-items-center mb-2">
                                         <div class="text-muted small">
