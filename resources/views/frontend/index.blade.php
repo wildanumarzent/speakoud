@@ -154,12 +154,8 @@
 		</div>
 
 		{{-- our client --}}
-		<div class="swiper-container mt-5 swiper-2" style="overflow: visible;">
-			{{-- <h3 style="text-align: center">Our Client</h3> --}}
+		{{-- <div class="swiper-container mt-5 swiper-2" style="overflow: visible;">
 			<div class="swiper-wrapper">
-
-				{{-- @foreach ($data['mata'] as $mata) --}}
-				{{-- {{dd($mata)}} --}}
 				<div class="swiper-slide">
 					<div class="item-post">
 						<div class="box-img">
@@ -222,29 +218,8 @@
 						</div>
 					</div>
 				</div>
-				
-				{{-- @endforeach --}}
-				{{-- @if ($data['mata']->count() == 0)
-				<div>
-					<h5 style="color: red;">! Tidak ada program pelatihan !</h5>
-				</div>
-				@endif --}}
-
 			</div>
-			{{-- <div class="box-btn d-flex align-items-center  mt-xl-5">
-				<div class="swiper-btn-wrapper">
-					<div class="swiper-button-prev swiper-btn sbp-2"><i class="la la-angle-left"></i></div>
-					<div class="swiper-button-next swiper-btn sbn-2"><i class="la la-angle-right"></i></div>
-				</div>
-				<a href="{{ route('platihan.index') }}" class="link-icon ml-auto" title="@lang('strip.widget_1_button_2')">
-					@lang('strip.widget_1_button_2')
-					<span>
-						<i class="las la-arrow-right"></i>
-					</span>
-				</a>
-
-			</div> --}}
-		</div>
+		</div> --}}
 		{{-- /our client --}}
 	</div>
 </div>

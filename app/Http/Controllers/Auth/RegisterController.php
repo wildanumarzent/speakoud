@@ -70,12 +70,13 @@ class RegisterController extends Controller
 
         $data = [
             'email' => $request->email,
-            'link' => route('register.activate', ['email' => $encrypt]),
+            'name' => $request->name,
+            // 'link' => route('register.activate', ['email' => $encrypt]),
         ];
         
         // dd($request->roles);
         // dd($request->all());
-        // Mail::to($request->email)->send(new \App\Mail\ActivateAccountMail($data));
+        Mail::to($request->email)->send(new \App\Mail\Notif($data));
     
            $this->peserta->registerPeserta($request);
         // dd($dataRegister->forms());

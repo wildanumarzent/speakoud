@@ -193,7 +193,8 @@ class BahanController extends Controller
                 return abort(404);
             }
         }
-        $data['pdf'] = response()->file(storage_path('/app/bank_data/'.$data['bahan']->dokumen->bankData->file_path));
+        
+        // $data['pdf'] = response()->file(storage_path('/app/bank_data/'.$data['bahan']->dokumen->bankData->file_path));
         // return $data['bahan']->dokumen->bankData->file_path;
         return view('frontend.course.bahan.'.$tipe, compact('data'), [
             'title' => 'Course - Bahan',

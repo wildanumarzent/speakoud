@@ -5,7 +5,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <!-- CSRF Token -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <title>Email From {{ $configuration['website_name'] ?? 'BPPT E-LEARNING SYSTEM' }}</title>
+        <title>Email From {{ $configuration['website_name'] ?? 'SPEAKOUD ' }}</title>
         <style>
             /* -------------------------------------
                 GLOBAL RESETS
@@ -334,7 +334,7 @@
         </style>
     </head>
     <body>
-        <span class="preheader">Email From {{ $configuration['website_name'] ?? 'BPPT E-LEARNING SYSTEM' }}.</span>
+        <span class="preheader">Email From {{ $configuration['website_name'] ?? 'SPEAKOUD' }}.</span>
         <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="body">
             <tr>
                 <td>&nbsp;</td>
@@ -344,7 +344,8 @@
                             <tr>
                                 <td class="wrapper">
                                     <center>
-                                        <img src="{{ asset(config('addon.images.logo')) }}" alt="" style="width: 80px;">
+                                        {{-- <img src="{{ asset(config('addon.images.logo')) }}" alt="" style="width: 80px;"> --}}
+                                        SPEAKOUD
                                     </center>
                                     <hr>
                                     <table role="presentation" border="0" cellpadding="0" cellspacing="0">
@@ -353,7 +354,7 @@
                                                 @yield('content')
                                                 <br><br>
                                                 Regards, <br>
-                                                <strong><em>{{ $configuration['website_name'] ?? 'BPPT E-LEARNING SYSTEM' }}</em></strong>
+                                                <strong><em>{{ $configuration['website_name'] ?? 'SPEAKOUD' }}</em></strong>
                                             </td>
                                         </tr>
                                     </table>

@@ -26,7 +26,7 @@
 									
 									<li class="has-sub-dropdown is-hidden" style="color:black">
 										<a href="{{ route('register') }}" title="pendaftaran_peserta">PENDAFTARAN PESERTA</a>
-										<a href="{{ route('register') }}" title="pendaftaran_peserta">PENDAFTARAN CONSULTAN</a>
+										{{-- <a href="{{ route('register') }}" title="pendaftaran_peserta">PENDAFTARAN CONSULTAN</a> --}}
 									</li>
 								</ul>   
 							</li>

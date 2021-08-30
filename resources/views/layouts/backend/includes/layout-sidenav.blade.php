@@ -189,6 +189,7 @@
               <div>Bank Soal</div>
             </a>
         </li>
+        
         @endrole
 
         <!-- courses -->
@@ -239,15 +240,15 @@
 
             @role('developer|administrator')
             <!-- jadwal -->
-            <li class="sidenav-item{{ (Request::is('jadwal*')) ? ' active' : '' }}">
+            {{-- <li class="sidenav-item{{ (Request::is('jadwal*')) ? ' active' : '' }}">
                 <a href="{{ route($jadwal) }}" class="sidenav-link" title="Kalender Diklat">
                   <div>Kalender Diklat</div>
                 </a>
-            </li>
+            </li> --}}
             @endrole
 
             <!-- kalender -->
-            <li class="sidenav-item{{ (Request::is('kalender*')) ? ' active' : '' }}">
+            {{-- <li class="sidenav-item{{ (Request::is('kalender*')) ? ' active' : '' }}">
                 <a href="{{route('kalender.index')}}" class="sidenav-link" title="Agenda">
                   <div>
                     @role ('developer|administrator|internal|mitra')
@@ -257,7 +258,7 @@
                     @endrole
                   </div>
                 </a>
-            </li>
+            </li> --}}
             
           </ul>
         </li>
@@ -265,17 +266,17 @@
 
         @role ('peserta_mitra|peserta_internal')
         <!-- journey -->
-        <li class="sidenav-item {{ Request::is('journey*') ? ' active' : '' }}">
+        {{-- <li class="sidenav-item {{ Request::is('journey*') ? ' active' : '' }}">
             <a href="{{route('journey.index')}}" class="sidenav-link" title="Learning Journey"><i class="sidenav-icon las la-bookmark"></i>
                 <div>perjalanan Belajar</div>
             </a>
-        </li>
+        </li> --}}
         <!-- badge -->
-         <li class="sidenav-item {{ Request::is('badge.my.') ? ' active' : '' }}">
+         {{-- <li class="sidenav-item {{ Request::is('badge.my.') ? ' active' : '' }}">
             <a href="{{route('badge.my.index')}}" class="sidenav-link" title="Badge Saya"><i class="sidenav-icon las la-medal"></i>
               <div>Badge Saya</div>
             </a>
-        </li>
+        </li> --}}
         @endrole
 
         @role ('developer|administrator|internal')
@@ -309,11 +310,11 @@
             </ul>
         </li> --}}
         <!-- announcement -->
-        <li class="sidenav-item {{ Request::is('announcement*') ? ' active' : '' }}">
+        {{-- <li class="sidenav-item {{ Request::is('announcement*') ? ' active' : '' }}">
             <a href="{{route('announcement.index')}}" class="sidenav-link" title="Pengumuman"><i class="sidenav-icon las la-bullhorn"></i>
               <div>Pengumuman</div>
             </a>
-        </li>
+        </li> --}}
          {{-- <!-- badge -->
          <li class="sidenav-item {{ Request::is('badge*') ? ' active' : '' }}">
             <a href="{{route('announcement.index')}}" class="sidenav-link" title="Announcement"><i class="sidenav-icon oi oi-badge "></i>
