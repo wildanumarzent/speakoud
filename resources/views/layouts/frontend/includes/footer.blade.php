@@ -6,12 +6,12 @@
                     <div class="col-md-4">
                         <div class="footer-logo">
                             
-                            <h5>
-                                <a href="{{ route('home') }}" class="logo text-white" title="Home">
+                            {{-- <h5 style="color: orange">
+                                <a href="{{ route('home') }}" class="logo" title="Home"> --}}
                                 {{-- <img src="{{ asset(config('addon.images.logo')) }}" title="BPPT" alt="Logo BPPT"> --}}
-                                 {{-- SPEAKOUD --}}
-                               </a> 
-                            </h5> 
+                                 SPEAKOUD
+                               {{-- </a> 
+                            </h5>  --}}
                             
                             
                             {{-- <h5 style="color: white">E-learning Manajemen System</h5> --}}
