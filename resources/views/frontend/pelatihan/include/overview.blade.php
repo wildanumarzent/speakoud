@@ -1,4 +1,3 @@
-
 <div class="tab-pane fade show active" id="search-pages">
 <div class="card">
     <div class="row no-gutters row-bordered row-border-light">

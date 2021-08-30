@@ -102,8 +102,8 @@
                                                     <div class="row no-gutters align-items-center">
                                                     <div class="col-11"><h6>{{$bahan->judul}}</h6></div>
                                                     <div class="media col-1 align-items-center">
-                                                        <div class="media-body flex-truncate ml-2">
-                                                            test
+                                                        <div class="media-body flex-truncate ml-2" style="color: orange">
+                                                            <h6><i class="fas fa-lock"></i></h6>
                                                         </div>
                                                     </div>
                                                     </div>
