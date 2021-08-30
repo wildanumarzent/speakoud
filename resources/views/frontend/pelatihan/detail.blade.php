@@ -199,7 +199,7 @@
                                                                                 <div class="media-body ml-sm-2">
                                                                                     <h5 class="mb-2">
                                                                                         {{-- @role ('peserta_internal|peserta_mitra') --}}
-                                                                                        @if ($bahan->completion_type > 0)
+                                                                                        {{-- @if ($bahan->completion_type > 0)
                                                                                         <div class="float-right font-weight-semibold ml-3">
                                                                                             @if ($bahan->activityCompletionByUser()->count() == 1 && !empty($bahan->activityCompletionByUser->track_end))
                                                                                                 @if ($bahan->activityCompletionByUser->status == 1)
@@ -211,11 +211,11 @@
                                                                                             <i class="las la-stop text-secondary" style="font-size: 2em;" title="anda belum menyelesaikan materi ini"></i>
                                                                                             @endif
                                                                                         </div>
-                                                                                        @endif
+                                                                                        @endif --}}
                                                                                         {{-- @endrole  --}}
-                                                                                        <a href="javascript:;" class="text-body">{!! $bahan->judul !!}</a>&nbsp;
+                                                                                        {{-- <a href="javascript:;" class="text-body">{!! $bahan->judul !!}</a>&nbsp; --}}
                                                                                     </h5>
-                                                                                    <div class="d-flex flex-wrap align-items-center mb-2">
+                                                                                    {{-- <div class="d-flex flex-wrap align-items-center mb-2">
                                                                                         <div class="text-muted small">
                                                                                             @if ($bahan->restrict_access == 1)
                                                                                                 <i class="las la-calendar text-primary"></i>
@@ -226,8 +226,8 @@
                                                                                                 <span>Materi ini tidak bisa diakses sebelum menyelesaikan materi <strong class="badge badge-danger">{{ $bahan->restrictBahan($bahan->requirement)->judul }}</strong></span>
                                                                                             @endif
                                                                                         </div>
-                                                                                    </div>
-                                                                                    <div>{!! strip_tags(Str::limit($bahan->keterangan, 120)) !!}</div>
+                                                                                    </div> --}}
+                                                                                    {{-- <div>{!! strip_tags(Str::limit($bahan->keterangan, 120)) !!}</div> --}}
                                                                                 </div>
                                                                             </div>
                                                                         </li>
