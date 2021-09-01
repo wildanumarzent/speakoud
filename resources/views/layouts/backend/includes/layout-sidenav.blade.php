@@ -281,11 +281,11 @@
 
         @role ('developer|administrator|internal')
         <!-- kompetensi -->
-        <li class="sidenav-item {{ Request::is('kompetensi*') ? ' active' : '' }}">
+        {{-- <li class="sidenav-item {{ Request::is('kompetensi*') ? ' active' : '' }}">
             <a href="{{route('kompetensi.index')}}" class="sidenav-link" title="Kompetensi"><i class="sidenav-icon las la-chalkboard-teacher"></i>
               <div>Kompetensi</div>
             </a>
-        </li>
+        </li> --}}
         @endrole
 
         <!-- sertifikasi -->

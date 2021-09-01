@@ -493,13 +493,14 @@ class BahanService
     {
         $bahan = $this->findBahan($id);
 
-        if ($bahan->restrict_access == '0') {
-            $checkMateri = $this->serviceActivity->restrict($bahan->requirement);
-            if ($checkMateri == 0) {
-                return 'Materi tidak bisa diakses sebelum anda menyelesaikan materi '.
-                $bahan->restrictBahan($bahan->requirement)->judul;
-            }
-        }
+        // if ($bahan->restrict_access == '0') {
+        //     dd($this->bahan->restrict($bahan->requirement));
+        //     $checkMateri = $this->serviceActivity->restrict($bahan->requirement);
+        //     if ($checkMateri == 0) {
+        //         return 'Materi tidak bisa diakses sebelum anda menyelesaikan materi '.
+        //         $bahan->restrictBahan($bahan->requirement)->judul;
+        //     }
+        // }
 
         if ($bahan->restrict_access == 1) {
             if (now() < $bahan->publish_start) {

@@ -16,7 +16,7 @@
         @endif
         <div class="card-body">
             @if (!isset($data['sertifikat']))
-            <div class="form-group row">
+            {{-- <div class="form-group row">
                 <div class="col-md-2 text-md-right">
                   <label class="col-form-label text-sm-right">Tipe Sertifikat</label>
                 </div>
@@ -30,8 +30,10 @@
                         <label class="error jquery-validation-error small form-text invalid-feedback" style="display: inline-block; color:red;">{!! $message !!}</label>
                     @enderror
                 </div>
-            </div>
-            @else
+            </div> --}}
+            {{-- 5 is tipe speakoud --}}
+            <input type="hideen" name="tipe" value="0">
+            {{-- @else
             <div class="form-group row">
                 <div class="col-md-2 text-md-right">
                   <label class="col-form-label text-sm-right">Tipe Sertifikat</label>
@@ -39,8 +41,8 @@
                 <div class="col-md-10">
                     <input type="text" class="form-control" value="{{ config('addon.label.tipe_sertifikat.'.$data['sertifikat']->tipe) }}" readonly>
                 </div>
-            </div>
-            @endif
+            </div>--}}
+            @endif 
             <div class="form-group row">
                 <div class="col-md-2 text-md-right">
                   <label class="col-form-label text-sm-right">Nomor</label>

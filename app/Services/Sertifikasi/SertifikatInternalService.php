@@ -26,6 +26,7 @@ class SertifikatInternalService
 
     public function getPesertaList(int $mataId)
     {
+      
         $query = $this->modelPeserta->query();
 
         $query->where('mata_id', $mataId);
@@ -33,6 +34,13 @@ class SertifikatInternalService
         $result = $query->paginate(20);
 
         return $result;
+    }
+
+    public function getPesertaListByMataId($mataId)
+    {
+        dd($mataId);
+        $query = $this->modelPeserta->where("mata_id", $mataId)->get();
+        return $query;
     }
 
     public function findSertifikat(int $id)
@@ -106,20 +114,24 @@ class SertifikatInternalService
             $GLOBALS['start'] = $mata->publish_start->format('d F Y');
             $GLOBALS['end'] = $mata->publish_end->format('d F Y');
         }
+        // dd($mata->sertifikatInternal->pejabat_terkait);
         $GLOBALS['tanggal'] = $mata->sertifikatInternal->tanggal->format('d F Y');
         $GLOBALS['nama_pimpinan'] = $mata->sertifikatInternal->nama_pimpinan;
         $GLOBALS['jabatan'] = $mata->sertifikatInternal->jabatan;
         $GLOBALS['unit_kerja'] = $mata->sertifikatInternal->unit_kerja;
-        $GLOBALS['pejabat_terkait'] = $mata->sertifikatInternal->pejabat_terkait;
-        $GLOBALS['nama_pejabat'] = $mata->sertifikatInternal->nama_pejabat;
+        $GLOBALS['pejabat_terkait'] = $mata->sertifikatInternal->pejabat_terkait ?? "Pak Arifin";
+        $GLOBALS['nama_pejabat'] = $mata->sertifikatInternal->nama_pejabat ?? "Pak Satria";
         $GLOBALS['foto'] = public_path('userfile/photo/sertifikat/'.auth()->user()->peserta->foto_sertifikat);
-        if ($mata->sertifikatInternal->tipe == 0) {
-            $template = public_path('userfile/certificate/TEMPLATE-SERTIFIKAT-TEKNIS.docx');
-        } elseif ($mata->sertifikatInternal->tipe == 1) {
-            $template = public_path('userfile/certificate/TEMPLATE-SERTIFIKAT-TEKNIS-KERJASAMA.docx');
-        } else {
-            $template = public_path('userfile/certificate/TEMPLATE-SERTIFIKAT-TEKNIS-EN.docx');
-        }
+            if ($mata->sertifikatInternal->tipe == 0) {
+                $template = public_path('userfile/certificate/TEMPLATE-SPEAKOUD.docx');
+            }
+        // if ($mata->sertifikatInternal->tipe == 0) {
+        //     $template = public_path('userfile/certificate/TEMPLATE-SERTIFIKAT-TEKNIS.docx');
+        // } elseif ($mata->sertifikatInternal->tipe == 1) {
+        //     $template = public_path('userfile/certificate/TEMPLATE-SERTIFIKAT-TEKNIS-KERJASAMA.docx');
+        // } else {
+        //     $template = public_path('userfile/certificate/TEMPLATE-SERTIFIKAT-TEKNIS-EN.docx');
+        // }
 
 
         $TBS->LoadTemplate($template, OPENTBS_ALREADY_UTF8);

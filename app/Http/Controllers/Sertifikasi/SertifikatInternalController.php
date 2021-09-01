@@ -29,11 +29,10 @@ class SertifikatInternalController extends Controller
             $q = '?q='.$request->q;
         }
 
-        $data['peserta'] = $this->service->getPesertaList($mataId);
+        return $data['peserta'] = $this->service->getPesertaListByMataId($mataId);
         $data['number'] = $data['peserta']->firstItem();
         $data['peserta']->withPath(url()->current().$q);
         $data['mata'] = $this->serviceMata->findMata($mataId);
-
         return view('backend.sertifikasi.sertifikat_internal.peserta', compact('data'), [
             'title' => 'Course - Sertifikat Internal',
             'breadcrumbsBackend' => [

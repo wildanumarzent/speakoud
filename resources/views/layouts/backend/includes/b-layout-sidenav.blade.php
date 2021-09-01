@@ -142,11 +142,11 @@
               <div>Tags</div>
             </a>
         </li>
-        <li class="sidenav-item">
+        {{-- <li class="sidenav-item">
             <a href="{{route('komentar.index')}}" class="sidenav-link"><i class="sidenav-icon las la-comment"></i>
               <div>Komentar</div>
             </a>
-        </li>
+        </li> --}}
 
         <li class="sidenav-divider mb-1"></li>
         <li class="sidenav-header small font-weight-semibold">WEBSITE</li>

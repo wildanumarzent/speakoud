@@ -208,86 +208,88 @@
                 </div>
                 <div class="tab-pane fade" id="boot">
                     {{-- kehadiran --}}
-                    <h6 class="small font-weight-semibold mb-4">1. Kehadiran <span class="text-muted font-weight-normal">(jika mengikuti semua, faktor pembagi dengan jumlah video yang ada dan yang diikuti oleh peserta)</span></h6>
+                    {{-- <h6 class="small font-weight-semibold mb-4">1. Kehadiran <span class="text-muted font-weight-normal">(jika mengikuti semua, faktor pembagi dengan jumlah video yang ada dan yang diikuti oleh peserta)</span></h6>
                     <div class="form-group row">
                         <div class="col-md-2 text-md-right">
                           <label class="col-form-label text-sm-right">Join Video Conference</label>
                         </div>
                         <div class="col-md-10">
-                            <div class="input-group">
-                                <input type="number" class="form-control @error('join_vidconf') is-invalid @enderror" name="join_vidconf" max="100"
-                                    value="{{ isset($data['mata']) ? old('join_vidconf', $data['mata']->bobot->join_vidconf) : old('join_vidconf', 30) }}" placeholder="masukan nilai">
-                                <div class="input-group-append">
+                            <div class="input-group"> --}}
+                                <input type="hidden" class="form-control @error('join_vidconf') is-invalid @enderror" name="join_vidconf" max="100"
+                                    value="0" placeholder="masukan nilai">
+                                {{-- <div class="input-group-append">
                                     <span class="input-group-text">%</span>
                                 </div>
                                 @include('components.field-error', ['field' => 'join_vidconf'])
                             </div>
                             <i>*<span class="text-muted">Input range <span class="badge badge-danger">0</span> - <span class="badge badge-success">100</span></span></i>
                         </div>
-                    </div>
+                    </div> --}}
                     {{-- keaktifan --}}
-                    <hr class="m-0 mb-4">
+                    {{-- <hr class="m-0 mb-4">
                     <h6 class="small font-weight-semibold mb-4">2. Keaktifan</h6>
                     <div class="form-group row">
                         <div class="col-md-2 text-md-right">
                           <label class="col-form-label text-sm-right">Activity Completion</label>
                         </div>
                         <div class="col-md-10">
-                            <div class="input-group">
-                                <input type="number" class="form-control @error('activity_completion') is-invalid @enderror" name="activity_completion" max="100"
-                                    value="{{ isset($data['mata']) ? old('activity_completion', $data['mata']->bobot->activity_completion) : old('activity_completion', 10) }}" placeholder="masukan nilai">
-                                <div class="input-group-append">
+                            <div class="input-group"> --}}
+                                <input type="hidden" class="form-control @error('activity_completion') is-invalid @enderror" name="activity_completion" max="100"
+                                    value="0" placeholder="masukan nilai">
+                                {{-- <input type="number" class="form-control @error('activity_completion') is-invalid @enderror" name="activity_completion" max="100"
+                                    value="{{ isset($data['mata']) ? old('activity_completion', $data['mata']->bobot->activity_completion) : old('activity_completion', 10) }}" placeholder="masukan nilai"> --}}
+                                {{-- <div class="input-group-append">
                                     <span class="input-group-text">%</span>
                                 </div>
                                 @include('components.field-error', ['field' => 'activity_completion'])
                             </div>
                             <i>*<span class="text-muted">Input range <span class="badge badge-danger">0</span> - <span class="badge badge-success">100</span></span></i>
                         </div>
-                    </div>
-                    <div class="form-group row">
+                    </div> --}}
+                    {{-- <div class="form-group row">
                         <div class="col-md-2 text-md-right">
                           <label class="col-form-label text-sm-right">Forum Diskusi</label>
                         </div>
                         <div class="col-md-10">
-                            <div class="input-group">
-                                <input type="number" class="form-control @error('forum_diskusi') is-invalid @enderror" name="forum_diskusi" max="100"
-                                    value="{{ isset($data['mata']) ? old('forum_diskusi', $data['mata']->bobot->forum_diskusi) : old('forum_diskusi', 10) }}" placeholder="masukan nilai">
-                                <div class="input-group-append">
+                            <div class="input-group"> --}}
+                                <input type="hidden" class="form-control @error('forum_diskusi') is-invalid @enderror" name="forum_diskusi" max="100"
+                                    value="0" placeholder="masukan nilai">
+                                {{-- <div class="input-group-append">
                                     <span class="input-group-text">%</span>
                                 </div>
                                 @include('components.field-error', ['field' => 'forum_diskusi'])
                             </div>
                             <i>*<span class="text-muted">Input range <span class="badge badge-danger">0</span> - <span class="badge badge-success">100</span></span></i>
                         </div>
-                    </div>
-                    <div class="form-group row">
+                    </div> --}}
+                    {{-- <div class="form-group row">
                         <div class="col-md-2 text-md-right">
                           <label class="col-form-label text-sm-right">Webinar</label>
                         </div>
                         <div class="col-md-10">
-                            <div class="input-group">
-                                <input type="number" class="form-control @error('webinar') is-invalid @enderror" name="webinar" max="100"
-                                    value="{{ isset($data['mata']) ? old('webinar', $data['mata']->bobot->webinar) : old('webinar', 10) }}" placeholder="masukan nilai">
-                                <div class="input-group-append">
+                            <div class="input-group"> --}}
+                                <input type="hidden" class="form-control @error('webinar') is-invalid @enderror" name="webinar" max="100"
+                                    value="0" placeholder="masukan nilai">
+                                {{-- <div class="input-group-append">
                                     <span class="input-group-text">%</span>
                                 </div>
                                 @include('components.field-error', ['field' => 'webinar'])
                             </div>
                             <i>*<span class="text-muted">Input range <span class="badge badge-danger">0</span> - <span class="badge badge-success">100</span></span></i>
                         </div>
-                    </div>
+                    </div> --}}
                     {{-- tugas --}}
-                    <hr class="m-0 mb-4">
+                    {{-- <hr class="m-0 mb-4">
                     <h6 class="small font-weight-semibold mb-4">3. Tugas</h6>
                     <div class="form-group row">
                         <div class="col-md-2 text-md-right">
                           <label class="col-form-label text-sm-right">Progress Test</label>
                         </div>
                         <div class="col-md-10">
-                            <div class="input-group">
-                                <input type="number" id="progress-test" class="form-control @error('progress_test') is-invalid @enderror" name="progress_test" max="100"
-                                    value="{{ isset($data['mata']) ? old('progress_test', $data['mata']->bobot->progress_test) : old('progress_test') }}" placeholder="masukan nilai" disabled>
-                                <div class="input-group-append">
+                            <div class="input-group"> --}}
+                                <input type="hidden" id="progress-test" class="form-control @error('progress_test') is-invalid @enderror" name="progress_test" max="100"
+                                    value="0" placeholder="masukan nilai" disabled>
+                                {{-- <div class="input-group-append">
                                     <span class="input-group-text">%</span>
                                     <span class="input-group-text">
                                         <input type="checkbox" id="cp" name="enable_progress" value="1" {{ isset($data['mata']) && !empty($data['mata']->bobot->progress_test) ? 'checked' : ''}}>&nbsp; Enable
@@ -297,32 +299,32 @@
                             </div>
                             <i>*<span class="text-muted">Input range <span class="badge badge-danger">0</span> - <span class="badge badge-success">100</span></span></i>
                         </div>
-                    </div>
-                    <div class="form-group row">
+                    </div> --}}
+                    {{-- <div class="form-group row">
                         <div class="col-md-2 text-md-right">
                           <label class="col-form-label text-sm-right">Quiz</label>
                         </div>
                         <div class="col-md-10">
-                            <div class="input-group">
-                                <input type="number" class="form-control @error('quiz') is-invalid @enderror" name="quiz" max="100"
-                                    value="{{ isset($data['mata']) ? old('quiz', $data['mata']->bobot->quiz) : old('quiz', 10) }}" placeholder="masukan nilai">
-                                <div class="input-group-append">
+                            <div class="input-group"> --}}
+                                <input type="hidden" class="form-control @error('quiz') is-invalid @enderror" name="quiz" max="100"
+                                    value="0" placeholder="masukan nilai">
+                                {{-- <div class="input-group-append">
                                     <span class="input-group-text">%</span>
                                 </div>
                                 @include('components.field-error', ['field' => 'quiz'])
                             </div>
                             <i>*<span class="text-muted">Input range <span class="badge badge-danger">0</span> - <span class="badge badge-success">100</span></span></i>
                         </div>
-                    </div>
-                    <div class="form-group row">
+                    </div> --}}
+                    {{-- <div class="form-group row">
                         <div class="col-md-2 text-md-right">
                           <label class="col-form-label text-sm-right">Tugas Mandiri</label>
                         </div>
                         <div class="col-md-10">
-                            <div class="input-group">
-                                <input type="number" id="tugas-mandiri" class="form-control @error('tugas_mandiri') is-invalid @enderror" name="tugas_mandiri" max="100"
-                                    value="{{ isset($data['mata']) ? old('tugas_mandiri', $data['mata']->bobot->tugas_mandiri) : old('tugas_mandiri') }}" placeholder="masukan nilai" disabled>
-                                <div class="input-group-append">
+                            <div class="input-group"> --}}
+                                <input type="hidden" id="tugas-mandiri" class="form-control @error('tugas_mandiri') is-invalid @enderror" name="tugas_mandiri" max="100"
+                                    value="0" placeholder="masukan nilai" disabled>
+                                {{-- <div class="input-group-append">
                                     <span class="input-group-text">%</span>
                                     <span class="input-group-text">
                                         <input type="checkbox" id="cp_t" name="enable_tugas" value="1" {{ isset($data['mata']) && !empty($data['mata']->bobot->tugas_mandiri) ? 'checked' : ''}}>&nbsp; Enable
@@ -332,7 +334,7 @@
                             </div>
                             <i>*<span class="text-muted">Input range <span class="badge badge-danger">0</span> - <span class="badge badge-success">100</span></span></i>
                         </div>
-                    </div>
+                    </div> --}}
                     {{-- post test --}}
                     <hr class="m-0 mb-4">
                     <h6 class="small font-weight-semibold mb-4">4. Post Test</h6>
@@ -343,7 +345,7 @@
                         <div class="col-md-10">
                             <div class="input-group">
                                 <input type="number" id="post-test" class="form-control @error('post_test') is-invalid @enderror" name="post_test" max="100"
-                                    value="{{ isset($data['mata']) ? old('post_test', $data['mata']->bobot->post_test) : old('post_test', 30) }}" placeholder="masukan nilai">
+                                    value="100" placeholder="masukan nilai">
                                 <div class="input-group-append">
                                     <span class="input-group-text">%</span>
                                 </div>

@@ -46,11 +46,8 @@
             <thead>
                 <tr>
                     <th style="width: 10px;">No</th>
-                    <th>NIP</th>
                     <th>Nama</th>
-                    <th>Unit Kerja</th>
-                    <th>Kedeputian</th>
-                    <th>Jabatan</th>
+                    <th>Program</th>
                     <th style="width: 115px;">Aksi</th>
                 </tr>
             </thead>
@@ -71,13 +68,11 @@
                 </tr>
                 @endif
                 @foreach ($data['peserta'] as $item)
+                {{-- {{dd($item)}} --}}
                 <tr>
                     <td>{{ $data['number']++ }}</td>
-                    <td>{{ $item->peserta->nip ?? '-' }}</td>
                     <td>{{ $item->peserta->user->name }}</td>
-                    <td>{{ $item->peserta->instansi($item->peserta)->nama_instansi ?? '-' }}</td>
-                    <td>{{ $item->peserta->kedeputian ?? '-' }}</td>
-                    <td>{{ config('addon.label.jabatan.'.$item->peserta->pangkat) ?? '-' }}</td>
+                    <td>{{ $item->mata->program->judul}}</td>
                     <td>
                         <a href="{{ route('bank.data.stream', ['path' => $item->file_path]) }}" class="btn icon-btn btn-primary btn-sm" title="sertifikat halaman depan">
                             <i class="las la-certificate"></i>
