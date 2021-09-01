@@ -53,9 +53,11 @@ class MataBobotNilai extends Model
         $myCompletion = ActivityCompletion::where('mata_id', $mataId)
             ->where('user_id', $pesertaId)->whereNotNull('track_end')->count();
 
-        if ($myCompletion > 0) {
-            $total = round($myCompletion / $completion * $mata->bobot->activity_completion);
-            $percen = $total;
+            
+            if ($myCompletion > 0) {
+                // $total = round($myCompletion / $completion * $mata->bobot->activity_completion);
+                $total = round($myCompletion / $completion * $mata->bobot->activity_completion);
+                $percen = $total;
         } else {
             $percen = '0';
         }

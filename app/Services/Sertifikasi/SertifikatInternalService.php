@@ -38,8 +38,7 @@ class SertifikatInternalService
 
     public function getPesertaListByMataId($mataId)
     {
-        dd($mataId);
-        $query = $this->modelPeserta->where("mata_id", $mataId)->get();
+        $query = $this->model->where("mata_id", $mataId)->paginate(20);
         return $query;
     }
 
@@ -50,6 +49,7 @@ class SertifikatInternalService
 
     public function storeSertifikat($request, int $mataId)
     {
+        // return $request;
         $sertifikat = new SertifikatInternal;
         $sertifikat->mata_id = $mataId;
         $sertifikat->creator_id = auth()->user()->id;
@@ -57,7 +57,7 @@ class SertifikatInternalService
         $sertifikat->nomor = $request->nomor;
         $sertifikat->tanggal = $request->tanggal;
         $sertifikat->nama_pimpinan = $request->nama_pimpinan;
-        $sertifikat->jabatan = $request->jabatan;
+        $sertifikat->jabatan = $request->jabatan ?? null;
         $sertifikat->unit_kerja = $request->unit_kerja ?? null;
         $sertifikat->pejabat_terkait = $request->pejabat_terkait ?? null;
         $sertifikat->nama_pejabat = $request->nama_pejabat ?? null;
@@ -70,7 +70,7 @@ class SertifikatInternalService
         $sertifikat->nomor = $request->nomor;
         $sertifikat->tanggal = $request->tanggal;
         $sertifikat->nama_pimpinan = $request->nama_pimpinan;
-        $sertifikat->jabatan = $request->jabatan;
+        $sertifikat->jabatan = $request->jabatan ?? null;
         $sertifikat->unit_kerja = $request->unit_kerja ?? $sertifikat->unit_kerja;
         $sertifikat->pejabat_terkait = $request->pejabat_terkait ?? $sertifikat->pejabat_terkait;
         $sertifikat->nama_pejabat = $request->nama_pejabat ?? $sertifikat->nama_pejabat;
@@ -85,7 +85,6 @@ class SertifikatInternalService
 
         $TBS = new clsTinyButStrong; // new instance of TBS
         $TBS->Plugin(TBS_INSTALL, 'clsOpenTBS'); // load the OpenTBS plugin
-
         $countPeserta = $this->modelPeserta->where('mata_id', $mataId)->count() + 1;
         $replace = [
             '{no}' => $countPeserta,
@@ -95,49 +94,27 @@ class SertifikatInternalService
         $generateNomor = strtr($mata->sertifikatInternal->nomor, $replace);
 
         $GLOBALS['nomor'] = $generateNomor;
-        $GLOBALS['nama'] = auth()->user()->name;
+        $GLOBALS['name'] = auth()->user()->name;
         $GLOBALS['program'] = $mata->judul;
-        if (!empty($mata->jam_pelatihan)) {
-            if ($mata->sertifikatInternal->tipe == 2) {
-                $GLOBALS['jam'] = $mata->jam_pelatihan.' Hours';
-            } else {
-                $GLOBALS['jam'] = $mata->jam_pelatihan.' Jam';
-            }
-        } else {
-            $GLOBALS['jam'] = '- Jam';
-        }
-
-        if ($mata->sertifikatInternal->tipe == 2) {
-            $GLOBALS['start'] = $mata->publish_start->format('F jS, Y');
-            $GLOBALS['end'] = $mata->publish_end->format('F jS, Y');
-        } else {
-            $GLOBALS['start'] = $mata->publish_start->format('d F Y');
-            $GLOBALS['end'] = $mata->publish_end->format('d F Y');
-        }
-        // dd($mata->sertifikatInternal->pejabat_terkait);
+      
         $GLOBALS['tanggal'] = $mata->sertifikatInternal->tanggal->format('d F Y');
         $GLOBALS['nama_pimpinan'] = $mata->sertifikatInternal->nama_pimpinan;
-        $GLOBALS['jabatan'] = $mata->sertifikatInternal->jabatan;
-        $GLOBALS['unit_kerja'] = $mata->sertifikatInternal->unit_kerja;
-        $GLOBALS['pejabat_terkait'] = $mata->sertifikatInternal->pejabat_terkait ?? "Pak Arifin";
-        $GLOBALS['nama_pejabat'] = $mata->sertifikatInternal->nama_pejabat ?? "Pak Satria";
+        $GLOBALS['nama_pejabat'] = $mata->sertifikatInternal->nama_pejabat;
         $GLOBALS['foto'] = public_path('userfile/photo/sertifikat/'.auth()->user()->peserta->foto_sertifikat);
-            if ($mata->sertifikatInternal->tipe == 0) {
-                $template = public_path('userfile/certificate/TEMPLATE-SPEAKOUD.docx');
-            }
-        // if ($mata->sertifikatInternal->tipe == 0) {
-        //     $template = public_path('userfile/certificate/TEMPLATE-SERTIFIKAT-TEKNIS.docx');
-        // } elseif ($mata->sertifikatInternal->tipe == 1) {
-        //     $template = public_path('userfile/certificate/TEMPLATE-SERTIFIKAT-TEKNIS-KERJASAMA.docx');
-        // } else {
-        //     $template = public_path('userfile/certificate/TEMPLATE-SERTIFIKAT-TEKNIS-EN.docx');
-        // }
+    
+        if ($mata->sertifikatInternal->tipe == 0) {
+            $template = public_path('userfile/certificate/TEMPLATE-SINERGICONSULTING.docx');
+        } elseif ($mata->sertifikatInternal->tipe == 3) {
+            $template = public_path('userfile/certificate/TEMPLATE-SEFTY.docx');
+        } else {
+            $template = public_path('userfile/certificate/TEMPLATE-SINERGIDIGITAL.docx');
+        }
 
 
         $TBS->LoadTemplate($template, OPENTBS_ALREADY_UTF8);
-
         $judul = str_replace(' ', '-', $mata->judul);
         $certName = 'Certificate-'.$judul.'.docx';
+
         $dir = storage_path('/app/bank_data/sertifikat_internal/'.auth()->user()->peserta->id);
         if(!file_exists($dir)){
             Storage::makeDirectory('/bank_data/sertifikat_internal/'.auth()->user()->peserta->id);

@@ -1,5 +1,5 @@
 @if (auth()->user()->hasRole('peserta_internal|peserta_mitra'))
-    @if (!empty($data['read']->sertifikatInternal) || $data['read']->sertifikatExternalByUser->count() > 0)
+@if (!empty($data['read']->sertifikatInternal) || $data['read']->sertifikatExternalByUser->count() > 0)
     @if ($data['read']->bobot->bobotActivity($data['read']->id, auth()->user()->id) == 10)
         <hr class="mt-4 mb-4">
         <h6 class="font-weight-semibold mb-4">Sertifikat</h6>
@@ -30,6 +30,7 @@
                                                 </form>
                                             </a>
                                             @else
+                                            {{-- {{dd( $data['read']->sertifikatPeserta->file_path)}}  --}}
                                             <a href="{{ route('bank.data.stream', ['path' => $data['read']->sertifikatPeserta->file_path]) }}" title="download sertifikat halaman depan">
                                                 <span class="badge badge-primary"><i class="las la-download"></i> Halaman Depan</span>
                                             </a>

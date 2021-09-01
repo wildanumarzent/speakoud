@@ -189,9 +189,9 @@ return [
         ],
     ],
     'tipe_sertifikat' => [
-        0 => 'Sertifikat Non Kerjasama',
-        1 => 'Sertifikat Kerjasama',
-        2 => 'Sertifikat Bahasa Inggris'
+        0 => 'Sertifikat ISO',
+        3 => 'Sertifikat Safety',
+        4 => 'Sertifikat IT'
     ],
 
 ];

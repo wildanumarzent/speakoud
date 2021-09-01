@@ -206,7 +206,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="tab-pane fade" id="boot">
+                <div class="tab-pane fade text-mute" id="boot" hidden>
                     {{-- kehadiran --}}
                     {{-- <h6 class="small font-weight-semibold mb-4">1. Kehadiran <span class="text-muted font-weight-normal">(jika mengikuti semua, faktor pembagi dengan jumlah video yang ada dan yang diikuti oleh peserta)</span></h6>
                     <div class="form-group row">
@@ -235,7 +235,7 @@
                         <div class="col-md-10">
                             <div class="input-group"> --}}
                                 <input type="hidden" class="form-control @error('activity_completion') is-invalid @enderror" name="activity_completion" max="100"
-                                    value="0" placeholder="masukan nilai">
+                                    value="10" placeholder="masukan nilai">
                                 {{-- <input type="number" class="form-control @error('activity_completion') is-invalid @enderror" name="activity_completion" max="100"
                                     value="{{ isset($data['mata']) ? old('activity_completion', $data['mata']->bobot->activity_completion) : old('activity_completion', 10) }}" placeholder="masukan nilai"> --}}
                                 {{-- <div class="input-group-append">
@@ -345,13 +345,13 @@
                         <div class="col-md-10">
                             <div class="input-group">
                                 <input type="number" id="post-test" class="form-control @error('post_test') is-invalid @enderror" name="post_test" max="100"
-                                    value="100" placeholder="masukan nilai">
+                                    value="90" placeholder="masukan nilai">
                                 <div class="input-group-append">
                                     <span class="input-group-text">%</span>
                                 </div>
                                 @include('components.field-error', ['field' => 'post_test'])
                             </div>
-                            <i>*<span class="text-muted">Input range <span class="badge badge-danger">0</span> - <span class="badge badge-success">100</span></span></i>
+                            <i>*<span class="text-muted">Input range <span class="badge badge-danger">0</span> - <span class="badge badge-success">90</span></span></i>
                         </div>
                     </div>
                 </div>

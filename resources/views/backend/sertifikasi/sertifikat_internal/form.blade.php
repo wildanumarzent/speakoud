@@ -16,7 +16,7 @@
         @endif
         <div class="card-body">
             @if (!isset($data['sertifikat']))
-            {{-- <div class="form-group row">
+            <div class="form-group row">
                 <div class="col-md-2 text-md-right">
                   <label class="col-form-label text-sm-right">Tipe Sertifikat</label>
                 </div>
@@ -30,9 +30,9 @@
                         <label class="error jquery-validation-error small form-text invalid-feedback" style="display: inline-block; color:red;">{!! $message !!}</label>
                     @enderror
                 </div>
-            </div> --}}
+            </div>
             {{-- 5 is tipe speakoud --}}
-            <input type="hideen" name="tipe" value="0">
+            {{-- <input type="hidden" name="tipe" value="0"> --}}
             {{-- @else
             <div class="form-group row">
                 <div class="col-md-2 text-md-right">
@@ -41,7 +41,7 @@
                 <div class="col-md-10">
                     <input type="text" class="form-control" value="{{ config('addon.label.tipe_sertifikat.'.$data['sertifikat']->tipe) }}" readonly>
                 </div>
-            </div>--}}
+            </div> --}}
             @endif 
             <div class="form-group row">
                 <div class="col-md-2 text-md-right">
@@ -69,20 +69,30 @@
                 </div>
                 <div class="col-md-10">
                   <input type="text" class="form-control @error('nama_pimpinan') is-invalid @enderror" name="nama_pimpinan"
-                    value="{{ isset($data['sertifikat']) ? old('nama_pimpinan', $data['sertifikat']->nama_pimpinan) : old('nama_pimpinan', __('sertifikat.nama_pimpinan')) }}" placeholder="masukan nama pimpinan...">
+                    value="{{ isset($data['sertifikat']) ? old('nama_pimpinan', $data['sertifikat']->nama_pimpinan) : old('nama_pimpinan', __('')) }}" placeholder="masukan nama pimpinan...">
                   @include('components.field-error', ['field' => 'nama_pimpinan'])
                 </div>
             </div>
             <div class="form-group row">
                 <div class="col-md-2 text-md-right">
-                  <label class="col-form-label text-sm-right">Jabatan</label>
+                  <label class="col-form-label text-sm-right">Nama Pejabat</label>
                 </div>
                 <div class="col-md-10">
-                  <input type="text" class="form-control @error('jabatan') is-invalid @enderror" name="jabatan"
-                    value="{{ isset($data['sertifikat']) ? old('jabatan', $data['sertifikat']->jabatan) : old('jabatan', __('sertifikat.jabatan')) }}" placeholder="masukan jabatan...">
-                  @include('components.field-error', ['field' => 'jabatan'])
+                  <input type="text" class="form-control @error('nama_pejabat') is-invalid @enderror" name="nama_pejabat"
+                    value="{{ isset($data['sertifikat']) ? old('nama_pejabat', $data['sertifikat']->nama_pejabat) : old('nama_pejabat', __('Satria Yudistira, ST')) }}" placeholder="masukan nama pejabat...">
+                  @include('components.field-error', ['field' => 'nama_pejabat'])
                 </div>
             </div>
+            {{-- <div class="form-group row">
+                <div class="col-md-2 text-md-right">
+                  <label class="col-form-label text-sm-right">Jabatan</label>
+                </div>
+                <div class="col-md-10"> --}}
+                  <input type="hidden" class="form-control @error('jabatan') is-invalid @enderror" name="jabatan"
+                    value="{{ isset($data['sertifikat']) ? old('jabatan', $data['sertifikat']->jabatan) : old('jabatan', __('sertifikat.jabatan')) }}" placeholder="masukan jabatan...">
+                  @include('components.field-error', ['field' => 'jabatan'])
+                {{-- </div>
+            </div> --}}
             {{-- <div class="form-group row">
                 <div class="col-md-2 text-md-right">
                     <label class="col-form-label">TTE (Tanda Tangan Elektronik)</label>
@@ -99,7 +109,7 @@
                     </label>
                 </div>
             </div> --}}
-            @if (!isset($data['sertifikat']) || isset($data['sertifikat']) && $data['sertifikat']->tipe == 1)
+            {{-- @if (!isset($data['sertifikat']) || isset($data['sertifikat']) && $data['sertifikat']->tipe == 1)
             <div id="kerjasama">
                 <hr>
                 <h5>Kerjasama Mitra :</h5>
@@ -134,7 +144,7 @@
                     </div>
                 </div>
             </div>
-            @endif
+            @endif --}}
         </div>
         <div class="card-footer">
             <div class="row">
@@ -197,7 +207,7 @@
         todayHighlight: true,
     });
 </script>
-@if (!isset($data['sertifikat']))
+{{-- @if (!isset($data['sertifikat']))
 <script>
     $('#kerjasama').hide();
     $('#tipe').change(function(){
@@ -207,7 +217,7 @@
             $('#kerjasama').hide();
         }
     });
-</script>
-@endif
+</script> --}}
+{{-- @endif --}}
 @include('components.toastr')
 @endsection
