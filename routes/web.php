@@ -313,6 +313,8 @@ Route::group(['middleware' => ['auth']], function () {
     //activity
     Route::post('/activity/{bahanId}/complete', 'Course\Bahan\BahanController@activityComplete')
         ->name('activity.complete');
+    Route::get('/read/{id}/complite', 'Course\Bahan\BahanController@readDocumentComplite')
+        ->name('read.complete');
 
     //templating
     Route::post('/template/{id}/mata/copy', 'Course\TemplatingController@copyAsTemplate')

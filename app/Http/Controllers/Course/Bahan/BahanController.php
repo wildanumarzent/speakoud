@@ -404,4 +404,28 @@ class BahanController extends Controller
             return back()->with('success', 'Activity Completed');
         }
     }
+
+    public function readDocumentComplite(Request $request, $id)
+    {
+        
+        // dd($request->all());
+        // $bahan = $this->service->findBahan($id);
+        //  if ($bahan->type($bahan)['tipe'] == 'dokumen') {
+        //     if (empty($bahan->quiz->trackUserIn)) {
+        //         return back()->with('warning', 'Anda belum menyelesaikan quiz ini');
+        //     }
+        // }
+        // return response()->json($bahan);
+        $test = $this->serviceActivity->complete($id);
+        // // dd($data);
+        return response()->json($test);
+        // if ($request->is_ajax == 'yes') {
+        //     return response()->json([
+        //         'success' => 1,
+        //         'message' => 'Activity Completed'
+        //     ], 200);
+        // } else {
+            return back()->with('success', 'Activity Completed');
+        // }
+    }
 }

@@ -77,6 +77,7 @@ class ActivityService
         }
         $complete->status = $status;
         $complete->completed_by = auth()->user()->id;
+        // return response()->json($complete);
         $complete->save();
         event(new ActivitySaved($complete));
         return $complete;

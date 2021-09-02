@@ -109,6 +109,7 @@
                                     <h5 class="mb-2">
                                         @role ('peserta_internal|peserta_mitra')
                                         @if ($bahan->completion_type > 0)
+                                        {{-- {{dd($bahan->activityCompletionByUser)}} --}}
                                         <div class="float-right font-weight-semibold ml-3">
                                             @if ($bahan->activityCompletionByUser()->count() == 1 && !empty($bahan->activityCompletionByUser->track_end))
                                                 @if ($bahan->activityCompletionByUser->status == 1)
