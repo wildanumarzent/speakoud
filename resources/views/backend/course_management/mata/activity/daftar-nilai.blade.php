@@ -143,11 +143,10 @@
                 </tr>
                 <tr>
                     <th>Grade item</th>
-                    <th class="text-center">Calculated weight</th>
                     <th class="text-center">Grade</th>
-                    <th class="text-center">Range</th>
+                    {{-- <th class="text-center">Range</th> --}}
                     <th class="text-center">Percentage</th>
-                    <th>Feedback</th>
+                    {{-- <th>Feedback</th> --}}
                     <th class="text-center">Contribution to course total</th>
                 </tr>
             </thead>
@@ -205,23 +204,27 @@
                     @endphp
                     <td><strong>{{ $bahan->judul }}</strong></td>
                     <td class="text-center">
-                        <strong>{{ $bobot.'%' }}</strong>
-                    </td>
-                    <td class="text-center">
                         <span class="badge badge-primary">
                             <strong>{{ $grade }}</strong>
                         </span>
                     </td>
-                    <td class="text-center">
+                    {{-- <td class="text-center">
                         <strong>0 - 100</strong>
-                    </td>
+                    </td> --}}
                     <td class="text-center">
                         <strong>{{ $grade.'%' }}</strong>
                     </td>
-                    <td>{!! $feedback !!}</td>
+                    {{-- <td>{!! $feedback !!}</td> --}}
                     <td class="text-center">
-                        <strong>{{ $calculate.'%' }}</strong>
+                        @if ($grade > 70)
+                        <strong class="badge badge-primary">Lulus</strong>
+                        @else  
+                        <strong class="badge badge-danger">Tidak Lulus</strong>
+                        @endif
                     </td>
+                    {{-- <td class="text-center">
+                        <strong>{{ $calculate.'%' }}</strong>
+                    </td> --}}
                 </tr>
                 @endforeach
             </tbody>

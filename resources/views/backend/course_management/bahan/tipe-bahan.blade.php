@@ -28,7 +28,7 @@
                             <div class="box-materi py-3">
                                 <div class="dot-circle"></div>
                                 <div class="media-body ml-3">
-                                <h6 class="mb-1"><i class="las la-{{ $valT['icon'] }} mr-2" style="font-size: 2em;"></i> -----<em>{{ $valT['title'] }}</em></h6>
+                                <h6 class="mb-1"><i class="las la-{{ $valT['icon'] }} mr-2" style="font-size: 2em;"></i><em>{{ $valT['title'] }}</em></h6>
                                 <div class="text-muted small"></div>
                                 </div>
                             </div>

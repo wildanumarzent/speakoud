@@ -40,10 +40,10 @@ return [
             'child' => '',
         ],
         3 => [
-            'title' => 'Quiz',
+            'title' => 'Post Test',
             'get' => 'quiz',
             'description' => '',
-            'icon' => 'spell-check',
+            'icon' => 'project-diagram',
             'child' => [
                 0 => [
                     'title' => 'Pre Test',
@@ -51,9 +51,9 @@ return [
                     'icon' => 'project-diagram',
                 ],
                 1 => [
-                    'title' => 'Post Test',
+                    'title' => 'Quiz',
                     'get' => 2,
-                    'icon' => 'project-diagram',
+                    'icon' => 'spell-check ',
                 ]
             ]
         ],
