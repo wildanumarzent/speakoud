@@ -260,11 +260,10 @@ class UserService
             $peserta->agama = $request->agama ?? null;
             $peserta->tempat_lahir = $request->tempat_lahir ?? null;
             $peserta->tanggal_lahir = $request->tanggal_lahir ?? null;
-            // $peserta->pangkat = $request->pangkat ?? null;
-            // $peserta->golongan = $request->pangkat ?? null;
             $peserta->jabatan_id = $request->jabatan_id ?? null;
-            // $peserta->jenjang_jabatan = $request->jenjang_jabatan ?? null;
-            // $peserta->kedeputian = $request->kedeputia n ?? null;
+            $peserta->no_hp = $request->no_hp ?? null;
+            $peserta->kota_tinggal = $request->kota_tinggal ?? null;
+            $peserta->Departemen = $request->departemen ?? null;
             $peserta->foto_sertifikat = ($request->foto_sertifikat != null) ? 
                 $fotoSertifikat : $peserta->foto_sertifikat;
 
