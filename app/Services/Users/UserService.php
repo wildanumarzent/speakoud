@@ -256,27 +256,24 @@ class UserService
             }
 
             $peserta = $user->peserta;
-            $peserta->jenis_peserta = $request->jenis_peserta ?? null;
             $peserta->jenis_kelamin = $request->jenis_kelamin ?? null;
             $peserta->agama = $request->agama ?? null;
             $peserta->tempat_lahir = $request->tempat_lahir ?? null;
             $peserta->tanggal_lahir = $request->tanggal_lahir ?? null;
-            $peserta->pangkat = $request->pangkat ?? null;
-            $peserta->golongan = $request->pangkat ?? null;
+            // $peserta->pangkat = $request->pangkat ?? null;
+            // $peserta->golongan = $request->pangkat ?? null;
             $peserta->jabatan_id = $request->jabatan_id ?? null;
-            $peserta->jenjang_jabatan = $request->jenjang_jabatan ?? null;
-            $peserta->kedeputian = $request->kedeputian ?? null;
+            // $peserta->jenjang_jabatan = $request->jenjang_jabatan ?? null;
+            // $peserta->kedeputian = $request->kedeputia n ?? null;
             $peserta->foto_sertifikat = ($request->foto_sertifikat != null) ? 
                 $fotoSertifikat : $peserta->foto_sertifikat;
 
-            if (!empty($request->kedeputian) && $request->pangkat >= 0 &&
-                !empty($request->tempat_lahir) && !empty($request->tanggal_lahir) &&
-                $request->jenis_peserta >= 0  && $request->agama >= 0 &&
-                $request->jenis_kelamin >= 0  && !empty($request->jabatan_id) &&
-                $request->jenjang_jabatan >= 0  && !empty($request->phone)) {
-                $peserta->status_profile = 1;
+            if (!empty($request->jenis_kelamin) && $request->tempat_lahir >= 0 &&
+                !empty($request->tanggal_lahir) && !empty($request->tanggal_lahir) &&
+                $request->jenis_kelamin >= 0  && !empty($request->jabatan_id)) {
+                $peserta->status_peserta = 1;
             } else {
-                $peserta->status_profile = 0;
+                $peserta->status_peserta = 0;
             }
 
             $peserta->save();
