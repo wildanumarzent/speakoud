@@ -74,11 +74,12 @@
 								{{ $mata->created_at->format('d F Y') }}
 							</div>
 							<h5 class="post-title" >
-								<a href="{{ route('course.detail', ['id' => $mata->id]) }}" style="font-family: sans-serif">{!! $mata->judul !!}</a>
+								<a href="{{ route('pelatihan.detail', ['id' => $mata->id]) }}" style="font-family: sans-serif">{!! $mata->judul !!}</a>
 							</h5>
 							<div class="post-info">
-								<a href="{{ route('course.detail', ['id' => $mata->id]) }}" class="btn btn-primary mr-auto">@lang('strip.widget_1_button')</a>
-								<div class="box-info">
+                                <a href="{{ route('pelatihan.detail', ['id' => $mata->id]) }}" class="btn btn-primary mr-auto">@lang('strip.widget_1_button')</a>
+								
+                                <div class="box-info">
 									<div class="item-info">
 										<div class="data-info">
 											<i class="las la-user"></i>
