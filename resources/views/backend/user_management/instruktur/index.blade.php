@@ -57,7 +57,7 @@
                 <button type="button" class="btn btn-primary dropdown-toggle hide-arrow icon-btn-only-sm" data-toggle="dropdown" title="klik untuk menambah instruktur"><i class="las la-plus"></i><span>Tambah</span></button>
                 <div class="dropdown-menu dropdown-menu-right">
                     <a href="{{ route('instruktur.create', ['instruktur' => 'internal']) }}" class="dropdown-item" ><i class="las la-user-tie"></i><span>Instruktur Internal</span></a>
-                    <a href="{{ route('instruktur.create', ['instruktur' => 'mitra']) }}" class="dropdown-item" ><i class="las la-user-tie"></i><span>Instruktur Mitra</span></a>
+                    {{-- <a href="{{ route('instruktur.create', ['instruktur' => 'mitra']) }}" class="dropdown-item" ><i class="las la-user-tie"></i><span>Instruktur Mitra</span></a> --}}
                 </div>
             </div>
             @else
@@ -109,8 +109,8 @@
                     {{-- <td>
                         <span class="badge badge-outline-primary">{{ strtoupper(str_replace('_', ' ', $item->user->roles[0]->name)) }}</span>
                     </td> --}}
-                    <td>{{ $item->created_at->format('d F Y - (H:i)') }}</td>
-                    <td>{{ $item->updated_at->format('d F Y - (H:i)') }}</td>
+                    <td>{{ $item->created_at }}</td>
+                    <td>{{ $item->updated_at  }}</td>
                     <td>
                         <a href="{{ route('instruktur.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengedit instruktur">
                                 <i class="las la-pen"></i>

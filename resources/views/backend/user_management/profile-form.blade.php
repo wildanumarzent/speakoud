@@ -129,7 +129,6 @@
                     @endif
                 </div>
             </div>
-            @endrole
             <div class="form-group row">
                 <div class="col-md-2 text-md-left">
                     <label class="col-form-label text-sm-left">Telpon</label>
@@ -139,7 +138,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text">+62</span>
                         </div>
-                        <input type="text" class="form-control @error('no_hp') is-invalid @enderror" name="no_hp" value="{{ old('phone', $data['information']->no_hp) }}" placeholder="Masukan telpon...">
+                        <input type="text" class="form-control @error('no_hp') is-invalid @enderror" name="no_hp" value="{{ old('phone', $data['information']->no_hp ?? '') }}" placeholder="Masukan telpon...">
                         @include('components.field-error', ['field' => 'no_hp'])
                     </div>
                     @role ('peserta_internal|peserta_mitra')
@@ -149,12 +148,33 @@
                     @endrole
                 </div>
             </div>
+             @endrole
+              <div class="form-group row">
+                <div class="col-md-2 text-md-left">
+                    <label class="col-form-label text-sm-left">Telpon</label>
+                </div>
+                <div class="col-md-10">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">+62</span>
+                        </div>
+                        <input type="text" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ old('phone', $data['information']->phone ?? '') }}" placeholder="Masukan telpon...">
+                        @include('components.field-error', ['field' => 'phone'])
+                    </div>
+                    @role ('peserta_internal|peserta_mitra')
+                    @if (empty($data['information']->phone))
+                    <span style="color: red;"><i>*belum diisi</i></span>
+                    @endif
+                    @endrole
+                </div>
+            </div>
+            @role ('peserta_internal|peserta_mitra')
             <div class="form-group row">
                 <div class="col-md-2 text-md-left">
                     <label class="col-form-label text-sm-left">Kota Tinggal</label>
                 </div>
                 <div class="col-md-10">
-                    <input type="text" class="form-control @error('address') is-invalid @enderror" name="kota_tinggal" value="{{ old('kota_tinggal', $data['information']->kota_tinggal) }}" placeholder="Masukan Kota tinggal...">
+                    <input type="text" class="form-control @error('address') is-invalid @enderror" name="kota_tinggal" value="{{ old('kota_tinggal', $data['information'] != null ? $data['information']->kota_tinggal : '') }}" placeholder="Masukan Kota tinggal...">
                         @include('components.field-error', ['field' => 'address'])
                 </div>
             </div>
@@ -166,7 +186,7 @@
                     <select class="select2 show-tick" data-style="btn-default" name="jabatan_id">
                         <option value=" " selected>Pilih</option>
                         @foreach ($data['jabatan'] as $jabatan)
-                        <option value="{{ $jabatan->id }}" {{ old('jabatan_id', $data['user']->peserta->jabatan_id) == $jabatan->id ? 'selected' : '' }}>{{ $jabatan->nama }}</option>
+                        <option value="{{ $jabatan->id }}" {{ old('jabatan_id', $data['user']->peserta->jabatan_id ?? '') == $jabatan->id ? 'selected' : '' }}>{{ $jabatan->nama }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -177,10 +197,11 @@
                 </div>
                 <div class="col-md-10">
                   <input type="text" class="form-control @error('departemen') is-invalid @enderror" name="departemen"
-                    value="{{ old('departemen', $data['information']->Departemen) }}" placeholder="masukan departemen...">
+                    value="{{ old('departemen', $data['information']->Departemen ?? '') }}" placeholder="masukan departemen...">
                   @include('components.field-error', ['field' => 'departemen'])
                 </div>
             </div>
+            @endrole
         </div>
         <hr class="border-light m-0">
         <div class="card-body pb-2">

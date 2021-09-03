@@ -243,7 +243,20 @@ class UserService
             'description' => $request->photo_description ?? null,
         ];
 
-        $user->save();
+        $user->save();  
+
+         if (Auth::user()->hasRole('administrator|developer')) {
+               $information = new UserInformation;
+                $information->user_id = Auth()->user()->id;
+                $information->place_of_birthday = $request->place_of_birthday ?? null;
+                $information->date_of_birthday = $request->date_of_birthday ?? null;
+                $information->gender = $request->gender ?? null;
+                $information->city = $request->city ?? null;
+                $information->description = $request->description ?? null;
+                $information->phone = $request->phone ?? null;
+                $information->address = $request->address ?? null;
+                $information->save();  
+         }
 
         if (Auth::user()->hasRole('peserta_internal|peserta_mitra')) {
 
