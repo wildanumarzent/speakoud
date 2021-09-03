@@ -72,6 +72,7 @@ class InstrukturController extends Controller
 
     public function store(InstrukturRequest $request)
     {
+        // return $request;
         $this->service->storeInstruktur($request);
 
         return redirect()->route('instruktur.index')

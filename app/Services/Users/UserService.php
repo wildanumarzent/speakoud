@@ -103,7 +103,7 @@ class UserService
     {
         $user = new User($request->only(['name', 'email']));
         $user->password = Hash::make($request->password);
-
+        $user->username = $request->username ?? null;
         if (!empty($isRegister)) {
             $user->email_verified = 0;
             $user->email_verified_at = null;

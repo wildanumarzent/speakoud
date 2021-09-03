@@ -3,6 +3,7 @@
 @section('styles')
 <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/css/pages/account.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-select/bootstrap-select.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-datepicker/bootstrap-datepicker.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/select2/select2.css') }}">
 @endsection
 
@@ -32,40 +33,39 @@
                           @include('components.field-error', ['field' => 'name'])
                         </div>
                     </div>
-                   
-                    {{-- <div class="form-group row" id="kedeputian">
+                    
+                     <div class="form-group row">
                         <div class="col-md-2 text-md-right">
-                          <label class="col-form-label text-sm-right">Unit Kerja</label>
+                        <label class="col-form-label text-sm-left">Jenis Kelamin</label>
                         </div>
                         <div class="col-md-10">
-                          <input type="text" class="form-control @error('kedeputian') is-invalid @enderror" name="kedeputian"
-                            value="{{ (isset($data['instruktur'])) ? old('kedeputian', $data['instruktur']->kedeputian) : old('kedeputian') }}" placeholder="masukan unit kerja...">
-                          @include('components.field-error', ['field' => 'kedeputian'])
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-md-2 text-md-right">
-                          <label class="col-form-label text-sm-right">Jabatan</label>
-                        </div>
-                        <div class="col-md-10">
-                          <input type="text" class="form-control @error('pangkat') is-invalid @enderror" name="pangkat"
-                            value="{{ (isset($data['instruktur'])) ? old('pangkat', $data['instruktur']->pangkat) : old('pangkat') }}" placeholder="masukan jabatan...">
-                          @include('components.field-error', ['field' => 'pangkat'])
-                        </div>
-                    </div> --}}
-                    {{-- <div class="form-group row">
-                        <div class="col-md-2 text-md-right">
-                          <label class="col-form-label text-sm-right">Jabatan</label>
-                        </div>
-                        <div class="col-md-10">
-                            <select class="status custom-select form-control" name="pangkat">
+                            <select class="selectpicker show-tick" data-style="btn-default" name="gender">
                                 <option value=" " selected>Pilih</option>
-                                @foreach (config('addon.label.jabatan') as $key => $value)
-                                <option value="{{ $key }}" {{ isset($data['instruktur']) ? (old('pangkat', $data['instruktur']->pangkat) == ''.$key.'' ? 'selected' : '') : (old('pangkat') == ''.$key.'' ? 'selected' : '') }}>{{ $value }}</option>
+                                @foreach (config('addon.master_data.jenis_kelamin') as $key => $value)
+                                <option value="{{ $key }}" {{ old('gender', $data['instruktur']->gender ?? '') == ''.$key.'' ? 'selected' : '' }}>{{ $value }}</option>
                                 @endforeach
                             </select>
+                            @if ($data['instruktur']->gender ?? '0')
+                            <span style="color: red;"><i>*belum diisi</i></span>
+                            @endif
                         </div>
-                    </div> --}}
+                    </div>
+                     <div class="form-group row">
+                        <div class="col-md-2 text-md-right">
+                          <label class="col-form-label text-sm-right">Pendidikan</label>
+                        </div>
+                        <div class="col-md-10">
+                         <select class="selectpicker show-tick" data-style="btn-default" name="pendidikan">
+                                <option value=" " selected>Pilih</option>
+                                @foreach (config('addon.label.pendidikan') as $key => $value)
+                                <option value="{{ $key }}" {{ old('pendidikan', $data['instruktur']->pendidikan ?? '') == ''.$key.'' ? 'selected' : '' }}>{{ $value }}</option>
+                                @endforeach
+                            </select>
+                            @if ($data['instruktur']->pendidikan ?? '0')
+                            <span style="color: red;"><i>*belum diisi</i></span>
+                            @endif
+                        </div>
+                    </div>
                     <div class="form-group row">
                         <div class="col-md-2 text-md-right">
                           <label class="col-form-label text-sm-right">Nomor Telpon</label>
@@ -76,12 +76,12 @@
                                     <span class="input-group-text">+62</span>
                                 </div>
                                 <input type="number" class="form-control @error('phone') is-invalid @enderror" name="phone"
-                                    value="{{ (isset($data['instruktur'])) ? old('phone', $data['instruktur']->user->information->phone) : old('phone') }}" placeholder="masukan nomor telpon...">
+                                    value="{{ (isset($data['instruktur'])) ? old('phone', $data['instruktur']->information->phone) : old('phone') }}" placeholder="masukan nomor telpon...">
                                 @include('components.field-error', ['field' => 'phone'])
                             </div>
                         </div>
                     </div>
-                    <div class="form-group row">
+                      <div class="form-group row">
                         <div class="col-md-2 text-md-right">
                           <label class="col-form-label text-sm-right">Alamat</label>
                         </div>
@@ -90,6 +90,18 @@
                           @include('components.field-error', ['field' => 'address'])
                         </div>
                     </div>
+                    <div class="form-group row">
+                        <div class="col-md-2 text-md-right">
+                          <label class="col-form-label text-sm-right">Tanggal Lahir</label>
+                        </div>
+                        <div class="col-md-10">
+                         <input type="text" class="date-picker form-control @error('tanggal_lahir') is-invalid @enderror" name="tanggal_lahir"
+                            value="{{ !empty($data['instruktur']->tanggal_lahir) ? old('tanggal_lahir', $data['instruktur']->tanggal_lahir->format('Y-m-d')) : '' }}" placeholder="masukan tanggal lahir...">
+                        <div class="input-group-append">
+                          @include('components.field-error', ['field' => 'name'])
+                        </div>
+                    </div>
+                    
                     {{-- <div id="surat-keterangan">
                         <div class="form-group row">
                             <div class="col-md-2 text-md-right">
@@ -192,6 +204,7 @@
                         </div>
                     </div> --}}
                 </div>
+                </div>
                 <div class="tab-pane fade" id="akun">
                     <div class="form-group row">
                         <div class="col-md-2 text-md-right">
@@ -266,6 +279,7 @@
 @section('scripts')
 <script src="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-select/bootstrap-select.js') }}"></script>
 <script src="{{ asset('assets/tmplts_backend/vendor/libs/select2/select2.js') }}"></script>
+<script src="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-datepicker/bootstrap-datepicker.js') }}"></script>
 @endsection
 
 @section('jsbody')
@@ -282,6 +296,17 @@ $('#surat-keterangan').hide();
 //         $('#mitra').hide();
 //     }
 // });
+
+ //date
+$(function() {
+    var isRtl = $('body').attr('dir') === 'rtl' || $('html').attr('dir') === 'rtl';
+
+    $( ".date-picker" ).datepicker({
+        format: 'yyyy-mm-dd',
+        todayHighlight: true,
+    });
+});
+
 //show & hide password
 $(".toggle-password, .toggle-password-confirm").click(function() {
     $(this).toggleClass("fa-eye fa-eye-slash");
@@ -306,6 +331,7 @@ function makeid(length) {
 $("#generate").click(function(){
     $(".gen-field").val(makeid(8));
 });
+ 
 </script>
 
 @include('components.toastr')

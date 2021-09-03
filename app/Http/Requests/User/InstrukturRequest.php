@@ -28,42 +28,42 @@ class InstrukturRequest extends FormRequest
             if (auth()->user()->hasRole('developer|administrator') && $this->roles == 'instruktur_mitra') {
 
                 return [
-                    'nip' => 'required|unique:instruktur,nip',
-                    'instansi_id' => 'required',
+                    // 'nip' => 'required|unique:instruktur,nip',
+                    // 'instansi_id' => 'required',
                     // 'kedeputian' => 'required',
                     // 'pangkat' => 'required',
                     // 'alamat' => 'required',
                     'name' => 'required',
                     'email' => 'required|email|unique:users,email',
                     'username' => 'required|min:5|unique:users,username',
-                    'roles' => 'required',
-                    'mitra_id' => 'required',
+                    // 'roles' => 'required',
+                    // 'mitra_id' => 'required',
                     'password' => 'required|confirmed|min:8',
-                    'sk_cpns' => 'nullable|mimes:'.config('custom.files.surat_keterangan.m'),
-                    'sk_pengangkatan' => 'nullable|mimes:'.config('custom.files.surat_keterangan.m'),
-                    'sk_golongan' => 'nullable|mimes:'.config('custom.files.surat_keterangan.m'),
-                    'sk_jabatan' => 'nullable|mimes:'.config('custom.files.surat_keterangan.m'),
-                    'cv' => 'nullable|mimes:'.config('custom.files.surat_keterangan.m'),
+                    // 'sk_cpns' => 'nullable|mimes:'.config('custom.files.surat_keterangan.m'),
+                    // 'sk_pengangkatan' => 'nullable|mimes:'.config('custom.files.surat_keterangan.m'),
+                    // 'sk_golongan' => 'nullable|mimes:'.config('custom.files.surat_keterangan.m'),
+                    // 'sk_jabatan' => 'nullable|mimes:'.config('custom.files.surat_keterangan.m'),
+                    // 'cv' => 'nullable|mimes:'.config('custom.files.surat_keterangan.m'),
                 ];
 
             } else {
 
                 return [
-                    'nip' => 'required|unique:instruktur,nip',
-                    'instansi_id' => 'required',
+                    // 'nip' => 'required|unique:instruktur,nip',
+                    // 'instansi_id' => 'required',
                     // 'kedeputian' => 'required',
                     // 'pangkat' => 'required',
                     // 'alamat' => 'required',
                     'name' => 'required',
                     'email' => 'required|email|unique:users,email',
                     'username' => 'required|min:5|unique:users,username',
-                    'roles' => 'required',
+                    // 'roles' => 'required',
                     'password' => 'required|confirmed|min:8',
-                    'sk_cpns' => 'nullable|mimes:'.config('custom.files.surat_keterangan.m'),
-                    'sk_pengangkatan' => 'nullable|mimes:'.config('custom.files.surat_keterangan.m'),
-                    'sk_golongan' => 'nullable|mimes:'.config('custom.files.surat_keterangan.m'),
-                    'sk_jabatan' => 'nullable|mimes:'.config('custom.files.surat_keterangan.m'),
-                    'cv' => 'nullable|mimes:'.config('custom.files.surat_keterangan.m'),
+                    // 'sk_cpns' => 'nullable|mimes:'.config('custom.files.surat_keterangan.m'),
+                    // 'sk_pengangkatan' => 'nullable|mimes:'.config('custom.files.surat_keterangan.m'),
+                    // 'sk_golongan' => 'nullable|mimes:'.config('custom.files.surat_keterangan.m'),
+                    // 'sk_jabatan' => 'nullable|mimes:'.config('custom.files.surat_keterangan.m'),
+                    // 'cv' => 'nullable|mimes:'.config('custom.files.surat_keterangan.m'),
                 ];
 
             }

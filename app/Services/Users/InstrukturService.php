@@ -155,11 +155,12 @@ class InstrukturService
         $instruktur = new Instruktur;
         $instruktur->user_id =$user->id;
         $instruktur->creator_id = Auth::user()->id ?? $user->id;
-        $instruktur->mitra_id = $mitraId ?? null;
-        $instruktur->instansi_id = $request->instansi_id ?? null;
-        $instruktur->nip = $request->nip ?? null;
-        $instruktur->kedeputian = $request->kedeputian ?? null;
-        $instruktur->pangkat = $request->pangkat ?? null;
+        $instruktur->nama = $request->name;
+        $instruktur->gender = $request->gender;
+        $instruktur->pendidikan = $request->pendidikan;
+        $instruktur->phone = $request->phone;
+        // $instruktur->address = $request->address;
+        $instruktur->tanggal_lahir = $request->tanggal_lahir;
         $this->uploadFile($request, $instruktur, $user->id, 'store');
         $instruktur->save();
 

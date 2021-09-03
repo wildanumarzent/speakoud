@@ -193,5 +193,10 @@ return [
         3 => 'Sertifikat Safety',
         4 => 'Sertifikat IT'
     ],
+    'pendidikan' => [
+        0 => 'S1',
+        1 => 'S2',
+        2 => 'S3'
+    ]
 
 ];
