@@ -92,12 +92,13 @@
                         <option value="{{ $key }}" {{ old('jenis_kelamin', $data['user']->peserta->jenis_kelamin) == ''.$key.'' ? 'selected' : '' }}>{{ $value }}</option>
                         @endforeach
                     </select>
+                     @include('components.field-error', ['field' => 'jenis_kelamin'])
                     @if ($data['user']->peserta->jenis_kelamin < '0')
                     <span style="color: red;"><i>*belum diisi</i></span>
                     @endif
                 </div>
             </div>
-            <div class="form-group row">
+            {{-- <div class="form-group row">
                 <div class="col-md-2 text-md-left">
                   <label class="col-form-label text-sm-left">Agama</label>
                 </div>
@@ -112,13 +113,14 @@
                     <span style="color: red;"><i>*belum diisi</i></span>
                     @endif
                 </div>
-            </div>
+            </div> --}}
             <div class="form-group row">
                 <div class="col-md-2 text-md-left">
                   <label class="col-form-label text-sm-left">Tempat Lahir</label>
                 </div>
                 <div class="col-md-10">
                     <input type="text" class="form-control mb-1 @error('tempat_lahir') is-invalid @enderror" name="tempat_lahir" value="{{ old('tempat_lahir', $data['user']->peserta->tempat_lahir) }}" placeholder="Masukan tempat lahir...">
+                    @include('components.field-error', ['field' => 'tempat_lahir'])
                     @if (empty($data['user']->peserta->tempat_lahir))
                     <span style="color: red;"><i>*belum diisi</i></span>
                     @endif
@@ -168,7 +170,7 @@
                 </div>
                 <div class="col-md-10">
                     <input type="text" class="form-control @error('address') is-invalid @enderror" name="kota_tinggal" value="{{ old('kota_tinggal', $data['information']->kota_tinggal) }}" placeholder="Masukan Kota tinggal...">
-                        @include('components.field-error', ['field' => 'address'])
+                        @include('components.field-error', ['field' => 'kota_tinggal'])
                 </div>
             </div>
             <div class="form-group row">

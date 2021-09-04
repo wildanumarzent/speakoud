@@ -35,6 +35,11 @@ class ProfileRequest extends FormRequest
                 'password' => 'nullable|confirmed|min:8',
                 'file' => 'nullable|mimes:'.config('custom.files.photo.m'),
                 'foto_sertifikat' => 'nullable|mimes:'.config('custom.files.photo.m'),
+                'tanggal_lahir' => 'required',
+                'jenis_kelamin' => 'required',
+                'tempat_lahir' => 'required',
+                'no_hp' => 'required',
+                'kota_tinggal' => 'required',
             ];
 
         } else {
@@ -47,6 +52,11 @@ class ProfileRequest extends FormRequest
                             auth()->user()->id,
                 'file' => 'nullable|mimes:'.config('custom.files.photo.m'),
                 'foto_sertifikat' => 'nullable|mimes:'.config('custom.files.photo.m'),
+                'tanggal_lahir' => 'required',
+                'jenis_kelamin' => 'required',
+                'tempat_lahir' => 'required',
+                'no_hp' => 'required',
+                'kota_tinggal' => 'required',
             ];
 
         }
@@ -62,6 +72,11 @@ class ProfileRequest extends FormRequest
             'password' => 'Password',
             'file' => 'Photo',
             'foto_sertifikat' => 'Foto Sertifikat',
+            'jenis_kelamin' => 'jenis kelamin',
+            'tempat_lahir' => 'tempat lahir',
+            'no_hp' => 'phone',
+            'kota_tinggal' => 'kota tinggal',
+            'tanggal_lahir' => 'tanggal lahir',
         ];
     }
 
@@ -82,6 +97,11 @@ class ProfileRequest extends FormRequest
             'password.min' => ':attribute minimal :min karakter',
             'file.mimes' => 'Tipe :attribute harus :values.',
             'foto_sertifikat.mimes' => 'Tipe :attribute harus :values.',
+            'jenis_kelamin.required' => ':attribute tidak boleh kosong',
+            'tempat_lahir.required' => ':attribute tidak boleh kosong',
+            'no_hp.required' => ':attribute tidak boleh kosong',
+            'kota_tinggal.required' => ':attribute tidak boleh kosong',
+            'tanggal_lahir.required' => ':attribute tidak boleh kosong',
         ];
     }
 }

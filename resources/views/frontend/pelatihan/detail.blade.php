@@ -55,20 +55,16 @@
 			<div class="col-md-3">
 				<div class="media mb-3">
 					<div class="media-body pt-2 ml-3">
-						<h3 class="mb-2" style="color: rgb(0, 255, 21)"> <strong>Free</strong> 
+						<h3 class="mb-2" style="color: rgb(0, 255, 21)"> <strong>Free</strong>
+                            {{-- {{dd(auth()->user())}} --}}
 							@if ($data['peserta'] != null)
-								@if (auth()->user() != null)
-									@if ( $data['peserta']->status_peserta == 1)
+								@if (auth()->user() != null && $data['peserta']->status_peserta == 1)
 									<a href="{{ route('pelatihan.mata', ['id' => $data['mata']->id]) }}" class="btn btn-warning">START</a>
-									@else   
-									{{-- redirect ke register --}}
-									<a href="{{ route('profile.front',['id'=> $data['mata']->id]) }}" class="btn btn-warning">START</a>
-									@endif
 								@else 
-								<a href="javascript:void(0)" class="btn btn-warning">MORE INFO</a>
+								    	<a href="{{ route('profile.front',['id'=> $data['mata']->id]) }}" class="btn btn-warning">START</a>
 								@endif
 							@else 
-								<a href="{{ route('register') }}" class="btn btn-warning">MORE INFO</a>
+								<a href="{{ route('pelatihan.mata', ['id' => $data['mata']->id]) }}" class="btn btn-warning">Anda Instruktur</a>
 							@endif
 						 </h3>
 					</div>
@@ -84,7 +80,7 @@
 				<a class="nav-link" data-toggle="tab" href="#search-people"><h6><i class="ion ion-logo-dropbox" style="color: orange"></i>&nbsp; <strong>Kurikulum</strong> </h6></a>
 				</li>
 				<li class="nav-item">
-				<a class="nav-link" data-toggle="tab" href="#search-images"><h6><i class="ion ion-ios-person" style="color: orange"></i>&nbsp; <strong>Instructor</strong> </h6></a>
+				<a class="nav-link" data-toggle="tab" href="#search-images"><h6><i class="ion ion-ios-person" style="color: orange"></i>&nbsp; <strong>Instruktur</strong> </h6></a>
 				</li>
 				<li class="nav-item">
 				<a class="nav-link" data-toggle="tab" href="#search-videos"><h6><i class="ion ion-ios-chatbubbles" style="color: orange"></i>&nbsp; <strong>Reviews</strong> </h6></a>
