@@ -68,7 +68,7 @@
 						</div>
 						<div class="text-muted small">
 							@if ($mata->price == null || $mata->price == 0)
-								<h6 style="color: rgb(20, 245, 0);"> <strong >FREE</strong> </h6>   
+								<h6 style="color: rgb(20, 245, 0);"> <strong><a href="{{ route('pelatihan.detail', ['id' => $mata->id]) }}">FREE</a> </strong> </h6>   
 							@else
 								<h6 style="color: rgb(245, 147, 0)"> <strong>{{number_format($mata->price)}}</strong> </h6>
 							@endif

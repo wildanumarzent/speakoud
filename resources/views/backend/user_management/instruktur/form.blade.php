@@ -21,6 +21,7 @@
                 <input type="hidden" name="user_id" value="{{ $data['instruktur']->user_id }}">
             @endif
             <div class="tab-content">
+             
                 <div class="tab-pane fade show active" id="data">
                     
                     <div class="form-group row">

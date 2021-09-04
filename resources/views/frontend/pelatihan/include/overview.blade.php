@@ -6,7 +6,8 @@
                 <div class="card-body">
                     <div class="ui-bordered">
                         <div class="p-4">
-                            {!! $data['mata']->program->keterangan !!}
+                            {{-- {{dd($data['mata'])}} --}}
+                            {!! $data['mata']->content !!}
                         </div>
                     </div>
                 </div>

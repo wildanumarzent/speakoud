@@ -86,6 +86,7 @@ class BankDataController extends Controller
     //files
     public function streamFile($filePath)
     {
+        return $filePath;
         return response()->file(storage_path('app/bank_data/'.$filePath));
     }
 

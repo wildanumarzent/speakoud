@@ -85,7 +85,6 @@
                     @if (!auth()->user()->hasRole('peserta_internal|peserta_mitra'))
                     <a href="{{ route('bahan.index', ['id' => $materi->id]) }}" class="btn btn-success rounded-pill btn-sm mb-2" title="manajemen bahan"><i class="las la-folder"></i>Materi</a>
                     @endif
-
                     {!! $materi->keterangan !!}
 
                     <ul class="list-group list-group-flush mt-2">
