@@ -177,6 +177,14 @@
                         <td><strong>{no}</strong></td>
                     </tr>
                     <tr>
+                        <th>Pelatihan</th>
+                        <td><strong>{pelatihan}</strong></td>
+                    </tr>
+                    <tr>
+                        <th>Sinergi</th>
+                        <td><strong>{Sinergi}</strong></td>
+                    </tr>
+                    <tr>
                         <th>Bulan</th>
                         <td><strong>{bulan}</strong></td>
                     </tr>
@@ -185,7 +193,7 @@
                         <td><strong>{tahun}</strong></td>
                     </tr>
                 </table>
-                Contoh : <strong><em>{no}/Teknis/DIKLAT/BPPT/{bulan}/{tahun}</em></strong>
+                Contoh : <strong><em>{no}/PELATIHAN/SINERGI/{bulan}/{tahun}</em></strong>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default close-modal" data-dismiss="modal">Tutup</button>

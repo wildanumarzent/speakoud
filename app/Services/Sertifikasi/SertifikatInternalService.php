@@ -82,12 +82,20 @@ class SertifikatInternalService
     public function cetakSertifikat(int $mataId, int $sertifikatId)
     {
         $mata = $this->mata->findMata($mataId);
-
+        if ($mata->sertifikatInternal->tipe == 0) {
+            $pelatihan = 'Consulting';
+        } elseif ($mata->sertifikatInternal->tipe == 3) {
+            $pelatihan = 'Sefty';
+        } else {
+            $pelatihan = 'IT';
+        }
         $TBS = new clsTinyButStrong; // new instance of TBS
         $TBS->Plugin(TBS_INSTALL, 'clsOpenTBS'); // load the OpenTBS plugin
         $countPeserta = $this->modelPeserta->where('mata_id', $mataId)->count() + 1;
         $replace = [
             '{no}' => $countPeserta,
+            '{pelatihan}' => $pelatihan,
+            '{Sinergi}' => 'sinergi',
             '{bulan}' => $mata->sertifikatInternal->tanggal->format('m'),
             '{tahun}' => $mata->sertifikatInternal->tanggal->format('Y')
         ];
