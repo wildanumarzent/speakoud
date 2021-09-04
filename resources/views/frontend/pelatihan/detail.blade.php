@@ -6,7 +6,7 @@
 		<div class="banner-content">
 			<div class="banner-text">
 				<div class="title-heading text-center">
-					<h1 style="color:white">DETAIL COURSE</h1>
+					<h1 style="color:white">DETAIL MATERI</h1>
 				</div>
 			</div>
 			@include('components.breadcrumbs')
@@ -25,7 +25,7 @@
 				<div class="media mb-3">
 					<img src="{{ asset('/userfile/photo/'.$data['mata']->creator != null ? '/userfile/photo/'.$data['mata']->creator->photo['filename'] : '/userfile/photo/assets/img/5.png') }}" alt width="70px" class="ui-w-40 rounded-circle">
 					<div class="media-body pt-2 ml-3">
-						<h6 class="mb-2"> <strong style="color: grey">Teacher</strong></h6>
+						<h6 class="mb-2"> <strong style="color: grey">Instruktur</strong></h6>
 						<h6><strong style="color: rgb(53, 53, 53)">{{$data['mata']->creator->name}}</strong></h6>
 					</div>
 				</div>
@@ -34,7 +34,7 @@
 			<div class="col-md-2">
 				<div class="media mb-3">
 					<div class="media-body pt-2 ml-3">
-						<h6 class="mb-2"><strong style="color: grey">Categories</strong></h6>
+						<h6 class="mb-2"><strong style="color: grey">Kategori</strong></h6>
 						<h6><strong style="color: rgb(53, 53, 53)">{{$data['mata']->program->judul}}</strong></h6>
 					</div>
 				</div>
@@ -81,7 +81,7 @@
 				<a class="nav-link active" data-toggle="tab" href="#search-pages"><h6><i class="ion ion-md-copy" style="color: orange"></i>&nbsp; <strong>Overview</strong> </h6></a>
 				</li>
 				<li class="nav-item">
-				<a class="nav-link" data-toggle="tab" href="#search-people"><h6><i class="ion ion-logo-dropbox" style="color: orange"></i>&nbsp; <strong>Curriculum</strong> </h6></a>
+				<a class="nav-link" data-toggle="tab" href="#search-people"><h6><i class="ion ion-logo-dropbox" style="color: orange"></i>&nbsp; <strong>Kurikulum</strong> </h6></a>
 				</li>
 				<li class="nav-item">
 				<a class="nav-link" data-toggle="tab" href="#search-images"><h6><i class="ion ion-ios-person" style="color: orange"></i>&nbsp; <strong>Instructor</strong> </h6></a>

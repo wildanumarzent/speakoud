@@ -17,7 +17,7 @@
 							<li class="{{ empty(Request::segment(1)) ? 'current-nav' : '' }}"><a href="{{ route('home') }}" title="@lang('layout.menu.home')">BERANDA</a></li>
 							{{-- <li class="{{ Request::is('page/tentang-kami*') ? 'current-nav' : ''}}"><a href="{{ route('about.index',['slug' => 'tentang-kami']) }}" title="@lang('layout.menu.home')">TENTANG KAMI</a></li> --}}
 							<li class="{{ Request::is('pelatihan*') ? 'current-nav' : '' }}"><a href="{{ route('platihan.index') }}" title="modul pelatihan">MODUL PELATIHAN</a></li>
-                            <li class="{{ Request::is('events*') ? 'current-nav' : '' }}"><a href="#" title="Artikel">AGENDA EVENTS</a></li>
+                            <li class="{{ Request::is('events*') ? 'current-nav' : '' }}"><a href="#" title="Artikel">AGENDA KEGIATAN</a></li>
 
 							<li class="has-dropdown {{ Request::is('course/list*') ? 'current-nav' : '' }}">
 								<a href="#!" title="Program Pelatihan">PENDAFTARAN</a>
