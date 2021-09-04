@@ -25,14 +25,26 @@
                 <table class="table-responsive mt-3">
                     <tr>
                         <th><h6 style="padding-right: 63px"><i class="far fa-file-alt" style="color: orange"></i> Certificate</h6></th>
-                        <th><h6><strong>No</strong></h6></th>     
+                        <th>
+                            @if ($data['mata']->is_sertifikat == 1)
+                                <h6><strong>Yes</strong></h6>
+                            @else 
+                                <h6><strong>No</strong></h6>
+                            @endif
+                        </th>     
                     </tr>
                 </table>
                 <hr style="color: orange">
                 <table class="table-responsive mt-3">
                     <tr>
                         <th><h6 style="padding-right: 41px"><i class="fas fa-check-circle" style="color: orange"></i> Assessments</h6></th>
-                        <th><h6><strong>yes</strong></strong></h6></th>     
+                        <th>
+                             @if ($data['mata']->is_penilaian == 1)
+                                <h6><strong>Yes</strong></h6>
+                            @else 
+                                <h6><strong>No</strong></h6>
+                            @endif
+                        </th>     
                     </tr>
                 </table>
                 <hr style="color: orange">
