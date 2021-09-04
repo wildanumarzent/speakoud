@@ -197,6 +197,10 @@ return [
         0 => 'S1',
         1 => 'S2',
         2 => 'S3'
+    ],
+    'history_peserta' => [
+        0 => 'sudah di ikuti',
+        1 => 'belum di ikuti'
     ]
 
 ];

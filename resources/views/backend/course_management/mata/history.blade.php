@@ -17,7 +17,8 @@
                     <label class="form-label">Status</label>
                     <select class="status custom-select form-control" name="p">
                         <option value=" " selected>Semua</option>
-                        @foreach (config('addon.label.publish') as $key => $value)
+                        @foreach (config('addon.label.history_peserta') as $key => $value)
+                        {{-- <option value=""></option> --}}
                         <option value="{{ $key }}" {{ Request::get('p') == ''.$key.'' ? 'selected' : '' }}>{{ $value }}</option>
                         @endforeach
                     </select>
