@@ -58,10 +58,14 @@
 						<h3 class="mb-2" style="color: rgb(0, 255, 21)"> <strong>Free</strong>
                             {{-- {{dd(auth()->user())}} --}}
 							@if ($data['peserta'] != null)
-								@if (auth()->user() != null && $data['peserta']->status_peserta == 1)
+								@if (auth()->user() != null)
+                                    @if ($data['peserta']->status_peserta == 1)
 									<a href="{{ route('pelatihan.mata', ['id' => $data['mata']->id]) }}" class="btn btn-warning">START</a>
+                                     @else 
+                                     <a href="{{ route('profile.front',['id'=> $data['mata']->id]) }}" class="btn btn-warning">START</a>
+                                    @endif
 								@else 
-								    <a href="{{ route('profile.front',['id'=> $data['mata']->id]) }}" class="btn btn-warning">START</a>
+								<a href="{{ route('register') }}" class="btn btn-warning">More Info</a>
 								@endif
 							@else 
 								<a href="{{ route('register') }}" class="btn btn-warning">More Info</a>
