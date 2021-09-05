@@ -61,10 +61,10 @@
 								@if (auth()->user() != null && $data['peserta']->status_peserta == 1)
 									<a href="{{ route('pelatihan.mata', ['id' => $data['mata']->id]) }}" class="btn btn-warning">START</a>
 								@else 
-								    	<a href="{{ route('profile.front',['id'=> $data['mata']->id]) }}" class="btn btn-warning">START</a>
+								    <a href="{{ route('profile.front',['id'=> $data['mata']->id]) }}" class="btn btn-warning">START</a>
 								@endif
 							@else 
-								<a href="{{ route('pelatihan.mata', ['id' => $data['mata']->id]) }}" class="btn btn-warning">Anda Instruktur</a>
+								<a href="{{ route('register') }}" class="btn btn-warning">More Info</a>
 							@endif
 						 </h3>
 					</div>
@@ -89,21 +89,21 @@
 
 		</div>
 		<div class="tab-content">
-			  <!-- overview -->
+			<!-- overview -->
 			@include('frontend.pelatihan.include.overview')
-			  <!-- / overview -->
+			<!-- / overview -->
 
-			  <!-- curiculum -->
+			<!-- curiculum -->
 			@include('frontend.pelatihan.include.curiculum')
-				<!-- / curiculum -->
+			<!-- / curiculum -->
+
+			<!-- instructor -->
+			@include('frontend.pelatihan.include.instruktor')
+			<!-- / instructor -->
 				
-				<!-- instructor -->
-				@include('frontend.pelatihan.include.instruktor')
-				
-				<!-- / instructor -->
-				
-				<!-- Reviews -->
-				@include('frontend.pelatihan.include.reviews')  
+			<!-- Reviews -->
+			@include('frontend.pelatihan.include.reviews')  
+            <!-- /Reviews -->
 		</div>
 	</div>
 	<!-- / Content -->
