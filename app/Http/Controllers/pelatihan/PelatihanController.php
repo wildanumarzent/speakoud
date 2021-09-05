@@ -99,6 +99,7 @@ class PelatihanController extends Controller
 
     public function courseDetail($id)
     {
+        // return $id;
         $data['read'] = $this->service->findMata($id);
         $data['materi'] = $this->serviceMateri->getMateriByMata($id);
         $data['other_mata'] = $this->service->getOtherMata($id);
