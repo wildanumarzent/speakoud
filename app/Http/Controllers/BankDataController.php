@@ -14,7 +14,7 @@ class BankDataController extends Controller
     public function __construct(BankDataService $service)
     {
         $this->service = $service;
-    }
+    }   
 
     public function index(Request $request, $type)
     {
@@ -86,7 +86,7 @@ class BankDataController extends Controller
     //files
     public function streamFile($filePath)
     {
-        return $filePath;
+        // return $filePath;
         return response()->file(storage_path('app/bank_data/'.$filePath));
     }
 
