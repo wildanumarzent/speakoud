@@ -194,7 +194,7 @@ class MataController extends Controller
                 }
             }
         }
-
+        
         return view('frontend.course.detail', compact('data'), [
             'title' => $data['read']->judul,
             'breadcrumbsBackend' => [

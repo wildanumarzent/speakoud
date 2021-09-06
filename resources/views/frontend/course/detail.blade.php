@@ -330,6 +330,7 @@
             <hr class="mt-2 mb-4">
             <h6 class="font-weight-semibold mb-4">Komentar</h6>
             @foreach ($data['read']->comment as $comment)
+            
             <div class="card mb-3">
                 <div class="card-body">
                 <div class="media">
@@ -340,6 +341,8 @@
                             <a href="javascript:;" data-id="{{ $comment->id }}" class="btn btn-danger icon-btn btn-sm js-sa2-delete"><i class="las la-trash-alt"></i></a>
                         @endif
                     </div>
+                    {{-- {{dd($comment->creator)}} --}}
+                    {{-- <a href="javascript:void(0)">{{ $comment->creator ?? 'user not found' }}</a> --}}
                     <a href="javascript:void(0)">{{ $comment->user->name ?? 'user not found' }}</a>
                     <div class="text-muted small">{{ $comment->created_at->format('l, j F Y (H:i A)') }}</div>
                     <div class="mt-2">

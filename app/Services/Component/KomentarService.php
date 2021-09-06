@@ -28,7 +28,7 @@ class KomentarService
        $comment = $this->comment->query();
        $model = $this->comment->commentable()->associate($model);
        $comment->where('commentable_id',$model['commentable_id'])->where('commentable_type',$model['commentable_type']);
-       $result = $comment->get();
+       $result = $comment->with('user')->get();
        return $result;
 
    }

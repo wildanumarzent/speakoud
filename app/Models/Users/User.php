@@ -3,6 +3,7 @@
 namespace App\Models\Users;
 
 use App\Models\RecordTahunan;
+use App\Models\Course\MataPelatihan;
 use App\Observers\LogObserver;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -55,6 +56,10 @@ class User extends Authenticatable
         User::observe(new LogObserver);
     }
 
+    public function mataPelatihan()
+    {
+        return $this->hasMany(MataPelatihan::class, 'creator_id');
+    }
     public function userable()
     {
         return $this->morphTo();

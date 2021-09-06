@@ -452,7 +452,7 @@ class MataService
 
     public function findMata($id)
     {
-        return $this->model->with('program','materi')->findOrFail($id);
+        return $this->model->with('creator')->findOrFail($id);
     }
 
     public function storeMata($request, int $programId, $templateId = null)

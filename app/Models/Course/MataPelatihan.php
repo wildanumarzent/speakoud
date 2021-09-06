@@ -39,10 +39,10 @@ class MataPelatihan extends Model
        });
         }
 
-            public function badge()
-            {
-                return $this->hasMany(Badge::class, 'tipe_id', 'id')->where('tipe','program');
-            }
+    public function badge()
+    {
+        return $this->hasMany(Badge::class, 'tipe_id', 'id')->where('tipe','program');
+    }
 
     public function creator()
     {

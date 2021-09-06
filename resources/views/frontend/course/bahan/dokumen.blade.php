@@ -156,10 +156,7 @@
         const showNextPage = () => {
             if (pageNum >= pdfDoc.numPages) {
                 var finish = document.getElementById('is_read');
-                finish.innerHTML = '<button class="btn" onclick="isRead()" id="next-page">Selesai Membaca<i class="fas fa-arrow-circle-right"></i></button>';
-                // var finish = document.getElementById('readed');
-                // finish.innerHTML = '<button class="btn" onclick="isRead()" id="next-page">Selesai Membaca<i class="fas fa-arrow-circle-right"></i></button>';
-                
+                finish.innerHTML = '<button class="btn" onclick="isRead()" id="next-page">Selesai Membaca<i class="fas fa-arrow-circle-right"></i></button>';    
             }
             pageNum+1;
             queueRenderPage(pageNum);
@@ -172,11 +169,13 @@
         .getDocument(url)
         .promise.then(pdfDoc_ => {
             pdfDoc = pdfDoc_;
-
+           
             document.querySelector('#page-count').textContent = pdfDoc.numPages;
 
             renderPage(pageNum);
         })
+
+
         .catch(err => {
             // Display error
             const div = document.createElement('div');
@@ -206,11 +205,7 @@
             });
         }
         
-        $(document).ready(function() {
-        var  x = document.getElementById("readed");
-            x.style.display === "none"
-        });
-    
+      
     </script>
     
     </body>
