@@ -64,11 +64,13 @@
                   <button class="btn" id="prev-page">
                     <i class="fas fa-arrow-circle-left"></i> Prev Page
                   </button>
-                  {{-- <div id="is_read"> --}}
-                      <button class="btn" id="next-page">
-                        Next Page <i class="fas fa-arrow-circle-right"></i>
-                      </button>
-                  {{-- </div> --}}
+                   <button class="btn" id="next-page">
+                      Next Page <i class="fas fa-arrow-circle-right"></i>
+                    </button>
+                    <br>
+                    <div id="is_read" style="padding-top: 10px">
+
+                    </div>
                   <span class="page-info">
                     Page <span id="page-num"></span> of <span id="page-count"></span>
                   </span>
@@ -84,7 +86,12 @@
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
     <script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
     <script src="js/main.js"></script> 
-    
+    <script>
+        // document.ready(function () {
+        // $("#readed").css("display:block");
+            
+        // })
+    </script>
     <script>
         // const url = '../docs/pdf.pdf';
         const url = "{{ route('bank.data.stream', ['path' => $data['bahan']->dokumen->bankData->file_path]) }}";
@@ -100,12 +107,13 @@
 
         const renderPage = num => {
         pageIsRendering = true;
+
         // Get page
         pdfDoc.getPage(num).then(page => {
             const viewport = page.getViewport({ scale });
             canvas.height = viewport.height;
             canvas.width = viewport.width;
-
+            
             const renderCtx = {
             canvasContext: ctx,
             viewport
@@ -147,9 +155,11 @@
         // Show Next Page
         const showNextPage = () => {
             if (pageNum >= pdfDoc.numPages) {
-                var finish = document.getElementById('next-page');
+                var finish = document.getElementById('is_read');
                 finish.innerHTML = '<button class="btn" onclick="isRead()" id="next-page">Selesai Membaca<i class="fas fa-arrow-circle-right"></i></button>';
-              
+                // var finish = document.getElementById('readed');
+                // finish.innerHTML = '<button class="btn" onclick="isRead()" id="next-page">Selesai Membaca<i class="fas fa-arrow-circle-right"></i></button>';
+                
             }
             pageNum+1;
             queueRenderPage(pageNum);
@@ -197,12 +207,8 @@
         }
         
         $(document).ready(function() {
-            $('canvas').html('Loading PDF...');
-            
-            $(document).load(function() {
-                $('canvas').html('PDF has loaded!');
-            });
-            
+        var  x = document.getElementById("readed");
+            x.style.display === "none"
         });
     
     </script>
