@@ -166,6 +166,7 @@ class UserController extends Controller
 
     public function updateProfile(ProfileRequest $request)
     {
+        // return $request->all();
         $this->service->updateProfile($request, Auth::user()->id);
         return back()->with('success', 'Profile berhasil diubah');
     }

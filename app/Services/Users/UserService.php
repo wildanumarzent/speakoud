@@ -218,6 +218,7 @@ class UserService
 
     public function updateProfile($request, int $id)
     {
+        
         $user = $this->findUser($id);
         $user->fill($request->only(['name', 'email', 'username']));
 
@@ -275,14 +276,19 @@ class UserService
             $peserta->tanggal_lahir = $request->tanggal_lahir ?? null;
             $peserta->jabatan_id = $request->jabatan_id ?? null;
             $peserta->no_hp = $request->no_hp ?? null;
+            $peserta->pendidikan = $request->pendidikan ?? null;
+            $peserta->pekerjaan = $request->pekerjaan ?? null;
             $peserta->kota_tinggal = $request->kota_tinggal ?? null;
             $peserta->Departemen = $request->departemen ?? null;
             $peserta->foto_sertifikat = ($request->foto_sertifikat != null) ? 
                 $fotoSertifikat : $peserta->foto_sertifikat;
+            // dd(!empty($request->jenis_kelamin) && !empty($request->tempat_lahir) &&
+            //     !empty($request->tanggal_lahir) && !empty($request->no_hp) &&
+            //     !empty($request->name));
 
-            if (!empty($request->jenis_kelamin) && $request->tempat_lahir >= 0 &&
-                !empty($request->tanggal_lahir) && !empty($request->tanggal_lahir) &&
-                $request->jenis_kelamin >= 0  && !empty($request->jabatan_id)) {
+            if (!empty($request->jenis_kelamin) && !empty($request->tempat_lahir) &&
+                !empty($request->tanggal_lahir) && !empty($request->no_hp) &&
+                !empty($request->name)) {
                 $peserta->status_peserta = 1;
             } else {
                 $peserta->status_peserta = 0;
@@ -342,13 +348,14 @@ class UserService
             $peserta->tanggal_lahir = $request->tanggal_lahir ?? null;
             $peserta->jabatan_id = $request->jabatan_id ?? null;
             $peserta->no_hp = $request->no_hp ?? null;
+            $peserta->pendidikan = $request->pendidikan ?? null;
+            $peserta->pekerjaan = $request->pekerjaan ?? null;
             $peserta->kota_tinggal = $request->kota_tinggal ?? null;
             $peserta->Departemen = $request->departemen ?? null;
-
+            
             if (!empty($request->tempat_lahir) && !empty($request->tanggal_lahir) &&
                 $request->no_hp >= 0  && $request->kota_tinggal >= 0 &&
-                $request->jenis_kelamin >= 0  && !empty($request->jabatan_id) &&
-                $request->departemen >= 0 ) {
+                $request->jenis_kelamin >= 0  && !empty($request->pekerjaan) && !empty($request->pendidikan) ) {
                 $peserta->status_peserta = 1;
             } else {
                 $peserta->status_peserta = 0;

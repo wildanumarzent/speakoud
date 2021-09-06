@@ -194,13 +194,25 @@ return [
         4 => 'Sertifikat IT'
     ],
     'pendidikan' => [
-        0 => 'S1',
-        1 => 'S2',
-        2 => 'S3'
+        0 => 'SD',
+        1 => 'SMP',
+        2 => 'SMA',
+        3 => 'SMK',
+        4 => 'S1',
+        5 => 'S2',
+        6 => 'S3',
     ],
     'history_peserta' => [
         0 => 'sudah di ikuti',
         1 => 'belum di ikuti'
-    ]
+    ],
+    'pekerjaan' => [
+        0 => 'wirasuwasta',
+        1 => 'pegawai negri',
+        2 => 'pengusaha',
+        3 => 'belum bekerja',
+        4 => 'lainnya',
+    ],
+
 
 ];

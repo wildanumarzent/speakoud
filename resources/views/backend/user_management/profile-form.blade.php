@@ -84,7 +84,7 @@
                     @endif
                 </div>
             </div>
-            <div class="form-group row">
+            {{-- <div class="form-group row">
                 <div class="col-md-2 text-md-left">
                   <label class="col-form-label text-sm-left">Agama</label>
                 </div>
@@ -99,7 +99,7 @@
                     <span style="color: red;"><i>*belum diisi</i></span>
                     @endif
                 </div>
-            </div>
+            </div> --}}
             <div class="form-group row">
                 <div class="col-md-2 text-md-left">
                   <label class="col-form-label text-sm-left">Tempat Lahir</label>
@@ -149,25 +149,7 @@
                 </div>
             </div>
              @endrole
-              <div class="form-group row">
-                <div class="col-md-2 text-md-left">
-                    <label class="col-form-label text-sm-left">Telpon</label>
-                </div>
-                <div class="col-md-10">
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">+62</span>
-                        </div>
-                        <input type="text" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ old('phone', $data['information']->phone ?? '') }}" placeholder="Masukan telpon...">
-                        @include('components.field-error', ['field' => 'phone'])
-                    </div>
-                    @role ('peserta_internal|peserta_mitra')
-                    @if (empty($data['information']->phone))
-                    <span style="color: red;"><i>*belum diisi</i></span>
-                    @endif
-                    @endrole
-                </div>
-            </div>
+
             @role ('peserta_internal|peserta_mitra')
             <div class="form-group row">
                 <div class="col-md-2 text-md-left">
@@ -180,25 +162,36 @@
             </div>
             <div class="form-group row">
                 <div class="col-md-2 text-md-left">
-                  <label class="col-form-label text-sm-left">Jabatan</label>
+                  <label class="col-form-label text-sm-left">Pendidikan</label>
                 </div>
                 <div class="col-md-10">
-                    <select class="select2 show-tick" data-style="btn-default" name="jabatan_id">
+                    <select class="selectpicker show-tick" data-style="btn-default" name="pendidikan">
                         <option value=" " selected>Pilih</option>
-                        @foreach ($data['jabatan'] as $jabatan)
-                        <option value="{{ $jabatan->id }}" {{ old('jabatan_id', $data['user']->peserta->jabatan_id ?? '') == $jabatan->id ? 'selected' : '' }}>{{ $jabatan->nama }}</option>
+                        @foreach (config('addon.label.pendidikan') as $key => $value)
+                        <option value="{{ $key }}" {{ old('pendidikan', $data['user']->peserta->pendidikan) == ''.$key.'' ? 'selected' : '' }}>{{ $value }}</option>
                         @endforeach
                     </select>
+                    @include('components.field-error', ['field' => 'pendidikan'])
+                    @if ($data['user']->peserta->pendidikan < '0')
+                    <span style="color: red;"><i>*belum diisi</i></span>
+                    @endif
                 </div>
             </div>
-            <div class="form-group row">
+             <div class="form-group row">
                 <div class="col-md-2 text-md-left">
-                  <label class="col-form-label text-sm-left">Departemen</label>
+                  <label class="col-form-label text-sm-left">Pekerjaan</label>
                 </div>
                 <div class="col-md-10">
-                  <input type="text" class="form-control @error('departemen') is-invalid @enderror" name="departemen"
-                    value="{{ old('departemen', $data['information']->Departemen ?? '') }}" placeholder="masukan departemen...">
-                  @include('components.field-error', ['field' => 'departemen'])
+                    <select class="selectpicker show-tick" data-style="btn-default" name="pekerjaan">
+                        <option value=" " selected>Pilih</option>
+                        @foreach (config('addon.label.pekerjaan') as $key => $value)
+                        <option value="{{ $key }}" {{ old('pekerjaan', $data['user']->peserta->pekerjaan) == ''.$key.'' ? 'selected' : '' }}>{{ $value }}</option>
+                        @endforeach
+                    </select>
+                    @include('components.field-error', ['field' => 'pekerjaan'])
+                    @if ($data['user']->peserta->pekerjaan < '0')
+                    <span style="color: red;"><i>*belum diisi</i></span>
+                    @endif
                 </div>
             </div>
             @endrole

@@ -40,6 +40,8 @@ class ProfileRequest extends FormRequest
                 'tempat_lahir' => 'required',
                 'no_hp' => 'required',
                 'kota_tinggal' => 'required',
+                'pekerjaan' => 'required',
+                'pendidikan' => 'required',
             ];
 
         } else {
@@ -57,6 +59,8 @@ class ProfileRequest extends FormRequest
                 'tempat_lahir' => 'required',
                 'no_hp' => 'required',
                 'kota_tinggal' => 'required',
+                'pekerjaan' => 'required',
+                'pendidikan' => 'required',
             ];
 
         }
@@ -77,6 +81,8 @@ class ProfileRequest extends FormRequest
             'no_hp' => 'phone',
             'kota_tinggal' => 'kota tinggal',
             'tanggal_lahir' => 'tanggal lahir',
+            'pekerjaan' => 'pekerjaan',
+            'pendidikan' => 'pendidikan',
         ];
     }
 
@@ -102,6 +108,8 @@ class ProfileRequest extends FormRequest
             'no_hp.required' => ':attribute tidak boleh kosong',
             'kota_tinggal.required' => ':attribute tidak boleh kosong',
             'tanggal_lahir.required' => ':attribute tidak boleh kosong',
+            'pendidikan.required' => ':attribute tidak boleh kosong',
+            'pekerjaan.required' => ':attribute tidak boleh kosong',
         ];
     }
 }
