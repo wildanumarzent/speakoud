@@ -35,11 +35,11 @@ class ProfileRequest extends FormRequest
                 'password' => 'nullable|confirmed|min:8',
                 'file' => 'nullable|mimes:'.config('custom.files.photo.m'),
                 'foto_sertifikat' => 'nullable|mimes:'.config('custom.files.photo.m'),
-                // 'tanggal_lahir' => 'required',
-                // 'jenis_kelamin' => 'required',
-                // 'tempat_lahir' => 'required',
-                // 'no_hp' => 'required',
-                // 'kota_tinggal' => 'required',
+                'tanggal_lahir' => 'required',
+                'jenis_kelamin' => 'required',
+                'tempat_lahir' => 'required',
+                'no_hp' => 'required',
+                'kota_tinggal' => 'required',
             ];
 
         } else {
