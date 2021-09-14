@@ -174,19 +174,7 @@
             console.log(pageNum++);
         };
 
-        var progressCallback = function(progress){
-            var percentLoaded = progress.loaded / progress.total;
-            console.log(progress); // Progress has loaded and total
-        };
-        // Get Document
-    //   pdfjsLib.getDocument(url)
-    //     .promise.then(pdfDoc_ => {
-    //         pdfDoc = pdfDoc_;
-    //         document.querySelector('#page-count').textContent = pdfDoc.numPages;
-
-    //         renderPage(pageNum);
-    //         progressCallback();
-    //     })
+        // get document
         var url_src = pdfjsLib.getDocument(url);
         console.log(url_src);
         //get progress data
@@ -197,6 +185,7 @@
                 $(".container").fadeIn(1000);        
             });
         }
+
         url_src
         .promise.then(pdfDoc_ => {
             pdfDoc = pdfDoc_;
