@@ -5,9 +5,9 @@
 				<div class="menubar-left">
 					<a href="{{ route('home') }}" class="main-logo" title="">
 						<div class="logo">
-							{{-- <img src="{{ asset(config('addon.images.logo')) }}" alt="Logo BPPT"> --}}
+							<img src="{{ asset(config('addon.images.logo')) }}" width="80px" alt="Logo SPEAKOUD">
                             {{-- <strong>SPEAKOUD</strong>  --}}
-                            <h5 style="color:white">SPEAKOUD</h5>
+                            {{-- <h5 style="color:white">SPEAKOUD</h5> --}}
 						</div>
 					</a>
 				</div>

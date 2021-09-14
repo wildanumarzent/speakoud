@@ -7,7 +7,7 @@ return [
         'banner' => 'userfile/banner/',
         'cover' => 'userfile/cover/'
     ],
-    'logo' => 'assets/tmplts_backend/images/logo.svg',
+    'logo' => 'assets/tmplts_backend/images/speakoud.png',
     'logo_sm' => 'assets/tmplts_backend/images/logo-small.png',
     'logo_mail' => 'assets/tmplts_backend/images/logo-mail.png',
     'open_graph' => 'assets/tmplts_backend/images/open-graph.jpg',

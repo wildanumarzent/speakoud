@@ -28,66 +28,34 @@ class PesertaRequest extends FormRequest
             if (auth()->user()->hasRole('developer|administrator') && $this->roles == 'peserta_mitra') {
 
                 return [
-                    'nip' => 'required|unique:peserta,nip',
-                    'instansi_id' => 'required',
-                    // 'kedeputian' => 'required',
-                    // 'pangkat' => 'required',
-                    // 'alamat' => 'required',
                     'name' => 'required',
                     'email' => 'required|email|unique:users,email',
                     'username' => 'required|min:5|unique:users,username',
                     'roles' => 'required',
-                    'mitra_id' => 'required',
                     'password' => 'required|confirmed|min:8',
-                    'sk_cpns' => 'nullable|mimes:'.config('custom.files.surat_keterangan.m'),
-                    'sk_pengangkatan' => 'nullable|mimes:'.config('custom.files.surat_keterangan.m'),
-                    'sk_golongan' => 'nullable|mimes:'.config('custom.files.surat_keterangan.m'),
-                    'sk_jabatan' => 'nullable|mimes:'.config('custom.files.surat_keterangan.m'),
-                    'surat_ijin_atasan' => 'nullable|mimes:'.config('custom.files.surat_keterangan.m'),
-                    // 'foto_sertifikat' => 'nullable|mimes:'.config('addon.mimes.photo.m'),
                 ];
 
             } else {
 
                 return [
-                    'nip' => 'required|unique:peserta,nip',
-                    'instansi_id' => 'required',
-                    // 'kedeputian' => 'required',
-                    // 'pangkat' => 'required',
-                    // 'alamat' => 'required',
                     'name' => 'required',
                     'email' => 'required|email|unique:users,email',
                     'username' => 'required|min:5|unique:users,username',
-                    'roles' => 'required',
+                    // 'roles' => 'required',
                     'password' => 'required|confirmed|min:8',
-                    'sk_cpns' => 'nullable|mimes:'.config('custom.files.surat_keterangan.m'),
-                    'sk_pengangkatan' => 'nullable|mimes:'.config('custom.files.surat_keterangan.m'),
-                    'sk_golongan' => 'nullable|mimes:'.config('custom.files.surat_keterangan.m'),
-                    'sk_jabatan' => 'nullable|mimes:'.config('custom.files.surat_keterangan.m'),
-                    'surat_ijin_atasan' => 'nullable|mimes:'.config('custom.files.surat_keterangan.m'),
+                   
                     // 'foto_sertifikat' => 'nullable|mimes:'.config('addon.mimes.photo.m'),
                 ];
             }
         } else {
 
             return [
-                'nip' => 'required|unique:peserta,nip,'.$this->id,
-                'instansi_id' => 'required',
-                // 'kedeputian' => 'required',
-                // 'pangkat' => 'required',
-                // 'alamat' => 'required',
                 'name' => 'required',
                 'email' => 'required|email|unique:users,email,'.
                             $this->user_id,
                 'username' => 'required|min:5|unique:users,username,'.
                             $this->user_id,
                 'password' => 'nullable|confirmed|min:8',
-                'sk_cpns' => 'nullable|mimes:'.config('custom.files.surat_keterangan.m'),
-                'sk_pengangkatan' => 'nullable|mimes:'.config('custom.files.surat_keterangan.m'),
-                'sk_golongan' => 'nullable|mimes:'.config('custom.files.surat_keterangan.m'),
-                'sk_jabatan' => 'nullable|mimes:'.config('custom.files.surat_keterangan.m'),
-                'surat_ijin_atasan' => 'nullable|mimes:'.config('custom.files.surat_keterangan.m'),
-                // 'foto_sertifikat' => 'nullable|mimes:'.config('addon.mimes.photo.m'),
             ];
         }
 
@@ -96,7 +64,6 @@ class PesertaRequest extends FormRequest
     public function attributes()
     {
         return [
-            'nip' => 'NIP',
             'instansi_id' => 'Instansi / Perusahaan',
             'kedeputian' => 'Unit Kerja',
             'pangkat' => 'Jabatan',

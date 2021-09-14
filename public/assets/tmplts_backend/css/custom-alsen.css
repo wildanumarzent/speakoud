@@ -823,7 +823,7 @@
     right: 1.5rem;
 }
 .alsen .sidenav .sidenav-inner .sidenav-item .sidenav-link:hover {
-    color: #fff !important;
+    color: rgb(255, 255, 255) !important;
 }
 @media screen and (min-width: 991.98px) {
     .alsen .sidenav .sidenav-inner .sidenav-item .sidenav-link:hover {
@@ -844,7 +844,7 @@
     .sidenav-inner
     .sidenav-item.active
     > .sidenav-link.sidenav-toggle {
-    color: #fff !important;
+    color: rgb(255, 255, 255) !important;
 }
 .alsen
     .sidenav

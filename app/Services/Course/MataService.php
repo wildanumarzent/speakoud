@@ -169,36 +169,18 @@ class MataService
         return $result;
     }
 
-    public function getMataFree($order, $by, int $limitz)
+    public function getMataFree($order, $by, int $limitz,$request)
     {
-         $query = $this->model->query();
-
+        $query = $this->model->query();
+     
         $query->publish();
         if (auth()->guard()->check() == true) {
-
-            $query->where('publish_start', '<=', now())
-                ->where('publish_end', '>=', now());
-
+            
             if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra')) {
                 $query->whereHas('instruktur', function ($query) {
                     $query->whereIn('instruktur_id', [auth()->user()->instruktur->id]);
                 });
             }
-
-            // if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
-
-            //     $query->whereHas('program', function ($query) {
-            //         $query->publish();
-            //         if (auth()->user()->hasRole('peserta_mitra')) {
-            //             $query->where('tipe', 1)->where('mitra_id', auth()->user()->peserta->mitra_id);
-            //         } else {
-            //             $query->where('tipe', 0);
-            //         }
-            //     });
-            //     $query->whereHas('peserta', function ($query) {
-            //         $query->where('peserta_id', auth()->user()->peserta->id);
-            //     });
-            // }
 
         } else {
 
@@ -207,10 +189,17 @@ class MataService
             });
             $query->where('publish_start', '<=', now())
             ->where('publish_end', '>=', now());
+        
+            $query->when($request->q, function ($query, $q) {
+                $query->where('judul','like', '%'.$q.'%');
+            }); 
+
+                
+            
         }
-
-        $result = $query->orderBy($order, $by)->paginate(20);
-
+            
+        $result = $query->orderBy($order, $by)->paginate($limitz);
+        //    dd($result);
         return $result;
     }
 

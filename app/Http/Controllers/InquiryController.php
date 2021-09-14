@@ -81,11 +81,11 @@ class InquiryController extends Controller
 
         $this->service->storeContact($request, $inquiryId);
 
-        // Mail::to($this->serviceUser->getEmailByRole([2]))
-        //     ->send(new \App\Mail\InquiryContactMail($data));
+        Mail::to('contact@speakoud.com')
+            ->send(new \App\Mail\InquiryContactMail($data));
 
 
-        Cookie::queue('inquiry-contact', 'Inquiry Contact', 120);
+        // Cookie::queue('inquiry-contact', 'Inquiry Contact', 120);
 
         return back()->with('success', $message);
     }

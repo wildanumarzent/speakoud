@@ -18,33 +18,51 @@
 </div>
 <div class="box-wrap bg-grey-alt">
 		  <!-- Content -->
-		<div class="container-fluid flex-grow-1 container-p-y">
+	<div class="container-fluid flex-grow-1 container-p-y">
         <div class="ui-bordered px-4 pt-4 mb-4">
               <div class="form-row">
-                <div class="col-md mb-4">
+                <div class="col-md mb-2">
                     
                 </div>
-                <div class="col-md mb-4">
+                <div class="col-md mb-2">
                  
                 </div>
-                <div class=" col-md col-xl-2 mb-4">
+                <div class=" col-md col-xl-2 mb-2">
                   <label class="form-label">Status</label>
-                  <select class="custom-select">
-                    <option>Newly published</option>
-                    <option>Alphabetical</option>
-                    <option>Most members</option>
+                  <select class="custom-select" id="selectorId" name="filter">
+                    <option value="Newly published" {{ (Request::is('pelatihan/Newly%20published')) ? ' selected' : '' }}>Newly published</option>
+                    <option value="Alphabetical" {{ (Request::is('pelatihan/Alphabetical')) ? ' selected' : '' }}>Alphabetical</option>
+                    <option value="mostmember">Most members</option>
                   </select>
                 </div>
                 <div class="col-md mb-4">
-                  <label class="form-label d-none d-md-block">&nbsp;</label>
-                   <input type="text" class="form-control" placeholder="Search...">
-                  {{-- <button type="button" class="btn btn-secondary btn-block">Show</button> --}}
+                    <form action="" method="get">
+                      <label class="form-label">search</label>
+                      <input type="text" name="q" value="{{ Request::get('q') }}" class="form-control" placeholder="Search...">
+                    </div>
+                    <div class="col-md col-xl-2 mb-4">
+                      <label class="form-label d-none d-md-block">&nbsp;</label>
+                      <button type="submit" class="btn btn-warning ">Search</button>
+                    </form>
                 </div>
               </div>
             </div>
             <!-- / Filters -->
           
 		<div class="row">
+            @if ($data['mata']->total() == 0)
+            <tr>
+                <td colspan="7" align="center">
+                    <i><strong style="color:red;">
+                    @if (Request::get('q'))
+                    ! Pelatihan Tidak Di Temukan !
+                    @else
+                    ! Data Pelatihan kosong !
+                    @endif
+                    </strong></i>
+                </td>
+            </tr>
+            @endif
 			@foreach ($data['mata'] as $mata)
 			{{-- d-flex --}}
 			<div class="col-sm-6 col-lg-3 d-inlex">
@@ -82,33 +100,20 @@
 		</div>
 		<hr class="border-light mt-2 mb-4">
 
-		<nav>
-			<ul class="pagination justify-content-center">
-			<li class="page-item disabled">
-				<a class="page-link" href="javascript:void(0)">«</a>
-			</li>
-			<li class="page-item active">
-				<a class="page-link" href="javascript:void(0)">1</a>
-			</li>
-			<li class="page-item">
-				<a class="page-link" href="javascript:void(0)">2</a>
-			</li>
-			<li class="page-item">
-				<a class="page-link" href="javascript:void(0)">3</a>
-			</li>
-			<li class="page-item">
-				<a class="page-link" href="javascript:void(0)">4</a>
-			</li>
-			<li class="page-item">
-				<a class="page-link" href="javascript:void(0)">5</a>
-			</li>
-			<li class="page-item">
-				<a class="page-link" href="javascript:void(0)">»</a>
-			</li>
-			</ul>
-		</nav>
+		{{ $data['mata']->onEachSide(1)->links() }}
 
-		</div>
+	</div>
 	<!-- / Content -->
 </div>
+@endsection
+@section('script')
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+@endsection
+@section('jsbody')
+    <script>
+    $("select").on("change", function(){
+        var orderBy = $('#selectorId option:selected').val()
+        window.location.href = "{{ url('pelatihan/')}}"+"/"+orderBy;
+    })
+    </script>
 @endsection

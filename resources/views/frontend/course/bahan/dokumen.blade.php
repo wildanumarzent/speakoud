@@ -164,9 +164,12 @@
             console.log(pageNum++);
         };
 
+        var progressCallback = function(progress){
+            var percentLoaded = progress.loaded / progress.total;
+            console.log(progress); // Progress has loaded and total
+        };
         // Get Document
-        pdfjsLib
-        .getDocument(url)
+      pdfjsLib.getDocument(url, progressCallback)
         .promise.then(pdfDoc_ => {
             pdfDoc = pdfDoc_;
            
@@ -175,7 +178,7 @@
             renderPage(pageNum);
         })
 
-
+      
         .catch(err => {
             // Display error
             const div = document.createElement('div');

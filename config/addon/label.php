@@ -203,15 +203,20 @@ return [
         6 => 'S3',
     ],
     'history_peserta' => [
-        0 => 'sudah di ikuti',
-        1 => 'belum di ikuti'
+        0 => 'Semua',
+        1 => 'Tidak Selesai',
+        2 => 'Sudah Lulus',
+        3 => 'Belum Lulus'
     ],
     'pekerjaan' => [
-        0 => 'wirasuwasta',
-        1 => 'pegawai negri',
-        2 => 'pengusaha',
-        3 => 'belum bekerja',
-        4 => 'lainnya',
+        0 => 'Pelajar',
+        1 => 'Mahasiswa',
+        2 => 'Pengajar',
+        3 => 'Guru',
+        4 => 'Dosen',
+        5 => 'PNS',
+        6 => 'Karyawan Swasta',
+        7 => 'Lainnya',
     ],
 
 

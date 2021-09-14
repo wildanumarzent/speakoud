@@ -758,6 +758,7 @@ Route::group(['middleware' => ['auth']], function () {
 
         Route::get('/', [PesertaController::class, 'index'])
             ->name('index');
+       
         Route::get('/create', [PesertaController::class, 'create'])
             ->name('create');
         Route::post('/', [PesertaController::class, 'store'])
@@ -816,3 +817,5 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/pelatihan/{id}/detail', 'pelatihan\PelatihanController@courseDetail')
 	->name('pelatihan.mata')
 	->middleware('auth');
+    Route::get('/pelatihan/{orderBy}','pelatihan\PelatihanController@filterBy')
+    ->name('platihan.filter');

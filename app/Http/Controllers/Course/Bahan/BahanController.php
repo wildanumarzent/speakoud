@@ -66,7 +66,7 @@ class BahanController extends Controller
             'breadcrumbsBackend' => [
                 'Kategori' => route('program.index'),
                 'Program' => route('mata.index', ['id' => $data['materi']->program_id]),
-                'Mata' => route('materi.index', ['id' => $data['materi']->mata_id]),
+                'Modul Pelatihan' => route('materi.index', ['id' => $data['materi']->mata_id]),
                 'Materi Pelatihan' => ''
             ],
         ]);

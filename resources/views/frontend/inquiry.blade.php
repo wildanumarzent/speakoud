@@ -133,15 +133,15 @@
                     @include('components.field-error', ['field' => 'message'])
                     </div>
                 </div>
-                <div class="col-md-6 text-left">
+                {{-- <div class="col-md-6 text-left">
                     {!! app('captcha')->display() !!}
                     @if ($errors->has('g-recaptcha-response'))
                         <span class="help-block" style="color: red;">
                             <strong>{{ $errors->first('g-recaptcha-response') }}</strong>
                         </span>
                     @endif
-                </div>
-                <div class="col-md-6 text-right">
+                </div> --}}
+                <div class="col-md-12 text-right">
                     <button class="btn btn-primary" type="submit">@lang('strip.inquiry_button')</button>
                 </div>
             </form>
@@ -183,7 +183,7 @@
         var marker = new google.maps.Marker({
             position: myLatlng,
             map: map,
-            title: 'Pusat Pembinaan, Pendidikan dan Pelatihan BPPT',
+            title: 'SPEAKOUD',
         });
     }
 </script>

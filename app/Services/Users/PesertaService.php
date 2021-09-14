@@ -134,20 +134,16 @@ class PesertaService
         $peserta->user_id = $user->id;
         $peserta->creator_id = Auth::user()->id;
         $peserta->jenis_kelamin = $request->jenis_kelamin ?? null;
-        $peserta->agama = $request->agama ?? null;
         $peserta->tempat_lahir = $request->tempat_lahir ?? null;
         $peserta->tanggal_lahir = $request->tanggal_lahir ?? null;
-        $peserta->jabatan_id = $request->jabatan_id ?? null;
         $peserta->no_hp != null ? $request->no_hp : 0;
-        // if (!empty($request->kedeputian) && $request->pangkat >= 0 &&
-        //     !empty($request->tempat_lahir) && !empty($request->tanggal_lahir) &&
-        //     $request->jenis_peserta >= 0  && $request->agama >= 0 &&
-        //     $request->jenis_kelamin >= 0  && !empty($request->jabatan_id) &&
-        //     $request->jenjang_jabatan >= 0  && !empty($request->phone)) {
-        //     $peserta->status_profile = 1;
-        // }
 
-        $this->uploadFile($request, $peserta, $user->id, 'store');
+        if (!empty($request->jenis_kelamin) && $request->tempat_lahir >= 0 &&
+            !empty($request->no_hp) && !empty($request->tanggal_lahir)) {
+            $peserta->status_peserta = 1;
+        }
+
+        // $this->uploadFile($request, $peserta, $user->id, 'store');
         $peserta->save();
 
         $user->userable()->associate($peserta);

@@ -147,7 +147,7 @@
                     {{-- <th class="text-center">Range</th> --}}
                     <th class="text-center">Percentage</th>
                     {{-- <th>Feedback</th> --}}
-                    <th class="text-center">Contribution to course total</th>
+                    <th class="text-center">Status</th>
                 </tr>
             </thead>
             <tbody>

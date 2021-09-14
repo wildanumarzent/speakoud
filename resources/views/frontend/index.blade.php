@@ -15,7 +15,7 @@
 				<div class="slide-inner" data-swiper-parallax="45%">
 					<div class="slide-inner-overlay"></div>
 					<div class="slide-inner-image thumbnail-img">
-						<img src="{{ asset(config('addon.images.path.banner').$banner->banner_kategori_id.'/'.$banner->file) }}" title="{!! $banner->judul !!}" alt="{!! strip_tags(Str::limit($banner->keterangan, 25)) !!}">
+						{{-- <img src="{{ asset(config('addon.images.path.banner').$banner->banner_kategori_id.'/'.$banner->file) }}" title="{!! $banner->judul !!}" alt="{!! strip_tags(Str::limit($banner->keterangan, 25)) !!}"> --}}
 					</div>
 					<div class="slide-inner-info title-heading" style="color:white">
 						@if ($loop->first)

@@ -85,13 +85,11 @@
                 <tr>
                     <th style="width: 10px;">No</th>
                     <th>Nama</th>
-                    <th>Unit Kerja</th>
-                    <th>Jabatan</th>
                     <th>Telpon</th>
                     <th>Alamat</th>
                     <th style="width: 200px;">Tanggal Dibuat</th>
                     <th style="width: 200px;">Tanggal Diperbarui</th>
-                    <th>Learning Journey</th>
+                    {{-- <th>Learning Journey</th> --}}
                     <th style="width: 80px;" class="text-center">Data</th>
                     <th style="width: 110px;">Aksi</th>
                 </tr>
@@ -116,22 +114,20 @@
                 <tr>
                     <td>{{ $data['no']++ }}</td>
                     <td>{{ $item->user->name }}</td>
-                    <td>{{ $item->kedeputian ?? '-' }}</td>
-                    <td>{{ !empty($item->jabatan->nama) ? $item->jabatan->nama : '-' }}</td>
-                    <td>{{ $item->user->information->phone ?? '-' }}</td>
+                    <td>+62{{ $item->no_hp ?? '-' }}</td>
                     <td>{{ $item->user->information->address ?? '-' }}</td>
                     {{-- <td>
                         <span class="badge badge-outline-primary">{{ strtoupper(str_replace('_', ' ', $item->user->roles[0]->name)) }}</span>
                     </td> --}}
                     <td>{{ $item->created_at->format('d F Y - (H:i)') }}</td>
                     <td>{{ $item->updated_at->format('d F Y - (H:i)') }}</td>
-                    <td>
+                    {{-- <td>
                         <a href="{{ route('journey.peserta', ['id' => $item->id]) }}" target="_blank" class="btn btn-primary icon-btn btn-sm" title="klik untuk melihat learning journey">
                             <i class="las la-external-link-alt"></i>
                         </a>
-                    </td>
+                    </td> --}}
                     <td class="text-center">
-                        @if ($item->status_profile == 1 && !empty($item->user->photo['filename']))
+                        @if ($item->status_peserta == 1 && !empty($item->user->photo['filename']))
                             <span class="badge badge-success">Complete</span>
                         @else
                             <span class="badge badge-danger">Belum</span>

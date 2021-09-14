@@ -6,11 +6,12 @@
                     <div class="col-md-4">
                         <div class="footer-logo">
                             
-                        <h5 style="color: orange">
-                            <a href="{{ route('home') }}" class="logo" title="Home">
-                            <img src="{{ asset(config('addon.images.logo')) }}" title="SPEAKOUD" alt="SPEAKOUD">                                
-                            </a> 
-                        </h5> 
+                            {{-- <h5 style="color: orange">
+                                <a href="{{ route('home') }}" class="logo" title="Home"> --}}
+                                {{-- <img src="{{ asset(config('addon.images.logo')) }}" title="BPPT" alt="Logo BPPT"> --}}
+                                 SPEAKOUD
+                               {{-- </a> 
+                            </h5>  --}}
                             {{-- <h5 style="color: white">E-learning Manajemen System</h5> --}}
                         </div>
                         {{-- <ul>
@@ -20,7 +21,7 @@
                     </div>
                     <div class="col-md-8">
                         <div class="row">
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="f-widget">
                                     <h5 style="color: white">
                                         {{-- @lang('strip.footer_title_1') --}}
@@ -34,10 +35,10 @@
                                         </li> --}}
                                         {{-- @endforeach --}}
                                         <li>
-                                            <a href="https://api.whatsapp.com/send?phone=+628121085805" target="_blank" title="WA" style="color: white;">(+62) 8121085805</a>
+                                              <a href="" title="" style="color: white;">(+62) 8121085805</a>
                                         </li>
                                         <li>
-                                            <a href="mailto:contact@speakoud.com" title="Kirim Email" target="_blank" style="color: white; font-family: ">contact@speakoud.com</a>
+                                              <a href="" title="" style="color: white; font-family: ">contact@speakoud.com</a>
                                         </li>
                                         {{-- <li>
                                               <a href="" title="" style="color: white; font-family: ">e-Learning Platform</a>
@@ -45,7 +46,7 @@
                                     </ul>
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="f-widget">
                                     <h5 style="color: white">
                                         @lang('strip.footer_title_2')
@@ -54,23 +55,22 @@
                                     <ul>
                                         {{-- @foreach ($pages['quick_link'] as $quickLink) --}}
                                         <li>
-                                            <a href="https://www.facebook.com/PT.SinergiSatuSolusi/" target="_blank" style="color:  white;font-family:  ">Facebook</a>
+                                            <a href="" style="color: white;font-family:  ">Facebook</a>
                                         </li>
                                         <li>
-                                            <a href="https://instagram.com/sinergi.consulting?utm_medium=copy_link" target="_blank" title="" style="color: white; font-family: ">Instagram</a>
+                                            <a href="" title="" style="color: white; font-family: ">Instagram</a>
                                         </li>
                                         <li>
-                                            <a href="https://api.whatsapp.com/send?phone=+628121085805" target="_blank" title="" style="color: white; font-family: " >Whatsapp</a>
+                                            <a href="" title="" style="color: white; font-family: " >Whatsapp</a>
                                         </li>
                                         {{-- @endforeach --}}
                                     </ul>
                                 </div>
                             </div>
 
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="f-widget">
-                                    {{-- <h5 style="color: white ; font-family: ">@lang('strip.footer_title_3')</h5> --}}
-                                    <h5 style="color: white ; font-family: ">KETENTUAN PENGGUNAAN</h5>
+                                    <h5 style="color: white ; font-family: ">@lang('strip.footer_title_3')</h5>
                                     <ul>
                                         <li style="color: white; font-family: ">
                                             {{-- {{ $configuration['address'] }} --}}

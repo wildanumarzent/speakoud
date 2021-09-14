@@ -140,7 +140,7 @@
                     </div>
                     <div class="col-md-8 text-right">
                         <a class="btn btn-success btn-sm icon-btn-only-sm mr-1" href="{{ route('materi.index', ['id' => $item->id]) }}" title="klik untuk melihat mata pelatihan">
-                            <i class="las la-swatchbook"></i> <span>Mata</span>
+                            <i class="las la-swatchbook"></i> <span>Modul Pelatihan</span>
                         </a>
                         <a class="btn btn-primary btn-sm icon-btn-only-sm mr-1" href="{{ route('soal.kategori', ['id' => $item->id]) }}" title="klik untuk melihat bank soal">
                             <i class="las la-spell-check"></i> <span>Bank Soal</span>

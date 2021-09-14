@@ -23,7 +23,7 @@
             <div class="las la-clock display-4 text-primary"></div>
             <div class="ml-3">
               <div class="text-muted small">Total Jam Pelatihan</div>
-              {{-- {{dd(auth()->user())}} --}}
+              {{-- {{dd(auth()->user()->totalJP->total_jam_pelatihan)}} --}}
               <div class="text-large">{{ auth()->user()->totalJP->total_jam_pelatihan ?? 0 }}</div>
             </div>
           </div>

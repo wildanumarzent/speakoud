@@ -2,7 +2,7 @@
 
 @section('styles')
 <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/sweetalert2/sweetalert2.css') }}">
-@endsection
+@endsectio
 
 @section('content')
 @include('backend.course_management.breadcrumbs')

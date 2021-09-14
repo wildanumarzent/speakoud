@@ -167,7 +167,7 @@
                         </div>
                     </div>
                     <hr>
-                    <div class="form-group row">
+                    {{-- <div class="form-group row">
                         <div class="col-md-2 text-md-right">
                             <label class="col-form-label text-sm-right">Kompetensi</label>
                           </div>
@@ -182,11 +182,9 @@
                             </select>
                             </div>
                         </div>
-
-
                     </div>
 
-                    <hr>
+                    <hr> --}}
                     <div class="form-group row">
                         <label class="col-form-label col-sm-2 text-sm-right">Tampilkan Rating Peserta</label>
                         <div class="col-sm-10">

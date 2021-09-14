@@ -37,18 +37,14 @@ class PelatihanController extends Controller
         $this->serviceKonfig = $serviceKonfig;
         $this->serviceEvaluasi = $serviceEvaluasi;
     }
+
     public function index(Request $request)
     {
-        $data['mata'] = $this->service->getMataFree('urutan', 'ASC', 8);
-        // $data['program'] = $this->program->programListNoRole($request);
+        $data['mata'] = $this->service->getMataFree('urutan', 'DESC', 12,$request);
         return view('frontend.pelatihan.index', compact('data'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
     public function create()
     {
         //
@@ -174,4 +170,19 @@ class PelatihanController extends Controller
     {
         //
     }
+
+    public function filterBy(Request $request, $groupBy)
+    {
+        // dd($groupBy);
+        if($groupBy =="Alphabetical"){
+            $orderBy = 'ASC';
+        }elseif ($groupBy=="Newly published") {
+            $orderBy = 'DESC';
+        }else{
+            $orderBy ='DESC';
+        }
+        $data['mata'] = $this->service->getMataFree('urutan', $orderBy,12, $request);
+        return view('frontend.pelatihan.index', compact('data'));
+    }
+
 }

@@ -51,7 +51,7 @@ class MateriController extends Controller
             'breadcrumbsBackend' => [
                 'Kategori' => route('program.index'),
                 'Program' => route('mata.index', ['id' => $data['mata']->program_id]),
-                'Mata Pelatihan' => ''
+                'Modul Pelatihan' => ''
             ],
         ]);
     }

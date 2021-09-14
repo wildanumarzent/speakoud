@@ -69,7 +69,7 @@
 
                 @role ('developer|administrator')
                 <!-- jabatan -->
-                <li class="sidenav-item{{ Request::is('jabatan*') ? ' active' : '' }}">
+                {{-- <li class="sidenav-item{{ Request::is('jabatan*') ? ' active' : '' }}">
                     <a href="{{ route('jabatan.index') }}" class="sidenav-link" title="Jabatan">
                       <div>Jabatan</div>
                     </a>
@@ -78,7 +78,7 @@
                     <a href="{{ route('jabatan.index') }}" class="sidenav-link" title="Jabatan">
                       <div>Organisasi</div>
                     </a>
-                </li>
+                </li> --}}
                 @endrole
 
                 <!-- Manajemen User -->
@@ -132,11 +132,11 @@
                 
                 @role ('developer|administrator')
                 <!-- grades -->
-                <li class="sidenav-item{{ Request::is('grades*') ? ' active' : '' }}">
+                {{-- <li class="sidenav-item{{ Request::is('grades*') ? ' active' : '' }}">
                     <a href="{{ route('grades.index') }}" class="sidenav-link" title="Manajemen Nilai">
                       <div>Manajemen Nilai</div>
                     </a>
-                </li>
+                </li> --}}
                 <!-- tags -->
                 {{-- <li class="sidenav-item{{ Request::is('tags*') ? ' active' : '' }}">
                     <a href="{{ route('tags.index') }}" class="sidenav-link" title="Tags">
@@ -144,11 +144,11 @@
                     </a>
                 </li> --}}
                 <!-- komentar -->
-                <li class="sidenav-item{{ Request::is('komentar*') ? ' active' : '' }}">
+                {{-- <li class="sidenav-item{{ Request::is('komentar*') ? ' active' : '' }}">
                     <a href="{{ route('komentar.index') }}" class="sidenav-link" title="Komentar">
                       <div>Komentar</div>
                     </a>
-                </li>
+                </li> --}}
                 @endrole
             </ul>
         </li>
