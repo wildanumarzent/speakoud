@@ -68,7 +68,6 @@
 <div class="box-wrap bg-grey-alt">
     <div class="container">
         <div class="row">
-           
             @include('frontend.agenda.kalender')
         </div>
     </div>

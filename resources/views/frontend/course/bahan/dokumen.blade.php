@@ -51,11 +51,21 @@
         width: 100%;
         height: 100%;
         }
+        .preload { width:100px;
+        height: 100px;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        }
+        .container {display:none;}
+
     </style>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">    
   </head>
   <body>
    {{-- {{ dd(route('bank.data.stream', ['path' => $data['bahan']->dokumen->bankData->file_path])) }} --}}
+   <div class="preload"><img src="http://i.imgur.com/KUJoe.gif">
+    </div>
    <div class="container">
     <div class="row">
         <div class="col-md-12">
@@ -169,16 +179,30 @@
             console.log(progress); // Progress has loaded and total
         };
         // Get Document
-      pdfjsLib.getDocument(url, progressCallback)
+    //   pdfjsLib.getDocument(url)
+    //     .promise.then(pdfDoc_ => {
+    //         pdfDoc = pdfDoc_;
+    //         document.querySelector('#page-count').textContent = pdfDoc.numPages;
+
+    //         renderPage(pageNum);
+    //         progressCallback();
+    //     })
+        var url_src = pdfjsLib.getDocument(url);
+        console.log(url_src);
+        //get progress data
+        url_src.onProgress = function(data){
+            var duration = data.loaded / data.total;
+            $(".preload").fadeOut(duration, function() {
+                $(".container").fadeIn(duration);        
+            });
+        }
+        url_src
         .promise.then(pdfDoc_ => {
             pdfDoc = pdfDoc_;
-           
             document.querySelector('#page-count').textContent = pdfDoc.numPages;
 
             renderPage(pageNum);
         })
-
-      
         .catch(err => {
             // Display error
             const div = document.createElement('div');

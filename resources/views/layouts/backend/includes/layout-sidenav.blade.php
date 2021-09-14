@@ -240,11 +240,11 @@
 
             @role('developer|administrator')
             <!-- jadwal -->
-            {{-- <li class="sidenav-item{{ (Request::is('jadwal*')) ? ' active' : '' }}">
+            <li class="sidenav-item{{ (Request::is('jadwal*')) ? ' active' : '' }}">
                 <a href="{{ route($jadwal) }}" class="sidenav-link" title="Kalender Diklat">
-                  <div>Kalender Diklat</div>
+                  <div>Agenda Kegiatan</div>
                 </a>
-            </li> --}}
+            </li>
             @endrole
 
             <!-- kalender -->
