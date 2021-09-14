@@ -192,6 +192,7 @@
         //get progress data
         url_src.onProgress = function(data){
             var duration = data.loaded / data.total;
+            console.log(duration);
             $(".preload").fadeOut(duration, function() {
                 $(".container").fadeIn(duration);        
             });
