@@ -115,6 +115,8 @@ class HomeController extends Controller
 
     public function events()
     {
-        return view('frontend.agenda.index');
+        $data = [];
+        return view('frontend.agenda.index',compact('data'));
     }
+
 }

@@ -29,6 +29,8 @@ use Illuminate\Support\Facades\Route;
 //home
 Route::get('/', [HomeController::class, 'index'])
     ->name('home');
+Route::get('/agenda', [HomeController::class, 'events'])
+    ->name('agenda.kegiatan');
 
     Route::get('/access/denide', [HomeController::class, 'denide'])
     ->name('denide');
@@ -819,3 +821,6 @@ Route::group(['middleware' => ['auth']], function () {
 	->middleware('auth');
     Route::get('/pelatihan/{orderBy}','pelatihan\PelatihanController@filterBy')
     ->name('platihan.filter');
+
+   
+
