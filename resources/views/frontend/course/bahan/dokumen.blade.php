@@ -194,7 +194,7 @@
             var duration = data.loaded / data.total;
             console.log(duration);
             $(".preload").fadeOut(duration, function() {
-                $(".container").fadeIn(duration);        
+                $(".container").fadeIn(1000);        
             });
         }
         url_src
