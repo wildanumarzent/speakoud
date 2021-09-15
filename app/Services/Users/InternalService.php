@@ -60,13 +60,20 @@ class InternalService
     public function countInternal()
     {
         $query = $this->model->query();
-
         $query->whereHas('user', function ($query) {
             $query->active();
         });
-
+        
         $result = $query->count();
+        // dd($query);
 
+        return $result;
+    }
+
+    public function countUserAll()
+    {
+        $query= $this->user->getAllUser();
+        $result = $query->count();
         return $result;
     }
 

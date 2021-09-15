@@ -69,8 +69,10 @@ class HomeController extends Controller
 
     public function dashboard(Request $request)
     {
+         
         $data['counter'] = [
-            'user_internal' => app()->make(InternalService::class)->countInternal(),
+            'internal' => app()->make(InternalService::class)->countInternal(),
+            'user_internal' => app()->make(InternalService::class)->countUserAll(),
             'user_mitra' =>app()->make(MitraService::class)->countMitra(),
             'user_instruktur' => app()->make(InstrukturService::class)->countInstruktur(),
             'user_peserta' => app()->make(PesertaService::class)->countPeserta(),
@@ -79,7 +81,7 @@ class HomeController extends Controller
             'course_mata' => app()->make(MateriService::class)->countMateri(),
             'course_materi' => app()->make(BahanService::class)->countBahan(),
         ];
-
+    //    dd($data['counter']);
         if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
             $data['counter'] = [
                 'peserta_badge' => app()->make(BadgeService::class)->countBadge(auth()->user()->peserta->id),

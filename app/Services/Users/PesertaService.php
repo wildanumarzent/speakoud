@@ -101,12 +101,12 @@ class PesertaService
     {
         $query = $this->model->query();
 
-        $query->whereHas('user', function ($query) {
-            $query->active();
-        });
+        // $query->whereHas('user', function ($query) {
+        //     $query->active();
+        // });
 
         $result = $query->count();
-
+        // dd($result);
         return $result;
     }
 
