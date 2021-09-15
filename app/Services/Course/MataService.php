@@ -293,7 +293,7 @@ class MataService
             $query->where('publish', $request->p);
         }
 
-        $query->where('publish_end', '<', now());
+        // $query->where('publish_end', '<', now());
 
         if (isset($request->f) && isset($request->t)) {
             $query->whereBetween('publish_end', [$request->f, $request->t]);

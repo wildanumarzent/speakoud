@@ -203,10 +203,9 @@ return [
         6 => 'S3',
     ],
     'history_peserta' => [
-        0 => 'Semua',
-        1 => 'Tidak Selesai',
-        2 => 'Sudah Lulus',
-        3 => 'Belum Lulus'
+        0 => 'Tidak Selesai',
+        1 => 'Sudah Lulus',
+        2 => 'Belum Lulus'
     ],
     'pekerjaan' => [
         0 => 'Pelajar',

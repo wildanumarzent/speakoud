@@ -836,8 +836,8 @@
     color: rgba(255, 255, 255, 0.5);
 }
 .alsen .sidenav .sidenav-inner .sidenav-item.active:not(.open) > .sidenav-link {
-    color: rgb(0, 0, 0) !important;
-    background-color: #ffffff !important;
+    color: rgb(255, 255, 255) !important;
+    background-color: #00000014 !important;
 }
 .alsen
     .sidenav
