@@ -49,11 +49,13 @@ class BahanQuizItemController extends Controller
         }
 
         $data['quiz_item'] = $this->service->getItemList($request, $quizId);
+        // dd($data['quiz_item']);
         $data['number'] = $data['quiz_item']->firstItem();
         $data['quiz_item']->withPath(url()->current().$t.$q);
         $data['quiz'] = $this->service->findQuiz($quizId);
 
         $data['soal_kategori'] = $this->serviceSoalKategori->getSoalKategori($data['quiz']->mata_id);
+        
         $soal = null;
         if ($data['quiz_item']->total() > 0) {
             $collectSoal = collect($this->service->getItem($quizId));
@@ -315,6 +317,7 @@ class BahanQuizItemController extends Controller
 
     public function trackJawaban(Request $request, $quizId)
     {
+
         $this->service->trackJawaban($request, $quizId);
 
         return response()->json([
@@ -325,14 +328,30 @@ class BahanQuizItemController extends Controller
 
     public function finishQuiz(Request $request, $quizId)
     {
+        // dd( auth()->user()->id);
         $quiz = $this->service->findQuiz($quizId);
+        $nilaiQuiz = $quiz->trackItem->where('user_id', auth()->user()->id);
+        if($nilaiQuiz->count() > 0)
+        {
+            $grade = round(($nilaiQuiz->where('benar', 1)->count() / $nilaiQuiz->count()) * 100);
 
-        $this->serviceQuiz->trackUserOut($quizId);
+        }
+        
+        if($grade > 70)
+        {
+            $lulus =1;
+        }else{
+            $lulus = 0;
+        }
+        $this->serviceQuiz->trackUserOut($quizId, $lulus);
+        
         if ($quiz->bahan->completion_type == 4) {
+
             $this->serviceActivity->complete($quiz->bahan_id);
         }
 
         if ($request->button == 'yes') {
+
             return redirect()->route('course.bahan', [
                 'id' => $quiz->mata_id, 'bahanId' => $quiz->bahan_id, 'tipe' => 'quiz'
                 ])->with('success', 'Quiz telah selesai');

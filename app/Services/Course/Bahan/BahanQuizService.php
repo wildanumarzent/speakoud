@@ -124,12 +124,13 @@ class BahanQuizService
         return $track;
     }
 
-    public function trackUserOut(int $quizId)
+    public function trackUserOut(int $quizId, $lulus)
     {
         $track = $this->modelTrackUser->where('quiz_id', $quizId)
             ->where('user_id', auth()->user()->id)->first();
         $track->status = 2;
-        $track->end_time = now();
+        $track->is_graduaded = $lulus;
+        $track->end_time = now();        
         $track->save();
 
         return $track;

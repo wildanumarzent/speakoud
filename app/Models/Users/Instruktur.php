@@ -7,7 +7,7 @@ use App\Models\Instansi\InstansiMitra;
 use App\Observers\LogObserver;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-
+ 
 class Instruktur extends Model
 {
     use SoftDeletes;
@@ -46,5 +46,10 @@ class Instruktur extends Model
         } else {
             return InstansiMitra::find($item->instansi_id);
         }
+    }
+
+    public function information()
+    {
+         return $this->belongsTo(UserInformation::class, 'user_id');
     }
 }

@@ -11,8 +11,8 @@
     <!-- Brand demo (see assets/css/demo/demo.css) -->
     <div class="app-brand demo">
         <span class="app-brand-logo demo">
-            {{-- <img src="{{ asset(config('custom.files.logo.f')) }}"> --}}
-            <b>SPEAKOUD</b> 
+            <img src="{{ asset(config('custom.files.logo.f')) }}">
+            {{-- <b>SPEAKOUD</b>  --}}
         </span>
         <a href="javascript:void(0)" class="layout-sidenav-toggle sidenav-link text-large ml-auto">
           <i class="las la-thumbtack"></i>

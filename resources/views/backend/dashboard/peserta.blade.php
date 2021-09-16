@@ -90,6 +90,7 @@
       <div class="card-body">
         <div class="mb-3"><a href="javascript:void(0)" class="text-body font-weight-semibold">{{$course->judul}}</a></div>
         <div class="d-flex justify-content-between align-items-center small">
+            {{-- {{dd($course->extra())}} --}}
           <div class="font-weight-bold">{{$course->extra(auth()->user()->id)->first()->persentase ?? '0'}}%</div>
           <div class="text-muted">Progress</div>
         </div>

@@ -231,4 +231,9 @@ class MataPelatihan extends Model
     {
         return $this->hasOne(MataExtra::class, 'mata_id')->where('user_id',$id);
     }
+
+    public function NotComplite()
+    {
+        return $this->hasOne(MataExtra::class, 'mata_id');
+    }
 }

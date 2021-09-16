@@ -82,17 +82,17 @@ class PelatihanController extends Controller
         $data['numberRating'] = [1, 2, 3, 4, 5];
         $data['numberProgress'] = [1, 2, 3, 4, 5];
         rsort($data['numberProgress']);
+         
+        // if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
+        //     if ($data['read']->program->publish == 0 || $data['read']->publish == 0) {
+        //         return abort(404);
+        //     }
 
-        if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
-            if ($data['read']->program->publish == 0 || $data['read']->publish == 0) {
-                return abort(404);
-            }
-
-            if (now() < $data['read']->publish_start) {
-                return abort(404);
-            }
-        }
-
+        //     if (now() < $data['read']->publish_start) {
+        //         return abort(404);
+        //     }
+        // }
+// dd("test");
         $this->serviceProgram->checkAdmin($data['read']->program_id);
         $this->serviceProgram->checkPeserta($data['read']->program_id);
         if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra|peserta_internal|peserta_mitra')) {
@@ -101,17 +101,17 @@ class PelatihanController extends Controller
             }
         }
 
-        if (!empty($data['read']->kode_evaluasi)) {
-            $preview = $this->serviceEvaluasi->preview($data['read']->kode_evaluasi);
-            $data['checkKode'] = $preview->success;
-            if ($preview->success == true) {
-                $data['preview'] = $preview->data->evaluasi;
-                if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
-                    $data['apiUser'] = $this->serviceEvaluasi->checkUserPenyelenggara($id)->first();
-                }
-            }
-        }
-
+        // if (!empty($data['read']->kode_evaluasi)) {
+        //     $preview = $this->serviceEvaluasi->preview($data['read']->kode_evaluasi);
+        //     $data['checkKode'] = $preview->success;
+        //     if ($preview->success == true) {
+        //         $data['preview'] = $preview->data->evaluasi;
+        //         if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
+        //             $data['apiUser'] = $this->serviceEvaluasi->checkUserPenyelenggara($id)->first();
+        //         }
+        //     }
+        // }
+           
         return view('frontend.pelatihan.pelatihan', compact('data'), [
             'title' => $data['read']->judul,
             // 'breadcrumbsBackend' => [

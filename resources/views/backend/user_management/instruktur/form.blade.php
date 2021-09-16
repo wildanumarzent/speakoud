@@ -46,8 +46,8 @@
                                 <option value="{{ $key }}" {{ old('gender', $data['instruktur']->gender ?? '') == ''.$key.'' ? 'selected' : '' }}>{{ $value }}</option>
                                 @endforeach
                             </select>
-                            @if ($data['instruktur']->gender ?? '0')
-                            <span style="color: red;"><i>*belum diisi</i></span>
+                            @if ($data['instruktur']->gender ?? 0 )
+                            {{-- <span style="color: red;"><i>*belum diisi</i></span> --}}
                             @endif
                         </div>
                     </div>
@@ -71,13 +71,14 @@
                         <div class="col-md-2 text-md-right">
                           <label class="col-form-label text-sm-right">Nomor Telpon</label>
                         </div>
+                        {{-- {{dd($data['instruktur']->information)}} --}}
                         <div class="col-md-10">
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">+62</span>
                                 </div>
                                 <input type="number" class="form-control @error('phone') is-invalid @enderror" name="phone"
-                                    value="{{ (isset($data['instruktur'])) ? old('phone', $data['instruktur']->information->phone) : old('phone') }}" placeholder="masukan nomor telpon...">
+                                    value="{{ (isset($data['instruktur'])) ? old('phone', $data['instruktur']->information->phone ) : old('phone') }}" placeholder="masukan nomor telpon...">
                                 @include('components.field-error', ['field' => 'phone'])
                             </div>
                         </div>
@@ -91,13 +92,14 @@
                           @include('components.field-error', ['field' => 'address'])
                         </div>
                     </div>
+                 
                     <div class="form-group row">
                         <div class="col-md-2 text-md-right">
                           <label class="col-form-label text-sm-right">Tanggal Lahir</label>
                         </div>
                         <div class="col-md-10">
                          <input type="text" class="date-picker form-control @error('tanggal_lahir') is-invalid @enderror" name="tanggal_lahir"
-                            value="{{ !empty($data['instruktur']->tanggal_lahir) ? old('tanggal_lahir', $data['instruktur']->tanggal_lahir->format('Y-m-d')) : '' }}" placeholder="masukan tanggal lahir...">
+                            value="{{ !empty($data['instruktur']->tanggal_lahir) ? old('tanggal_lahir', $data['instruktur']->tanggal_lahir) : '' }}" placeholder="masukan tanggal lahir...">
                         <div class="input-group-append">
                           @include('components.field-error', ['field' => 'name'])
                         </div>

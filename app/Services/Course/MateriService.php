@@ -116,13 +116,13 @@ class MateriService
 
     public function storeMateri($request, int $mataId)
     {
+        // dd($mataId);
         $mata = $this->mata->findMata($mataId);
-
-        $materi = new MateriPelatihan($request->only(['judul']));
+        $materi = new MateriPelatihan($request->only(['judul','keterangan']));
         $materi->program_id = $mata->program_id;
         $materi->mata_id = $mataId;
-        $materi->instruktur_id = auth()->user()->instruktur->id ?? auth()->user()->id;
-        $materi->creator_id = auth()->user()->id;
+        // $materi->instruktur_id = auth()->user()->instruktur == null ? auth()->user()->id: 0;
+        $materi->creator_id = auth()->user()->id ;
         $materi->keterangan = $request->keterangan ?? null;
         $materi->publish = (bool)$request->publish;
         $materi->urutan = ($this->model->where('mata_id', $mataId)->max('urutan') + 1);

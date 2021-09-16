@@ -145,7 +145,7 @@
                     <th>Grade item</th>
                     <th class="text-center">Grade</th>
                     {{-- <th class="text-center">Range</th> --}}
-                    <th class="text-center">Percentage</th>
+                    <th class="text-center">Percentace</th>
                     {{-- <th>Feedback</th> --}}
                     <th class="text-center">Status</th>
                 </tr>
@@ -157,6 +157,7 @@
                         if ($bahan->quiz()->count() > 0) {
 
                             $quiz = $bahan->quiz->trackItem->where('user_id', auth()->user()->id);
+                            // dd($quiz);
                             if ($quiz->count() > 0) {
                                 $grade = round(($quiz->where('benar', 1)->count() / $quiz->count()) * 100);
                             } else {
@@ -217,9 +218,9 @@
                     {{-- <td>{!! $feedback !!}</td> --}}
                     <td class="text-center">
                         @if ($grade > 70)
-                        <strong class="badge badge-primary">Lulus</strong>
-                        @else  
-                        <strong class="badge badge-danger">Tidak Lulus</strong>
+                            <strong class="badge badge-primary">Lulus</strong>
+                            @else  
+                            <strong class="badge badge-danger">Tidak Lulus</strong>
                         @endif
                     </td>
                     {{-- <td class="text-center">

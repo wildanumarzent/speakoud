@@ -15,7 +15,7 @@
 <div class="card">
     <div class="list-group list-group-flush account-settings-links flex-row">
         <a class="list-group-item list-group-item-action active" data-toggle="list" href="#data">Data</a>
-        <a class="list-group-item list-group-item-action" data-toggle="list" href="#boot">Pembobotan Nilai</a>
+        {{-- <a class="list-group-item list-group-item-action" data-toggle="list" href="#boot">Pembobotan Nilai</a> --}}
     </div>
     <div class="card-body">
         <form action="{{ !isset($data['mata']) ? route('mata.store', ['id' => $data['program']->id]) : route('mata.update', ['id' => $data['mata']->program_id, 'mataId' => $data['mata']->id]) }}" method="POST" enctype="multipart/form-data">

@@ -121,6 +121,8 @@ class BahanPelatihan extends Model
 
     public function type($bahan)
     {
+        // dd($bahan->dokumen()->count() ==1);
+
         if ($bahan->forum()->count() == 1) {
             $segmen = [
                 'tipe' => 'forum',
@@ -128,7 +130,6 @@ class BahanPelatihan extends Model
                 'icon' => 'comments'
             ];
         }
-
         if ($bahan->dokumen()->count() == 1) {
             $segmen = [
                 'tipe' => 'dokumen',
@@ -192,7 +193,7 @@ class BahanPelatihan extends Model
                 'icon' => 'user-tie'
             ];
         }
-
+        // dd($segmen);
         return $segmen;
     }
 

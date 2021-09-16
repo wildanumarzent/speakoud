@@ -17,10 +17,18 @@
                     <label class="form-label">Status</label>
                     <select class="status custom-select form-control" name="p">
                         <option value=" " selected>Semua</option>
+                        @role('administrator|developer')
+                        @foreach (config('addon.label.publish') as $key => $value)
+                        {{-- <option value=""></option> --}}
+                        <option value="{{ $key }}" {{ Request::get('p') == ''.$key.'' ? 'selected' : '' }}>{{ $value }}</option>
+                        @endforeach
+                        @endrole
+                        @role('peserta_internal')
                         @foreach (config('addon.label.history_peserta') as $key => $value)
                         {{-- <option value=""></option> --}}
                         <option value="{{ $key }}" {{ Request::get('p') == ''.$key.'' ? 'selected' : '' }}>{{ $value }}</option>
                         @endforeach
+                        @endrole
                     </select>
                 </div>
             </div>
@@ -114,7 +122,7 @@
             </div>
             <div class="small">
                 <span class="text-muted ml-3"><i class="las la-user text-lighter text-big align-middle"></i>&nbsp; {{ $item->creator->name }}</span>
-                <span class="text-muted ml-3"><i class="las la-book-open text-lighter text-big align-middle"></i>&nbsp; {{ $item->program->tipe == 0 ? 'BPPT' : 'Mitra' }}</span>
+                {{-- <span class="text-muted ml-3"><i class="las la-book-open text-lighter text-big align-middle"></i>&nbsp; {{ $item->program->tipe == 0 ? 'BPPT' : 'Mitra' }}</span> --}}
                 <span class="text-muted ml-3"><i class="las la-calendar text-lighter text-big align-middle"></i>&nbsp; {{ $item->created_at->format('d/m/Y H:i') }}</span>
                 <span class="text-muted ml-3"><i class="las la-calendar text-lighter text-big align-middle"></i>&nbsp; {{ $item->updated_at->format('d/m/Y H:i') }}</span>
             </div>

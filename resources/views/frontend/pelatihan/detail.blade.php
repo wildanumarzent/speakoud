@@ -56,7 +56,7 @@
 				<div class="media mb-3">
 					<div class="media-body pt-2 ml-3">
 						<h3 class="mb-2" style="color: rgb(0, 255, 21)"> <strong>Free</strong>
-                            {{-- {{dd(auth()->user())}} --}}
+                           @role('peserta_internal')
 							@if ($data['peserta'] != null)
 								@if (auth()->user() != null)
                                     @if ($data['peserta']->status_peserta == 1)
@@ -70,6 +70,11 @@
 							@else 
 								<a href="{{ route('register') }}" class="btn btn-warning">More Info</a>
 							@endif
+                            @elserole('administrator')
+                                <a href="{{ route('pelatihan.mata', ['id' => $data['mata']->id]) }}" class="btn btn-warning">PREVIEW</a>
+                            @else 
+                            <a href="{{ route('register') }}" class="btn btn-warning">More Info</a>
+                            @endrole
 						 </h3>
 					</div>
 				</div>

@@ -78,7 +78,7 @@ class MateriController extends Controller
 
     public function store(MateriRequest $request, $mataId)
     {
-      
+        // dd($request->all());
         $this->service->storeMateri($request, $mataId);
 
         return redirect()->route('materi.index', ['id' => $mataId])

@@ -82,6 +82,7 @@ class InstrukturController extends Controller
     public function edit($id)
     {
         $data['instruktur'] = $this->service->findInstruktur($id);
+        // dd($data['instruktur']->information);
         if (empty($data['instruktur']->mitra_id)) {
             $data['instansi'] = $this->instansiInternal->getInstansi();
         } else {

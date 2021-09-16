@@ -136,7 +136,7 @@
               </div>
               <div class="small">
                 <span class="text-muted ml-3"><i class="las la-user text-lighter text-big align-middle"></i>&nbsp; {{ $item->creator->name }}</span>
-                <span class="text-muted ml-3"><i class="las la-user-tie text-lighter text-big align-middle"></i>&nbsp; {{ $item->instruktur->user->name }}</span>
+                {{-- <span class="text-muted ml-3"><i class="las la-user-tie text-lighter text-big align-middle"></i>&nbsp; {{ $item->instruktur->user->name }}</span> --}}
                 <span class="text-muted ml-3"><i class="las la-calendar text-lighter text-big align-middle"></i>&nbsp; {{ $item->created_at->format('d/m/Y H:i') }}</span>
                 <span class="text-muted ml-3"><i class="las la-calendar text-lighter text-big align-middle"></i>&nbsp; {{ $item->updated_at->format('d/m/Y H:i') }}</span>
               </div>
