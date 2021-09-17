@@ -2,6 +2,7 @@
 @include('sweetalert::alert')
 
 <div class="modal modal-top fade" id="kalender-diklat-modal">
+    @role ('developer|administrator|internal')
     <form id="eventSubmit" method="post" action="{{route('event.store')}}">
         @csrf
         <input type="hidden" name="id" id="eventID">
@@ -86,7 +87,6 @@
 
 </form>
 @else
-
 <div class="modal-dialog modal-lg">
     <input type="hidden" id="className">
     <input type="hidden" id="allDay">
@@ -116,7 +116,7 @@
         </div>
     </div>
 </div>
-
+@endrole
 </div>
 
 
@@ -178,7 +178,9 @@ var eventList = [];
       start: '9:00',
       end: '18:00',
     },
-  
+    @role ('developer|administrator|internal')
+    editable: true,
+    @endrole
     eventLimit: true, // allow "more" link when too many events
     events: "{{route('event.list')}}",
 
