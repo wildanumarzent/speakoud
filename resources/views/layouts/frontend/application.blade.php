@@ -13,7 +13,7 @@
 
         <title>{{ $configuration['website_name'] }} {{ isset($title) ? ': '.$title : '' }}</title>
 
-        {{-- <link rel="shortcut icon" type="image/png" href="{{ asset('assets/tmplts_backend/images/favicon.ico') }}" sizes="32x32"> --}}
+        <link rel="shortcut icon" type="image/png" href="{{ asset('assets/tmplts_backend/images/speakoud.png') }}" sizes="32x32">
 
         <meta name="robots" content="index,follow" />
         <meta name="googlebot" content="index,follow" />

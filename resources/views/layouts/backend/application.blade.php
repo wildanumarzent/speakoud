@@ -22,7 +22,7 @@
     <meta property="og:image:height" content="366" />
     <meta property="og:type" content="website" />
 
-    {{-- <link rel="shortcut icon" type="image/png" href="{{ asset('assets/tmplts_backend/images/favicon.ico') }}" sizes="32x32"> --}}
+    <link rel="shortcut icon" type="image/png" href="{{ asset('assets/tmplts_backend/images/speakoud.png') }}" sizes="32x32">
 
     <!-- Main font -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900" rel="stylesheet">
