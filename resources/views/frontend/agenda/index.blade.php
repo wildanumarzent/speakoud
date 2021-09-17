@@ -55,7 +55,6 @@
             <div class="banner-text">
                 <div class="title-heading text-center">
                     <h1 style="color:white">Agenda Kegiatan</h1>
-
                 </div>
             </div>
             @include('components.breadcrumbs')

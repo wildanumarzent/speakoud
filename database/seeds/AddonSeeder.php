@@ -26,7 +26,7 @@ class AddonSeeder extends Seeder
             'kode_instansi' => '15017',
             'nip_pimpinan' => '012345',
             'nama_pimpinan' => 'Dr. Aton Yulianto, SSi. M. Eng.',
-            'nama_instansi' => 'Pusat Pembinaan, Pendidikan dan Pelatihan BPPT',
+            'nama_instansi' => 'SPEAKOUD',
             'jabatan' => 'Kepala Pusbindiklat'
         ]);
         $instansiMitra = InstansiMitra::create([

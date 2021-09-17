@@ -6,11 +6,11 @@
         <div class="banner-content">
             <div class="banner-text">
                 <div class="title-heading text-center">
-                    <h1>{!! $data['read']->judul !!}</h1>
+                    <h1 style="color: white">{!! $data['read']->judul !!}</h1>
 
                 </div>
             </div>
-            @include('components.breadcrumbs')
+            {{-- @include('components.breadcrumbs') --}}
         </div>
     </div>
     <div class="thumbnail-img">

@@ -15,7 +15,7 @@ class InquirySeeder extends Seeder
         Inquiry::create([
             'name' => 'Kontak',
             'slug' => 'kontak',
-            'body' => '<h1>BPPT E-Learning System</h1>',
+            'body' => '<h1>SPEAKOUD</h1>',
             'after_body' => '<h4>Terima kasih atas timbal balik anda</h4>',
             'publish' => 1,
             'show_form' => 1,

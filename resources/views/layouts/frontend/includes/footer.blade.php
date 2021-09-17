@@ -74,17 +74,17 @@
                                     <ul>
                                         <li style="color: white; font-family: ">
                                             {{-- {{ $configuration['address'] }} --}}
-                                            Disclaimer
+                                            <a href="{{route('page.read',['id'=>5,'slug'=>'disclaimer'])}}" style="color: white; font-family: ">Disclaimer</a> 
                                         </li>
                                         <li style="color: white; font-family: ">
                                             {{-- {{ $configuration['fax'] }} <br> --}}
-                                            Kebijakan Privasi
+                                            <a href="{{route('page.read',['id'=>8,'slug'=>'kebijakan-privasi'])}}" style="color: white; font-family: ">Kebijakan Privasi</a> 
                                             {{-- {{ $configuration['phone'] }} <br>
                                             {{ $configuration['phone_2'] }} <br> --}}
                                         </li >
                                         <li style="color: white; font-family: ">
                                             
-                                            Terms & Conditions
+                                            <a href="{{route('page.read',['id'=>8,'slug'=>'kebijakan-privasi'])}}" style="color: white; font-family: ">Terms & Conditions</a>
                                             {{-- <a href="mailto:{{ $configuration['email'] }}" title="Email" style="color: white">{{ $configuration['email'] }}</a> <br>
                                             <a href="mailto:{{ $configuration['email_2'] }}" title="Email 2" style="color: white">{{ $configuration['email_2'] }}</a> <br> --}}
                                         </li>

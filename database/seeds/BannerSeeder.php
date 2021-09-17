@@ -20,8 +20,8 @@ class BannerSeeder extends Seeder
             ],
             1 => [
                 'judul' => 'Banner Login',
-                'keterangan' => '<h1>BPPT E-Learning System</h1>
-                                    <h5>Layanan Pelatihan Jarak Jauh oleh Pusbindiklat BPPT.</h5>'
+                'keterangan' => '<h1>SPEAKOUD E-Learning System</h1>
+                                    <h5>Layanan Pelatihan Jarak Jauh oleh SPEAKOUD.</h5>'
             ],
         ];
 
@@ -29,21 +29,21 @@ class BannerSeeder extends Seeder
             0 => [
                 'banner_kategori_id' => 1,
                 'file' => 'slide-1.jpg',
-                'judul' => 'BPPT E-Learning System',
-                'keterangan' => '<h5>Layanan Pelatihan Jarak Jauh oleh Pusbindiklat BPPT.</h5>',
+                'judul' => 'SPEAKOUD',
+                'keterangan' => '<h5>Sistem Pembelajaran untuk Edukasi Dan Konsultasi Digital</h5>',
                 'link' => 'javascript:;',
             ],
             1 => [
                 'banner_kategori_id' => 1,
                 'file' => 'slide-2.jpg',
-                'judul' => 'BELS: BPPT E-Learning System',
-                'keterangan' => '<h5>Tingkatkan pengetahuan dan keterampilan anda bersama kami, kapan pun dan dimana pun.</h5>',
+                'judul' => 'SINERGI DIGITAL',
+                'keterangan' => '<h5>Mendukung Sistem Manajemen Pembelajaran Hybrid Dengan Modul Beragam</h5>',
                 'link' => 'javascript:;',
             ],
             2 => [
                 'banner_kategori_id' => 1,
                 'file' => 'slide-3.jpg',
-                'judul' => 'Pelatihan Jabatan Fungsional Perekayasa',
+                'judul' => 'Interaktif',
                 'keterangan' => '<h5>Tingkatkan pengetahuan dan keterampilan anda bersama kami, kapan pun dan dimana pun.</h5>',
                 'link' => 'javascript:;',
             ],

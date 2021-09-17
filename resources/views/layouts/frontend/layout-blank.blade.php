@@ -8,8 +8,8 @@
 <div id="page" class="bg-sign">
     <div class="logo-signbox">
         <div class="logo">
-            {{-- <img src="{{ asset(config('addon.images.logo')) }}" title="BPPT" alt="Logo BPPT"> --}}
-        <h5 class="text-white">SPEAKOUD</h5>
+            <img src="{{ asset(config('addon.images.logo')) }}" title="SPEAKOUD" alt="Logo SPEAKOUD">
+        {{-- <h5 class="text-white">SPEAKOUD</h5> --}}
         </div>
     </div>
     <div class="wrapper-flex">

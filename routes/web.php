@@ -28,7 +28,7 @@ use Illuminate\Support\Facades\Route;
  */
 //home
 Route::get('/', [HomeController::class, 'index'])
-    ->name('home');
+->name('home');
 Route::get('/agenda', [HomeController::class, 'events'])
     ->name('agenda.kegiatan');
 
@@ -369,6 +369,7 @@ Route::group(['middleware' => ['auth']], function () {
         ->middleware('role:developer|administrator|internal|mitra');
 
     //--sertifikasi
+
     //internal
     Route::get('/mata/{id}/sertifikat/peserta', 'Sertifikasi\SertifikatInternalController@peserta')
         ->name('sertifikat.internal.peserta')
@@ -388,6 +389,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/mata/{id}/sertifikat/internal/{sertifikatId}/download', 'Sertifikasi\SertifikatInternalController@download')
         ->name('sertifikat.internal.download')
         ->middleware('role:administrator|internal|mitra|peserta_internal|peserta_mitra');
+   
     //external
     Route::get('/mata/{id}/sertifikat/external/peserta', 'Sertifikasi\SertifikatExternalController@peserta')
         ->name('sertifikat.external.peserta')
