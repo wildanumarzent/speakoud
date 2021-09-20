@@ -123,6 +123,7 @@
         var totalPilihan = $("#total-pilihan").val();
         var integer = parseInt(totalPilihan);
         var no = integer+1;
+        // <input type="text" class="form-control @error('pilihan.`+no+`') is-invalid @enderror" name="pilihan[]" value="{{ old('pilihan'.`+no+`) }}" placeholder="masukan pilihan...">
         $("#add").click(function() {
             $("#list").append(`
                 <div class="form-group row num-list" id="delete-`+no+`">
@@ -132,7 +133,7 @@
                             <input type="radio" class="custom-control-input" name="jawaban" value="`+no+`">
                             <span class="custom-control-label"></span>
                         </label>
-                        <input type="text" class="form-control @error('pilihan.`+no+`') is-invalid @enderror" name="pilihan[]" value="{{ old('pilihan'.`+no+`) }}" placeholder="masukan pilihan...">
+                        <input type="text" class="form-control @error('pilihan.`+no+`') is-invalid @enderror" name="pilihan[]" value="" placeholder="masukan pilihan...">
                     </div>
                     <div class="col-sm-2">
                         <button type="button" id="remove" data-id="`+no+`" class="btn icon-btn btn-danger btn-sm"><span class="las la-times"></span></button>
