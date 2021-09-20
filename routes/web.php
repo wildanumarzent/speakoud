@@ -29,6 +29,7 @@ use Illuminate\Support\Facades\Route;
 //home
 Route::get('/', [HomeController::class, 'index'])
 ->name('home');
+
 Route::get('/agenda', [HomeController::class, 'events'])
     ->name('agenda.kegiatan');
 
