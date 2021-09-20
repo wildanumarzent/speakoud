@@ -334,7 +334,7 @@ class MataService
 			});
 		}
 		
-		$result = $query->paginate($limit);
+		$result = $query->with('quiz.trackUser')->paginate($limit);
         // dd($result);
 		return $result;
 	}

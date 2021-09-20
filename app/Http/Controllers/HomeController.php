@@ -20,6 +20,7 @@ use App\Services\Users\InternalService;
 use App\Services\Users\MitraService;
 use App\Services\Users\PesertaService;
 use Illuminate\Http\Request;
+use App\Models\Event;
 
 class HomeController extends Controller
 {
@@ -47,9 +48,9 @@ class HomeController extends Controller
         $this->badge = $badge;
         $this->kompetensi = $kompetensi;
 
-        if (request()->segment(1) != null) {
-            $this->middleware('auth');
-        }
+        // if (request()->segment(1) != null) {
+        //     $this->middleware('auth');
+        // }
     }
 
     /**
@@ -120,6 +121,12 @@ class HomeController extends Controller
         // return "test";
         $data = [];
         return view('frontend.agenda.index',compact('data'));
+    }
+
+    
+    public function list(){
+        $event = Event::latest()->get();
+        return response()->json($event);
     }
 
 }

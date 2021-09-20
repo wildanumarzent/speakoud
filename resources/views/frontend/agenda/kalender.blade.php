@@ -1,123 +1,7 @@
 
 @include('sweetalert::alert')
 
-<div class="modal modal-top fade" id="kalender-diklat-modal">
-    @role ('developer|administrator|internal')
-    <form id="eventSubmit" method="post" action="{{route('event.store')}}">
-        @csrf
-        <input type="hidden" name="id" id="eventID">
-        <input type="hidden" class="form-control start" name="start" placeholder="Start Date">
-        <input type="hidden" class="form-control end" name="end" placeholder="End Date">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Tambah Event</h5>
-                <div id="spatieCalendar">
-                <a href="#" id="googleLink" target="_blank" title="klik untuk menambahkan ke google calendar" class="btn btn-sm icon-btn btn-outline-danger ">
-                    <i class="fab fa-google"></i>
-                </a>
-                </div>
-                {{-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">×</button> --}}
-            </div>
 
-            <div class="modal-body">
-                <div class="form-group">
-                    <label class="form-label">Judul Event</label>
-                    <input id="judul" type="text" class="form-control" name="title" placeholder="Judul Event" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Deskripsi</label>
-                    <textarea cols="30" rows="10" id="description" class="form-control  @error('description') is-invalid @enderror" name="description" placeholder="masukan description..."></textarea>
-                </div>
-                <div class="form-group">
-                      <label class="form-label">Jam Mulai</label>
-                        <div class="input-group">
-                            <input required type="text" class="time-picker form-control @error('start_time') is-invalid @enderror" name="start_time" id="startTime"
-                               placeholder="masukan jam mulai...">
-                            <div class="input-group-append">
-                                <span class="input-group-text"><i class="las la-clock"></i></span>
-                            </div>
-                            @include('components.field-error', ['field' => 'start_time'])
-                        </div>
-                </div>
-                <div class="form-group">
-
-                      <label class="form-label">Jam Selesai</label>
-
-
-                        <div class="input-group">
-                            <input required type="text" class="time-picker form-control @error('end_time') is-invalid @enderror" name="end_time" id="endTime"
-                                placeholder="masukan jam selesai...">
-                            <div class="input-group-append">
-                                <span class="input-group-text"><i class="las la-clock"></i></span>
-                            </div>
-                            @include('components.field-error', ['field' => 'end_time'])
-                        </div>
-
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Tipe Warna</label>
-                    <select class="custom-select" name="className" id="className">
-                        <option value="" selected>Biru</option>
-                        <option value="fc-event-success">Hijau</option>
-                        <option value="fc-event-info">Hijau Muda</option>
-                        <option value="fc-event-warning">Kuning</option>
-                        <option value="fc-event-danger">Merah</option>
-                        <option value="fc-event-dark">Hitam</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Url Link</label>
-                    <a id="ulink" target="_blank" href="#"></a>
-                    <input id="link" type="text" class="form-control" name="link" placeholder="Url Link">
-                </div>
-                {{-- <div class="form-group">
-                    <label class="form-label">Sepanjang Hari</label>
-                    <input type="checkbox" class="" name="allDay" id="allDay" value="1">Yes
-                </div> --}}
-            </div>
-            <div class="modal-footer">
-                <button type="submit" id="delete" name="action" value="destroy" class="btn btn-danger md-btn-flat" disabled>Hapus</button>
-                <button type="button" class="btn btn-default md-btn-flat" data-dismiss="modal">Tutup</button>
-                <button type="submit" id="save" name="action" value="submit" class="btn btn-primary md-btn-flat">Simpan</button>
-
-            </div>
-        </div>
-    </div>
-
-</form>
-@else
-<div class="modal-dialog modal-lg">
-    <input type="hidden" id="className">
-    <input type="hidden" id="allDay">
-
-    <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title"></h5>
-            <div id="spatieCalendar">
-                <a href="" id="googleLink" target="_blank" title="klik untuk menambahkan ke google calendar" class="btn btn-sm icon-btn btn-outline-danger ">
-                    <span class="fab fa-google"></span>
-                </a>
-                </div>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">×</button>
-        </div>
-        <div class="modal-body">
-            <div class="form-group">
-                <label class="form-label">Deskripsi</label>
-                <p id="description"></p>
-            </div>
-            <div class="form-group">
-                <label class="form-label">Url Link</label>
-                <a id="ulink" target="_blank" href="#">Here</a>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-default md-btn-flat" data-dismiss="modal">Close</button>
-        </div>
-    </div>
-</div>
-@endrole
-</div>
 
 
     <hr class="container-m-nx border-light mt-1 mb-4">
@@ -178,11 +62,11 @@ var eventList = [];
       start: '9:00',
       end: '18:00',
     },
-    @role ('developer|administrator|internal')
+    // @role ('developer|administrator|internal')
     editable: true,
-    @endrole
+    // @endrole
     eventLimit: true, // allow "more" link when too many events
-    events: "{{route('event.list')}}",
+    events: "{{route('agenda.list')}}",
 
     views: {
       dayGrid: {

@@ -35,6 +35,7 @@ class EventController extends Controller
 
     public function list(){
         $event = Event::latest()->get();
+        // dd($event);
         return response()->json($event);
     }
 

@@ -123,7 +123,7 @@
         var totalPilihan = $("#total-pilihan").val();
         var integer = parseInt(totalPilihan);
         var no = integer+1;
-        // <input type="text" class="form-control @error('pilihan.`+no+`') is-invalid @enderror" name="pilihan[]" value="{{ old('pilihan'.`+no+`) }}" placeholder="masukan pilihan...">
+       
         $("#add").click(function() {
             $("#list").append(`
                 <div class="form-group row num-list" id="delete-`+no+`">

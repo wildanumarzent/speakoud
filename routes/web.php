@@ -30,8 +30,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index'])
 ->name('home');
 
-Route::get('/agenda', [HomeController::class, 'events'])
+Route::get('/agenda/kegiatan', [HomeController::class, 'events'])
     ->name('agenda.kegiatan');
+    Route::get('agenda/list','EventController@list')->name('agenda.list');
 
     Route::get('/access/denide', [HomeController::class, 'denide'])
     ->name('denide');
@@ -58,8 +59,8 @@ Route::get('/agenda', [HomeController::class, 'events'])
         ->name('about.index');
 
     // Event front End
-    Route::get('/jadwal', [JadwalController::class, 'index'])
-        ->name('events.agenda');
+    // Route::get('/jadwal', [JadwalController::class, 'index'])
+    //     ->name('events.agenda');
     
     
 //login
