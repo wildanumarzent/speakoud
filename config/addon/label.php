@@ -217,6 +217,11 @@ return [
         6 => 'Karyawan Swasta',
         7 => 'Lainnya',
     ],
+    'filter_course' => [
+        0 => 'New Published',
+        1 => 'Alphabetical',
+        2 => 'Most Members'
+    ],
 
 
 ];

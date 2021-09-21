@@ -27,6 +27,7 @@ use App\Services\Component\NotificationService;
 use App\Services\KalenderService;
 use App\Services\Users\InstrukturService;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class MataService
 {
@@ -172,9 +173,22 @@ class MataService
 	public function getMataFree($order, $by, int $limitz,$request)
 	{
 		$query = $this->model->query();
-	 
-		// $query->publish();
-		if (auth()->guard()->check() == true) {
+        if($request->f == 2)
+        {
+
+           $result = $query->join('mata_peserta', 'mata_pelatihan.id', '=', 'mata_peserta.mata_id')
+                ->select('mata_pelatihan.id','judul','cover','price', DB::raw('count(*) as mataPeserta_Count','mata_peserta.mata_id'))
+                ->groupBy('mata_peserta.mata_id')
+                ->orderBy('mataPeserta_Count', 'DESC')
+                ->paginate(12);
+
+            $query->when($request->q, function ($query, $q) {
+				$query->where('judul','like', '%'.$q.'%');
+			}); 
+            $result = $query->orderBy($order, $by)->paginate($limitz);
+                return $result;
+        }else{
+            if (auth()->guard()->check() == true) {
 			
 			if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra')) {
 				$query->whereHas('instruktur', function ($query) {
@@ -189,18 +203,24 @@ class MataService
 			});
 			// $query->where('publish_start', '<=', now())
 			// ->where('publish_end', '>=', now());
-		
-			$query->when($request->q, function ($query, $q) {
+		}
+            $query->when($request->q, function ($query, $q) {
 				$query->where('judul','like', '%'.$q.'%');
 			}); 
 
-				
-			
-		}
-			
-		$result = $query->orderBy($order, $by)->paginate($limitz);
-		//    dd($result);
-		return $result;
+            $query->when($request->f == 0, function($query){
+                $query->orderBy('urutan', 'DESC')->paginate(12);
+            });
+            
+            $query->when($request->f == 1, function($query){
+                $query->orderBy('judul', 'ASC')->paginate(12);
+            });
+        
+            $result = $query->orderBy($order, $by)->paginate($limitz);
+            return $result;
+
+        }
+		
 	}
 
 	public function getLatestMata()
