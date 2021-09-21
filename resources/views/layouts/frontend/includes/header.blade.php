@@ -31,8 +31,6 @@
 								</ul>
 							</li>
 							{{-- <li class="{{ Request::is('course/jadwal*') ? 'current-nav' : '' }}"><a href="{{ route('course.jadwal') }}" title="Kalender Pelatihan">Agenda</a></li> --}}
-
-
 							@foreach ($menu['inquiry'] as $inquiry)
 							<li class="{{ Request::is('inquiry*') ? 'current-nav' : '' }}"><a href="{{ route('inquiry.read', ['slug' => $inquiry->slug]) }}" title="{!! $inquiry->name !!}">HUBUNGI KAMI</a></li>
 							@endforeach

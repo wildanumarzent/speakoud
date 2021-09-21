@@ -41,6 +41,7 @@ class PelatihanController extends Controller
     public function index(Request $request)
     {
         $data['mata'] = $this->service->getMataFree('urutan', 'DESC', 12,$request);
+        // dd($data['mata']);
         return view('frontend.pelatihan.index', compact('data'));
     }
 
@@ -127,12 +128,14 @@ class PelatihanController extends Controller
         // dd($groupBy);
         if($groupBy =="Alphabetical"){
             $orderBy = 'ASC';
+            $data['mata'] = $this->service->getMataFree('judul', $orderBy,12, $request);
         }elseif ($groupBy=="Newly published") {
             $orderBy = 'DESC';
+            $data['mata'] = $this->service->getMataFree('urutan', $orderBy,12, $request);
         }else{
             $orderBy ='DESC';
+            $data['mata'] = $this->service->getMataFree('urutan', $orderBy,12, $request);
         }
-        $data['mata'] = $this->service->getMataFree('urutan', $orderBy,12, $request);
         return view('frontend.pelatihan.index', compact('data'));
     }
 

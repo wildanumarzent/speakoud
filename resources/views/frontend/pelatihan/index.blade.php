@@ -18,31 +18,29 @@
 </div>
 <div class="box-wrap bg-grey">
 		  <!-- Content -->
-	<div class="container flex-grow-1 container-p-y">
-        <div class="row justify-content-end mb-5">
-            <div class="col-lg-8">
-                <div class="form-row">
-                    <div class="col-md-4 mb-2">
-                        <label class="form-label">Status</label>
-                        <select class="custom-select" id="selectorId" name="filter">
-                        <option value="Newly published" {{ (Request::is('pelatihan/Newly%20published')) ? ' selected' : '' }}>Newly published</option>
-                        <option value="Alphabetical" {{ (Request::is('pelatihan/Alphabetical')) ? ' selected' : '' }}>Alphabetical</option>
-                        <option value="mostmember">Most members</option>
-                        </select>
-                    </div>
-                    <div class="col-md-8 mb-2">
-                        <form action="" method="get">
-                            <div class="form-row">
-                                <div class="col-md-6">
-                                    <label class="form-label">search</label>
-                                    <input type="text" name="q" value="{{ Request::get('q') }}" class="form-control" placeholder="Search...">
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label d-none d-md-block">&nbsp;</label>
-                                    <button type="submit" class="btn btn-primary w-100 filled ">Search</button>
-                                </div>
-                            </div>
-                        </form>
+	<div class="container-fluid flex-grow-1 container-p-y">
+        <div class="ui-bordered px-4 pt-4 mb-4">
+              <div class="form-row">
+                <div class="col-md mb-2">
+                    
+                </div>
+                <div class="col-md mb-2">
+                 
+                </div>
+                <div class=" col-md col-xl-2 mb-2">
+                <form action="" method="get">
+                  <label class="form-label">Status</label>
+                  <select class="custom-select" id="selectorId" name="f">
+                    @foreach (config('addon.label.filter_course') as $key => $value)
+                    <option value="{{ $key }}" {{ Request::get('f') == ''.$key.'' ? 'selected' : '' }}>{{ $value }}</option>
+                    @endforeach
+                   
+                  </select>
+                </div>
+                <div class="col-md mb-4">
+                   
+                      <label class="form-label">search</label>
+                      <input type="text" name="q" value="{{ Request::get('q') }}" class="form-control" placeholder="Search...">
                     </div>
                 </div>
             </div>
@@ -63,10 +61,10 @@
                 </td>
             </tr>
             @endif
+			{{-- {{dd($data['mata'])}} --}}
 			@foreach ($data['mata'] as $mata)
-			{{-- d-flex --}}
-			<div class="col-lg-4">
-				<!-- <div class="card mb-3 shadow" style="height: calc(100% - 1rem);">
+			<div class="col-sm-6 col-lg-3 d-inlex">
+				<div class="card mb-3 shadow" style="height: calc(100% - 1rem);">
 						<a href="{{ route('pelatihan.detail', ['id' => $mata->id]) }}" class="d-block ui-rect-60 ui-bg-cover box-img" style="position: relative; display:block; width: 100%; height: 200px">
 							<div class="thumb-img" style="position: absolute; top:0; bottom:0; left:0; right:0; z-index:1;">
 								<img class="card-img-top" src="{{ $mata->getCover($mata->cover['filename']) }}" alt="Card image cap" style="display: block; width:100%; height:100%; object-fit: cover; object-position: center; ">
@@ -88,7 +86,7 @@
 							@if ($mata->price == null || $mata->price == 0)
 								<h6 style="color: rgb(20, 245, 0);"> <strong><a href="{{ route('pelatihan.detail', ['id' => $mata->id]) }}">FREE</a> </strong> </h6>
 							@else
-								<h6 style="color: rgb(245, 147, 0)"> <strong>{{number_format($mata->price)}}</strong> </h6>
+								<h6 style="color: rgb(245, 147, 0)"> <strong>{{number_format($mata->price)}}</strong></h6>
 							@endif
 						</div>
 					</div>
@@ -148,10 +146,10 @@
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 @endsection
 @section('jsbody')
-    <script>
+    {{-- <script>
     $("select").on("change", function(){
         var orderBy = $('#selectorId option:selected').val()
         window.location.href = "{{ url('pelatihan/')}}"+"/"+orderBy;
     })
-    </script>
+    </script> --}}
 @endsection
