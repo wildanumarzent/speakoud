@@ -91,7 +91,7 @@
 						</div>
 					</div>
 					</div>
-				</div> -->
+				</div> 
 
                 <div class="item-post">
                     <a href="{{ route('pelatihan.detail', ['id' => $mata->id]) }}" class="box-img">
@@ -101,7 +101,7 @@
                     </a>
                     <div class="box-post">
                         <div class="post-date">
-                            {{ $mata->created_at->format('d F Y') }}
+                            {{-- {{ $mata->created_at->format('d F Y') }} --}}
                         </div>
                         <h5 class="post-title" >
                             <a href="{{ route('pelatihan.detail', ['id' => $mata->id]) }}">{!! $mata->judul !!}</a>
