@@ -16,7 +16,7 @@
         @foreach ($banner['login'] as $login)
         <div class="banner-signbox">
             <div class="banner-title">
-                <div class="title-heading text-center text-white">
+                <div class="title-heading text-center">
                     {!! $login->keterangan !!}
                 </div>
             </div>

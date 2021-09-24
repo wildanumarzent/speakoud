@@ -17,7 +17,7 @@
 					<div class="slide-inner-image thumbnail-img">
 						<img src="{{ asset(config('addon.images.path.banner').$banner->banner_kategori_id.'/'.$banner->file) }}" title="{!! $banner->judul !!}" alt="{!! strip_tags(Str::limit($banner->keterangan, 25)) !!}">
 					</div>
-					<div class="slide-inner-info title-heading" style="color:white">
+					<div class="slide-inner-info title-heading" >
 						@if ($loop->first)
 						<h6 class="Text-white" style="color: white;">@lang('strip.banner_welcome')</h6>
 						@endif
@@ -27,7 +27,7 @@
                         </div>
 						@if (!empty($banner->link))
 						<div class="box-btn">
-							<a href="{!! $banner->link !!}" class="btn btn-primary text-white" title="{!! $banner->judul !!}" style="font-family:sans-serif">@lang('strip.button_selengkapnya')</a>
+							<a href="{!! $banner->link !!}" class="btn btn-primary filled" title="{!! $banner->judul !!}">@lang('strip.button_selengkapnya')</a>
 						</div>
 						@endif
 					</div>
@@ -57,28 +57,33 @@
 			</div>
 		</div>
 
-		<div class="swiper-container mt-5 swiper-2" style="overflow: visible;">
+		<div class="swiper-container mt-3 swiper-2" style="overflow: visible;">
 			<div class="swiper-wrapper">
 
 				@foreach ($data['mata'] as $mata)
 				{{-- {{dd($mata)}} --}}
 				<div class="swiper-slide">
 					<div class="item-post">
-						<div class="box-img">
+						<a href="{{ route('pelatihan.detail', ['id' => $mata->id]) }}" class="box-img">
 							<div class="thumbnail-img">
 								<img src="{{ $mata->getCover($mata->cover['filename']) }}" title="{{ $mata->cover['title'] }}" alt="{{ $mata->cover['alt'] }}">
 							</div>
-						</div>
+                        </a>
 						<div class="box-post">
 							<div class="post-date">
 								{{ $mata->created_at->format('d F Y') }}
 							</div>
 							<h5 class="post-title" >
-								<a href="{{ route('pelatihan.detail', ['id' => $mata->id]) }}" style="font-family: sans-serif">{!! $mata->judul !!}</a>
+								<a href="{{ route('pelatihan.detail', ['id' => $mata->id]) }}">{!! $mata->judul !!}</a>
 							</h5>
 							<div class="post-info">
-                                <a href="{{ route('pelatihan.detail', ['id' => $mata->id]) }}" class="btn btn-primary mr-auto">@lang('strip.widget_1_button')</a>
-								
+                                <div class="box-price">
+                                    @if ($mata->price == null || $mata->price == 0)
+                                        <div class="free">Free</div>
+                                    @else
+                                        <div class="no-free">{{number_format($mata->price)}}</div>
+                                    @endif
+                                </div>
                                 <div class="box-info">
 									<div class="item-info">
 										<div class="data-info">
@@ -108,7 +113,7 @@
 				@endif
 
 			</div>
-			<div class="box-btn d-flex align-items-center  mt-xl-5">
+			<div class="box-btn d-flex align-items-center  mt-xl-3">
 				<div class="swiper-btn-wrapper">
 					<div class="swiper-button-prev swiper-btn sbp-2"><i class="la la-angle-left"></i></div>
 					<div class="swiper-button-next swiper-btn sbn-2"><i class="la la-angle-right"></i></div>
@@ -192,7 +197,7 @@
 						<div class="box-img">
 							<div class="thumbnail-img">
 								<div class="card shadow" style="height: calc(65% - 1rem);">
-									
+
 									<a href="" class="d-block ui-rect-60 ui-bg-cover box-img" style="position: relative; display:block; width: 100%; height: 100%">
 										<div class="thumb-img" style="position: absolute; top:0; bottom:0; left:0; right:0; z-index:1;">
 											<img class="card-img-top mx-auto d-block" src="{{asset('assets/img/chubpng.png')}}" alt="Card image cap" style="display: block; width:100%; height:100%; object-fit: cover; object-position: center; text-align: center">
@@ -208,7 +213,7 @@
 						<div class="box-img">
 							<div class="thumbnail-img">
 								<div class="card shadow" style="height: calc(65% - 1rem);">
-									
+
 									<a href="" class="d-block ui-rect-60 ui-bg-cover box-img" style="position: relative; display:block; width: 100%; height: 100%">
 										<div class="thumb-img" style="position: absolute; top:0; bottom:0; left:0; right:0; z-index:1;">
 											<img class="card-img-top mx-auto d-block" src="{{asset('assets/img/fuber.png')}}" alt="Card image cap" style="display: block; width:100%; height:100%; object-fit: cover; object-position: center; text-align: center">

@@ -7,12 +7,12 @@
 						<div class="logo">
 							<img src="{{ asset(config('addon.images.logo')) }}" width="80px" alt="Logo SPEAKOUD">
                             {{-- <strong>SPEAKOUD</strong>  --}}
-                            {{-- <h5 style="color:white">SPEAKOUD</h5> --}}
+                            {{-- <h5 >SPEAKOUD</h5> --}}
 						</div>
 					</a>
 				</div>
 				<div class="menubar-center">
-					<nav class="main-nav" style="color:white; font-family: arial, helvetica, sans-serif;">
+					<nav class="main-nav">
 						<ul class="list-nav">
 							<li class="{{ empty(Request::segment(1)) ? 'current-nav' : '' }}"><a href="{{ route('home') }}" title="@lang('layout.menu.home')">BERANDA</a></li>
 							{{-- <li class="{{ Request::is('page/tentang-kami*') ? 'current-nav' : ''}}"><a href="{{ route('about.index',['slug' => 'tentang-kami']) }}" title="@lang('layout.menu.home')">TENTANG KAMI</a></li> --}}
@@ -23,16 +23,16 @@
 								<a href="#!" title="Program Pelatihan">PENDAFTARAN</a>
 								<ul class="dropdown">
 									{{-- <li class="btn-back"><a href="#!" title="kembali">kembali</a></li> --}}
-									
+
 									<li class="has-sub-dropdown is-hidden" style="color:black">
 										<a href="{{ route('register') }}" title="pendaftaran_peserta">PENDAFTARAN PESERTA</a>
 										{{-- <a href="{{ route('register') }}" title="pendaftaran_peserta">PENDAFTARAN CONSULTAN</a> --}}
 									</li>
-								</ul>   
+								</ul>
 							</li>
 							{{-- <li class="{{ Request::is('course/jadwal*') ? 'current-nav' : '' }}"><a href="{{ route('course.jadwal') }}" title="Kalender Pelatihan">Agenda</a></li> --}}
-							
-                            
+
+
 							@foreach ($menu['inquiry'] as $inquiry)
 							<li class="{{ Request::is('inquiry*') ? 'current-nav' : '' }}"><a href="{{ route('inquiry.read', ['slug' => $inquiry->slug]) }}" title="{!! $inquiry->name !!}">HUBUNGI KAMI</a></li>
 							@endforeach
@@ -81,7 +81,7 @@
 							<span>Register</span>
 						</a>
 					</div> --}}
-					<div class="nav-item account" style="color:white">
+					<div class="nav-item account" >
 						<a href="{{ route('login') }}" class="user" title="Login">
 							<span>Login</span>
 							<div class="box-user">

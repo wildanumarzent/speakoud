@@ -5,13 +5,11 @@
                 <div class="row">
                     <div class="col-md-3">
                         <div class="footer-logo">
-                            
-                        <h5 style="color: orange">
-                            <a href="{{ route('home') }}" class="logo" title="Home">
-                            <img src="{{ asset(config('addon.images.logo')) }}" title="SPEAKOUD" alt="SPEAKOUD">                                
-                            </a> 
-                        </h5> 
-                            {{-- <h5 style="color: white">E-learning Manajemen System</h5> --}}
+
+                        <a href="{{ route('home') }}" class="logo" title="Home">
+                            <img src="{{ asset(config('addon.images.logo')) }}" title="SPEAKOUD" alt="SPEAKOUD">
+                        </a>
+                            {{-- <h5>E-learning Manajemen System</h5> --}}
                         </div>
                         {{-- <ul>
                             <li class="text-white" style="font-family: sans-serif; margin-bottom: 10px"><strong>(+62) 8121085805</strong></li>
@@ -22,45 +20,45 @@
                         <div class="row">
                             <div class="col-md-3">
                                 <div class="f-widget">
-                                    <h5 style="color: white">
+                                    <h5>
                                         {{-- @lang('strip.footer_title_1') --}}
                                         {{-- Afiliasi Sinergi --}}
                                         SPEAKOUD
                                     </h5>
-                                    <ul>    
+                                    <ul>
                                         {{-- @foreach ($pages['layanan'] as $layanan) --}}
                                         {{-- <li>
-                                            <a href="{{ route('page.read', ['id' => $layanan->id, 'slug' => $layanan->slug]) }}" title="{!! $layanan->judul !!}" style="color: white">{!! $layanan->judul !!}</a>
+                                            <a href="{{ route('page.read', ['id' => $layanan->id, 'slug' => $layanan->slug]) }}" title="{!! $layanan->judul !!}">{!! $layanan->judul !!}</a>
                                         </li> --}}
                                         {{-- @endforeach --}}
                                         <li>
-                                            <a href="https://api.whatsapp.com/send?phone=+628121085805" target="_blank" title="WA" style="color: white;">(+62) 8121085805</a>
+                                            <a href="https://api.whatsapp.com/send?phone=+628121085805" target="_blank" title="WA">(+62) 8121085805</a>
                                         </li>
                                         <li>
-                                            <a href="mailto:contact@speakoud.com" title="Kirim Email" target="_blank" style="color: white; font-family: ">contact@speakoud.com</a>
+                                            <a href="mailto:contact@speakoud.com" title="Kirim Email" target="_blank">contact@speakoud.com</a>
                                         </li>
                                         {{-- <li>
-                                              <a href="" title="" style="color: white; font-family: ">e-Learning Platform</a>
+                                              <a href="" title="">e-Learning Platform</a>
                                         </li> --}}
                                     </ul>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="f-widget">
-                                    <h5 style="color: white">
+                                    <h5>
                                         @lang('strip.footer_title_2')
-                            
+
                                     </h5>
                                     <ul>
                                         {{-- @foreach ($pages['quick_link'] as $quickLink) --}}
                                         <li>
-                                            <a href="https://www.facebook.com/PT.SinergiSatuSolusi/" target="_blank" style="color:  white;font-family:  ">Facebook</a>
+                                            <a href="https://www.facebook.com/PT.SinergiSatuSolusi/" target="_blank">Facebook</a>
                                         </li>
                                         <li>
-                                            <a href="https://instagram.com/sinergi.consulting?utm_medium=copy_link" target="_blank" title="" style="color: white; font-family: ">Instagram</a>
+                                            <a href="https://instagram.com/sinergi.consulting?utm_medium=copy_link" target="_blank" title="">Instagram</a>
                                         </li>
                                         <li>
-                                            <a href="https://api.whatsapp.com/send?phone=+628121085805" target="_blank" title="" style="color: white; font-family: " >Whatsapp</a>
+                                            <a href="https://api.whatsapp.com/send?phone=+628121085805" target="_blank" title="" >Whatsapp</a>
                                         </li>
                                         {{-- @endforeach --}}
                                     </ul>
@@ -69,24 +67,24 @@
 
                             <div class="col-md-6">
                                 <div class="f-widget">
-                                    {{-- <h5 style="color: white ; font-family: ">@lang('strip.footer_title_3')</h5> --}}
-                                    <h5 style="color: white ; font-family: ">KETENTUAN PENGGUNAAN</h5>
+                                    {{-- <h5 >@lang('strip.footer_title_3')</h5> --}}
+                                    <h5 >KETENTUAN PENGGUNAAN</h5>
                                     <ul>
-                                        <li style="color: white; font-family: ">
+                                        <li>
                                             {{-- {{ $configuration['address'] }} --}}
-                                            <a href="{{route('page.read',['id'=>6,'slug'=>'disclaimer'])}}" style="color: white; font-family: ">Disclaimer</a> 
+                                            <a href="{{route('page.read',['id'=>6,'slug'=>'disclaimer'])}}">Disclaimer</a>
                                         </li>
-                                        <li style="color: white; font-family: ">
+                                        <li>
                                             {{-- {{ $configuration['fax'] }} <br> --}}
-                                            <a href="{{route('page.read',['id'=>7,'slug'=>'kebijakan-privasi'])}}" style="color: white; font-family: ">Kebijakan Privasi</a> 
+                                            <a href="{{route('page.read',['id'=>7,'slug'=>'kebijakan-privasi'])}}">Kebijakan Privasi</a>
                                             {{-- {{ $configuration['phone'] }} <br>
                                             {{ $configuration['phone_2'] }} <br> --}}
                                         </li >
-                                        <li style="color: white; font-family: ">
-                                            
-                                            <a href="{{route('page.read',['id'=>8,'slug'=>'syarat-dan-ketentuan'])}}" style="color: white; font-family: ">Terms & Conditions</a>
-                                            {{-- <a href="mailto:{{ $configuration['email'] }}" title="Email" style="color: white">{{ $configuration['email'] }}</a> <br>
-                                            <a href="mailto:{{ $configuration['email_2'] }}" title="Email 2" style="color: white">{{ $configuration['email_2'] }}</a> <br> --}}
+                                        <li>
+
+                                            <a href="{{route('page.read',['id'=>8,'slug'=>'syarat-dan-ketentuan'])}}">Terms & Conditions</a>
+                                            {{-- <a href="mailto:{{ $configuration['email'] }}" title="Email">{{ $configuration['email'] }}</a> <br>
+                                            <a href="mailto:{{ $configuration['email_2'] }}" title="Email 2">{{ $configuration['email_2'] }}</a> <br> --}}
                                         </li>
                                     </ul>
                                 </div>
@@ -99,9 +97,9 @@
         <div class="footer-bottom">
             <div class="container-fluid">
                 <div class="d-flex align-items-center justify-content-xl-center">
-                    <div class="f-widget copyright" style="color: white">
-                        Copyright © {{ now()->format('Y') }} 
-                        SPEAKOUD by Sinergi Consulting Powered by Four vision Media
+                    <div class="f-widget copyright">
+                        Copyright © {{ now()->format('Y') }}
+                        SPEAKOUD by Sinergi Consulting Powered by <a href="https://www.4visionmedia.com/id" target="_blank">Four vision Media</a>
                     </div>
                     {{-- <div class="f-widget developer">
                         Developed By

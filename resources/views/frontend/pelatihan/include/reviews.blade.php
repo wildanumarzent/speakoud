@@ -10,7 +10,7 @@
                         @foreach ($data['numberProgress'] as $i)
                         <div class="progress-course mb-4">
                             <div class="progress">
-                                <span class="badge badge-warning mr-3"> {{ $i }} </span>
+                                <span class="badge badge-warning"> {{ $i }} </span>
                                 <div class="progress-bar" style="width: {{ $data['mata']->rating->count() > 0 ? round(($data['mata']->getRating('per_rating', $i) / $data['mata']->getRating('student_rating')) * 100) : 0 }}%;">
                                     {{ $data['mata']->rating->count() > 0 ? round(($data['mata']->getRating('per_rating', $i) / $data['mata']->getRating('student_rating')) * 100) : 0 }}%
                                 </div>
