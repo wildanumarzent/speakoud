@@ -209,7 +209,7 @@ class MataService
 			}); 
 
             $query->when($request->f == 0, function($query){
-                $query->orderBy('urutan', 'DESC')->paginate(12);
+                $query->orderBy('id', 'DESC')->paginate(12);
             });
             
             $query->when($request->f == 1, function($query){

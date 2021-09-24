@@ -40,7 +40,7 @@ class PelatihanController extends Controller
 
     public function index(Request $request)
     {
-        $data['mata'] = $this->service->getMataFree('urutan', 'DESC', 12,$request);
+        $data['mata'] = $this->service->getMataFree('id', 'DESC', 12,$request);
         // dd($data['mata']);
         return view('frontend.pelatihan.index', compact('data'));
     }
@@ -96,11 +96,11 @@ class PelatihanController extends Controller
 // dd("test");
         $this->serviceProgram->checkAdmin($data['read']->program_id);
         $this->serviceProgram->checkPeserta($data['read']->program_id);
-        if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra|peserta_internal|peserta_mitra')) {
-            if ($this->service->checkUserEnroll($id) == 0) {
-                return back()->with('warning', 'anda tidak terdaftar di course '.$data['read']->judul.'');
-            }
-        }
+        // if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra|peserta_internal|peserta_mitra')) {
+        //     if ($this->service->checkUserEnroll($id) == 0) {
+        //         return back()->with('warning', 'anda tidak terdaftar di course '.$data['read']->judul.'');
+        //     }
+        // }
 
         // if (!empty($data['read']->kode_evaluasi)) {
         //     $preview = $this->serviceEvaluasi->preview($data['read']->kode_evaluasi);
