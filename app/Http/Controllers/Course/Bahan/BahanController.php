@@ -102,9 +102,9 @@ class BahanController extends Controller
             }
 
             //enroll
-            if ($this->serviceMata->checkUserEnroll($mataId) == 0) {
-                return back()->with('warning', 'anda tidak terdaftar di course '.$data['read']->judul.'');
-            }
+            // if ($this->serviceMata->checkUserEnroll($mataId) == 0) {
+            //     return back()->with('warning', 'anda tidak terdaftar di course '.$data['read']->judul.'');
+            // }
 
             //restrict
             if ($data['bahan']->restrict_access >= '0') {
