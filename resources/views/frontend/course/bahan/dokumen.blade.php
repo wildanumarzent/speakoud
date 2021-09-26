@@ -59,10 +59,22 @@
         left: 50%;
         }
         .container {display:none;}
-
+        #progressbar {
+            margin-top: 20px;
+        }
+        
+        .progress-label {
+            font-weight: bold;
+            text-shadow: 1px 1px 0 #fff;
+        }
+        
+        .ui-dialog-titlebar-close {
+            display: none;
+        }
     </style>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">    
-  </head>
+      <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+</head>
   <body>
    {{-- {{ dd(route('bank.data.stream', ['path' => $data['bahan']->dokumen->bankData->file_path])) }} --}}
    <div class="preload"><img src="http://i.imgur.com/KUJoe.gif">
@@ -72,21 +84,21 @@
         <div class="col-md-12">
             <canvas id="pdf-render"></canvas>
                  <div class="top-bar" style="text-align: center">
+                    {{-- <div class="progress-label">Loading Materi...</div>
+                    <div id="progressbar"></div> --}}
                   <button class="btn" id="prev-page">
                     <i class="fas fa-arrow-circle-left"></i> Prev Page
                   </button>
-                   <button class="btn" id="next-page">
+                    <button class="btn" id="next-page">
                       Next Page <i class="fas fa-arrow-circle-right"></i>
                     </button>
                     <br>
                     <div id="is_read" style="padding-top: 10px">
-
                     </div>
                   <span class="page-info">
                     Page <span id="page-num"></span> of <span id="page-count"></span>
                   </span>
                 </div>
-
             </div>
         </div>
     </div>
@@ -209,6 +221,7 @@
         document.querySelector('#next-page').addEventListener('click', showNextPage);
         function isRead() { 
             var bahanId = "{{$data['bahan']->id}}";
+            // console.log(bahanId);
             // alert(bahanId)
             $.ajax({
                 type:'GET',
@@ -218,11 +231,12 @@
                     id:bahanId, 
                 },
                 success:function(data){
-                    window.location.href='/course/'+data.mata_id+'/detail';
+                    // console.log(data.data.mata_id);
+                    window.location.href='/pelatihan/'+data.data.mata_id+'/detail';
                 }
             });
         }
-        
+    
       
     </script>
     

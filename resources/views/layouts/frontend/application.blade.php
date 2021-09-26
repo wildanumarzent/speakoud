@@ -55,10 +55,10 @@
         <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/fonts/ionicons.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/fonts/linearicons.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/fonts/open-iconic.css') }}">
-        
+
         <!-- Page -->
         <link rel="stylesheet" href="assets/vendor/css/pages/search.css">
-        
+
         <!-- Css Additional -->
         <style type="text/css">
             .preloader {
@@ -68,7 +68,7 @@
                 width: 100%;
                 height: 100%;
                 z-index: 9999;
-                background-color: rgba(255,255,255,0.5);
+                background-color: white;
             }
             .preloader .loading {
                 position: absolute;
@@ -76,6 +76,15 @@
                 top: 50%;
                 transform: translate(-50%,-50%);
                 font: 14px arial;
+            }
+
+            .sk-cube-grid {
+                width: 70px !important;
+                height: 70px !important;
+            }
+
+            .sk-cube-grid .sk-cube{
+                background-color: #ffb606 !important;
             }
         </style>
         <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/spinkit/spinkit.css') }}">
@@ -120,7 +129,7 @@
     <script src="{{ asset('assets/tmplts_frontend/js/main.js') }}"></script>
     <script src="{{ asset('assets/tmplts_backend/vendor/libs/toastr/toastr.js') }}"></script>
     <script src="{{ asset('assets/tmplts_frontend/js/pspdfkit.js') }}"></script>
-    
+
 	@yield('scripts')
 
     <script>

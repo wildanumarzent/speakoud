@@ -178,11 +178,11 @@ class MataController extends Controller
 
         $this->serviceProgram->checkAdmin($data['read']->program_id);
         $this->serviceProgram->checkPeserta($data['read']->program_id);
-        if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra|peserta_internal|peserta_mitra')) {
-            if ($this->service->checkUserEnroll($id) == 0) {
-                return back()->with('warning', 'anda tidak terdaftar di course '.$data['read']->judul.'');
-            }
-        }
+        // if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra|peserta_internal|peserta_mitra')) {
+        //     if ($this->service->checkUserEnroll($id) == 0) {
+        //         return back()->with('warning', 'anda tidak terdaftar di course '.$data['read']->judul.'');
+        //     }
+        // }
 
         if (!empty($data['read']->kode_evaluasi)) {
             $preview = $this->serviceEvaluasi->preview($data['read']->kode_evaluasi);

@@ -10,7 +10,7 @@
         <div class="banner-content">
             <div class="banner-text">
                 <div class="title-heading text-center">
-                    <h1 style="color:white">{!! $data['read']->name !!}</h1>
+                    <h1 >{!! $data['read']->name !!}</h1>
                 </div>
             </div>
             {{-- @include('components.breadcrumbs') --}}
@@ -28,10 +28,10 @@
                 <div class="box-post map-desc mt-5">
                     <div class="title-heading">
                         {{-- <h6 style="text-align:center">{{ $data['read']->name }} Kami</h6> --}}
-                        <span style="text-align:center"><h1>Alamat Kantor </h1></span> 
+                        <span style="text-align:center"><h1>Alamat Kantor </h1></span>
                         {{-- SPEAKOUD  --}}
                     </div>
-                    <div class="post-info flex-column">
+                    <div class="post-info flex-column align-items-start">
                         <div class="box-info mb-4">
                             <div class="item-info text-left p-0" style="border: none;">
                                 <span class="ml-4">Tempat</span>
@@ -94,7 +94,7 @@
 
                 </div>
             </div>
-            
+
             @if ($data['read']->show_form == 1)
             <div class="col-md-6">
             <div class="inquiry mt-5">
@@ -158,7 +158,7 @@
                 <div id="map"></div>
             </div>
         </div>
-        @endif     
+        @endif
     </div>
 </div>
 @endsection

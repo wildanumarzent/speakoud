@@ -6,7 +6,7 @@
         <div class="banner-content">
             <div class="banner-text">
                 <div class="title-heading text-center">
-                    <h1 style="color:white">DETAIL COURSE</h1>
+                    <h1 >DETAIL COURSE</h1>
                 </div>
             </div>
             @include('components.breadcrumbs')
@@ -45,7 +45,7 @@
                 <div class="media mb-3">
                     <div class="media-body pt-2 ml-3">
                         <h6 class="mb-2"><strong style="color: grey">Review</strong></h6>
-                                
+
                         @foreach ($data['numberRating'] as $i)
                             <i class="fa{{ (floor($data['mata']->rating->where('rating', '>', 0)->avg('rating')) >= $i)? 's' : 'r' }} fa-star text-warning" style="font-size: 1.2em;"></i>
                         @endforeach
@@ -59,20 +59,20 @@
             <div class="col-md-2">
                 <div class="media mb-3">
                     <div class="media-body pt-2 ml-3">
-                        <h3 class="mb-2" style="color: rgb(0, 255, 21)"> <strong>Free</strong> 
+                        <h3 class="mb-2" style="color: rgb(0, 255, 21)"> <strong>Free</strong>
                             @if ($data['peserta'] != null)
                                 @if (auth()->user() != null)
-                        
+
                                     @if ( $data['peserta']->status_peserta == 1)
                                     <a href="{{ route('pelatihan.mata', ['id' => $data['mata']->id]) }}" class="btn btn-warning">START</a>
-                                    @else   
+                                    @else
                                     {{-- redirect ke register --}}
                                     <a href="{{ route('profile.front',['id'=> $data['mata']->id]) }}" class="btn btn-warning">START</a>
                                     @endif
-                                @else 
+                                @else
                                     <a href="javascript:void(0)" class="btn btn-warning">MORE INFO</a>
                                 @endif
-                            @else 
+                            @else
                                     <a href="{{ route('register') }}" class="btn btn-warning">MORE INFO</a>
                             @endif
                          </h3>
@@ -104,14 +104,14 @@
               <!-- curiculum -->
                 @include('frontend.pelatihan.include.curiculum')
                 <!-- / curiculum -->
-                
+
                 <!-- instructor -->
                 @include('frontend.pelatihan.include.instruktor')
-                
+
                 <!-- / instructor -->
-                
+
                 <!-- Reviews -->
-                @include('frontend.pelatihan.include.reviews')  
+                @include('frontend.pelatihan.include.reviews')
             </div>
         </div>
     </div>

@@ -89,8 +89,8 @@ class BahanController extends Controller
             }
         }
 
-        if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
-
+        if (auth()->user()->hasRole('peserta_internal|peserta_mitra|instruktur_internal')) {
+           
             if (now()->format('Y-m-d H:i:s') > $data['mata']->publish_end->format('Y-m-d H:i:s')) {
                 return back()->with('warning', 'Pelatihan telah selesai');
             }
@@ -105,9 +105,10 @@ class BahanController extends Controller
             // if ($this->serviceMata->checkUserEnroll($mataId) == 0) {
             //     return back()->with('warning', 'anda tidak terdaftar di course '.$data['read']->judul.'');
             // }
-
-            //restrict
+ 
+            // restrict
             if ($data['bahan']->restrict_access >= '0') {
+                
                 if ($data['bahan']->restrict_access == '0') {
                     $checkMateri = $this->serviceActivity->restrict($data['bahan']->requirement);
                     if ($checkMateri == 0) {
@@ -129,7 +130,7 @@ class BahanController extends Controller
                 }
             }
 
-            //record completion
+            // record completion
             if (empty($data['bahan']->activityCompletionByUser) && $data['bahan']->completion_type > 0) {
                 $this->serviceActivity->recordActivity($id);
 
@@ -148,17 +149,18 @@ class BahanController extends Controller
                 $detik = $kurang-($menit*60);
                 $data['countdown'] = $menit.':'.$detik;
             }
+         
         }
 
         //check user
         $this->serviceProgram->checkAdmin($data['mata']->program_id);
         $this->serviceProgram->checkPeserta($data['mata']->program_id);
-        $this->service->checkInstruktur($data['bahan']->materi_id);
-
+        // $this->service->checkInstruktur($data['bahan']->materi_id);
+        
         if ($tipe == 'forum') {
             $data['topik'] = $this->serviceBahanForum->getTopikList($data['bahan']->forum->id);
         }
-
+        
         if ($tipe == 'quiz') {
 
             if (!empty($data['bahan']->quiz->trackUserIn)) {
@@ -174,6 +176,7 @@ class BahanController extends Controller
                 }
             }
         }
+    
 
         if ($tipe == 'scorm') {
             $data['checkpoint'] = $this->serviceScorm->checkpoint(auth()->user()->id,$data['bahan']->scorm->id);
@@ -193,7 +196,7 @@ class BahanController extends Controller
                 return abort(404);
             }
         }
-        
+            // dd("masuk dan");
         // $data['pdf'] = response()->file(storage_path('/app/bank_data/'.$data['bahan']->dokumen->bankData->file_path));
         // return $data['bahan']->dokumen->bankData->file_path;
         return view('frontend.course.bahan.'.$tipe, compact('data'), [
@@ -418,12 +421,13 @@ class BahanController extends Controller
         // return response()->json($bahan);
         $test = $this->serviceActivity->complete($id);
         // // dd($data);
-        return response()->json($test);
+        // return response()->json($test);
         // if ($request->is_ajax == 'yes') {
-        //     return response()->json([
-        //         'success' => 1,
-        //         'message' => 'Activity Completed'
-        //     ], 200);
+            return response()->json([
+                'data' =>$test,
+                'success' => 1,
+                'message' => 'Activity Completed'
+            ], 200);
         // } else {
             return back()->with('success', 'Activity Completed');
         // }

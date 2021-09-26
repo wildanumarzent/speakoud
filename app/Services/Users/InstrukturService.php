@@ -76,7 +76,10 @@ class InstrukturService
 
         return $result;
     }
-
+     public function findInstrukturByUserId($id)
+    {
+        return $this->model->where('user_id', $id)->first();
+    }
     public function getInstrukturByTypeProgram($programId)
     {
         $program = $this->program->findProgram($programId);

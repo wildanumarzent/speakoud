@@ -177,7 +177,7 @@ class MataService
         {
 
            $result = $query->join('mata_peserta', 'mata_pelatihan.id', '=', 'mata_peserta.mata_id')
-                ->select('mata_pelatihan.id','judul','cover','price', DB::raw('count(*) as mataPeserta_Count','mata_peserta.mata_id'))
+                ->select('mata_pelatihan.id','judul','cover','price','mata_pelatihan.created_at', DB::raw('count(*) as mataPeserta_Count','mata_peserta.mata_id'))
                 ->groupBy('mata_peserta.mata_id')
                 ->orderBy('mataPeserta_Count', 'DESC')
                 ->paginate(12);
@@ -190,11 +190,11 @@ class MataService
         }else{
             if (auth()->guard()->check() == true) {
 			
-			if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra')) {
-				$query->whereHas('instruktur', function ($query) {
-					$query->whereIn('instruktur_id', [auth()->user()->instruktur->id]);
-				});
-			}
+			// if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra')) {
+			// 	$query->whereHas('instruktur', function ($query) {
+			// 		$query->whereIn('instruktur_id', [auth()->user()->instruktur->id]);
+			// 	});
+			// }
 
 		} else {
 
@@ -326,7 +326,7 @@ class MataService
             // $query->where('publish', $request->p);
 		}
 
-		// $query->where('publish_end', '<', now());
+		$query->where('publish_end', '<', now());
 
 		if (isset($request->f) && isset($request->t)) {
 			$query->whereBetween('publish_end', [$request->f, $request->t]);
@@ -530,6 +530,7 @@ class MataService
 
 	public function storeInstruktur($request, int $mataId)
 	{
+        // dd($request->instruktur_id);
 		$collectUser = [];
 		$collectInstruktur = collect($request->instruktur_id);
 		$mata = $this->findMata($mataId);

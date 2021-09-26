@@ -13,7 +13,7 @@
     border: 2px solid #eee;
     color: #333;
     box-shadow: none !important;
-    
+
     transition: .3s cubic-bezier(0.2, 0.4, 0.1, 1);
     &:before {
         content: "";
@@ -40,10 +40,11 @@
     &.btn-primary {
         background-color: transparent;
         border-color: $main-color !important;
-        color: $main-color;
+        color: $primary-text-color;
         &:before {
             background-color: $main-color;
         }
+
         &:hover,
         &:focus,
         &:focus:active {
@@ -63,6 +64,24 @@
                 color: $main-color;
             }
         }
+
+        &.filled {
+            background-color: $main-color;
+            border: none;
+            &:before {
+                background-color: #000;
+            }
+
+            &:hover,
+            &:focus,
+            &:focus:active {
+                color: $main-color;
+            }
+        }
+    }
+
+    &.small {
+        padding: 15px 25px;
     }
 }
 

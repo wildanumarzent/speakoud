@@ -57,9 +57,9 @@ class MateriService
        $query = $this->model->query();
 
         $query->where('mata_id', $mataId);
-        if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra') != null) {
-            $query->where('instruktur_id', auth()->user()->instruktur->id);
-        }
+        // if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra') != null) {
+        //     $query->where('instruktur_id', auth()->user()->instruktur->id);
+        // }
 
         if (auth()->user()->hasRole('peserta_internal|peserta_mitra') != null) {
             $query->publish();
