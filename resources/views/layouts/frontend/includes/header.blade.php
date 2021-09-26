@@ -18,7 +18,7 @@
 							{{-- <li class="{{ Request::is('page/tentang-kami*') ? 'current-nav' : ''}}"><a href="{{ route('about.index',['slug' => 'tentang-kami']) }}" title="@lang('layout.menu.home')">TENTANG KAMI</a></li> --}}
 							<li class="{{ Request::is('pelatihan*') ? 'current-nav' : '' }}"><a href="{{ route('platihan.index') }}" title="modul pelatihan">MODUL PELATIHAN</a></li>
                             <li class="{{ Request::is('/agenda/kegiatan*') ? 'current-nav' : '' }}"><a href="{{route('agenda.kegiatan')}}" title="Agenda Kegiatan">AGENDA KEGIATAN</a></li>
-
+                            @if (Auth()->user() == null)
 							<li class="has-dropdown {{ Request::is('course/list*') ? 'current-nav' : '' }}">
 								<a href="#!" title="Program Pelatihan">PENDAFTARAN</a>
 								<ul class="dropdown">
@@ -30,6 +30,8 @@
 									</li>
 								</ul>
 							</li>
+                                
+                            @endif
 							{{-- <li class="{{ Request::is('course/jadwal*') ? 'current-nav' : '' }}"><a href="{{ route('course.jadwal') }}" title="Kalender Pelatihan">Agenda</a></li> --}}
 							@foreach ($menu['inquiry'] as $inquiry)
 							<li class="{{ Request::is('inquiry*') ? 'current-nav' : '' }}"><a href="{{ route('inquiry.read', ['slug' => $inquiry->slug]) }}" title="{!! $inquiry->name !!}">HUBUNGI KAMI</a></li>

@@ -41,7 +41,7 @@ class PelatihanController extends Controller
     public function index(Request $request)
     {
         $data['mata'] = $this->service->getMataFree('id', 'DESC', 12,$request);
-        // dd($data['mata']);
+        // dd($data['mata']->peserta);
         return view('frontend.pelatihan.index', compact('data'));
     }
 
@@ -52,10 +52,25 @@ class PelatihanController extends Controller
         // return $data['program'] = $this->program->findProgram($id);
        
         $data['mata'] = $this->service->findMata($id);
+        
         $data['materi'] = $this->serviceMateri->getMateriNoRole($id);
         if(auth()->user() != null)
         {
             $data['peserta'] = $this->servicePeserta->findPesertaByUserId(auth()->user()->id);
+            $data['instruktur'] = $this->serviceInstruktur->findInstrukturByUserId(auth()->user()->id);
+            if($data['peserta'] != null)
+            {
+                $array = ['peserta_id' => $data['peserta']->id];
+                $object = (object) $array;
+                $this->service->storePeserta($object, $id);
+            }
+
+            if($data['instruktur'] != null)
+            {
+                $array = ['instruktur_id' => $data['instruktur']->id];
+                $object = (object) $array;
+                $this->service->storeInstruktur($object, $id);
+            }
         }else{
             $data['peserta'] ='';
         }
@@ -74,7 +89,6 @@ class PelatihanController extends Controller
 
     public function courseDetail($id)
     {
-        // return $id;
         $data['read'] = $this->service->findMata($id);
         $data['materi'] = $this->serviceMateri->getMateriByMata($id);
         $data['other_mata'] = $this->service->getOtherMata($id);
@@ -93,13 +107,13 @@ class PelatihanController extends Controller
         //         return abort(404);
         //     }
         // }
-// dd("test");
+
         $this->serviceProgram->checkAdmin($data['read']->program_id);
         $this->serviceProgram->checkPeserta($data['read']->program_id);
         // if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra|peserta_internal|peserta_mitra')) {
-        //     if ($this->service->checkUserEnroll($id) == 0) {
-        //         return back()->with('warning', 'anda tidak terdaftar di course '.$data['read']->judul.'');
-        //     }
+            // if ($this->service->checkUserEnroll($id) == 0) {
+            //     return back()->with('warning', 'anda tidak terdaftar di course '.$data['read']->judul.'');
+            // }
         // }
 
         // if (!empty($data['read']->kode_evaluasi)) {

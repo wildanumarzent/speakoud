@@ -29,7 +29,7 @@
                        <div class="item-media">
                            <div class="box-icon-media">
                                <div class="thumbnail-img">
-                                   <img src="{{ asset('/userfile/photo/'.$data['mata']->creator != null ? '/userfile/photo/'.$data['mata']->creator->photo['filename'] : '/userfile/photo/assets/img/5.png') }}" alt width="70px" class="ui-w-40 rounded-circle">
+                                   <img src="{{ asset('/userfile/photo/'.$data['mata']->creator->photo['filename'] != null ? '/userfile/photo/'.$data['mata']->creator->photo['filename'] : '/userfile/photo/assets/img/speakoud.png') }}" alt width="70px" class="ui-w-40 rounded-circle">
                                </div>
                                <i class="las la-user-tie"></i>
                            </div>
@@ -78,25 +78,33 @@
                         @endif
                         </div>
                     </div>
-                    @role('peserta_internal')
+                    {{-- {{dd( $data['peserta']->status_peserta == 1 || $data['instruktur'] != null)}} --}}
+                    @role('peserta_internal|instruktur_internal')
                         @if ($data['peserta'] != null)
                             @if (auth()->user() != null)
                                 @if ($data['peserta']->status_peserta == 1)
-                                <a href="{{ route('pelatihan.mata', ['id' => $data['mata']->id]) }}" class="btn btn-primary filled">START</a>
+                                <a href="{{ route('pelatihan.mata', ['id' => $data['mata']->id]) }}" target="_blank" class="btn btn-primary filled">Mulai</a>
                                     @else
-                                    <a href="{{ route('profile.front',['id'=> $data['mata']->id]) }}" class="btn btn-primary filled">START</a>
+                                    <a href="{{ route('profile.front',['id'=> $data['mata']->id]) }}" target="_blank" class="btn btn-primary filled">Mulai</a>
                                 @endif
                             @else
-                            <a href="{{ route('register') }}" class="btn btn-primary filled">More Info</a>
+                            <a href="{{ route('register') }}" target="_blank" class="btn btn-primary filled">Daftar</a>
                             @endif
                         @else
-                            <a href="{{ route('register') }}" class="btn btn-primary filled">More Info</a>
+                            @if ($data['instruktur'] != null)
+                                 <a href="{{ route('pelatihan.mata', ['id' => $data['mata']->id]) }}" target="_blank" class="btn btn-primary filled">Mulai</a>
+                            @else 
+
+                            <a href="{{ route('register') }}" target="_blank" class="btn btn-primary filled">Daftar</a>
+                            @endif
                         @endif
                         @elserole('administrator')
-                            <a href="{{ route('pelatihan.mata', ['id' => $data['mata']->id]) }}" class="btn btn-primary filled">PREVIEW</a>
+                            <a href="{{ route('pelatihan.mata', ['id' => $data['mata']->id]) }}" target="_blank" class="btn btn-primary filled">PREVIEW</a>
                         @else
-                        <a href="{{ route('register') }}" class="btn btn-primary filled">More Info</a>
-                        @endrole
+                        <a href="{{ route('register') }}" target="_blank" class="btn btn-primary filled">Daftar</a>
+
+                    
+                    @endrole
                 </div>
             </div>
 		</div>
