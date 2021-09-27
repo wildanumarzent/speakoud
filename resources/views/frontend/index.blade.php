@@ -79,23 +79,30 @@
 							<div class="post-info">
                                 <div class="box-price">
                                     @if ($mata->price == null || $mata->price == 0)
-                                        <div class="free">Free</div>
-                                    @else
-                                        <div class="no-free">{{number_format($mata->price)}}</div>
-                                    @endif
+                                    <div class="free"> <a href="{{ route('pelatihan.detail', ['id' => $mata->id]) }}">Free</a> </div>
+                                @else
+                                    <div class="no-free"><a href="{{ route('pelatihan.detail', ['id' => $mata->id]) }}">Rp. {{number_format($mata->price)}}</a></div>
+                                @endif
                                 </div>
                                 <div class="box-info">
 									<div class="item-info">
 										<div class="data-info">
 											<i class="las la-user"></i>
-											<span>{{ $mata->peserta->count() }}</span>
-										</div>
-										<span>Enroll</span>
+											@php
+                                            $instruktur = count($mata->instruktur);
+                                            $peserta = count($mata->peserta);
+
+                                            $enrol = $instruktur + $peserta;
+                                            @endphp
+                                        <span>{{$enrol}}</span>
+                                        </div>
+                                        <span>Peserta</span>
 									</div>
 									<div class="item-info">
 										<div class="data-info">
 											<i class="las la-comment"></i>
-											<span>{{ $mata->materi->count() }}</span>
+                                            {{-- {{dd($mata->bahan)}} --}}
+											<span>{{ $mata->bahan->count() }}</span>
 										</div>
 										<span>Materi</span>
 									</div>

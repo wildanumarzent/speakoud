@@ -82,7 +82,7 @@
             <div class="d-flex align-items-center">
               <div class="las la-swatchbook display-4 text-primary"></div>
               <div class="ml-3">
-                <div class="text-muted small">Mata Pelatihan</div>
+                <div class="text-muted small">Modul Pelatihan</div>
                 <div class="text-large">{{ $data['counter']['course_mata'] }}</div>
               </div>
             </div>

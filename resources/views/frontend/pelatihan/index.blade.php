@@ -103,6 +103,14 @@
                                     </div>
                                     <span>Peserta</span>
                                 </div>
+                                <div class="item-info">
+										<div class="data-info">
+											<i class="las la-comment"></i>
+                                            {{-- {{dd($mata->bahan)}} --}}
+											<span>{{ $mata->bahan->count() }}</span>
+										</div>
+										<span>Materi</span>
+									</div>
                             </div>
                         </div>
                     </div>
