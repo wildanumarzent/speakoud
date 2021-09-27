@@ -47,11 +47,7 @@
             <thead>
                 <tr>
                     <th style="width: 10px;">No</th>
-                    <th>NIP</th>
-                    <th>Nama</th>
-                    <th>Unit Kerja</th>
-                    <th>Kedeputian</th>
-                    <th>Jabatan</th>
+                    <th>Nama Peserta</th>
                     <th style="width: 110px;">Aksi</th>
                 </tr>
             </thead>
@@ -74,11 +70,11 @@
                 @foreach ($data['peserta'] as $item)
                 <tr>
                     <td>{{ $data['number']++ }}</td>
-                    <td>{{ $item->peserta->nip ?? '-' }}</td>
+                    {{-- <td>{{ $item->peserta->nip ?? '-' }}</td> --}}
                     <td>{{ $item->peserta->user->name }}</td>
-                    <td>{{ $item->peserta->instansi($item->peserta)->nama_instansi ?? '-' }}</td>
+                    {{-- <td>{{ $item->peserta->instansi($item->peserta)->nama_instansi ?? '-' }}</td>
                     <td>{{ $item->peserta->kedeputian ?? '-' }}</td>
-                    <td>{{ config('addon.label.jabatan.'.$item->peserta->pangkat) ?? '-' }}</td>
+                    <td>{{ config('addon.label.jabatan.'.$item->peserta->pangkat) ?? '-' }}</td> --}}
                     <td>
                         <button type="button" class="btn icon-btn btn-primary btn-sm modals-upload" data-toggle="modal" data-target="#modals-upload" title="klik untuk mengupload sertifikat"
                             data-pesertaid="{{ $item->peserta_id }}"

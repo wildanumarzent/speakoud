@@ -197,7 +197,11 @@
             </div>
             @endif
         </div>
-        @include('frontend.course.sertifikat')
+        @if ($data['read']->is_sertifikat == 0)
+            <h5 style="text-align: center; margin-top:50px"><span class="badge badge-danger">Pelatihan Ini Tidak Bersertifikat</span></h5>
+        @else
+            @include('frontend.course.sertifikat')
+        @endif
     </div>
     <div class="col-md-4 col-xl-3">
         <!-- actions -->
@@ -214,9 +218,13 @@
                     </a>
                     <br>
                     @endrole
-                    <a href="{{ route('mata.nilai.peserta', ['id' => $data['read']->id]) }}" class="btn btn-success rounded-pill icon-btn-only-sm btn-block" title="Daftar Nilai">
-                        <i class="las la-list-ol"></i> <span>Daftar Nilai</span>
-                    </a>
+                    @if ($data['read']->is_penilaian == 0)
+                        <h5 style="text-align: center; margin-top:50px"><span class="badge badge-danger">Pelatihan Ini Tidak Bersertifikat</span></h5>
+                        @else
+                        <a href="{{ route('mata.nilai.peserta', ['id' => $data['read']->id]) }}" class="btn btn-success rounded-pill icon-btn-only-sm btn-block" title="Daftar Nilai">
+                            <i class="las la-list-ol"></i> <span>Daftar Nilai</span>
+                        </a>
+                    @endif
                   </div>
                 </li>
                 <li class="list-group-item">

@@ -128,8 +128,9 @@ class HomeController extends Controller
         }
 
         // dd("test");
-        $data['jadwal'] = $this->jadwal->getJadwalList($request);
+        $data['jadwal'] = $this->jadwal->happening();
         $data['upcoming']= $this->jadwal->agendaUpcoming();
+        $data['expired']= $this->jadwal->expired();
         $data['number'] = $data['jadwal']->firstItem();
         $data['jadwal']->withPath(url()->current().$p.$q);
         $data['mata'] = '';
