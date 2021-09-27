@@ -28,21 +28,21 @@ class JadwalService
                     ->orWhere('keterangan', 'ilike', '%'.$q.'%');
             });
         });
-        if (auth()->user()->hasRole('internal')) {
-            $query->whereHas('mata', function ($queryB) {
-                $queryB->whereHas('program', function ($queryC) {
-                    $queryC->where('tipe', 0);
-                });
-            });
-        }
-        if (auth()->user()->hasRole('mitra')) {
-            $query->whereHas('mata', function ($queryB) {
-                $queryB->whereHas('program', function ($queryC) {
-                    $queryC->where('mitra_id', auth()->user()->id)
-                        ->where('tipe', 1);
-                });
-            });
-        }
+        // if (auth()->user()->hasRole('internal')) {
+        //     $query->whereHas('mata', function ($queryB) {
+        //         $queryB->whereHas('program', function ($queryC) {
+        //             $queryC->where('tipe', 0);
+        //         });
+        //     });
+        // }
+        // if (auth()->user()->hasRole('mitra')) {
+        //     $query->whereHas('mata', function ($queryB) {
+        //         $queryB->whereHas('program', function ($queryC) {
+        //             $queryC->where('mitra_id', auth()->user()->id)
+        //                 ->where('tipe', 1);
+        //         });
+        //     });
+        // }
         if (isset($request->p)) {
             $query->where('publish', $request->p);
         }
