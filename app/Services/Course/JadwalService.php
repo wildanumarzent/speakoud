@@ -22,7 +22,6 @@ class JadwalService
     public function getJadwalList($request)
     {
         $query = $this->model->query();
-
         $query->when($request->q, function ($query, $q) {
             $query->where(function ($query) use ($q) {
                 $query->where('judul', 'ilike', '%'.$q.'%')

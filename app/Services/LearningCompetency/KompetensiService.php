@@ -58,7 +58,6 @@ class KompetensiService
         $query->whereDoesntHave('peserta', function($q) use($pesertaID) {
             $q->where('id','!=',$pesertaID);
         });
-
         // dd($test);
         // $query->whereHas('kompetensiMata', function($q) use($pesertaID) {
         //     $q->whereHas('kompetensiPeserta', function($p) use($pesertaID) {

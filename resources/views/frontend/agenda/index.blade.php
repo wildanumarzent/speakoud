@@ -1,60 +1,12 @@
 @extends('layouts.frontend.layout')
-@section('styles')
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
-<link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/fullcalendar/fullcalendar.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/flatpickr/flatpickr.css') }}">
-<script src="{{ asset('assets/tmplts_backend/wysiwyg/tinymce.min.js') }}"></script>
-<link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-datepicker/bootstrap-datepicker.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-material-datetimepicker/bootstrap-material-datetimepicker.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/timepicker/timepicker.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/select2/select2.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/tmplts_backend/fancybox/fancybox.min.css') }}">
-@endsection
-@section('scripts')
-<!-- Dependencies -->
-{{-- <script src="{{ asset('assets/tmplts_backend/vendor/libs/flatpickr/flatpickr.js') }}"></script>
-<script src="{{ asset('assets/tmplts_backend/js/forms_pickers.js') }}"></script> --}}
-
-<script src="{{ asset('assets/tmplts_backend/vendor/libs/moment/moment.js') }}"></script>
-<script src="{{ asset('assets/tmplts_backend/vendor/libs/fullcalendar/fullcalendar.js') }}"></script>
-<script src="{{ asset('assets/tmplts_backend/vendor/libs/moment/moment.js') }}"></script>
-<script src="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-datepicker/bootstrap-datepicker.js') }}"></script>
-<script src="{{ asset('assets/tmplts_backend/vendor/libs/bootstrap-material-datetimepicker/bootstrap-material-datetimepicker.js') }}"></script>
-<script src="{{ asset('assets/tmplts_backend/vendor/libs/timepicker/timepicker.js') }}"></script>
-<script src="{{ asset('assets/tmplts_backend/vendor/libs/select2/select2.js') }}"></script>
-<script src="{{ asset('assets/tmplts_backend/fancybox/fancybox.min.js') }}"></script>
-{{-- <script src="{{ asset('assets/tmplts_backend/js/ui_fullcalendar.js') }}"></script> --}}
-@endsection
-@section('jsbody')
-<script>
-    $('.hide-meta').hide();
-    $('.select2').select2();
-    //datetime
-    $(function() {
-        var isRtl = $('body').attr('dir') === 'rtl' || $('html').attr('dir') === 'rtl';
-
-        $( ".date-picker" ).datepicker({
-            format: 'yyyy-mm-dd',
-            todayHighlight: true,
-        });
-
-        $('.time-picker').bootstrapMaterialDatePicker({
-            date: false,
-            shortTime: false,
-            format: 'HH:mm'
-        });
-    });
-</script>
-@include('components.toastr')
-@endsection
 @section('content')
 <div class="banner-breadcrumb">
     <div class="container">
         <div class="banner-content">
             <div class="banner-text">
                 <div class="title-heading text-center">
-                    <h1 >Agenda Kegiatan</h1>
+                     <h1 >Agenda Kegiatan</h1>
                 </div>
             </div>
             @include('components.breadcrumbs')
@@ -65,11 +17,36 @@
     </div>
 </div>
 <div class="box-wrap bg-grey-alt">
-    <div class="container">
-        <div class="row">
-            @include('frontend.agenda.kalender')
+   	<!-- Content -->
+	<div class="container flex-grow-1 container-p-y">
+        <div class="title-heading">
+            {{-- <h1>{{ $data['mata']->judul}}</h1> --}}
         </div>
-    </div>
+		
+        <ul class="nav nav-tabs tabs-alt container-m-nx container-p-x mb-4">
+            <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#happening">Happening</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#upcoming">Upcoming</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#search-images">Expired</a>
+            </li>
+        </ul>
+		<div class="tab-content">
+			<!-- Happening -->
+			@include('frontend.agenda.include.happening')
+			<!-- / Happening -->
+			<!-- Upcoming -->
+			@include('frontend.agenda.include.upcoming')
+			<!-- / Upcoming -->
+			<!-- Expired -->
+			@include('frontend.agenda.include.expired')
+			<!-- / Expired -->
+		</div>
+	</div>
+	<!-- / Content -->
 </div>
 @endsection
 

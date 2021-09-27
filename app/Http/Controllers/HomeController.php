@@ -116,10 +116,23 @@ class HomeController extends Controller
         ]);
     }
 
-    public function events()
+    public function events(Request $request)
     {
         // return "test";
         $data = [];
+        $p = '';
+        $q = '';
+        if (isset($request->p) || isset($request->q)) {
+            $p = '?p='.$request->p;
+            $q = '&q='.$request->q;
+        }
+
+        // dd("test");
+        $data['jadwal'] = $this->jadwal->getJadwalList($request);
+        // dd($data['jadwal']);
+        $data['number'] = $data['jadwal']->firstItem();
+        $data['jadwal']->withPath(url()->current().$p.$q);
+        $data['mata'] = '';
         return view('frontend.agenda.index',compact('data'));
     }
 
