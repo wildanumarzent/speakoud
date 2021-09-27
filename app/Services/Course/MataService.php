@@ -251,8 +251,7 @@ class MataService
 		}
 		$query->publish();
 
-		$result = $query->orderBy('publish_start', 'DESC')->limit(3)->get();
-
+		$result = $query->orderBy('publish_start', 'DESC')->get();
 		return $result;
 	}
 

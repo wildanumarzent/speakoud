@@ -107,7 +107,7 @@
   </div>
 
   @endforeach
-
+{{-- <h1>test</h1> --}}
 </div>
 
 <hr class="container-m-nx mt-0 mb-4">
@@ -121,7 +121,8 @@
 </div>
 @endif
 <div class="row">
-    @foreach ($data['rekomendasi'] as $key => $rek)
+@foreach ($data['rekomendasi'] as $key => $rek)
+{{-- {{dd($course->id.$rek->id)}} --}}
   <div class="col-sm-6 col-xl-4">
     <div class="card mb-4">
       <div class="card-img-top d-block ui-rect-60 ui-bg-cover" style="background-image: url({{ $course->getCover($course->cover['filename']) }});">

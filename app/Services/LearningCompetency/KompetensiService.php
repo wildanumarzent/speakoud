@@ -52,16 +52,19 @@ class KompetensiService
 
     public function getRekomendasiMata($pesertaID){
 
+        // dd($pesertaID);
         $query = $this->mata->query();
         $query->with('kompetensiMata');
         $query->whereDoesntHave('peserta', function($q) use($pesertaID) {
-            $q->where('peserta_id','!=',$pesertaID);
+            $q->where('id','!=',$pesertaID);
         });
-        $query->whereHas('kompetensiMata', function($q) use($pesertaID) {
-            $q->whereHas('kompetensiPeserta', function($p) use($pesertaID) {
-                $p->where('peserta_id','=',$pesertaID);
-            });
-        });
+
+        // dd($test);
+        // $query->whereHas('kompetensiMata', function($q) use($pesertaID) {
+        //     $q->whereHas('kompetensiPeserta', function($p) use($pesertaID) {
+        //         $p->where('peserta_id','=',$pesertaID);
+        //     });
+        // });
 
         $result = $query->get();
         return $result;
