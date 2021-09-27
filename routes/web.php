@@ -32,6 +32,8 @@ Route::get('/', [HomeController::class, 'index'])
 
 Route::get('/agenda/kegiatan', [HomeController::class, 'events'])
 	->name('agenda.kegiatan');
+Route::get('/detail/{id}/agenda', [HomeController::class, 'detailAgenda'])
+	->name('detail.agenda');
 	Route::get('agenda/list','EventController@list')->name('agenda.list');
 
 	Route::get('/access/denide', [HomeController::class, 'denide'])

@@ -4,10 +4,10 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             @foreach ($data['jadwal'] as $item)
-                <div class="card shadow">
+                <div class="card mb-3 shadow">
                     <div class="p-4 p-md-5 d-xl-flex justify-content-between align-items-center">
                         <div class="box-pertemuan">
-                            <a href="javascript:;" style="font-size: 30px; color:orange; font-weight: bold" class="text-body text-large font-weight-semibold" title="{!! $item->judul !!}">{!! Str::limit($item->judul, 80) !!} </a>
+                            <a href="{{route('detail.agenda',['id' => $item->id])}}" style="font-size: 30px; color:orange; font-weight: bold" class="text-body text-large font-weight-semibold" title="{!! $item->judul !!}">{!! Str::limit($item->judul, 80) !!} </a>
                             <div class="d-flex flex-wrap mt-3">
                                 <div class="mr-3"><i class="vacancy-tooltip las la-user text-light"></i>&nbsp; {{ $item->creator->name }}</div>
                                 @if (!empty($item->mata_id))

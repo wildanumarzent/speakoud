@@ -129,13 +129,17 @@ class HomeController extends Controller
 
         // dd("test");
         $data['jadwal'] = $this->jadwal->getJadwalList($request);
-        // dd($data['jadwal']);
+        $data['upcoming']= $this->jadwal->agendaUpcoming();
         $data['number'] = $data['jadwal']->firstItem();
         $data['jadwal']->withPath(url()->current().$p.$q);
         $data['mata'] = '';
         return view('frontend.agenda.index',compact('data'));
     }
-
+    public function detailAgenda($id)
+    {
+        $data = $id;
+        return view('frontend.agenda.detailAgenda', compact('data'));
+    }
     
     public function list(){
         $event = Event::latest()->get();

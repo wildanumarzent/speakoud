@@ -52,6 +52,15 @@ class JadwalService
         return $result;
     }
 
+    public function agendaUpcoming()
+    {
+        $query = $this->model->query();
+        $query->where('start_date', '<', now());
+        $result = $query->paginate(10);
+        // dd($result);
+        return $result;
+    }
+
     public function getJadwal(int $limit)
     {
         $query = $this->model->query();
