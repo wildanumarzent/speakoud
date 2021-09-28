@@ -148,10 +148,12 @@
                     <th class="text-center">Percentace</th>
                     {{-- <th>Feedback</th> --}}
                     <th class="text-center">Status</th>
+                    <th>Mengulang</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach($data['bahan'] as $bahan)
+               
                 <tr>
                     @php
                         if ($bahan->quiz()->count() > 0) {
@@ -217,10 +219,18 @@
                     </td>
                     {{-- <td>{!! $feedback !!}</td> --}}
                     <td class="text-center">
-                        @if ($grade > 70)
+                        @if ($bahan->quiz->trackUserIn->is_graduaded == 1)
                             <strong class="badge badge-primary">Lulus</strong>
                             @else  
-                            <strong class="badge badge-danger">Tidak Lulus</strong>
+                            <strong class="badge badge-danger">Belum Lulus</strong>
+                        @endif
+                    </td>
+
+                    <td>
+                        @if ($bahan->quiz->trackUserIn->is_graduaded == 1)
+                            <strong class="badge badge-primary">Tidak perlu mengulang quis</strong>
+                            @else  
+                            <a href="{{ route('quiz.room', ['id' => $bahan->quiz]) }}" class="btn btn-primary btn-block mt-2"><i class="las la-play-circle"></i> Ulangi Quiz</a>
                         @endif
                     </td>
                     {{-- <td class="text-center">

@@ -3,6 +3,7 @@
 <div class="tab-pane fade show active" id="happening">
     <div class="row justify-content-center">
         <div class="col-lg-12">
+            <!-- <h1>test</h1> -->
             @foreach ($data['jadwal'] as $item)
                 <div class="item-event">
                     <div class="box-event-left">

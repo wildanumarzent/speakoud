@@ -28,35 +28,51 @@ class JadwalService
                     ->orWhere('keterangan', 'ilike', '%'.$q.'%');
             });
         });
-        // if (auth()->user()->hasRole('internal')) {
-        //     $query->whereHas('mata', function ($queryB) {
-        //         $queryB->whereHas('program', function ($queryC) {
-        //             $queryC->where('tipe', 0);
-        //         });
-        //     });
-        // }
-        // if (auth()->user()->hasRole('mitra')) {
-        //     $query->whereHas('mata', function ($queryB) {
-        //         $queryB->whereHas('program', function ($queryC) {
-        //             $queryC->where('mitra_id', auth()->user()->id)
-        //                 ->where('tipe', 1);
-        //         });
-        //     });
-        // }
+
+        if (auth()->user()->hasRole('internal')) {
+            $query->whereHas('mata', function ($queryB) {
+                $queryB->whereHas('program', function ($queryC) {
+                    $queryC->where('tipe', 0);
+                });
+            });
+        }
+        if (auth()->user()->hasRole('mitra')) {
+            $query->whereHas('mata', function ($queryB) {
+                $queryB->whereHas('program', function ($queryC) {
+                    $queryC->where('mitra_id', auth()->user()->id)
+                        ->where('tipe', 1);
+                });
+            });
+        }
         if (isset($request->p)) {
             $query->where('publish', $request->p);
         }
 
-        $result = $query->paginate(10);
-
+        $result = $query->orderBy('id', 'DESC')->paginate(10);
+        // dd($result->start_date);
         return $result;
     }
 
+    public function happening()
+    {
+        $query = $this->model->query();
+         $query->whereDate('start_date', now()->format('Y-m-d'));
+        $result = $query->orderBy('id', 'DESC')->paginate(10);
+        // dd($result);
+        return $result;
+    }
     public function agendaUpcoming()
     {
         $query = $this->model->query();
-        $query->where('start_date', '<', now());
-        $result = $query->paginate(10);
+        $query->whereDate('start_date', '>', now()->format('Y-m-d'));
+        $result = $query->orderBy('id', 'DESC')->paginate(10);
+        return $result;
+    }
+    public function expired()
+    {
+        $query = $this->model->query();
+        $query->where('end_date', '<', now());
+        $result = $query->orderBy('id', 'DESC')->paginate(10);
         // dd($result);
         return $result;
     }

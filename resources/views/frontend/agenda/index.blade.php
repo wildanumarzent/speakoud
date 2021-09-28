@@ -31,7 +31,7 @@
             <a class="nav-link" data-toggle="tab" href="#upcoming">Upcoming</a>
             </li>
             <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#search-images">Expired</a>
+            <a class="nav-link" data-toggle="tab" href="#expired">Expired</a>
             </li>
         </ul>
 		<div class="tab-content">
