@@ -2,39 +2,72 @@
 <!-- Kurikulum -->
 <div class="tab-pane fade show active" id="happening">
     <div class="row justify-content-center">
-        <div class="col-md-12">
+        <div class="col-lg-12">
             @foreach ($data['jadwal'] as $item)
-                <div class="card mb-3 shadow">
-                    <div class="p-4 p-md-5 d-xl-flex justify-content-between align-items-center">
-                        <div class="box-pertemuan">
-                            <a href="{{route('detail.agenda',['id' => $item->id])}}" style="font-size: 30px; color:orange; font-weight: bold" class="text-body text-large font-weight-semibold" title="{!! $item->judul !!}">{!! Str::limit($item->judul, 80) !!} </a>
-                            <div class="d-flex flex-wrap mt-3">
-                                <div class="mr-3"><i class="vacancy-tooltip las la-user text-light"></i>&nbsp; {{ $item->creator->name }}</div>
+                <div class="item-event">
+                    <div class="box-event-left">
+                        <div class="event-date">
+                            <div class="event-dd">{{ $item->start_date->format('d') }}</div>
+                            <div class="event-mm">{{ $item->start_date->format('M') }}</div>
+                        </div>
+                        <div class="event-title">
+                            <a href="{{route('detail.agenda',['id' => $item->id])}}" title="{!! $item->judul !!}" class="title-heading">
+                                <h3>
+                                    {!! Str::limit($item->judul, 80) !!}
+                                </h3>
+                            </a>
+                            <div class="d-flex flex-wrap">
+                                <div class="point-event mr-3">
+                                    <i class="las la-user"></i>
+                                    <div class="data-event">{{ $item->creator->name }}</div>
+                                </div>
                                 @if (!empty($item->mata_id))
-                                <div class="mr-3" style="font-size: 30px"><i class="vacancy-tooltip las la-eye text-light"></i>&nbsp; {{ $item->mata->judul }}</div>
+                                <div class="point-event">
+                                    <i class="vacancy-tooltip las la-eye text-light"></i>
+                                    <div class="data-event">{{ $item->mata->judul }}</div>
+                                </div>
                                 @endif
-                                <div class="mr-3"><i class="vacancy-tooltip las la-map-pin text-light"></i>&nbsp; {{ $item->lokasi ?? '-' }}</div>
+                                <div class="point-event">
+                                <i class="las la-map-pin"></i>
+                                    <div class="data-event">{{ $item->lokasi ?? '-' }}</div>
+                                </div>
                             </div>
-                            <hr class="">
-                            <div class="mt-3 mb-4">
-                                <div class="row">
-                                    <div class="col-4 col-md-4">
-                                        <span class="text-muted small">Tanggal Mulai :</span><br>
-                                        <span><strong>{{ $item->start_date->format('d F Y') }}</strong></span>
+                        </div>
+                    </div>
+                    <div class="box-event-right">
+                        <div class="row">
+                            <div class="col-4 col-lg-4">
+                                <span class="text-muted">Tanggal Mulai :</span>
+                                <div class="point-event">
+                                   <i class="las la-calendar"></i>
+                                    <div class="data-event">
+                                        <strong>{{ $item->start_date->format('d F Y') }}</strong>
                                     </div>
-                                    <div class="col-4 col-md-4">
-                                        <span class="text-muted small">Tanggal Selesai :</span><br>
-                                        <span><strong>{{ $item->end_date->format('d F Y') }}</strong></span>
+                                </div>
+                                <span></span>
+                            </div>
+                            <div class="col-4 col-lg-4">
+                                <span class="text-muted">Tanggal Selesai :</span>
+                                <div class="point-event">
+                                   <i class="las la-calendar"></i>
+                                    <div class="data-event">
+                                    <strong>{{ $item->end_date->format('d F Y') }}</strong>
                                     </div>
-                                    <div class="col-4 col-md-4">
-                                        <span class="text-muted small">Jam :</span><br>
-                                        <span><strong>{{ \Carbon\Carbon::parse($item->start_time)->format('H:i').' s/d '.\Carbon\Carbon::parse($item->end_time)->format('H:i') }}</strong></span>
+                                </div>
+                            </div>
+                            <div class="col-4 col-lg-4">
+                                <span class="text-muted">Pukul :</span>
+                                <div class="point-event">
+                                    <i class="las la-clock"></i>
+                                    <div class="data-event">
+                                    <strong>{{ \Carbon\Carbon::parse($item->start_time)->format('H:i').' s/d '.\Carbon\Carbon::parse($item->end_time)->format('H:i') }}</strong>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
             @endforeach
         </div>
     </div>

@@ -1118,6 +1118,7 @@ header {
     .item-information {
         position: relative;
         display: flex;
+        justify-content: space-between;
         padding: 15px 0;
         border-bottom: 1px solid rgba(0,0,0,.1);
 
@@ -1134,7 +1135,13 @@ header {
             position: relative;
             display: flex;
             align-items: center;
-            width: 45%;
+            width: 50%;
+
+            span {
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+            }
 
             i {
                 font-size: 24px;
@@ -1209,6 +1216,183 @@ header {
     .badge {
         padding: 0.25em 0.65em;
         border-radius: 0;
+    }
+
+
+}
+
+.item-event {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 40px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid #dee2e6;
+
+    &:first-child {
+        margin-top: 20px;
+    }
+
+    &:last-child {
+        border: none;
+    }
+
+    i {
+        font-size: 18px;
+        color: $main-color;
+    }
+
+    span {
+        font-size: 12px;
+        margin-left: 1.8rem;
+    }
+
+    .box-event-left {
+        position: relative;
+        display: flex;
+        width: 50%;
+        padding-right: 30px;
+    }
+
+    .box-event-right {
+        position: relative;
+        width: 50%;
+    }
+
+}
+
+.box-event {
+    padding-left: 20px;
+    border-left: 4px solid #ffb606;
+}
+
+
+.point-event {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
+    margin-bottom: 20px;
+
+    i {
+        color: $main-color;
+        font-size: 24px;
+        margin-right: 5px;
+    }
+
+    .data-event {
+        color: #000;
+    }
+}
+
+.event-date {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 60px;
+    margin: 6px 25px 0 0;
+    color: #000;
+
+    .event-dd {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px;
+        font-weight: 700;
+        font-size: 24px;
+        color: inherit;
+        border: 2px solid $main-color;
+        border-bottom: none;
+    }
+
+    .event-mm {
+        background-color: $main-color;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        text-transform: uppercase;
+        font-weight: 700;
+    }
+}
+
+.item-participant {
+    position: relative;
+    display: block;
+    width: 100%;
+    margin-bottom: 30px;
+
+
+    &:hover {
+        .img-participant {
+            transform: scale(1);
+
+            .thumb-img {
+                transform: scale(1);
+            }
+        }
+    }
+
+    .info-participant {
+        position: relative;
+        align-items: center;
+        text-align: center;
+
+        .cat-participant {
+            position: relative;
+            padding: 5px 15px;
+            background: var(--c-green);
+            color: var(--c-white);
+            border-radius: 20px;
+            font-weight: 500;
+            margin-top: 10px;
+        }
+
+
+    }
+}
+
+.img-participant {
+    position: relative;
+    width: 40%;
+    margin: 0 auto 20px;
+    border-radius: 100%;
+    overflow: hidden;
+    transition: 0.3s;
+    transform: scale(0.95);
+
+        .thumb-img {
+            transition: .3s;
+            transform: scale(1.05);
+        }
+
+    &::after {
+        position: relative;
+        display: block;
+        content: "";
+        padding: 50%;
+    }
+
+    &.not-pseudo {
+        &::after,&::before {
+            display: none;
+        }
+    }
+
+}
+
+@media screen and(min-width: 767.98px) {
+    .img-participant {
+        width: 60%;
+
+    }
+}
+
+.info-participant {
+    h6 {
+        font-weight: 700;
     }
 }
 

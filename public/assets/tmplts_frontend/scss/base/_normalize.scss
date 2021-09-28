@@ -46,7 +46,7 @@ html, body {
 article {
 	z-index: 1;
 	overflow: auto;
-	color: #777;
+	color: #333;
 }
 
 p {
@@ -253,13 +253,13 @@ article img[style="float: right;"] {
 
     h3 {
         font-family: $font-title;
-        &:after {
-            position: relative;
-            content: '.';
-            display: inline;
-            color: $main-color;
-            margin-left: 3px;
-        }
+        // &:after {
+        //     position: relative;
+        //     content: '.';
+        //     display: inline;
+        //     color: $main-color;
+        //     margin-left: 3px;
+        // }
     }
 
     h1 {
