@@ -82,67 +82,99 @@ a {
     }
 }
 
+article {
+    ul {
+        margin: 20px 0 20px 20px;
+        padding: 0;
+        list-style: none;
+        > li {
+            position: relative;
+            padding-left: 25px;
+            display: flow-root;
 
-article ul,
-article ol {
-    padding: 0 !important;
-}
+            &:before {
+                content: "";
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+                border: 2px solid var(--c-purple);
+                position: absolute;
+                top: 8px;
+                left: 0;
+            }
+            + li {
+                margin-top: 10px;
+            }
+        }
+        ul {
+            margin: 10px 0 20px 20px;
+            padding: 0;
+            list-style: none;
+            // li {
+            //     + li {
 
-article ul,
-article ol {
-    margin: 20px 0 20px 20px;
-    text-align: left;
-}
+            //     }
+            // }
+        }
+    }
 
-article ul li,
-article ol li {
-    padding-left: 20px;
-    position: relative;
-    margin-bottom: 10px;
-}
-
-article ol li {
-    padding-left: 35px;
-}
-
-article ol {
+ol {
     counter-reset: li;
+    margin: 20px 0 20px 20px;
+
+    > li {
+        position: relative;
+        padding-left: 35px;
+        display: flow-root;
+        counter-increment: li;
+
+        &:before {
+            content: counter(li);
+            color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            left: 0;
+            top: 2px;
+            position: absolute;
+            background-color: transparent;
+            text-align: center;
+            min-width: 18px;
+            height: 18px;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 0 3px;
+            border: 2px solid var(--c-purple);
+        }
+
+        + li {
+            margin-top: 10px;
+        }
+    }
+
+    ol {
+        margin: 10px 0 20px 20px;
+        padding: 0;
+        list-style: none;
+        // li {
+        //     + li {
+
+        //     }
+        // }
+    }
+
+    &[type="a"] {
+        > li {
+            &:before {
+                content: counter(li, lower-alpha);
+                line-height: 12px;
+                display: block;
+            }
+        }
+    }
 }
 
-article ol > li {
-    counter-increment: li;
-    position: relative;
-}
-
-article ol > li:before {
-    content: counter(li);
-    color: #000;
-    display: flex;
-    align-items: center;
-    left: 0;
-    top: 5px;
-    position: absolute;
-    background-color: transparent;
-    text-align: center;
-    width: 20px;
-    height: 15px;
-    font-size: 12px;
-    border-right: 2px solid #064ad0;
-    font-family: $font-title;
-    font-weight: 700;
-}
-
-article ul li::before {
-    position: absolute;
-    display: block;
-    content: "";
-    width: 9px;
-    height: 9px;
-    left: 0;
-    top: 10px;
-    background-color: transparent;
-    border: 2px solid $main-color;
-    border-radius: 100%;
 }
 
 article iframe {

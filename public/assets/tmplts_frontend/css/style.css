@@ -80,66 +80,75 @@ a:hover {
     line-height: 1.5;
   }
 }
-article ul,
-article ol {
-  padding: 0 !important;
-}
-
-article ul,
-article ol {
+article ul {
   margin: 20px 0 20px 20px;
-  text-align: left;
+  padding: 0;
+  list-style: none;
 }
-
-article ul li,
-article ol li {
-  padding-left: 20px;
+article ul > li {
   position: relative;
-  margin-bottom: 10px;
+  padding-left: 25px;
+  display: flow-root;
 }
-
-article ol li {
-  padding-left: 35px;
+article ul > li:before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid var(--c-purple);
+  position: absolute;
+  top: 8px;
+  left: 0;
 }
-
+article ul > li + li {
+  margin-top: 10px;
+}
+article ul ul {
+  margin: 10px 0 20px 20px;
+  padding: 0;
+  list-style: none;
+}
 article ol {
   counter-reset: li;
+  margin: 20px 0 20px 20px;
 }
-
 article ol > li {
-  counter-increment: li;
   position: relative;
+  padding-left: 35px;
+  display: flow-root;
+  counter-increment: li;
 }
-
 article ol > li:before {
   content: counter(li);
   color: #000;
   display: flex;
   align-items: center;
+  justify-content: center;
   left: 0;
-  top: 5px;
+  top: 2px;
   position: absolute;
   background-color: transparent;
   text-align: center;
-  width: 20px;
-  height: 15px;
-  font-size: 12px;
-  border-right: 2px solid #064ad0;
-  font-family: "product sans", sans-serif;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 10px;
+  font-size: 10px;
   font-weight: 700;
+  padding: 0 3px;
+  border: 2px solid var(--c-purple);
 }
-
-article ul li::before {
-  position: absolute;
+article ol > li + li {
+  margin-top: 10px;
+}
+article ol ol {
+  margin: 10px 0 20px 20px;
+  padding: 0;
+  list-style: none;
+}
+article ol[type=a] > li:before {
+  content: counter(li, lower-alpha);
+  line-height: 12px;
   display: block;
-  content: "";
-  width: 9px;
-  height: 9px;
-  left: 0;
-  top: 10px;
-  background-color: transparent;
-  border: 2px solid #ffb606;
-  border-radius: 100%;
 }
 
 article iframe {
