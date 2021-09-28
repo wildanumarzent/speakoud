@@ -1,28 +1,71 @@
 <div class="tab-pane fade" id="expired">
-    <div class="media col-md-12">
-        @foreach ($data['expired'] as $item)
-        <div class="card mb-3 shadow">
-            <div class="card-body">
-            <div class="media align-items-center">
-                <div class="d-flex flex-column justify-content-center align-items-center">
-                <a href="javascript:void(0)" class="text-relative text-primary "><i class="ion ion-ios-arrow-up"></i></a>
-                <div class="text-xlarge font-weight-bolder" style="color: orange; font-size:35px">{{$item->start_date->format('d')}} <span style="color: orange; font-size:12px; margin-top: none"></div>
-                    {{$item->start_date->format('F')}}</span>
-
-                <a href="javascript:void(0)" class="d-block text-primary text-big line-height-1"><i class="ion ion-ios-arrow-down"></i></a>
-                </div>
-                <div class="media-body ml-4">
-                <a href="javascript:void(0)" class="text-big" style="color: orange; font-size:24px; font-weight: bold">{{$item->judul}}</a>
-                <div class="my-2">
-                    {!! $item->keterangan !!}
-                </div>
-                <div class="small">
-                    <span class="text-muted ml-3"><i class="ion ion-md-time text-lighter text-big align-middle"></i>&nbsp; {{$item->start_time}} - {{$item->end_time}}</span>
-                </div>
-                </div>
-            </div>
-            </div>
+    <div class="row justify-content-center">
+        <div class="col-md-12">
+            @foreach ($data['expired'] as $item)
+              <div class="item-event">
+                        <div class="box-event-left">
+                            <div class="event-date">
+                                <div class="event-dd">{{ $item->start_date->format('d') }}</div>
+                                <div class="event-mm">{{ $item->start_date->format('M') }}</div>
+                            </div>
+                            <div class="event-title">
+                                <a href="{{route('detail.agenda',['id' => $item->id])}}" title="{!! $item->judul !!}" class="title-heading">
+                                    <h3>
+                                        {!! Str::limit($item->judul, 80) !!}
+                                    </h3>
+                                </a>
+                                <div class="d-flex flex-wrap">
+                                    <div class="point-event mr-3">
+                                        <i class="las la-user"></i>
+                                        <div class="data-event">{{ $item->creator->name }}</div>
+                                    </div>
+                                    @if (!empty($item->mata_id))
+                                    <div class="point-event">
+                                        <i class="vacancy-tooltip las la-eye text-light"></i>
+                                        <div class="data-event">{{ $item->mata->judul }}</div>
+                                    </div>
+                                    @endif
+                                    <div class="point-event">
+                                    <i class="las la-map-pin"></i>
+                                        <div class="data-event">{{ $item->lokasi ?? '-' }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="box-event-right">
+                            <div class="row">
+                                <div class="col-4 col-lg-4">
+                                    <span class="text-muted">Tanggal Mulai :</span>
+                                    <div class="point-event">
+                                       <i class="las la-calendar"></i>
+                                        <div class="data-event">
+                                            <strong>{{ $item->start_date->format('d F Y') }}</strong>
+                                        </div>
+                                    </div>
+                                    <span></span>
+                                </div>
+                                <div class="col-4 col-lg-4">
+                                    <span class="text-muted">Tanggal Selesai :</span>
+                                    <div class="point-event">
+                                       <i class="las la-calendar"></i>
+                                        <div class="data-event">
+                                        <strong>{{ $item->end_date->format('d F Y') }}</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-4 col-lg-4">
+                                    <span class="text-muted">Pukul :</span>
+                                    <div class="point-event">
+                                        <i class="las la-clock"></i>
+                                        <div class="data-event">
+                                        <strong>{{ \Carbon\Carbon::parse($item->start_time)->format('H:i').' s/d '.\Carbon\Carbon::parse($item->end_time)->format('H:i') }}</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            @endforeach
         </div>
-        @endforeach
     </div>
 </div>
