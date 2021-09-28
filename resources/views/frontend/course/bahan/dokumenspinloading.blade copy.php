@@ -14,98 +14,81 @@
     <link rel="stylesheet" href="css/style.css" />
     <title>MATERI</title>
     <style>
-        .preloader-wrap{
-            position: fixed; 
-            top:0; 
-            left:0; 
-            right:0; 
-            bottom:0; 
-            background-color: 
-            rgba(0, 0, 0, 0.7)
+        * {
+        margin: 0;
+        padding: 0;
         }
-        .loader{ 
-            width: 
-            110px; 
-            height: 110px; 
-            border-radius:50%; 
-            background-color: rgb(255, 255, 255); 
-            position:relative;
-             overflow:hidden; 
-             left:0; right:0; 
-             top:50%; 
-             transform:translateY(-50%);
-              margin:0 auto;
-            }
-        .trackbar { width: 110px;
-            height: 110px;
-            margin: 0 auto;
-            background-color: rgb(255, 255, 255);
-            padding: 0;
-            position: absolute; 
-            border-radius: 50%;
-            left: 0;
-            right: 0;
-            top: 50%; 
-            transform:translateY(-50%)
+
+        .top-bar {
+            background: #333;
+            color: #fff;
+            padding: 1rem;
         }
-        .loadbar{ position: absolute; 
-            bottom: 0; 
-            left: 0; 
-            right: 0; 
-            background-color: skyblue; 
+
+        .btn {
+        background: coral;
+        color: #fff;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 0.7rem 2rem;
         }
-        .trackbar:after{
-            content:''; position:absolute; 
-            top:50%; 
-            left:10%; 
-            right:0; 
-            margin:0 auto;
-            width:90px; 
-            height:90px; 
-            background-color: rgb(0, 0, 0);
-            background-image: url('/assets/img/speakoud.png'); 
-            background-repeat: no-repeat; 
-            background-size: 90%; 
-            text-align: center; 
-            border-radius: 50%;
-            transform: translateY(-50%);}
-             #pdf-render{
-            /* border: solid 1px blue;   */
-            width: 100%;
-            height: 100%;
-            }
+
+        .btn:hover {
+        opacity: 0.9;
+        }
+
+        .page-info {
+        margin-left: 1rem;
+        }
+
+        .error {
+        background: orangered;
+        color: #fff;
+        padding: 1rem;
+        }
+        #pdf-render{
+        /* border: solid 1px blue;   */
+        width: 100%;
+        height: 100%;
+        }
+        .preload { width:100px;
+        height: 100px;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        }
+        .container {display:none;}
+        
     </style>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">    
       <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    </head>
-    <body>
-    <div class="preloader-wrap">
-        <div class="loader">
-            <div class="trackbar">
-                <div class="loadbar">
-                    {{-- <img src="{{url('/assets/img/speakoud.png')}}" width="50px" alt=""> --}}
+</head>
+  <body>
+   {{-- {{ dd(route('bank.data.stream', ['path' => $data['bahan']->dokumen->bankData->file_path])) }} --}}
+   <div class="preload"><img src="http://i.imgur.com/KUJoe.gif">
+    </div>
+   <div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <canvas id="pdf-render"></canvas>
+                 <div class="top-bar" style="text-align: center">
+                  <button class="btn" id="prev-page">
+                    <i class="fas fa-arrow-circle-left"></i> Prev Page
+                  </button>
+                    <button class="btn" id="next-page">
+                      Next Page <i class="fas fa-arrow-circle-right"></i>
+                    </button>
+                    <br>
+                    <div id="is_read" style="padding-top: 10px">
+                    </div>
+                  <span class="page-info">
+                    Page <span id="page-num"></span> of <span id="page-count"></span>
+                  </span>
                 </div>
             </div>
         </div>
     </div>
-
-    <canvas id="pdf-render" class="d-flex justify-content-center"></canvas>
-        <div class="top-bar" style="text-align: center; margin-top:10px">
-            <button class="btn" id="prev-page">
-            <i class="fas fa-arrow-circle-left"></i> Prev Page
-            </button>
-            <button class="btn" id="next-page">
-                Next Page <i class="fas fa-arrow-circle-right"></i>
-            </button>
-            <br>
-            <div id="is_read" style="padding-top: 10px">
-            </div>
-            <span class="page-info">
-            Page <span id="page-num"></span> of <span id="page-count"></span>
-            </span>
-        </div>
-           
-   
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
@@ -114,10 +97,12 @@
     <script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
     <script src="js/main.js"></script> 
     <script>
-        var height = 100,
-        perfData = window.performance.timing, // The PerformanceTiming interface represents timing-related performance information for the given page.
-        EstimatedTime = -(perfData.loadEventEnd - perfData.navigationStart),
-        time = parseInt((EstimatedTime/1000)%60)*100;
+        // document.ready(function () {
+        // $("#readed").css("display:block");
+            
+        // })
+    </script>
+    <script>
         // const url = '../docs/pdf.pdf';
         const url = "{{ route('bank.data.stream', ['path' => $data['bahan']->dokumen->bankData->file_path]) }}";
         console.log(url);
@@ -195,14 +180,9 @@
         url_src.onProgress = function(data){
             var duration = data.loaded / data.total;
             console.log(duration);
-            //  Loadbar Animation
-            var test = $(".loadbar").animate({
-            height: height + "%"
-            }, duration);
-            // Fading Out Loadbar on Finised
-            setTimeout(function(){
-            $('.preloader-wrap').fadeOut(800);
-            }, duration);
+            $(".preload").fadeOut(duration, function() {
+                $(".container").fadeIn(1000);        
+            });
         }
 
         url_src
@@ -241,7 +221,9 @@
                     window.location.href='/pelatihan/'+data.data.mata_id+'/detail';
                 }
             });
-        }  
+        }
+    
+      
     </script>
     
     </body>
