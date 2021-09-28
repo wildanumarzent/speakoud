@@ -63,7 +63,7 @@
             width:90px; 
             height:90px; 
             background-color: rgb(0, 0, 0);
-            background-image: url('/assets/img/speakoud.png'); 
+            /* background-image: url('/assets/img/speakoud.png');  */
             background-repeat: no-repeat; 
             background-size: 90%; 
             text-align: center; 
