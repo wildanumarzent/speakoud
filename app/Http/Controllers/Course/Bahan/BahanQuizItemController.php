@@ -334,24 +334,23 @@ class BahanQuizItemController extends Controller
         if($nilaiQuiz->count() > 0)
         {
             $grade = round(($nilaiQuiz->where('benar', 1)->count() / $nilaiQuiz->count()) * 100);
-
         }
         
         if($grade > 70)
         {
             $lulus =1;
         }else{
-            $lulus = 0;
+            $lulus =0;
         }
+        
         $this->serviceQuiz->trackUserOut($quizId, $lulus);
         
-        if ($quiz->bahan->completion_type == 4) {
+        if ($quiz->bahan->completion_type == 4 ) {
 
             $this->serviceActivity->complete($quiz->bahan_id);
         }
 
         if ($request->button == 'yes') {
-
             return redirect()->route('course.bahan', [
                 'id' => $quiz->mata_id, 'bahanId' => $quiz->bahan_id, 'tipe' => 'quiz'
                 ])->with('success', 'Quiz telah selesai');

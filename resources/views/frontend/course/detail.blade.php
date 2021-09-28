@@ -218,8 +218,9 @@
                     </a>
                     <br>
                     @endrole
+                    {{-- {{dd($data['read'])}} --}}
                     @if ($data['read']->is_penilaian == 0)
-                        <h5 style="text-align: center; margin-top:50px"><span class="badge badge-danger">Pelatihan Ini Tidak Bersertifikat</span></h5>
+                        <h6 style="text-align: center; margin-top:50px" class="text-danger">Pelatihan Ini Tidak Ada Penilaian !!</h6>
                         @else
                         <a href="{{ route('mata.nilai.peserta', ['id' => $data['read']->id]) }}" class="btn btn-success rounded-pill icon-btn-only-sm btn-block" title="Daftar Nilai">
                             <i class="las la-list-ol"></i> <span>Daftar Nilai</span>

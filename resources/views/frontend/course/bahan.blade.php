@@ -27,6 +27,7 @@
             <div class="card-header with-elements">
                 <h5 class="card-header-title mt-1 mb-0">{!! $data['bahan']->judul !!}</h5>
                 <div class="card-header-elements ml-auto">
+                    {{-- {{dd()}} --}}
                     @role('peserta_internal|peserta_mitra')
                         @if (empty($data['bahan']->activityCompletionByUser->track_end) && $data['bahan']->completion_type == 1 || empty($data['bahan']->activityCompletionByUser->track_end) && $data['bahan']->completion_type == 3)
                         <button id="show-complete" class="btn btn-primary btn-sm icon-btn-only-sm complete" title="klik untuk konfirmasi telah menyelesaikan materi">

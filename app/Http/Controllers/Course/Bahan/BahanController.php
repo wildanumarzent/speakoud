@@ -350,6 +350,7 @@ class BahanController extends Controller
     //activity
     public function activityComplete(Request $request, $id)
     {
+        // dd($request);
         $bahan = $this->service->findBahan($id);
 
         if ($bahan->type($bahan)['tipe'] == 'forum') {

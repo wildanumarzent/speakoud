@@ -128,7 +128,13 @@ class BahanQuizService
     {
         $track = $this->modelTrackUser->where('quiz_id', $quizId)
             ->where('user_id', auth()->user()->id)->first();
-        $track->status = 2;
+        if($lulus == 1)
+        {
+            $status = 2;
+        }else{
+            $status = 0;
+        }
+        $track->status = $status;
         $track->is_graduaded = $lulus;
         $track->end_time = now();        
         $track->save();
