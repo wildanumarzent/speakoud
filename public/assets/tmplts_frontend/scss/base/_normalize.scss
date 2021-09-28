@@ -97,7 +97,7 @@ article {
                 width: 10px;
                 height: 10px;
                 border-radius: 50%;
-                border: 2px solid var(--c-purple);
+                border: 2px solid $main-color;
                 position: absolute;
                 top: 8px;
                 left: 0;
@@ -145,7 +145,7 @@ ol {
             font-size: 10px;
             font-weight: 700;
             padding: 0 3px;
-            border: 2px solid var(--c-purple);
+            border: 2px solid $main-color;
         }
 
         + li {

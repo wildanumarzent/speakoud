@@ -95,7 +95,7 @@ article ul > li:before {
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  border: 2px solid var(--c-purple);
+  border: 2px solid #ffb606;
   position: absolute;
   top: 8px;
   left: 0;
@@ -135,7 +135,7 @@ article ol > li:before {
   font-size: 10px;
   font-weight: 700;
   padding: 0 3px;
-  border: 2px solid var(--c-purple);
+  border: 2px solid #ffb606;
 }
 article ol > li + li {
   margin-top: 10px;

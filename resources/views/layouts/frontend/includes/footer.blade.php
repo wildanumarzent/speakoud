@@ -76,7 +76,7 @@
                                         </li>
                                         <li>
                                             {{-- {{ $configuration['fax'] }} <br> --}}
-                                            <a href="{{route('page.read',['id'=>5,'slug'=>'kebijakan-privasi'])}}">Kebijakan Privasi</a>
+                                            <a href="{{route('page.read',['id'=>7,'slug'=>'kebijakan-privasi'])}}">Kebijakan Privasi</a>
                                             {{-- {{ $configuration['phone'] }} <br>
                                             {{ $configuration['phone_2'] }} <br> --}}
                                         </li >
