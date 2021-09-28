@@ -138,7 +138,7 @@ class HomeController extends Controller
     }
     public function detailAgenda($id)
     {
-        $data = $id;
+        $data['data'] = $this->jadwal->findJadwal($id);
         return view('frontend.agenda.detailAgenda', compact('data'));
     }
     

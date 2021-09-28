@@ -22,7 +22,7 @@
         <div class="row">
             <div class="col-lg-8">
                 <div class="title-heading">
-                    <h1>Pelatihan ISO 37001:2016</h1>
+                    <h1>{{$data['data']->judul}}</h1>
                 </div>
                 <div class="box-event">
                     <div class="row">
@@ -33,7 +33,7 @@
                                     <div class="point-event">
                                         <i class="las la-calendar"></i>
                                         <div class="data-event">
-                                            <strong>27 September 2021</strong>
+                                            <strong>{{$data['data']->start_date->format('d F Y')}}</strong>
                                         </div>
                                     </div>
                                     <span></span>
@@ -43,7 +43,7 @@
                                     <div class="point-event">
                                         <i class="las la-calendar"></i>
                                         <div class="data-event">
-                                        <strong>29 September 2021</strong>
+                                        <strong>{{$data['data']->end_date->format('d F Y')}}}</strong>
                                         </div>
                                     </div>
                                 </div>
@@ -52,7 +52,7 @@
                                     <div class="point-event">
                                         <i class="las la-clock"></i>
                                         <div class="data-event">
-                                        <strong>15:24 s/d 15:24</strong>
+                                        <strong>{{ \Carbon\Carbon::parse($data['data']->start_time)->format('H:i').' s/d '.\Carbon\Carbon::parse($data['data']->end_time)->format('H:i') }}</strong>
                                         </div>
                                     </div>
                                 </div>
@@ -61,7 +61,7 @@
                                     <div class="point-event">
                                         <i class="las la-clock"></i>
                                         <div class="data-event">
-                                        <strong>Bandung</strong>
+                                        <strong>{{$data['data']->lokasi}}</strong>
                                         </div>
                                     </div>
                                 </div>
@@ -70,8 +70,7 @@
                     </div>
                 </div>
                 <article class="mt-4 mb-3">
-                    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolorem at voluptate nihil accusamus, molestiae laboriosam minima fugiat iste atque magni error possimus eligendi deleniti tempora nam eveniet quos, maxime ad!</p>
-                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                   {!! $data['data']->keterangan !!}
                 </article>
                 <div class="box-participant">
                     <div class="title-heading">
@@ -118,7 +117,7 @@
                                     <span>Booked Slots</span>
                                 </div>
                                 <div class="data-information">
-                                        <span>233</span>
+                                    <span>233</span>
                                 </div>
                             </li>
                             <li class="item-information">
@@ -138,7 +137,8 @@
                                     <span>Students</span>
                                 </div>
                                 <div class="data-information">
-                                    <input type="number" id="quantity" value="1" name="quantity" min="1" max="5" style="width: 100px">
+                                    <span>233</span>
+                                    {{-- <input type="number" id="quantity" value="1" name="quantity" min="1" max="5" style="width: 100px"> --}}
                                 </div>
                             </li>
                         </ul>
