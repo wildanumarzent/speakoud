@@ -57,7 +57,7 @@
         .trackbar:after{
             content:''; position:absolute; 
             top:50%; 
-            left:10%; 
+            left:0%; 
             right:0; 
             margin:0 auto;
             width:90px; 
