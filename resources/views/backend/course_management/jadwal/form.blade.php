@@ -12,7 +12,7 @@
 @section('content')
 <div class="card">
     <h6 class="card-header">
-      Form Kalender Pelatihan
+      Form Jadwal Pelatihan
     </h6>
     @livewire('jadwal-form',[
         'jadwal' => @$data['jadwal'],

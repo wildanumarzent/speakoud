@@ -48,8 +48,6 @@ class EventController extends Controller
     public function store(Request $request)
     {
         switch($request->action) {
-
-
             case 'submit':
                 $data = $request->except('action');
                 $validator = Validator::make($data,[
@@ -74,7 +72,6 @@ class EventController extends Controller
                     $data['event']['start'] = date('Y-m-d H:i:s', strtotime("$startD $startT"));
                     $data['event']['end'] = date('Y-m-d H:i:s', strtotime("$endD $endT"));
                     if($request['id'] !=  null){
-
                         $event  = Event::query();
                         $event->find($request['id']);
                         $event->update($data['event'] );

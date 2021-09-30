@@ -5,7 +5,7 @@
             @method('PUT')
         @endif
         <div class="card-body">
-            <div class="form-group row">
+            {{-- <div class="form-group row">
                 <div class="col-md-2 text-md-right">
                     <label class="col-form-label">Dengan Program Pelatihan</label>
                 </div>
@@ -14,8 +14,8 @@
                     <span class="custom-control-label">Ya</span>
                   </label>
 
-            </div>
-            @if($checked == true)
+            </div> --}}
+            {{-- @if($checked == true)
             <div class="form-group row">
                 <div class="col-md-2 text-md-right">
                     <label class="col-form-label">Program Pelatihan</label>
@@ -33,7 +33,7 @@
                 </div>
             </div>
             @endif
-            </div>
+            </div> --}}
             <div class="form-group row">
                 <div class="col-md-2 text-md-right">
                   <label class="col-form-label text-sm-right">Judul</label>
@@ -53,6 +53,42 @@
                     @include('components.field-error', ['field' => 'keterangan'])
                 </div>
             </div>
+            <div class="form-group row">
+                <div class="col-md-2 text-md-right">
+                  <label class="col-form-label text-sm-right">Kuota Peserta</label>
+                </div>
+                <div class="col-md-10">
+                  <input type="text" class="form-control @error('kuota_peserta') is-invalid @enderror" name="kuota_peserta"
+                    value="{{ (isset($jadwal)) ? old('kuota_peserta', $jadwal->kuota_peserta) : $mata->kuota_peserta ?? old('judul') }}" placeholder="masukan jumlah kuota peserta ..." autofocus>
+                  @include('components.field-error', ['field' => 'kuota_peserta'])
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-2 text-md-right">
+                  <label class="col-form-label text-sm-right">Harga</label>
+                </div>
+                <div class="col-md-10">
+                  <input type="text" class="form-control @error('harga') is-invalid @enderror" name="harga"
+                    value="{{ (isset($jadwal)) ? old('harga', $jadwal->harga) : $mata->harga ?? old('harga') }}" placeholder="masukan Harga ..." autofocus>
+                  @include('components.field-error', ['field' => 'harga'])
+                </div>
+            </div>
+            {{-- @php
+                $tipeAgenda = [0 => 'Free', 1 => 'Berbayar']
+            @endphp
+             <div class="form-group row">
+                <div class="col-md-2 text-md-right">
+                  <label class="col-form-label text-sm-right">Status</label>
+                </div>
+                <div class="col-md-10">
+                    <select class="status custom-select form-control" name="publish">
+                        <option value="">Pilih Tipe Agenda</option>
+                       @foreach ($tipeAgenda as $key => $value)
+                        <option value="{{ $key }}" {{ isset($jadwal) ? (old('tipe_agenda', $jadwal->tipe_agenda) == ''.$key.'' ? 'selected' : '') : (old('tipe_agenda') == ''.$key.'' ? 'selected' : '') }}>{{ $value }}</option>
+                       @endforeach
+                    </select>
+                </div>
+            </div> --}}
             <div class="form-group row">
                 <div class="col-md-2 text-md-right">
                   <label class="col-form-label text-sm-right">Tanggal Mulai</label>
@@ -137,7 +173,55 @@
                 </div>
             </div>
             <hr>
+            <div class="form-group row">
+                <div class="col-md-2 text-md-right">
+                  <label class="col-form-label text-sm-right">Nama Pembicara</label>
+                </div>
+                <div class="col-md-10">
+                  <input type="text" class="form-control @error('nama_pembicara') is-invalid @enderror" name="nama_pembicara"
+                    value="{{ (isset($jadwal)) ? old('nama_pembicara', $jadwal->nama_pembicara) : $mata->nama_pembicara ?? old('nama_pembicara') }}" placeholder="masukan judul..." autofocus>
+                  @include('components.field-error', ['field' => 'nama_pembicara'])
+                </div>
+            </div>
             <div class="form-group media row" style="min-height:1px">
+                <div class="col-md-2 text-md-right">
+                  <label class="col-form-label text-sm-right">Image</label>
+                </div>
+                @if (isset($jadwal))
+                    <input type="hidden" name="old_cover_file" value="{{ $jadwal->cover['filename'] }}">
+                @endif
+                <div class="col-md-10">
+                    <label class="custom-file-label" for="upload-2"></label>
+                    <input class="form-control custom-file-input file @error('cover_file') is-invalid @enderror" type="file" id="upload-2" lang="en" name="cover_file" placeholder="masukan cover...">
+                    @include('components.field-error', ['field' => 'cover_file'])
+                    <small class="text-muted">Tipe File : <strong>{{ strtoupper(config('addon.mimes.cover.m')) }}</strong></small>
+                    @if (isset($jadwal))
+                        <div class="col-md-1">
+                            <a href="{{ $jadwal->getCover($jadwal->cover['filename']) }}" data-fancybox="gallery">
+                                <div class="ui-bg-cover" style="width: 100px;height: 100px;background-image: url('{{ $jadwal->getCover($jadwal->cover['filename']) }}');"></div>
+                            </a>
+                        </div>
+                    @endif
+                    <div class="row mt-3 hide-meta">
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" name="cover_title" value="{{ isset($jadwal) ? old('cover_title', $jadwal->cover['title']) : old('cover_title') }}" placeholder="title cover...">
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" name="cover_alt" value="{{ isset($jadwal) ? old('cover_alt', $jadwal->cover['alt']) : old('cover_alt') }}" placeholder="alt cover...">
+                        </div>
+                    </div>
+                </div>
+            </div>
+             <div class="form-group row">
+                <div class="col-md-2 text-md-right">
+                  <label class="col-form-label text-sm-right">Keterangan Pembicara</label>
+                </div>
+                <div class="col-md-10">
+                    <textarea class="form-control tiny @error('keterangan_pembicara') is-invalid @enderror" name="keterangan_pembicara" placeholder="masukan deskripsi...">{!! (isset($jadwal)) ? old('keterangan_pembicara', $jadwal->keterangan_pembicara) : $mata->keterangan_pembicara ?? old('keterangan') !!}</textarea>
+                    @include('components.field-error', ['field' => 'keterangan_pembicara'])
+                </div>
+            </div>
+            {{-- <div class="form-group media row" style="min-height:1px">
                 <div class="col-md-2 text-md-right">
                   <label class="col-form-label text-sm-right">Cover</label>
                 </div>
@@ -165,7 +249,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
             <div class="form-group row">
                 <div class="col-md-2 text-md-right">
                   <label class="col-form-label text-sm-right">Status</label>

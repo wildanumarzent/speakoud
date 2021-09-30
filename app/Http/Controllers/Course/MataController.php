@@ -150,7 +150,7 @@ class MataController extends Controller
         return view('frontend.course.index', compact('data'), [
             'title' => 'Program Pelatihan',
             'breadcrumbsBackend' => [
-                'List Program' => '',
+                'List Pelatihan' => '',
             ],
         ]);
     }
@@ -198,8 +198,8 @@ class MataController extends Controller
         return view('frontend.course.detail', compact('data'), [
             'title' => $data['read']->judul,
             'breadcrumbsBackend' => [
-                'Course' => route('course.list'),
-                'Detail' => '',
+                'List Pelatihan' => route('course.list'),
+                'Detail Pelatihan' => '',
             ],
         ]);
     }

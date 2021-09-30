@@ -219,18 +219,23 @@
                     </td>
                     {{-- <td>{!! $feedback !!}</td> --}}
                     <td class="text-center">
-                        @if ($bahan->quiz->trackUserIn->is_graduaded == 1)
-                            <strong class="badge badge-primary">Lulus</strong>
-                            @else  
-                            <strong class="badge badge-danger">Belum Lulus</strong>
+                        {{-- {{dd($bahan->quiz->trackUserIn)}} --}}
+                        @if ($bahan->quiz->trackUserIn != null)
+                            @if ($bahan->quiz->trackUserIn->is_graduaded == 1)
+                                <strong class="badge badge-primary">Lulus</strong>
+                                @else  
+                                <strong class="badge badge-danger">Belum Lulus</strong>
+                            @endif
                         @endif
                     </td>
 
                     <td>
-                        @if ($bahan->quiz->trackUserIn->is_graduaded == 1)
-                            <strong class="badge badge-primary">Tidak perlu mengulang quis</strong>
-                            @else  
-                            <a href="{{ route('quiz.room', ['id' => $bahan->quiz]) }}" class="btn btn-primary btn-block mt-2"><i class="las la-play-circle"></i> Ulangi Quiz</a>
+                        @if ($bahan->quiz->trackUserIn != null)
+                            @if ($bahan->quiz->trackUserIn->is_graduaded == 1)
+                                <strong class="badge badge-primary">Tidak perlu mengulang quis</strong>
+                                @else  
+                                <a href="{{ route('quiz.room', ['id' => $bahan->quiz]) }}" class="btn btn-primary btn-block mt-2"><i class="las la-play-circle"></i> Ulangi Quiz</a>
+                            @endif
                         @endif
                     </td>
                     {{-- <td class="text-center">

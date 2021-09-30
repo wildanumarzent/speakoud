@@ -113,8 +113,8 @@ class MataActivityController extends Controller
         return view('backend.course_management.mata.activity.daftar-nilai', compact('data'), [
             'title' => 'Program - Daftar Nilai',
             'breadcrumbsBackend' => [
-                'Kategori' => route('program.index'),
-                'Program' => route('course.detail', ['id' => $mataId]),
+                'List Pelatihan' => route('course.list'),
+                'Detail Pelatihan' => route('course.detail', ['id' => $mataId]),
                 'Daftar Nilai' => ''
             ],
         ]);

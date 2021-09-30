@@ -4,6 +4,7 @@ namespace App\Services\Course;
 
 use App\Http\Controllers\Course\JadwalController;
 use App\Models\Course\JadwalPelatihan;
+use App\Models\Pembicara;
 use App\Models\Event;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
@@ -12,11 +13,13 @@ use App\Services\KalenderService;
 class JadwalService
 {
     private $model;
+    protected $pembicara;
 
-    public function __construct(JadwalPelatihan $model , KalenderService $event)
+    public function __construct(JadwalPelatihan $model , KalenderService $event, Pembicara $pembicara)
     {
         $this->model = $model;
         $this->event = $event;
+        $this->pembicara = $pembicara;
     }
 
     public function getJadwalList($request)
@@ -98,6 +101,7 @@ class JadwalService
 
     public function storeJadwal($request)
     {
+        // dd($request->all());
         if ($request->hasFile('cover_file')) {
             $fileName = str_replace(' ', '-', Str::random(5).'-'.$request->file('cover_file')
                 ->getClientOriginalName());
@@ -113,6 +117,10 @@ class JadwalService
         $jadwal->start_time = $request->start_time;
         $jadwal->end_time = $request->end_time;
         $jadwal->lokasi = $request->lokasi ?? null;
+        $jadwal->harga = $request->harga ?? null;
+        $jadwal->kuota_peserta = $request->kuota_peserta ?? null;
+         $jadwal->nama_pembicara = $request->nama_pembicara ?? null;
+        $jadwal->keterangan_pembicara = $request->keterangan_pembicara ?? null;
         $jadwal->cover = [
             'filename' => $fileName ?? null,
             'title' => $request->cover_title ?? null,
@@ -132,11 +140,14 @@ class JadwalService
             $jadwalId = $jadwal->id,
         );
         }
+        
+        
         return $jadwal;
     }
 
     public function updateJadwal($request, int $id)
     {
+        
         if ($request->hasFile('cover_file')) {
             $fileName = str_replace(' ', '-', Str::random(5).'-'.$request->file('cover_file')
                 ->getClientOriginalName());
@@ -153,6 +164,10 @@ class JadwalService
         $jadwal->start_time = $request->start_time;
         $jadwal->end_time = $request->end_time;
         $jadwal->lokasi = $request->lokasi ?? null;
+        $jadwal->harga = $request->harga ?? null;
+        $jadwal->kuota_peserta = $request->kuota_peserta ?? null;
+        $jadwal->nama_pembicara = $request->nama_pembicara ?? null;
+        $jadwal->keterangan_pembicara = $request->keterangan_pembicara ?? null;
         $jadwal->cover = [
             'filename' => $fileName ?? $jadwal->cover['filename'],
             'title' => $request->cover_title ?? null,

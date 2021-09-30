@@ -90,6 +90,7 @@ class HomeController extends Controller
                 'peserta_mata' => app()->make(MataService::class)->countMataPeserta(auth()->user()->peserta->id),
                 'peserta_journey' => app()->make(JourneyService::class)->countJourney(auth()->user()->peserta->id),
             ];
+            
             $data['myBadge'] = $this->badge->getBadgePeserta(auth()->user()->peserta->id);
             $data['rekomendasi'] = $this->kompetensi->getRekomendasiMata(auth()->user()->peserta->id);
             $data['kompetensiMata'] = $this->kompetensi->getKompetensiMata();

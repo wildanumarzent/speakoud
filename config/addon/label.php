@@ -222,6 +222,10 @@ return [
         1 => 'Alphabetical',
         2 => 'Most Members'
     ],
+    'type_agenda' => [
+        0 => 'Free',
+        1 => 'Berbayar'
+    ],
 
 
 ];

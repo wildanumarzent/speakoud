@@ -82,7 +82,6 @@ class JadwalController extends Controller
     public function create()
     {
         $data['mata'] = $this->serviceMata->getAllMata();
-
         return view('backend.course_management.jadwal.form', compact('data'), [
             'title' => 'Kalender Pelatihan - Tambah',
             'breadcrumbsBackend' => [
@@ -95,7 +94,6 @@ class JadwalController extends Controller
     public function store(JadwalRequest $request)
     {
         $this->service->storeJadwal($request);
-
         return redirect()->route('jadwal.index')
             ->with('success', 'Jadwal pelatihan berhasil ditambahkan');
     }

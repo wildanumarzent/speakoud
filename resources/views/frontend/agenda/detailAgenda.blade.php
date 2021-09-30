@@ -74,7 +74,7 @@
                 </article>
                 <div class="box-participant">
                     <div class="title-heading">
-                        <h3 class="mb-4">Event Participants</h3>
+                        <h3 class="mb-4">Pembicara</h3>
                     </div>
                     <div class="list-participant">
                         <div class="row">
@@ -82,12 +82,12 @@
                                 <div class="item-participant">
                                     <div class="img-participant">
                                         <div class="thumbnail-img">
-                                            <img src="images/participant-1.jpg" alt="">
+                                            <img src="{{ asset('/userfile/cover/'.$data['data']->cover['filename'])}}" alt="">
                                         </div>
                                     </div>
                                     <div class="info-participant">
-                                        <h6 class="name">John Doe</h6>
-                                        <div class="departement">Founder</div>
+                                        <h6 class="name">{{$data['data']->nama_pembicara}}</h6>
+                                        <div class="departement">{!! $data['data']->keterangan_pembicara !!}</div>
                                     </div>
                                 </div>
                             </div>
@@ -99,50 +99,55 @@
                 <div class="box-information">
                     <form action="">
                         <div class="title-heading text-center">
-                            <h3 class="mb-4">Buy Ticket</h3>
+                            <h3 class="mb-4">Beli Tiket</h3>
                         </div>
                         <ul class="list-information">
                             <li class="item-information">
                                 <div class="title-information">
                                     <!-- <i class="las la-question"></i> -->
-                                    <span>Total Slots</span>
+                                    <span>Kuota Peserta</span>
                                 </div>
                                 <div class="data-information">
-                                    <span>625</span>
+                                    <span>{{$data['data']->kuota_peserta}}</span>
                                 </div>
                             </li>
                             <li class="item-information">
                                 <div class="title-information">
                                     <!-- <i class="las la-award"></i> -->
-                                    <span>Booked Slots</span>
+                                    <span>Sisa Kuota</span>
                                 </div>
                                 <div class="data-information">
-                                    <span>233</span>
+                                    <span>4</span>
                                 </div>
                             </li>
                             <li class="item-information">
                                 <div class="title-information">
                                     <!-- <i class="las la-check-circle"></i> -->
-                                    <span>Cost</span>
+                                    <span>Biaya</span>
                                 </div>
                                 <div class="data-information">
                                     <div class="box-price">
-                                        <div class="no-free">Rp. 3,000,000</div>
+                                        @if ($data['data']->harga == 0 || $data['data']->harga == null)
+                                        <div class="no-free">Free</div>
+                                        @else 
+                                        <div class="no-free">Rp. {{number_format($data['data']->harga)}}</div>
+
+                                        @endif
                                     </div>
                                 </div>
                             </li>
                             <li class="item-information">
                                 <div class="title-information">
                                     <!-- <i class="las la-users"></i> -->
-                                    <span>Students</span>
+                                    <span>Peserta Terdaftar</span>
                                 </div>
                                 <div class="data-information">
-                                    <span>233</span>
+                                    <span>50</span>
                                     {{-- <input type="number" id="quantity" value="1" name="quantity" min="1" max="5" style="width: 100px"> --}}
                                 </div>
                             </li>
                         </ul>
-                        <button class="btn btn-primary filled d-block w-100 mt-5" type="submit">Kirim Pesan</button>
+                        <button class="btn btn-primary filled d-block w-100 mt-5" type="submit">Beli</button>
                     </form>
                 </div>
             </div>
