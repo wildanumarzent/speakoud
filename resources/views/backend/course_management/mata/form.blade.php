@@ -105,7 +105,22 @@
                             @include('components.field-error', ['field' => 'content'])
                         </div>
                     </div>
-                    <div class="form-group row">
+                     <div class="form-group row">
+                        <div class="col-md-2 text-md-right">
+                            <label class="col-form-label text-sm-right">Tipe Pelatihan</label>
+                        </div>
+                        <div class="col-md-10">
+                            <select class="status custom-select form-control" name="type_pelatihan">
+                                @foreach (config('addon.label.tipe_pelatihan') as $key => $value)
+                                    <option value="{{ $key }}" {{ isset($data['program']) ? (old('is_sertifikat', $data['program']->is_sertifikat) == ''.$key.'' ? 'selected' : '') : (old('is_sertifikat') == ''.$key.'' ? 'selected' : '') }}>{{ $value }}</option>
+                                @endforeach
+                            </select>
+                            @include('components.field-error', ['field' => 'type_pelatihan'])
+                        </div>
+                    </div>
+
+                    {{-- harga --}}
+                    {{-- <div class="form-group row">
                         <div class="col-md-2 text-md-right">
                         <label class="col-form-label text-sm-right">Harga</label>
                         </div>
@@ -114,7 +129,7 @@
                             value="{{ (isset($data['mata'])) ? old('price', $data['mata']->price) : old('price') }}" placeholder="masukan price..." autofocus>
                         @include('components.field-error', ['field' => 'price'])
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="form-group row">
                         <div class="col-md-2 text-md-right">
                             <label class="col-form-label text-sm-right">Sertifikat</label>
@@ -183,7 +198,6 @@
                             </div>
                         </div>
                     </div>
-
                     <hr> --}}
                     <div class="form-group row">
                         <label class="col-form-label col-sm-2 text-sm-right">Tampilkan Rating Peserta</label>

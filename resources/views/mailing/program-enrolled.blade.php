@@ -1,9 +1,10 @@
 @extends('mailing.layout')
 
 @section('content')
-<h3>Selamat Anda Telah Ter Enroll pada Program :<strong> !</strong></h3>
+{{-- {{dd($data['email'])}} --}}
+<h3>Selamat Pelatihan Anda <a href="{{$data['link_pelatihan']}}"><strong>{{$data['pelatihan']}}</strong></a> Telah di setujui :<strong> !</strong></h3>
 <hr>
-<p>Detail Program<br>
+<p>Akses Pelatihan Anda <a href="{{$data['link_pelatihan']}}">{{$data['pelatihan']}}</a><br>
     {{-- <table style="border-collapse: collapse;width: 100%;">
         <tr style="nth-child(event); backgroud-color:#f2f2f2;">
             <th style="text-align: left; padding: 8px;">Program Pelatihan </th>

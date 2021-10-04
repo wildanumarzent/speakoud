@@ -63,26 +63,49 @@ class RegisterController extends Controller
         ]);
     }
 
+      public function showRegisterPelatihan($id)
+    {
+         return view('auth.registerKhusus', [
+            'title' => 'Register New Account',
+            'mataId' => $id
+        ]);
+    }
     public function register(RegisterRequest $request)
     {
-        // dd($request->forms());
         $encrypt = Crypt::encrypt($request->email);
+        $dataPeserta=$this->peserta->registerPeserta($request);
+        if($request->mataId != null)
+        {
+            $data = [
+                'email' => $request->email,
+                'name' => $request->name,
+                'link' => route('register.activate', ['email' => $request->email]),
+                'link_login' => route('login'),
+                'link_pelatihan' => route('pelatihan.detail',['id'=>$request->mataId]),
+                'link_manage_user_request' => route('peserta.index'),
+                'link_accept_pelatihanKhusus' =>route('peserta.detailAkses', ['id' => $dataPeserta['peserta']->id]),
+            ];
+            Mail::to($request->email)->send(new \App\Mail\NotifKhusus($data));
+            Mail::to("contact@speakoud.com")->send(new \App\Mail\ActivateAccountMail($data));
 
-        $data = [
-            'email' => $request->email,
-            'name' => $request->name,
-            // 'link' => route('register.activate', ['email' => $encrypt]),
-        ];
+            $remember = $request->has('remember') ? true : false;
+            if (Auth::attempt($request->forms(), $remember)) { 
+                    return redirect()->route('pelatihan.detail',['id' =>$request->mataId ])->with('success', 'Register berhasil, 
+                    silahkan cek email untuk aktivasi & verifikasi akun');
+            }else{
+                $data = [
+                'email' => $request->email,
+                'name' => $request->name,
+                'link' => route('home'),    
+                ];
+                Mail::to($request->email)->send(new \App\Mail\Notif($data));
+            //  Mail::to("contact@speakoud.com")->s◘end(new \App\Mail\ActivateAccountMail($data));
+            }
         
-        // dd($request->roles);
-        // dd($request->all());
-        Mail::to($request->email)->send(new \App\Mail\Notif($data));
-    
-           $this->peserta->registerPeserta($request);
+          
         // dd($dataRegister->forms());
             $remember = $request->has('remember') ? true : false;
-            if (Auth::attempt($request->forms(), $remember)) {  
-                // dd("test");
+            if (Auth::attempt($request->forms(), $remember)) { 
                 return redirect()->route('home')->with('success', 'Register berhasil, 
                 silahkan cek email untuk aktivasi & verifikasi akun');
 
@@ -90,16 +113,18 @@ class RegisterController extends Controller
 
                 // return $redirect->with('success', 'Login berhasil');
             }
+        }
         
     }
 
-    public function activate($email)
-    {
-        $this->user->activateAccount($email);
+  
+    // public function activate($email)
+    // {
+    //     $this->user->activateAccount($email);
 
-        return redirect()->route('login')->with('success', 'Akun berhasil diaktivasi, 
-            silahkan login');
-    }
+    //     return redirect()->route('login')->with('success', 'Akun berhasil diaktivasi, 
+    //         silahkan login');
+    // }
 
     /**
      * Get a validator for an incoming registration request.

@@ -38,6 +38,7 @@ class MataRequest extends FormRequest
             'post_test' => 'required',
             'kompetensi_id' => 'nullable',
             'price' => 'nullable',
+            'type_pelatihan'=>'required'
         ];
 
     }
@@ -57,6 +58,7 @@ class MataRequest extends FormRequest
             'progress_test' => 'Progress Test',
             'quiz' => 'Quiz',
             'post_test' => 'Post Test',
+            'type_pelatihan' => 'Tipe Pelatihan',
         ];
     }
 
@@ -75,6 +77,7 @@ class MataRequest extends FormRequest
             'progress_test.required' => ':attribute tidak boleh kosong',
             'quiz.required' => ':attribute tidak boleh kosong',
             'post_test.required' => ':attribute tidak boleh kosong',
+            'type+pelatihan.required' => ':attribute tidak boleh kosong',
         ];
     }
 }

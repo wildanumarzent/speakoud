@@ -2,6 +2,7 @@
 
 namespace App\Models\Users;
 
+use App\Models\Course\MataPelatihan;
 use App\Models\Instansi\InstansiInternal;
 use App\Models\Instansi\InstansiMitra;
 use App\Models\Jabatan;
@@ -41,6 +42,11 @@ class Peserta extends Model
     public function creator()
     {
         return $this->belongsTo(User::class, 'creator_id');
+    }
+
+    public function pelatihan()
+    {
+        return $this->belongsTo(MataPelatihan::class, 'mata_id');
     }
 
     public function instansi($item)

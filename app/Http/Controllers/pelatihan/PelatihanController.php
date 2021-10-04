@@ -10,6 +10,7 @@ use App\Services\Course\ProgramService;
 use App\Services\KonfigurasiService;
 use App\Services\Users\InstrukturService;
 use App\Services\Users\PesertaService;
+
 use Carbon\Carbon;
 use DateTime;
 use Illuminate\Http\Request;
@@ -53,7 +54,10 @@ class PelatihanController extends Controller
        
         $data['mata'] = $this->service->findMata($id);
         
-        $data['materi'] = $this->serviceMateri->getMateriNoRole($id);
+        // $data['materi'] = $this->serviceMateri->getMateriNoRole($id);
+        if(auth()->user() != null){
+            $data['pelatihanKhusus']=$this->servicePeserta->findPesertaKhusus(auth()->user()->peserta->id);
+        }
         if(auth()->user() != null)
         {
             $data['peserta'] = $this->servicePeserta->findPesertaByUserId(auth()->user()->id);
@@ -62,7 +66,7 @@ class PelatihanController extends Controller
             {
                 $array = ['peserta_id' => $data['peserta']->id];
                 $object = (object) $array;
-                $this->service->storePeserta($object, $id);
+                // $this->service->storePeserta($object, $id);
             }
 
             if($data['instruktur'] != null)
@@ -92,7 +96,7 @@ class PelatihanController extends Controller
         $data['read'] = $this->service->findMata($id);
         $data['materi'] = $this->serviceMateri->getMateriByMata($id);
         $data['other_mata'] = $this->service->getOtherMata($id);
-
+       
         //rating
         $data['numberRating'] = [1, 2, 3, 4, 5];
         $data['numberProgress'] = [1, 2, 3, 4, 5];

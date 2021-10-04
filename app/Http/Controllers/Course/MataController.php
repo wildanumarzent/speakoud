@@ -234,6 +234,7 @@ class MataController extends Controller
     {
         $data['program'] = $this->serviceProgram->findProgram($programId);
         $data['kompetensi'] = $this->kompetensi->listAll();
+        
         $this->serviceProgram->checkAdmin($programId);
 
         return view('backend.course_management.mata.form', compact('data'), [

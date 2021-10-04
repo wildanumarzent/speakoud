@@ -4,6 +4,7 @@ namespace App\Services\Users;
 
 use App\Models\BankData;
 use App\Models\Course\MataPeserta;
+use App\Models\Course\PelatihanKhusus;
 use App\Models\Users\Peserta;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
@@ -13,17 +14,19 @@ use Illuminate\Support\Facades\Storage;
 
 class PesertaService
 {
-    private $model, $modelBankData, $user;
+    private $model, $modelBankData, $user, $pelatihanKhusus;
 
     public function __construct(
         Peserta $model,
         BankData $modelBankData,
-        UserService $user
+        UserService $user,
+        PelatihanKhusus $pelatihanKhusus
     )
     {
         $this->model = $model;
         $this->modelBankData = $modelBankData;
         $this->user = $user;
+        $this->pelatihanKhusus = $pelatihanKhusus;
     }
 
     public function getPesertaList($request, $paginate = true)
@@ -114,12 +117,29 @@ class PesertaService
     {
         return $this->model->findOrFail($id);
     }
+    
+    public function findPesertaKhusus(int $id)
+    {
+        return $this->pelatihanKhusus->with('pelatihan')->where('peserta_id', $id)->first();
+    }
 
+    public function getMataKhusus(int $mataId, $pesertaId)
+    {
+        return $this->pelatihanKhusus->where('mata_id', $mataId)->where('peserta_id',$pesertaId)->get();
+    }
+    public function getPelatihanKhusus($id, $pesertaId)
+    {
+        return $this->pelatihanKhusus->where('mata_id', $id)->where('peserta_id', $pesertaId)->first();
+    }
     public function findPesertaByUserId($id)
     {
         return $this->model->where('user_id', $id)->first();
     }
     
+    public function findPlatihanKhusus($id)
+    {
+        return $this->pelatihanKhusus->find($id);
+    }
     public function storePeserta($request)
     {
         $user = $this->user->storeUser($request);
@@ -161,7 +181,12 @@ class PesertaService
         $user = $this->user->storeUser($request, 'register');
         $peserta = new Peserta;
         $peserta->user_id = $user->id;
-        return  $peserta->save();
+        $peserta->save();
+
+        $pelatihanKhusus = new PelatihanKhusus;
+        $pelatihanKhusus->peserta_id = $peserta->id;
+        $pelatihanKhusus->mata_id = $request->mataId;
+        $pelatihanKhusus->save();
         // dd($peserta);
         // $user->userable()->associate($peserta);
         // dd($user);exit;
@@ -169,7 +194,8 @@ class PesertaService
 
         return [
             'user' => $user,
-            'peserta' => $peserta
+            'peserta' => $peserta,
+            'pelatihanKhusus' => $pelatihanKhusus
         ];
     }
 
@@ -221,6 +247,20 @@ class PesertaService
             'peserta' => $peserta,
             'user' => $user
         ];
+    }
+
+    public function giveAccess($id, $pesertaId)
+    {
+        
+        $give = $this->pelatihanKhusus->where('mata_id',$id)->where('peserta_id', $pesertaId)->first();
+        $give->is_access = 1;
+        return $give->update();
+    }
+    public function MintaAkses($mataId, $id)
+    {
+        $give = $this->findPlatihanKhusus($id);
+        $give->mata_id = $mataId;
+        return $give->update();
     }
 
     public function uploadFile($request, $peserta, $userId, $type, $id = null)

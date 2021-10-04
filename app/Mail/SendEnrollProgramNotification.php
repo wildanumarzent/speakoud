@@ -34,6 +34,8 @@ class SendEnrollProgramNotification extends Mailable
      */
     public function build()
     {
-        return $this->view('mailing.program-enrolled');
+        return $this->from($this->data['email'], env('APP_NAME'))
+            ->subject('Speakoud Approval Pelatihan')
+            ->view('mailing.program-enrolled');
     }
 }

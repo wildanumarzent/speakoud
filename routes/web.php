@@ -12,6 +12,7 @@ use App\Http\Controllers\AboutController;
 use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\Users\PesertaController;
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -74,7 +75,9 @@ Route::post('/login', [LoginController::class, 'login'])
 
 //register
 Route::get('/register', [RegisterController::class, 'showRegisterForm'])
-	->name('register')
+	->name('register');
+Route::get('/register/{mataId}/Khusus', [RegisterController::class, 'showRegisterPelatihan'])
+	->name('register.platihanKhusus')
 	->middleware('guest');
 Route::post('/register', [RegisterController::class, 'register'])
 	->middleware('guest');
@@ -763,24 +766,28 @@ Route::group(['middleware' => ['auth']], function () {
 	//peserta
 	Route::prefix('peserta')->name('peserta.')->middleware('role:developer|administrator|internal|mitra')
 		->group(function () {
-
-		Route::get('/', [PesertaController::class, 'index'])
+        Route::get('/akses/{id}/pelatihan', [PesertaController::class, 'detailAKses'])
+            ->name('detailAkses');
+		    Route::get('/', [PesertaController::class, 'index'])
 			->name('index');
-	   
-		Route::get('/create', [PesertaController::class, 'create'])
+            Route::get('/create', [PesertaController::class, 'create'])
 			->name('create');
-		Route::post('/', [PesertaController::class, 'store'])
+            Route::post('/', [PesertaController::class, 'store'])
 			->name('store');
-		Route::get('/{id}/edit', [PesertaController::class, 'edit'])
+          
+            Route::get('/{id}/edit', [PesertaController::class, 'edit'])
 			->name('edit');
-		Route::put('/{id}', [PesertaController::class, 'update'])
+            Route::put('/{id}', [PesertaController::class, 'update'])
 			->name('update');
-		Route::delete('/{id}', [PesertaController::class, 'destroy'])
+            Route::delete('/{id}', [PesertaController::class, 'destroy'])
 			->name('destroy');
-		Route::get('/{id}/soft', [PesertaController::class, 'softDelete'])
+            Route::get('/{id}/soft', [PesertaController::class, 'softDelete'])
 			->name('destroy.soft');
-		Route::get('/export', [PesertaController::class, 'export'])
+            Route::get('/export', [PesertaController::class, 'export'])
 			->name('export');
+            Route::put('/peserta/{id}/khusus', [PesertaController::class, 'updatePesertaKhusus'])
+			->name('editPelatiahanKhusus');
+            
 
 	});
 
@@ -821,12 +828,15 @@ Route::group(['middleware' => ['auth']], function () {
 });
 
 	Route::get('/pelatihan','pelatihan\PelatihanController@index')->name('platihan.index');
-	Route::get('/detail/{id}/course','pelatihan\PelatihanController@show')->name('pelatihan.detail');
+	Route::get('/detail/{id}/pelatihan','pelatihan\PelatihanController@show')->name('pelatihan.detail');
 	Route::get('/pelatihan/{id}/detail', 'pelatihan\PelatihanController@courseDetail')
 	->name('pelatihan.mata')
 	->middleware('auth');
 	Route::get('/pelatihan/{orderBy}','pelatihan\PelatihanController@filterBy')
 	->name('platihan.filter');
+
+    Route::get('/minta/{mataId}/{id}/akses', [PesertaController::class, 'mintaAkses_pelatihan'])
+            ->name('peserta.MintaAkses');
 
    
 

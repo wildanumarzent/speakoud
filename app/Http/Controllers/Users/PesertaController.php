@@ -11,6 +11,10 @@ use App\Services\Users\PesertaService;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\PesertaExport;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\User\PesertaRequest;
 
 class PesertaController extends Controller
@@ -111,6 +115,39 @@ class PesertaController extends Controller
             ->with('success', 'User peserta berhasil diedit');
     }
 
+    public function updatePesertaKhusus(Request $request, $id)
+    {
+        $this->service->giveAccess($id, $request->pesertaId);
+        $dataPeserta =$this->service->getPelatihanKhusus($id, $request->pesertaId);
+        $data = [
+            'email' =>$dataPeserta->peserta->user->email, 
+            'pelatihan' => $dataPeserta->pelatihan->judul,
+            'link_speakoud' => route('home'),
+            'link_pelatihan' => route('pelatihan.detail',['id' => $id])
+        ];
+
+        Mail::to($dataPeserta->peserta->user->email)->send(new \App\Mail\SendEnrollProgramNotification($data));
+        return redirect()->back()->with('success', 'Akses berhasil di berikan');
+    }
+
+    public function mintaAkses_pelatihan($mataId, $id)
+    {
+        $data= $this->service->MintaAkses($mataId,$id);
+        $dataPeserta =$this->service->findPlatihanKhusus($id);
+        $data = [
+            'email' =>$dataPeserta->peserta->user->email, 
+            'pelatihan' => $dataPeserta->pelatihan->judul,
+            'nama_peserta' => $dataPeserta->peserta->user->name,
+            'link_speakoud' => route('home'),
+            'link_login' => route('login'),
+            'link_manage_user_request' => route('peserta.index'),
+            'link_pelatihan' => route('pelatihan.detail',['id' => $mataId])
+        ];
+
+        Mail::to('contanct@speakoud.com')->send(new \App\Mail\ActivateAccountMail($data));
+        return redirect()->back()->with('success', 'Permintaan Akses Berhasil Di kirimkan, tunggu hingga di setujui');
+    }
+
     public function softDelete($id)
     {
         $delete = $this->service->softDeletePeserta($id);
@@ -141,6 +178,15 @@ class PesertaController extends Controller
             'message' => ''
         ], 200);
     }
+
+    public function detailAKses($id)
+    {
+
+        $data['peserta'] =$this->service->findPesertaKhusus($id);
+        $data['pelatihanKhusus'] =$this->service->getMataKhusus($data['peserta']->mata_id,$data['peserta']->peserta_id);
+        // dd( $data['pelatihanKhusus']);
+        return view('backend.user_management.peserta.pelatihanKhusus', compact('data'));
+    }   
 
     public function export(Request $request)
     {

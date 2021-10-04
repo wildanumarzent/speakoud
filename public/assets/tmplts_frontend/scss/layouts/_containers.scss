@@ -1261,6 +1261,19 @@ header {
 
 }
 
+@media screen and (max-width: 1198.98px) {
+    .item-event {
+        .box-event-left {
+            width: 100%;
+        }
+
+        .box-event-right {
+            width: 100%;
+            margin-top: 15px;
+        }
+    }
+}
+
 .box-event {
     padding-left: 20px;
     border-left: 4px solid #ffb606;
@@ -1272,7 +1285,7 @@ header {
     display: flex;
     align-items: center;
     margin-top: 5px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 
     i {
         color: $main-color;

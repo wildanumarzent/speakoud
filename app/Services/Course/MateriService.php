@@ -72,8 +72,8 @@ class MateriService
     {
         $query = $this->model->query();
         $query->where('mata_id', $mataId);
-         $result = $query->orderBy('urutan', 'ASC')->get();
-          return $result;
+        $result = $query->orderBy('urutan', 'ASC')->get();
+        return $result;
     }
     public function materiJump(int $mataId, int $id)
     {

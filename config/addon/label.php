@@ -226,6 +226,10 @@ return [
         0 => 'Free',
         1 => 'Berbayar'
     ],
+    'tipe_pelatihan' => [
+        0 => 'Free',
+        1 => 'Khusus'
+    ],
 
 
 ];

@@ -133,9 +133,14 @@
                             <span class="badge badge-danger">Belum</span>
                         @endif
                     </td>
-                    <td>
+                    <td >
+                        <a href=""></a>
+                       
                         <a href="{{ route('peserta.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengedit peserta">
                             <i class="las la-pen"></i>
+                        </a>
+                         <a href="{{ route('peserta.detailAkses', ['id' => $item->id]) }}" class="btn icon-btn btn-primary btn-sm" title="Akses Materi">
+                            <i class="las la-info"></i>
                         </a>
                         <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm swal-delete" title="klik untuk menghapus peserta">
                             <i class="las la-trash-alt"></i>
@@ -200,9 +205,11 @@
 
                                 <div class="item-table m-0">
                                     <div class="desc-table text-right">
+                                         
                                         <a href="{{ route('peserta.edit', ['id' => $item->id]) }}" class="btn icon-btn btn-info btn-sm" title="klik untuk mengedit peserta">
                                                 <i class="las la-pen"></i>
                                         </a>
+                                       
                                         <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm swal-delete" title="klik untuk menghapus peserta">
                                             <i class="las la-trash-alt"></i>
                                         </a>

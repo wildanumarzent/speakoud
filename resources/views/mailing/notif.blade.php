@@ -2,7 +2,7 @@
 
 @section('content')
 <h2>Hallo {{$data['name']}}</h2>
-<h3>Selamat Anda Berhasil Register di Speakoud :<strong></strong></h3>
+<h3>Selamat Anda Berhasil Register di Speakoud : akses untuk memilih pelatihan<strong><a href="{{$data['link_pelatihan']}}">{{$data['link_pelatihan']}}</a></strong></h3>
 <p>happy learning !</p>
 
 @endsection

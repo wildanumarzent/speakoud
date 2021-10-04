@@ -7,11 +7,10 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class ActivateAccountMail extends Mailable
+class NotifKhusus extends Mailable
 {
     use Queueable, SerializesModels;
-
-    public $data;
+     public $data;
     /**
      * Create a new message instance.
      *
@@ -19,7 +18,7 @@ class ActivateAccountMail extends Mailable
      */
     public function __construct($data)
     {
-        $this->data = $data;
+         $this->data = $data;
     }
 
     /**
@@ -30,7 +29,7 @@ class ActivateAccountMail extends Mailable
     public function build()
     {
         return $this->from($this->data['email'], env('APP_NAME'))
-            ->subject('Meminta Akses Pelatihan Khusus ')
-            ->view('mailing.activate-account');
+            ->subject('Speakoud')
+            ->view('mailing.notif');
     }
 }
