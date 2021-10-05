@@ -101,7 +101,6 @@
 											@endif
 										@endif  
 									@endif
-
 									
 								@else
 								{{-- pelatihan free --}}

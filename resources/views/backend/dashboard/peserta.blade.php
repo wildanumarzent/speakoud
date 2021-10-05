@@ -121,11 +121,12 @@
 </div>
 @endif
 <div class="row">
-@foreach ($data['rekomendasi'] as $key => $rek)
-{{-- {{dd($course->id.$rek->id)}} --}}
+    @foreach ($data['rekomendasi'] as $key => $rek)
+    
+    {{-- {{dd($rek)}} --}}
   <div class="col-sm-6 col-xl-4">
     <div class="card mb-4">
-      <div class="card-img-top d-block ui-rect-60 ui-bg-cover" style="background-image: url({{ $course->getCover($course->cover['filename']) }});">
+      <div class="card-img-top d-block ui-rect-60 ui-bg-cover" style="background-image: url({{ $rek->getCover($rek->cover['filename']) }});">
         <div class="d-flex justify-content-end align-items-start ui-rect-content p-3">
             <div class="flex-shrink-1">
                 <span class="badge badge-primary"><i class="las la-calendar"></i>{{$rek->publish_start->format('d F Y')}}</span>
