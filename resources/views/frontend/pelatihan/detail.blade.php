@@ -1,5 +1,8 @@
 @extends('layouts.frontend.layout')
 
+@section('styles')
+<link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/sweetalert2/sweetalert2.css') }}">
+@endsection
 @section('content')
 <div class="banner-breadcrumb">
 	<div class="container">
@@ -86,7 +89,7 @@
 								{{-- jika true pelatihan khusus --}}
 								@if ($data['mata']->type_pelatihan == 1)
 									@if ( $data['pelatihanKhusus']->is_access == 0 && $data['mata']->id ==  $data['pelatihanKhusus']->mata_id)
-										<a href="{{ route('pelatihan.mata', ['id' => $data['mata']->id]) }}" target="_blank" class="btn btn-primary filled">Sedang di tinjau</a>   
+										<a href="javascript:void(0)" class="btn btn-primary filled" id="ceking" data-toggle="modal" data-target="#exampleModal">Sedang di tinjau</a>   
 									@else
 										@if ($data['pelatihanKhusus']->is_access ==  0 && $data['pelatihanKhusus']->mata_id ==null)
 											<a href="{{ route('peserta.MintaAkses', ['mataId' => $data['mata']->id, 'id'=> $data['pelatihanKhusus']->id]) }}" target="_blank" class="btn btn-primary filled">Minta Akses</a>
@@ -166,5 +169,24 @@
 		</div>
 	</div>
 	<!-- / Content -->
+
+    <!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Pemberitahuan</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h5>Akun anda sedang di tinjau, mohon tunggu sebentar kami akan mengirim pemberitahuan persetuajan lewat email anda</h5>
+      </div>
+    </div>
+  </div>
+</div>
 </div>
 @endsection
+
+
