@@ -94,18 +94,17 @@ class RegisterController extends Controller
             if (Auth::attempt($request->forms(), $remember)) { 
                     return redirect()->route('pelatihan.detail',['id' =>$request->mataId ])->with('success', 'Register berhasil, 
                     silahkan cek email untuk aktivasi & verifikasi akun');
-            }else{
-                $data = [
-                'email' => $request->email,
-                'name' => $request->name,
-                'link' => route('home'),    
-                ];
-                Mail::to($request->email)->send(new \App\Mail\Notif($data));
-            //  Mail::to("contact@speakoud.com")->s◘end(new \App\Mail\ActivateAccountMail($data));
-               
-             }
+            }
             
         }
+        $data = [
+            'email' => $request->email,
+            'name' => $request->name,
+            'link' => route('home'),  
+            'link_pelatihan' => route('platihan.index')
+            ];
+                Mail::to($request->email)->send(new \App\Mail\Notif($data));
+            //  Mail::to("contact@speakoud.com")->s◘end(new \App\Mail\ActivateAccountMail($data));
             $remember = $request->has('remember') ? true : false;
             if (Auth::attempt($request->forms(), $remember)) { 
             
