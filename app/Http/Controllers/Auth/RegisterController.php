@@ -73,7 +73,7 @@ class RegisterController extends Controller
     public function register(RegisterRequest $request)
     {
         
-  
+        // dd($request->mataId != 0 && $request->mataId != null);
         $encrypt = Crypt::encrypt($request->email);
         $dataPeserta=$this->peserta->registerPeserta($request);
         if($request->mataId != 0 && $request->mataId != null)
@@ -97,7 +97,9 @@ class RegisterController extends Controller
             }
             
         }
-        $data = [
+        
+        if($request->mataId == 0){
+            $data = [
             'email' => $request->email,
             'name' => $request->name,
             'link' => route('home'),  
@@ -111,6 +113,9 @@ class RegisterController extends Controller
                 return redirect()->route('home')->with('success', 'Register berhasil, 
                 silahkan cek email untuk aktivasi & verifikasi akun');
             }
+        }
+        
+        
         
     }
 

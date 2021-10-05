@@ -30,6 +30,6 @@ class NotifKhusus extends Mailable
     {
         return $this->from($this->data['email'], env('APP_NAME'))
             ->subject('Speakoud')
-            ->view('mailing.notif');
+            ->view('mailing.notifKhusus');
     }
 }
