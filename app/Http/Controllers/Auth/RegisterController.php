@@ -72,13 +72,15 @@ class RegisterController extends Controller
     }
     public function register(RegisterRequest $request)
     {
+        
+  
         $encrypt = Crypt::encrypt($request->email);
         $dataPeserta=$this->peserta->registerPeserta($request);
-        if($request->mataId != null)
+        if($request->mataId != 0 && $request->mataId != null)
         {
             $data = [
                 'email' => $request->email,
-                'name' => $request->name,
+                'nama_peserta' => $request->name,
                 'link' => route('register.activate', ['email' => $request->email]),
                 'link_login' => route('login'),
                 'link_pelatihan' => route('pelatihan.detail',['id'=>$request->mataId]),
@@ -100,20 +102,16 @@ class RegisterController extends Controller
                 ];
                 Mail::to($request->email)->send(new \App\Mail\Notif($data));
             //  Mail::to("contact@speakoud.com")->s◘end(new \App\Mail\ActivateAccountMail($data));
-            }
-        
-          
-        // dd($dataRegister->forms());
+               
+             }
+            
+        }
             $remember = $request->has('remember') ? true : false;
             if (Auth::attempt($request->forms(), $remember)) { 
+            
                 return redirect()->route('home')->with('success', 'Register berhasil, 
                 silahkan cek email untuk aktivasi & verifikasi akun');
-
-                // $redirect = redirect()->route('dashboard');
-
-                // return $redirect->with('success', 'Login berhasil');
             }
-        }
         
     }
 
@@ -132,14 +130,14 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    protected function validator(array $data)
-    {
-        return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
-    }
+    // protected function validator(array $data)
+    // {
+    //     return Validator::make($data, [
+    //         'name' => ['required', 'string', 'max:255'],
+    //         'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+    //         'password' => ['required', 'string', 'min:8', 'confirmed'],
+    //     ]);
+    // }
 
     /**
      * Create a new user instance after a valid registration.
@@ -147,12 +145,12 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\User
      */
-    protected function create(array $data)
-    {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
-    }
+    // protected function create(array $data)
+    // {
+    //     return User::create([
+    //         'name' => $data['name'],
+    //         'email' => $data['email'],
+    //         'password' => Hash::make($data['password']),
+    //     ]);
+    // }
 }

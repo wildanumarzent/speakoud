@@ -141,7 +141,8 @@ class PesertaController extends Controller
             'link_speakoud' => route('home'),
             'link_login' => route('login'),
             'link_manage_user_request' => route('peserta.index'),
-            'link_pelatihan' => route('pelatihan.detail',['id' => $mataId])
+            'link_pelatihan' => route('pelatihan.detail',['id' => $mataId]),
+            'link_accept_pelatihanKhusus' =>route('peserta.detailAkses', ['id' => $dataPeserta->id]),
         ];
 
         Mail::to('contanct@speakoud.com')->send(new \App\Mail\ActivateAccountMail($data));

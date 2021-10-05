@@ -185,7 +185,7 @@ class PesertaService
 
         $pelatihanKhusus = new PelatihanKhusus;
         $pelatihanKhusus->peserta_id = $peserta->id;
-        $pelatihanKhusus->mata_id = $request->mataId;
+        $pelatihanKhusus->mata_id = $request->mataId ?? null;
         $pelatihanKhusus->save();
         // dd($peserta);
         // $user->userable()->associate($peserta);

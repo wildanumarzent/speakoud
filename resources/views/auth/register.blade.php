@@ -12,6 +12,7 @@
     <form action="{{ route('register') }}" method="POST">
         @csrf
         <input type="hidden" name="roles" value="peserta_internal">
+        <input type="hidden" name="mataId" value="0">
         <div class="form-group">
             <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" placeholder="Masukan nama...">
             @include('components.field-error', ['field' => 'name'])
