@@ -43,7 +43,7 @@
                                     <div class="point-event">
                                         <i class="las la-calendar"></i>
                                         <div class="data-event">
-                                        <strong>{{$data['data']->end_date->format('d F Y')}}}</strong>
+                                        <strong>{{$data['data']->end_date->format('d F Y')}}</strong>
                                         </div>
                                     </div>
                                 </div>
