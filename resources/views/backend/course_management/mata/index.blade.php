@@ -57,7 +57,8 @@
 <div class="text-left">
     <a href="{{ route('program.index') }}" class="btn btn-secondary rounded-pill" title="kembali ke list kategori"><i class="las la-arrow-left"></i>Kembali</a>
     @role('administrator|internal')
-    <button type="button" class="btn btn-primary rounded-pill" data-toggle="modal" data-target="#modals-tipe" title="klik untuk menambah program pelatihan"><i class="las la-plus"></i>Tambah</button>
+    <a href="{{ route('mata.create', ['id' => $data['program']->id]) }}" class="btn btn-primary rounded-pill">Tambah</a>
+    {{-- <button type="button" class="btn btn-primary rounded-pill" data-toggle="modal" data-target="#modals-tipe" title="klik untuk menambah program pelatihan"><i class="las la-plus"></i>Tambah</button> --}}
     @else
     <a href="{{ route('mata.create', ['id' => $data['program']->id]) }}" class="btn btn-primary rounded-pill" title="klik untuk menambah program pelatihan"><i class="las la-plus"></i>Tambah</a>
     @endrole
@@ -96,7 +97,7 @@
               @endif
             </div>
             <div class="media-body ml-4">
-              <a href="{{ route('materi.index', ['id' => $item->id]) }}" class="text-big">{!! $item->judul !!} <span class="badge badge-secondary">{{ $item->publish == 1 ? 'Publish' : 'Draft' }}</span></a>
+              {{-- <a href="{{ route('materi.index', ['id' => $item->id]) }}" class="text-big">{!! $item->judul !!} <span class="badge badge-secondary">{{ $item->publish == 1 ? 'Publish' : 'Draft' }}</span></a> --}}
               <div class="my-2">
                 <div class="row">
                     <div class="col-md-4">
@@ -124,17 +125,17 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td>
+                                {{-- <td>
                                     <a class="btn btn-info btn-sm icon-btn-only-sm mr-1" href="{{ route('mata.pembobotan', ['id' => $item->id]) }}" title="klik untuk melihat laporan program">
                                         <i class="las la-chart-line"></i> <span>Aktivitas</span>
                                     </a>
-                                </td>
+                                </td> --}}
 
-                                <td>
+                                {{-- <td>
                                     <a class="btn btn-warning btn-sm icon-btn-only-sm mr-1" href="{{ route('badge.list', ['mataID' => $item->id]) }}" title="klik untuk melihat badge">
                                         <i class="las la-medal"></i> <span>Badge</span>
                                     </a>
-                                </td>
+                                </td> --}}
                             </tr>
                         </table>
                     </div>

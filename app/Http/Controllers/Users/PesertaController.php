@@ -143,10 +143,11 @@ class PesertaController extends Controller
             'link_manage_user_request' => route('peserta.index'),
             'link_pelatihan' => route('pelatihan.detail',['id' => $mataId]),
             'link_accept_pelatihanKhusus' =>route('peserta.detailAkses', ['id' => $dataPeserta->id]),
+            'type_pelatihan' => 'KHUSUS'
         ];
 
         Mail::to('contanct@speakoud.com')->send(new \App\Mail\ActivateAccountMail($data));
-        return redirect()->back()->with('success', 'Permintaan Akses Berhasil Di kirimkan, tunggu hingga di setujui');
+        return redirect()->back()->with('success', 'Permintaan Akses Berhasil Di kirimkan, mohon tunggu sebentar kami akan mengirimkan pemberitahuan persetuajan lewat email anda');
     }
 
     public function softDelete($id)

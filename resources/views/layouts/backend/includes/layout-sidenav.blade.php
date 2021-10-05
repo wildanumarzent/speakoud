@@ -217,11 +217,11 @@
                 <ul class="sidenav-menu">
                     @role ('developer|administrator|internal')
                     <!-- templating -->
-                    <li class="sidenav-item{{ (Request::is('template*')) ? ' active' : '' }}">
+                    {{-- <li class="sidenav-item{{ (Request::is('template*')) ? ' active' : '' }}">
                         <a href="{{ route('template.mata.index') }}" class="sidenav-link" title="Templating Program Pelatihan">
                             <div>Template</div>
                         </a>
-                    </li>
+                    </li> --}}
                     @endrole
                     <!-- aktif -->
                     <li class="sidenav-item{{ (Request::is('program*') && Request::segment(2) != 'history' || Request::is('mata*') || Request::is('materi*') || Request::is('quiz*') || Request::is('course*')) ? ' active' : '' }}">

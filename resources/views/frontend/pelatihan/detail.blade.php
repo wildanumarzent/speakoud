@@ -113,12 +113,14 @@
 								@endif
 								
 							@else
+                            {{-- jika tidak ada user maka harus daftar telebih dahulu --}}
 							<a href="{{ route('register') }}" target="_blank" class="btn btn-primary filled">Daftar</a>
 							@endif
 						@else
 							@if ($data['instruktur'] != null)
 								<a href="{{ route('pelatihan.mata', ['id' => $data['mata']->id]) }}" target="_blank" class="btn btn-primary filled">Mulai</a>
 							@else 
+                            {{-- daftar instruktur --}}
 							<a href="{{ route('register') }}" target="_blank" class="btn btn-primary filled">Daftar</a>
 							@endif
 						@endif
@@ -126,10 +128,11 @@
 							<a href="{{ route('pelatihan.mata', ['id' => $data['mata']->id]) }}" target="_blank" class="btn btn-primary filled">PREVIEW</a>
 						@else
 						@if ($data['mata']->type_pelatihan == 1)
-						  
+                            {{-- daftar pelatihan khusus --}}
 							<a href="{{ route('register.platihanKhusus',['mataId'=> $data['mata']->id]) }}" class="btn btn-primary filled">Daftar</a>  
 						@else 
-						 <a href="{{ route('register') }}" target="_blank" class="btn btn-primary filled">Daftar</a>
+                        {{-- daftar pelatihan free --}}
+						 <a href="{{ route('register.free',['mataId'=> $data['mata']->id]) }}" class="btn btn-primary filled">Daftar</a>
 						@endif
 					@endrole
 				</div>

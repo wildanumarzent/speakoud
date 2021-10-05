@@ -76,6 +76,8 @@ Route::post('/login', [LoginController::class, 'login'])
 //register
 Route::get('/register', [RegisterController::class, 'showRegisterForm'])
 	->name('register');
+Route::get('/register/{mataId}/free', [RegisterController::class, 'showRegisterFormFree'])
+	->name('register.free');
 Route::get('/register/{mataId}/Khusus', [RegisterController::class, 'showRegisterPelatihan'])
 	->name('register.platihanKhusus')
 	->middleware('guest');
