@@ -6,8 +6,8 @@
 					<a href="{{ route('home') }}" class="main-logo" title="">
 						<div class="logo">
 							<img src="{{ asset(config('addon.images.logo')) }}" width="80px" alt="Logo SPEAKOUD">
-                            {{-- <strong>SPEAKOUD</strong>  --}}
-                            {{-- <h5 >SPEAKOUD</h5> --}}
+							{{-- <strong>SPEAKOUD</strong>  --}}
+							{{-- <h5 >SPEAKOUD</h5> --}}
 						</div>
 					</a>
 				</div>
@@ -17,8 +17,8 @@
 							<li class="{{ empty(Request::segment(1)) ? 'current-nav' : '' }}"><a href="{{ route('home') }}" title="@lang('layout.menu.home')">BERANDA</a></li>
 							{{-- <li class="{{ Request::is('page/tentang-kami*') ? 'current-nav' : ''}}"><a href="{{ route('about.index',['slug' => 'tentang-kami']) }}" title="@lang('layout.menu.home')">TENTANG KAMI</a></li> --}}
 							<li class="{{ Request::is('pelatihan*') ? 'current-nav' : '' }}"><a href="{{ route('platihan.index') }}" title="modul pelatihan">MODUL PELATIHAN</a></li>
-                            <li class="{{ Request::is('/agenda/kegiatan*') ? 'current-nav' : '' }}"><a href="{{route('agenda.kegiatan')}}" title="Agenda Kegiatan">AGENDA KEGIATAN</a></li>
-                            @if (Auth()->user() == null)
+							<li class="{{ Request::is('/agenda/kegiatan*') ? 'current-nav' : '' }}"><a href="{{route('agenda.kegiatan')}}" title="Agenda Kegiatan">AGENDA KEGIATAN</a></li>
+							@if (Auth()->user() == null)
 							<li class="has-dropdown {{ Request::is('course/list*') ? 'current-nav' : '' }}">
 								<a href="#!" title="Program Pelatihan">PENDAFTARAN</a>
 								<ul class="dropdown">
@@ -30,9 +30,10 @@
 									</li>
 								</ul>
 							</li>
-                                
-                            @endif
+								
+							@endif
 							{{-- <li class="{{ Request::is('course/jadwal*') ? 'current-nav' : '' }}"><a href="{{ route('course.jadwal') }}" title="Kalender Pelatihan">Agenda</a></li> --}}
+							{{-- {{dd($menu['inquiry'])}} --}}
 							@foreach ($menu['inquiry'] as $inquiry)
 							<li class="{{ Request::is('inquiry*') ? 'current-nav' : '' }}"><a href="{{ route('inquiry.read', ['slug' => $inquiry->slug]) }}" title="{!! $inquiry->name !!}">HUBUNGI KAMI</a></li>
 							@endforeach
@@ -43,7 +44,7 @@
 					</div>
 				</div>
 				<div class="menubar-right">
-                    {{-- {{dd(auth()->user())}} --}}
+					{{-- {{dd(auth()->user())}} --}}
 					@if (Auth::guard()->check())
 					<div class="nav-item account has-dropdwon">
 						<a href="#!" class="user" title="{{ auth()->user()->name }}">

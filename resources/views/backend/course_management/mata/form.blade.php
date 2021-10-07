@@ -106,7 +106,7 @@
                         </div>
                     </div>
                      <div class="form-group row">
-                        <div class="col-md-2 text-md-right">
+                        <div class="col-md-2 text-md    
                             <label class="col-form-label text-sm-right">Tipe Pelatihan</label>
                         </div>
                         <div class="col-md-10">

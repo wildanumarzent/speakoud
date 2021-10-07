@@ -78,11 +78,12 @@
 							</h5>
 							<div class="post-info">
                                 <div class="box-price">
-                                    @if ($mata->price == null || $mata->price == 0)
+                                    @if ($mata->type_pelatihan == 0)
                                     <div class="free"> <a href="{{ route('pelatihan.detail', ['id' => $mata->id]) }}">Free</a> </div>
-                                @else
-                                    <div class="no-free"><a href="{{ route('pelatihan.detail', ['id' => $mata->id]) }}">Rp. {{number_format($mata->price)}}</a></div>
-                                @endif
+                                    @else
+                                        {{-- <div class="no-free"><a href="{{ route('pelatihan.detail', ['id' => $mata->id]) }}">Rp. {{number_format($mata->price)}}</a></div> --}}
+                                        <div class="no-free"><a href="{{ route('pelatihan.detail', ['id' => $mata->id]) }}">Khusus</a></div>
+                                    @endif
                                 </div>
                                 <div class="box-info">
 									<div class="item-info">
@@ -163,7 +164,6 @@
 				{!! $data['pageOne']->content !!}
 
 			</div> --}}
-
 		</div>
 
 		{{-- our client --}}
@@ -400,4 +400,5 @@
 		}
 	});
 </script>
+@include('components.toastr')
 @endsection
