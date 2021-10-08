@@ -99,7 +99,7 @@ class RegisterController extends Controller
             ];
             
             Mail::to($request->email)->send(new \App\Mail\NotifUmum($data));
-            Mail::to("contact@speakoud.com")->send(new \App\Mail\ActivateAccountMailUmum($data));
+            Mail::to("wildanmuhamad961@gmail.com")->send(new \App\Mail\ActivateAccountMailUmum($data));
 
             $remember = $request->has('remember') ? true : false;
            if (Auth::attempt($request->forms(), $remember)) { 
@@ -123,7 +123,7 @@ class RegisterController extends Controller
                 'type_pelatihan' => 'KHUSUS'
             ];
             Mail::to($request->email)->send(new \App\Mail\NotifKhusus($data));
-            Mail::to("contact@speakoud.com")->send(new \App\Mail\ActivateAccountMail($data));
+            Mail::to("wildanmuhamad961@gmail.com")->send(new \App\Mail\ActivateAccountMail($data));
 
             $remember = $request->has('remember') ? true : false;
             if (Auth::attempt($request->forms(), $remember)) { 
@@ -147,7 +147,7 @@ class RegisterController extends Controller
             'type_pelatihan' => 'FREE'
             ];
             Mail::to($request->email)->send(new \App\Mail\Notif($data));
-            Mail::to("contact@speakoud.com")->send(new \App\Mail\ActivateAccountMail($data));
+            Mail::to("wildanmuhamad961@gmail.com")->send(new \App\Mail\ActivateAccountMail($data));
             $remember = $request->has('remember') ? true : false;
            if (Auth::attempt($request->forms(), $remember)) { 
                     return redirect()->route('pelatihan.detail',['id' =>$request->mataId ])->with('success', 'Register berhasil, 

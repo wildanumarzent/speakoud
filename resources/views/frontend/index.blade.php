@@ -54,7 +54,7 @@
 				<div class="summary-text m-0">
 					{{-- <p>@lang('strip.widget_1_description')</p> --}}
 				</div>
-			</div>
+			</div> 
 		</div>
 
 		<div class="swiper-container mt-3 swiper-2" style="overflow: visible;">
