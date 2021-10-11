@@ -75,7 +75,7 @@ class PesertaService
             $limit = $request->l;
         }
 
-        $result = $query->orderBy('id', 'ASC')->paginate($limit);
+        $result = $query->orderBy('id', 'DESC')->paginate($limit);
 
         if($paginate == false){
             $result = $query->get();
@@ -118,18 +118,15 @@ class PesertaService
         return $this->model->findOrFail($id);
     }
     
-    public function findPesertaKhusus(int $id)
+    public function getMataKhusus(int $id)
     {
-        return $this->pelatihanKhusus->with('pelatihan')->where('peserta_id', $id)->first();
+        return $this->pelatihanKhusus->with('pelatihan')->where('peserta_id', $id)->get();
     }
 
-    public function getMataKhusus(int $mataId, $pesertaId)
+    public function getPelatihanKhusus($pesertaId, $mataId)
     {
-        return $this->pelatihanKhusus->where('mata_id', $mataId)->where('peserta_id',$pesertaId)->get();
-    }
-    public function getPelatihanKhusus($id, $pesertaId)
-    {
-        return $this->pelatihanKhusus->where('mata_id', $id)->where('peserta_id', $pesertaId)->first();
+        // dd($pesertaId);
+        return $this->pelatihanKhusus->where('mata_id', $mataId)->where('peserta_id', $pesertaId)->first();
     }
     public function findPesertaByUserId($id)
     {
@@ -256,11 +253,17 @@ class PesertaService
         $give->is_access = 1;
         return $give->update();
     }
-    public function MintaAkses($mataId, $id)
+    public function MintaAkses($mataId, $peserta_id)
     {
-        $give = $this->findPlatihanKhusus($id);
-        $give->mata_id = $mataId;
-        return $give->update();
+        $pelatihanKhusus = new PelatihanKhusus;
+        $pelatihanKhusus->peserta_id = $peserta_id;
+        $pelatihanKhusus->mata_id = $mataId ?? null;
+        $pelatihanKhusus->save();
+
+        // $give = $this->findPlatihanKhusus($id);
+        // $give->mata_id = $mataId;
+        // return $give->update();
+
     }
 
     public function uploadFile($request, $peserta, $userId, $type, $id = null)

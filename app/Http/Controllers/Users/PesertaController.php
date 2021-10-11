@@ -118,7 +118,8 @@ class PesertaController extends Controller
     public function updatePesertaKhusus(Request $request, $id)
     {
         $this->service->giveAccess($id, $request->pesertaId);
-        $dataPeserta =$this->service->getPelatihanKhusus($id, $request->pesertaId);
+        $dataPeserta =$this->service->getPelatihanKhusus($request->pesertaId,$id);
+    
         $data = [
             'email' =>$dataPeserta->peserta->user->email, 
             'pelatihan' => $dataPeserta->pelatihan->judul,
@@ -184,9 +185,10 @@ class PesertaController extends Controller
     public function detailAKses($id)
     {
 
-        $data['peserta'] =$this->service->findPesertaKhusus($id);
-        $data['pelatihanKhusus'] =$this->service->getMataKhusus($data['peserta']->mata_id,$data['peserta']->peserta_id);
-        // dd( $data['pelatihanKhusus']);
+        $data['pelatihanKhusus'] =$this->service->getMataKhusus($id);
+        
+        // $data['pelatihanKhusus'] =$this->service->getMataKhusus($data['peserta']->mata_id,$data['peserta']->peserta_id);
+
         return view('backend.user_management.peserta.pelatihanKhusus', compact('data'));
     }   
 

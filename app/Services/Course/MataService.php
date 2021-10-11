@@ -611,6 +611,7 @@ class MataService
 		$mata->price = $request->price;
 		$mata->is_sertifikat = $request->is_sertifikat;
 		$mata->is_penilaian = $request->is_penilaian;
+        $mata->type_pelatihan = $request->type_pelatihan;
 		$mata->save();
 
 		$bobot = $mata->bobot;

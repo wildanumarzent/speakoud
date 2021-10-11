@@ -150,7 +150,7 @@
         // var txt = match.join('');
         // $(".user-profile").text(txt);
     </script>
-    @include('components.toastr')
+    {{-- @include('components.toastr') --}}
     @yield('jsbody')
 
 </html>

@@ -49,14 +49,11 @@ class PelatihanController extends Controller
     
     public function show($id)
     {
-        // return $id;
-        // return $data['program'] = $this->program->findProgram($id);
-       
+
         $data['mata'] = $this->service->findMata($id);
-        
-        // $data['materi'] = $this->serviceMateri->getMateriNoRole($id);
         if(auth()->user() != null){
-            $data['pelatihanKhusus']=$this->servicePeserta->findPesertaKhusus(auth()->user()->peserta->id);
+            $data['pelatihanKhusus']=$this->servicePeserta->getPelatihanKhusus(auth()->user()->peserta->id, $data['mata']->id);
+            // dd($data['pelatihanKhusus']);
         }
         if(auth()->user() != null)
         {

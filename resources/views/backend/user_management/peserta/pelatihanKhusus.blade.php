@@ -8,12 +8,11 @@
 
 @section('content')
 
+<a href="{{route('peserta.index')}}" class="btn btn-small btn-primary mb-3"> Kembali</a>
 <div class="card">
     <div class="container">
         <div class="row">
-        {{-- {{dd($data['mata'])}} --}}
         @foreach ($data['pelatihanKhusus'] as $mata)
-        {{-- {{dd($mata->pelatihan)}} --}}
         {{-- d-flex --}}
         <div class="col-lg-4 mt-3">
             <div class="item-post">
