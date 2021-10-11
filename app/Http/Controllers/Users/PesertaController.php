@@ -146,7 +146,7 @@ class PesertaController extends Controller
             'type_pelatihan' => 'KHUSUS'
         ];
 
-        Mail::to('wildanmuhamad961@gmail.com')->send(new \App\Mail\ActivateAccountMail($data));
+        Mail::to('contact@speakoud.com')->send(new \App\Mail\ActivateAccountMail($data));
         return redirect()->back()->with('success', 'Permintaan Akses Berhasil Di kirimkan, mohon tunggu sebentar kami akan mengirimkan pemberitahuan persetuajan lewat email anda');
     }
 
