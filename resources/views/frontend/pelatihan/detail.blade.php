@@ -173,22 +173,33 @@
 	<!-- / Content -->
 
     <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Pemberitahuan</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <h5>Akun anda sedang di tinjau, mohon tunggu sebentar kami akan mengirim pemberitahuan persetuajan lewat email anda</h5>
-      </div>
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Pemberitahuan</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <h5>Akun anda sedang di tinjau, mohon tunggu sebentar kami akan mengirim pemberitahuan persetuajan lewat email anda</h5>
+        </div>
+        </div>
     </div>
-  </div>
-</div>
-</div>
+    </div>
+    </div>
+
+    @include('components.modal')
+@endsection
+@section('jsbody')
+<script>
+    var session = "{{session()->has('success')}}";
+    if (session) {
+        $('#myModal').modal('show');
+    }
+    
+</script>
 @endsection
 
 

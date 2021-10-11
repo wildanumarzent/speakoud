@@ -2,7 +2,7 @@
 
 @section('content')
 {{-- {{dd($data['email'])}} --}}
-<h3>Selamat Pelatihan Anda <a href="{{$data['link_pelatihan']}}"><strong>{{$data['pelatihan']}}</strong></a> Telah di setujui :<strong> !</strong></h3>
+<h3>Selamat Pelatihan <a href="{{$data['link_pelatihan']}}"><strong>{{$data['pelatihan']}}</strong></a> Anda Telah di setujui :<strong> !</strong></h3>
 <hr>
 <p>Akses Pelatihan Anda <a href="{{$data['link_pelatihan']}}">{{$data['pelatihan']}}</a><br>
     {{-- <table style="border-collapse: collapse;width: 100%;">

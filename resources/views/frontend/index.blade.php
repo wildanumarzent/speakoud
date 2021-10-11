@@ -2,9 +2,18 @@
 
 @section('styles')
 <link rel="stylesheet" href="{{ asset('assets/tmplts_frontend/css/swiper.min.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/tmplts_backend/fancybox/fancybox.min.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/sweetalert2/sweetalert2.css') }}">
 @endsection
 
 @section('content')
+{{-- @if(session()->has('success'))
+    <div class="alert alert-success">
+     {{session()->get('success') }}
+    </div>
+
+    <script>$('#myModal').modal('show');</script>
+@endif --}}
 {{-- banner --}}
 @if ($data['banner']->banner()->count() > 0)
 <div class="slide-intro">
@@ -335,10 +344,15 @@
 		</div>
 	</div>
 </div> --}}
+
+@include('components.modal')
+
 @endsection
 
 @section('scripts')
 <script src="{{ asset('assets/tmplts_frontend/js/swiper.min.js') }}"></script>
+<script src="{{ asset('assets/tmplts_backend/fancybox/fancybox.min.js') }}"></script>
+<script src="{{ asset('assets/tmplts_backend/vendor/libs/sweetalert2/sweetalert2.js') }}"></script>
 @endsection
 
 @section('jsbody')
@@ -398,7 +412,12 @@
 			}
 
 		}
-	});
+	});     
+    
+    var session = "{{session()->has('success')}}";
+    if (session) {
+        $('#myModal').modal('show');
+    }
+    
 </script>
-@include('components.toastr')
 @endsection

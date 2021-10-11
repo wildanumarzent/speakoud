@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
+use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
@@ -103,8 +104,9 @@ class RegisterController extends Controller
 
             $remember = $request->has('remember') ? true : false;
            if (Auth::attempt($request->forms(), $remember)) { 
-                return redirect()->route('home')->with('success', 'Register berhasil, 
-                silahkan cek email untuk aktivasi & verifikasi akun');
+               $redirect= redirect()->route('home')->with('success', 'Register berhasil, 
+               Selamat bergabung menjadi Member Speakoud, Happy Learning !!');
+               return $redirect;
             }
         }
 
@@ -127,8 +129,8 @@ class RegisterController extends Controller
 
             $remember = $request->has('remember') ? true : false;
             if (Auth::attempt($request->forms(), $remember)) { 
-                    return redirect()->route('pelatihan.detail',['id' =>$request->mataId ])->with('success', 'Register berhasil, 
-                    silahkan cek email untuk aktivasi & verifikasi akun');
+                    return redirect()->route('pelatihan.detail',['id' =>$request->mataId ])->with('success', 'Registerasi berhasil, pelatihan anda sedang di tinjau,
+                    Kami akan mengirimkan pemberitahuan persutujuan lewat Email anda');
             }
             
         }
@@ -151,7 +153,7 @@ class RegisterController extends Controller
             $remember = $request->has('remember') ? true : false;
            if (Auth::attempt($request->forms(), $remember)) {
                 return redirect()->route('pelatihan.detail',['id' =>$request->mataId ])->with('success', 'Register berhasil, 
-                silahkan cek email untuk aktivasi & verifikasi akun');
+                Selamat bergabung menjadi Member Speakoud, Happy Learning !!');
             }
         }
 
