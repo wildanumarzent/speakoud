@@ -125,8 +125,12 @@ class PesertaService
 
     public function getPelatihanKhusus($pesertaId, $mataId)
     {
-        // dd($pesertaId);
-        return $this->pelatihanKhusus->where('mata_id', $mataId)->where('peserta_id', $pesertaId)->first();
+        // return $this->pelatihanKhusus->with('pelatihan')->where('peserta_id', $pesertaId)->first();
+        // dd($pesertaId != null  && $mataId !== null);
+    
+           return $this->pelatihanKhusus->with('pelatihan')->where('mata_id', $mataId)->where('peserta_id', $pesertaId)->first();
+            
+        
     }
     public function findPesertaByUserId($id)
     {
@@ -253,16 +257,20 @@ class PesertaService
         $give->is_access = 1;
         return $give->update();
     }
-    public function MintaAkses($mataId, $peserta_id)
+    public function MintaAkses($mataId, $pesertaId)
     {
-        $pelatihanKhusus = new PelatihanKhusus;
-        $pelatihanKhusus->peserta_id = $peserta_id;
-        $pelatihanKhusus->mata_id = $mataId ?? null;
-        $pelatihanKhusus->save();
-
+        // dd($mataId);
         // $give = $this->findPlatihanKhusus($id);
-        // $give->mata_id = $mataId;
-        // return $give->update();
+
+            $pelatihanKhusus = new PelatihanKhusus;
+            $pelatihanKhusus->peserta_id = $pesertaId;
+            $pelatihanKhusus->mata_id = $mataId;
+            $dataAll = $pelatihanKhusus->save();
+            return [
+                'data' => $dataAll,
+                'id_pelatihan_khusus' => $pelatihanKhusus->id
+            ];
+       
 
     }
 

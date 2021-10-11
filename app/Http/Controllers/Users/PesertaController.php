@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Users;
 use App\Http\Controllers\Controller;
 use App\Services\Instansi\InstansiInternalService;
 use App\Services\Instansi\InstansiMitraService;
+use App\Services\Course\MataService;
 use App\Services\JabatanService;
 use App\Services\Users\MitraService;
 use App\Services\Users\PesertaService;
@@ -19,14 +20,15 @@ use App\Http\Requests\User\PesertaRequest;
 
 class PesertaController extends Controller
 {
-    private $service, $serviceMitra, $instansiInternal, $instansiMitra, $jabatanService;
+    private $service, $serviceMitra, $pelatihan,$instansiInternal, $instansiMitra, $jabatanService;
 
     public function __construct(
         PesertaService $service,
         MitraService $serviceMitra,
         InstansiInternalService $instansiInternal,
         InstansiMitraService $instansiMitra,
-        JabatanService $jabatanService
+        JabatanService $jabatanService,
+        MataService $pelatihan
     )
     {
         $this->service = $service;
@@ -34,6 +36,7 @@ class PesertaController extends Controller
         $this->instansiInternal = $instansiInternal;
         $this->instansiMitra = $instansiMitra;
         $this->jabatanService = $jabatanService;
+        $this->pelatihan = $pelatihan;
     }
 
     public function index(Request $request)
@@ -119,7 +122,6 @@ class PesertaController extends Controller
     {
         $this->service->giveAccess($id, $request->pesertaId);
         $dataPeserta =$this->service->getPelatihanKhusus($request->pesertaId,$id);
-    
         $data = [
             'email' =>$dataPeserta->peserta->user->email, 
             'pelatihan' => $dataPeserta->pelatihan->judul,
@@ -131,19 +133,19 @@ class PesertaController extends Controller
         return redirect()->back()->with('success', 'Akses berhasil di berikan');
     }
 
-    public function mintaAkses_pelatihan($mataId, $id)
+    public function mintaAkses_pelatihan($mataId, $pesertaId)
     {
-        $data= $this->service->MintaAkses($mataId,$id);
-        $dataPeserta =$this->service->findPlatihanKhusus($id);
+        $data= $this->service->MintaAkses($mataId,$pesertaId);
+        $pelatihan =$this->pelatihan->findMata($mataId);
         $data = [
-            'email' =>$dataPeserta->peserta->user->email, 
-            'pelatihan' => $dataPeserta->pelatihan->judul,
-            'nama_peserta' => $dataPeserta->peserta->user->name,
+            'email' => auth()->user()->email, 
+            'pelatihan' => $pelatihan->judul,
+            'nama_peserta' => auth()->user()->name,
             'link_speakoud' => route('home'),
             'link_login' => route('login'),
             'link_manage_user_request' => route('peserta.index'),
             'link_pelatihan' => route('pelatihan.detail',['id' => $mataId]),
-            'link_accept_pelatihanKhusus' =>route('peserta.detailAkses', ['id' => $dataPeserta->id]),
+            'link_accept_pelatihanKhusus' =>route('peserta.detailAkses', ['id' => $data['id_pelatihan_khusus']]),
             'type_pelatihan' => 'KHUSUS'
         ];
 

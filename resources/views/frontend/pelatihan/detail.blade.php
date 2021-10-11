@@ -88,22 +88,26 @@
 						@if ($data['peserta'] != null )
 							@if (auth()->user() != null)
 								{{-- jika true pelatihan khusus --}}
-                                {{-- {{dd($data['pelatihanKhusus']->is_access == 0 || $data['pelatihanKhusus']->mata_id == null || $data['pelatihanKhusus']->mata_id != $data['mata']->id)}} --}}
 								@if ($data['mata']->type_pelatihan == 1)
-									@if ( $data['pelatihanKhusus']->is_access == 0 && $data['mata']->id ==  $data['pelatihanKhusus']->mata_id)
-										<a href="javascript:void(0)" class="btn btn-primary filled" id="ceking" data-toggle="modal" data-target="#exampleModal">Sedang di tinjau</a>   
-									@else
-										@if ($data['pelatihanKhusus']->is_access == 0 || $data['pelatihanKhusus']->mata_id == null || $data['pelatihanKhusus']->mata_id != $data['mata']->id)
-											<a href="{{ route('peserta.MintaAkses', ['mataId' => $data['mata']->id, 'id'=> $data['pelatihanKhusus']->id]) }}" target="_blank" class="btn btn-primary filled">Minta Akses</a>
-										@else 
-											@if ($data['peserta']->status_peserta == 1)
-											<a href="{{ route('pelatihan.mata', ['id' => $data['mata']->id]) }}" target="_blank" class="btn btn-primary filled">Mulai</a>
-											@else
-											<a href="{{ route('profile.front',['id'=> $data['mata']->id]) }}" target="_blank" class="btn btn-primary filled">Mulai</a>
-											@endif
-										@endif  
-									@endif
-									
+                                {{-- {{dd( $data['pelatihanKhusus']->mata_id )}} --}}
+                                    @if ($data['pelatihanKhusus'] != null)
+                                        @if ($data['pelatihanKhusus']->is_access == null &&  $data['pelatihanKhusus']->mata_id == $data['mata']->id)
+                                            <a href="javascript:void(0)" class="btn btn-primary filled" id="ceking" data-toggle="modal" data-target="#exampleModal">Sedang di tinjau</a>   
+                                        @else
+                                            @if ($data['pelatihanKhusus']->is_access == 0 || $data['pelatihanKhusus']->mata_id == null || $data['pelatihanKhusus']->mata_id != $data['mata']->id)
+                                                <a href="{{ route('peserta.MintaAkses', ['mataId' => $data['mata']->id, 'id'=> $data['pelatihanKhusus']->peserta_id]) }}" class="btn btn-primary filled">Minta Akses</a>
+                                            @else 
+                                                @if ($data['peserta']->status_peserta == 1)
+                                                <a href="{{ route('pelatihan.mata', ['id' => $data['mata']->id]) }}" target="_blank" class="btn btn-primary filled">Mulai</a>
+                                                @else
+                                                <a href="{{ route('profile.front',['id'=> $data['mata']->id]) }}" target="_blank" class="btn btn-primary filled">Mulai</a>
+                                                @endif
+                                            @endif  
+                                        @endif
+                                        @else 
+                                        {{-- user umum --}}
+                                        <a href="{{ route('peserta.MintaAkses', ['mataId' => $data['mata']->id, 'id'=> auth()->user()->peserta->id]) }}" class="btn btn-primary filled">Minta Akses</a>
+                                    @endif
 								@else
 								{{-- pelatihan free --}}
 								@if ($data['peserta']->status_peserta == 1)
