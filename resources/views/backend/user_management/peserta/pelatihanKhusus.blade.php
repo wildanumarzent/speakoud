@@ -16,7 +16,7 @@
         {{-- d-flex --}}
         <div class="col-lg-4 mt-3">
             <div class="item-post">
-                <a href="{{ route('pelatihan.detail', ['id' => $mata->id]) }}" class="box-img">
+                <a href="{{ route('pelatihan.detail', ['id' => $mata->pelatihan->id]) }}" class="box-img">
                     <div class="thumbnail-img">
                         <img src="{{ $mata->pelatihan->getCover($mata->pelatihan->cover['filename']) }}" title="" alt="">
                     </div>
