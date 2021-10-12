@@ -59,9 +59,9 @@ class JadwalService
     public function happening()
     {
         $query = $this->model->query();
-         $query->whereDate('start_date', now()->format('Y-m-d'));
+        $query->where('start_date', '<=', now()->format('Y-m-d'))
+                ->orWhere('end_date', '<=', now()->format('Y-m-d'));
         $result = $query->orderBy('id', 'DESC')->paginate(10);
-        // dd($result);
         return $result;
     }
     public function agendaUpcoming()

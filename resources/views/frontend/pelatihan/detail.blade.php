@@ -145,7 +145,7 @@
 			</div>
 		</div>
         <ul class="nav nav-tabs tabs-alt container-m-nx container-p-x mb-4">
-            <li class="nav-item">
+            <li class="nav-item"> 
                 <a class="nav-link active" data-toggle="tab" href="#search-pages">
                     <span>Overview</span>
                     <i class="las la-file-alt"></i>
