@@ -60,24 +60,33 @@ class JadwalService
     {
         $query = $this->model->query();
         $query->where('start_date', '<=', now()->format('Y-m-d'))
-                ->orWhere('end_date', '<=', now()->format('Y-m-d'));
+                ->where('end_date', '>=', now()->format('Y-m-d'));
         $result = $query->orderBy('id', 'DESC')->paginate(10);
         return $result;
     }
     public function agendaUpcoming()
     {
         $query = $this->model->query();
-        $query->whereDate('start_date', '>', now()->format('Y-m-d'));
+        $query->where('start_date', '>', now()->format('Y-m-d'))
+                ->where('end_date', '>', now()->format('Y-m-d'));
         $result = $query->orderBy('id', 'DESC')->paginate(10);
         return $result;
     }
     public function expired()
     {
         $query = $this->model->query();
-        $query->where('end_date', '<', now());
+        $query ->where('end_date','<=', now());
         $result = $query->orderBy('id', 'DESC')->paginate(10);
-        // dd($result);
         return $result;
+        // $event= $query->orderBy('end_date')->groupBy(function($query){
+        //     $query->end_date >= now();
+        // })->get();
+        // dd($event);
+        // ->groupBy(function($event) {
+        //     return $event->end_date >= now() ? 'upcoming' : 'past';
+        //     });
+
+
     }
 
     public function getJadwal(int $limit)
