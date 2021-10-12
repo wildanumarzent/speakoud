@@ -251,7 +251,7 @@
             <li class="sidenav-item{{ (Request::is('kalender*')) ? ' active' : '' }}">
                 <a href="{{route('kalender.index')}}" class="sidenav-link" title="Agenda">
                   <div>
-                    @role ('developer|administrator|internal|mitra')
+                    @role ('developer|administrator|mitra')
                         Jadwal Acara
                     @else
                         Kalender Diklat
