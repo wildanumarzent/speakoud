@@ -248,17 +248,17 @@
             @endrole
 
             <!-- kalender -->
-            <li class="sidenav-item{{ (Request::is('kalender*')) ? ' active' : '' }}">
+            {{-- <li class="sidenav-item{{ (Request::is('kalender*')) ? ' active' : '' }}">
                 <a href="{{route('kalender.index')}}" class="sidenav-link" title="Agenda">
                   <div>
-                    @role ('developer|administrator|mitra')
+                    @role ('developer|administrator')
                         Jadwal Acara
                     @else
                         Kalender Diklat
                     @endrole
                   </div>
                 </a>
-            </li>
+            </li> --}}
             
           </ul>
         </li>
