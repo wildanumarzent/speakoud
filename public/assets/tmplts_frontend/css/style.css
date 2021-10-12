@@ -1673,12 +1673,26 @@ header .main-header.bg-fixed .menubar-flex .menubar-right .account .user {
   white-space: nowrap;
   font-weight: 700;
   font-size: 0.87em;
+  display: flex;
+  align-items: center;
+}
+.nav-tabs .nav-item .nav-link i {
+  font-size: 18px;
+  margin-left: 10px;
 }
 .nav-tabs .nav-item .nav-link.active {
   background-color: #ffb606;
   color: #fff;
   border-radius: 0;
   border-color: #ffb606;
+}
+@media screen and (max-width: 767.98px) {
+  .nav-tabs .nav-item .nav-link span {
+    display: none;
+  }
+  .nav-tabs .nav-item .nav-link i {
+    margin: 0;
+  }
 }
 
 .nav-tabs .nav-link:focus, .nav-tabs .nav-link:hover {

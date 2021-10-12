@@ -144,7 +144,33 @@
 				</div>
 			</div>
 		</div>
-		<ul class="nav nav-tabs tabs-alt container-m-nx container-p-x mb-4">
+        <ul class="nav nav-tabs tabs-alt container-m-nx container-p-x mb-4">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#search-pages">
+                    <span>Overview</span>
+                    <i class="las la-file-alt"></i>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#search-people">
+                    <span>Kurikulum</span>
+                    <i class="las la-book-open"></i>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#search-images">
+                    <span>Instruktur</span>
+                    <i class="las la-user-tie"></i>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#search-videos">
+                    <span>Reviews</span>
+                    <i class="las la-star-half-alt"></i>
+                </a>
+            </li>
+        </ul>
+		{{-- <ul class="nav nav-tabs tabs-alt container-m-nx container-p-x mb-4">
 			<li class="nav-item">
 			<a class="nav-link active" data-toggle="tab" href="#search-pages">Overview</a>
 			</li>
@@ -157,7 +183,7 @@
 			<li class="nav-item">
 			<a class="nav-link" data-toggle="tab" href="#search-videos">Reviews</a>
 			</li>
-		</ul>
+		</ul> --}}
 		<div class="tab-content">
 			<!-- overview -->
 			@include('frontend.pelatihan.include.overview')
