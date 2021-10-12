@@ -91,7 +91,7 @@
                                     <div class="free"> <a href="{{ route('pelatihan.detail', ['id' => $mata->id]) }}">Free</a> </div>
                                     @else
                                         {{-- <div class="no-free"><a href="{{ route('pelatihan.detail', ['id' => $mata->id]) }}">Rp. {{number_format($mata->price)}}</a></div> --}}
-                                        <div class="no-free"><a href="{{ route('pelatihan.detail', ['id' => $mata->id]) }}">Khusus</a></div>
+                                        <div class="no-free"><a href="{{ route('pelatihan.detail', ['id' => $mata->id]) }}">Private</a></div>
                                     @endif
                                 </div>
                                 <div class="box-info">

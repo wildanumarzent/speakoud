@@ -78,7 +78,7 @@
 						@if($data['mata']->type_pelatihan == 0)
 						<div class="large free">Free
 						@else
-						<div class="large no-free">Khusus
+						<div class="large no-free">Private
 						@endif
 						</div>
 					</div>
