@@ -85,9 +85,10 @@ class RegisterController extends Controller
     public function register(RegisterRequest $request)
     {
         $encrypt = Crypt::encrypt($request->email);
-        $dataPeserta=$this->peserta->registerPeserta($request);
-
+     
+        
         if($request->type_pelatihan =='umum'){
+            $dataPeserta=$this->peserta->registerUserUmum($request);
             $data = [
             'email' => $request->email,
             'nama_peserta' => $request->name,
@@ -110,6 +111,7 @@ class RegisterController extends Controller
             }
         }
 
+        $dataPeserta=$this->peserta->registerPeserta($request);
         if($request->type_pelatihan =='khusus')
         {
             $mataPelatihan = $this->mata_pelatihan->findMata($request->mataId);

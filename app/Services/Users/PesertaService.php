@@ -200,6 +200,18 @@ class PesertaService
         ];
     }
 
+    public function registerUserUmum($request)
+    {
+        $user = $this->user->storeUser($request, 'register');
+        $peserta = new Peserta;
+        $peserta->user_id = $user->id;
+        $peserta->save();
+        return [
+            'user' => $user,
+            'peserta' => $peserta
+        ];
+    }
+
     public function updatePeserta($request, int $id)
     {
         $peserta = $this->findPeserta($id);
