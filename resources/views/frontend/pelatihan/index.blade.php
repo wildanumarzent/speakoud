@@ -35,7 +35,7 @@
                     <div class="col-md-8 mb-2">
                             <div class="form-row">
                                 <div class="col-md-6 mb-3">
-                                    <label class="form-label">Search</label>
+                                    <label class="form-label">Kata Kunci</label>
                                     <input type="text" name="q" value="{{ Request::get('q') }}" class="form-control" placeholder="Kata Kunci...">
                                 </div>
                                 <div class="col-md-6">
