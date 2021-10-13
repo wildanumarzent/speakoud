@@ -25,13 +25,13 @@
 		
         <ul class="nav nav-tabs tabs-alt container-m-nx container-p-x mb-4">
             <li class="nav-item">
-            <a class="nav-link active" data-toggle="tab" href="#happening">Happening</a>
+            <a class="nav-link active" data-toggle="tab" href="#happening">Berjalan</a>
             </li>
             <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#upcoming">Upcoming</a>
+            <a class="nav-link" data-toggle="tab" href="#upcoming">Akan Datang</a>
             </li>
             <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#expired">Expired</a>
+            <a class="nav-link" data-toggle="tab" href="#expired">Berakhir</a>
             </li>
         </ul>
 		<div class="tab-content">
