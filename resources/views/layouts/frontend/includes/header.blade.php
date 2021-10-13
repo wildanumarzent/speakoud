@@ -15,7 +15,7 @@
 					<nav class="main-nav">
 						<ul class="list-nav">
 							<li class="{{ empty(Request::segment(1)) ? 'current-nav' : '' }}"><a href="{{ route('home') }}" title="@lang('layout.menu.home')">BERANDA</a></li>
-							{{-- <li class="{{ Request::is('page/tentang-kami*') ? 'current-nav' : ''}}"><a href="{{ route('about.index',['slug' => 'tentang-kami']) }}" title="@lang('layout.menu.home')">TENTANG KAMI</a></li> --}}
+							<li class="#"><a href="#" title="@lang('layout.menu.home')">TENTANG SPEAKOUD</a></li>
 							<li class="{{ Request::is('pelatihan*') ? 'current-nav' : '' }}"><a href="{{ route('platihan.index') }}" title="modul pelatihan">MODUL PELATIHAN</a></li>
 							<li class="{{ Request::is('agenda/kegiatan*') ? 'current-nav' : '' }}"><a href="{{route('agenda.kegiatan')}}" title="Agenda Kegiatan">AGENDA KEGIATAN</a></li>
 							@if (Auth()->user() == null)
