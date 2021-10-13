@@ -67,10 +67,7 @@ class JadwalService
     public function agendaUpcoming()
     {
         $query = $this->model->query();
-        // $query->where('start_date', '>', now()->format('Y-m-d'))
-        //         ->where('end_date', '<', now()->format('Y-m-d'));
-        // $result = $query->orderBy('id', 'DESC')->paginate(10);
-         $upcoming= $query->groupBy('start_date')
+        $upcoming= $query->groupBy('start_date')
         ->whereDate('start_date', '>', now())
         ->get();
         return $upcoming;
@@ -78,10 +75,6 @@ class JadwalService
     public function expired()
     {
         $query = $this->model->query();
-        // $query ->where('end_date','<=', now());
-        // $result = $query->orderBy('id', 'DESC')->paginate(10);
-        // return $result;
-        
        $expired= $query->groupBy('end_date')
         ->whereDate('end_date', '<', now())
         ->get();
