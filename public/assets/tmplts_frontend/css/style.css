@@ -415,10 +415,10 @@ article img[style="float: right;"] {
 .form-control {
     position: relative;
     display: block;
-    font-size: 12px;
-    font-weight: 600;
+    /* font-size: 12px; */
+    /* font-weight: 600; */
     line-height: 1.5;
-    color: #777;
+    color: black;
     height: auto;
     min-height: calc(1.5em + 1.25rem + 2px) !important;
     padding: 0.625rem 0.75rem !important;
