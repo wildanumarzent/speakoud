@@ -218,9 +218,9 @@ return [
         7 => 'Lainnya',
     ],
     'filter_course' => [
-        0 => 'New Published',
+        0 => 'Terbaru',
         1 => 'Alphabetical',
-        2 => 'Most Members'
+        2 => 'Peserta Terbanyak'
     ],
     'type_agenda' => [
         0 => 'Free',
