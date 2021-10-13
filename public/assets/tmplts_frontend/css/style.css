@@ -415,8 +415,8 @@ article img[style="float: right;"] {
 .form-control {
     position: relative;
     display: block;
-    /* font-size: 12px; */
-    /* font-weight: 600; */
+    font-size: 12px;
+    font-weight: 600;
     line-height: 1.5;
     color: black;
     height: auto;
