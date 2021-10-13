@@ -35,8 +35,8 @@
                     <div class="col-md-8 mb-2">
                             <div class="form-row">
                                 <div class="col-md-6 mb-3">
-                                    <label class="form-label">keyword</label>
-                                    <input type="text" name="q" value="{{ Request::get('q') }}" class="form-control" placeholder="Maukan Kata...">
+                                    <label class="form-label">keywords</label>
+                                    <input type="text" name="q" value="{{ Request::get('q') }}" class="form-control" placeholder="Masukan Kata...">
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label d-none d-md-block">&nbsp;</label>
