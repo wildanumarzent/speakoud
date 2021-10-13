@@ -1,6 +1,30 @@
 
 @extends('layouts.frontend.layout')
 
+
+@section('styles')
+<link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/sweetalert2/sweetalert2.css') }}">
+    <style>
+    .custom-select {
+    display: inline-block;
+    width: 100%;
+    height: calc(2em + .75rem + 2px);
+    padding: .375rem 1.75rem .375rem .75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    vertical-align: middle;
+    background: #fff url(data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='4' height='5' viewBox='0 0 4 5'%3e%3cpath fill='%23343a40' d='M2 0L0 2h4zm0 5L0 3h4z'/%3e%3c/svg%3e) no-repeat right .75rem center/8px 10px;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    }
+    </style>
+@endsection
+
 @section('content')
 <div class="banner-breadcrumb">
 	<div class="container">
@@ -26,7 +50,7 @@
 					<div class="col-md-4 mb-2">
 						<form action="" method="get">
                         <label class="form-label">Status</label>
-                        <select class="custom-select" id="selectorId" name="f">
+                        <select class="custom-select" id="selectorId" name="f" style="font-size: 1rem; font-weight:400; height:calc(2em+.75rem+2px); padding:.375rem 1.75rem .375rem .75rem;">
 							@foreach (config('addon.label.filter_course') as $key => $value)
 							<option value="{{ $key }}" {{ Request::get('f') == ''.$key.'' ? 'selected' : '' }}>{{ $value }}</option>
 							@endforeach
