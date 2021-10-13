@@ -67,25 +67,25 @@ class JadwalService
     public function agendaUpcoming()
     {
         $query = $this->model->query();
-        $query->where('start_date', '>', now()->format('Y-m-d'))
-                ->where('end_date', '>', now()->format('Y-m-d'));
-        $result = $query->orderBy('id', 'DESC')->paginate(10);
-        return $result;
+        // $query->where('start_date', '>', now()->format('Y-m-d'))
+        //         ->where('end_date', '<', now()->format('Y-m-d'));
+        // $result = $query->orderBy('id', 'DESC')->paginate(10);
+         $upcoming= $query->groupBy('start_date')
+        ->whereDate('start_date', '>', now())
+        ->get();
+        return $upcoming;
     }
     public function expired()
     {
         $query = $this->model->query();
-        $query ->where('end_date','<=', now());
-        $result = $query->orderBy('id', 'DESC')->paginate(10);
-        return $result;
-        // $event= $query->orderBy('end_date')->groupBy(function($query){
-        //     $query->end_date >= now();
-        // })->get();
-        // dd($event);
-        // ->groupBy(function($event) {
-        //     return $event->end_date >= now() ? 'upcoming' : 'past';
-        //     });
-
+        // $query ->where('end_date','<=', now());
+        // $result = $query->orderBy('id', 'DESC')->paginate(10);
+        // return $result;
+        
+       $expired= $query->groupBy('end_date')
+        ->whereDate('end_date', '<', now())
+        ->get();
+        return $expired;
 
     }
 
