@@ -98,9 +98,9 @@
                                                 <a href="{{ route('peserta.MintaAkses', ['mataId' => $data['mata']->id, 'id'=> $data['pelatihanKhusus']->peserta_id]) }}" class="btn btn-primary filled">Minta Akses</a>
                                             @else 
                                                 @if ($data['peserta']->status_peserta == 1)
-                                                <a href="{{ route('pelatihan.mata', ['id' => $data['mata']->id]) }}" target="_blank" class="btn btn-primary filled">Mulai</a>
+                                                <a href="{{ route('pelatihan.mata', ['id' => $data['mata']->id]) }}" class="btn btn-primary filled">Mulai</a>
                                                 @else
-                                                <a href="{{ route('profile.front',['id'=> $data['mata']->id]) }}" target="_blank" class="btn btn-primary filled">Mulai</a>
+                                                <a href="{{ route('profile.front',['id'=> $data['mata']->id]) }}" class="btn btn-primary filled">Mulai</a>
                                                 @endif
                                             @endif  
                                         @endif
@@ -111,9 +111,9 @@
 								@else
 								{{-- pelatihan free --}}
 								@if ($data['peserta']->status_peserta == 1)
-									<a href="{{ route('pelatihan.mata', ['id' => $data['mata']->id]) }}" target="_blank" class="btn btn-primary filled">Mulai</a>
+									<a href="{{ route('pelatihan.mata', ['id' => $data['mata']->id]) }}" class="btn btn-primary filled">Mulai</a>
 									@else
-									<a href="{{ route('profile.front',['id'=> $data['mata']->id]) }}" target="_blank" class="btn btn-primary filled">Mulai</a>
+									<a href="{{ route('profile.front',['id'=> $data['mata']->id]) }}"  class="btn btn-primary filled">Mulai</a>
 								@endif
 
 								@endif
@@ -124,7 +124,7 @@
 							@endif
 						@else
 							@if ($data['instruktur'] != null)
-								<a href="{{ route('pelatihan.mata', ['id' => $data['mata']->id]) }}" target="_blank" class="btn btn-primary filled">Mulai</a>
+								<a href="{{ route('pelatihan.mata', ['id' => $data['mata']->id]) }}" class="btn btn-primary filled">Mulai</a>
 							@else 
                             {{-- daftar instruktur --}}
 							<a href="{{ route('register') }}" target="_blank" class="btn btn-primary filled">Daftar</a>
