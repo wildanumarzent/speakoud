@@ -52,16 +52,9 @@
     <div class="card-header with-elements">
         <h5 class="card-header-title mt-1 mb-0">Instruktur List</h5>
         <div class="card-header-elements ml-auto">
-            @role ('developer|administrator')
-            <div class="btn-group float-right dropdown ml-2">
-                <button type="button" class="btn btn-primary dropdown-toggle hide-arrow icon-btn-only-sm" data-toggle="dropdown" title="klik untuk menambah instruktur"><i class="las la-plus"></i><span>Tambah</span></button>
-                <div class="dropdown-menu dropdown-menu-right">
-                    <a href="{{ route('instruktur.create', ['instruktur' => 'internal']) }}" class="dropdown-item" ><i class="las la-user-tie"></i><span>Instruktur Internal</span></a>
-                    {{-- <a href="{{ route('instruktur.create', ['instruktur' => 'mitra']) }}" class="dropdown-item" ><i class="las la-user-tie"></i><span>Instruktur Mitra</span></a> --}}
-                </div>
-            </div>
-            @else
-            <a href="{{ route('instruktur.create') }}" class="btn btn-primary icon-btn-only-sm" title="klik untuk menambah instruktur">
+           
+             @role ('developer|administrator')
+            <a href="{{ route('instruktur.create') }}" class="btn btn-primary icon-btn-only-sm dropdown-toggle hide-arrow icon-btn-only-sm"  title="klik untuk menambah instruktur">
                 <i class="las la-plus"></i><span>Tambah</span>
             </a>
             @endrole
@@ -99,7 +92,7 @@
                 @endif
                 @foreach ($data['instruktur'] as $item)
                 <tr>
-                    <td>{{ $data['no']++ }}</td>eb
+                    <td>{{ $data['no']++ }}</td>
                     <td>{{ $item->user->name }}</td>
                     <td>{{ $item->user->username }}</td>
                     {{-- <td>{{ $item->kedeputian ?? '-' }}</td> --}}

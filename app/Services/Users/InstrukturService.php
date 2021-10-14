@@ -11,22 +11,26 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use App\Services\Users\PesertaService;
+use App\Models\Users\Peserta;
 
 class InstrukturService
 {
-    private $model, $modelBankData, $user, $program;
+    private $model, $modelBankData, $user, $program, $peserta;
 
     public function __construct(
         Instruktur $model,
         BankData $modelBankData,
         UserService $user,
-        ProgramService $program
+        ProgramService $program,
+        Peserta $peserta
     )
     {
         $this->model = $model;
         $this->modelBankData = $modelBankData;
         $this->user = $user;
         $this->program = $program;
+        $this->peserta = $peserta;
     }
 
     public function getInstrukturList($request)
@@ -154,7 +158,7 @@ class InstrukturService
     public function storeInstruktur($request)
     {
         $user = $this->user->storeUser($request);
-        
+
         $instruktur = new Instruktur;
         $instruktur->user_id =$user->id;
         $instruktur->creator_id = Auth::user()->id ?? $user->id;
@@ -162,17 +166,23 @@ class InstrukturService
         $instruktur->gender = $request->gender;
         $instruktur->pendidikan = $request->pendidikan;
         $instruktur->phone = $request->phone;
+        $instruktur->ikut_pelatihan = $request->ikutPelatihan;
         // $instruktur->address = $request->address;
         $instruktur->tanggal_lahir = $request->tanggal_lahir;
         $this->uploadFile($request, $instruktur, $user->id, 'store');
         $instruktur->save();
+
+        $peserta = new Peserta;
+        $peserta->user_id = $instruktur->user_id;
+        $peserta->save();
 
         $user->userable()->associate($instruktur);
         $user->save();
 
         return [
             'user' => $user,
-            'instruktur' => $instruktur
+            'instruktur' => $instruktur,
+            'peserta' => $peserta,
         ];
     }
 
@@ -183,6 +193,7 @@ class InstrukturService
         $instruktur->instansi_id = $request->instansi_id ?? null;
         $instruktur->kedeputian = $request->kedeputian ?? null;
         $instruktur->pangkat = $request->pangkat ?? null;
+        $instruktur->ikut_pelatihan = $request->ikutPelatihan;
         $this->uploadFile($request, $instruktur, $instruktur->user_id, 'update', $id);
         $instruktur->save();
 

@@ -45,24 +45,33 @@
 		  <!-- Content -->
 	<div class="container flex-grow-1 container-p-y">
         <div class="row justify-content-end mb-5">
-            <div class="col-lg-8">
+            <div class="col-lg-10">
                 <div class="form-row">
-					<div class="col-md-4 mb-2">
+					<div class="col-md-3 mb-2">
 						<form action="" method="get">
                         <label class="form-label">Status</label>
-                        <select class="custom-select" id="selectorId" name="f" style="font-size: 1rem; font-weight:400; height:calc(2em+.75rem+2px); padding:.375rem 1.75rem .375rem .75rem;">
+                        <select class="form-control custom-select" id="selectorId" name="f" style="font-size: 1rem; font-weight:400; height:calc(2em+.75rem+2px); padding:.375rem 1.75rem .375rem .75rem;">
 							@foreach (config('addon.label.filter_course') as $key => $value)
 							<option value="{{ $key }}" {{ Request::get('f') == ''.$key.'' ? 'selected' : '' }}>{{ $value }}</option>
 							@endforeach
 						</select>
                     </div>
-                    <div class="col-md-8 mb-2">
+                    <div class="col-md-3 mb-2">
+						<form action="" method="get">
+                        <label class="form-label">Kategori</label>
+                        <select class="form-control custom-select" id="selectorId" name="k" style="font-size: 1rem; font-weight:400; height:calc(2em+.75rem+2px); padding:.375rem 1.75rem .375rem .75rem;">
+							@foreach ($data['kategori'] as $key => $value)
+							<option value="{{ $value->id }}" {{ Request::get('k') == ''.$value->id.'' ? 'selected' : '' }}>{{ $value->judul }}</option>
+							@endforeach
+						</select>
+                    </div>
+                    <div class="col-md-6 mb-2">
                             <div class="form-row">
-                                <div class="col-md-6 mb-3">
+                                <div class="col-md-8 mb-3">
                                     <label class="form-label">Keywords</label>
                                     <input type="text" name="q" value="{{ Request::get('q') }}" class="form-control" placeholder="Masukan Kata...">
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <label class="form-label d-none d-md-block">&nbsp;</label>
                                     <button type="submit" class="btn btn-primary w-100 filled ">Search</button>
                                 </div>

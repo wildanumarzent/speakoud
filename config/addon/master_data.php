@@ -82,4 +82,9 @@ return [
         8 => 'Ahli Utama',
         9 => 'Umum',
     ],
+     'instruktur_peserta' => [
+        0 => 'Ya',
+        1 => 'Tidak'
+    ],
+    
 ];

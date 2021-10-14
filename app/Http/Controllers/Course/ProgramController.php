@@ -32,11 +32,11 @@ class ProgramController extends Controller
             $q = '&q='.$request->q;
         }
         // dd(auth()->user());
-         if (auth()->user()->hasRole('instruktur_internal')) {  
-            $data['program'] = $this->service->getProgramListByCreatorId($request);
-        }else{
-            $data['program'] = $this->service->getProgramList($request);
-        }
+        // if (auth()->user()->hasRole('instruktur_internal')) {  
+        //     $data['program'] = $this->service->getProgramListByCreatorId($request);
+        // }else{
+        // }
+        $data['program'] = $this->service->getProgramList($request);
         $data['number'] = $data['program']->firstItem();
         $data['program']->withPath(url()->current().$p.$t.$q);
         return view('backend.course_management.program.index', compact('data'), [
@@ -138,7 +138,7 @@ class ProgramController extends Controller
 
     public function destroy($id)
     {
-        dd($id);
+        // dd($id);
         // $program = $this->service->findProgram($id);
         // $this->checkRole($program);
 

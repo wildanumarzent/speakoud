@@ -49,6 +49,7 @@ class PelatihanController extends Controller
     public function index(Request $request)
     {
         $data['mata'] = $this->service->getMataFree('id', 'DESC', 12,$request);
+        $data['kategori'] = $this->serviceProgram->getProgramList($request);
         return view('frontend.pelatihan.index', compact('data'));
     }
 
@@ -58,8 +59,8 @@ class PelatihanController extends Controller
 
         $data['mata'] = $this->service->findMata($id);
         if(auth()->user() != null){
-            $data['pelatihanKhusus']=$this->servicePeserta->getPelatihanKhusus(auth()->user()->peserta->id, $data['mata']->id);
-            // dd($data['pelatihanKhusus']);
+            // dd(auth()->user()->);
+            $data['pelatihanKhusus']=$this->servicePeserta->getPelatihanKhusus( auth()->user()->peserta->id , $data['mata']->id);
         }
         if(auth()->user() != null)
         {

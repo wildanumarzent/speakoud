@@ -23,14 +23,14 @@
             </div>
             @if (auth()->user()->hasRole('developer|administrator'))
             <div class="col-md">
-                <div class="form-group">
+                {{-- <div class="form-group">
                     <label class="form-label">Tipe</label>
                     <select class="status custom-select form-control" name="t">
                         <option value=" " selected>Semua</option>
                         <option value="0" {{ Request::get('t') == '0' ? 'selected' : '' }}>BPPT</option>
                         <option value="1" {{ Request::get('t') == '1' ? 'selected' : '' }}>Mitra</option>
                     </select>
-                </div>
+                </div> --}}
             </div>
             @endif
             <div class="col-md">
@@ -49,13 +49,16 @@
     </div>
 </div>
 <!-- / Filters -->
+@role('developer|administrator')
 <div class="d-flex justify-content-between">
     <a href="{{ route('program.create') }}" class="btn btn-primary rounded-pill" title="klik untuk menambah kategori pelatihan"><i class="las la-plus"></i>Tambah</a>
 </div>
+@endrole
 <br>
 
 <div class="drag">
     @foreach ($data['program'] as $item)
+   
     <div class="card mb-3" id="{{ $item->id }}" style="cursor: move;" title="geser untuk merubah urutan">
         <div class="card-body">
           <div class="media align-items-center">

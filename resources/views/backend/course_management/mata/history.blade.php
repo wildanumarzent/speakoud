@@ -23,7 +23,7 @@
                         <option value="{{ $key }}" {{ Request::get('p') == ''.$key.'' ? 'selected' : '' }}>{{ $value }}</option>
                         @endforeach
                         @endrole
-                        @role('peserta_internal')
+                        @role('peserta_internal|instruktur_internal')
                         @foreach (config('addon.label.history_peserta') as $key => $value)
                         {{-- <option value=""></option> --}}
                         <option value="{{ $key }}" {{ Request::get('p') == ''.$key.'' ? 'selected' : '' }}>{{ $value }}</option>

@@ -185,8 +185,10 @@ class MataService
             $query->when($request->q, function ($query, $q) {
 				$query->where('judul','like', '%'.$q.'%');
 			}); 
+
+            
             $result = $query->orderBy($order, $by)->paginate($limitz);
-                return $result;
+            return $result;
         }else{
             if (auth()->guard()->check() == true) {
 			
@@ -214,6 +216,9 @@ class MataService
             
             $query->when($request->f == 1, function($query){
                 $query->orderBy('judul', 'ASC')->paginate(12);
+            });
+             $query->when($request->k, function($query, $q){
+                $query->where('program_id', $q);    
             });
         
             $result = $query->orderBy($order, $by)->paginate($limitz);

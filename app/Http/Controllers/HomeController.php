@@ -25,7 +25,7 @@ use App\Models\Event;
 class HomeController extends Controller
 {
 
-    private $banner, $page, $mata, $jadwal;
+    private $banner, $page, $mata, $jadwal, $programService;
 
     /**
      * Create a new controller instance.
@@ -38,7 +38,9 @@ class HomeController extends Controller
         MataService $mata,
         JadwalService $jadwal,
         BadgeService $badge,
-        KompetensiService $kompetensi
+        KompetensiService $kompetensi,
+        ProgramService $programService
+
     )
     {
         $this->banner = $banner;
@@ -47,7 +49,7 @@ class HomeController extends Controller
         $this->jadwal = $jadwal;
         $this->badge = $badge;
         $this->kompetensi = $kompetensi;
-
+        $this->programService = $programService;
         // if (request()->segment(1) != null) {
         //     $this->middleware('auth');
         // }
@@ -65,6 +67,8 @@ class HomeController extends Controller
         $data['pageSix'] = $this->page->findPage(4);
         $data['mata'] = $this->mata->getMataFree('urutan', 'ASC', 8, $request);
         $data['jadwal'] = $this->jadwal->getJadwal(6);
+        $data['kategori'] = $this->programService->getProgramList($request);
+        
         return view('frontend.index', compact('data'));
     }
 

@@ -8,23 +8,26 @@ use App\Services\Instansi\InstansiInternalService;
 use App\Services\Instansi\InstansiMitraService;
 use App\Services\Users\InstrukturService;
 use App\Services\Users\MitraService;
+use App\Services\Users\PesertaService;
 use Illuminate\Http\Request;
 
 class InstrukturController extends Controller
 {
-    private $service, $serviceMitra, $instansiInternal, $instansiMitra;
+    private $service, $serviceMitra, $instansiInternal, $instansiMitra, $pesertaService;
 
     public function __construct(
         InstrukturService $service,
         MitraService $serviceMitra,
         InstansiInternalService $instansiInternal,
-        InstansiMitraService $instansiMitra
+        InstansiMitraService $instansiMitra,
+        PesertaService $pesertaService
     )
     {
         $this->service = $service;
         $this->serviceMitra = $serviceMitra;
         $this->instansiInternal = $instansiInternal;
         $this->instansiMitra = $instansiMitra;
+        $this->pesertaService = $pesertaService;
     }
 
     public function index(Request $request)
@@ -60,7 +63,7 @@ class InstrukturController extends Controller
 
             $data['instansi'] = $this->instansiMitra->getInstansi();
         }
-
+        $data['peserta'] = $this->pesertaService->findPesertaByUserId($request->id);
         return view('backend.user_management.instruktur.form', compact('data'), [
             'title' => 'Instruktur - Tambah',
             'breadcrumbsBackend' => [
@@ -72,7 +75,7 @@ class InstrukturController extends Controller
 
     public function store(InstrukturRequest $request)
     {
-        // return $request;
+        // return $request->all();
         $this->service->storeInstruktur($request);
 
         return redirect()->route('instruktur.index')
@@ -82,7 +85,7 @@ class InstrukturController extends Controller
     public function edit($id)
     {
         $data['instruktur'] = $this->service->findInstruktur($id);
-        // dd($data['instruktur']->information);
+        $data['peserta'] = $this->pesertaService->findPesertaByUserId($id);
         if (empty($data['instruktur']->mitra_id)) {
             $data['instansi'] = $this->instansiInternal->getInstansi();
         } else {

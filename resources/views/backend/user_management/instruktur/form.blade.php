@@ -21,7 +21,7 @@
                 <input type="hidden" name="user_id" value="{{ $data['instruktur']->user_id }}">
             @endif
             <div class="tab-content">
-             
+                
                 <div class="tab-pane fade show active" id="data">
                     
                     <div class="form-group row">
@@ -63,7 +63,7 @@
                                 @endforeach
                             </select>
                             @if ($data['instruktur']->pendidikan ?? '0')
-                            <span style="color: red;"><i>*belum diisi</i></span>
+                            {{-- <span style="color: red;"><i>*belum diisi</i></span> --}}
                             @endif
                         </div>
                     </div>
@@ -92,7 +92,24 @@
                           @include('components.field-error', ['field' => 'address'])
                         </div>
                     </div>
-                 
+                    {{-- <div class="form-group row">
+                        <div class="col-md-2 text-md-right">
+                          <label class="col-form-label text-sm-right">Ikut Pelatihan</label>
+                        </div>
+                        <div class="col-md-10">
+                         <select class="selectpicker show-tick" data-style="btn-default" name="ikutPelatihan">
+                                <option value=" " selected>Pilih</option>
+                              
+                                <option value="0" {{ old('ikut_pelatihan', $data['instruktur']->ikut_pelatihan ?? '') == 0 ? 'selected' : '' }}>Ya</option>
+                                <option value="1" {{ old('ikut_pelatihan', $data['instruktur']->ikut_pelatihan ?? '') == 1 ? 'selected' : '' }}>Tidak</option>
+                        </select>
+                            @if ($data['instruktur']->pendidikan ?? '0')
+                            <span style="color: red;"><i>*belum diisi</i></span>
+                            @endif
+                        </div>
+                    </div> --}}
+                    <input type="hidden" name="ikutPelatihan" value="1">
+
                     <div class="form-group row">
                         <div class="col-md-2 text-md-right">
                           <label class="col-form-label text-sm-right">Tanggal Lahir</label>
@@ -104,109 +121,7 @@
                           @include('components.field-error', ['field' => 'name'])
                         </div>
                     </div>
-                    
-                    {{-- <div id="surat-keterangan">
-                        <div class="form-group row">
-                            <div class="col-md-2 text-md-right">
-                              <label class="col-form-label text-sm-right">Surat Keterangan CPNS</label>
-                            </div>
-                            <div class="col-md-10">
-                                <label class="custom-file-label mt-1" for="file-1"></label>
-                                @if (isset($data['instruktur']))
-                                    <input type="hidden" name="old_sk_cpns" value="{{ $data['instruktur']->sk_cpns['file'] }}">
-                                    @if (!empty($data['instruktur']->sk_cpns['file']))
-                                    <small class="text-muted">File Sebelumnya : <a href="{{ route('bank.data.stream', ['path' => $data['instruktur']->sk_cpns['file']]) }}">Download</a></small>
-                                    @endif
-                                @endif
-                                <input type="file" class="form-control custom-file-input file @error('sk_cpns') is-invalid @enderror" type="file" id="file-1" lang="en" name="sk_cpns" value="browse...">
-                                @include('components.field-error', ['field' => 'sk_cpns'])
-                                <textarea class="form-control @error('keterangan_cpns') is-invalid @enderror" name="keterangan_cpns" placeholder="masukan surat keterangan cpns...">{{ (isset($data['instruktur'])) ? old('keterangan_cpns', $data['instruktur']->sk_cpns['keterangan']) : old('keterangan_cpns') }}</textarea>
-                                @include('components.field-error', ['field' => 'keterangan_cpns'])
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="col-md-2 text-md-right">
-                              <label class="col-form-label text-sm-right">Surat Keterangan Pengangkatan</label>
-                            </div>
-                            <div class="col-md-10">
-                                <label class="custom-file-label mt-1" for="file-2"></label>
-                                @if (isset($data['instruktur']))
-                                    <input type="hidden" name="old_sk_pengangkatan" value="{{ $data['instruktur']->sk_pengangkatan['file'] }}">
-                                    @if (!empty($data['instruktur']->sk_pengangkatan['file']))
-                                    <small class="text-muted">File Sebelumnya : <a href="{{ route('bank.data.stream', ['path' => $data['instruktur']->sk_pengangkatan['file']]) }}">Download</a></small>
-                                    @endif
-                                @endif
-                                <input type="file" class="form-control custom-file-input file @error('sk_pengangkatan') is-invalid @enderror" type="file" id="file-2" lang="en" name="sk_pengangkatan" value="browse...">
-                                @include('components.field-error', ['field' => 'sk_pengangkatan'])
-                                <textarea class="form-control @error('keterangan_pengangkatan') is-invalid @enderror" name="keterangan_pengangkatan" placeholder="masukan surat keterangan pengangkatan...">{{ (isset($data['instruktur'])) ? old('keterangan_pengangkatan', $data['instruktur']->sk_pengangkatan['keterangan']) : old('keterangan_pengangkatan') }}</textarea>
-                                @include('components.field-error', ['field' => 'keterangan_pengangkatan'])
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="col-md-2 text-md-right">
-                              <label class="col-form-label text-sm-right">Surat Keterangan Golongan</label>
-                            </div>
-                            <div class="col-md-10">
-                                <label class="custom-file-label mt-1" for="file-3"></label>
-                                @if (isset($data['instruktur']))
-                                    <input type="hidden" name="old_sk_golongan" value="{{ $data['instruktur']->sk_golongan['file'] }}">
-                                    @if (!empty($data['instruktur']->sk_golongan['file']))
-                                    <small class="text-muted">File Sebelumnya : <a href="{{ route('bank.data.stream', ['path' => $data['instruktur']->sk_golongan['file']]) }}">Download</a></small>
-                                    @endif
-                                @endif
-                                <input type="file" class="form-control custom-file-input file @error('sk_golongan') is-invalid @enderror" type="file" id="file-3" lang="en" name="sk_golongan" value="browse...">
-                                @include('components.field-error', ['field' => 'sk_golongan'])
-                                <textarea class="form-control @error('keterangan_golongan') is-invalid @enderror" name="keterangan_golongan" placeholder="masukan surat keterangan golongan...">{{ (isset($data['instruktur'])) ? old('keterangan_golongan', $data['instruktur']->sk_golongan['keterangan']) : old('keterangan_golongan') }}</textarea>
-                                @include('components.field-error', ['field' => 'keterangan_golongan'])
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="col-md-2 text-md-right">
-                              <label class="col-form-label text-sm-right">Surat Keterangan Jabatan</label>
-                            </div>
-                            <div class="col-md-10">
-                                <label class="custom-file-label mt-1" for="file-4"></label>
-                                @if (isset($data['instruktur']))
-                                    <input type="hidden" name="old_sk_jabatan" value="{{ $data['instruktur']->sk_jabatan['file'] }}">
-                                    @if (!empty($data['instruktur']->sk_jabatan['file']))
-                                    <small class="text-muted">File Sebelumnya : <a href="{{ route('bank.data.stream', ['path' => $data['instruktur']->sk_jabatan['file']]) }}">Download</a></small>
-                                    @endif
-                                @endif
-                                <input type="file" class="form-control custom-file-input file @error('sk_jabatan') is-invalid @enderror" type="file" id="file-4" lang="en" name="sk_jabatan" value="browse...">
-                                @include('components.field-error', ['field' => 'sk_jabatan'])
-                              <textarea class="form-control @error('keterangan_jabatan') is-invalid @enderror" name="keterangan_jabatan" placeholder="masukan surat keterangan jabatan...">{{ (isset($data['instruktur'])) ? old('keterangan_jabatan', $data['instruktur']->sk_jabatan['keterangan']) : old('keterangan_jabatan') }}</textarea>
-                              @include('components.field-error', ['field' => 'keterangan_jabatan'])
-                            </div>
-                        </div>
                     </div>
-                    <div class="form-group row">
-                        <div class="col-md-2 text-md-right">
-                            <label class="col-form-label text-sm-right">Curriculum Vitae</label>
-                        </div>
-                        <div class="col-md-10">
-                            <label class="custom-file-label mt-1" for="file-5"></label>
-                            @if (isset($data['instruktur']))
-                                <input type="hidden" name="old_cv" value="{{ $data['instruktur']->cv }}">
-                                @if (!empty($data['instruktur']->cv))
-                                <small class="text-muted">File Sebelumnya : <a href="{{ route('bank.data.stream', ['path' => $data['instruktur']->cv]) }}">Download</a></small>
-                                @endif
-                            @endif
-                            <input type="file" class="form-control custom-file-input file @error('cv') is-invalid @enderror" type="file" id="file-5" lang="en" name="cv" value="browse...">
-                            @include('components.field-error', ['field' => 'cv'])
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-md-2 text-md-right">
-
-                        </div>
-                        <div class="col-md-10">
-                            <div class="alert alert-warning alert-dismissible">
-                                <i class="las la-file"></i>
-                                <small class="text-muted">Tipe File Curriculum Vitae : <strong>{{ strtoupper(config('addon.mimes.surat_keterangan.m')) }}</strong></small>
-                            </div>
-                        </div>
-                    </div> --}}
-                </div>
                 </div>
                 <div class="tab-pane fade" id="akun">
                     <div class="form-group row">
@@ -229,12 +144,12 @@
                           @include('components.field-error', ['field' => 'username'])
                         </div>
                     </div>
-                    @if (!isset($data['instruktur']) && auth()->user()->hasRole('developer|administrator'))
+                    {{-- @if (!isset($data['instruktur']) && auth()->user()->hasRole('developer|administrator'))
                     <input type="hidden" name="roles" value="instruktur_{{ Request::get('instruktur') }}">
                     @endif
                     @if (!isset($data['instruktur']) && auth()->user()->hasRole('internal|mitra'))
-                    <input type="hidden" name="roles" value="instruktur_{{ auth()->user()->roles[0]->name }}">
-                    @endif
+                    @endif --}}
+                    <input type="hidden" name="roles" value="peserta_internal">
                     <div class="form-group row">
                         <div class="col-md-2 text-md-right">
                           <label class="col-form-label text-sm-right">Password</label>
