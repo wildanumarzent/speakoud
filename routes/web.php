@@ -829,12 +829,12 @@ Route::group(['middleware' => ['auth']], function () {
 
 });
 
-	Route::get('/pelatihan','pelatihan\PelatihanController@index')->name('platihan.index');
-	Route::get('/detail/{id}/pelatihan','pelatihan\PelatihanController@show')->name('pelatihan.detail');
-	Route::get('/pelatihan/{id}/detail', 'pelatihan\PelatihanController@courseDetail')
+	Route::get('/pelatihan','Pelatihan\PelatihanController@index')->name('platihan.index');
+	Route::get('/detail/{id}/pelatihan','Pelatihan\PelatihanController@show')->name('pelatihan.detail');
+	Route::get('/pelatihan/{id}/detail', 'Pelatihan\PelatihanController@courseDetail')
 	->name('pelatihan.mata')
 	->middleware('auth');
-	Route::get('/pelatihan/{orderBy}','pelatihan\PelatihanController@filterBy')
+	Route::get('/pelatihan/{orderBy}','Pelatihan\PelatihanController@filterBy')
 	->name('platihan.filter');
 
     Route::get('/minta/{mataId}/{id}/akses', [PesertaController::class, 'mintaAkses_pelatihan'])
