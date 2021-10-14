@@ -97,7 +97,7 @@
               @endif
             </div>
             <div class="media-body ml-4">
-              {{-- <a href="{{ route('materi.index', ['id' => $item->id]) }}" class="text-big">{!! $item->judul !!} <span class="badge badge-secondary">{{ $item->publish == 1 ? 'Publish' : 'Draft' }}</span></a> --}}
+              <a href="{{ route('materi.index', ['id' => $item->id]) }}" class="text-big">{!! $item->judul !!} <span class="badge badge-secondary">{{ $item->publish == 1 ? 'Publish' : 'Draft' }}</span></a>
               <div class="my-2">
                 <div class="row">
                     <div class="col-md-4">

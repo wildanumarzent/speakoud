@@ -67,7 +67,6 @@ class MataController extends Controller
         $data['mata']->withPath(url()->current().$p.$q);
         $data['program'] = $this->serviceProgram->findProgram($programId);
         $data['template'] = $this->serviceTemplate->getTemplate();
-        // dd($data['mata']);
         $this->serviceProgram->checkAdmin($programId);
 
         return view('backend.course_management.mata.index', compact('data'), [
