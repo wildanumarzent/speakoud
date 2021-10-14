@@ -52,6 +52,11 @@
                     <h6>ISO 9001:2015 Managemen Mutu</h6>
                 </div>
             </div> --}}
+            <div class="box-breadcrumb" style="height: 0px; padding-top:10px">
+                    <div class="title-heading">
+                        <h5>{{$data['bahan']->judul}}</h5>
+                    </div>
+                </div>
             <div class="box-curiculum">
                 <ul class="list-curiculum">
                     @foreach ($data['materi'] as $key => $materi)
