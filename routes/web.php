@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\ArtikelController;
-use App\Http\Controllers\pelatihan\PelatihanController;
+use App\Http\Controllers\Pelatihan\PelatihanController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
