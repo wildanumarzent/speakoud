@@ -54,12 +54,12 @@
             </div> --}}
             <div class="box-curiculum">
                 <ul class="list-curiculum">
-                @foreach ($data['materi'] as $key => $materi)
+                    @foreach ($data['materi'] as $key => $materi)
                     <li class="item-curiculum">
                         <div class="title-curiculum" data-toggle="collapse" data-target="#curiculum-{{ $key }}">
                             <i class="las la-angle-down"></i>
                             <h5>{{$materi->judul}}</h5>
-                            <span class="meta sum">{{count($data['materi'])}}</span>
+                            <span class="meta sum">{{count($materi->bahanPublish)}}</span>
                         </div>
                         <ul class="section-course collapse" id="curiculum-{{ $key }}" aria-expanded="false">
                             @foreach ($materi->bahanPublish as $bahan)
