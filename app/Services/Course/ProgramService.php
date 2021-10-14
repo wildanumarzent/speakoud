@@ -31,13 +31,13 @@ class ProgramService
             $query->where('tipe', $request->t);
         }
 
-        if (auth()->user()->hasRole('internal')) {
-            $query->where('tipe', 0);
-        }
-        if (auth()->user()->hasRole('mitra')) {
-            $query->where('mitra_id', auth()->user()->id)
-                ->where('tipe', 1);
-        }
+        // if (auth()->user()->hasRole('internal')) {
+        //     $query->where('tipe', 0);
+        // }
+        // if (auth()->user()->hasRole('mitra')) {
+        //     $query->where('mitra_id', auth()->user()->id)
+        //         ->where('tipe', 1);
+        // }
 
         $result = $query->orderBy('urutan', 'ASC')->paginate(10);
 
