@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\pelatihan;
+namespace App\Http\Controllers\Pelatihan;
 
 use App\Http\Controllers\Controller;
 use App\Services\Course\EvaluasiService;
