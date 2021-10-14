@@ -54,7 +54,7 @@
             </div> --}}
             <div class="box-breadcrumb" style="height: 0px; padding-top:10px">
                     <div class="title-heading">
-                        <h5>{{$data['bahan']->judul}}</h5>
+                        <h5>{{$data['read']->judul}}</h5>
                     </div>
                 </div>
             <div class="box-curiculum">
