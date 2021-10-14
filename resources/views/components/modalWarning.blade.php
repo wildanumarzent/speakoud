@@ -3,13 +3,13 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
         <div class="modal-header">
-            <h3>Warning</h3>
+            <h5>Warning</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
             </button>
         </div>
         <div class="modal-body">
-            {{session()->get('success') }}
+            {{session()->get('warning') }}
         </div>
         </div>
     </div>

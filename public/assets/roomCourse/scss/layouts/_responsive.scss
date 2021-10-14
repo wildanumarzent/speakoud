@@ -1,0 +1,116 @@
+@media screen and (min-width:1199.98px) {
+	.container {
+		padding-left: 30px !important;
+		padding-right: 30px !important;
+	}
+}
+
+
+@media screen and (max-width: 1198.98px) {
+    .box-wrap {
+        flex-direction: column;
+        height: auto;
+        
+        .sidebar-nav {
+            flex: 0 0 auto;
+
+            &::after {
+                background-color: #000;
+                bottom: 0;
+                content: "";
+                left: 0;
+                position: fixed;
+                right: 0;
+                top: 0;
+                opacity: 0;
+                visibility: hidden;
+                transition: .3s var(--easing);
+                z-index: 1020;
+            }
+
+            .box-breadcrumb {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+
+               
+            }
+
+            .box-curiculum {
+                position: fixed;
+                max-width: 100%;
+                background-color: var(--c-white);
+                z-index: 5;
+                top: 60px;
+                left: 0;
+                transform: translateX(-100%);
+                transition: transform .3s;
+                z-index: 1030;
+                height: calc(100% - 60px);
+
+                
+            }
+
+           
+        }
+
+        &.is-hidden {
+            .sidebar-nav {
+                .box-curiculum {
+                    transform: translateX(0);
+                }
+
+                &::after {
+                    opacity: .75;
+                    visibility: visible;
+                }
+            }
+        }
+
+
+        .main-content {
+            .nav-content {
+                max-width: calc(960px - 30px);
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 991.98px) {
+    .box-wrap {
+        .main-content {
+            .nav-content {
+                max-width: calc(720px - 30px);
+            }
+        }
+    }
+}
+
+
+@media screen and (max-width: 767.98px) {
+    
+
+    .box-wrap {
+        .main-content {
+            .nav-content {
+                max-width: calc(540px - 30px);
+            }
+        }
+    }
+}
+
+
+
+@media screen and (max-width: 575.98px) {
+
+    .box-wrap {
+        .main-content {
+            .nav-content {
+                max-width: 100%;
+                left: 0;
+                padding: 0 15px;
+            }
+        }
+    }
+}

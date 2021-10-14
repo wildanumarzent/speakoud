@@ -74,6 +74,7 @@ class BahanController extends Controller
 
     public function view($mataId, $id, $tipe)
     {
+        // dd("bahan");
         $data['mata'] = $this->serviceMata->findMata($mataId);
         $data['bahan'] = $this->service->findBahan($id);
         $data['materi'] = $this->serviceMateri->findMateri($data['bahan']->materi_id);
@@ -208,6 +209,7 @@ class BahanController extends Controller
             // ],
         ]);
     }
+   
 
     public function create(Request $request, $materiId)
     {
