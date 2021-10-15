@@ -172,17 +172,12 @@ class InstrukturService
         $this->uploadFile($request, $instruktur, $user->id, 'store');
         $instruktur->save();
 
-        $peserta = new Peserta;
-        $peserta->user_id = $instruktur->user_id;
-        $peserta->save();
-
         $user->userable()->associate($instruktur);
         $user->save();
 
         return [
             'user' => $user,
             'instruktur' => $instruktur,
-            'peserta' => $peserta,
         ];
     }
 

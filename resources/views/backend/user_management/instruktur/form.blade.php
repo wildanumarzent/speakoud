@@ -149,7 +149,7 @@
                     @endif
                     @if (!isset($data['instruktur']) && auth()->user()->hasRole('internal|mitra'))
                     @endif --}}
-                    <input type="hidden" name="roles" value="peserta_internal">
+                    <input type="hidden" name="roles" value="instruktur_internal">
                     <div class="form-group row">
                         <div class="col-md-2 text-md-right">
                           <label class="col-form-label text-sm-right">Password</label>
