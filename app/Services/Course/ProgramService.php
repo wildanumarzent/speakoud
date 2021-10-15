@@ -233,21 +233,21 @@ class ProgramService
     {
         $program = $this->findProgram($id);
 
-        if (auth()->user()->hasRole('mitra')) {
-            if ($program->tipe == 0) {
-                return abort(403);
-            }
+        // if (auth()->user()->hasRole('mitra')) {
+        //     if ($program->tipe == 0) {
+        //         return abort(403);
+        //     }
 
-            if ($program->mitra_id != auth()->user()->mitra->id) {
-                return abort(403);
-            }
-        }
+        //     if ($program->mitra_id != auth()->user()->mitra->id) {
+        //         return abort(403);
+        //     }
+        // }
 
-        if (auth()->user()->hasRole('internal')) {
-            if ($program->tipe == 1) {
-                return abort(403);
-            }
-        }
+        // if (auth()->user()->hasRole('internal')) {
+        //     if ($program->tipe == 1) {
+        //         return abort(403);
+        //     }
+        // }
     }
 
     public function checkPeserta(int $id)

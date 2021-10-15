@@ -144,12 +144,12 @@
                           @include('components.field-error', ['field' => 'username'])
                         </div>
                     </div>
-                    {{-- @if (!isset($data['instruktur']) && auth()->user()->hasRole('developer|administrator'))
-                    <input type="hidden" name="roles" value="instruktur_{{ Request::get('instruktur') }}">
+                    @if (!isset($data['instruktur']) && auth()->user()->hasRole('developer|administrator'))
+                    <input type="hidden" name="roles" value="instruktur_internal">
                     @endif
                     @if (!isset($data['instruktur']) && auth()->user()->hasRole('internal|mitra'))
-                    @endif --}}
-                    <input type="hidden" name="roles" value="instruktur_internal">
+                    @endif
+                    {{-- <input type="hidden" name="roles" value="instruktur_internal"> --}}
                     <div class="form-group row">
                         <div class="col-md-2 text-md-right">
                           <label class="col-form-label text-sm-right">Password</label>

@@ -139,7 +139,7 @@ Route::group(['middleware' => ['auth']], function () {
 	//mata pelatihan
 	Route::get('/program/{id}/mata', 'Course\MataController@index')
 		->name('mata.index')
-		->middleware('role:developer|administrator|internal|mitra||instruktur_internal');
+		->middleware('role:developer|administrator|internal|mitra|instruktur_internal');
 	Route::get('/program/history', 'Course\MataController@history')
 		->name('mata.history');
 	Route::get('/program/{id}/mata/create', 'Course\MataController@create')
@@ -233,7 +233,7 @@ Route::group(['middleware' => ['auth']], function () {
 	//materi pelatihan
 	Route::get('/mata/{id}/materi', 'Course\MateriController@index')
 		->name('materi.index')
-		->middleware('role:developer|administrator|internal|instruktur_internal');
+		->middleware('role:developer|administrator|instruktur_internal');
 	Route::get('/mata/{id}/materi/create', 'Course\MateriController@create')
 		->name('materi.create')
 		->middleware('role:developer|administrator|internal|instruktur_internal');

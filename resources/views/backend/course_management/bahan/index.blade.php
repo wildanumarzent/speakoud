@@ -147,7 +147,7 @@
                             <a class="btn btn-primary btn-sm icon-btn-only-sm" href="{{ route('course.bahan', ['id' => $item->mata_id, 'bahanId' => $item->id, 'tipe' => $item->type($item)['tipe']]) }}" title="klik untuk melihat preview">
                                 <span>Detail</span> <i class="las la-external-link-alt ml-1"></i>
                             </a>
-                            @if (auth()->user()->hasRole('developer|administrator') || $item->creator_id == auth()->user()->id)
+                            @if (auth()->user()->hasRole('developer|administrator|instruktur_internal') || $item->creator_id == auth()->user()->id)
                             <div class="btn-group dropdown">
                                 <button type="button" class="btn btn-warning btn-sm icon-btn-only-sm dropdown-toggle hide-arrow" data-toggle="dropdown" title="klik untuk melakukan aksi"><i class="las la-ellipsis-v"></i><span>Aksi</span></button>
                                 <div class="dropdown-menu dropdown-menu-right">

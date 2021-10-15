@@ -481,12 +481,12 @@ class BahanService
     public function checkInstruktur($materiId)
     {
         $materi = $this->materi->findMateri($materiId);
-
-        if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra')) {
-            if ($materi->instruktur_id != auth()->user()->instruktur->id) {
-                return abort(403);
-            }
-        }
+        return $materi;
+        // if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra')) {
+        //     if ($materi->instruktur_id != auth()->user()->instruktur->id) {
+        //         return abort(403);
+        //     }
+        // }
     }
 
     public function restrictAccess(int $id)

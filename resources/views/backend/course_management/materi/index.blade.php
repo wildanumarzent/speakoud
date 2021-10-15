@@ -6,7 +6,7 @@
 
 @section('content')
 @include('backend.course_management.breadcrumbs')
-
+{{-- {{dd(auth()->user()->roles)}} --}}
 <!-- Filters -->
 <div class="card">
     <div class="card-body">
@@ -117,7 +117,7 @@
                                 <a href="{{ route('materi.edit', ['id' => $item->mata_id, 'materiId' => $item->id]) }}" class="dropdown-item" title="klik untuk mengedit mata pelatihan">
                                     <i class="las la-pen"></i><span>Ubah</span>
                                 </a>
-                                @if (auth()->user()->hasRole('developer|administrator') || $item->creator_id == auth()->user()->id)
+                                @if (auth()->user()->hasRole('developer|administrator|instruktur_internal') || $item->creator_id == auth()->user()->id)
                                 <a href="javascript:void(0);" data-mataid="{{ $item->mata_id }}" data-id="{{ $item->id }}" class="dropdown-item js-sa2-delete" title="klik untuk menghapus mata pelatihan">
                                     <i class="las la-trash-alt"></i><span>Hapus</span>
                                 </a>
