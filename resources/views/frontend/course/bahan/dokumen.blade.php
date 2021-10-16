@@ -79,15 +79,15 @@
       <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     </head>
     <body>
-    {{-- <div class="preloader-wrap">
+    <div class="preloader-wrap">
         <div class="loader">
             <div class="trackbar">
                 <div class="loadbar">
                     {{-- <img src="{{url('/assets/img/speakoud.png')}}" width="50px" alt=""> --}}
-                {{-- </div>
+                </div>
             </div>
-        </div> --}}
-    {{-- </div> --}} 
+        </div>
+    </div>
 
     <canvas id="pdf-render" class="d-flex justify-content-center"></canvas>
         <div class="top-bar" style="text-align: center; margin-top:10px">
@@ -238,7 +238,7 @@
                 },
                 success:function(data){
                     // console.log(data.data.mata_id);
-                    window.location.href='/pelatihan/'+data.data.mata_id+'/detail';
+                    window.location.href='/course/'+data.data.mata_id+'/detail';
                 }
             });
         }  
