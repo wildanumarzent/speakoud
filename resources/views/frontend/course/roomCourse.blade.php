@@ -107,7 +107,7 @@
                             @if ($data['bahan']->urutan > 1)
                             @foreach ($data['prev'] as $prev)
                             {{-- <a href="" class="btn btn-secondary" title="klik untuk ke materi sebelumnya"><i class="las la-arrow-left"></i> Sebelumnya</a> --}}
-                            <a href="{{ route('course.bahan', ['id' => $prev->mata_id, 'bahanId' => $prev->id, 'tipe' => $prev->type($prev)['tipe']]) }}">
+                            <a href="{{ route('course.MateriBahan', ['id' => $prev->mata_id, 'bahanId' => $prev->id, 'tipe' => $prev->type($prev)['tipe']]) }}">
                                 <i class="las la-arrow-left"></i>
                                 <span>Prev</span>
                             </a>
@@ -134,7 +134,7 @@
                         <div class="nav-btn next">
                             @if ($data['bahan']->urutan < $data['materi']->bahan()->count())
                             @foreach ($data['next'] as $next)
-                            <a href="{{ route('course.bahan', ['id' => $next->mata_id, 'bahanId' => $next->id, 'tipe' => $next->type($next)['tipe']]) }}">
+                            <a href="{{ route('course.MateriBahan', ['id' => $next->mata_id, 'bahanId' => $next->id, 'tipe' => $next->type($next)['tipe']]) }}">
                                 <span>Next</span>
                                 <i class="las la-arrow-right"></i>
                             </a>

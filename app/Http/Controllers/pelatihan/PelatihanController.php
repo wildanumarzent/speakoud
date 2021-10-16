@@ -134,7 +134,7 @@ class PelatihanController extends Controller
         $data['jump'] = $this->bahanService->bahanJump($mataId, $id);
         $data['prev'] = $this->bahanService->bahanPrevNext($data['materi']->id, $data['bahan']->urutan, 'prev');
         $data['next'] = $this->bahanService->bahanPrevNext($data['materi']->id, $data['bahan']->urutan, 'next');
-
+      
         //check data
         if (!auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
             if ($tipe == 'conference' && $data['bahan']->publish == 0) {

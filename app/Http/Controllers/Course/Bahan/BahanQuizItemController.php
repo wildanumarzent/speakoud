@@ -72,7 +72,7 @@ class BahanQuizItemController extends Controller
             'breadcrumbsBackend' => [
                 'Kategori' => route('program.index'),
                 'Program' => route('mata.index', ['id' => $data['quiz']->program_id]),
-                'Mata' => route('materi.index', ['id' => $data['quiz']->mata_id]),
+                'Modul Pelatihan' => route('materi.index', ['id' => $data['quiz']->mata_id]),
                 'Materi' => route('bahan.index', ['id' => $data['quiz']->materi_id]),
                 'Soal Quiz' => '',
             ],
@@ -244,7 +244,7 @@ class BahanQuizItemController extends Controller
             'breadcrumbsBackend' => [
                 'Kategori' => route('program.index'),
                 'Program' => route('mata.index', ['id' => $data['quiz']->program_id]),
-                'Mata' => route('materi.index', ['id' => $data['quiz']->mata_id]),
+                'Modul Pelatihan' => route('materi.index', ['id' => $data['quiz']->mata_id]),
                 'Materi' => route('bahan.index', ['id' => $data['quiz']->materi_id]),
                 'Soal Quiz' => route('quiz.item', ['id' => $data['quiz']->id]),
                 'Tambah' => ''
@@ -299,7 +299,7 @@ class BahanQuizItemController extends Controller
             'breadcrumbsBackend' => [
                 'Kategori' => route('program.index'),
                 'Program' => route('mata.index', ['id' => $data['quiz']->program_id]),
-                'Mata' => route('materi.index', ['id' => $data['quiz']->mata_id]),
+                'Modul Pelatihan' => route('materi.index', ['id' => $data['quiz']->mata_id]),
                 'Materi' => route('bahan.index', ['id' => $data['quiz']->materi_id]),
                 'Soal Quiz' => route('quiz.item', ['id' => $data['quiz']->id]),
                 'Edit' => ''

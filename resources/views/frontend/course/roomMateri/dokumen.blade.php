@@ -62,13 +62,14 @@
             margin:0 auto;
             width:90px; 
             height:90px; 
-            background-color: rgb(0, 0, 0);
+            /* background-color: rgb(0, 0, 0); */
             /* background-image: url('/assets/img/speakoud.png');  */
             background-repeat: no-repeat; 
-            background-size: 90%; 
+            background-size: 100%; 
             text-align: center; 
             border-radius: 50%;
             transform: translateY(-50%);}
+           
              #pdf-render{
             /* border: solid 1px blue;   */
             width: 100%;
@@ -83,6 +84,7 @@
         <div class="loader">
             <div class="trackbar">
                 <div class="loadbar">
+                     <p style="text-align: center">Mohon tunggu...</p> 
                     {{-- <img src="{{url('/assets/img/speakoud.png')}}" width="50px" alt=""> --}}
                 </div>
             </div>

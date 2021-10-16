@@ -72,5 +72,5 @@ Route::middleware('role:developer|administrator|internal|mitra|instruktur_intern
 
 //stream
 Route::get('/bank/data/view/{path}', [BankDataController::class, 'streamFile'])
-    ->where('path', '^.*\.(jpg|JPG|jpeg|JPEG|png|PNG|pdf|PDF|ppt|PPT|pptx|PPTX|mp3|MP3|wav|WAV|mp4|MP4|webm|WEBM|doc|DOC|docx|DOCX|xls|XLS|xlsx|XLSX|html)$')
+    ->where('path', '^.*\.(jpg|JPG|jpeg|JPEG|png|PNG|pdf|PDF|mp4|MP4)$')
     ->name('bank.data.stream');

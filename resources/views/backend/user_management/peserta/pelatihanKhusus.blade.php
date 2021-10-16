@@ -37,9 +37,9 @@
                                 <input type="hidden" value="{{$mata->pelatihan->id}}" name="mataId">
                                 <input type="hidden" value="{{$mata->peserta_id}}" name="pesertaId">
                                 @if ($mata->is_access ==1)
-                                <button type="submit" class="badge badge-primary">Sudah Punya Akses</button>
+                                <h4><span class="badge badge-success">Sudah Punya Akses</span></h4>
                                 @else 
-                                <button type="submit" class="badge badge-primary">Beri Akses</button>
+                                <button type="submit" class="btn btn-primary">Beri Akses</button>
                                 @endif
                            </form>
                         </div>

@@ -12,7 +12,7 @@
             </div>
             <div class="modal-body">
                 @foreach (config('addon.label.bahan_tipe') as $key => $value)
-                    @if ($value['get'] != 'evaluasi-pengajar')
+                    {{-- @if ($value['get'] != 'evaluasi-pengajar')
                     <a href="{{ route('bahan.create', ['id' => $data['materi']->id, 'type' => $value['get']]) }}" class="media text-body px-3" title="tambah bahan dengan tipe {{ $value['title'] }}">
                         <div class="box-materi py-3">
                             <div class="dot-circle"></div>
@@ -21,10 +21,10 @@
                             <div class="text-muted small">{{ $value['description'] }}</div>
                             </div>
                         </div>
-                    </a>
+                    </a> --}}
                     @if (!empty($value['child']))
                         @foreach ($value['child'] as $keyT => $valT)
-                        <a href="{{ route('bahan.create', ['id' => $data['materi']->id, 'type' => $value['get'], 'kategori' => $valT['get']]) }}" class="media text-body px-3" title="tambah bahan tipe quiz dengan kategori {{ $valT['title'] }}">
+                        <a href="{{ route('bahan.create', ['id' => $data['materi']->id, 'type' => $valT['get'], 'kategori' => $valT['kategori']]) }}" class="media text-body px-3" title="tambah bahan tipe quiz dengan kategori {{ $valT['title'] }}">
                             <div class="box-materi py-3">
                                 <div class="dot-circle"></div>
                                 <div class="media-body ml-3">
@@ -34,9 +34,9 @@
                             </div>
                         </a>
                         @endforeach
-                    @endif
-                    @else
-                        @role ('administrator|internal')
+
+                        @else 
+                          @role ('administrator|internal')
                         <a href="{{ route('bahan.create', ['id' => $data['materi']->id, 'type' => $value['get']]) }}" class="media text-body px-3" title="create bahan dengan tipe forum">
                             <div class="box-materi py-3">
                                 <div class="dot-circle"></div>
@@ -48,6 +48,9 @@
                         </a>
                         @endrole
                     @endif
+                    {{-- @else --}}
+                      
+                    {{-- @endif --}}
                 @endforeach
             </div>
             <div class="modal-footer">

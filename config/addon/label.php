@@ -18,80 +18,82 @@ return [
         '0' => 'No'
     ],
     'bahan_tipe' => [
+        // 0 => [
+        //     'title' => 'Forum',
+        //     'get' => 'forum',
+        //     'description' => '',
+        //     'icon' => 'comments',
+        //     'child' => '',
+        // ],
         0 => [
-            'title' => 'Forum',
-            'get' => 'forum',
-            'description' => '',
-            'icon' => 'comments',
-            'child' => '',
-        ],
-        1 => [
             'title' => 'Dokumen',
             'get' => 'dokumen',
             'description' => '',
             'icon' => 'file',
             'child' => '',
         ],
-        2 => [
-            'title' => 'Video Conference',
-            'get' => 'conference',
-            'description' => '',
-            'icon' => 'video',
-            'child' => '',
-        ],
-        3 => [
-            'title' => 'Post Test',
-            'get' => 'quiz',
-            'description' => '',
-            'icon' => 'project-diagram',
-            'child' => [
-                0 => [
-                    'title' => 'Pre Test',
-                    'get' => 1,
-                    'icon' => 'project-diagram',
-                ],
-                1 => [
-                    'title' => 'Quiz',
-                    'get' => 2,
-                    'icon' => 'spell-check ',
-                ]
-            ]
-        ],
-        4 => [
-            'title' => 'Scorm Package',
-            'get' => 'scorm',
-            'description' => '',
-            'icon' => 'archive',
-            'child' => '',
-        ],
-        5 => [
-            'title' => 'Audio',
-            'get' => 'audio',
-            'description' => '',
-            'icon' => 'file-audio',
-            'child' => '',
-        ],
-        6 => [
+        // 2 => [
+        //     'title' => 'Video Conference',
+        //     'get' => 'conference',
+        //     'description' => '',
+        //     'icon' => 'video',
+        //     'child' => '',
+        // ],
+        1 => [
             'title' => 'Video',
             'get' => 'video',
             'description' => '',
             'icon' => 'file-video',
             'child' => '',
         ],
-        7 => [
-            'title' => 'Tugas',
-            'get' => 'tugas',
-            'description' => '',
-            'icon' => 'briefcase',
-            'child' => '',
+        2 => [
+            'title' => null,
+            'get' => null,
+            // 'description' => '',
+            'icon' => null,
+            'child' => [
+                // 0 => [
+                //     'title' => 'Pre Test',
+                //     'get' => 1,
+                //     'icon' => 'project-diagram',
+                // ],
+                1 => [
+                    'title' => 'Quiz',
+                    'get' => 'quiz',
+                    'icon' => 'spell-check ',
+                    'kategori' => 2
+                ]
+            ]
         ],
-        8 => [
-            'title' => 'Evaluasi Pengajar',
-            'get' => 'evaluasi-pengajar',
-            'description' => '',
-            'icon' => 'user-tie',
-            'child' => '',
-        ],
+        // 2 => [
+        //     'title' => 'Scorm Package',
+        //     'get' => 'scorm',
+        //     'description' => '',
+        //     'icon' => 'archive',
+        //     'child' => '',
+        // ],
+        // 3 => [
+        //     'title' => 'Audio',
+        //     'get' => 'audio',
+        //     'description' => '',
+        //     'icon' => 'file-audio',
+        //     'child' => '',
+        // ],
+        
+        // 5 => [
+        //     'title' => 'Tugas',
+        //     'get' => 'tugas',
+        //     'description' => '',
+        //     'icon' => 'briefcase',
+        //     'child' => '',
+        // ],
+        // 6 => [
+        //     'title' => 'Evaluasi Pengajar',
+        //     'get' => 'evaluasi-pengajar',
+        //     'description' => '',
+        //     'icon' => 'user-tie',
+        //     'child' => '',
+        // ],
     ],
     'bahan_completion' => [
         0 => 'No Condition',

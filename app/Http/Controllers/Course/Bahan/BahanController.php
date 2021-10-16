@@ -74,7 +74,6 @@ class BahanController extends Controller
 
     public function view($mataId, $id, $tipe)
     {
-        // dd("bahan");
         $data['mata'] = $this->serviceMata->findMata($mataId);
         $data['bahan'] = $this->service->findBahan($id);
         $data['materi'] = $this->serviceMateri->findMateri($data['bahan']->materi_id);
@@ -82,8 +81,7 @@ class BahanController extends Controller
         $data['jump'] = $this->service->bahanJump($mataId, $id);
         $data['prev'] = $this->service->bahanPrevNext($data['materi']->id, $data['bahan']->urutan, 'prev');
         $data['next'] = $this->service->bahanPrevNext($data['materi']->id, $data['bahan']->urutan, 'next');
-
-        //check data
+      
         if (!auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
             if ($tipe == 'conference' && $data['bahan']->publish == 0) {
                 return abort(404);
@@ -95,8 +93,7 @@ class BahanController extends Controller
             if (now()->format('Y-m-d H:i:s') > $data['mata']->publish_end->format('Y-m-d H:i:s')) {
                 return back()->with('warning', 'Pelatihan telah selesai');
             }
-            
-            //publish
+
             if ($data['bahan']->program->publish == 0 || $data['bahan']->mata->publish == 0 ||
                 $data['bahan']->materi->publish == 0 || $data['bahan']->publish == 0) {
                 return abort(404);
@@ -217,20 +214,20 @@ class BahanController extends Controller
         if ($request->type == null) {
             return abort(404);
         }
-
+       
         $data['materi'] = $this->serviceMateri->findMateri($materiId);
         $data['instruktur'] = $this->serviceMata->getInstrukturEnroll($data['materi']->mata_id);
         $data['bahan_list'] = $this->service->getBahan($materiId);
 
         $this->serviceProgram->checkAdmin($data['materi']->program_id);
         $this->service->checkInstruktur($materiId);
-
+        // dd($request->type);
         return view('backend.course_management.bahan.tipe.'.$request->type, compact('data'), [
             'title' => 'Materi Pelatihan - Tambah',
             'breadcrumbsBackend' => [
                 'Kategori' => route('program.index'),
                 'Program' => route('mata.index', ['id' => $data['materi']->program_id]),
-                'Mata' => route('materi.index', ['id' => $data['materi']->mata_id]),
+                'Modul Pelatihan' => route('materi.index', ['id' => $data['materi']->mata_id]),
                 'Materi' => route('bahan.index', ['id' => $data['materi']->id]),
                 'Tambah' => '',
             ],

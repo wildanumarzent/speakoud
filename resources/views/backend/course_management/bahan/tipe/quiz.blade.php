@@ -5,6 +5,7 @@
 @endsection
 
 @section('content-bahan')
+
 @if (!isset($data['bahan']) && empty(Request::get('kategori')) || isset($data['bahan']) && $data['bahan']->quiz->kategori >= 3)
 <fieldset class="form-group">
     <div class="row">
