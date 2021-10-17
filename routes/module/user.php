@@ -24,7 +24,10 @@ Route::middleware('auth')->group(function () {
         
         Route::get('/{id}/peserta', [UserController::class, 'profileFront'])
             ->name('.front');
+        Route::get('/{id}/instruktur', [UserController::class, 'profileFrontInstruktur'])
+            ->name('.frontInstruktur');
         Route::put('/{id}/edit', [UserController::class, 'updateProfileFront'])->name('.editFront');
+        Route::put('/{id}/edit/instruktur', [UserController::class, 'updateProfileFrontInstruktur'])->name('.editFrontInstruktur');
     });
 
     //users

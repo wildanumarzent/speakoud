@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\ProfileRequest;
+use App\Http\Requests\User\InstrukturRequest;
 use App\Http\Requests\User\UserRequest;
 use App\Services\JabatanService;
 use App\Services\LearningCompetency\JourneyService;
@@ -119,6 +120,24 @@ class UserController extends Controller
             // ],
         ]);
     }
+    public function profileFrontInstruktur($id)
+    {
+        $data['user'] = Auth::user();
+        $data['information'] = $data['user']->peserta;
+        $data['jabatan'] = $this->serviceJabatan->getJabatan();
+        $data['id'] = $id;
+        
+        // $this->service->setMataPeserta($data['id'], $data['information']->id);
+
+
+        return view('frontend.pelatihan.profile-Instruktur', compact('data'), [
+            'title' => 'Profile - Ubah',
+            // 'breadcrumbsBackend' => [
+            //     'Profile' => '#!',
+            //     'Ubah' => ''
+            // ],
+        ]);
+    }
     public function create()
     {
         $data['roles'] = $this->serviceRole->getRoleAdministrator(Auth::user()
@@ -172,6 +191,12 @@ class UserController extends Controller
     }
 
     public function updateProfileFront(ProfileRequest $request, $id)
+    {
+        $this->service->updateProfileFront($request, Auth::user()->id);
+        return redirect()->route('pelatihan.mata',['id' => $id])
+            ->with('success', 'Data User Berhasil Di Update');
+    }
+    public function updateProfileFrontInstruktur(Request $request, $id)
     {
         $this->service->updateProfileFront($request, Auth::user()->id);
         return redirect()->route('pelatihan.mata',['id' => $id])

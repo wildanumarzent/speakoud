@@ -13,6 +13,7 @@ use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\Users\PesertaController;
+use App\Http\Controllers\Users\InstrukturController;
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -747,7 +748,8 @@ Route::group(['middleware' => ['auth']], function () {
 	//instruktur
 	Route::prefix('instruktur')->name('instruktur.')->middleware('role:developer|administrator|internal|mitra')
 		->group(function () {
-
+        Route::get('/akses/{id}/pelatihan/instruktur', [InstrukturController::class, 'detailAKses'])
+        ->name('detailAkses');
 		Route::get('/', [InstrukturController::class, 'index'])
 			->name('index');
 		Route::get('/create', [InstrukturController::class, 'create'])
@@ -762,13 +764,15 @@ Route::group(['middleware' => ['auth']], function () {
 			->name('destroy');
 		Route::get('/{id}/soft', [InstrukturController::class, 'softDelete'])
 			->name('destroy.soft');
+        Route::put('/instruktur/{id}/khusus', [InstrukturController::class, 'beriAkses'])
+        ->name('beriAkses');
 
 	});
 
 	//peserta
 	Route::prefix('peserta')->name('peserta.')->middleware('role:developer|administrator|internal|mitra')
 		->group(function () {
-        Route::get('/akses/{id}/pelatihan', [PesertaController::class, 'detailAKses'])
+            Route::get('/akses/{id}/pelatihan', [PesertaController::class, 'detailAKses'])
             ->name('detailAkses');
 		    Route::get('/', [PesertaController::class, 'index'])
 			->name('index');
@@ -839,6 +843,10 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/minta/{mataId}/{id}/akses', [PesertaController::class, 'mintaAkses_pelatihan'])
             ->name('peserta.MintaAkses');
+
+    Route::get('/minta/{mataId}/{id}/akses/instruktur', [InstrukturController::class, 'mintaAkses_pelatihan'])
+            ->name('instruktur.MintaAkses');
+    
 
    
 

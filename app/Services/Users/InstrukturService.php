@@ -12,18 +12,20 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use App\Services\Users\PesertaService;
+use App\Models\Course\PelatihanKhusus;
 use App\Models\Users\Peserta;
 
 class InstrukturService
 {
-    private $model, $modelBankData, $user, $program, $peserta;
+    private $model, $modelBankData, $user, $program, $peserta, $pelatihanKhusus;
 
     public function __construct(
         Instruktur $model,
         BankData $modelBankData,
         UserService $user,
         ProgramService $program,
-        Peserta $peserta
+        Peserta $peserta,
+        PelatihanKhusus $pelatihanKhusus
     )
     {
         $this->model = $model;
@@ -31,6 +33,7 @@ class InstrukturService
         $this->user = $user;
         $this->program = $program;
         $this->peserta = $peserta;
+        $this->pelatihanKhusus = $pelatihanKhusus;
     }
 
     public function getInstrukturList($request)
@@ -175,9 +178,15 @@ class InstrukturService
         $user->userable()->associate($instruktur);
         $user->save();
 
+        $pelatihanKhusus = new PelatihanKhusus;
+        $pelatihanKhusus->instruktur_id = $instruktur->id;
+        $pelatihanKhusus->mata_id = $request->mataId ?? null;
+        $pelatihanKhusus->save();
+
         return [
             'user' => $user,
             'instruktur' => $instruktur,
+            'pelatihanKhusus' => $pelatihanKhusus
         ];
     }
 
@@ -349,5 +358,37 @@ class InstrukturService
     public function RegisterInstruktur($request)
     {
         $user = $this->user->storeUser($request, 'register');
+    }
+
+    public function getMataKhusus(int $id)
+    {
+        return $this->pelatihanKhusus->with('pelatihan')->where('instruktur_id', $id)->get();
+    }
+
+    public function getPelatihanKhususInstruktur($instrukturId, $mataId)
+    {
+        return $this->pelatihanKhusus->with('pelatihan')
+            ->where('mata_id', $mataId)->where('instruktur_id', $instrukturId)->first();
+    }
+    public function findPlatihanKhusus($id)
+    {
+        return $this->pelatihanKhusus->find($id);
+    }
+    public function giveAccess($id, $instrukturId)
+    { 
+        $give = $this->pelatihanKhusus->where('mata_id',$id)->where('instruktur_id', $instrukturId)->first();
+        $give->is_access = 1;
+        return $give->update();
+    }
+    public function MintaAkses($mataId, $instrukturId)
+    {
+        $pelatihanKhusus = new PelatihanKhusus;
+        $pelatihanKhusus->instruktur_id = $instrukturId;
+        $pelatihanKhusus->mata_id = $mataId;
+        $dataAll = $pelatihanKhusus->save();
+        return [
+            'data' => $dataAll,
+            'id_pelatihan_khusus' => $pelatihanKhusus->id
+        ];
     }
 }

@@ -111,6 +111,9 @@
                         <a href="javascript:;" data-id="{{ $item->id }}" class="btn icon-btn btn-danger btn-sm swal-delete" title="klik untuk menghapus instruktur">
                             <i class="las la-trash-alt"></i>
                         </a>
+                         <a href="{{ route('instruktur.detailAkses', ['id' => $item->id]) }}" class="btn icon-btn btn-primary btn-sm" title="Akses Materi">
+                            <i class="las la-info"></i>
+                        </a>
                     </td>
                 </tr>
                 @endforeach

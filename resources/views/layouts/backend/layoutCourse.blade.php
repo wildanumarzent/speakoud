@@ -6,12 +6,12 @@
     <div class="layout-inner">
 
         <!-- Layout sidenav -->
-        @include('layouts.backend.includes.layout-sidenav')
+        {{-- @include('layouts.backend.includes.layout-sidenav') --}}
 
         <!-- Layout container -->
         <div class="layout-container">
             <!-- Layout navbar -->
-            @include('layouts.backend.includes.layout-navbar')
+            {{-- @include('layouts.backend.includes.layout-navbar') --}}
 
             <!-- Layout content -->
             <div class="layout-content">

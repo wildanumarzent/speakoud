@@ -58,14 +58,23 @@ class PelatihanController extends Controller
     {
 
         $data['mata'] = $this->service->findMata($id);
-        if(auth()->user() != null){
-            // dd(auth()->user()->);
-            $data['pelatihanKhusus']=$this->servicePeserta->getPelatihanKhusus( auth()->user()->peserta->id , $data['mata']->id);
-        }
-        if(auth()->user() != null)
+
+        if(auth()->user()->peserta != null || auth()->user()->instruktur != null)
         {
             $data['peserta'] = $this->servicePeserta->findPesertaByUserId(auth()->user()->id);
             $data['instruktur'] = $this->serviceInstruktur->findInstrukturByUserId(auth()->user()->id);
+
+            if (auth()->user()->hasRole('peserta_internal')) {
+                $data['pelatihanKhusus']=$this->servicePeserta->getPelatihanKhusus(
+                    auth()->user()->peserta->id, $data['mata']->id);
+            }
+          
+            if(auth()->user()->hasRole('instruktur_internal')) {
+                
+                $data['pelatihanKhusus']=$this->serviceInstruktur->getPelatihanKhususInstruktur(
+                    auth()->user()->instruktur->id, $data['mata']->id);
+            }
+
             if($data['peserta'] != null)
             {
                 $array = ['peserta_id' => $data['peserta']->id];

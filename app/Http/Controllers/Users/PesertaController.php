@@ -186,11 +186,7 @@ class PesertaController extends Controller
 
     public function detailAKses($id)
     {
-
         $data['pelatihanKhusus'] =$this->service->getMataKhusus($id);
-        // dd($data['pelatihanKhusus']);
-        // $data['pelatihanKhusus'] =$this->service->getMataKhusus($data['peserta']->mata_id,$data['peserta']->peserta_id);
-
         return view('backend.user_management.peserta.pelatihanKhusus', compact('data'));
     }   
 

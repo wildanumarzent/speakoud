@@ -302,7 +302,54 @@ class UserService
         return $user;
     }
 
-    public function updateProfileFront($request, int $id)
+    public function updateProfileFrontInstruktur($request, int $id)
+    {
+        $user = $this->findUser($id);
+        $user->fill($request->only(['name', 'email', 'username']));
+
+        if ($request->filled('password')) {
+            $user->password = Hash::make($request->password);
+        }
+
+        if ($request->email != $request->old_email) {
+            $user->email_verified = 0;
+            $user->email_verified_at = null;
+        }
+        
+        if ($request->hasFile('file')) {
+            $fileName = str_replace(' ', '-', $request->file('file')
+                ->getClientOriginalName());
+
+            File::delete(public_path('userfile/photo/'.$request->old_photo));
+            $request->file('file')->move(public_path('userfile/photo'), $fileName);
+        }
+
+        $user->photo = [
+            'filename' => ($request->file != null) ? $fileName : $user->photo['filename'],
+            'description' => $request->photo_description ?? null,
+        ];
+
+        $user->save();
+
+        dd($request->all()); 
+        // if (Auth::user()->hasRole('instruktur_internal')) {
+
+        //     $instruktur = new Instruktur();
+        //     if () {
+        //         $instruktur->ikut_pelatihan = 1;
+        //     } else {
+        //         $instruktur->ikut_pelatihan = 0;
+        //     }
+
+        //     $peserta->save();
+        // }
+
+        $this->updateInformation($request, $id);
+
+        return $user;
+    }
+
+     public function updateProfileFront($request, int $id)
     {
         $user = $this->findUser($id);
         $user->fill($request->only(['name', 'email', 'username']));

@@ -3,7 +3,7 @@
 namespace App\models\Course;
 
 use App\Models\Course\MataPelatihan;
-use App\Models\Users\Peserta;
+use App\Models\Users\{Peserta, Instruktur};
 use Illuminate\Database\Eloquent\Model;
 
 class PelatihanKhusus extends Model
@@ -19,5 +19,10 @@ class PelatihanKhusus extends Model
     public function peserta()
     {
         return $this->belongsTo(peserta::class, 'peserta_id');
+    }
+
+    public function instruktur()
+    {
+        return $this->belongsTo(Instruktur::class, 'instruktur_id');
     }
 }

@@ -108,7 +108,7 @@
                             @endif
                         </div>
                     </div> --}}
-                    <input type="hidden" name="ikutPelatihan" value="1">
+                    {{-- <input type="hidden" name="ikutPelatihan" value="1"> --}}
 
                     <div class="form-group row">
                         <div class="col-md-2 text-md-right">

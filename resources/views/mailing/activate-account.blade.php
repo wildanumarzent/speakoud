@@ -1,7 +1,7 @@
 @extends('mailing.layout')
 
 @section('content')
-<h3>User <strong>{{ $data['nama_peserta'] }}</strong> Mendaftar Pelatihan <strong>{{$data['judul_pelatihan'] ?? 'Sebagai User'}}</strong> yang bertipe {{$data['type_pelatihan']}}. </h3>
+<h3>User <strong>{{ $data['nama_peserta'] }}</strong> Meminta Akses Pelatihan <strong>{{$data['judul_pelatihan']}}</strong> yang bertipe {{$data['type_pelatihan']}}. </h3>
 <p>Login <strong> <a href="{{$data['link_login']}}">SPEAKOUD </a></p>
 <br>
 <p>Pelatihan <strong><a href="{{$data['link_pelatihan']}}">Lihat Pelatihan </a> </strong>  : Lihat List Peserta<a href="{{$data['link_manage_user_request']}}">{{$data['link_manage_user_request']}}</a> </p>

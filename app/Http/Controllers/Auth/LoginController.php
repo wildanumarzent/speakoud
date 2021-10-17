@@ -51,11 +51,12 @@ class LoginController extends Controller
     public function login(LoginRequest $request)
     {
         // return $request->forms();
+    //    dd(  $remember = $request->has('remember'));
         try {
 
             $remember = $request->has('remember') ? true : false;
             if (Auth::attempt($request->forms(), $remember)) {
-                
+                // dd($request->all());
                 $redirect = redirect()->route('dashboard');
 
                 return $redirect->with('success', 'Login berhasil');
