@@ -58,38 +58,41 @@ class PelatihanController extends Controller
     {
 
         $data['mata'] = $this->service->findMata($id);
-
-        if(auth()->user()->peserta != null || auth()->user()->instruktur != null)
+        if(auth()->user() != null)
         {
-            $data['peserta'] = $this->servicePeserta->findPesertaByUserId(auth()->user()->id);
-            $data['instruktur'] = $this->serviceInstruktur->findInstrukturByUserId(auth()->user()->id);
-
-            if (auth()->user()->hasRole('peserta_internal')) {
-                $data['pelatihanKhusus']=$this->servicePeserta->getPelatihanKhusus(
-                    auth()->user()->peserta->id, $data['mata']->id);
-            }
-          
-            if(auth()->user()->hasRole('instruktur_internal')) {
-                
-                $data['pelatihanKhusus']=$this->serviceInstruktur->getPelatihanKhususInstruktur(
-                    auth()->user()->instruktur->id, $data['mata']->id);
-            }
-
-            if($data['peserta'] != null)
+            if(auth()->user()->peserta != null || auth()->user()->instruktur != null)
             {
-                $array = ['peserta_id' => $data['peserta']->id];
-                $object = (object) $array;
-                // $this->service->storePeserta($object, $id);
+                $data['peserta'] = $this->servicePeserta->findPesertaByUserId(auth()->user()->id);
+                $data['instruktur'] = $this->serviceInstruktur->findInstrukturByUserId(auth()->user()->id);
+    
+                if (auth()->user()->hasRole('peserta_internal')) {
+                    $data['pelatihanKhusus']=$this->servicePeserta->getPelatihanKhusus(
+                        auth()->user()->peserta->id, $data['mata']->id);
+                }
+              
+                if(auth()->user()->hasRole('instruktur_internal')) {
+                    
+                    $data['pelatihanKhusus']=$this->serviceInstruktur->getPelatihanKhususInstruktur(
+                        auth()->user()->instruktur->id, $data['mata']->id);
+                }
+    
+                if($data['peserta'] != null)
+                {
+                    $array = ['peserta_id' => $data['peserta']->id];
+                    $object = (object) $array;
+                    // $this->service->storePeserta($object, $id);
+                }
+    
+                if($data['instruktur'] != null)
+                {
+                    $array = ['instruktur_id' => $data['instruktur']->id];
+                    $object = (object) $array;
+                    $this->service->storeInstruktur($object, $id);
+                }
+            }else{
+                $data['peserta'] ='';
             }
 
-            if($data['instruktur'] != null)
-            {
-                $array = ['instruktur_id' => $data['instruktur']->id];
-                $object = (object) $array;
-                $this->service->storeInstruktur($object, $id);
-            }
-        }else{
-            $data['peserta'] ='';
         }
         // $data['other_mata'] = $this->service->getOtherMata($id);
     //    return $data['read'] = $this->service->findMata($id);

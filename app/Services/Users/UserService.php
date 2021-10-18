@@ -281,7 +281,7 @@ class UserService
             $peserta->kota_tinggal = $request->kota_tinggal ?? null;
             $peserta->Departemen = $request->departemen ?? null;
             $peserta->foto_sertifikat = ($request->foto_sertifikat != null) ? 
-                $fotoSertifikat : $peserta->foto_sertifikat;
+            $fotoSertifikat : $peserta->foto_sertifikat;
             // dd(!empty($request->jenis_kelamin) && !empty($request->tempat_lahir) &&
             //     !empty($request->tanggal_lahir) && !empty($request->no_hp) &&
             //     !empty($request->name));
@@ -331,18 +331,21 @@ class UserService
 
         $user->save();
 
-        dd($request->all()); 
-        // if (Auth::user()->hasRole('instruktur_internal')) {
+       
+        // dd($request->all()); 
+        if (Auth::user()->hasRole('instruktur_internal')) {
 
-        //     $instruktur = new Instruktur();
-        //     if () {
-        //         $instruktur->ikut_pelatihan = 1;
-        //     } else {
-        //         $instruktur->ikut_pelatihan = 0;
-        //     }
-
-        //     $peserta->save();
-        // }
+            // $instruktur = new Instruktur();
+            // if () {
+            //     $instruktur->ikut_pelatihan = 1;
+            // } else {
+            //     $instruktur->ikut_pelatihan = 0;
+            // }
+            $instruktur = Instruktur::find($id);
+            $instruktur->ikut_pelatihan = 1;
+            $instruktur->save();
+           
+        }
 
         $this->updateInformation($request, $id);
 

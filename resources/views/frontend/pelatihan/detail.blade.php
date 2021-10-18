@@ -139,7 +139,7 @@
                                         @if ($data['pelatihanKhusus']->is_access == 0 || $data['pelatihanKhusus']->mata_id == null || $data['pelatihanKhusus']->mata_id != $data['mata']->id  )
                                             <a href="{{ route('peserta.MintaAkses', ['mataId' => $data['mata']->id, 'id'=> $data['pelatihanKhusus']->instruktur_id]) }}" class="btn btn-primary filled">Minta Akses</a>
                                         @else 
-                                            @if ($data['instruktur']->ikut_pelatihan == 0)
+                                            @if ($data['instruktur']->ikut_pelatihan == 1)
                                             <a href="{{ route('pelatihan.mata', ['id' => $data['mata']->id]) }}" class="btn btn-primary filled">Mulai</a>
                                             @else
                                             <a href="{{ route('profile.frontInstruktur',['id'=> $data['mata']->id]) }}" class="btn btn-primary filled">Mulai</a>
