@@ -840,6 +840,9 @@ Route::group(['middleware' => ['auth']], function () {
 	->middleware('auth');
 	Route::get('/pelatihan/{orderBy}','Pelatihan\PelatihanController@filterBy')
 	->name('platihan.filter');
+    Route::get('/quizFront/{id}/FrontRoom', 'Pelatihan\PelatihanController@roomQuiz')
+	->name('quiz.roomFront')
+	->middleware(['auth', 'role:peserta_internal|peserta_mitra"instruktur_internal']);
 
     Route::get('/minta/{mataId}/{id}/akses', [PesertaController::class, 'mintaAkses_pelatihan'])
             ->name('peserta.MintaAkses');

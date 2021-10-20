@@ -435,7 +435,7 @@ class MataController extends Controller
             return response()->json([
                 'success' => 0,
                 'message' => 'Program pelatihan gagal dihapus dikarenakan'.
-                            ' masih memiliki mata pelatihan & data yang bersangkutan'
+                            ' masih memiliki Modul Pelatihan & data yang bersangkutan'
             ], 200);
         } else {
 

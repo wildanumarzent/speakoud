@@ -12,7 +12,8 @@ use App\Services\Users\InstrukturService;
 use App\Services\Users\PesertaService;
 use App\Services\Course\Bahan\BahanService;
 use App\Services\Course\Bahan\ActivityService;
-
+use App\Services\Course\Bahan\BahanQuizService;
+use App\Services\Course\Bahan\BahanQuizItemService;
 
 use Carbon\Carbon;
 use DateTime;
@@ -20,8 +21,17 @@ use Illuminate\Http\Request;
 
 class PelatihanController extends Controller
 {
-   private $service, $serviceProgram, $serviceMateri, $serviceInstruktur,
-        $servicePeserta, $serviceKonfig, $serviceEvaluasi, $serviceTemplate,  $serviceActivity, $bahanService;
+   private 
+        $service, 
+        $serviceProgram, 
+        $serviceMateri, 
+        $serviceInstruktur,
+        $servicePeserta,
+        $serviceEvaluasi,  
+        $serviceActivity, 
+        $bahanService,
+        $quizservice,
+        $quisServiceItem;
 
     public function __construct(
         MataService $service,
@@ -32,7 +42,9 @@ class PelatihanController extends Controller
         KonfigurasiService $serviceKonfig,
         EvaluasiService $serviceEvaluasi,
         BahanService $bahanService,
-        ActivityService $serviceActivity
+        ActivityService $serviceActivity,
+        BahanQuizService $quizservice,
+        BahanQuizItemService $quisServiceItem
     )
     {
         $this->service = $service;
@@ -44,6 +56,8 @@ class PelatihanController extends Controller
         $this->serviceEvaluasi = $serviceEvaluasi;
         $this->bahanService = $bahanService;
         $this->serviceActivity = $serviceActivity;
+        $this->quizservice = $quizservice;
+        $this->quisServiceItem = $quisServiceItem;
     }
 
     public function index(Request $request)
@@ -58,7 +72,8 @@ class PelatihanController extends Controller
     {
 
         $data['mata'] = $this->service->findMata($id);
-        if(auth()->user() != null)
+        if (auth()->user()->hasRole('peserta_internal|instruktur_internal')) {
+                 if(auth()->user() != null)
         {
             if(auth()->user()->peserta != null || auth()->user()->instruktur != null)
             {
@@ -94,6 +109,8 @@ class PelatihanController extends Controller
             }
 
         }
+        }
+       
         // $data['other_mata'] = $this->service->getOtherMata($id);
     //    return $data['read'] = $this->service->findMata($id);
         $data['numberRating'] = [1, 2, 3, 4, 5];
@@ -109,6 +126,7 @@ class PelatihanController extends Controller
 
     public function courseDetail($id)
     {
+        
         $data['read'] = $this->service->findMata($id);
         $data['materi'] = $this->serviceMateri->getMateriByMata($id);
         $data['other_mata'] = $this->service->getOtherMata($id);
@@ -137,9 +155,10 @@ class PelatihanController extends Controller
 
      public function viewRoom($mataId, $id, $tipe)
     {
+       
         $data['mata'] = $this->service->findMata($mataId);
         $data['bahan'] = $this->bahanService->findBahan($id);
-        // dd($data['bahan']);
+        // dd($data['bahan']->quiz->trackUserIn);
         $data['materi'] = $this->serviceMateri->findMateri($data['bahan']->materi_id);
         $data['materiByMata'] = $this->serviceMateri->getMateriByMata($mataId);
         $data['materi_lain'] = $this->serviceMateri->getMateriByMata($data['bahan']->mata_id);
@@ -288,6 +307,79 @@ class PelatihanController extends Controller
             $data['mata'] = $this->service->getMataFree('urutan', $orderBy,12, $request);
         }
         return view('frontend.pelatihan.index', compact('data'));
+    }
+
+    public function roomQuiz($quizId)
+    {
+    
+        $data['quiz'] = $this->quisServiceItem->findQuiz($quizId);
+
+        if ($data['quiz']->bahan->publish == 0) {
+            return abort(404);
+        }
+
+        if ($data['quiz']->item()->count() == 0) {
+            return back()->with('warning', 'Tidak ada soal');
+        }
+
+
+        $restrict = $this->bahanService->restrictAccess($data['quiz']->bahan_id);
+        if (!empty($restrict)) {
+            return back()->with('warning', $restrict);
+        }
+
+        if ($data['quiz']->trackUserIn()->count() == 0) {
+            $this->quizservice->trackUserIn($quizId);
+            if ($data['quiz']->soal_acak == 1 && !empty($data['quiz']->jml_soal_acak)) {
+                $this->quisServiceItem->insertSoalRandom($quizId);
+            }
+
+            return redirect()->route('quiz.roomFront', ['id' => $quizId]);
+        }
+        if (!empty($data['quiz']->trackUserIn) && !empty($data['quiz']->durasi)) {
+            $start = $data['quiz']->trackUserIn->start_time->addMinutes($data['quiz']->durasi);
+            $now = now()->format('is');
+            $kurang = $start->diffInSeconds(now());
+            $menit = floor($kurang/60);
+            $detik = $kurang-($menit*60);
+            $data['countdown'] = $menit.':'.$detik;
+
+            if ($data['quiz']->trackUserIn->status == 2) {
+                return back()->with('info', 'Anda sudah menyelesaikan quiz ini');
+            }
+            if (now()->format('Y-m-d H:i:s') > $data['quiz']->trackUserIn->start_time->addMinutes($data['quiz']->durasi)->format('Y-m-d H:i:s')) {
+                return redirect()->route('course.bahan', ['id' => $data['quiz']->mata_id, 'bahanId' => $data['quiz']->bahan_id, 'tipe' => 'quiz'])
+                    ->with('warning', 'Durasi sudah habis');
+            }
+        }
+
+        $collectSoal = collect($data['quiz']->trackUserItem);
+        $soalId = $collectSoal->map(function($item, $key) {
+            return $item->quiz_item_id;
+        })->all();
+
+        $data['quiz_tracker'] = $this->quisServiceItem->getSoalQuizTracker($quizId);
+        $data['count_tracker'] = $this->quisServiceItem->getSoalQuizTracker($quizId)->count();
+        $data['soal'] = $this->quisServiceItem->soalQuiz($quizId, $soalId);
+
+        if ($data['quiz']->view == true) {
+            $view = 1;
+        } else {
+            $view = 0;
+        }
+
+        return view('frontend.course.roomMateri.quiz.room-'.$view, compact('data'), [
+            'title' => 'Quiz - Test',
+            'breadcrumbsBackend' => [
+                'Bahan' => route('course.bahan', [
+                    'id' => $data['quiz']->mata_id,
+                    'bahanId' => $data['quiz']->bahan_id,
+                    'tipe' => 'quiz'
+                ]),
+                'Quiz' => '',
+                'Test' => ''
+            ],
+        ]);
     }
 
 }

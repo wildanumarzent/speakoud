@@ -113,6 +113,7 @@ Route::put('/conference/{id}/{trackId}/penilaian', 'Course\Bahan\BahanConference
 Route::get('/quiz/{id}/test', 'Course\Bahan\BahanQuizItemController@room')
 	->name('quiz.room')
 	->middleware(['auth', 'role:peserta_internal|peserta_mitra']);
+
 Route::post('/quiz/{id}/track/jawaban', 'Course\Bahan\BahanQuizItemController@trackJawaban')
 	->name('quiz.track.jawaban')
 	->middleware(['auth', 'role:peserta_internal|peserta_mitra']);

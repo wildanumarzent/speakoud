@@ -66,11 +66,11 @@ class MateriController extends Controller
         $this->serviceProgram->checkAdmin($data['mata']->program_id);
 
         return view('backend.course_management.materi.form', compact('data'), [
-            'title' => 'Mata Pelatihan - Tambah',
+            'title' => 'Modul Pelatihan - Tambah',
             'breadcrumbsBackend' => [
                 'Kategori' => route('program.index'),
                 'Program' => route('mata.index', ['id' => $data['mata']->program_id]),
-                'Mata Pelatihan' => route('materi.index', ['id' => $data['mata']->id]),
+                'Modul Pelatihan' => route('materi.index', ['id' => $data['mata']->id]),
                 'Tambah' => ''
             ],
         ]);
@@ -82,7 +82,7 @@ class MateriController extends Controller
         $this->service->storeMateri($request, $mataId);
 
         return redirect()->route('materi.index', ['id' => $mataId])
-            ->with('success', 'Mata pelatihan berhasil ditambahkan');
+            ->with('success', 'Modul Pelatihan berhasil ditambahkan');
     }
 
     public function edit(Request $request, $mataId, $id)
@@ -96,11 +96,11 @@ class MateriController extends Controller
         $this->checkCreator($id);
 
         return view('backend.course_management.materi.form', compact('data'), [
-            'title' => 'Mata Pelatihan - Edit',
+            'title' => 'Modul Pelatihan - Edit',
             'breadcrumbsBackend' => [
                 'Kategori' => route('program.index'),
                 'Program' => route('mata.index', ['id' => $data['mata']->program_id]),
-                'Mata Pelatihan' => route('materi.index', ['id' => $data['mata']->id]),
+                'Modul Pelatihan' => route('materi.index', ['id' => $data['mata']->id]),
                 'Edit' => ''
             ],
         ]);
@@ -112,7 +112,7 @@ class MateriController extends Controller
         $this->service->updateMateri($request, $id);
 
         return redirect()->route('materi.index', ['id' => $mataId])
-            ->with('success', 'Mata pelatihan berhasil diedit');
+            ->with('success', 'Modul Pelatihan berhasil diedit');
     }
 
     public function publish($mataId, $id)
@@ -156,7 +156,7 @@ class MateriController extends Controller
             
             return response()->json([
                 'success' => 0,
-                'message' => 'Mata pelatihan gagal dihapus dikarenakan'.
+                'message' => 'Modul Pelatihan gagal dihapus dikarenakan'.
                             ' masih memiliki materi pelatihan'
             ], 200);
         }

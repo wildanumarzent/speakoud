@@ -1,6 +1,7 @@
 @extends('frontend.course.roomCourse')
 
-@section('content-view')
+@section('content')
+
 <div class="card-datatable table-responsive d-flex justify-content-center mb-2">
     <table class="table table-striped table-bordered mb-0">
        <tr>
@@ -31,6 +32,7 @@
             </td>
         </tr>
         @endif
+       
         @role ('peserta_internal|peserta_mitra')
             <tr>
                 <th style="width: 150px;">Tanggal Mulai</th>
@@ -67,28 +69,36 @@
                 <td><strong>{{ $data['bahan']->quiz->trackUserItem()->count() == 0 ? 'Belum Diisi' : $data['bahan']->quiz->trackUserItem()->count() }}</strong></td>
             </tr>
             @if ($data['bahan']->quiz->item()->count() > 0)
-                @if (!empty($data['bahan']->quiz->trackUserIn) && $data['bahan']->quiz->trackUserIn->status == 2 && $data['bahan']->quiz->hasil == 1)
-                <tr>
-                    <th style="width: 150px;">Hasil Quiz</th>
-                    <td><span class="badge badge-primary">{{ round(($data['bahan']->quiz->trackUserItem()->where('benar', 1)->count() / $data['bahan']->quiz->item->count()) * 100) }}</span></td>
-                </tr>
+                @if (!empty($data['bahan']->quiz->trackUserIn))
+                    @if ($data['bahan']->quiz->trackUserIn->status == 2 && $data['bahan']->quiz->hasil == 1)
+                    <tr>
+                        <th style="width: 150px;">Hasil Quiz</th>
+                        <td><span class="badge badge-primary">{{ round(($data['bahan']->quiz->trackUserItem()->where('benar', 1)->count() / $data['bahan']->quiz->item->count()) * 100) }}</span></td>
+                    </tr>
+                        
+                    @endif
                 @endif
                 <tr>
                     <th colspan="2" class="text-center">
-                        @if (!empty($data['bahan']->quiz->trackUserIn) && $data['bahan']->quiz->trackUserIn->status == 2 || $data['bahan']->quiz->trackUserIn->status == 0)
-                        Anda telah menyelesaikan quiz ini
-                        <a href="{{ route('mata.nilai.peserta', ['id' => $data['bahan']->mata->id]) }}" class="btn btn-success rounded-pill icon-btn-only-sm btn-block" title="Daftar Nilai">
-                            <i class="las la-list-ol"></i> <span>Lihat Nilai</span>
-                        </a>
-                        @if ($data['bahan']->quiz->tipe == 0 && $data['bahan']->quiz->trackUserIn->cek == 0)
-                        <br>
-                        <a href="javascript:void(0);" data-quizid="{{ $data['bahan']->quiz->id }}" data-pesertaid="{{ auth()->user()->id }}" class="btn btn-success js-ulangi" title="klik untuk mengulangi quiz">
-                            <i class="las la-history"></i> Ulangi Quiz
-                        </a>
-                        @endif
+                        @if (!empty($data['bahan']->quiz->trackUserIn))
+                            @if ($data['bahan']->quiz->trackUserIn->status == 2 || $data['bahan']->quiz->trackUserIn->status == 0)
+                                Anda telah menyelesaikan quiz ini
+                                <a href="{{ route('mata.nilai.peserta', ['id' => $data['bahan']->mata->id]) }}" class="btn btn-success rounded-pill icon-btn-only-sm btn-block" title="Daftar Nilai">
+                                    <i class="las la-list-ol"></i> <span>Lihat Nilai</span>
+                                </a>
+                                @if ($data['bahan']->quiz->tipe == 0 && $data['bahan']->quiz->trackUserIn->cek == 0)
+                                <br>
+                                <a href="javascript:void(0);" data-quizid="{{ $data['bahan']->quiz->id }}" data-pesertaid="{{ auth()->user()->id }}" class="btn btn-success js-ulangi" title="klik untuk mengulangi quiz">
+                                    <i class="las la-history"></i> Ulangi Quiz
+                                </a>
+                                @endif
+                            @else 
+                             Anda Sedang Mengerjakan Quiz Ini. waktu akan terus berjalan sampai selesei !!
+                            <a href="{{ route('quiz.roomFront', ['id' => $data['bahan']->quiz]) }}" class="btn btn-primary btn-block mt-2"><i class="las la-play-circle"></i> Masuk</a>
+                            @endif
                         @else
                         Klik tombol dibawah untuk mulai mengerjakan. Selamat mengerjakan!
-                        <a href="{{ route('quiz.room', ['id' => $data['bahan']->quiz]) }}" class="btn btn-primary btn-block mt-2"><i class="las la-play-circle"></i> Mulai</a>
+                        <a href="{{ route('quiz.roomFront', ['id' => $data['bahan']->quiz]) }}" class="btn btn-primary btn-block mt-2"><i class="las la-play-circle"></i> Mulai</a>
                         @endif
                     </th>
                 </tr>
