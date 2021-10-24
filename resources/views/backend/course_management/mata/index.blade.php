@@ -66,7 +66,6 @@
 <br>
 
 <div class="drag">
-
     @foreach ($data['mata'] as $item)
     <div class="card mb-3" id="{{ $item->id }}" style="cursor: move;" title="geser untuk merubah urutan">
         <div class="card-body">

@@ -112,7 +112,7 @@
                         <div class="col-md-10">
                             <select class="status custom-select form-control" name="type_pelatihan">
                                 @foreach (config('addon.label.tipe_pelatihan') as $key => $value)
-                                    <option value="{{ $key }}" {{ isset($data['program']) ? (old('is_sertifikat', $data['program']->is_sertifikat) == ''.$key.'' ? 'selected' : '') : (old('is_sertifikat') == ''.$key.'' ? 'selected' : '') }}>{{ $value }}</option>
+                                    <option value="{{ $key }}" {{ isset($data['program']) ? (old('type_pelatihan', $data['program']->type_pelatihan) == ''.$key.'' ? 'selected' : '') : (old('type_pelatihan') == ''.$key.'' ? 'selected' : '') }}>{{ $value }}</option>
                                 @endforeach
                             </select>
                             @include('components.field-error', ['field' => 'type_pelatihan'])
@@ -137,7 +137,7 @@
                         <div class="col-md-10">
                             <select class="status custom-select form-control" name="is_sertifikat">
                                 @foreach (config('addon.label.is_sertifikat') as $key => $value)
-                                    <option value="{{ $key }}" {{ isset($data['program']) ? (old('is_sertifikat', $data['program']->is_sertifikat) == ''.$key.'' ? 'selected' : '') : (old('is_sertifikat') == ''.$key.'' ? 'selected' : '') }}>{{ $value }}</option>
+                                    <option value="{{ $key }}" {{ isset($data['mata']) ? (old('is_sertifikat', $data['mata']->is_sertifikat) == ''.$key.'' ? 'selected' : '') : (old('is_sertifikat') == ''.$key.'' ? 'selected' : '') }}>{{ $value }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -149,7 +149,7 @@
                         <div class="col-md-10">
                             <select class="status custom-select form-control" name="is_penilaian">
                                 @foreach (config('addon.label.penilaian') as $key => $value)
-                                    <option value="{{ $key }}" {{ isset($data['program']) ? (old('is_penilaian', $data['program']->is_penilaian) == ''.$key.'' ? 'selected' : '') : (old('is_penilaian') == ''.$key.'' ? 'selected' : '') }}>{{ $value }}</option>
+                                    <option value="{{ $key }}" {{ isset($data['mata']) ? (old('is_penilaian', $data['mata']->is_penilaian) == ''.$key.'' ? 'selected' : '') : (old('is_penilaian') == ''.$key.'' ? 'selected' : '') }}>{{ $value }}</option>
                                 @endforeach
                             </select>
                         </div>

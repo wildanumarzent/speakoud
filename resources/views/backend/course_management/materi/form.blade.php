@@ -42,7 +42,7 @@
                     </select>
                 </div>
             </div>
-            <div class="form-group row">
+            {{-- <div class="form-group row">
                 <div class="col-md-2 text-md-right">
                   <label class="col-form-label text-sm-right">Keterangan</label>
                 </div>
@@ -50,7 +50,7 @@
                     <textarea class="form-control tiny @error('keterangan') is-invalid @enderror" name="keterangan" placeholder="masukan deskripsi...">{!! (isset($data['materi'])) ? old('keterangan', $data['materi']->keterangan) : old('keterangan') !!}</textarea>
                     @include('components.field-error', ['field' => 'keterangan'])
                 </div>
-            </div>
+            </div> --}}
         </div>
         <div class="card-footer">
             <div class="row">

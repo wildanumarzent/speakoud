@@ -84,7 +84,6 @@
 					</div>
                    
 					@role('peserta_internal|instruktur_internal')
-				  
 						@if ($data['peserta'] != null )
 							@if (auth()->user() != null)
 								{{-- jika true pelatihan khusus --}}
@@ -96,7 +95,6 @@
                                             @if ($data['pelatihanKhusus']->is_access == 0 || $data['pelatihanKhusus']->mata_id == null || $data['pelatihanKhusus']->mata_id != $data['mata']->id  )
                                                 <a href="{{ route('peserta.MintaAkses', ['mataId' => $data['mata']->id, 'id'=> $data['pelatihanKhusus']->peserta_id]) }}" class="btn btn-primary filled">Minta Akses</a>
                                             @else 
-                                            
                                                 @if ($data['peserta']->status_peserta == 1)
                                                 <a href="{{ route('pelatihan.mata', ['id' => $data['mata']->id]) }}" class="btn btn-primary filled">Mulai</a>
                                                 @else
@@ -126,12 +124,12 @@
 							<a href="{{ route('register') }}" target="_blank" class="btn btn-primary filled">Daftar</a>
 							@endif
 						@else
-							{{-- @if ($data['instruktur'] != null)
+							@if ($data['instruktur'] != null)
 								<a href="{{ route('pelatihan.mata', ['id' => $data['mata']->id]) }}" class="btn btn-primary filled">Mulai</a>
 							@else 
 							<a href="{{ route('register') }}" target="_blank" class="btn btn-primary filled">Daftar</a>
-							@endif --}}
-                        	@if ($data['mata']->type_pelatihan == 1)
+							@endif
+                        	{{-- @if ($data['mata']->type_pelatihan == 1)
                                 @if ($data['pelatihanKhusus'] != null)
                                     @if ($data['pelatihanKhusus']->is_access == null &&  $data['pelatihanKhusus']->mata_id == $data['mata']->id)
                                         <a href="javascript:void(0)" class="btn btn-primary filled" id="ceking" data-toggle="modal" data-target="#exampleModal">Menunggu Verifikasi</a>   
@@ -149,7 +147,7 @@
                                     @else 
                                     <a href="{{ route('instruktur.MintaAkses', ['mataId' => $data['mata']->id, 'id'=> auth()->user()->instruktur->id]) }}" class="btn btn-primary filled">Minta Akses</a>
                                 @endif
-							@endif
+							@endif --}}
                            
 						@endif
 						@elserole('administrator')

@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Room Pelatihan</title>
-
+    <link rel="shortcut icon" type="image/png" href="{{ asset('assets/tmplts_backend/images/speakoud.png') }}" sizes="32x32">
     <!-- Css Global -->
     <link rel="stylesheet" href="{{asset('assets/roomCourse/css/line-awesome.css')}}">
     <link rel="stylesheet" href="{{asset('assets/roomCourse/css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/roomCourse/css/main.css')}}">
     <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/sweetalert2/sweetalert2.css') }}">
-
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
 <body>
     {{-- @include('components.toastr') --}}
@@ -155,11 +156,18 @@
 
     <!-- jQuery.min.js -->
     <script src="{{asset('assets/roomCourse/js/jquery.min.js')}}"></script>
-    
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <!-- jQuery Global-->
     <script src="{{asset('assets/roomCourse/js/bootstrap.min.js')}}"></script>
     <script src="{{ asset('assets/tmplts_backend/vendor/libs/sweetalert2/sweetalert2.js') }}"></script>
     <script>
+          $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+    </script>
+   <script>
         $('.toggle-sn').click(function() {
 			isToggle();
 		});

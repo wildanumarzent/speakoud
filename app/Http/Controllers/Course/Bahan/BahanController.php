@@ -74,6 +74,7 @@ class BahanController extends Controller
 
     public function view($mataId, $id, $tipe)
     {
+        
         $data['mata'] = $this->serviceMata->findMata($mataId);
         $data['bahan'] = $this->service->findBahan($id);
         $data['materi'] = $this->serviceMateri->findMateri($data['bahan']->materi_id);
@@ -105,7 +106,9 @@ class BahanController extends Controller
             // }
  
             // restrict
-            if ($data['bahan']->restrict_access >= '0') {
+            if (auth()->user()->hasRole('peserta_internal')) {
+
+             if ($data['bahan']->restrict_access >= '0') {
                 
                 if ($data['bahan']->restrict_access == '0') {
                     $checkMateri = $this->serviceActivity->restrict($data['bahan']->requirement);
@@ -127,7 +130,7 @@ class BahanController extends Controller
                     }
                 }
             }
-
+       
             // record completion
             if (empty($data['bahan']->activityCompletionByUser) && $data['bahan']->completion_type > 0) {
                 $this->serviceActivity->recordActivity($id);
@@ -194,7 +197,8 @@ class BahanController extends Controller
                 return abort(404);
             }
         }
-            // dd("masuk dan");
+         }
+        // dd("masuk dan");
         // $data['pdf'] = response()->file(storage_path('/app/bank_data/'.$data['bahan']->dokumen->bankData->file_path));
         // return $data['bahan']->dokumen->bankData->file_path;
         return view('frontend.course.bahan.'.$tipe, compact('data'), [
@@ -206,10 +210,14 @@ class BahanController extends Controller
             // ],
         ]);
     }
+
+  
+
    
 
     public function create(Request $request, $materiId)
     {
+        // dd($request);
         $data['scorm'] = $this->serviceScorm->getMaster();
         if ($request->type == null) {
             return abort(404);
@@ -247,12 +255,12 @@ class BahanController extends Controller
                 }
             }
 
-            if ($request->kategori == 2) {
-                $post = $mata->quiz->where('kategori', 2)->count();
-                if ($post > 0) {
-                    return back()->with('warning', 'Post Test sudah ada, tidak bisa ditambahkan lagi');
-                }
-            }
+            // if ($request->kategori == 2) {
+            //     $post = $mata->quiz->where('kategori', 2)->count();
+            //     if ($post > 0) {
+            //         return back()->with('warning', 'Post Test sudah ada, tidak bisa ditambahkan lagi');
+            //     }
+            // }
         }
 
         $this->service->storeBahan($request, $materiId);
@@ -278,7 +286,7 @@ class BahanController extends Controller
             'breadcrumbsBackend' => [
                 'Kategori' => route('program.index'),
                 'Program' => route('mata.index', ['id' => $data['materi']->program_id]),
-                'Mata' => route('materi.index', ['id' => $data['materi']->mata_id]),
+                'Modul Pelatihan' => route('materi.index', ['id' => $data['materi']->mata_id]),
                 'Materi' => route('bahan.index', ['id' => $data['materi']->id]),
                 'Edit' => '',
             ],

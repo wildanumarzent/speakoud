@@ -234,11 +234,11 @@ class MataService
 		$query->where('publish_start', '<=', now())
 				->where('publish_end', '>=', now());
 		// dd(auth()->user());
-		if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra')) {
-			$query->whereHas('instruktur', function ($query) {
-				$query->whereIn('instruktur_id', [auth()->user()->instruktur->id]);
-			});
-		}
+		// if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra')) {
+		// 	$query->whereHas('instruktur', function ($query) {
+		// 		$query->whereIn('instruktur_id', [auth()->user()->instruktur->id]);
+		// 	});
+		// }
 
 		if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
 
@@ -256,7 +256,7 @@ class MataService
 		}
 		$query->publish();
 
-		$result = $query->orderBy('publish_start', 'DESC')->get();
+		$result = $query->where('creator_id', auth()->user()->id)->get();
 		return $result;
 	}
 
@@ -479,6 +479,31 @@ class MataService
 	{
 		return $this->model->with('creator')->findOrFail($id);
 	}
+
+
+    public function getMataByInstruktur($request, $programId)
+    {
+        $query = $this->model->query();
+
+		$query->where('program_id', $programId);
+		// $query->where('publish_end', '>=', now());
+		$query->when($request->q, function ($query, $q) {
+			$query->where(function ($query) use ($q) {
+				$query->where('judul', 'ilike', '%'.$q.'%');
+			});
+		});
+		if (isset($request->p)) {
+			$query->where('publish', $request->p);
+		}
+
+		if (isset($request->f) && isset($request->t)) {
+			$query->whereBetween('publish_start', [$request->f, $request->t]);
+		}
+
+		$result = $query->where('creator_id', Auth()->user()->id)->orderBy('urutan', 'ASC')->paginate(10);
+
+		return $result;
+    }
 
 	public function storeMata($request, int $programId, $templateId = null)
 	{

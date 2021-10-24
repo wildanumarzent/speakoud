@@ -98,19 +98,6 @@
                                     <h6>{!! $bahan->judul !!}</h6>
                                     <span class="meta course-status" title="read"></span>
                                     
-                                    {{-- @role ('peserta_internal|peserta_mitra|instruktur_internal')
-                                    @if ($bahan->completion_type > 0)
-                                        @if ($bahan->activityCompletionByUser()->count() == 1 && !empty($bahan->activityCompletionByUser->track_end))
-                                            @if ($bahan->activityCompletionByUser->status == 1)
-                                            <span class="meta course-status" title="read"></span>
-                                            @else
-                                            <span class="meta course-status" title="unread"></span>
-                                            @endif
-                                        @else
-                                        
-                                        @endif
-                                    @endif
-                                    @endrole --}}
                                 </a>
                             </li>
                             @endforeach

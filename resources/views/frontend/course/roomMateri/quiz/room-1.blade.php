@@ -14,6 +14,7 @@
 @endsection
 
 @section('content')
+
 <div class="row">
     <div class="col-md-12">
       <div class="alert alert-primary alert-dismissible fade show text-muted">
@@ -187,6 +188,7 @@
 @section('jsbody')
 @if (!empty($data['quiz']->durasi))
 <script>
+   
     var timer2 = "{{ $data['countdown'] }}";
     var interval = setInterval(function() {
         var timer = timer2.split(':');

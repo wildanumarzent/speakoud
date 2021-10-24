@@ -60,7 +60,8 @@
 						<form action="" method="get">
                         <label class="form-label">Kategori</label>
                         <select class="form-control custom-select" id="selectorId" name="k" style="font-size: 1rem; font-weight:400; height:calc(2em+.75rem+2px); padding:.375rem 1.75rem .375rem .75rem;">
-							@foreach ($data['kategori'] as $key => $value)
+							<option value="">Semua Kategori</option>
+                            @foreach ($data['kategori'] as $key => $value)
 							<option value="{{ $value->id }}" {{ Request::get('k') == ''.$value->id.'' ? 'selected' : '' }}>{{ $value->judul }}</option>
 							@endforeach
 						</select>

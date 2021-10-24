@@ -115,10 +115,10 @@
                           <label class="col-form-label text-sm-right">Tanggal Lahir</label>
                         </div>
                         <div class="col-md-10">
-                         <input type="text" class="date-picker form-control @error('tanggal_lahir') is-invalid @enderror" name="tanggal_lahir"
+                         <input type="date" class="date-picker form-control @error('tanggal_lahir') is-invalid @enderror" name="tanggal_lahir"
                             value="{{ !empty($data['instruktur']->tanggal_lahir) ? old('tanggal_lahir', $data['instruktur']->tanggal_lahir) : '' }}" placeholder="masukan tanggal lahir...">
                         <div class="input-group-append">
-                          @include('components.field-error', ['field' => 'name'])
+                          @include('components.field-error', ['field' => 'tanggal_lahir'])
                         </div>
                     </div>
                     </div>

@@ -13,23 +13,11 @@
 @endsection
 
 @section('content')
-<div class="row">
-    <div class="col-md-12">
-      <div class="alert alert-primary alert-dismissible fade show text-muted">
-        <i class="las la-map-pin"></i>
-        {!! $data['quiz']->program->judul !!} <i class="las la-arrow-right"></i>
-        {!! $data['quiz']->mata->judul !!} <i class="las la-arrow-right"></i>
-        {!! $data['quiz']->materi->judul !!} <i class="las la-arrow-right"></i>
-        <strong>{!! $data['quiz']->bahan->judul !!}</strong>
-      </div>
-    </div>
-</div>
-
 <div class="card">
     <div class="card-header with-elements">
         <h5 class="card-header-title mt-1 mb-0">{{ $data['quiz']->materi->judul }} : "{{ $data['quiz']->bahan->judul }}"</h5>
         <div class="card-header-elements ml-auto">
-            <div class="btn-group btn-group">
+            <div class="btn-group btn-group">   
                 @if (!empty($data['quiz']->durasi))
                 <button type="button" class="btn btn-warning" id="countdown"></button>
                 @else
@@ -38,8 +26,10 @@
             </div>
         </div>
     </div>
+
     <div class="card-body">
-        @if (isset($data['quiz_tracker']))
+       
+        @if (isset($data['quiz_tracker']))  
             @foreach ($data['quiz_tracker'] as $key1 => $soal1)
             <div class="card-body" style="border: 1px solid #e8e8e9; border-radius: .75rem;">
                 <div class="form-group" id="soal-change-{{ $key1 }}" data-id="{{ $soal1->quiz_item_id }}">
@@ -79,7 +69,7 @@
             @endforeach
         @endif
         @if ($data['quiz']->soal_acak == 0)
-            @foreach ($data['soal'] as $key2 => $soal2)
+            @foreach ($data['soal'] as $key2 => $soal2) 
             <div class="card-body" style="border: 1px solid #e8e8e9; border-radius: .75rem;">
                 <div class="form-group" id="soal-change-{{ ($key2+count($data['quiz_tracker'])) }}" data-id="{{ $soal2->id }}">
                     <span class="text-muted mb-2 d-inline-block">Soal <strong>No. {{ ($key2+1+count($data['quiz_tracker'])) }}</strong> :</span>
@@ -122,7 +112,7 @@
         <div class="row">
           <div class="col-md-12 text-right">
             <a href="{{ route('course.bahan', [ 'id' => $data['quiz']->mata_id, 'bahanId' => $data['quiz']->bahan_id, 'tipe' => 'quiz']) }}" class="btn btn-danger mr-2" title="klik untuk kembali">Kembali</a>
-            <a href="javascript:;" class="btn btn-primary finish" title="klik untuk selesai">
+            <a href="javascript:;" class="btn btn-primary finish" id="btn-finish" onclick="btn_finish()" title="klik untuk selesai">
                 Selesai
                 <form action="{{ route('quiz.finish', ['id' => $data['quiz']->id, 'button' => 'yes'])}}" method="POST" id="form-finish">
                     @csrf
@@ -132,15 +122,9 @@
         </div>
     </div>
 </div>
-@endsection
-
-@section('scripts')
-<script src="{{ asset('assets/tmplts_backend/vendor/libs/sweetalert2/sweetalert2.js') }}"></script>
-@endsection
-
-@section('jsbody')
 @if (!empty($data['quiz']->durasi))
 <script>
+       
     var timer2 = "{{ $data['countdown'] }}";
     var interval = setInterval(function() {
         var timer = timer2.split(':');
@@ -192,12 +176,13 @@
         seconds = (seconds < 0) ? 59 : seconds;
         seconds = (seconds < 10) ? '0' + seconds : seconds;
 
-        $('#countdown').html('<i class="las la-clock"></i> ' + minutes + ':' + seconds);
+       $('#countdown').html('<i class="las la-clock"></i> ' + minutes + ':' + seconds);
         timer2 = minutes + ':' + seconds;
     }, 1000);
+  
 </script>
 @endif
-<script>
+<script type="text/javascript">
     var soal = "{{ $data['quiz']->item()->count() }}";
     //submit jawaban
     for (let index = 0; index < soal; index++) {
@@ -227,11 +212,9 @@
             });
         });
     }
-
+   
     //finish
-    $('.finish').click(function(e)
-    {
-        e.preventDefault();
+    function btn_finish() { 
         var url = $(this).attr('href');
         Swal.fire({
         title: "Apakah anda yakin ?",
@@ -247,6 +230,14 @@
                 $("#form-finish").submit();
             }
         })
-    });
+     }
+  
 </script>
 @endsection
+
+@section('scripts')
+<script src="{{ asset('assets/tmplts_backend/vendor/libs/sweetalert2/sweetalert2.js') }}"></script>
+@endsection
+
+
+

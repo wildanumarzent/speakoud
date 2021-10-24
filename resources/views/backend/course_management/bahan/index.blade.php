@@ -52,7 +52,7 @@
 </div>
 <!-- / Filters -->
 <div class="text-left">
-    @role ('instruktur_internal|instruktur_mitra')
+    @role ('instruktur_mitra')
     <a href="{{ route('course.detail', ['id' => $data['materi']->mata_id]) }}" class="btn btn-secondary rounded-pill" title="kembali ke detail course"><i class="las la-arrow-left"></i>Kembali</a>
     @else
     <a href="{{ route('materi.index', ['id' => $data['materi']->mata_id]) }}" class="btn btn-secondary rounded-pill" title="kembali ke list mata"><i class="las la-arrow-left"></i>Kembali</a>

@@ -34,7 +34,7 @@ class ProfileRequest extends FormRequest
                 'current_password' => 'required|min:8',
                 'password' => 'nullable|confirmed|min:8',
                 'file' => 'nullable|mimes:'.config('custom.files.photo.m'),
-                'foto_sertifikat' => 'nullable|mimes:'.config('custom.files.photo.m'),
+
                 'tanggal_lahir' => 'required',
                 'jenis_kelamin' => 'required',
                 'tempat_lahir' => 'required',

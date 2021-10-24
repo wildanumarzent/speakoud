@@ -36,7 +36,7 @@
                         @endforeach
 
                         @else 
-                          @role ('administrator|internal')
+                          {{-- @role ('administrator|internal|instruktur_pelatihan') --}}
                         <a href="{{ route('bahan.create', ['id' => $data['materi']->id, 'type' => $value['get']]) }}" class="media text-body px-3" title="create bahan dengan tipe forum">
                             <div class="box-materi py-3">
                                 <div class="dot-circle"></div>
@@ -46,7 +46,7 @@
                                 </div>
                             </div>
                         </a>
-                        @endrole
+                        {{-- @endrole --}}
                     @endif
                     {{-- @else --}}
                       

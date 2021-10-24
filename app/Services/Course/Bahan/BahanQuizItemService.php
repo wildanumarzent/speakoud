@@ -116,11 +116,12 @@ class BahanQuizItemService
 
     public function findQuiz(int $id)
     {
-        return $this->modelQuiz->findOrFail($id);
+        return $this->modelQuiz->with('trackItem')->findOrFail($id);
     }
 
     public function storeItem($request, int $quizId)
     {
+        
         $quiz = $this->findQuiz($quizId);
 
         $item = new BahanQuizItem($request->only(['pertanyaan']));

@@ -145,6 +145,7 @@ class UserService
 
     public function updateUser($request, int $id)
     {
+        $request->all();
         $user = $this->findUser($id);
         $user->fill($request->only(['name', 'email', 'username']));
 

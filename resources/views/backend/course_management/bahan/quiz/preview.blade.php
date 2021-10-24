@@ -6,9 +6,9 @@
 @endsection
 
 @section('content')
-<div class="text-left">
+{{-- <div class="text-left">
     <a href="{{ route('quiz.item', ['id' => $data['quiz']->id]) }}" class="btn btn-secondary rounded-pill" title="kembali ke soal"><i class="las la-arrow-left"></i>Kembali</a>
-</div>
+</div> --}}
 <br>
 <div class="card">
     <div class="card-header with-elements">

@@ -24,9 +24,7 @@ Route::get('/course/{id}/detail', 'Course\MataController@courseDetail')
 Route::get('course/{id}/bahan/{bahanId}/{tipe}', 'Course\Bahan\BahanController@view')
 	->name('course.bahan')
 	->middleware('auth');
-Route::get('pelatihan/{id}/materi/{bahanId}/{tipe}', 'Pelatihan\PelatihanController@viewRoom')
-	->name('course.MateriBahan')
-	->middleware('auth');
+
 Route::post('/course/{id}/rating', 'Course\MataController@giveRating')
 	->name('course.rating')
 	->middleware(['auth', 'role:peserta_internal|peserta_mitra']);

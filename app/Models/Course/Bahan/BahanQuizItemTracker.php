@@ -15,6 +15,7 @@ class BahanQuizItemTracker extends Model
         return $this->belongsTo(BahanQuiz::class, 'quiz_id');
     }
 
+  
     public function item()
     {
         return $this->belongsTo(BahanQuizItem::class, 'quiz_item_id');

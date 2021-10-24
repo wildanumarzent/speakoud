@@ -13,6 +13,7 @@
 @endsection
 
 @section('content')
+
 <div class="row">
     <div class="col-md-12">
       <div class="alert alert-primary alert-dismissible fade show text-muted">
@@ -205,6 +206,7 @@
             var id = $("#soal-change-"+index).data('id');
             var posisi = $("#position-"+index).val();
             var type = $('#type-'+index).val();
+         
             if (type == 2) {
                 var jawaban = $('textarea[name="jawaban-'+index+'"]').val();
             } else if (type == 0 || type == 3) {
@@ -212,7 +214,7 @@
             } else {
                 var jawaban = $('input[name="jawaban-'+index+'"]').val();
             }
-
+           
             $.ajax({
                 method: "POST",
                 url: "/quiz/{{ $data['quiz']->id }}/track/jawaban",

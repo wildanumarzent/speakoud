@@ -183,7 +183,7 @@ class UserController extends Controller
             ->with('success', 'User berhasil diubah');
     }
 
-    public function updateProfile(ProfileRequest $request)
+public function updateProfile(Request $request)
     {
         // return $request->all();
         $this->service->updateProfile($request, Auth::user()->id);

@@ -294,8 +294,10 @@ Route::group(['middleware' => ['auth']], function () {
 		->name('quiz.item')
 		->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
 	Route::get('/quiz/{id}/preview', 'Course\Bahan\BahanQuizItemController@preview')
-		->name('quiz.preview')
-		->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
+		->name('quiz.preview');
+	// Route::get('/quiz/{id}/previewQuiz', 'Course\Bahan\BahanQuizItemController@previewInDetailPelatihan')
+	// 	->name('quiz.previewInDetailPelatihan')
+	// 	->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
 	Route::get('/quiz/{id}/item/create', 'Course\Bahan\BahanQuizItemController@create')
 		->name('quiz.item.create')
 		->middleware('role:developer|administrator|internal|mitra|instruktur_internal|instruktur_mitra');
@@ -843,7 +845,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/quizFront/{id}/FrontRoom', 'Pelatihan\PelatihanController@roomQuiz')
 	->name('quiz.roomFront')
 	->middleware(['auth', 'role:peserta_internal|peserta_mitra"instruktur_internal']);
-
+    Route::get('pelatihan/{id}/materi/{bahanId}/{tipe}', 'Pelatihan\PelatihanController@viewRoom')
+	->name('course.MateriBahan')
+	->middleware('auth');
     Route::get('/minta/{mataId}/{id}/akses', [PesertaController::class, 'mintaAkses_pelatihan'])
             ->name('peserta.MintaAkses');
 

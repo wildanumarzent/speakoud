@@ -212,12 +212,7 @@
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
                   <div class="media align-items-center">
-                    @role ('administrator|internal|mitra|instruktur_internal|instruktur_mitra')
-                    <a href="{{ route('mata.completion', ['id' => $data['read']->id]) }}" class="btn btn-info rounded-pill icon-btn-only-sm btn-block mr-2" title="Aktivitas">
-                        <i class="las la-chart-line"></i> <span>Aktivitas</span>
-                    </a>
-                    <br>
-                    @endrole
+                
                     {{-- {{dd($data['read'])}} --}}
                     @if ($data['read']->is_penilaian == 0)
                         <h6 style="text-align: center; margin-top:50px" class="text-danger">Pelatihan Ini Tidak Ada Penilaian !!</h6>

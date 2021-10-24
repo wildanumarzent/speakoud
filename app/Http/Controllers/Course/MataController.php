@@ -62,13 +62,22 @@ class MataController extends Controller
             $q = '&q='.$request->q;
         }
         
-        $data['mata'] = $this->service->getMataList($request, $programId);
+        if (auth()->user()->hasRole('developer|administrator')) {
+            $data['mata'] = $this->service->getMataList($request, $programId);
+        }
+
+        if(auth()->user()->hasRole('instruktur_internal')){
+
+            $data['mata'] = $this->service->getMataByInstruktur($request, $programId);
+        }
+
         $data['number'] = $data['mata']->firstItem();
         $data['mata']->withPath(url()->current().$p.$q);
         $data['program'] = $this->serviceProgram->findProgram($programId);
+
         $data['template'] = $this->serviceTemplate->getTemplate();
         $this->serviceProgram->checkAdmin($programId);
-
+        // dd("test");
         return view('backend.course_management.mata.index', compact('data'), [
             'title' => 'Course - Program Pelatihan',
             'breadcrumbsBackend' => [

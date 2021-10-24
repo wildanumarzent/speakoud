@@ -9,7 +9,9 @@
        </tr>
        <tr>
            <th style="width: 150px;">Jumlah Soal</th>
-           <td><strong>{{ $data['bahan']->quiz->item()->count() }}</strong></td>
+           <td><strong>{{ $data['bahan']->quiz->item()->count() }}</strong> <a href="{{ route('quiz.preview', ['id' => $data['bahan']->quiz->id]) }}" class="btn btn-info icon-btn-only-sm btn-sm" title="preview soal">
+                <i class="las la-list"></i><span>Preview Soal</span>
+            </a></td>
        </tr>
        <tr>
            <th style="width: 150px;">Durasi Soal</th>
@@ -52,6 +54,7 @@
                     @endif
                 </td>
             </tr>
+            {{-- {{dd($data['bahan']->quiz->trackUserIn)}} --}}
             <tr>
                 <th style="width: 150px;">Status</th>
                 <td>
@@ -75,7 +78,7 @@
                 @endif
                 <tr>
                     <th colspan="2" class="text-center">
-                        @if (!empty($data['bahan']->quiz->trackUserIn) && $data['bahan']->quiz->trackUserIn->status == 2 || $data['bahan']->quiz->trackUserIn->status == 0)
+                        @if (!empty($data['bahan']->quiz->trackUserIn) && $data['bahan']->quiz->trackUserIn || $data['bahan']->quiz->trackUserIn)
                         Anda telah menyelesaikan quiz ini
                         <a href="{{ route('mata.nilai.peserta', ['id' => $data['bahan']->mata->id]) }}" class="btn btn-success rounded-pill icon-btn-only-sm btn-block" title="Daftar Nilai">
                             <i class="las la-list-ol"></i> <span>Lihat Nilai</span>

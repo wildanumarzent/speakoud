@@ -94,13 +94,14 @@ class BahanQuizItemController extends Controller
 
         return view('backend.course_management.bahan.quiz.preview', compact('data'), [
             'title' => 'Quiz - Preview',
-            'breadcrumbsBackend' => [
-                'Soal' => route('quiz.item', ['id' => $quizId]),
-                'Preview' => ''
-            ],
+            // 'breadcrumbsBackend' => [
+            //     'Soal' => route('quiz.item', ['id' => $quizId]),
+            //     'Preview' => ''
+            // ],
         ]);
     }
 
+   
     public function room($quizId)
     {
         $data['quiz'] = $this->service->findQuiz($quizId);
@@ -252,8 +253,10 @@ class BahanQuizItemController extends Controller
         ]);
     }
 
+
     public function store(QuizItemRequest $request, $quizId)
     {
+        
         $this->service->storeItem($request, $quizId);
 
         return redirect()->route('quiz.item', ['id' => $quizId])
@@ -328,9 +331,9 @@ class BahanQuizItemController extends Controller
 
     public function finishQuiz(Request $request, $quizId)
     {
-        // dd( auth()->user()->id);
         $quiz = $this->service->findQuiz($quizId);
         $nilaiQuiz = $quiz->trackItem->where('user_id', auth()->user()->id);
+
         if($nilaiQuiz->count() > 0)
         {
             $grade = round(($nilaiQuiz->where('benar', 1)->count() / $nilaiQuiz->count()) * 100);

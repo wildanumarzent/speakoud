@@ -161,7 +161,7 @@
 
     <div class="col-md-6 col-lg-12 col-xl-6">
         <div class="card mb-4">
-            <h6 class="card-header">Kalender Diklat</h6>
+            <h6 class="card-header">Agenda Kegiatan</h6>
             <div class="table-responsive">
                 <table class="table card-table">
                     <thead>

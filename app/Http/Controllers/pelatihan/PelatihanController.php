@@ -72,8 +72,8 @@ class PelatihanController extends Controller
     {
 
         $data['mata'] = $this->service->findMata($id);
+        if(auth()->user() != null)
         if (auth()->user()->hasRole('peserta_internal|instruktur_internal')) {
-                 if(auth()->user() != null)
         {
             if(auth()->user()->peserta != null || auth()->user()->instruktur != null)
             {
@@ -97,13 +97,13 @@ class PelatihanController extends Controller
                     $object = (object) $array;
                     // $this->service->storePeserta($object, $id);
                 }
-    
-                if($data['instruktur'] != null)
-                {
-                    $array = ['instruktur_id' => $data['instruktur']->id];
-                    $object = (object) $array;
-                    $this->service->storeInstruktur($object, $id);
-                }
+                // enrol instruktur
+                // if($data['instruktur'] != null)
+                // {
+                //     $array = ['instruktur_id' => $data['instruktur']->id];
+                //     $object = (object) $array;
+                //     $this->service->storeInstruktur($object, $id);
+                // }
             }else{
                 $data['peserta'] ='';
             }
@@ -158,7 +158,6 @@ class PelatihanController extends Controller
        
         $data['mata'] = $this->service->findMata($mataId);
         $data['bahan'] = $this->bahanService->findBahan($id);
-        // dd($data['bahan']->quiz->trackUserIn);
         $data['materi'] = $this->serviceMateri->findMateri($data['bahan']->materi_id);
         $data['materiByMata'] = $this->serviceMateri->getMateriByMata($mataId);
         $data['materi_lain'] = $this->serviceMateri->getMateriByMata($data['bahan']->mata_id);
@@ -311,9 +310,13 @@ class PelatihanController extends Controller
 
     public function roomQuiz($quizId)
     {
-    
         $data['quiz'] = $this->quisServiceItem->findQuiz($quizId);
-
+        $data['bahan'] = $this->bahanService->findBahan($data['quiz']->bahan_id);
+        $data['materiByMata'] = $this->serviceMateri->getMateriByMata($data['quiz']->mata_id);
+        $data['mata'] = $this->service->findMata($data['quiz']->mata_id);
+        $data['materi'] = $this->serviceMateri->findMateri($data['bahan']->materi_id);
+        $data['prev'] = $this->bahanService->bahanPrevNext($data['materi']->id, $data['bahan']->urutan, 'prev');
+        $data['next'] = $this->bahanService->bahanPrevNext($data['materi']->id, $data['bahan']->urutan, 'next');
         if ($data['quiz']->bahan->publish == 0) {
             return abort(404);
         }

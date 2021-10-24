@@ -40,7 +40,7 @@
                         <input type="hidden" name="old_photo" value="{{ $data['user']->photo['filename'] }}">
                         <input class="form-control custom-file-input file @error('file') is-invalid @enderror" type="file" id="file-1" lang="en" name="file">
                         @include('components.field-error', ['field' => 'file'])
-                        @role ('peserta_internal|peserta_mitra')
+                        @role ('peserta_internal|peserta_mitra|administrator|instruktur_internal')
                             @if (empty($data['user']->photo['filename']))
                             <span style="color: red;"><i>*belum diisi</i></span>
                             @endif
@@ -141,7 +141,7 @@
                         <input type="text" class="form-control @error('no_hp') is-invalid @enderror" name="no_hp" value="{{ old('phone', $data['information']->no_hp ?? '') }}" placeholder="Masukan telpon...">
                         @include('components.field-error', ['field' => 'no_hp'])
                     </div>
-                    @role ('peserta_internal|peserta_mitra')
+                    @role ('peserta_internal|peserta_mitra|administrator|instruktur_internal')
                     @if (empty($data['information']->no_hp))
                     <span style="color: red;"><i>*belum diisi</i></span>
                     @endif
