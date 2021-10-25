@@ -58,13 +58,13 @@ return [
                 ]
             ]
         ],
-        3 => [
-            'title' => 'Video Conference',
-            'get' => 'conference',
-            'description' => '',
-            'icon' => 'video',
-            'child' => '',
-        ],
+        // 3 => [
+        //     'title' => 'Video Conference',
+        //     'get' => 'conference',
+        //     'description' => '',
+        //     'icon' => 'video',
+        //     'child' => '',
+        // ],
         // 2 => [
         //     'title' => 'Scorm Package',
         //     'get' => 'scorm',
