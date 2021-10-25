@@ -140,6 +140,7 @@ class PesertaController extends Controller
         $data = [
             'email' => auth()->user()->email, 
             'pelatihan' => $pelatihan->judul,
+            'judul_pelatihan' => $pelatihan->judul,
             'nama_peserta' => auth()->user()->name,
             'link_speakoud' => route('home'),
             'link_login' => route('login'),

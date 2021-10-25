@@ -14,7 +14,7 @@ use App\Services\Course\Bahan\BahanService;
 use App\Services\Course\Bahan\ActivityService;
 use App\Services\Course\Bahan\BahanQuizService;
 use App\Services\Course\Bahan\BahanQuizItemService;
-
+use App\Services\Users\UserService;
 use Carbon\Carbon;
 use DateTime;
 use Illuminate\Http\Request;
@@ -31,7 +31,8 @@ class PelatihanController extends Controller
         $serviceActivity, 
         $bahanService,
         $quizservice,
-        $quisServiceItem;
+        $quisServiceItem,
+        $userService;
 
     public function __construct(
         MataService $service,
@@ -44,7 +45,8 @@ class PelatihanController extends Controller
         BahanService $bahanService,
         ActivityService $serviceActivity,
         BahanQuizService $quizservice,
-        BahanQuizItemService $quisServiceItem
+        BahanQuizItemService $quisServiceItem,
+        UserService $userService
     )
     {
         $this->service = $service;
@@ -58,6 +60,7 @@ class PelatihanController extends Controller
         $this->serviceActivity = $serviceActivity;
         $this->quizservice = $quizservice;
         $this->quisServiceItem = $quisServiceItem;
+        $this->userService = $userService;
     }
 
     public function index(Request $request)
@@ -138,6 +141,12 @@ class PelatihanController extends Controller
          
         $this->serviceProgram->checkAdmin($data['read']->program_id);
         $this->serviceProgram->checkPeserta($data['read']->program_id);
+
+        if(auth()->user()->hasRole('peserta_internal'))
+        {
+            $this->userService->setMataPeserta($id, auth()->user()->peserta->id);
+            
+        }
         // if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra|peserta_internal|peserta_mitra')) {
             // if ($this->service->checkUserEnroll($id) == 0) {
             //     return back()->with('warning', 'anda tidak terdaftar di course '.$data['read']->judul.'');

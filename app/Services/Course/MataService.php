@@ -233,12 +233,13 @@ class MataService
 		$query = $this->model->query();
 		$query->where('publish_start', '<=', now())
 				->where('publish_end', '>=', now());
-		// dd(auth()->user());
-		// if (auth()->user()->hasRole('instruktur_internal|instruktur_mitra')) {
-		// 	$query->whereHas('instruktur', function ($query) {
-		// 		$query->whereIn('instruktur_id', [auth()->user()->instruktur->id]);
-		// 	});
-		// }
+
+		if (auth()->user()->hasRole('instruktur_internal')) {
+			// $query->whereHas('instruktur', function ($query) {
+			// 	$query->whereIn('instruktur_id', [auth()->user()->instruktur->id]);
+			// });
+            $query->where('creator_id', auth()->user()->id);
+		}
 
 		if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
 
@@ -256,7 +257,7 @@ class MataService
 		}
 		$query->publish();
 
-		$result = $query->where('creator_id', auth()->user()->id)->get();
+		$result = $query->orderBy('publish_start','DESC')->get();
 		return $result;
 	}
 
