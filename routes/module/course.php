@@ -117,7 +117,7 @@ Route::post('/quiz/{id}/track/jawaban', 'Course\Bahan\BahanQuizItemController@tr
 	->middleware(['auth', 'role:peserta_internal|peserta_mitra']);
 Route::delete('/quiz/{id}/user/{userId}', 'Course\Bahan\BahanQuizItemController@ulangi')
 	->name('quiz.ulangi')
-	->middleware(['auth', 'role:peserta_internal|peserta_mitra']);
+	->middleware(['auth', 'role:peserta_internal|peserta_mitra']);    
 Route::post('/quiz/{id}/finish', 'Course\Bahan\BahanQuizItemController@finishQuiz')
 	->name('quiz.finish')
 	->middleware(['auth', 'role:peserta_internal|peserta_mitra']);

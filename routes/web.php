@@ -843,8 +843,9 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('/pelatihan/{orderBy}','Pelatihan\PelatihanController@filterBy')
 	->name('platihan.filter');
     Route::get('/quizFront/{id}/FrontRoom', 'Pelatihan\PelatihanController@roomQuiz')
-	->name('quiz.roomFront')
-	->middleware(['auth', 'role:peserta_internal|peserta_mitra"instruktur_internal']);
+	->name('quiz.roomFront');
+    Route::post('/quiz/{id}/finish/pelatihan', 'Pelatihan\PelatihanController@finishQuiz')
+	->name('quiz.finisPelatihan');
     Route::get('pelatihan/{id}/materi/{bahanId}/{tipe}', 'Pelatihan\PelatihanController@viewRoom')
 	->name('course.MateriBahan')
 	->middleware('auth');

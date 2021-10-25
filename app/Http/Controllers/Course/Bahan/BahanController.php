@@ -74,7 +74,7 @@ class BahanController extends Controller
 
     public function view($mataId, $id, $tipe)
     {
-        
+
         $data['mata'] = $this->serviceMata->findMata($mataId);
         $data['bahan'] = $this->service->findBahan($id);
         $data['materi'] = $this->serviceMateri->findMateri($data['bahan']->materi_id);
@@ -106,6 +106,7 @@ class BahanController extends Controller
             // }
  
             // restrict
+            
             if (auth()->user()->hasRole('peserta_internal')) {
 
              if ($data['bahan']->restrict_access >= '0') {
@@ -137,11 +138,11 @@ class BahanController extends Controller
 
                 return redirect()->route('course.bahan', ['id' => $mataId, 'bahanId' => $id, 'tipe' => $data['bahan']->type($data['bahan'])['tipe']]);
             }
-
+     
             //completion time
             if ($data['bahan']->completion_type == 3 && !empty($data['bahan']->completion_parameter) &&
                 !empty($data['bahan']->activityCompletionByUser)) {
-
+               
                 $durasi = $data['bahan']->completion_parameter['timer'];
                 $data['timer'] = $data['bahan']->activityCompletionByUser->track_start->addMinutes($durasi);
                 $now = now()->format('is');
@@ -255,12 +256,12 @@ class BahanController extends Controller
                 }
             }
 
-            // if ($request->kategori == 2) {
-            //     $post = $mata->quiz->where('kategori', 2)->count();
-            //     if ($post > 0) {
-            //         return back()->with('warning', 'Post Test sudah ada, tidak bisa ditambahkan lagi');
-            //     }
-            // }
+            if ($request->kategori == 2) {
+                $post = $mata->quiz->where('kategori', 2)->count();
+                if ($post > 0) {
+                    return back()->with('warning', 'Post Test sudah ada, tidak bisa ditambahkan lagi');
+                }
+            }
         }
 
         $this->service->storeBahan($request, $materiId);

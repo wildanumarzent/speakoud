@@ -209,6 +209,7 @@
 @endif
 
 @if ($data['bahan']->completion_type == 3)
+
 @if (now() > $data['timer'])
 <script>
     $("#show-complete").show();

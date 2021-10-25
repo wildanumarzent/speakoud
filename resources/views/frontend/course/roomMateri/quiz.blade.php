@@ -83,9 +83,9 @@
                         @if (!empty($data['bahan']->quiz->trackUserIn))
                             @if ($data['bahan']->quiz->trackUserIn->status == 2 || $data['bahan']->quiz->trackUserIn->status == 0)
                                 Anda telah menyelesaikan quiz ini
-                                <a href="{{ route('mata.nilai.peserta', ['id' => $data['bahan']->mata->id]) }}" class="btn btn-success rounded-pill icon-btn-only-sm btn-block" title="Daftar Nilai">
+                                {{-- <a href="{{ route('mata.nilai.peserta', ['id' => $data['bahan']->mata->id]) }}" class="btn btn-success rounded-pill icon-btn-only-sm btn-block" title="Daftar Nilai">
                                     <i class="las la-list-ol"></i> <span>Lihat Nilai</span>
-                                </a>
+                                </a> --}}
                                 @if ($data['bahan']->quiz->tipe == 0 && $data['bahan']->quiz->trackUserIn->cek == 0)
                                 <br>
                                 <a href="javascript:void(0);" data-quizid="{{ $data['bahan']->quiz->id }}" data-pesertaid="{{ auth()->user()->id }}" class="btn btn-success js-ulangi" title="klik untuk mengulangi quiz">
@@ -97,7 +97,7 @@
                             <a href="{{ route('quiz.roomFront', ['id' => $data['bahan']->quiz]) }}" class="btn btn-primary btn-block mt-2"><i class="las la-play-circle"></i> Masuk</a>
                             @endif
                         @else
-                        Klik tombol dibawah untuk mulai mengerjakan. Selamat mengerjakan!
+                         Klik tombol dibawah untuk mulai mengerjakan. Selamat mengerjakan!
                         <a href="{{ route('quiz.roomFront', ['id' => $data['bahan']->quiz]) }}" class="btn btn-primary btn-block mt-2"><i class="las la-play-circle"></i> Mulai</a>
                         @endif
                     </th>
@@ -112,9 +112,6 @@
         @endrole
     </table>
 </div>
-@endsection
-
-@section('body')
 <script>
     $(document).ready(function () {
         $('.js-ulangi').on('click', function () {
@@ -174,3 +171,5 @@
     });
 </script>
 @endsection
+
+

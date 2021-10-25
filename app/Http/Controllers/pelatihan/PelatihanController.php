@@ -164,7 +164,7 @@ class PelatihanController extends Controller
 
      public function viewRoom($mataId, $id, $tipe)
     {
-       
+    
         $data['mata'] = $this->service->findMata($mataId);
         $data['bahan'] = $this->bahanService->findBahan($id);
         $data['materi'] = $this->serviceMateri->findMateri($data['bahan']->materi_id);
@@ -180,9 +180,9 @@ class PelatihanController extends Controller
                 return abort(404);
             }
         }
-
+      
         if (auth()->user()->hasRole('peserta_internal|peserta_mitra|instruktur_internal')) {
-           
+             
             if (now()->format('Y-m-d H:i:s') > $data['mata']->publish_end->format('Y-m-d H:i:s')) {
                 return back()->with('warning', 'Pelatihan telah selesai');
             }
@@ -254,7 +254,7 @@ class PelatihanController extends Controller
         }
         
         if ($tipe == 'quiz') {
-
+           
             if (!empty($data['bahan']->quiz->trackUserIn)) {
                 $data['start_time'] = $data['bahan']->quiz->trackUserIn->start_time->format('l, j F Y H:i A');
                 $startTime = $data['bahan']->quiz->trackUserIn->start_time;
@@ -392,6 +392,42 @@ class PelatihanController extends Controller
                 'Test' => ''
             ],
         ]);
+    }
+
+    public function finishQuiz(Request $request, $quizId)
+    {
+      $quiz = $this->quisServiceItem->findQuiz($quizId);
+        $nilaiQuiz = $quiz->trackItem->where('user_id', auth()->user()->id);
+
+        if($nilaiQuiz->count() > 0)
+        {
+            $grade = round(($nilaiQuiz->where('benar', 1)->count() / $nilaiQuiz->count()) * 100);
+        }
+        
+        if($grade > 70)
+        {
+            $lulus =1;
+        }else{
+            $lulus =0;
+        }
+        
+        $this->quizservice->trackUserOut($quizId, $lulus);
+        
+        if ($quiz->bahan->completion_type == 4 ) {
+
+            $this->serviceActivity->complete($quiz->bahan_id);
+        }
+
+        if ($request->button == 'yes') {
+            return redirect()->route('course.MateriBahan', [
+                'id' => $quiz->mata_id, 'bahanId' => $quiz->bahan_id, 'tipe' => 'quiz'
+                ])->with('success', 'Quiz telah selesai');
+        } else {
+            return response()->json([
+                'success' => 1,
+                'message' => ''
+            ], 200);
+        }
     }
 
 }

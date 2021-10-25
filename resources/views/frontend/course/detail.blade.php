@@ -241,9 +241,9 @@
             <h6 class="card-header with-elements">
               <span class="card-header-title"> Pengajar</span>
             </h6>
+
             <ul class="list-group list-group-flush">
                 @foreach ($data['read']->instruktur as $ins)
-                {{-- @foreach ($data['read']->materi()->select('instruktur_id')->groupBy('instruktur_id')->get() as $ins) --}}
                 <li class="list-group-item">
                   <div class="media align-items-center">
                     <a href="{{ $ins->instruktur->user->getPhoto($ins->instruktur->user->photo['filename']) }}" data-fancybox="gallery">
@@ -255,6 +255,13 @@
                   </div>
                 </li>
                 @endforeach
+                {{-- <li class="list-group-item">
+                    <div class="media align-items-center">
+                        <a href="{{ $ins->instruktur->user->getPhoto($ins->instruktur->user->photo['filename']) }}" data-fancybox="gallery">
+                        <img src="{{ $data['read']->creator->photo['filename'] }}" class="d-block ui-w-30 rounded-circle" alt="">
+                        </a>
+                    </div>
+                </li> --}}
             </ul>
         </div>
         <!-- / Leaders -->

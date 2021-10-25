@@ -9,9 +9,13 @@
        </tr>
        <tr>
            <th style="width: 150px;">Jumlah Soal</th>
-           <td><strong>{{ $data['bahan']->quiz->item()->count() }}</strong> <a href="{{ route('quiz.preview', ['id' => $data['bahan']->quiz->id]) }}" class="btn btn-info icon-btn-only-sm btn-sm" title="preview soal">
+           <td><strong>{{ $data['bahan']->quiz->item()->count() }}</strong> 
+            @role('administrator|instruktur_internal|developer')
+            <a href="{{ route('quiz.preview', ['id' => $data['bahan']->quiz->id]) }}" class="btn btn-info icon-btn-only-sm btn-sm" title="preview soal">
                 <i class="las la-list"></i><span>Preview Soal</span>
-            </a></td>
+            </a>
+            @endrole
+            </td>
        </tr>
        <tr>
            <th style="width: 150px;">Durasi Soal</th>
@@ -19,7 +23,7 @@
                @if (!empty($data['bahan']->quiz->durasi))
                <i class="las la-clock"></i> {{ $data['bahan']->quiz->durasi }} Menit
                @else
-               Tidak ditentukan
+                Tidak ditentukan
                @endif
            </td>
         </tr>
@@ -69,6 +73,7 @@
                 <th style="width: 150px;">Soal Diisi</th>
                 <td><strong>{{ $data['bahan']->quiz->trackUserItem()->count() == 0 ? 'Belum Diisi' : $data['bahan']->quiz->trackUserItem()->count() }}</strong></td>
             </tr>
+            {{dd()}}
             @if ($data['bahan']->quiz->item()->count() > 0)
                 @if (!empty($data['bahan']->quiz->trackUserIn) && $data['bahan']->quiz->trackUserIn->status == 2 && $data['bahan']->quiz->hasil == 1)
                 <tr>
@@ -78,11 +83,11 @@
                 @endif
                 <tr>
                     <th colspan="2" class="text-center">
-                        @if (!empty($data['bahan']->quiz->trackUserIn) && $data['bahan']->quiz->trackUserIn || $data['bahan']->quiz->trackUserIn)
+                        @if (!empty($data['bahan']->quiz->trackUserIn) && $data['bahan']->quiz->trackUserIn->status==2)
                         Anda telah menyelesaikan quiz ini
-                        <a href="{{ route('mata.nilai.peserta', ['id' => $data['bahan']->mata->id]) }}" class="btn btn-success rounded-pill icon-btn-only-sm btn-block" title="Daftar Nilai">
+                        {{-- <a href="{{ route('mata.nilai.peserta', ['id' => $data['bahan']->mata->id]) }}" class="btn btn-success rounded-pill icon-btn-only-sm btn-block" title="Daftar Nilai">
                             <i class="las la-list-ol"></i> <span>Lihat Nilai</span>
-                        </a>
+                        </a> --}}
                         @if ($data['bahan']->quiz->tipe == 0 && $data['bahan']->quiz->trackUserIn->cek == 0)
                         <br>
                         <a href="javascript:void(0);" data-quizid="{{ $data['bahan']->quiz->id }}" data-pesertaid="{{ auth()->user()->id }}" class="btn btn-success js-ulangi" title="klik untuk mengulangi quiz">

@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="{{asset('assets/roomCourse/css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/roomCourse/css/main.css')}}">
     <link rel="stylesheet" href="{{ asset('assets/tmplts_backend/vendor/libs/sweetalert2/sweetalert2.css') }}">
-     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
 <body>
     {{-- @include('components.toastr') --}}

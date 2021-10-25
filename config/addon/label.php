@@ -32,13 +32,7 @@ return [
             'icon' => 'file',
             'child' => '',
         ],
-        // 2 => [
-        //     'title' => 'Video Conference',
-        //     'get' => 'conference',
-        //     'description' => '',
-        //     'icon' => 'video',
-        //     'child' => '',
-        // ],
+       
         1 => [
             'title' => 'Video',
             'get' => 'video',
@@ -47,23 +41,29 @@ return [
             'child' => '',
         ],
         2 => [
-            'title' => null,
-            'get' => null,
-            // 'description' => '',
-            'icon' => null,
+            'title' => 'Quiz',
+            'get' => 'quiz',
+            'description' => '',
+            'icon' => 'project-diagram',
             'child' => [
-                // 0 => [
-                //     'title' => 'Pre Test',
-                //     'get' => 1,
-                //     'icon' => 'project-diagram',
-                // ],
+                0 => [
+                    'title' => 'Pre Test',
+                    'get' => 1,
+                    'icon' => 'project-diagram',
+                ],
                 1 => [
                     'title' => 'Quiz',
-                    'get' => 'quiz',
+                    'get' => 2,
                     'icon' => 'spell-check ',
-                    'kategori' => 2
                 ]
             ]
+        ],
+        3 => [
+            'title' => 'Video Conference',
+            'get' => 'conference',
+            'description' => '',
+            'icon' => 'video',
+            'child' => '',
         ],
         // 2 => [
         //     'title' => 'Scorm Package',
@@ -99,7 +99,7 @@ return [
         0 => 'No Condition',
         1 => 'Manual User Action',
         2 => 'On View',
-        3 => 'Timer',
+        // 3 => 'Timer',
     ],
     'bahan_restrict' => [
         0 => 'Requirement',
