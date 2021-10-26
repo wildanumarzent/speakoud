@@ -46,13 +46,13 @@ return [
             'description' => '',
             'icon' => 'project-diagram',
             'child' => [
-                0 => [
-                    'title' => 'Pre Test',
-                    'get' => 1,
-                    'icon' => 'project-diagram',
-                ],
+                // 0 => [
+                //     'title' => 'Pre Test',
+                //     'get' => 1,
+                //     'icon' => 'project-diagram',
+                // ],
                 1 => [
-                    'title' => 'Quiz',
+                    'title' => 'Post Test',
                     'get' => 2,
                     'icon' => 'spell-check ',
                 ]

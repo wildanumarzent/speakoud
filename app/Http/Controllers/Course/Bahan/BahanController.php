@@ -212,13 +212,9 @@ class BahanController extends Controller
         ]);
     }
 
-  
-
-   
-
     public function create(Request $request, $materiId)
     {
-        // dd($request);
+       
         $data['scorm'] = $this->serviceScorm->getMaster();
         if ($request->type == null) {
             return abort(404);

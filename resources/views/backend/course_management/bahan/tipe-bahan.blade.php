@@ -24,7 +24,7 @@
                     </a>
                     @if (!empty($value['child']))
                         @foreach ($value['child'] as $keyT => $valT)
-                        <a href="{{ route('bahan.create', ['id' => $data['materi']->id, 'type' => $value['get'], 'type' => $valT['get']]) }}" class="media text-body px-3" title="tambah bahan tipe quiz dengan kategori {{ $valT['title'] }}">
+                        <a href="{{ route('bahan.create', ['id' => $data['materi']->id, 'type' => $value['get'], 'kategori' => $valT['get']]) }}" class="media text-body px-3" title="tambah bahan tipe quiz dengan kategori {{ $valT['title'] }}">
                             <div class="box-materi py-3">
                                 <div class="dot-circle"></div>
                                 <div class="media-body ml-3">
