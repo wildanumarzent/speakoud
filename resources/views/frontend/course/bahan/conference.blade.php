@@ -113,7 +113,7 @@
                         @if (!auth()->user()->hasRole('peserta_internal|peserta_mitra') || auth()->user()->hasRole('peserta_internal|peserta_mitra') && $data['bahan']->conference->status == 1)
                             <a href="{{ route('conference.platform.start', ['id' => $data['bahan']->conference->id]) }}" target="_blank" class="btn btn-primary btn-block"><i class="las la-play-circle"></i> Mulai</a>
                         @else
-                            <button class="btn btn-secondary btn-block" type="button" ><i class="las la-play-circle"></i> Mulai</button>
+                            <button class="btn btn-primary btn-block" type="button" ><i class="las la-play-circle"></i> Mulai</button>
                         @endif
                     @endif
                 @endif

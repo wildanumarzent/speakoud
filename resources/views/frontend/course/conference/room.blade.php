@@ -26,10 +26,7 @@
 @endsection
 
 @section('content')
-@php
-    $decode = json_decode($data['conference']->api);
-    $api = $decode->data;
-@endphp
+
 <div class="row">
     <div class="@role ('peserta_internal|peserta_mitra') col-xl-12 @else col-xl-8 @endrole">
         <div class="card">
@@ -85,14 +82,14 @@
 @endsection
 
 @section('scripts')
-<script src='https://meeting-dev.bppt.go.id/external_api.js'></script>
+<script src='https://meet.jit.si/external_api.js'></script>
 <script src="{{ asset('assets/tmplts_backend/vendor/libs/sweetalert2/sweetalert2.js') }}"></script>
 @endsection
 
 @section('jsbody')
 @if (empty($data['conference']->api))
 <script>
-    const domain = 'meeting-dev.bppt.go.id';
+    const domain = 'meet.jit.si';
     const options = {
         roomName: '{{ $data['conference']->meeting_link }}',
         width: 1125,

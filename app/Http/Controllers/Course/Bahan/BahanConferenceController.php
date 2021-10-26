@@ -62,7 +62,7 @@ class BahanConferenceController extends Controller
                 return back()->with('warning', 'Video conference sudah diakhiri');
             }
 
-            $checkRole = auth()->user()->hasRole('developer|administrator|internal|mitra');
+            $checkRole = auth()->user()->hasRole('developer|administrator|instruktur_internal');
             if ($checkRole || auth()->user()->hasRole('instruktur_internal|instruktur_mitra') &&
                 $data['conference']->materi->instruktur_id == auth()->user()->instruktur->id) {
                 $this->service->statusMeet($id, 1);
