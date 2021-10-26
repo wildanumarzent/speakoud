@@ -40,9 +40,9 @@
                         <a class="btn btn-primary mr-2" href="{{ route('course.detail', ['id' => $course->id]) }}" title="klik untuk melihat detail pelatihan">
                             MASUK
                         </a>
-                        <button class="btn btn-primary" data-toggle="modal" data-target="#modals-tugas-{{ $course->id }}" title="klik untuk menilai tugas">
+                        {{-- <button class="btn btn-primary" data-toggle="modal" data-target="#modals-tugas-{{ $course->id }}" title="klik untuk menilai tugas">
                             NILAI TUGAS
-                        </button>
+                        </button> --}}
                     </div>
                 </div>
             </div>
