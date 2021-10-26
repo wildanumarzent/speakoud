@@ -385,22 +385,22 @@ Route::group(['middleware' => ['auth']], function () {
 	//internal
 	Route::get('/mata/{id}/sertifikat/peserta', 'Sertifikasi\SertifikatInternalController@peserta')
 		->name('sertifikat.internal.peserta')
-		->middleware('role:administrator|internal|instruktur_internal');
+		->middleware('role:administrator|instruktur_internal|instruktur_internal');
 	Route::get('/mata/{id}/sertifikat/internal/form', 'Sertifikasi\SertifikatInternalController@form')
 		->name('sertifikat.internal.form')
-		->middleware('role:administrator|internal|mitra');
+		->middleware('role:administrator|instruktur_internal|mitra');
 	Route::post('/mata/{id}/sertifikat/internal', 'Sertifikasi\SertifikatInternalController@store')
 		->name('sertifikat.internal.store')
-		->middleware('role:administrator|internal|mitra');
+		->middleware('role:administrator|instruktur_internal|mitra');
 	Route::put('/mata/{id}/sertifikat/internal/{sertifikatId}', 'Sertifikasi\SertifikatInternalController@update')
 		->name('sertifikat.internal.update')
-		->middleware('role:administrator|internal|mitra');
+		->middleware('role:administrator|instruktur_internal|mitra');
 	Route::post('/mata/{id}/sertifikat/internal/{sertifikatId}/cetak', 'Sertifikasi\SertifikatInternalController@cetak')
 		->name('sertifikat.internal.cetak')
 		->middleware('role:peserta_internal|peserta_mitra');
-	Route::get('/mata/{id}/sertifikat/internal/{sertifikatId}/download', 'Sertifikasi\SertifikatInternalController@download')
+	Route::get('/mata/{id}/sertifikat/instruktur_internal/{sertifikatId}/download', 'Sertifikasi\SertifikatInternalController@download')
 		->name('sertifikat.internal.download')
-		->middleware('role:administrator|internal|mitra|peserta_internal|peserta_mitra');
+		->middleware('role:administrator|instruktur_internal|mitra|peserta_internal|peserta_mitra');
    
 	//external
 	Route::get('/mata/{id}/sertifikat/external/peserta', 'Sertifikasi\SertifikatExternalController@peserta')

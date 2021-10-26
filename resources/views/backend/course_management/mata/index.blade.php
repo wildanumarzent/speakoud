@@ -102,19 +102,22 @@
                     <div class="col-md-4">
                         Tanggal Mulai : <strong>{{ $item->publish_start->format('d F Y H:i') }}</strong> <em>s/d</em> <strong>{{ $item->publish_end->format('d F Y H:i') }}</strong>
                         <table class="table table-bordered mb-0" style="width: 200px;">
-                            <tr>
+                            <tr> 
+                                @role('administrator')
                                 <td>
                                     <div class="btn-group dropdown">
+                                       
                                         <button type="button" class="btn btn-success btn-sm btn-block dropdown-toggle hide-arrow" data-toggle="dropdown" title="klik untuk melihat user enroll"><i class="las la-users"></i><span>Enroll</span></button>
                                         <div class="dropdown-menu dropdown-menu-right">
-                                            @role('administrator')
+                                            
                                             <a href="{{ route('mata.instruktur', ['id' => $item->id]) }}" class="dropdown-item" ><i class="las la-user-tie"></i><span>Instruktur</span></a>
-                                            @endrole
+                                           
                                             <a href="{{ route('mata.peserta', ['id' => $item->id]) }}" class="dropdown-item" ><i class="las la-user"></i><span>Peserta</span></a>
                                         </div>
+                                         
                                     </div>
                                 </td>
-
+                                @endrole
                                 <td>
                                     <div class="btn-group dropdown">
                                         <button type="button" class="btn btn-primary btn-sm btn-block dropdown-toggle hide-arrow" data-toggle="dropdown" title="klik untuk mengatur sertifikat"><i class="las la-certificate"></i><span>Sertifikat</span></button>

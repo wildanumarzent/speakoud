@@ -193,7 +193,7 @@ public function updateProfile(Request $request)
     public function updateProfileFront(ProfileRequest $request, $id)
     {
         $this->service->updateProfileFront($request, Auth::user()->id);
-        return redirect()->route('pelatihan.mata',['id' => $id])
+        return redirect()->route('course.detail',['id' => $id])
             ->with('success', 'Data User Berhasil Di Update');
     }
     public function updateProfileFrontInstruktur(Request $request, $id)

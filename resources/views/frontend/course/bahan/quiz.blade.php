@@ -73,7 +73,7 @@
                 <th style="width: 150px;">Soal Diisi</th>
                 <td><strong>{{ $data['bahan']->quiz->trackUserItem()->count() == 0 ? 'Belum Diisi' : $data['bahan']->quiz->trackUserItem()->count() }}</strong></td>
             </tr>
-            {{dd()}}
+           
             @if ($data['bahan']->quiz->item()->count() > 0)
                 @if (!empty($data['bahan']->quiz->trackUserIn) && $data['bahan']->quiz->trackUserIn->status == 2 && $data['bahan']->quiz->hasil == 1)
                 <tr>
