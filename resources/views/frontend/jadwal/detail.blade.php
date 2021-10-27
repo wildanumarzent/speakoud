@@ -13,8 +13,8 @@
             @include('components.breadcrumbs')
         </div>
     </div>
-    <div class="thumbnail-img">
-        <img src="{{ $configuration['banner_default'] }}" title="banner default" alt="banner learning">
+    <div class="">
+        <img src="{{ $configuration['banner_default'] }}" width="100%" title="banner default" alt="banner learning">
     </div>
 </div>
 <div class="box-wrap">

@@ -68,8 +68,8 @@
                         <div class="post-date">
                             {{ $item->created_at->format('d F Y') }}
                         </div>
-                        <div class="">
-                            <img src="{{ $item->getCover($item->cover['filename']) }}" width="100%" title="{{ $item->cover['title'] }}" alt="{{ $item->cover['alt'] }}">
+                        <div class="thumbnail-img">
+                            <img src="{{ $item->getCover($item->cover['filename']) }}" title="{{ $item->cover['title'] }}" alt="{{ $item->cover['alt'] }}">
                         </div>
                     </div>
                     <div class="box-post boxless">
