@@ -34,7 +34,7 @@
                     </div>
                     <div class="box-event-right">
                         <div class="row">
-                            <div class="col-4 col-lg-4">
+                            <div class="col-lg-4">
                                 <span class="text-muted">Tanggal Mulai :</span>
                                 <div class="point-event">
                                    <i class="las la-calendar"></i>
@@ -42,9 +42,8 @@
                                         <strong>{{ $item->start_date->format('d F Y') }}</strong>
                                     </div>
                                 </div>
-                                <span></span>
                             </div>
-                            <div class="col-4 col-lg-4">
+                            <div class="col-lg-4">
                                 <span class="text-muted">Tanggal Selesai :</span>
                                 <div class="point-event">
                                    <i class="las la-calendar"></i>
@@ -53,7 +52,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-4 col-lg-4">
+                            <div class="col-lg-4">
                                 <span class="text-muted">Pukul :</span>
                                 <div class="point-event">
                                     <i class="las la-clock"></i>

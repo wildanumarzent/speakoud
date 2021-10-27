@@ -28,7 +28,7 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="row" >
-                                <div class="col-4 col-md-6">
+                                <div class="col-md-6">
                                     <span class="text-muted">Tanggal Mulai :</span>
                                     <div class="point-event">
                                         <i class="las la-calendar"></i>
@@ -38,7 +38,7 @@
                                     </div>
                                     <span></span>
                                 </div>
-                                <div class="col-4 col-md-6">
+                                <div class="col-md-6">
                                     <span class="text-muted">Tanggal Selesai :</span>
                                     <div class="point-event">
                                         <i class="las la-calendar"></i>
@@ -47,7 +47,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-4 col-md-6">
+                                <div class="col-md-6">
                                     <span class="text-muted">Pukul :</span>
                                     <div class="point-event">
                                         <i class="las la-clock"></i>
@@ -56,7 +56,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-4 col-md-6">
+                                <div class="col-md-6">
                                     <span class="text-muted">Lokasi :</span>
                                     <div class="point-event">
                                         <i class="las la-clock"></i>

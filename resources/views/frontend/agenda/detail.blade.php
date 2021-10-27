@@ -56,7 +56,7 @@
 <div class="box-wrap bg-grey">
 <div class="container">
     <div class="title-heading mb-4">
-        <h6>BPPT @lang('strip.title_header')</h6>
+        <h6> @lang('strip.title_header')</h6>
         <h1>@lang('strip.article_recent')</h1>
     </div>
     <div class="row mt-5">

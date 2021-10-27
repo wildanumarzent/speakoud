@@ -97,6 +97,7 @@ class SertifikatInternalController extends Controller
             return back()->with('warning', 'Upload foto sertifikat terlebih dahulu di profile anda');
         }
 
+        // $fileGen = storage_path('app/bank_data/'.$id.$sertifikatId);
         $this->service->cetakSertifikat($mataId, $sertifikatId);
 
         return back()->with('success', 'berhasil cetak sertifikat, silahkan untuk mendownload');
