@@ -129,9 +129,7 @@ class SertifikatInternalService
         }
         $TBS->Show(OPENTBS_FILE, storage_path('/app/bank_data/sertifikat_internal/'.auth()->user()->peserta->id.'/'.$certName));
 
-        // $fileGen = storage_path('/app/bank_data/sertifikat_internal/'.auth()->user()->peserta->id.'/'.$certName);
-        // $pathGen = storage_path('/app/bank_data/sertifikat_internal/'.auth()->user()->peserta->id);
-        // shell_exec('libreoffice --headless --convert-to pdf'.$fileGen.'--outdir'.$pathGen);
+       
         $cetak = new SertifikatPeserta;
         $cetak->sertifikat_id = $sertifikatId;
         $cetak->mata_id = $mataId;
