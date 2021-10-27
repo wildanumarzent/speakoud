@@ -10,7 +10,7 @@
 
                 </div>
             </div>
-            @include('components.breadcrumbs')
+            {{-- @include('components.breadcrumbs') --}}
         </div>
     </div>
     <div class="">
