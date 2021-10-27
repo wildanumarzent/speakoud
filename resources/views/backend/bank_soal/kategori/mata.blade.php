@@ -41,7 +41,7 @@
                     <td>{{ $item->judul }}</td>
                     <td>{{ $item->publish_start->format('d F Y (H:i)') }}</td>
                     <td>{{ $item->publish_end->format('d F Y (H:i)') }}</td>
-                    <td>{{ $item->creator->name }}</td>
+                    <td>{{ $item->creator != null ? $item->creator->name : 'creator not found !' }}</td>
                     <td>{{ $item->created_at->format('d F Y (H:i)') }}</td>
                     <td>{{ $item->updated_at->format('d F Y (H:i)') }}</td>
                     <td>
