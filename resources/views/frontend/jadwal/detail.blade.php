@@ -21,9 +21,9 @@
     <div class="container">
         <div class="row justify-content-xl-between">
             <div class="col-md-5">
-                <div class="box-img details mb-4">
-                    <div class="thumbnail-img">
-                        <img src="{{ $data['read']->getCover($data['read']->cover['filename']) }}" title="{{ $data['read']->cover['title'] }}" alt="{{ $data['read']->cover['alt'] }}">
+                <div class="mb-3">
+                    <div class="">
+                        <img src="{{ $data['read']->getCover($data['read']->cover['filename']) }}" width="100%" title="{{ $data['read']->cover['title'] }}" alt="{{ $data['read']->cover['alt'] }}">
                     </div>
                 </div>
             </div>

@@ -90,43 +90,43 @@
 								@if ($data['mata']->type_pelatihan == 1)
                                     @if ($data['pelatihanKhusus'] != null)
                                         @if ($data['pelatihanKhusus']->is_access == null &&  $data['pelatihanKhusus']->mata_id == $data['mata']->id)
-                                            <a href="javascript:void(0)" class="btn btn-primary filled" id="ceking" data-toggle="modal" data-target="#exampleModal">Menunggu Verifikasi</a>   
+                                            <a href="javascript:void(0)" class="btn btn-primary filled" id="ceking" data-toggle="modal" style="font-size: 1.2em" data-target="#exampleModal">Menunggu Verifikasi</a>   
                                         @else
                                             @if ($data['pelatihanKhusus']->is_access == 0 || $data['pelatihanKhusus']->mata_id == null || $data['pelatihanKhusus']->mata_id != $data['mata']->id  )
-                                                <a href="{{ route('peserta.MintaAkses', ['mataId' => $data['mata']->id, 'id'=> $data['pelatihanKhusus']->peserta_id]) }}" class="btn btn-primary filled">Minta Akses</a>
+                                                <a href="{{ route('peserta.MintaAkses', ['mataId' => $data['mata']->id, 'id'=> $data['pelatihanKhusus']->peserta_id]) }}" style="font-size: 1.2em" class="btn btn-primary filled">Minta Akses</a>
                                             @else 
                                                 @if ($data['peserta']->status_peserta == 1)
-                                                <a href="{{ route('course.detail', ['id' => $data['mata']->id]) }}" class="btn btn-primary filled">Mulai</a>
+                                                <a href="{{ route('course.detail', ['id' => $data['mata']->id]) }}" style="font-size: 1.2em" class="btn btn-primary filled">Mulai</a>
                                                 @else
-                                                <a href="{{ route('profile.front',['id'=> $data['mata']->id]) }}" class="btn btn-primary filled">Mulai</a>
+                                                <a href="{{ route('profile.front',['id'=> $data['mata']->id]) }}" style="font-size: 1.2em" class="btn btn-primary filled">Mulai</a>
                                                 @endif
                                             @endif  
                                         @endif
                                         @else 
                                         {{-- user umum --}}
-                                        <a href="{{ route('peserta.MintaAkses', ['mataId' => $data['mata']->id, 'id'=> auth()->user()->peserta->id]) }}" class="btn btn-primary filled">Minta Akses</a>
+                                        <a href="{{ route('peserta.MintaAkses', ['mataId' => $data['mata']->id, 'id'=> auth()->user()->peserta->id]) }}" style="font-size: 1.2em" class="btn btn-primary filled">Minta Akses</a>
                                     @endif
 								@else
 								{{-- pelatihan free --}}
 								@if ($data['peserta']->status_peserta == 1)
                                
-									<a href="{{ route('course.detail', ['id' => $data['mata']->id]) }}" class="btn btn-primary filled">Mulai</a>
+									<a href="{{ route('course.detail', ['id' => $data['mata']->id]) }}" style="font-size: 1.2em" class="btn btn-primary filled">Mulai</a>
 									@else
                                      
-									<a href="{{ route('profile.front',['id'=> $data['mata']->id]) }}"  class="btn btn-primary filled">Mulai</a>
+									<a href="{{ route('profile.front',['id'=> $data['mata']->id]) }}" style="font-size: 1.2em" class="btn btn-primary filled">Mulai</a>
 								@endif
 
 								@endif
 								
 							@else
                             {{-- jika tidak ada user maka harus daftar telebih dahulu --}}
-							<a href="{{ route('register') }}" target="_blank" class="btn btn-primary filled">Daftar</a>
+							<a href="{{ route('register') }}" target="_blank" style="font-size: 1.2em" class="btn btn-primary filled">Daftar</a>
 							@endif
 						@else
 							@if ($data['instruktur'] != null)
-								<a href="{{ route('course.detail', ['id' => $data['mata']->id]) }}" class="btn btn-primary filled">Mulai</a>
+								<a href="{{ route('course.detail', ['id' => $data['mata']->id]) }}" style="font-size: 1.2em" class="btn btn-primary filled">Mulai</a>
 							@else 
-							<a href="{{ route('register') }}" target="_blank" class="btn btn-primary filled">Daftar</a>
+							<a href="{{ route('register') }}" target="_blank" style="font-size: 1.2em" class="btn btn-primary filled">Daftar</a>
 							@endif
                         	{{-- @if ($data['mata']->type_pelatihan == 1)
                                 @if ($data['pelatihanKhusus'] != null)
@@ -150,14 +150,14 @@
                            
 						@endif
 						@elserole('administrator')
-							<a href="{{ route('course.detail', ['id' => $data['mata']->id]) }}" target="_blank" class="btn btn-primary filled">PREVIEW</a>
+							 <a href="{{ route('course.detail', ['id' => $data['mata']->id]) }}" target="_blank" style="font-size: 1.2em" class="btn btn-primary filled">PREVIEW</a>
 						@else
 						@if ($data['mata']->type_pelatihan == 1)
                             {{-- daftar pelatihan khusus --}}
-							<a href="{{ route('register.platihanKhusus',['mataId'=> $data['mata']->id]) }}" class="btn btn-primary filled">Daftar</a>  
+							<a href="{{ route('register.platihanKhusus',['mataId'=> $data['mata']->id]) }}" style="font-size: 1.2em" class="btn btn-primary filled">Daftar</a>  
 						@else 
                         {{-- daftar pelatihan free --}}
-						 <a href="{{ route('register.free',['mataId'=> $data['mata']->id]) }}" class="btn btn-primary filled">Daftar</a>
+						 <a href="{{ route('register.free',['mataId'=> $data['mata']->id]) }}" style="font-size: 1.2em" class="btn btn-primary filled">Daftar</a>
 						@endif
 					@endrole
 				</div>
