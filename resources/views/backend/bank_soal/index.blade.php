@@ -148,7 +148,7 @@
                     <td>{{ $data['no']++ }}</td>
                     <td>{!! Str::limit(strip_tags($item->pertanyaan), 180) !!}</td>
                     <td><span class="badge badge-{{ $item->tipe($item->tipe_jawaban)['color'] }}">{{ $item->tipe($item->tipe_jawaban)['title'] }}</span></td>
-                    <td>{{ $item->creator->name }}</td>
+                    <td>{{ $item->creator != null ? $item->creator->name : 'creator not found !' }}</td>
                     <td>{{ $item->created_at->format('d F Y (H:i A)') }}</td>
                     <td>{{ $item->updated_at->format('d F Y (H:i A)') }}</td>
                     <td>
