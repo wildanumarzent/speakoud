@@ -25,7 +25,7 @@ use App\Models\Event;
 class HomeController extends Controller
 {
 
-    private $banner, $page, $mata, $jadwal, $programService;
+    private $banner, $page, $mata, $jadwal, $programService, $pesertaService;
 
     /**
      * Create a new controller instance.
@@ -39,7 +39,8 @@ class HomeController extends Controller
         JadwalService $jadwal,
         BadgeService $badge,
         KompetensiService $kompetensi,
-        ProgramService $programService
+        ProgramService $programService,
+        PesertaService $pesertaService
 
     )
     {
@@ -50,6 +51,7 @@ class HomeController extends Controller
         $this->badge = $badge;
         $this->kompetensi = $kompetensi;
         $this->programService = $programService;
+        $this->pesertaService = $pesertaService;
         // if (request()->segment(1) != null) {
         //     $this->middleware('auth');
         // }
@@ -97,6 +99,7 @@ class HomeController extends Controller
             $data['myBadge'] = $this->badge->getBadgePeserta(auth()->user()->peserta->id);
             $data['rekomendasi'] = $this->kompetensi->getRekomendasiMata(auth()->user()->peserta->id);
             $data['kompetensiMata'] = $this->kompetensi->getKompetensiMata();
+            $data['peserta'] = $this->pesertaService->findPesertaByUserId(auth()->user()->id);
         }
             // return $data['rekomendasi'];
         $data['latestCourse'] = $this->mata->getLatestMata();

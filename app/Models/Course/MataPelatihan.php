@@ -6,6 +6,7 @@ use App\Models\Component\Komentar;
 use App\Models\Course\Bahan\BahanPelatihan;
 use App\Models\Kompetensi\KompetensiMata;
 use App\Models\Course\Bahan\BahanQuiz;
+use App\Models\Course\PelatihanKhusus;
 use App\Models\Sertifikasi\SertifikatExternal;
 use App\Models\Sertifikasi\SertifikatInternal;
 use App\Models\Sertifikasi\SertifikatPeserta;
@@ -235,5 +236,10 @@ class MataPelatihan extends Model
     public function NotComplite()
     {
         return $this->hasOne(MataExtra::class, 'mata_id');
+    }
+
+    public function pelatihanKhusus($mataId)
+    {
+        return PelatihanKhusus::where('mata_id', $mataId)->first();
     }
 }

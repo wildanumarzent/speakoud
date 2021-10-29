@@ -124,7 +124,7 @@
 <div class="row">
     @foreach ($data['rekomendasi'] as $key => $rek)
     
-    {{-- {{dd($rek)}} --}}
+    {{-- {{dd($rek->type_pelatihan)}} --}}
   <div class="col-sm-6 col-xl-4">
     <div class="card mb-4">
       <div class="card-img-top d-block ui-rect-60 ui-bg-cover" style="background-image: url({{ $rek->getCover($rek->cover['filename']) }});">
@@ -138,9 +138,42 @@
       <div class="card-body">
         <div class="mb-3"><a href="javascript:void(0)" class="text-body font-weight-semibold">{{$rek->judul}}</a></div>
         <div class="mt-3 text-center">
-          <a class="btn btn-primary" href="{{ route('course.detail', ['id' => $rek->id]) }}" title="klik untuk melihat detail pelatihan">
-              MASUK
-          </a>
+            @if ($data['peserta'] != null)
+                @if (auth()->user() != null)
+                    @if ($rek->type_pelatihan == 1)
+                        @php
+                            $data['pelatihanKhusus'] = $rek->pelatihanKhusus($rek->id, auth()->user()->peserta->id);
+                        @endphp
+                        {{-- {{dd($rek->pelatihanKhusus($rek->id, auth()->user()->peserta->id))}} --}}
+                        @if ( $data['pelatihanKhusus'] != null)
+                            @if ($data['pelatihanKhusus']->is_access == null &&  $data['pelatihanKhusus']->mata_id == $rek->id)
+                                <a href="javascript:void(0)" class="btn btn-primary filled" id="ceking" data-toggle="modal" style="font-size: 1.2em" data-target="#exampleModal">Menunggu Verifikasi</a>   
+                            @else
+                                @if ($data['pelatihanKhusus']->is_access == 0 || $data['pelatihanKhusus']->mata_id == null || $data['pelatihanKhusus']->mata_id != $rek->id  )
+                                    <a href="{{ route('peserta.MintaAkses', ['mataId' => $rek->id, 'id'=> $data['pelatihanKhusus']->peserta_id]) }}" style="font-size: 1.2em" class="btn btn-primary filled">Minta Akses</a>
+                                @else 
+                                    @if ($data['peserta']->status_peserta == 1)
+                                    <a href="{{ route('course.detail', ['id' => $rek->id]) }}" style="font-size: 1.2em" class="btn btn-primary filled">Masuk</a>
+                                    @else
+                                    <a href="{{ route('profile.front',['id'=> $rek->id]) }}" style="font-size: 1.2em" class="btn btn-primary filled">Masuk</a>
+                                    @endif
+                                @endif  
+                            @endif
+                        @else 
+                            <a href="{{ route('peserta.MintaAkses', ['mataId' => $rek->id, 'id'=> auth()->user()->peserta->id]) }}" style="font-size: 1.2em" class="btn btn-primary filled">Minta Akses</a>
+                        @endif
+                    @else 
+                        @if ($data['peserta']->status_peserta == 1)
+                        
+                            <a href="{{ route('course.detail', ['id' => $rek->id]) }}" style="font-size: 1.2em" class="btn btn-primary filled">Masuk</a>
+                            @else
+                                
+                            <a href="{{ route('profile.front',['id'=> $rek->id]) }}" style="font-size: 1.2em" class="btn btn-primary filled">Masuk</a>
+                        @endif
+                    
+                    @endif    
+                @endif
+            @endif
         </div>
       </div>
     </div>
