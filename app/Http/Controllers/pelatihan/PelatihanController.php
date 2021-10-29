@@ -153,7 +153,7 @@ class PelatihanController extends Controller
             // }
         // }
            
-        return view('frontend.pelatihan.roomPelatihan', compact('data'), [
+        return view('frontend.course.detail', compact('data'), [
             'title' => $data['read']->judul,
             // 'breadcrumbsBackend' => [
             //     'Course' => route('course.list'),

@@ -99,7 +99,7 @@
           <div class="progress-bar" style="width: {{$course->extra(auth()->user()->id)->first()->persentase ?? 0}}%"></div>
         </div>
         <div class="mt-3 text-center">
-          <a class="btn btn-primary" href="{{ route('course.detail', ['id' => $course->id]) }}" title="klik untuk melihat detail pelatihan">
+          <a class="btn btn-primary" href="{{ route('pelatihan.mata', ['id' => $course->id]) }}" title="klik untuk melihat detail pelatihan">
               MASUK
           </a>
         </div>
@@ -153,7 +153,7 @@
                                     <a href="{{ route('peserta.MintaAkses', ['mataId' => $rek->id, 'id'=> $data['pelatihanKhusus']->peserta_id]) }}" style="font-size: 1.2em" class="btn btn-primary filled">Minta Akses</a>
                                 @else 
                                     @if ($data['peserta']->status_peserta == 1)
-                                    <a href="{{ route('course.detail', ['id' => $rek->id]) }}" style="font-size: 1.2em" class="btn btn-primary filled">Masuk</a>
+                                    <a href="{{ route('pelatihan.mata', ['id' => $rek->id]) }}" style="font-size: 1.2em" class="btn btn-primary filled">Masuk</a>
                                     @else
                                     <a href="{{ route('profile.front',['id'=> $rek->id]) }}" style="font-size: 1.2em" class="btn btn-primary filled">Masuk</a>
                                     @endif
@@ -165,7 +165,7 @@
                     @else 
                         @if ($data['peserta']->status_peserta == 1)
                         
-                            <a href="{{ route('course.detail', ['id' => $rek->id]) }}" style="font-size: 1.2em" class="btn btn-primary filled">Masuk</a>
+                            <a href="{{ route('pelatihan.mata', ['id' => $rek->id]) }}" style="font-size: 1.2em" class="btn btn-primary filled">Masuk</a>
                             @else
                                 
                             <a href="{{ route('profile.front',['id'=> $rek->id]) }}" style="font-size: 1.2em" class="btn btn-primary filled">Masuk</a>
@@ -214,7 +214,7 @@
                         <td>{{ $course->peserta->count() }}</td>
                         <td>{{ $course->materi->count() }}</td>
                         <td>
-                        <a href="{{ route('course.detail', ['id' => $course->id]) }}" target="_blank" class="btn btn-primary icon-btn btn-sm" title="klik untuk melihat detail">
+                        <a href="{{ route('pelatihan.mata', ['id' => $course->id]) }}" target="_blank" class="btn btn-primary icon-btn btn-sm" title="klik untuk melihat detail">
                             <i class="las la-external-link-alt"></i>
                         </a>
                         </td>

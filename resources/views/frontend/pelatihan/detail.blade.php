@@ -96,7 +96,7 @@
                                                 <a href="{{ route('peserta.MintaAkses', ['mataId' => $data['mata']->id, 'id'=> $data['pelatihanKhusus']->peserta_id]) }}" style="font-size: 1.2em" class="btn btn-primary filled">Minta Akses</a>
                                             @else 
                                                 @if ($data['peserta']->status_peserta == 1)
-                                                <a href="{{ route('course.detail', ['id' => $data['mata']->id]) }}" style="font-size: 1.2em" class="btn btn-primary filled">Mulai</a>
+                                                <a href="{{ route('pelatihan.mata', ['id' => $data['mata']->id]) }}" style="font-size: 1.2em" class="btn btn-primary filled">Mulai</a>
                                                 @else
                                                 <a href="{{ route('profile.front',['id'=> $data['mata']->id]) }}" style="font-size: 1.2em" class="btn btn-primary filled">Mulai</a>
                                                 @endif
@@ -110,7 +110,7 @@
 								{{-- pelatihan free --}}
 								@if ($data['peserta']->status_peserta == 1)
                                
-									<a href="{{ route('course.detail', ['id' => $data['mata']->id]) }}" style="font-size: 1.2em" class="btn btn-primary filled">Mulai</a>
+									<a href="{{ route('pelatihan.mata', ['id' => $data['mata']->id]) }}" style="font-size: 1.2em" class="btn btn-primary filled">Mulai</a>
 									@else
                                      
 									<a href="{{ route('profile.front',['id'=> $data['mata']->id]) }}" style="font-size: 1.2em" class="btn btn-primary filled">Mulai</a>
@@ -124,7 +124,7 @@
 							@endif
 						@else
 							@if ($data['instruktur'] != null)
-								<a href="{{ route('course.detail', ['id' => $data['mata']->id]) }}" style="font-size: 1.2em" class="btn btn-primary filled">Mulai</a>
+								<a href="{{ route('pelatihan.mata', ['id' => $data['mata']->id]) }}" style="font-size: 1.2em" class="btn btn-primary filled">Mulai</a>
 							@else 
 							<a href="{{ route('register') }}" target="_blank" style="font-size: 1.2em" class="btn btn-primary filled">Daftar</a>
 							@endif
@@ -137,7 +137,7 @@
                                             <a href="{{ route('peserta.MintaAkses', ['mataId' => $data['mata']->id, 'id'=> $data['pelatihanKhusus']->instruktur_id]) }}" class="btn btn-primary filled">Minta Akses</a>
                                         @else 
                                             @if ($data['instruktur']->ikut_pelatihan == 1)
-                                            <a href="{{ route('course.detail', ['id' => $data['mata']->id]) }}" class="btn btn-primary filled">Mulai</a>
+                                            <a href="{{ route('pelatihan.mata', ['id' => $data['mata']->id]) }}" class="btn btn-primary filled">Mulai</a>
                                             @else
                                             <a href="{{ route('profile.frontInstruktur',['id'=> $data['mata']->id]) }}" class="btn btn-primary filled">Mulai</a>
                                             @endif
@@ -150,7 +150,7 @@
                            
 						@endif
 						@elserole('administrator')
-							 <a href="{{ route('course.detail', ['id' => $data['mata']->id]) }}" target="_blank" style="font-size: 1.2em" class="btn btn-primary filled">PREVIEW</a>
+							 <a href="{{ route('pelatihan.mata', ['id' => $data['mata']->id]) }}" target="_blank" style="font-size: 1.2em" class="btn btn-primary filled">PREVIEW</a>
 						@else
 						@if ($data['mata']->type_pelatihan == 1)
                             {{-- daftar pelatihan khusus --}}

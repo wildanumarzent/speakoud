@@ -7,7 +7,7 @@
                         <div class="footer-logo">
 
                         <a href="{{ route('home') }}" class="logo" title="Home">
-                            <img src="{{ asset(config('addon.images.logo')) }}" title="SPEAKOUD" alt="SPEAKOUD">
+                            <img src="{{ asset(config('addon.images.logo')) }}" width="100%" title="SPEAKOUD" alt="SPEAKOUD">
                         </a>
                             {{-- <h5>E-learning Manajemen System</h5> --}}
                         </div>
