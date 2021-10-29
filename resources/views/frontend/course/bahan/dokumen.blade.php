@@ -91,7 +91,7 @@
         <div class="loader">
             <div class="trackbar">
                 <div class="loadbar">
-                    <img src="{{url('/assets/img/speakoud.png')}}" width="50px" alt="">
+                    {{-- <img src="{{url('/assets/img/speakoud.png')}}" width="50px" alt=""> --}}
                 </div>
             </div>
         </div>
