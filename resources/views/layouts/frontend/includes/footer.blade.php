@@ -3,11 +3,11 @@
         <div class="footer-top">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-9">
                         <div class="footer-logo">
 
                         <a href="{{ route('home') }}" class="logo" title="Home">
-                            <img src="{{ asset(config('addon.images.logo_white')) }}" width="150px" title="SPEAKOUD" alt="SPEAKOUD">
+                            <img src="{{ asset(config('addon.images.logo_white')) }}" width="170px" title="SPEAKOUD" alt="SPEAKOUD">
                         </a>
                             {{-- <h5>E-learning Manajemen System</h5> --}}
                         </div>
@@ -18,7 +18,7 @@
                     </div>
                     <div class="col-md-8">
                         <div class="row">
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="f-widget">
                                     <h5>
                                         {{-- @lang('strip.footer_title_1') --}}
@@ -43,7 +43,7 @@
                                     </ul>
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="f-widget">
                                     <h5>
                                         @lang('strip.footer_title_2')
@@ -65,7 +65,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="f-widget">
                                     {{-- <h5 >@lang('strip.footer_title_3')</h5> --}}
                                     <h5 >KETENTUAN PENGGUNAAN</h5>

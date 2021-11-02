@@ -9,7 +9,7 @@ return [
     ],
     'logo' => [
         'path' => 'userfile/logo/',
-        'f' => 'assets/tmplts_backend/images/speakoud_white_1.png',
+        'f' => 'assets/tmplts_backend/images/logo_sm.png',
         'm' => 'jpg,jpeg,png,svg',
         'p' => '500 x 500 Pixel'
     ],
