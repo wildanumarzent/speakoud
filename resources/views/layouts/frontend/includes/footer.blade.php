@@ -7,7 +7,7 @@
                         <div class="footer-logo">
 
                         <a href="{{ route('home') }}" class="logo" title="Home">
-                            <img src="{{ asset(config('addon.images.logo')) }}" width="100%" title="SPEAKOUD" alt="SPEAKOUD">
+                            <img src="{{ asset(config('addon.images.logo_white')) }}" width="150px" title="SPEAKOUD" alt="SPEAKOUD">
                         </a>
                             {{-- <h5>E-learning Manajemen System</h5> --}}
                         </div>
@@ -72,17 +72,17 @@
                                     <ul>
                                         <li>
                                             {{-- {{ $configuration['address'] }} --}}
-                                            <a href="{{route('page.read',['id'=>6,'slug'=>'disclaimer'])}}">Disclaimer</a>
+                                            <a href="{{route('page.read',['id'=>5,'slug'=>'disclaimer'])}}">Disclaimer</a>
                                         </li>
                                         <li>
                                             {{-- {{ $configuration['fax'] }} <br> --}}
-                                            <a href="{{route('page.read',['id'=>7,'slug'=>'kebijakan-privasi'])}}">Kebijakan Privasi</a>
+                                            <a href="{{route('page.read',['id'=>6,'slug'=>'kebijakan-privasi'])}}">Kebijakan Privasi</a>
                                             {{-- {{ $configuration['phone'] }} <br>
                                             {{ $configuration['phone_2'] }} <br> --}}
                                         </li >
                                         <li>
 
-                                            <a href="{{route('page.read',['id'=>8,'slug'=>'syarat-dan-ketentuan'])}}">Terms & Conditions</a>
+                                            <a href="{{route('page.read',['id'=>7,'slug'=>'terms-conditions'])}}">Terms & Conditions</a>
                                             {{-- <a href="mailto:{{ $configuration['email'] }}" title="Email">{{ $configuration['email'] }}</a> <br>
                                             <a href="mailto:{{ $configuration['email_2'] }}" title="Email 2">{{ $configuration['email_2'] }}</a> <br> --}}
                                         </li>

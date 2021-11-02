@@ -119,7 +119,9 @@ class PesertaService
     
     public function getMataKhusus(int $id)
     {
-        return $this->pelatihanKhusus->with('pelatihan')->where('peserta_id', $id)->get();
+        return $this->pelatihanKhusus->with('pelatihan')
+                ->where('peserta_id', $id)
+                ->where('peserta_id','!=', null)->get();
     }
 
     public function getPelatihanKhusus($pesertaId, $mataId)

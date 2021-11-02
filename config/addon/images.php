@@ -7,7 +7,8 @@ return [
         'banner' => 'userfile/banner/',
         'cover' => 'userfile/cover/'
     ],
-    'logo' => 'assets/tmplts_backend/images/speakoud_white_1.png',
+    'logo' => 'assets/tmplts_backend/images/speakoud_black_2.png',
+    'logo_white' => 'assets/tmplts_backend/images/speakoud_white_2.png',
     'logo_sm' => 'assets/tmplts_backend/images/logo-small.png',
     'logo_mail' => 'assets/tmplts_backend/images/logo-mail.png',
     'open_graph' => 'assets/tmplts_backend/images/open-graph.jpg',

@@ -5,7 +5,7 @@
 				<div class="menubar-left">
 					<a href="{{ route('home') }}" class="main-logo" title="">
 						<div class="logo">
-							<img src="{{ asset(config('addon.images.logo')) }}" width="70px" alt="Logo SPEAKOUD">
+							<img src="{{ asset(config('addon.images.logo')) }}" width="150px" alt="Logo SPEAKOUD">
 							{{-- <strong>SPEAKOUD</strong>  --}}
 							{{-- <h5 >SPEAKOUD</h5> --}}
 						</div>

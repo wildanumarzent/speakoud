@@ -22,7 +22,6 @@
 	{{-- {{dd($data['id'])}} --}}
 	 <a href="{{ route('pelatihan.mata',['id'=> $data['id']]) }}" class="btn btn-warning mb-3">Mulai Pelatihan</a>
 	@endif
-	
 @endrole
 
 <div class="card">

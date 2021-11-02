@@ -42,7 +42,6 @@
                                             <strong>{{ $item->start_date->format('d F Y') }}</strong>
                                         </div>
                                     </div>
-                                    <span></span>
                                 </div>
                                 <div class="col-lg-4">
                                     <span class="text-muted">Tanggal Selesai :</span>

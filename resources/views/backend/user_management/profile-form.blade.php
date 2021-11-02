@@ -214,8 +214,7 @@
                   <label class="col-form-label text-sm-left">Username</label>
                 </div>
                 <div class="col-md-10">
-                    <label class="form-label">Username</label>
-                    <input type="text" class="form-control mb-1 @error('username') is-invalid @enderror" name="username" value="{{ old('username', $data['user']->username) }}"
+                    <input type="text" class="form-control mb-1 @error('username') is-invalid @enderror" name="username" value=""
                         placeholder="Masukan username...">
                     @include('components.field-error', ['field' => 'username'])
                 </div>

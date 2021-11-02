@@ -90,7 +90,7 @@
 								@if ($data['mata']->type_pelatihan == 1)
                                     @if ($data['pelatihanKhusus'] != null)
                                         @if ($data['pelatihanKhusus']->is_access == null &&  $data['pelatihanKhusus']->mata_id == $data['mata']->id)
-                                            <a href="javascript:void(0)" class="btn btn-primary filled" id="ceking" data-toggle="modal" style="font-size: 1.2em" data-target="#exampleModal">Menunggu Verifikasi</a>   
+                                            <a href="javascript:void(0)" class="btn btn-primary filled" id="ceking" data-toggle="modal" style="font-size: 1em" data-target="#exampleModal">Menunggu Verifikasi</a>   
                                         @else
                                             @if ($data['pelatihanKhusus']->is_access == 0 || $data['pelatihanKhusus']->mata_id == null || $data['pelatihanKhusus']->mata_id != $data['mata']->id  )
                                                 <a href="{{ route('peserta.MintaAkses', ['mataId' => $data['mata']->id, 'id'=> $data['pelatihanKhusus']->peserta_id]) }}" style="font-size: 1.2em" class="btn btn-primary filled">Minta Akses</a>
