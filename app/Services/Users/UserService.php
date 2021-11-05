@@ -505,9 +505,12 @@ class UserService
 
     public function setMataPeserta($MataId, $pesertaId)
     {
-        $peserta = new MataPeserta;
-        $peserta->mata_id = $MataId;
-        $peserta->peserta_id = $pesertaId;
-        return $peserta->save();
+       $data = MataPeserta::updateOrCreate([
+            'id' => $pesertaId
+        ],[
+            'mata_id' => $MataId,
+            'peserta_id' => $pesertaId
+        ]);
+       return $data;
     }
 }
