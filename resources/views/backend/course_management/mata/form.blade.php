@@ -112,7 +112,7 @@
                         <div class="col-md-10">
                             <select class="status custom-select form-control" name="type_pelatihan">
                                 @foreach (config('addon.label.tipe_pelatihan') as $key => $value)
-                                    <option value="{{ $key }}" {{ isset($data['program']) ? (old('type_pelatihan', $data['program']->type_pelatihan) == ''.$key.'' ? 'selected' : '') : (old('type_pelatihan') == ''.$key.'' ? 'selected' : '') }}>{{ $value }}</option>
+                                    <option value="{{ $key }}" {{ isset($data['mata']) ? (old('type_pelatihan', $data['mata']->type_pelatihan) == ''.$key.'' ? 'selected' : '') : (old('type_pelatihan') == ''.$key.'' ? 'selected' : '') }}>{{ $value }}</option>
                                 @endforeach
                             </select>
                             @include('components.field-error', ['field' => 'type_pelatihan'])
