@@ -23,16 +23,6 @@
             @endif
             <div class="tab-content">
                 <div class="tab-pane fade show active" id="data">
-                    {{-- <div class="form-group row">
-                        <div class="col-md-2 text-md-right">
-                          <label class="col-form-label text-sm-right">NIP</label>
-                        </div>
-                        <div class="col-md-10">
-                          <input type="text" class="form-control @error('nip') is-invalid @enderror" name="nip"
-                            value="{{ (isset($data['peserta'])) ? old('nip', $data['peserta']->nip) : old('nip') }}" placeholder="masukan nip..." autofocus>
-                          @include('components.field-error', ['field' => 'nip'])
-                        </div>
-                    </div> --}}
                     <div class="form-group row">
                         <div class="col-md-2 text-md-right">
                           <label class="col-form-label text-sm-right">Nama</label>
@@ -61,35 +51,22 @@
                           <label class="col-form-label text-sm-right">Jenis Kelamin</label>
                         </div>
                         <div class="col-md-10">
-                            <select class="selectpicker show-tick" data-style="btn-default" name="jenis_kelamin">
+                            <select class="selectpicker show-tick" data-style="btn-default" name="gender">
                                 <option value=" " selected>Pilih</option>
                                 @foreach (config('addon.master_data.jenis_kelamin') as $key => $value)
-                                <option value="{{ $key }}" {{ isset($data['peserta']) ? (old('jenis_kelamin', $data['peserta']->jenis_kelamin) == ''.$key.'' ? 'selected' : '') : (old('jenis_kelamin') == ''.$key.'' ? 'selected' : '') }}>{{ $value }}</option>
+                                <option value="{{ $key }}" {{ isset($data['peserta']) ? (old('gender', $data['peserta']->user->information->gender) == ''.$key.'' ? 'selected' : '') : (old('gender') == ''.$key.'' ? 'selected' : '') }}>{{ $value }}</option>
                                 @endforeach
                             </select>
                         </div>
                     </div>
-                    {{-- <div class="form-group row">
-                        <div class="col-md-2 text-md-right">
-                          <label class="col-form-label text-sm-right">Agama</label>
-                        </div>
-                        <div class="col-md-10">
-                            <select class="selectpicker show-tick" data-style="btn-default" name="agama">
-                                <option value=" " selected>Pilih</option>
-                                @foreach (config('addon.master_data.agama') as $key => $value)
-                                <option value="{{ $key }}" {{ isset($data['peserta']) ? (old('agama', $data['peserta']->agama) == ''.$key.'' ? 'selected' : '') : (old('agama') == ''.$key.'' ? 'selected' : '') }}>{{ $value }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div> --}}
                     <div class="form-group row">
                         <div class="col-md-2 text-md-right">
                           <label class="col-form-label text-sm-right">Tempat Lahir</label>
                         </div>
                         <div class="col-md-10">
-                          <input type="text" class="form-control @error('tempat_lahir') is-invalid @enderror" name="tempat_lahir"
-                            value="{{ (isset($data['peserta'])) ? old('tempat_lahir', $data['peserta']->tempat_lahir) : old('tempat_lahir') }}" placeholder="masukan tempat lahir...">
-                          @include('components.field-error', ['field' => 'tempat_lahir'])
+                          <input type="text" class="form-control @error('place_of_birthday') is-invalid @enderror" name="place_of_birthday"
+                            value="{{ (isset($data['peserta'])) ? old('place_of_birthday', $data['peserta']->user->information->place_of_birthday) : old('place_of_birthday') }}" placeholder="masukan tempat lahir...">
+                          @include('components.field-error', ['field' => 'place_of_birthday'])
                         </div>
                     </div>
                     <div class="form-group row">
@@ -98,8 +75,8 @@
                         </div>
                         <div class="col-md-10">
                             <div class="input-group">
-                                <input type="text" class="date-picker form-control @error('tanggal_lahir') is-invalid @enderror" name="tanggal_lahir"
-                                    value="{{ (isset($data['peserta'])) ? (!empty($data['peserta']->tanggal_lahir) ? old('tanggal_lahir', $data['peserta']->tanggal_lahir->format('Y-m-d')) : '') : old('tanggal_lahir') }}" placeholder="masukan tanggal lahir...">
+                                <input type="text" class="date-picker form-control @error('tanggal_lahir') is-invalid @enderror" name="date_of_birthday"
+                                    value="{{ (isset($data['peserta'])) ? (!empty($data['peserta']->user->information->date_of_birthday) ? old('tanggal_lahir', $data['peserta']->user->information->date_of_birthday->format('Y-m-d')) : '') : old('date_of_birthday') }}" placeholder="masukan tanggal lahir...">
                                 <div class="input-group-append">
                                     <span class="input-group-text"><i class="las la-calendar"></i></span>
                                 </div>
@@ -122,139 +99,15 @@
                             </div>
                         </div>
                     </div>
-                    {{-- <div class="form-group row">
-                        <div class="col-md-2 text-md-right">
-                          <label class="col-form-label text-sm-right">Pangkat / Gol. Ruang</label>
-                        </div>
-                        <div class="col-md-10">
-                            <select class="select2 show-tick" data-style="btn-default" name="pangkat">
-                                <option value=" " selected>Pilih</option>
-                                @foreach (config('addon.master_data.pangkat') as $key => $value)
-                                <option value="{{ $key }}" {{ isset($data['peserta']) ? (old('pangkat', $data['peserta']->pangkat) == ''.$key.'' ? 'selected' : '') : (old('pangkat') == ''.$key.'' ? 'selected' : '') }}>{{ $value.' - '.config('addon.master_data.golongan.'.$key) }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div> --}}
-                    {{-- <div class="form-group row">
-                        <div class="col-md-2 text-md-right">
-                          <label class="col-form-label text-sm-right">Jabatan</label>
-                        </div>
-                        <div class="col-md-10">
-                            <select class="select2 show-tick" data-style="btn-default" name="jabatan_id">
-                                <option value=" " selected>Pilih</option>
-                                @foreach ($data['jabatan'] as $jabatan)
-                                <option value="{{ $jabatan->id }}" {{ isset($data['peserta']) ? (old('jabatan_id', $data['peserta']->jabatan_id) == $jabatan->id ? 'selected' : '') : (old('jabatan_id') == $jabatan->id ? 'selected' : '') }}>{{ $jabatan->nama }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div> --}}
-                    {{-- <div class="form-group row">
-                        <div class="col-md-2 text-md-right">
-                          <label class="col-form-label text-sm-right">Jenjang Jabatan</label>
-                        </div>
-                        <div class="col-md-10">
-                            <select class="selectpicker show-tick" data-style="btn-default" name="jenjang_jabatan">
-                                <option value=" " selected>Pilih</option>
-                                @foreach (config('addon.master_data.jenjang_jabatan') as $key => $value)
-                                <option value="{{ $key }}" {{ isset($data['peserta']) ? (old('jenjang_jabatan', $data['peserta']->jenjang_jabatan) == ''.$key.'' ? 'selected' : '') : (old('jenjang_jabatan') == ''.$key.'' ? 'selected' : '') }}>{{ $value }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div> --}}
-                    {{-- @role ('developer|administrator')
-                    @if (!isset($data['peserta']) && Request::get('peserta') == 'mitra')
-                    <div class="form-group row" id="mitra">
-                        <div class="col-md-2 text-md-right">
-                          <label class="col-form-label text-sm-right">Mitra</label>
-                        </div>
-                        <div class="col-md-9">
-                          <select class="select2 show-tick @error('mitra_id') is-invalid @enderror" name="mitra_id" data-style="btn-default">
-                              <option value="" disabled selected>Pilih</option>
-                              @foreach ($data['mitra'] as $mitra)
-                              <option value="{{ $mitra->id }}" {{ old('mitra_id') == $mitra->id ? 'selected' : '' }}>{{ $mitra->instansi['nama_instansi'] }} - ({{ $mitra->user->name }})</option>
-                              @endforeach
-                          </select>
-                          @error('mitra_id')
-                          <label class="error jquery-validation-error small form-text invalid-feedback" style="display: inline-block; color:red;">{!! $message !!}</label>
-                          @enderror
-                        </div>
-                        <div class="col-md-1">
-                            <a href="{{ route('mitra.create') }}" class="btn btn-primary icon-btn" title="klik untuk menambah mitra"><i class="las la-plus"></i></a>
-                        </div>
-                    </div>
-                    @endif
-                    @endrole --}}
-                    {{-- @role ('mitra')
-                    <div class="form-group row">
-                        <div class="col-md-2 text-md-right">
-                          <label class="col-form-label text-sm-right">Instansi / Perusahaan</label>
-                        </div>
-                        <div class="col-md-10">
-                          <input type="hidden" name="instansi_id" value="{{ auth()->user()->mitra->instansi_id }}">
-                          <input type="text" class="form-control" value="{{ auth()->user()->mitra->instansi->nama_instansi }}" readonly>
-                        </div>
-                    </div>
-                    @else
-                    <div class="form-group row">
-                        <div class="col-md-2 text-md-right">
-                          <label class="col-form-label text-sm-right">Instansi / Perusahaan</label>
-                        </div>
-                        <div class="col-md-10">
-                            <div class="input-group">
-                                <select class="select2 show-tick @error('instansi_id') is-invalid @enderror" name="instansi_id" data-style="btn-default">
-                                    <option value=" " selected disabled>Pilih</option>
-                                    @foreach ($data['instansi'] as $instansi)
-                                    <option value="{{ $instansi->id }}" {{ isset($data['peserta']) ? (old('instansi_id', $data['peserta']->instansi_id) == $instansi->id ? 'selected' : '') : (old('instansi_id') == $instansi->id ? 'selected' : '') }}>
-                                        {{ $instansi->nama_instansi }} - ({{ $instansi->kode_instansi }})
-                                    </option>
-                                    @endforeach
-                                </select>
-                                @error('instansi_id')
-                                    <label class="error jquery-validation-error small form-text invalid-feedback" style="display: inline-block; color:red;">{!! $message !!}</label>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
-                    @endrole --}}
-                    {{-- <div class="form-group row">
-                        <div class="col-md-2 text-md-right">
-                          <label class="col-form-label text-sm-right">Unit Kerja</label>
-                        </div>
-                        <div class="col-md-10">
-                          <input type="text" class="form-control @error('kedeputian') is-invalid @enderror" name="kedeputian"
-                            value="{{ (isset($data['peserta'])) ? old('kedeputian', $data['peserta']->kedeputian) : old('kedeputian') }}" placeholder="masukan unit kerja...">
-                          @include('components.field-error', ['field' => 'kedeputian'])
-                        </div>
-                    </div> --}}
                     <div class="form-group row">
                         <div class="col-md-2 text-md-right">
                           <label class="col-form-label text-sm-right">Alamat</label>
                         </div>
                         <div class="col-md-10">
-                          <textarea class="form-control @error('alamat') is-invalid @enderror" name="address" placeholder="masukan alamat...">{{ (isset($data['peserta'])) ? old('address', $data['peserta']->user->information->address) : old('address') }}</textarea>
+                          <textarea class="form-control @error('address') is-invalid @enderror" name="address" placeholder="masukan alamat...">{{ (isset($data['peserta'])) ? old('address', $data['peserta']->user->information->address) : old('address') }}</textarea>
                           @include('components.field-error', ['field' => 'address'])
                         </div>
                     </div>
-                </div>
-                <div class="tab-pane fade" id="attachment">
-                    {{-- <div class="form-group row">
-                        <div class="col-md-2 text-md-right">
-                          <label class="col-form-label text-sm-right">Foto Sertifikat</label>
-                        </div>
-                        <div class="col-md-10">
-                            <label class="custom-file-label mt-1" for="file-6"></label>
-                            @if (isset($data['peserta']))
-                                <input type="hidden" name="old_foto_sertifikat" value="{{ $data['peserta']->foto_sertifikat }}">
-                                @if (!empty($data['peserta']->foto_sertifikat))
-                                <small class="text-muted">File Sebelumnya : <a href="{{ asset('userfile/photo/sertifikat/'.$data['peserta']->foto_sertifikat)}}">Download</a></small><br>
-                                @endif
-                            @endif
-                            <input type="file" class="form-control custom-file-input file @error('foto_sertifikat') is-invalid @enderror" type="file" id="file-6" lang="en" name="foto_sertifikat" value="browse...">
-                            @include('components.field-error', ['field' => 'foto_sertifikat'])
-                            <small class="text-muted">Tipe Foto Sertifikat : <strong>{{ strtoupper(config('addon.mimes.photo.m')) }}</strong>, Maksimal Upload <strong>1 MB</strong>, Latar harus berwarna merah</small>
-                        </div>
-                    </div> --}}
-                   
                 </div>
                 <div class="tab-pane fade" id="akun">
                     <div class="form-group row">

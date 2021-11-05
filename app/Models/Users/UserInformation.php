@@ -8,6 +8,7 @@ class UserInformation extends Model
 {
     protected $table = 'users_information';
     protected $guarded = [];
+    protected $dates = ['date_of_birthday'];
 
     public static function boot(){
         parent::boot();

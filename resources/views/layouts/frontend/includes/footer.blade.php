@@ -3,7 +3,7 @@
         <div class="footer-top">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-9">
+                    <div class="col-md-4">
                         <div class="footer-logo">
 
                         <a href="{{ route('home') }}" class="logo" title="Home">
@@ -18,7 +18,7 @@
                     </div>
                     <div class="col-md-8">
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="f-widget">
                                     <h5>
                                         {{-- @lang('strip.footer_title_1') --}}
@@ -43,7 +43,7 @@
                                     </ul>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="f-widget">
                                     <h5>
                                         @lang('strip.footer_title_2')
@@ -89,6 +89,7 @@
                                     </ul>
                                 </div>
                             </div>
+                          
                         </div>
                     </div>
                 </div>

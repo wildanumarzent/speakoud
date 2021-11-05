@@ -23,21 +23,32 @@ class InstrukturRequest extends FormRequest
      */
     public function rules()
     {
-        if ($this->method() == 'POST') {
+         if ($this->method() == 'POST') {
 
-            return [
-                'name' => 'required',
-                'email' => 'required|email|unique:users,email',auth()->user()->id,
-                'username' => 'required|min:5|unique:users,username',auth()->user()->id,
-                'password' => 'required|confirmed|min:8',
-                'gender' => 'required',
-                'pendidikan' => 'required',
-                'phone' => 'required',
-                'address' => 'required',
-                'tanggal_lahir' => 'required',
-            ];
-               
+            if (auth()->user()->hasRole('developer|administrator')) {
 
+                return [
+                    'name' => 'required',
+                    'email' => 'required|email|unique:users,email',
+                    'username' => 'required|min:5|unique:users,username',
+                    'roles' => 'required',
+                    'password' => 'required|confirmed|min:8',
+                ];
+
+            } else {
+
+                return [
+                    'name' => 'required',
+                    'email' => 'required|email|unique:users,email',auth()->user()->id,
+                    'username' => 'required|min:5|unique:users,username',auth()->user()->id,
+                    'password' => 'nullable|confirmed|min:8',
+                    'gender' => 'required',
+                    'pendidikan' => 'required',
+                    'phone' => 'required',
+                    'address' => 'required',
+                    'date_of_brithday' => 'required',
+                ];
+            }
         } else {
 
             return [
@@ -51,24 +62,23 @@ class InstrukturRequest extends FormRequest
                 'pendidikan' => 'required',
                 'phone' => 'required',
                 'address' => 'required',
-                'tanggal_lahir' => 'required',
+                'date_of_birthday' => 'required',
             ];
         }
-
     }
 
     public function attributes()
     {
         return [
-            'name' => 'required',
+            'name' => 'Name',
             'email' => 'Email',
             'username' => 'User name',
             'password' => 'password',
-            'gender' => 'required',
-            'pendidikan' => 'required',
-            'phone' => 'required',
-            'address' => 'required',
-            'tanggal_lahir' => 'required',
+            'gender' => 'Jenis kelamin',
+            'pendidikan' => 'Pendidikan',
+            'phone' => 'Phone',
+            'address' => 'alamat',
+            'date_of_brithday' => 'Tanggal lahir',
         ];
     }
 
@@ -83,7 +93,7 @@ class InstrukturRequest extends FormRequest
             'pendidikakan.required' => ':attribute tidak boleh kosong',
             'phone.required' => ':attribute tidak boleh kosong',
             'address.required' => ':attribute tidak boleh kosong',
-            'tanggl_lahir.email' => ':attribute harus valid',
+            'date_of_brithday.required' => ':attribute harus Di isi',
         ];
     }
 }

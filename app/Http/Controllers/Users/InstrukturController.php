@@ -79,6 +79,7 @@ class InstrukturController extends Controller
 
     public function store(InstrukturRequest $request)
     {
+    
         $this->service->storeInstruktur($request);
         return redirect()->route('instruktur.index')
             ->with('success', 'User instruktur berhasil ditambahkan');
@@ -104,7 +105,7 @@ class InstrukturController extends Controller
     }
 
     public function update(InstrukturRequest $request, $id)
-    {
+    { 
         $this->service->updateInstruktur($request, $id);
 
         return redirect()->route('instruktur.index')

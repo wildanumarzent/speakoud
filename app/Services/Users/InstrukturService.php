@@ -164,41 +164,30 @@ class InstrukturService
 
         $instruktur = new Instruktur;
         $instruktur->user_id =$user->id;
-        $instruktur->creator_id = Auth::user()->id ?? $user->id;
-        $instruktur->nama = $request->name;
-        $instruktur->gender = $request->gender;
         $instruktur->pendidikan = $request->pendidikan;
-        $instruktur->phone = $request->phone;
-        $instruktur->ikut_pelatihan = $request->ikutPelatihan;
-        // $instruktur->address = $request->address;
-        $instruktur->tanggal_lahir = $request->tanggal_lahir;
-        $this->uploadFile($request, $instruktur, $user->id, 'store');
+        $instruktur->creator_id = Auth::user()->id ?? $user->id;
         $instruktur->save();
 
         $user->userable()->associate($instruktur);
         $user->save();
 
-        $pelatihanKhusus = new PelatihanKhusus;
-        $pelatihanKhusus->instruktur_id = $instruktur->id;
-        $pelatihanKhusus->mata_id = $request->mataId ?? null;
-        $pelatihanKhusus->save();
+        // $pelatihanKhusus = new PelatihanKhusus;
+        // $pelatihanKhusus->instruktur_id = $instruktur->id;
+        // $pelatihanKhusus->mata_id = $request->mataId ?? null;
+        // $pelatihanKhusus->save();
 
         return [
             'user' => $user,
             'instruktur' => $instruktur,
-            'pelatihanKhusus' => $pelatihanKhusus
         ];
     }
 
     public function updateInstruktur($request, int $id)
     {
+        
         $instruktur = $this->findInstruktur($id);
-        $instruktur->nip = $request->nip ?? null;
-        $instruktur->instansi_id = $request->instansi_id ?? null;
-        $instruktur->kedeputian = $request->kedeputian ?? null;
-        $instruktur->pangkat = $request->pangkat ?? null;
         $instruktur->ikut_pelatihan = $request->ikutPelatihan;
-        $this->uploadFile($request, $instruktur, $instruktur->user_id, 'update', $id);
+        $instruktur->pendidikan = $request->pendidikan;
         $instruktur->save();
 
         $user = $instruktur->user;

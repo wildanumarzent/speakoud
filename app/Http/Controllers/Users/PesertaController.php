@@ -110,8 +110,9 @@ class PesertaController extends Controller
         ]);
     }
 
-    public function update(PesertaRequest $request, $id)
+    public function update(Request $request, $id)
     {
+       
         $this->service->updatePeserta($request, $id);
 
         return redirect()->route('peserta.index')
