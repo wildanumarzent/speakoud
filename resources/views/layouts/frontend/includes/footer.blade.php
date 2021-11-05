@@ -3,8 +3,8 @@
         <div class="footer-top">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-md-4">
-                        <div class="footer-logo" style="margin-right:70px">
+                    <div class="col-md-3" >
+                        <div class="footer-logo" style="margin-right:40px">
 
                         <a href="{{ route('home') }}" class="logo" title="Home">
                             <img src="{{ asset(config('addon.images.logo_white')) }}" width="170px" title="SPEAKOUD" alt="SPEAKOUD">
@@ -16,9 +16,9 @@
                             <li class="text-white" style="font-family: sans-serif; margin-bottom: 30px"><strong>contact@speakoud.com</strong></li>
                         </ul>  --}}
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-8 mt-3" style="margin-left: 40px">
                         <div class="row">
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="f-widget">
                                     <h5>
                                         {{-- @lang('strip.footer_title_1') --}}
@@ -65,7 +65,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-4">
+                            <div class="col-md-5">
                                 <div class="f-widget">
                                     {{-- <h5 >@lang('strip.footer_title_3')</h5> --}}
                                     <h5 >KETENTUAN PENGGUNAAN</h5>
