@@ -8,7 +8,7 @@
 <div id="page" class="bg-sign">
     <div class="logo-signbox">
         <div class="logo">
-            <img src="{{ asset(config('addon.images.logo')) }}" width="70px" title="SPEAKOUD" alt="Logo SPEAKOUD">
+            <img src="{{ asset(config('addon.images.logo')) }}" width="150px" title="SPEAKOUD" alt="Logo SPEAKOUD">
         {{-- <h5 class="text-white">SPEAKOUD</h5> --}}
         </div>
     </div>
