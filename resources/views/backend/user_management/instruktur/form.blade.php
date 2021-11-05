@@ -99,7 +99,7 @@
                           <label class="col-form-label text-sm-right">Tanggal Lahir</label>
                         </div>
                         <div class="col-md-10">
-                         <input type="text" class="date-picker form-control @error('date_of_birthday') is-invalid @enderror" name="date_of_birthday"
+                         <input type="date" class="date-picker form-control @error('date_of_birthday') is-invalid @enderror" name="date_of_birthday"
                             value="{{ !empty($data['instruktur']->user->information->date_of_birthday) ? old('date_of_birthday', $data['instruktur']->user->information->date_of_birthday->format('Y-m-d')) : '' }}" placeholder="masukan tanggal lahir...">
                         <div class="input-group-append">
                           @include('components.field-error', ['field' => 'date_of_birthday'])

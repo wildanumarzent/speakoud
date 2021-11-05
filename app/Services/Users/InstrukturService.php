@@ -49,11 +49,9 @@ class InstrukturService
         })->when($request->q, function ($query, $q) {
             $query->where(function ($queryA) use ($q) {
                 $queryA->whereHas('user', function (Builder $queryB) use ($q) {
-                    $queryB->where('name', 'ilike', '%'.$q.'%')
-                        ->orWhere('username', 'ilike', '%'.$q.'%');
-                })->orWhere('nip', 'ilike', '%'.$q.'%')
-                ->orWhere('kedeputian', 'ilike', '%'.$q.'%')
-                ->orWhere('pangkat', 'ilike', '%'.$q.'%');
+                    $queryB->where('name', 'like', '%'.$q.'%')
+                        ->orWhere('username', 'like', '%'.$q.'%');
+                });
             });
         });
 
