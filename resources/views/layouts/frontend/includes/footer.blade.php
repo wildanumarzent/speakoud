@@ -4,7 +4,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-4">
-                        <div class="footer-logo">
+                        <div class="footer-logo" style="margin-right:70px">
 
                         <a href="{{ route('home') }}" class="logo" title="Home">
                             <img src="{{ asset(config('addon.images.logo_white')) }}" width="170px" title="SPEAKOUD" alt="SPEAKOUD">
