@@ -23,7 +23,6 @@
 	 <a href="{{ route('pelatihan.mata',['id'=> $data['id']]) }}" class="btn btn-warning mb-3">Mulai Pelatihan</a>
 	@endif
 @endrole
-
 <div class="card">
 	<div class="card-header with-elements">
 		{{-- @role('peserta_internal|peserta_mitra')
@@ -80,74 +79,61 @@
 				</div>
 			</div>
 			@role ('peserta_internal|peserta_mitra')
-			<div class="form-group row">
-				<div class="col-md-2 text-md-left">
-				  <label class="col-form-label text-sm-left">Jenis Kelamin</label>
-				</div>
-				<div class="col-md-10">
-					<select class="selectpicker show-tick" data-style="btn-default" name="jenis_kelamin">
-						<option value=" " selected>Pilih</option>
-						@foreach (config('addon.master_data.jenis_kelamin') as $key => $value)
-						<option value="{{ $key }}" {{ old('jenis_kelamin', $data['user']->peserta->jenis_kelamin) == ''.$key.'' ? 'selected' : '' }}>{{ $value }}</option>
-						@endforeach
-					</select>
-					 @include('components.field-error', ['field' => 'jenis_kelamin'])
-					@if ($data['user']->peserta->jenis_kelamin < '0')
-					<span style="color: red;"><i>*belum diisi</i></span>
-					@endif
-				</div>
-			</div>
+			 <div class="form-group row">
+                <div class="col-md-2 text-md-left">
+                    <label class="col-form-label text-sm-right">Jenis Kelamin</label>
+                </div>
+                <div class="col-md-10">
+                    <select class="selectpicker show-tick" data-style="btn-default" name="gender">
+                        <option value=" " selected>Pilih</option>
+                        @foreach (config('addon.master_data.jenis_kelamin') as $key => $value)
+                        <option value="{{ $key }}" {{ isset($data['user']) ? (old('gender', $data['user']->information->gender) == ''.$key.'' ? 'selected' : '') : (old('gender') == ''.$key.'' ? 'selected' : '') }}>{{ $value }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
 			
 			<div class="form-group row">
-				<div class="col-md-2 text-md-left">
-				  <label class="col-form-label text-sm-left">Tempat Lahir</label>
-				</div>
-				<div class="col-md-10">
-					<input type="text" class="form-control mb-1 @error('tempat_lahir') is-invalid @enderror" name="tempat_lahir" value="{{ old('tempat_lahir', $data['user']->peserta->tempat_lahir) }}" placeholder="Masukan tempat lahir...">
-					@include('components.field-error', ['field' => 'tempat_lahir'])
-					@if (empty($data['user']->peserta->tempat_lahir))
-					<span style="color: red;"><i>*belum diisi</i></span>
-					@endif
-				</div>
-			</div>
+                <div class="col-md-2 text-md-left">
+                    <label class="col-form-label text-sm-right">Tempat Lahir</label>
+                </div>
+                <div class="col-md-10">
+                    <input type="text" class="form-control @error('place_of_birthday') is-invalid @enderror" name="place_of_birthday"
+                    value="{{ (isset($data['user'])) ? old('place_of_birthday', $data['user']->information->place_of_birthday) : old('place_of_birthday') }}" placeholder="masukan tempat lahir...">
+                    @include('components.field-error', ['field' => 'place_of_birthday'])
+                </div>
+            </div>
 			<div class="form-group row">
-				<div class="col-md-2 text-md-left">
-				  <label class="col-form-label text-sm-left">Tanggal Lahir</label>
-				</div>
-				<div class="col-md-10">
-					<div class="input-group">
-						<input type="text" class="date-picker form-control @error('tanggal_lahir') is-invalid @enderror" name="tanggal_lahir"
-							value="{{ !empty($data['user']->peserta->tanggal_lahir) ? old('tanggal_lahir', $data['user']->peserta->tanggal_lahir->format('Y-m-d')) : '' }}" placeholder="masukan tanggal lahir...">
-						<div class="input-group-append">
-							<span class="input-group-text"><i class="las la-calendar"></i></span>
-						</div>
-						@include('components.field-error', ['field' => 'tanggal_lahir'])
-					</div>
-					@if (empty($data['user']->peserta->tanggal_lahir))
-					<span style="color: red;"><i>*belum diisi</i></span>
-					@endif
-				</div>
-			</div>
+                <div class="col-md-2 text-md-left">
+                    <label class="col-form-label text-sm-right">Tanggal Lahir</label>
+                </div>
+                <div class="col-md-10">
+                    <div class="input-group">
+                        <input type="text" class="date-picker form-control @error('date_of_birthday') is-invalid @enderror" name="date_of_birthday"
+                            value="{{ (isset($data['user'])) ? (!empty($data['user']->information->date_of_birthday) ? old('date_of_birthday', $data['peserta']->user->information->date_of_birthday->format('Y-m-d')) : '') : old('date_of_birthday') }}" placeholder="masukan tanggal lahir...">
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="las la-calendar"></i></span>
+                        </div>
+                        @include('components.field-error', ['field' => 'date_of_birthday'])
+                    </div>
+                </div>
+            </div>
 			@endrole
 			<div class="form-group row">
-				<div class="col-md-2 text-md-left">
-					<label class="col-form-label text-sm-left">Telpon</label>
-				</div>
-				<div class="col-md-10">
-					<div class="input-group">
-						<div class="input-group-prepend">
-							<span class="input-group-text">+62</span>
-						</div>
-						<input type="text" class="form-control @error('no_hp') is-invalid @enderror" name="no_hp" value="{{ old('phone', $data['user']->peserta->no_hp) }}" placeholder="Masukan telpon...">
-						@include('components.field-error', ['field' => 'no_hp'])
-					</div>
-					@role ('peserta_internal|peserta_mitra')
-					@if (empty($data['information']->no_hp))
-					<span style="color: red;"><i>*belum diisi</i></span>
-					@endif
-					@endrole
-				</div>
-			</div>
+                <div class="col-md-2 text-md-left">
+                    <label class="col-form-label text-sm-right">Nomor Telpon</label>
+                </div>
+                <div class="col-md-10">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">+62</span>
+                        </div>
+                        <input type="number" class="form-control @error('phone') is-invalid @enderror" name="phone"
+                            value="{{ (isset($data['user'])) ? old('phone', $data['user']->information->phone) : old('phone') }}" placeholder="masukan nomor telpon...">
+                        @include('components.field-error', ['field' => 'phone'])
+                    </div>
+                </div>
+            </div>
 			<div class="form-group row">
 				<div class="col-md-2 text-md-left">
 					<label class="col-form-label text-sm-left">Kota Tinggal</label>
@@ -169,9 +155,6 @@
 						@endforeach
 					</select>
 					@include('components.field-error', ['field' => 'pendidikan'])
-					@if ($data['user']->peserta->pendidikan < '0')
-					<span style="color: red;"><i>*belum diisi</i></span>
-					@endif
 				</div>
 			</div>
 			 <div class="form-group row">
@@ -186,9 +169,6 @@
 						@endforeach
 					</select>
 					@include('components.field-error', ['field' => 'pekerjaan'])
-					@if ($data['user']->peserta->pekerjaan < '0')
-					<span style="color: red;"><i>*belum diisi</i></span>
-					@endif
 				</div>
 			</div>
 		</div>

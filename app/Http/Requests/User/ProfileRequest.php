@@ -33,15 +33,14 @@ class ProfileRequest extends FormRequest
                             auth()->user()->id,
                 'current_password' => 'required|min:8',
                 'password' => 'nullable|confirmed|min:8',
-                'file' => 'nullable|mimes:'.config('custom.files.photo.m'),
-
-                // 'tanggal_lahir' => 'required',
-                // 'jenis_kelamin' => 'required',
-                // 'tempat_lahir' => 'required',
-                // 'no_hp' => 'required',
-                // 'kota_tinggal' => 'required',
-                // 'pekerjaan' => 'required',
-                // 'pendidikan' => 'required',
+                'file' => 'required|mimes:'.config('custom.files.photo.m'),
+                'date_of_birthday' => 'required',
+                'gender' => 'required',
+                'place_of_birthday' => 'required',
+                'phone' => 'required',
+                'kota_tinggal' => 'required',
+                'pekerjaan' => 'required',
+                'pendidikan' => 'required',
 
             ];
 
@@ -54,14 +53,13 @@ class ProfileRequest extends FormRequest
                 'username' => 'required|unique:users,username,'.
                             auth()->user()->id,
                 'file' => 'nullable|mimes:'.config('custom.files.photo.m'),
-                // 'foto_sertifikat' => 'nullable|mimes:'.config('custom.files.photo.m'),
-                // 'tanggal_lahir' => 'required',
-                // 'jenis_kelamin' => 'required',
-                // 'tempat_lahir' => 'required',
-                // 'no_hp' => 'required',
-                // 'kota_tinggal' => 'required',
-                // 'pekerjaan' => 'required',
-                // 'pendidikan' => 'required',
+                'date_of_birthday' => 'required',
+                'gender' => 'required',
+                'place_of_birthday' => 'required',
+                'phone' => 'required',
+                'kota_tinggal' => 'required',
+                'pekerjaan' => 'required',
+                'pendidikan' => 'required',
             ];
 
         }
@@ -76,14 +74,13 @@ class ProfileRequest extends FormRequest
             'current_password' => 'Current Password',
             'password' => 'Password',
             'file' => 'Photo',
-            // 'foto_sertifikat' => 'Foto Sertifikat',
-            // 'jenis_kelamin' => 'jenis kelamin',
-            // 'tempat_lahir' => 'tempat lahir',
-            // 'no_hp' => 'phone',
-            // 'kota_tinggal' => 'kota tinggal',
-            // 'tanggal_lahir' => 'tanggal lahir',
-            // 'pekerjaan' => 'pekerjaan',
-            // 'pendidikan' => 'pendidikan',
+            'date_of_birthday' => 'Tanggal Lahir',
+            'gender' => 'jenis kelamin',
+            'place_of_birthday' => 'tempat lahir',
+            'phone' => 'phone',
+            'kota_tinggal' => 'kota tinggal',
+            'pekerjaan' => 'pekerjaan',
+            'pendidikan' => 'pendidikan',
         ];
     }
 
@@ -103,14 +100,13 @@ class ProfileRequest extends FormRequest
                                     'password',
             'password.min' => ':attribute minimal :min karakter',
             'file.mimes' => 'Tipe :attribute harus :values.',
-            // 'foto_sertifikat.mimes' => 'Tipe :attribute harus :values.',
-            // 'jenis_kelamin.required' => ':attribute tidak boleh kosong',
-            // 'tempat_lahir.required' => ':attribute tidak boleh kosong',
-            // 'no_hp.required' => ':attribute tidak boleh kosong',
-            // 'kota_tinggal.required' => ':attribute tidak boleh kosong',
-            // 'tanggal_lahir.required' => ':attribute tidak boleh kosong',
-            // 'pendidikan.required' => ':attribute tidak boleh kosong',
-            // 'pekerjaan.required' => ':attribute tidak boleh kosong',
+            'gender.required' => ':attribute tidak boleh kosong',
+            'place_of_birthday.required' => ':attribute tidak boleh kosong',
+            'phone.required' => ':attribute tidak boleh kosong',
+            'kota_tinggal.required' => ':attribute tidak boleh kosong',
+            'date_of_birthday.required' => ':attribute tidak boleh kosong',
+            'pendidikan.required' => ':attribute tidak boleh kosong',
+            'pekerjaan.required' => ':attribute tidak boleh kosong',
         ];
     }
 }

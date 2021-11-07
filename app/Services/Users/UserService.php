@@ -393,20 +393,13 @@ class UserService
             }
 
             $peserta = $user->peserta;
-            $peserta->jenis_kelamin = $request->jenis_kelamin ?? null;
-            $peserta->agama = $request->agama ?? null;
-            $peserta->tempat_lahir = $request->tempat_lahir ?? null;
-            $peserta->tanggal_lahir = $request->tanggal_lahir ?? null;
-            $peserta->jabatan_id = $request->jabatan_id ?? null;
-            $peserta->no_hp = $request->no_hp ?? null;
             $peserta->pendidikan = $request->pendidikan ?? null;
             $peserta->pekerjaan = $request->pekerjaan ?? null;
             $peserta->kota_tinggal = $request->kota_tinggal ?? null;
-            $peserta->Departemen = $request->departemen ?? null;
             
-            if (!empty($request->tempat_lahir) && !empty($request->tanggal_lahir) &&
-                $request->no_hp >= 0  && $request->kota_tinggal >= 0 &&
-                $request->jenis_kelamin >= 0  && !empty($request->pekerjaan) && !empty($request->pendidikan) ) {
+            if (!empty($request->place_of_birthday) && !empty($request->date_of_birthday) &&
+                $request->phone >= 0  && $request->kota_tinggal >= 0 &&
+                $request->gender >= 0  && !empty($request->pekerjaan) && !empty($request->pendidikan) ) {
                 $peserta->status_peserta = 1;
             } else {
                 $peserta->status_peserta = 0;

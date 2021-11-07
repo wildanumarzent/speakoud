@@ -173,6 +173,7 @@ class MataService
 	public function getMataFree($order, $by, int $limitz,$request)
 	{
 		$query = $this->model->query();
+        $query->publish();
         if($request->f == 2)
         {
 
@@ -203,8 +204,8 @@ class MataService
 			$query->whereHas('program', function ($query) {
 				$query->publish();
 			});
-			// $query->where('publish_start', '<=', now())
-			// ->where('publish_end', '>=', now());
+			$query->where('publish_start', '<=', now())
+			->where('publish_end', '>=', now());
 		}
             $query->when($request->q, function ($query, $q) {
 				$query->where('judul','like', '%'.$q.'%');

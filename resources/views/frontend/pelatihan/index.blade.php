@@ -98,9 +98,9 @@
                 </td>
             </tr>
             @endif
-			{{-- {{dd($data['mata'])}} --}}
 			@foreach ($data['mata'] as $mata)
 			{{-- d-flex --}}
+            {{-- {{dd( $mata->getCover($mata->cover['filename']))}} --}}
 			<div class="col-lg-4">
                 <div class="item-post">
                     <a href="{{ route('pelatihan.detail', ['id' => $mata->id]) }}" class="box-img">

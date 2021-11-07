@@ -75,12 +75,12 @@
                         </div>
                         <div class="col-md-10">
                             <div class="input-group">
-                                <input type="text" class="date-picker form-control @error('tanggal_lahir') is-invalid @enderror" name="date_of_birthday"
-                                    value="{{ (isset($data['peserta'])) ? (!empty($data['peserta']->user->information->date_of_birthday) ? old('tanggal_lahir', $data['peserta']->user->information->date_of_birthday->format('Y-m-d')) : '') : old('date_of_birthday') }}" placeholder="masukan tanggal lahir...">
+                                <input type="text" class="date-picker form-control @error('date_of_birthday') is-invalid @enderror" name="date_of_birthday"
+                                    value="{{ (isset($data['peserta'])) ? (!empty($data['peserta']->user->information->date_of_birthday) ? old('date_of_birthday', $data['peserta']->user->information->date_of_birthday->format('Y-m-d')) : '') : old('date_of_birthday') }}" placeholder="masukan tanggal lahir...">
                                 <div class="input-group-append">
                                     <span class="input-group-text"><i class="las la-calendar"></i></span>
                                 </div>
-                                @include('components.field-error', ['field' => 'tanggal_lahir'])
+                                @include('components.field-error', ['field' => 'date_of_birthday'])
                             </div>
                         </div>
                     </div>
