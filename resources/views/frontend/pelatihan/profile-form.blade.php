@@ -13,13 +13,11 @@
 
 @section('content')
 @role('peserta_internal|peserta_mitra')
-	{{-- {{dd($data['user']->peserta->status_profile == 0)}} --}}
 	@if ($data['user']->peserta->status_peserta == 0 || empty($data['user']->photo['filename']))
 		<div class="alert alert-danger">
 			<i class="las la-exclamation-triangle"></i> Data Profile anda belum lengkap, <strong>Lengkapi data dibawah ini</strong>.
 		</div>
 	@else 
-	{{-- {{dd($data['id'])}} --}}
 	 <a href="{{ route('pelatihan.mata',['id'=> $data['id']]) }}" class="btn btn-warning mb-3">Mulai Pelatihan</a>
 	@endif
 @endrole

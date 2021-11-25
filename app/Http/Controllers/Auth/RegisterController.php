@@ -99,16 +99,26 @@ class RegisterController extends Controller
             'link_accept_pelatihanKhusus' => null,
             'type_pelatihan' => 'UMUM'
             ];
-            
-            Mail::to($request->email)->send(new \App\Mail\NotifUmum($data));
-            Mail::to("contact@speakoud.com")->send(new \App\Mail\ActivateAccountMailUmum($data));
+            try{
+                    Mail::to($request->email)->send(new \App\Mail\NotifUmum($data));
+                    Mail::to("contact@speakoud.com")->send(new \App\Mail\ActivateAccountMailUmum($data));
 
-            $remember = $request->has('remember') ? true : false;
-           if (Auth::attempt($request->forms(), $remember)) { 
-               $redirect= redirect()->route('home')->with('success', 'Register berhasil, 
-               Selamat bergabung menjadi Member Speakoud, Happy Learning !!');
-               return $redirect;
+                    $remember = $request->has('remember') ? true : false;
+                if (Auth::attempt($request->forms(), $remember)) { 
+                        $redirect= redirect()->route('home')->with('success', 'Register berhasil, 
+                        Selamat bergabung menjadi Member Speakoud, Happy Learning !!');
+                        return $redirect;
+                    }
             }
+            catch(\Exception $e){
+                $remember = $request->has('remember') ? true : false;
+                if (Auth::attempt($request->forms(), $remember)){ 
+                    $redirect= redirect()->route('home')->with('success', 'Register berhasil, 
+                    Selamat bergabung menjadi Member Speakoud, Happy Learning !!');
+                    return $redirect;
+                }
+            }
+           
         }
 
         $dataPeserta=$this->peserta->registerPeserta($request);
