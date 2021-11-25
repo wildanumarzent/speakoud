@@ -14,7 +14,9 @@
         <div class="row">
         @foreach ($data['pelatihanKhusus'] as $mata)
         {{-- d-flex --}}
+        @if($mata->pelatihan->type_pelatihan == 1)
         <div class="col-lg-4 mt-3">
+           
             <div class="item-post">
                 <a href="{{ route('pelatihan.detail', ['id' => $mata->pelatihan->id]) }}" class="box-img">
                     <div class="thumbnail-img">
@@ -30,10 +32,10 @@
                     </h5>
                     <div class="post-info">
                         <div class="box-price">
-                           
-                           <form action="{{route('peserta.editPelatiahanKhusus',['id'=>$mata->pelatihan->id])}}" method="post">
-                               @method('PUT')
-                               @csrf
+                        
+                        <form action="{{route('peserta.editPelatiahanKhusus',['id'=>$mata->pelatihan->id])}}" method="post">
+                            @method('PUT')
+                            @csrf
                                 <input type="hidden" value="{{$mata->pelatihan->id}}" name="mataId">
                                 <input type="hidden" value="{{$mata->peserta_id}}" name="pesertaId">
                                 @if ($mata->is_access ==1)
@@ -41,34 +43,16 @@
                                 @else 
                                 <button type="submit" class="btn btn-primary">Beri Akses</button>
                                 @endif
-                           </form>
+                        </form>
                         </div>
-                        {{-- <div class="box-info">
-                            <div class="item-info">
-                                <div class="data-info">
-                                    <i class="las la-user"></i>
-                                    @php
-                                        $instruktur = count($mata->pelatihan->instruktur);
-                                        $peserta = count($mata->pelatihan->peserta);
-
-                                        $enrol = $instruktur + $peserta;
-                                    @endphp
-                                    <span>{{$enrol}}</span>
-                                </div>
-                                <span>Peserta</span>
-                            </div>
-                            <div class="item-info">
-                                <div class="data-info">
-                                    <i class="las la-comment"></i>
-                                    <span>{{ $mata->pelatihan->bahan->count() }}</span>
-                                </div>
-                                <span>Materi</span>
-                            </div>
-                        </div> --}}
                     </div>
                 </div>
+                     
+                </div>
             </div>
-        </div>
+             @else 
+                <h6 class="text-center">Tidak Ada Peserta Yang mengikuti pelatihan Khusus</h1>  
+            @endif
         @endforeach
     </div>
     </div>

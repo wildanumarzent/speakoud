@@ -54,6 +54,7 @@ class KompetensiService
 
         // dd($pesertaID);
         $query = $this->mata->query();
+        $query->publish();
         $query->with('kompetensiMata');
         $query->whereDoesntHave('peserta', function($q) use($pesertaID) {
             $q->where('id','!=',$pesertaID);

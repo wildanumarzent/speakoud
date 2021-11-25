@@ -103,6 +103,7 @@
                     @include('components.field-error', ['field' => 'place_of_birthday'])
                 </div>
             </div>
+          
 			<div class="form-group row">
                 <div class="col-md-2 text-md-left">
                     <label class="col-form-label text-sm-right">Tanggal Lahir</label>
@@ -110,7 +111,7 @@
                 <div class="col-md-10">
                     <div class="input-group">
                         <input type="text" class="date-picker form-control @error('date_of_birthday') is-invalid @enderror" name="date_of_birthday"
-                            value="{{ (isset($data['user'])) ? (!empty($data['user']->information->date_of_birthday) ? old('date_of_birthday', $data['peserta']->user->information->date_of_birthday->format('Y-m-d')) : '') : old('date_of_birthday') }}" placeholder="masukan tanggal lahir...">
+                            value="{{ (isset($data['user'])) ? (!empty($data['user']->information->date_of_birthday) ? old('date_of_birthday', $data['user']->information->date_of_birthday->format('Y-m-d')) : '') : old('date_of_birthday') }}" placeholder="masukan tanggal lahir...">
                         <div class="input-group-append">
                             <span class="input-group-text"><i class="las la-calendar"></i></span>
                         </div>

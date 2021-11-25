@@ -96,7 +96,7 @@ class MataService
 		// $query->where('publish_end', '>=', now());
 		$query->when($request->q, function ($query, $q) {
 			$query->where(function ($query) use ($q) {
-				$query->where('judul', 'ilike', '%'.$q.'%');
+				$query->where('judul', 'like', '%'.$q.'%');
 			});
 		});
 		if (isset($request->p)) {
@@ -491,7 +491,7 @@ class MataService
 		// $query->where('publish_end', '>=', now());
 		$query->when($request->q, function ($query, $q) {
 			$query->where(function ($query) use ($q) {
-				$query->where('judul', 'ilike', '%'.$q.'%');
+				$query->where('judul', 'like', '%'.$q.'%');
 			});
 		});
 		if (isset($request->p)) {

@@ -56,9 +56,9 @@ class UserService
             });
         })->when($request->q, function ($query, $q) {
             $query->where(function ($query) use ($q) {
-                $query->where('name', 'ilike', '%'.$q.'%')
-                ->orWhere('email', 'ilike', '%'.$q.'%')
-                ->orWhere('username', 'ilike', '%'.$q.'%');
+                $query->where('name', 'like', '%'.$q.'%')
+                ->orWhere('email', 'like', '%'.$q.'%')
+                ->orWhere('username', 'like', '%'.$q.'%');
             });
         });
 
@@ -283,12 +283,10 @@ class UserService
             $peserta->Departemen = $request->departemen ?? null;
             $peserta->foto_sertifikat = ($request->foto_sertifikat != null) ? 
             $fotoSertifikat : $peserta->foto_sertifikat;
-            // dd(!empty($request->jenis_kelamin) && !empty($request->tempat_lahir) &&
-            //     !empty($request->tanggal_lahir) && !empty($request->no_hp) &&
-            //     !empty($request->name));
 
-            if (!empty($request->jenis_kelamin) && !empty($request->tempat_lahir) &&
-                !empty($request->tanggal_lahir) && !empty($request->no_hp) &&
+
+            if (!empty($request->gender) && !empty($request->place_of_birthday) &&
+                !empty($request->date_of_birthday) && !empty($request->phone) &&
                 !empty($request->name)) {
                 $peserta->status_peserta = 1;
             } else {
@@ -305,6 +303,7 @@ class UserService
 
     public function updateProfileFrontInstruktur($request, int $id)
     {
+       
         $user = $this->findUser($id);
         $user->fill($request->only(['name', 'email', 'username']));
 
@@ -355,6 +354,7 @@ class UserService
 
      public function updateProfileFront($request, int $id)
     {
+        
         $user = $this->findUser($id);
         $user->fill($request->only(['name', 'email', 'username']));
 
@@ -498,12 +498,14 @@ class UserService
 
     public function setMataPeserta($MataId, $pesertaId)
     {
-       $data = MataPeserta::updateOrCreate([
-            'id' => $pesertaId
-        ],[
-            'mata_id' => $MataId,
-            'peserta_id' => $pesertaId
-        ]);
-       return $data;
+       $enroll = MataPeserta::where('mata_id', $MataId)->where('peserta_id',$pesertaId)->get();
+       if (count($enroll) == 0) {
+            $mataPeserta = new MataPeserta;
+            $mataPeserta->mata_id = $MataId;
+            $mataPeserta->peserta_id = $pesertaId;
+            return $mataPeserta->save();
+       }else{
+           return false;
+       }
     }
 }

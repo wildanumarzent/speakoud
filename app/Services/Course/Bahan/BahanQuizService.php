@@ -27,9 +27,9 @@ class BahanQuizService
         $query->when($request->q, function ($query, $q) {
             $query->where(function ($queryA) use ($q) {
                 $queryA->whereHas('user', function (Builder $queryB) use ($q) {
-                    $queryB->where('name', 'ilike', '%'.$q.'%')
+                    $queryB->where('name', 'like', '%'.$q.'%')
                         ->orWhereHas('peserta', function (Builder $queryC) use ($q) {
-                            $queryC->orWhere('nip', 'ilike', '%'.$q.'%');
+                            $queryC->orWhere('nip', 'like', '%'.$q.'%');
                         });
                 });
             });

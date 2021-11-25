@@ -25,7 +25,7 @@ class ArtikelService
 
         $query->when($request->q, function ($query, $q) {
             $query->where(function ($query) use ($q) {
-                $query->where('judul', 'ilike', '%'.$q.'%');
+                $query->where('judul', 'like', '%'.$q.'%');
             });
         });
 

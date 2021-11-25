@@ -109,10 +109,10 @@
                         <a class="btn btn-success btn-sm icon-btn-only-sm mr-1" href="{{ route('mata.index', ['id' => $item->id]) }}" title="klik untuk melihat program pelatihan">
                             <i class="las la-book"></i> <span>Program</span>
                         </a>
+                        @if (auth()->user()->hasRole('developer|administrator|internal') || $item->creator_id == auth()->user()->id)
                         <div class="btn-group dropdown ml-2">
                             <button type="button" class="btn btn-warning btn-sm dropdown-toggle hide-arrow" data-toggle="dropdown" title="klik untuk melihat user enroll"><i class="las la-ellipsis-v"></i><span>Aksi</span></button>
                             <div class="dropdown-menu dropdown-menu-right">
-                                @if (auth()->user()->hasRole('developer|administrator|internal') || $item->creator_id == auth()->user()->id)
                                 <a href="{{ route('program.edit', ['id' => $item->id]) }}" class="dropdown-item" title="klik untuk mengedit kategori pelatihan">
                                     <i class="las la-pen"></i><span>Ubah</span>
                                 </a>
@@ -126,9 +126,10 @@
                                         @method('PUT')
                                     </form>
                                 </a>
-                                @endif
+                               
                             </div>
                         </div>
+                         @endif
                     </div>
                 </div>
               </div>

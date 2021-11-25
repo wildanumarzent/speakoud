@@ -183,15 +183,16 @@ class UserController extends Controller
             ->with('success', 'User berhasil diubah');
     }
 
-public function updateProfile(Request $request)
+    public function updateProfile(ProfileRequest $request)
     {
-        // return $request->all();
+        // dd($request->all());
         $this->service->updateProfile($request, Auth::user()->id);
         return back()->with('success', 'Profile berhasil diubah');
     }
 
     public function updateProfileFront(ProfileRequest $request, $id)
     {
+     
         $this->service->updateProfileFront($request, Auth::user()->id);
         return redirect()->route('course.detail',['id' => $id])
             ->with('success', 'Data User Berhasil Di Update');

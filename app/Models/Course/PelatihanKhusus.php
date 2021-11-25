@@ -25,4 +25,9 @@ class PelatihanKhusus extends Model
     {
         return $this->belongsTo(Instruktur::class, 'instruktur_id');
     }
+
+    public function mataPelatihan()
+    {
+        return $this->belongsTo(MataPelatihan::class, 'mata_id');
+    }
 }

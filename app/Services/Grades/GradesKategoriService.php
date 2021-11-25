@@ -19,7 +19,7 @@ class GradesKategoriService
 
         $query->when($request->q, function ($query, $q) {
             $query->where(function ($query) use ($q) {
-                $query->where('nama', 'ilike', '%'.$q.'%');
+                $query->where('nama', 'like', '%'.$q.'%');
             });
         });
 

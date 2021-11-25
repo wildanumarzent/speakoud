@@ -20,8 +20,8 @@ class JabatanService
         $query = $this->model->query();
 
         $query->when($request->q, function ($query, $q) {
-            $query->where('nama', 'ilike', '%'.$q.'%')
-                ->orWhere('keterangan', 'ilike', '%'.$q.'%');
+            $query->where('nama', 'like', '%'.$q.'%')
+                ->orWhere('keterangan', 'like', '%'.$q.'%');
         });
 
         $limit = 20;

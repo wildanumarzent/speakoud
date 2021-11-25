@@ -19,8 +19,8 @@ class ProgramService
         $query = $this->model->query();
             $query->when($request->q, function ($query, $q) {
                 $query->where(function ($query) use ($q) {
-                    $query->where('judul', 'ilike', '%'.$q.'%')
-                        ->orWhere('keterangan', 'ilike', '%'.$q.'%');
+                    $query->where('judul', 'like', '%'.$q.'%')
+                        ->orWhere('keterangan', 'like', '%'.$q.'%');
                 });
             }); 
 
@@ -49,8 +49,8 @@ class ProgramService
           $query = $this->model->query();
             $query->when($request->q, function ($query, $q) {
                 $query->where(function ($query) use ($q) {
-                    $query->where('judul', 'ilike', '%'.$q.'%')
-                        ->orWhere('keterangan', 'ilike', '%'.$q.'%');
+                    $query->where('judul', 'like', '%'.$q.'%')
+                        ->orWhere('keterangan', 'like', '%'.$q.'%');
                 });
             }); 
 
@@ -71,8 +71,8 @@ class ProgramService
         $query = $this->model->where('creator_id',auth()->user()->id );
             $query->when($request->q, function ($query, $q) {
                 $query->where(function ($query) use ($q) {
-                    $query->where('judul', 'ilike', '%'.$q.'%')
-                        ->orWhere('keterangan', 'ilike', '%'.$q.'%');
+                    $query->where('judul', 'like', '%'.$q.'%')
+                        ->orWhere('keterangan', 'like', '%'.$q.'%');
                 });
             }); 
 

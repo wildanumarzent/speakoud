@@ -28,8 +28,8 @@ class MateriService
         $query->where('mata_id', $mataId);
         $query->when($request->q, function ($query, $q) {
             $query->where(function ($query) use ($q) {
-                $query->where('judul', 'ilike', '%'.$q.'%')
-                    ->orWhere('keterangan', 'ilike', '%'.$q.'%');
+                $query->where('judul', 'like', '%'.$q.'%')
+                    ->orWhere('keterangan', 'like', '%'.$q.'%');
             });
         });
         if (isset($request->p)) {

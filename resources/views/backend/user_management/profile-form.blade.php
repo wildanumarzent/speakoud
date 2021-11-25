@@ -73,40 +73,24 @@
                   <label class="col-form-label text-sm-left">Jenis Kelamin</label>
                 </div>
                 <div class="col-md-10">
-                    <select class="selectpicker show-tick" data-style="btn-default" name="jenis_kelamin">
+                    <select class="selectpicker show-tick" data-style="btn-default" name="gender">
                         <option value=" " selected>Pilih</option>
                         @foreach (config('addon.master_data.jenis_kelamin') as $key => $value)
-                        <option value="{{ $key }}" {{ old('jenis_kelamin', $data['user']->peserta->jenis_kelamin) == ''.$key.'' ? 'selected' : '' }}>{{ $value }}</option>
+                        <option value="{{ $key }}" {{ old('gender', $data['user']->information->gender) == ''.$key.'' ? 'selected' : '' }}>{{ $value }}</option>
                         @endforeach
                     </select>
-                    @if ($data['user']->peserta->jenis_kelamin < '0')
+                    @if ($data['user']->peserta->jenis_kelamin < 0)
                     <span style="color: red;"><i>*belum diisi</i></span>
                     @endif
                 </div>
             </div>
-            {{-- <div class="form-group row">
-                <div class="col-md-2 text-md-left">
-                  <label class="col-form-label text-sm-left">Agama</label>
-                </div>
-                <div class="col-md-10">
-                    <select class="selectpicker show-tick" data-style="btn-default" name="agama">
-                        <option value=" " selected>Pilih</option>
-                        @foreach (config('addon.master_data.agama') as $key => $value)
-                        <option value="{{ $key }}" {{ old('agama', $data['user']->peserta->agama) == ''.$key.'' ? 'selected' : '' }}>{{ $value }}</option>
-                        @endforeach
-                    </select>
-                    @if ($data['user']->peserta->agama < '0')
-                    <span style="color: red;"><i>*belum diisi</i></span>
-                    @endif
-                </div>
-            </div> --}}
             <div class="form-group row">
                 <div class="col-md-2 text-md-left">
                   <label class="col-form-label text-sm-left">Tempat Lahir</label>
                 </div>
                 <div class="col-md-10">
-                    <input type="text" class="form-control mb-1 @error('tempat_lahir') is-invalid @enderror" name="tempat_lahir" value="{{ old('tempat_lahir', $data['user']->peserta->tempat_lahir) }}" placeholder="Masukan tempat lahir...">
-                    @if (empty($data['user']->peserta->tempat_lahir))
+                    <input type="text" class="form-control mb-1 @error('place_of_birthday') is-invalid @enderror" name="place_of_birthday" value="{{ old('place_of_brithday', $data['user']->information->place_of_birthday) }}" placeholder="Masukan tempat lahir...">
+                    @if (empty($data['user']->information->place_of_birthday))
                     <span style="color: red;"><i>*belum diisi</i></span>
                     @endif
                 </div>
@@ -117,14 +101,14 @@
                 </div>
                 <div class="col-md-10">
                     <div class="input-group">
-                        <input type="text" class="date-picker form-control @error('tanggal_lahir') is-invalid @enderror" name="tanggal_lahir"
-                            value="{{ !empty($data['user']->peserta->tanggal_lahir) ? old('tanggal_lahir', $data['user']->peserta->tanggal_lahir->format('Y-m-d')) : '' }}" placeholder="masukan tanggal lahir...">
+                        <input type="text" class="date-picker form-control @error('date_of_birthday') is-invalid @enderror" name="date_of_birthday"
+                            value="{{ !empty($data['user']->information->date_of_birthday) ? old('date_of_birthday', $data['user']->information->date_of_birthday->format('Y-m-d')) : '' }}" placeholder="masukan tanggal lahir...">
                         <div class="input-group-append">
                             <span class="input-group-text"><i class="las la-calendar"></i></span>
                         </div>
-                        @include('components.field-error', ['field' => 'tanggal_lahir'])
+                        @include('components.field-error', ['field' => 'date_of_birthday'])
                     </div>
-                    @if (empty($data['user']->peserta->tanggal_lahir))
+                    @if (empty($data['user']->information->date_of_birthday))
                     <span style="color: red;"><i>*belum diisi</i></span>
                     @endif
                 </div>
@@ -138,11 +122,11 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text">+62</span>
                         </div>
-                        <input type="text" class="form-control @error('no_hp') is-invalid @enderror" name="no_hp" value="{{ old('phone', $data['information']->no_hp ?? '') }}" placeholder="Masukan telpon...">
-                        @include('components.field-error', ['field' => 'no_hp'])
+                        <input type="text" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ old('phone', $data['user']->information->phone ?? '') }}" placeholder="Masukan telpon...">
+                        @include('components.field-error', ['field' => 'phone'])
                     </div>
                     @role ('peserta_internal|peserta_mitra|administrator|instruktur_internal')
-                    @if (empty($data['information']->no_hp))
+                    @if (empty($data['user']->information->phone))
                     <span style="color: red;"><i>*belum diisi</i></span>
                     @endif
                     @endrole
@@ -214,8 +198,8 @@
                   <label class="col-form-label text-sm-left">Username</label>
                 </div>
                 <div class="col-md-10">
-                    <input type="text" class="form-control mb-1 @error('username') is-invalid @enderror" name="username" value=""
-                        placeholder="Masukan username...">
+                    <input type="text" class="form-control mb-1 @error('username') is-invalid @enderror" name="username"
+                        placeholder="Masukan username..." value="{{ old('username', $data['user']->username) }}">
                     @include('components.field-error', ['field' => 'username'])
                 </div>
             </div>
@@ -239,7 +223,7 @@
                 <div class="col-md-2 text-md-left">
                   <label class="col-form-label text-sm-left">Password Baru</label>
                 </div>
-                <div class="col-md-10">
+                <div class="col-md-10"> 
                     <div class="input-group">
                         <input type="password" id="password-field" class="form-control gen-field @error('password') is-invalid @enderror" name="password"
                             placeholder="Masukan password baru...">

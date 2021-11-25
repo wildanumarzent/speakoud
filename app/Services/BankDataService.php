@@ -60,8 +60,8 @@ class BankDataService
             $query = $this->model->query();
             $query->when($request->q, function ($query, $q) {
                 $query->where(function ($query) use ($q) {
-                    $query->where('file_path', 'ilike', '%'.$q.'%');
-                    $query->orWhere('filename', 'ilike', '%'.$q.'%');
+                    $query->where('file_path', 'like', '%'.$q.'%');
+                    $query->orWhere('filename', 'like', '%'.$q.'%');
                 });
             })->when($request->path, function ($query, $path) {
                 $query->where(function ($query) use ($path) {
@@ -201,8 +201,8 @@ class BankDataService
             $query = $this->model->query();
             $query->when($request->q, function ($query, $q) {
                 $query->where(function ($query) use ($q) {
-                    $query->where('file_path', 'ilike', '%'.$q.'%');
-                    $query->orWhere('filename', 'ilike', '%'.$q.'%');
+                    $query->where('file_path', 'like', '%'.$q.'%');
+                    $query->orWhere('filename', 'like', '%'.$q.'%');
                 });
             });
 
