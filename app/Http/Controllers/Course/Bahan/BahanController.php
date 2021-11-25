@@ -79,20 +79,32 @@ class BahanController extends Controller
         $data['bahan'] = $this->service->findBahan($id);
         $data['materi'] = $this->serviceMateri->findMateri($data['bahan']->materi_id);
         $data['materi_lain'] = $this->serviceMateri->getMateriByMata($data['bahan']->mata_id);
+       
         $data['jump'] = $this->service->bahanJump($mataId, $id);
         $data['prev'] = $this->service->bahanPrevNext($data['materi']->id, $data['bahan']->urutan, 'prev');
         $data['next'] = $this->service->bahanPrevNext($data['materi']->id, $data['bahan']->urutan, 'next');
-      
+        
         if (!auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
+            
             if ($tipe == 'conference' && $data['bahan']->publish == 0) {
                 return abort(404);
             }
         }
 
         if (auth()->user()->hasRole('peserta_internal|peserta_mitra|instruktur_internal')) {
-           
+          
             if (now()->format('Y-m-d H:i:s') > $data['mata']->publish_end->format('Y-m-d H:i:s')) {
-                return back()->with('warning', 'Pelatihan telah selesai');
+                  
+               return back()->with('warning', 'Pelatihan telah selesai');
+            }else{
+                return view('frontend.course.bahan.'.$tipe, compact('data'), [
+                'title' => 'Course - Bahan',
+                'breadcrumbsBackend' => [
+                    'Course' => route('course.list'),
+                    'Detail' => route('course.detail', ['id' => $mataId]),
+                    'Preview' => '',
+                ],
+            ]);
             }
 
             if ($data['bahan']->program->publish == 0 || $data['bahan']->mata->publish == 0 ||
@@ -106,7 +118,7 @@ class BahanController extends Controller
             // }
  
             // restrict
-            
+                    
             if (auth()->user()->hasRole('peserta_internal')) {
 
              if ($data['bahan']->restrict_access >= '0') {
@@ -118,7 +130,7 @@ class BahanController extends Controller
                             $data['bahan']->restrictBahan($data['bahan']->requirement)->judul);
                     }
                 }
-
+      
                 if ($data['bahan']->restrict_access == 1) {
                     if ($tipe == 'dokumen' || $tipe == 'scorm' || $tipe == 'audio' || $tipe == 'video') {
                         if (now() < $data['bahan']->publish_start) {
@@ -131,14 +143,14 @@ class BahanController extends Controller
                     }
                 }
             }
-       
+          
             // record completion
             if (empty($data['bahan']->activityCompletionByUser) && $data['bahan']->completion_type > 0) {
                 $this->serviceActivity->recordActivity($id);
 
                 return redirect()->route('course.bahan', ['id' => $mataId, 'bahanId' => $id, 'tipe' => $data['bahan']->type($data['bahan'])['tipe']]);
             }
-     
+   
             //completion time
             if ($data['bahan']->completion_type == 3 && !empty($data['bahan']->completion_parameter) &&
                 !empty($data['bahan']->activityCompletionByUser)) {
@@ -162,7 +174,8 @@ class BahanController extends Controller
         if ($tipe == 'forum') {
             $data['topik'] = $this->serviceBahanForum->getTopikList($data['bahan']->forum->id);
         }
-        
+            
+
         if ($tipe == 'quiz') {
 
             if (!empty($data['bahan']->quiz->trackUserIn)) {
@@ -178,7 +191,6 @@ class BahanController extends Controller
                 }
             }
         }
-    
 
         if ($tipe == 'scorm') {
             $data['checkpoint'] = $this->serviceScorm->checkpoint(auth()->user()->id,$data['bahan']->scorm->id);
@@ -186,29 +198,29 @@ class BahanController extends Controller
                 $data['cpData'] = json_decode($data['checkpoint']->checkpoint,true);
             }
         }
-
+ 
         if ($tipe == 'evaluasi-pengajar') {
             $evaluasi = $data['bahan']->evaluasiPengajar->mataInstruktur;
-            if (!empty($evaluasi->kode_evaluasi)) {
-                $data['preview'] = $this->serviceEvaluasi->preview($evaluasi->kode_evaluasi)->data->evaluasi;
-                if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
-                    $data['apiUser'] = $this->serviceEvaluasi->checkUserPengajar($mataId, $id)->first();
+                if (!empty($evaluasi->kode_evaluasi)) {
+                    $data['preview'] = $this->serviceEvaluasi->preview($evaluasi->kode_evaluasi)->data->evaluasi;
+                    if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
+                        $data['apiUser'] = $this->serviceEvaluasi->checkUserPengajar($mataId, $id)->first();
+                    }
+                } else {
+                    return abort(404);
                 }
-            } else {
-                return abort(404);
-            }
         }
          }
-        // dd("masuk dan");
+    
         // $data['pdf'] = response()->file(storage_path('/app/bank_data/'.$data['bahan']->dokumen->bankData->file_path));
         // return $data['bahan']->dokumen->bankData->file_path;
         return view('frontend.course.bahan.'.$tipe, compact('data'), [
             'title' => 'Course - Bahan',
-            // 'breadcrumbsBackend' => [
-            //     'Course' => route('course.list'),
-            //     'Detail' => route('course.detail', ['id' => $mataId]),
-            //     'Preview' => '',
-            // ],
+            'breadcrumbsBackend' => [
+                'Course' => route('course.list'),
+                'Detail' => route('course.detail', ['id' => $mataId]),
+                'Preview' => '',
+            ],
         ]);
     }
 

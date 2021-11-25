@@ -129,9 +129,13 @@ class PesertaController extends Controller
             'link_speakoud' => route('home'),
             'link_pelatihan' => route('pelatihan.detail',['id' => $id])
         ];
-
-        Mail::to($dataPeserta->peserta->user->email)->send(new \App\Mail\SendEnrollProgramNotification($data));
-        return redirect()->back()->with('success', 'Akses berhasil di berikan');
+        try{
+            Mail::to($dataPeserta->peserta->user->email)->send(new \App\Mail\SendEnrollProgramNotification($data));
+            return redirect()->back()->with('success', 'Akses berhasil di berikan');
+        }catch(\Exception $e){
+            return redirect()->back()->with('success', 'Akses berhasil di berikan');
+        }
+       
     }
 
     public function mintaAkses_pelatihan($mataId, $pesertaId)
@@ -150,9 +154,13 @@ class PesertaController extends Controller
             'link_accept_pelatihanKhusus' =>route('peserta.detailAkses', ['id' => $data['id_pelatihan_khusus']]),
             'type_pelatihan' => 'KHUSUS'
         ];
-
-        Mail::to('contact@speakoud.com')->send(new \App\Mail\ActivateAccountMail($data));
-        return redirect()->back()->with('success', 'Permintaan Akses Berhasil Di kirimkan, mohon tunggu sebentar kami akan mengirimkan pemberitahuan persetuajan lewat email anda');
+        try {
+            Mail::to('contact@speakoud.com')->send(new \App\Mail\ActivateAccountMail($data));
+            return redirect()->back()->with('success', 'Permintaan Akses Berhasil Di kirimkan, mohon tunggu sebentar kami akan mengirimkan pemberitahuan persetuajan lewat email anda'); 
+        } catch (\Throwable $th) {
+           return redirect()->back()->with('success', 'Permintaan Akses Berhasil Di kirimkan, mohon tunggu sebentar kami akan mengirimkan pemberitahuan persetuajan lewat email anda'); 
+        }
+       
     }
 
     public function softDelete($id)

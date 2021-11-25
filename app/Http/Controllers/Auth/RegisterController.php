@@ -136,14 +136,23 @@ class RegisterController extends Controller
                 'link_accept_pelatihanKhusus' =>route('peserta.detailAkses', ['id' => $dataPeserta['peserta']->id]),
                 'type_pelatihan' => 'KHUSUS'
             ];
-            Mail::to($request->email)->send(new \App\Mail\NotifKhusus($data));
-            Mail::to("contact@speakoud.com")->send(new \App\Mail\ActivateAccountMail($data));
+            try {
+                Mail::to($request->email)->send(new \App\Mail\NotifKhusus($data));
+                Mail::to("contact@speakoud.com")->send(new \App\Mail\ActivateAccountMail($data));
 
             $remember = $request->has('remember') ? true : false;
             if (Auth::attempt($request->forms(), $remember)) { 
                     return redirect()->route('pelatihan.detail',['id' =>$request->mataId ])->with('success', 'Registerasi berhasil, pelatihan anda sedang di tinjau,
                     Kami akan mengirimkan pemberitahuan persutujuan lewat Email anda');
             }
+            } catch (\Throwable $th) {
+                $remember = $request->has('remember') ? true : false;
+                if (Auth::attempt($request->forms(), $remember)) { 
+                        return redirect()->route('pelatihan.detail',['id' =>$request->mataId ])->with('success', 'Registerasi berhasil, pelatihan anda sedang di tinjau,
+                        Kami akan mengirimkan pemberitahuan persutujuan lewat Email anda');
+                }
+            }
+           
             
         }
         
@@ -160,13 +169,22 @@ class RegisterController extends Controller
             'link_accept_pelatihanKhusus' =>route('peserta.detailAkses', ['id' => $dataPeserta['peserta']->id]),
             'type_pelatihan' => 'FREE'
             ];
-            Mail::to($request->email)->send(new \App\Mail\Notif($data));
-            Mail::to("contact@speakoud.com")->send(new \App\Mail\ActivateAccountMail($data));
-            $remember = $request->has('remember') ? true : false;
-           if (Auth::attempt($request->forms(), $remember)) {
-                return redirect()->route('pelatihan.detail',['id' =>$request->mataId ])->with('success', 'Register berhasil, 
-                Selamat bergabung menjadi Member Speakoud, Happy Learning !!');
+            try {
+                Mail::to($request->email)->send(new \App\Mail\Notif($data));
+                Mail::to("contact@speakoud.com")->send(new \App\Mail\ActivateAccountMail($data));
+                $remember = $request->has('remember') ? true : false;
+                if (Auth::attempt($request->forms(), $remember)) {
+                    return redirect()->route('pelatihan.detail',['id' =>$request->mataId ])->with('success', 'Register berhasil, 
+                    Selamat bergabung menjadi Member Speakoud, Happy Learning !!');
+                }
+            } catch (\Throwable $th) {
+                $remember = $request->has('remember') ? true : false;
+                if (Auth::attempt($request->forms(), $remember)) {
+                    return redirect()->route('pelatihan.detail',['id' =>$request->mataId ])->with('success', 'Register berhasil, 
+                    Selamat bergabung menjadi Member Speakoud, Happy Learning !!');
+                }
             }
+           
         }
 
         

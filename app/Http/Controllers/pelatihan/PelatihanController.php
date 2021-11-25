@@ -288,7 +288,7 @@ class PelatihanController extends Controller
                 return abort(404);
             }
         }
-            // dd("masuk dan");
+        // dd("masuk dan");
         // $data['pdf'] = response()->file(storage_path('/app/bank_data/'.$data['bahan']->dokumen->bankData->file_path));
         // return $data['bahan']->dokumen->bankData->file_path;
         return view('frontend.course.roomMateri.'.$tipe, compact('data'), [

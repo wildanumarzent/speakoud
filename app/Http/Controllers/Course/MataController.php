@@ -165,6 +165,7 @@ class MataController extends Controller
 
     public function courseDetail($id)
     {
+        
         $data['read'] = $this->service->findMata($id);
         $data['materi'] = $this->serviceMateri->getMateriByMata($id);
         $data['other_mata'] = $this->service->getOtherMata($id);
@@ -366,8 +367,7 @@ class MataController extends Controller
                 return back()->with('warning', $cekApi->error_message[0]);
             }
         }
-            $this->kompetensi->storeKompetensiMata($request['kompetensi_id'],$id);
-
+        $this->kompetensi->storeKompetensiMata($request['kompetensi_id'],$id);
         $bobot = ($request->join_vidconf + $request->activity_completion +
             $request->forum_diskusi + $request->webinar + $request->progress_test +
             $request->quiz + $request->tugas_mandiri + $request->post_test);
