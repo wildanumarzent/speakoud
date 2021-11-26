@@ -63,6 +63,7 @@ class ActivityTrackController extends Controller
     public function submit($userId,$bahanId)
     {
         $bahan = $this->bahan->findBahan($bahanId);
+    
         ActivityCompletion::create([
             'user_id' => $userId,
             'bahan_id' => $bahan->id,

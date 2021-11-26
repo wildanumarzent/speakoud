@@ -185,21 +185,20 @@ class UserController extends Controller
 
     public function updateProfile(ProfileRequest $request)
     {
-        // dd($request->all());
+
         $this->service->updateProfile($request, Auth::user()->id);
         return back()->with('success', 'Profile berhasil diubah');
     }
 
-    public function updateProfileFront(ProfileRequest $request, $id)
+    public function updateProfileFront(Request $request, $id)
     {
-     
+        // dd($request->all());
         $this->service->updateProfileFront($request, Auth::user()->id);
         return redirect()->route('course.detail',['id' => $id])
             ->with('success', 'Data User Berhasil Di Update');
     }
     public function updateProfileFrontInstruktur(Request $request, $id)
     {
-        //   dd($request->all());
         $this->service->updateProfileFront($request, Auth::user()->id);
         return redirect()->route('pelatihan.mata',['id' => $id])
             ->with('success', 'Data User Berhasil Di Update');

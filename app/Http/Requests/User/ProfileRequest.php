@@ -38,9 +38,9 @@ class ProfileRequest extends FormRequest
                 'gender' => 'required',
                 'place_of_birthday' => 'required',
                 'phone' => 'required',
-                'kota_tinggal' => 'required',
-                'pekerjaan' => 'required',
-                'pendidikan' => 'required',
+                'city' => 'required',
+                // 'pekerjaan' => 'required',
+                // 'pendidikan' => 'required',
 
             ];
 
@@ -57,9 +57,9 @@ class ProfileRequest extends FormRequest
                 'gender' => 'required',
                 'place_of_birthday' => 'required',
                 'phone' => 'required',
-                'kota_tinggal' => 'required',
-                'pekerjaan' => 'required',
-                'pendidikan' => 'required',
+                'city' => 'required',
+                // 'pekerjaan' => 'required',
+                // 'pendidikan' => 'required',
             ];
 
         }
@@ -78,9 +78,9 @@ class ProfileRequest extends FormRequest
             'gender' => 'jenis kelamin',
             'place_of_birthday' => 'tempat lahir',
             'phone' => 'phone',
-            'kota_tinggal' => 'kota tinggal',
-            'pekerjaan' => 'pekerjaan',
-            'pendidikan' => 'pendidikan',
+            'city' => 'kota tinggal',
+            // 'pekerjaan' => 'pekerjaan',
+            // 'pendidikan' => 'pendidikan',
         ];
     }
 
@@ -103,10 +103,8 @@ class ProfileRequest extends FormRequest
             'gender.required' => ':attribute tidak boleh kosong',
             'place_of_birthday.required' => ':attribute tidak boleh kosong',
             'phone.required' => ':attribute tidak boleh kosong',
-            'kota_tinggal.required' => ':attribute tidak boleh kosong',
+            'city.required' => ':attribute tidak boleh kosong',
             'date_of_birthday.required' => ':attribute tidak boleh kosong',
-            'pendidikan.required' => ':attribute tidak boleh kosong',
-            'pekerjaan.required' => ':attribute tidak boleh kosong',
         ];
     }
 }

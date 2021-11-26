@@ -64,12 +64,14 @@ class ActivityService
 
     public function complete(int $bahanId)
     {
+      
         $bahan = $this->bahan->findBahan($bahanId);
-
         $complete = $this->model->where('program_id', $bahan->program_id)
             ->where('mata_id', $bahan->mata_id)->where('materi_id', $bahan->materi_id)
             ->where('bahan_id', $bahanId)->where('user_id', auth()->user()->id)->first();
+       
         $complete->track_end = now();
+        // dd(auth()->user()->hasRole('peserta_internal|peserta_mitra'));
         if (auth()->user()->hasRole('peserta_internal|peserta_mitra')) {
             $status = 1;
         } else {

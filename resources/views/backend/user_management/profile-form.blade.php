@@ -67,7 +67,7 @@
                   @include('components.field-error', ['field' => 'name'])
                 </div>
             </div>
-            @role ('peserta_internal|peserta_mitra')
+            @role ('peserta_internal|peserta_mitra|instruktur_internal')
             <div class="form-group row">
                 <div class="col-md-2 text-md-left">
                   <label class="col-form-label text-sm-left">Jenis Kelamin</label>
@@ -79,7 +79,7 @@
                         <option value="{{ $key }}" {{ old('gender', $data['user']->information->gender) == ''.$key.'' ? 'selected' : '' }}>{{ $value }}</option>
                         @endforeach
                     </select>
-                    @if ($data['user']->peserta->jenis_kelamin < 0)
+                    @if (empty($data['user']->information->gender))
                     <span style="color: red;"><i>*belum diisi</i></span>
                     @endif
                 </div>
@@ -133,17 +133,18 @@
                 </div>
             </div>
              @endrole
-
-            @role ('peserta_internal|peserta_mitra')
+            
             <div class="form-group row">
                 <div class="col-md-2 text-md-left">
                     <label class="col-form-label text-sm-left">Kota Tinggal</label>
                 </div>
                 <div class="col-md-10">
-                    <input type="text" class="form-control @error('address') is-invalid @enderror" name="kota_tinggal" value="{{ old('kota_tinggal', $data['information'] != null ? $data['information']->kota_tinggal : '') }}" placeholder="Masukan Kota tinggal...">
-                        @include('components.field-error', ['field' => 'address'])
+                    <input type="text" class="form-control @error('city') is-invalid @enderror" name="city" 
+                    value="{{ old('city', $data['user']->information->city ?? '') }}" placeholder="Masukan telpon...">
+                        @include('components.field-error', ['field' => 'city'])
                 </div>
             </div>
+            @role ('peserta_internal|peserta_mitra')
             <div class="form-group row">
                 <div class="col-md-2 text-md-left">
                   <label class="col-form-label text-sm-left">Pendidikan</label>

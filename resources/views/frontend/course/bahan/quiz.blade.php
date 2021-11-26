@@ -37,7 +37,7 @@
             </td>
         </tr>
         @endif
-        @role ('peserta_internal|peserta_mitra')
+        @if (!Auth::user()->hasRole('instruktur_internal|instruktur_mitra') && Auth::user()->hasRole('peserta_internal|peserta_mitra'))
             <tr>
                 <th style="width: 150px;">Tanggal Mulai</th>
                 <td>{{ !empty($data['bahan']->quiz->trackUserIn) ? $data['start_time'] : 'Belum memulai' }}</td>
@@ -107,7 +107,7 @@
                 </th>
             </tr>
             @endif
-        @endrole
+        @endif
     </table>
 </div>
 @endsection

@@ -53,6 +53,7 @@ class MataActivityController extends Controller
 
     public function completion(Request $request, $mataId)
     {
+       
         $q = '';
         if (isset($request->q)) {
             $q = '?q='.$request->q;
