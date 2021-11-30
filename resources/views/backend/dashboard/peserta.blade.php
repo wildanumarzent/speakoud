@@ -67,7 +67,6 @@
 
 <hr class="container-m-nx mt-0 mb-4">
 <h4 class="font-weight-semibold mb-4">Program Pelatihan yang Anda Ikuti :</h4>
-
 @if ($data['latestCourse']->count() == 0)
 <div class="card">
     <div class="card-body">
@@ -108,9 +107,52 @@
   </div>
 
   @endforeach
-{{-- <h1>test</h1> --}}
 </div>
 
+
+{{-- pelatihan yang sudah di setujui --}}
+<hr class="container-m-nx mt-0 mb-4">
+<h4 class="font-weight-semibold mb-4">Program Pelatihan Yang Sudah Di Setujui :</h4>
+
+@if ($data['latestCourse']->count() == 0)
+<div class="card">
+    <div class="card-body">
+        <i style="color: red;">! tidak ada program yang di setujui !</i>
+    </div>
+</div>
+@endif
+<div class="row">
+  
+        @foreach ($data['pel_disetujui'] as $pel_approve)
+            <div class="col-sm-6 col-xl-4">
+                <div class="card mb-4">
+                <div class="card-img-top d-block ui-rect-60 ui-bg-cover" style="background-image: url({{ $pel_approve->pelatihan->getCover($pel_approve->pelatihan->cover['filename']) }});">
+                    <div class="d-flex justify-content-end align-items-start ui-rect-content p-3">
+                        <div class="flex-shrink-1">
+                            <span class="badge badge-primary"><i class="las la-calendar"></i>{{$pel_approve->pelatihan->publish_start->format('d F Y')}}</span>
+                        </div>
+                    </div>
+                </div>
+                <hr class="m-0">
+                <div class="card-body">
+                    <div class="mb-3"><a href="javascript:void(0)" class="text-body font-weight-semibold">{{$pel_approve->pelatihan->judul}}</a></div>
+                    <div class="d-flex justify-content-between align-items-center small">
+                    <div class="font-weight-bold">{{$pel_approve->pelatihan->extra(auth()->user()->id)->first()->persentase ?? '0'}}%</div>
+                    <div class="text-muted">Progress</div>
+                    </div>
+                    <div class="progress mt-1" style="height: 3px;">
+                    <div class="progress-bar" style="width: {{$pel_approve->pelatihan->extra(auth()->user()->id)->first()->persentase ?? 0}}%"></div>
+                    </div>
+                    <div class="mt-3 text-center">
+                    <a class="btn btn-primary" href="{{ route('pelatihan.mata', ['id' => $pel_approve->pelatihan->id]) }}" title="klik untuk melihat detail pelatihan">
+                        MASUK
+                    </a>
+                    </div>
+                </div>
+                </div>
+            </div>
+        @endforeach
+</div>
 <hr class="container-m-nx mt-0 mb-4">
 <h4 class="font-weight-semibold mb-4">Rekomendasi Pelatihan untuk meningkatkan Kompetensi Anda :</h4>
 
@@ -224,14 +266,14 @@
                         </td>
                     </tr>
                     @endif
-                    @foreach ($data['latestCourse'] as $course)
+                    @foreach ($data['latestCourse'] as $pel_approve->pelatihan)
                     <tr>
-                        <td>{!! $course->judul !!}</td>
-                        <td>{{ $course->publish_start->format('d F Y') }} - {{ $course->publish_end->format('d F Y') }}</td>
-                        <td>{{ $course->peserta->count() }}</td>
-                        <td>{{ $course->materi->count() }}</td>
+                        <td>{!! $pel_approve->pelatihan->judul !!}</td>
+                        <td>{{ $pel_approve->pelatihan->publish_start->format('d F Y') }} - {{ $pel_approve->pelatihan->publish_end->format('d F Y') }}</td>
+                        <td>{{ $pel_approve->pelatihan->peserta->count() }}</td>
+                        <td>{{ $pel_approve->pelatihan->materi->count() }}</td>
                         <td>
-                        <a href="{{ route('pelatihan.mata', ['id' => $course->id]) }}" target="_blank" class="btn btn-primary icon-btn btn-sm" title="klik untuk melihat detail">
+                        <a href="{{ route('pelatihan.mata', ['id' => $pel_approve->pelatihan->id]) }}" target="_blank" class="btn btn-primary icon-btn btn-sm" title="klik untuk melihat detail">
                             <i class="las la-external-link-alt"></i>
                         </a>
                         </td>
@@ -315,7 +357,7 @@
                             <td>{{ $jdwl->start_time.' - '.$jdwl->end_time }}</td>
                             <td>{{ Str::limit($jdwl->lokasi, 20) }}</td>
                             <td>
-                                <a href="{{ route('course.jadwal.detail', ['id' => $jdwl->id]) }}" class="btn btn-primary icon-btn btn-sm">
+                                <a href="{{ route('pel_approve->pelatihan.jadwal.detail', ['id' => $jdwl->id]) }}" class="btn btn-primary icon-btn btn-sm">
                                     <i class="las la-external-link-alt"></i>
                                 </a>
                             </td>
@@ -411,7 +453,7 @@
                             @endif
                         </td>
                         <td>
-                            <a href="{{ route('course.bahan', ['id' => $conf->mata_id, 'bahanId' => $conf->bahan_id, 'tipe' => 'conference']) }}" class="btn btn-primary icon-btn btn-sm">
+                            <a href="{{ route('pel_approve->pelatihan.bahan', ['id' => $conf->mata_id, 'bahanId' => $conf->bahan_id, 'tipe' => 'conference']) }}" class="btn btn-primary icon-btn btn-sm">
                                 <i class="las la-external-link-alt"></i>
                             </a>
                         </td>

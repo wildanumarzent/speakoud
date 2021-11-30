@@ -76,7 +76,7 @@ class HomeController extends Controller
 
     public function dashboard(Request $request)
     {
-         
+        $data['latestCourse'] = $this->mata->getLatestMata();
         $data['counter'] = [
             'internal' => app()->make(InternalService::class)->countInternal(),
             'user_internal' => app()->make(InternalService::class)->countUserAll(),
@@ -100,9 +100,10 @@ class HomeController extends Controller
             $data['rekomendasi'] = $this->kompetensi->getRekomendasiMata(auth()->user()->peserta->id);
             $data['kompetensiMata'] = $this->kompetensi->getKompetensiMata();
             $data['peserta'] = $this->pesertaService->findPesertaByUserId(auth()->user()->id);
+            $data['pel_disetujui'] = $this->pesertaService->getMataApprove($data['latestCourse']->pluck('id'));
         }
-            // return $data['rekomendasi'];
-        $data['latestCourse'] = $this->mata->getLatestMata();
+            
+            // dd($data['pel_disetujui']);
         $data['historyCourse'] = $this->mata->getMataHistory($request, 3);
         $data['jadwalPelatihan'] = app()->make(JadwalService::class)->getJadwal(5);
         $data['videoConference'] = app()->make(BahanConferenceService::class)->latestConference();

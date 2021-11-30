@@ -130,12 +130,6 @@ class PesertaService
             ->where('mata_id', $mataId)->where('peserta_id', $pesertaId)->first();   
     }
 
-    public function getPelatihanKhususInstruktur($instrukturId, $mataId)
-    {
-        return $this->pelatihanKhusus->with('pelatihan')
-            ->where('mata_id', $mataId)->where('instruktur_id', $instrukturId)->first();
-    }
-
     public function findPesertaByUserId($id)
     {
         return $this->model->where('user_id', $id)->first();
@@ -182,10 +176,6 @@ class PesertaService
         $pelatihanKhusus->peserta_id = $peserta->id;
         $pelatihanKhusus->mata_id = $request->mataId ?? null;
         $pelatihanKhusus->save();
-        // dd($peserta);
-        // $user->userable()->associate($peserta);
-        // dd($user);exit;
-        // $user->save();
 
         return [
             'user' => $user,
@@ -247,6 +237,7 @@ class PesertaService
         $give->is_access = 1;
         return $give->update();
     }
+
     public function MintaAkses($mataId, $pesertaId)
     {
         $pelatihanKhusus = new PelatihanKhusus;
@@ -257,6 +248,15 @@ class PesertaService
             'data' => $dataAll,
             'id_pelatihan_khusus' => $pelatihanKhusus->id
         ];
+    }
+
+    public function getMataApprove($mataId)
+    {
+        $mataKhusus = $this->pelatihanKhusus->with('mataPelatihan')
+            ->where('peserta_id', Auth::user()->peserta->id)
+            ->where('is_access', 1)
+            ->whereNotIn('mata_id', $mataId)->get();
+        return $mataKhusus;
     }
 
     public function uploadFile($request, $peserta, $userId, $type, $id = null)

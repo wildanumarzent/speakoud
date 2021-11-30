@@ -19,6 +19,7 @@ class CreateUsersInformationTable extends Migration
             $table->text('place_of_birthday')->nullable();
             $table->timestamp('date_of_birthday')->nullable();
             $table->tinyInteger('gender')->nullable();
+            $table->tinyInteger('pendidikan')->nullable();
             $table->string('city')->nullable();
             $table->text('description')->nullable();
             $table->string('phone')->nullable();
