@@ -89,7 +89,11 @@
                         <option value="{{ $key }}" {{ isset($data['user']) ? (old('gender', $data['user']->information->gender) == ''.$key.'' ? 'selected' : '') : (old('gender') == ''.$key.'' ? 'selected' : '') }}>{{ $value }}</option>
                         @endforeach
                     </select>
+                    @if ($data['user']->information->gender == null || $data['user']->information->gender < 0 )
+                        <span style="color: red;"><i>*belum diisi</i></span>
+                    @endif
                 </div>
+                  
             </div>
 			
 			<div class="form-group row">
@@ -144,6 +148,15 @@
                         @include('components.field-error', ['field' => 'city'])
 				</div>
 			</div>
+            <div class="form-group row">
+               <div class="col-md-2 text-md-left">
+                  <label class="col-form-label text-sm-right">Alamat</label>
+                </div>
+                <div class="col-md-10">
+                    <textarea class="form-control @error('address') is-invalid @enderror" name="address" placeholder="masukan alamat...">{{ (isset($data['user'])) ? old('address', $data['user']->information->address) : old('address') }}</textarea>
+                    @include('components.field-error', ['field' => 'address'])
+                </div>
+            </div>
 		   <div class="form-group row">
 				<div class="col-md-2 text-md-left">
 				  <label class="col-form-label text-sm-left">Pendidikan</label>
@@ -152,13 +165,16 @@
 					<select class="selectpicker show-tick" data-style="btn-default" name="pendidikan">
 						<option value=" " selected>Pilih</option>
 						@foreach (config('addon.label.pendidikan') as $key => $value)
-						<option value="{{ $key }}" {{ old('pendidikan', $data['user']->peserta->pendidikan) == ''.$key.'' ? 'selected' : '' }}>{{ $value }}</option>
+						<option value="{{ $key }}" {{ old('pendidikan', $data['user']->information->pendidikan) == ''.$key.'' ? 'selected' : '' }}>{{ $value }}</option>
 						@endforeach
 					</select>
+                     @if ($data['user']->information->pendidikan == null || $data['user']->information->pendidikan < 0)
+                        <span style="color: red;"><i>*belum diisi</i></span>
+                    @endif
 					@include('components.field-error', ['field' => 'pendidikan'])
 				</div>
 			</div>
-			 <div class="form-group row">
+			<div class="form-group row">
 				<div class="col-md-2 text-md-left">
 				  <label class="col-form-label text-sm-left">Pekerjaan</label>
 				</div>

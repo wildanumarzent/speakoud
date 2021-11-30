@@ -162,7 +162,6 @@ class InstrukturService
 
         $instruktur = new Instruktur;
         $instruktur->user_id =$user->id;
-        $instruktur->pendidikan = $request->pendidikan;
         $instruktur->creator_id = Auth::user()->id ?? $user->id;
         $instruktur->save();
 

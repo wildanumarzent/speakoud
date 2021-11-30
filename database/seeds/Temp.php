@@ -22,8 +22,8 @@ class Temp extends Seeder
             ],
             1 => [
                 'judul' => 'Banner Login',
-                'keterangan' => '<h1>BPPT E-Learning System</h1>
-                                    <h5>Layanan Pelatihan Jarak Jauh oleh Pusbindiklat BPPT.</h5>'
+                'keterangan' => '<h1>SPEAKOUD E-Learning System</h1>
+                                    <h5>Layanan Pelatihan Jarak Jauh oleh Pusbindiklat SPEAKOUD.</h5>'
             ],
         ];
 
@@ -31,14 +31,14 @@ class Temp extends Seeder
             0 => [
                 'banner_kategori_id' => 1,
                 'file' => 'slide-1.jpg',
-                'judul' => 'BPPT E-Learning System',
-                'keterangan' => '<h5>Layanan Pelatihan Jarak Jauh oleh Pusbindiklat BPPT.</h5>',
+                'judul' => 'SPEAKOUD E-Learning System',
+                'keterangan' => '<h5>Layanan Pelatihan Jarak Jauh oleh Pusbindiklat SPEAKOUD.</h5>',
                 'link' => 'javascript:;',
             ],
             1 => [
                 'banner_kategori_id' => 1,
                 'file' => 'slide-2.jpg',
-                'judul' => 'BELS: BPPT E-Learning System',
+                'judul' => 'BELS: SPEAKOUD E-Learning System',
                 'keterangan' => '<h5>Tingkatkan pengetahuan dan keterampilan anda bersama kami, kapan pun dan dimana pun.</h5>',
                 'link' => 'javascript:;',
             ],
@@ -87,13 +87,13 @@ class Temp extends Seeder
         $pages = [
             0 => [
                 'parent' => 0,
-                'judul' => 'Selamat Datang di BPPT E-Learning System',
+                'judul' => 'Selamat Datang di SPEAKOUD E-Learning System',
                 'slug' => 'selamat-datang-di-bppt-elearning-system',
                 'intro' => null,
-                'content' => '<p><strong>Kepala Pusat Pembinaan, Pendidikan dan Pelatihan BPPT</strong></p>
+                'content' => '<p><strong>Kepala Pusat Pembinaan, Pendidikan dan Pelatihan SPEAKOUD</strong></p>
                                 <p><em>Prof. Dr. Ir. Suhendar I. Sachoemar, M.Si.</em></p>
-                                <p>Pusat Pembinaan, Pendidikan dan Pelatihan (Pusbindiklat) Badan Pengkajian dan Penerapan Teknologi (BPPT) bertugas melaksanakan pembinaan, menyelenggarakan pendidikan dan pelatihan perekayasaan teknologi dan pelatihan bidang lainnya. Kegiatan pendidikan dan pelatihan yang telah dilakukan selama ini merupakan kontribusi nyata Pusbindiklat dalam mempersiapkan sumber daya manusia indonesia yang profesional dan kompeten di bidang ilmu pengetahuan dan teknologi (IPTEK).</p>
-                                <p>Dalam rangka memudahkan peserta pelatihan dalam mengikuti pelatihan yang kami selenggarakan, kini kami memfasilitasi pembelajaran secara daring melalui BELS (BPPT E-Learning System). Dengan begitu, para peserta pelatihan dapat mengkuti kegiatan pembelajaran yang kami selenggarakan secara daring dimana saja, dan kapan saja sesuai dengan kebutuhan peserta diklat.</p>',
+                                <p>Pusat Pembinaan, Pendidikan dan Pelatihan (Pusbindiklat) Badan Pengkajian dan Penerapan Teknologi (SPEAKOUD) bertugas melaksanakan pembinaan, menyelenggarakan pendidikan dan pelatihan perekayasaan teknologi dan pelatihan bidang lainnya. Kegiatan pendidikan dan pelatihan yang telah dilakukan selama ini merupakan kontribusi nyata Pusbindiklat dalam mempersiapkan sumber daya manusia indonesia yang profesional dan kompeten di bidang ilmu pengetahuan dan teknologi (IPTEK).</p>
+                                <p>Dalam rangka memudahkan peserta pelatihan dalam mengikuti pelatihan yang kami selenggarakan, kini kami memfasilitasi pembelajaran secara daring melalui BELS (SPEAKOUD E-Learning System). Dengan begitu, para peserta pelatihan dapat mengkuti kegiatan pembelajaran yang kami selenggarakan secara daring dimana saja, dan kapan saja sesuai dengan kebutuhan peserta diklat.</p>',
                 'cover' => [
                     'filename' => 'asep.jpg',
                     'title' => null,
@@ -287,7 +287,7 @@ class Temp extends Seeder
                 'group' => 2,
                 'name' => 'website_name',
                 'label' => 'Website Name',
-                'value' => 'BPPT E-Learning System',
+                'value' => 'SPEAKOUD E-Learning System',
                 'is_upload' => false,
             ],
             2 => [
@@ -308,7 +308,7 @@ class Temp extends Seeder
                 'group' => 2,
                 'name' => 'address',
                 'label' => 'Address',
-                'value' => 'Gedung BPPT II, Lt. 6 Jl. M.H. Thamrin No. 8, Jakarta Pusat - 10340',
+                'value' => 'Gedung SPEAKOUD II, Lt. 6 Jl. M.H. Thamrin No. 8, Jakarta Pusat - 10340',
                 'is_upload' => false,
             ],
             5 => [

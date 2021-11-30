@@ -138,6 +138,7 @@ class UserService
         $information->description = $request->description ?? null;
         $information->phone = $request->phone ?? null;
         $information->address = $request->address ?? null;
+        $information->pendidikan = $request->pendidikan ?? null;
         $information->save();
 
         return $information;
@@ -176,6 +177,7 @@ class UserService
         $information->description = $request->description ?? null;
         $information->phone = $request->phone ?? null;
         $information->address = $request->address ?? null;
+        $information->pendidikan = $request->pendidikan ?? null;
         $information->save();
 
         return $information;
@@ -393,7 +395,6 @@ class UserService
             }
 
             $peserta = $user->peserta;
-            $peserta->pendidikan = $request->pendidikan ?? null;
             $peserta->pekerjaan = $request->pekerjaan ?? null;
             $peserta->kota_tinggal = $request->kota_tinggal ?? null;
             

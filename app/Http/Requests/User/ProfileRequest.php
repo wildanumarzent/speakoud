@@ -39,8 +39,9 @@ class ProfileRequest extends FormRequest
                 'place_of_birthday' => 'required',
                 'phone' => 'required',
                 'city' => 'required',
+                'address' => 'required',
                 // 'pekerjaan' => 'required',
-                // 'pendidikan' => 'required',
+                'pendidikan' => 'required',
 
             ];
 
@@ -53,13 +54,14 @@ class ProfileRequest extends FormRequest
                 'username' => 'required|unique:users,username,'.
                             auth()->user()->id,
                 'file' => 'nullable|mimes:'.config('custom.files.photo.m'),
+                'place_of_birthday' => 'required',
                 'date_of_birthday' => 'required',
                 'gender' => 'required',
-                'place_of_birthday' => 'required',
                 'phone' => 'required',
                 'city' => 'required',
+                'address' => 'required',
                 // 'pekerjaan' => 'required',
-                // 'pendidikan' => 'required',
+                'pendidikan' => 'required',
             ];
 
         }
@@ -79,8 +81,9 @@ class ProfileRequest extends FormRequest
             'place_of_birthday' => 'tempat lahir',
             'phone' => 'phone',
             'city' => 'kota tinggal',
+            'address' => 'Alamat',
             // 'pekerjaan' => 'pekerjaan',
-            // 'pendidikan' => 'pendidikan',
+            'pendidikan' => 'pendidikan',
         ];
     }
 
@@ -105,6 +108,8 @@ class ProfileRequest extends FormRequest
             'phone.required' => ':attribute tidak boleh kosong',
             'city.required' => ':attribute tidak boleh kosong',
             'date_of_birthday.required' => ':attribute tidak boleh kosong',
+            'alamat.required' => ':attribute tidak boleh kosong',
+            'pendidikan.required' => ':attribute tidak boleh kosong',
         ];
     }
 }

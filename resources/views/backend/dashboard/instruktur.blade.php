@@ -54,7 +54,9 @@
 
 </div>
 
-<div class="card mb-4">
+{{-- conference --}}
+
+{{-- <div class="card mb-4">
     <h6 class="card-header">Video Conference</h6>
     <div class="table-responsive">
     <table class="table card-table">
@@ -101,7 +103,7 @@
         </tbody>
     </table>
     </div>
-</div>
+</div> --}}
 
 <hr class="container-m-nx mt-0 mb-4">
 <h4 class="font-weight-semibold mb-4">Riwayat Pelatihan yang Anda Ajakarkan :</h4>
