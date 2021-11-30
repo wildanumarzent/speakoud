@@ -221,7 +221,7 @@ class UserService
 
     public function updateProfile($request, int $id)
     {
-        
+       
         $user = $this->findUser($id);
         $user->fill($request->only(['name', 'email', 'username']));
 

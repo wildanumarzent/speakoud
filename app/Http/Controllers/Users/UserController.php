@@ -109,7 +109,7 @@ class UserController extends Controller
         $data['jabatan'] = $this->serviceJabatan->getJabatan();
         $data['id'] = $id;
         
-        $this->service->setMataPeserta($data['id'], $data['information']->id);
+        // $this->service->setMataPeserta($data['id'], $data['information']->id);
 
 
         return view('frontend.pelatihan.profile-form', compact('data'), [
