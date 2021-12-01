@@ -71,7 +71,9 @@
 <div class="card">
     <div class="card-body">
         <i style="color: red;">! tidak ada program yang diikuti !</i>
-        <a href="{{ route('platihan.index') }}" class="btn btn-success">Pilih Pelatihan</a>
+        <div class="text-center">
+            <a href="{{ route('platihan.index') }}" class="btn btn-success">Pilih Pelatihan</a>
+        </div>
     </div>
 </div>
 @endif
