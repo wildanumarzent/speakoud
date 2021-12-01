@@ -117,7 +117,7 @@
 <hr class="container-m-nx mt-0 mb-4">
 <h4 class="font-weight-semibold mb-4">Program Pelatihan Yang Sudah Di Setujui :</h4>
 
-@if ($data['latestCourse']->count() == 0)
+@if ($data['pel_disetujui']->count() == 0)
 <div class="card">
     <div class="card-body">
         <i style="color: red;">! tidak ada program yang di setujui !</i>
