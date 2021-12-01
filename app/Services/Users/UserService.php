@@ -286,8 +286,7 @@ class UserService
             $peserta->foto_sertifikat = ($request->foto_sertifikat != null) ? 
             $fotoSertifikat : $peserta->foto_sertifikat;
 
-
-            if (!empty($request->gender) && !empty($request->place_of_birthday) &&
+            if ($request->gender != null && !empty($request->place_of_birthday) &&
                 !empty($request->date_of_birthday) && !empty($request->phone) &&
                 !empty($request->name)) {
                 $peserta->status_peserta = 1;

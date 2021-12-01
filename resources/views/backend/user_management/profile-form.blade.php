@@ -79,8 +79,9 @@
                         <option value="{{ $key }}" {{ old('gender', $data['user']->information->gender) == ''.$key.'' ? 'selected' : '' }}>{{ $value }}</option>
                         @endforeach
                     </select>
-                    @if (empty($data['user']->information->gender))
-                    <span style="color: red;"><i>*belum diisi</i></span>
+                    {{-- {{dd($data['user']->information->gender == null)}} --}}
+                    @if ($data['user']->information->gender < 0)
+                        <span style="color: red;"><i>*belum diisi</i></span>
                     @endif
                 </div>
             </div>
